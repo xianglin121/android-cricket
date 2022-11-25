@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="240dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/shape_e3ac72_6dp_stroke_rec"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_rangqiu"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_important_event"
+            android:gravity="center"
+            android:text="@string/rangqiu"
+            android:textColor="@drawable/selector_text_color_e3ac72"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tv_oupei"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_event_live"
+            android:gravity="center"
+            android:text="@string/oupei"
+            android:textColor="@drawable/selector_text_color_e3ac72"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tv_daxiaoqiu"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_technical_statistics"
+            android:gravity="center"
+            android:text="@string/total_score"
+            android:textColor="@drawable/selector_text_color_e3ac72"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+    <com.longya.live.custom.NoScrollViewPager
+        android:id="@+id/vp_index"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"/>
+</LinearLayout>

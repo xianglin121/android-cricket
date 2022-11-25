@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="233dp"
+    android:layout_height="167dp"
+    android:background="@drawable/bg_red_envelope_limit">
+    <LinearLayout
+        android:id="@+id/ll_live"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginRight="23dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_white_6dp_rec">
+        <ImageView
+            android:id="@+id/iv_live"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/selector_index_toggle"/>
+
+        <TextView
+            android:id="@+id/tv_live"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/live_red_envelope"
+            android:textSize="14dp"
+            android:textColor="@color/c_E05B32"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:text="@string/live_red_envelope_desc"
+        android:textSize="12dp"
+        android:textColor="@color/c_87390E"/>
+
+    <LinearLayout
+        android:id="@+id/ll_fans"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginRight="23dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_white_6dp_rec">
+        <ImageView
+            android:id="@+id/iv_fans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/selector_index_toggle"/>
+
+        <TextView
+            android:id="@+id/tv_fans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/fans_red_envelope"
+            android:textSize="14dp"
+            android:textColor="@color/c_999999"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:text="@string/fans_red_envelope_desc"
+        android:textSize="12dp"
+        android:textColor="@color/c_87390E"/>
+</LinearLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.tencent.rtmp.ui.TXCloudVideoView
+        android:id="@+id/superplayer_cloud_video_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
+
+    <com.tencent.liteav.demo.superplayer.ui.player.MatchWindowPlayer
+        android:id="@+id/superplayer_controller_small"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.tencent.liteav.demo.superplayer.ui.player.MatchFullScreenPlayer
+        android:id="@+id/superplayer_controller_large"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.tencent.liteav.demo.superplayer.ui.view.DanmuView
+        android:id="@+id/superplayer_danmuku_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.tencent.liteav.demo.superplayer.ui.player.FloatPlayer
+        android:id="@+id/superplayer_controller_float"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/superplayer_rl_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/icon_play_error"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:text="主播暂未开播"
+                android:textSize="14dp"
+                android:textColor="#666666"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/common_title_bar"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_marginTop="1dp"
+                android:gravity="center"
+                android:background="@color/white">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="335dp"
+                    android:layout_height="150dp"
+                    android:background="@mipmap/bg_my_level_head">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/iv_avatar"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:src="@mipmap/bg_avatar_default"
+                        android:scaleType="centerCrop"/>
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="@id/iv_avatar"
+                        app:layout_constraintLeft_toRightOf="@id/iv_avatar"
+                        android:layout_marginTop="11dp"
+                        android:layout_marginLeft="12dp"
+                        android:textSize="20dp"
+                        android:textColor="@color/c_87390E"/>
+
+                    <TextView
+                        android:id="@+id/tv_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/tv_name"
+                        app:layout_constraintLeft_toLeftOf="@id/tv_name"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/wealth_level"
+                        android:textSize="12dp"
+                        android:textColor="@color/c_AA6F44"/>
+
+                    <ImageView
+                        android:id="@+id/iv_level"
+                        android:layout_width="40dp"
+                        android:layout_height="20dp"
+                        app:layout_constraintTop_toTopOf="@id/tv_one"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_one"
+                        app:layout_constraintLeft_toRightOf="@id/tv_one"
+                        android:layout_marginLeft="4dp"
+                        android:scaleType="centerCrop"/>
+
+                    <TextView
+                        android:id="@+id/tv_desc_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/iv_avatar"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/c_87390E"/>
+
+                    <TextView
+                        android:id="@+id/tv_desc_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/tv_desc_one"
+                        app:layout_constraintLeft_toLeftOf="@id/tv_desc_one"
+                        android:text="直播间特有的财富等级及知识，等你哦！"
+                        android:textSize="12dp"
+                        android:textColor="@color/c_87390E"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="@id/tv_desc_two"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_desc_two"
+                        app:layout_constraintLeft_toRightOf="@id/tv_desc_two"
+                        android:background="@mipmap/icon_my_level_tip"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:background="@color/white">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:text="@string/tip_level_up"
+                    android:textSize="14dp"
+                    android:textColor="@color/c_333333"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

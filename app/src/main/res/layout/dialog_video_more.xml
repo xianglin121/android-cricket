@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_white_6dp_half_rec">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_collect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/collect"
+            android:textSize="12dp"
+            android:textColor="@color/c_333333"
+            android:drawableTop="@mipmap/icon_video_collect"
+            android:drawablePadding="6dp"/>
+
+        <TextView
+            android:id="@+id/tv_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/save"
+            android:textSize="12dp"
+            android:textColor="@color/c_333333"
+            android:drawableTop="@mipmap/icon_video_download"
+            android:drawablePadding="6dp"/>
+
+        <TextView
+            android:id="@+id/tv_report"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/report"
+            android:textSize="12dp"
+            android:textColor="@color/c_333333"
+            android:drawableTop="@mipmap/icon_video_report"
+            android:drawablePadding="6dp"/>
+
+        <TextView
+            android:id="@+id/tv_share"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/share"
+            android:textSize="12dp"
+            android:textColor="@color/c_333333"
+            android:drawableTop="@mipmap/icon_video_share"
+            android:drawablePadding="6dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="19dp"
+        android:text="@string/cancel"
+        android:textSize="14dp"
+        android:textColor="@color/c_333333"/>
+</LinearLayout>

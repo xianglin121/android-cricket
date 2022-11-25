@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:id="@+id/cl_root"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout
+        android:id="@+id/fl_avatar"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintHorizontal_weight="1.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/tv_name">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/bg_avatar_default"
+            android:scaleType="centerCrop"/>
+
+        <com.coorchice.library.SuperTextView
+            android:id="@+id/tv_number"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="6dp"
+            android:gravity="center"
+            android:text="1"
+            android:textSize="12dp"
+            android:textColor="@color/white"
+            app:stv_solid="@color/c_DC3C23"
+            app:stv_corner="60dp"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/fl_avatar"
+        app:layout_constraintRight_toLeftOf="@id/tv_one"
+        app:layout_constraintHorizontal_weight="1.8"
+        android:layout_marginTop="12dp"
+        android:textSize="14dp"
+        android:textColor="@color/c_333333"
+        android:textStyle="bold"
+        android:maxLines="2"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:id="@+id/tv_team_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/fl_avatar"
+        android:layout_marginBottom="12dp"
+        android:textSize="13dp"
+        android:textColor="@color/c_666666"/>
+
+    <TextView
+        android:id="@+id/tv_one"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tv_team_name"
+        app:layout_constraintBottom_toBottomOf="@id/tv_team_name"
+        app:layout_constraintLeft_toRightOf="@id/tv_name"
+        app:layout_constraintRight_toLeftOf="@id/tv_two"
+        app:layout_constraintHorizontal_weight="1"
+        android:gravity="center_horizontal"
+        android:textSize="14dp"
+        android:textColor="@color/c_666666"/>
+
+    <TextView
+        android:id="@+id/tv_two"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tv_team_name"
+        app:layout_constraintBottom_toBottomOf="@id/tv_team_name"
+        app:layout_constraintLeft_toRightOf="@id/tv_one"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        android:gravity="center_horizontal"
+        android:textSize="14dp"
+        android:textColor="@color/c_666666"/>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/c_CCCCCC"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

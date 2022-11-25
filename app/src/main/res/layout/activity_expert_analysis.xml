@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/common_title_bar_two"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:gravity="center"
+                android:text="@string/based_on_analysis_from_7_experts"
+                android:textSize="14dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:background="@mipmap/bg_expert_analysis_head"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:text="@string/expert_predictions_summary"
+                android:textSize="16dp"
+                android:textColor="@color/c_333333"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:text="@string/winning_chances"
+                android:textSize="14dp"
+                android:textColor="@color/c_333333"
+                android:textStyle="bold"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp">
+                <TextView
+                    android:id="@+id/tv_home_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="19dp"
+                    android:layout_marginLeft="12dp"
+                    android:text="Manchester Originals"
+                    android:textSize="12dp"
+                    android:textColor="@color/c_666666"/>
+
+                <TextView
+                    android:id="@+id/tv_away_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/tv_home_name"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_home_name"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginRight="12dp"
+                    android:text="Northern Superchargers"
+                    android:textSize="12dp"
+                    android:textColor="@color/c_666666"/>
+
+                <ImageView
+                    android:id="@+id/iv_home_logo"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_home_name"
+                    app:layout_constraintLeft_toLeftOf="@id/tv_home_name"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="12dp"
+                    android:src="@mipmap/img_team_logo_default"
+                    android:scaleType="centerCrop"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/iv_home_logo"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_home_logo"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:background="@mipmap/icon_cricket_vs"/>
+
+                <ImageView
+                    android:id="@+id/iv_away_logo"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_away_name"
+                    app:layout_constraintRight_toRightOf="@id/tv_away_name"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="12dp"
+                    android:src="@mipmap/img_team_logo_default"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:id="@+id/tv_home_win_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/iv_home_logo"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="12dp"
+                    android:text="50%"
+                    android:textSize="14dp"
+                    android:textColor="@color/c_333333"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tv_away_win_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/iv_home_logo"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="12dp"
+                    android:text="50%"
+                    android:textSize="14dp"
+                    android:textColor="@color/c_333333"
+                    android:textStyle="bold"/>
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_home_win_rate"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:max="100"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/progress_team_comparison"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:background="@color/c_E5E5E5"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="14dp"
+                android:text="@string/pitch_report"
+                android:textSize="14dp"
+                android:textColor="@color/c_333333"
+                android:textStyle="bold"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp">
+                <View
+                    android:id="@+id/line_one"
+                    android:layout_width="1dp"
+                    android:layout_height="52dp"
+                    android:layout_above="@id/iv_pitch"
+                    android:layout_marginLeft="45dp"
+                    android:background="@drawable/shape_eea831_dotted_line_vertical"
+                    android:layerType="software"/>
+
+                <TextView
+                    android:id="@+id/tv_batting_pitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/line_one"
+                    android:layout_alignTop="@id/line_one"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/batting_pitch"
+                    android:textSize="12dp"
+                    android:textColor="@color/c_666666"/>
+
+                <TextView
+                    android:id="@+id/tv_batting_pitch_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/line_one"
+                    android:layout_below="@id/tv_batting_pitch"
+                    android:layout_marginLeft="5dp"
+                    android:text="0%"
+                    android:textSize="12dp"
+                    android:textColor="@color/c_666666"/>
+                <View
+                    android:id="@+id/line_two"
+                    android:layout_width="1dp"
+                    android:layout_height="85dp"
+                    android:layout_above="@id/iv_pitch"
+                    android:layout_marginLeft="135dp"
+                    android:background="@drawable/shape_eea831_dotted_line_vertical"
+                    android:layerType="software"/>
+
+                <TextView
+                    android:id="@+id/tv_balanced_pitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/line_two"
+                    android:layout_alignTop="@id/line_two"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/balanced_pitch"
+                    android:textSize="12dp"
+                    android:textColor="@color/c_666666"/>
+
+                <TextView
+                    android:id="@+id/tv_balanced_pitch_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/line_two"
+                    android:layout_below="@id/tv_balanced_pitch"
+                    android:layout_marginLeft="5dp"
+                    android:text="0%"
+                    android:textSize="12dp"
+                    android:textColor="@color/c_666666"/>
+
+                <View
+                    android:id="@+id/line_three"
+                    android:layout_width="1dp"
+                    android:layout_height="52dp"
+                    android:layout_toLeftOf="@id/tv_bowling_pitch"
+                    android:layout_above="@id/iv_pitch"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_eea831_dotted_line_vertical"
+                    android:layerType="software"/>
+
+                <TextView
+                    android:id="@+id/tv_bowling_pitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@id/line_three"
+                    android:layout_marginRight="25dp"
+                    android:text="@string/bowling_pitch"
+                    android:textSize="12dp"
+                    android:textColor="@color/c_666666"/>
+
+                <TextView
+                    android:id="@+id/tv_bowling_pitch_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/line_three"
+                    android:layout_below="@id/tv_bowling_pitch"
+                    android:text="0%"
+                    android:textSize="12dp"
+                    android:textColor="@color/c_666666"/>
+
+                <ImageView
+                    android:id="@+id/iv_pitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="@mipmap/img_expert_pitch"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="14dp"
+                android:text="@string/pitch_is_good_for"
+                android:textSize="14dp"
+                android:textColor="@color/c_333333"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="14dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="125dp"
+                    android:layout_height="39dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/shape_e5e5e5_21dp_rec">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="12dp"
+                        android:background="@mipmap/icon_expert_pace"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="8dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="67%"
+                            android:textSize="12dp"
+                            android:textColor="@color/c_333333"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/say_pace"
+                            android:textSize="12dp"
+                            android:textColor="@color/c_666666"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="125dp"
+                    android:layout_height="39dp"
+                    android:layout_marginLeft="12dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/shape_e5e5e5_21dp_rec">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="12dp"
+                        android:background="@mipmap/icon_expert_spin"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="8dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="33%"
+                            android:textSize="12dp"
+                            android:textColor="@color/c_333333"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/say_spin"
+                            android:textSize="12dp"
+                            android:textColor="@color/c_666666"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginTop="18dp"
+                android:background="@color/c_E5E5E5"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_top_player_picks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginLeft="14dp"
+                        android:text="@string/top_player_picks"
+                        android:textSize="14dp"
+                        android:textColor="@color/c_333333"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/tv_top_player_picks"
+                        app:layout_constraintLeft_toLeftOf="@id/tv_top_player_picks"
+                        android:text="@string/based_on_4_teams"
+                        android:textSize="12dp"
+                        android:textColor="@color/c_666666"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="@id/tv_top_player_picks"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_top_player_picks"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_marginRight="14dp"
+                        android:text="@string/based_on_4_teams"
+                        android:textSize="12dp"
+                        android:textColor="@color/c_666666"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="28dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:background="@color/c_E5E5E5">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="12dp"
+                        android:text="@string/players_picked_most"
+                        android:textSize="12dp"
+                        android:textColor="@color/c_666666"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="12dp"
+                        android:text="@string/selected_percent"
+                        android:textSize="12dp"
+                        android:textColor="@color/c_666666"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="W Khan"
+                        android:textSize="14dp"
+                        android:textColor="@color/c_333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(ALL)"
+                        android:textSize="12dp"
+                        android:textColor="@color/c_666666"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100.0"
+                        android:textSize="14dp"
+                        android:textColor="@color/c_333333"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="W Khan"
+                        android:textSize="14dp"
+                        android:textColor="@color/c_333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(ALL)"
+                        android:textSize="12dp"
+                        android:textColor="@color/c_666666"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100.0"
+                        android:textSize="14dp"
+                        android:textColor="@color/c_333333"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="W Khan"
+                        android:textSize="14dp"
+                        android:textColor="@color/c_333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(ALL)"
+                        android:textSize="12dp"
+                        android:textColor="@color/c_666666"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100.0"
+                        android:textSize="14dp"
+                        android:textColor="@color/c_333333"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginTop="18dp"
+                android:background="@color/c_E5E5E5"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

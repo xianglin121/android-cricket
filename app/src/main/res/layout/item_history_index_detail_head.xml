@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_white_6dp_half_rec">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:text="@string/date_or_match"
+            android:textSize="12dp"
+            android:textColor="@color/c_333333"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="center_vertical|right"
+            android:text="@string/main_team"
+            android:textSize="12dp"
+            android:textColor="@color/c_999999"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="center"
+            android:text="@string/compare_score"
+            android:textSize="12dp"
+            android:textColor="@color/c_999999"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="center_vertical|left"
+            android:text="@string/guest_team"
+            android:textSize="12dp"
+            android:textColor="@color/c_999999"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.22"
+            android:gravity="center"
+            android:text="@string/end_rangqiu"
+            android:textSize="12dp"
+            android:textColor="@color/c_999999"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="center"
+            android:text="@string/panlu"
+            android:textSize="12dp"
+            android:textColor="@color/c_999999"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/common_title_bar"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:orientation="vertical"
+                android:background="@drawable/shape_white_6dp_rec">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="12dp"
+                    android:text="@string/send_code_title"
+                    android:textSize="16dp"
+                    android:textColor="@color/c_333333"/>
+
+                <TextView
+                    android:id="@+id/tv_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="12dp"
+                    android:textSize="14dp"
+                    android:textColor="@color/c_E3AC72"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/et_code"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/black"
+                        android:hint="@string/please_input_verify_code"
+                        android:textColorHint="@color/c_999999"
+                        android:lines="1"
+                        android:background="@null"/>
+
+                    <com.coorchice.library.SuperTextView
+                        android:id="@+id/tv_get_code"
+                        android:layout_width="76dp"
+                        android:layout_height="24dp"
+                        android:layout_marginRight="12dp"
+                        android:gravity="center"
+                        android:text="@string/get_verify_code"
+                        android:textSize="12dp"
+                        android:textColor="@color/c_E3AC72"
+                        app:stv_stroke_width="1dp"
+                        app:stv_stroke_color="@color/c_E3AC72"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_save"
+                android:layout_width="343dp"
+                android:layout_height="46dp"
+                android:layout_marginTop="48dp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/confirm_logout"
+                android:textSize="14dp"
+                android:textColor="@color/c_87390E"
+                android:background="@drawable/bg_confirm_commit"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="12dp"
+                android:text="Special instructions on account cancellation:"
+                android:textSize="14dp"
+                android:textColor="@color/c_999999"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:text="(1) Once the account is canceled, you will not be able to log in and use the account, which means that you will no longer be able to log in/use/continue to use OneCric's related products and services with this account;\n(2) Once the account is canceled, all content, information, data, and records under the products and services that you have logged in and used through the account will be deleted or anonymized, and you will no longer be able to retrieve, access, obtain, or continue to use and retrieve it, and have no right to ask us to retrieve it (except as otherwise provided by laws and regulations or as otherwise required by regulatory authorities), including: personal data (such as avatar, nickname) and binding information (such as mobile phone number) under the account account number, email address); your personal information under this account; all content published by this account (for example: pictures, photos, comments, interactions, likes); all other content, information, data, records."
+                android:textSize="14dp"
+                android:textColor="@color/c_999999"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

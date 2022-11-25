@@ -1,0 +1,128 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    signingConfigs {
+        debug {
+            storeFile file('../cricket.jks')
+            storePassword 'phonelive'
+            keyAlias 'cricket'
+            keyPassword 'phonelive'
+        }
+        release {
+            storeFile file('../cricket.jks')
+            storePassword 'phonelive'
+            keyAlias 'cricket'
+            keyPassword 'phonelive'
+        }
+    }
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "com.onecric.live"
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode 18
+        versionName "1.0.8"
+        multiDexEnabled true// dex突破65535的限制
+        ndk {
+            abiFilters "armeabi-v7a","arm64-v8a","x86","x86_64"
+        }
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "410a1c3771460e2ead9d9c74", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
+    }
+
+    buildTypes {
+//        release {
+//            minifyEnabled true
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    //google multi dex
+    implementation 'com.android.support:multidex:1.0.3'
+    //网络日志打印
+    implementation 'com.parkingwang:okhttp3-loginterceptor:latest.integration'
+    //网络框架相关
+    implementation "com.squareup.retrofit2:retrofit:2.3.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.9.1"
+    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
+    implementation "io.reactivex.rxjava2:rxjava:2.1.11"
+    //fastJson 可用于将Java对象转换为其JSON表示。它还可用于将JSON字符串转换为等效的Java对象
+    implementation 'com.alibaba:fastjson:1.2.58'
+    //图片框架
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    //下拉刷新上拉加载
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.3'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.3'
+    //eventbus事件总线
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    //SuperTextView
+    implementation 'com.github.chenBingX:SuperTextView:v3.2.5.99'
+    //鲁班压缩图片
+    implementation 'top.zibin:Luban:1.1.8'
+    //轮播图
+    implementation 'io.github.youth5201314:banner:2.2.2'
+    //RecyclerViewBaseAdapter
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.49'
+    //指示器
+    implementation 'com.github.hackware1993:MagicIndicator:1.7.0'
+    //圆形ImageView
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+    //带圆角，边框的的ImageView
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    //知乎图片选择
+    implementation 'com.zhihu.android:matisse:0.5.3-beta3'
+    implementation 'it.sephiroth.android.library.imagezoom:library:1.0.4'
+    //选择器
+    implementation files('libs/AndroidPicker-1.5.6.jar')
+    //高德地图
+    implementation 'com.amap.api:location:latest.integration'
+    implementation 'com.amap.api:search:latest.integration'
+    //微信sdk
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    //圆形进度条
+    implementation 'com.dinuscxj:circleprogressbar:1.3.6'
+    //popupwindow
+    implementation 'com.github.zyyoona7:EasyPopup:1.1.2'
+    //选择器
+    implementation 'com.contrarywind:Android-PickerView:4.1.9'
+    //腾讯IM
+    implementation project(':tuikit')
+    //腾讯超级播放器
+    implementation project(':superplayerkit')
+    //svga动画
+    implementation 'com.github.yyued:SVGAPlayer-Android:2.5.12'
+    //七牛云
+    implementation 'com.qiniu:qiniu-android-sdk:8.3.+'
+    //WebSocket
+    implementation "org.java-websocket:Java-WebSocket:1.4.0"
+    //视频压缩
+    implementation files('libs/pldroid-shortvideo-3.1.1.jar')
+    //七牛云视频播放
+    implementation files('libs/pldroid-player-2.4.1.jar')
+    //标签流式布局
+    implementation 'com.github.1002326270xc:LayoutManager-FlowLayout:v1.8'
+
+    implementation 'cn.jiguang.sdk:jpush:4.5.0'  // 此处以JPush 4.5.0 版本为例。
+    implementation 'cn.jiguang.sdk:jcore:3.1.2'  // 此处以JCore 3.1.2 版本为例。
+
+//    implementation 'com.github.yangjie10930:EpMedia:v0.9.5'
+}

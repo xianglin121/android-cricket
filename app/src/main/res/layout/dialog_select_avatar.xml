@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/transparent">
+    <com.coorchice.library.SuperTextView
+        android:id="@+id/tv_one"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:text="@string/dialog_select_from_album"
+        android:textSize="14sp"
+        android:textColor="@color/c_00abf0"
+        app:stv_left_top_corner="true"
+        app:stv_left_bottom_corner="false"
+        app:stv_right_top_corner="true"
+        app:stv_right_bottom_corner="false"
+        app:stv_corner="10dp"
+        app:stv_solid="@color/white"/>
+
+    <View
+        style="@style/line"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        />
+
+    <com.coorchice.library.SuperTextView
+        android:id="@+id/tv_two"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:text="@string/dialog_select_from_take_picture"
+        android:textSize="14sp"
+        android:textColor="@color/c_00abf0"
+        app:stv_left_top_corner="false"
+        app:stv_left_bottom_corner="true"
+        app:stv_right_top_corner="false"
+        app:stv_right_bottom_corner="true"
+        app:stv_corner="10dp"
+        app:stv_solid="@color/white"/>
+
+    <com.coorchice.library.SuperTextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="17dp"
+        android:gravity="center"
+        android:text="@string/cancel"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        app:stv_corner="10dp"
+        app:stv_solid="@color/white"/>
+</LinearLayout>

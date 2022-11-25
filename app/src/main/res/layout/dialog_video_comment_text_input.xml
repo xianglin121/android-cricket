@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_white_10dp_half_rec">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="16dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_live_chat_input">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:background="@mipmap/icon_moving_comment_input"/>
+
+            <EditText
+                android:id="@+id/et_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="16dp"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:hint="@string/live_comment_talk_some_hint"
+                android:textColorHint="@color/c_999999"
+                android:background="@null"
+                android:lines="1"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/send"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_dc3c23_17dp_rec"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/c_E9E9E9"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/iv_emoji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:background="@mipmap/icon_comment_send_emoji"/>
+
+        <ImageView
+            android:id="@+id/iv_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:background="@mipmap/icon_comment_send_photo"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/iv_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:background="@mipmap/icon_comment_send_video"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/more_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/ll_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:orientation="horizontal"
+        android:visibility="gone"/>
+</LinearLayout>

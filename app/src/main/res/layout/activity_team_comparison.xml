@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/common_title_bar_two"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="156dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:background="@mipmap/bg_team_comparison_head">
+                <TextView
+                    android:id="@+id/tv_home_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="@id/iv_home_logo"
+                    app:layout_constraintRight_toRightOf="@id/iv_home_logo"
+                    android:layout_marginTop="12dp"
+                    android:textSize="16dp"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tv_away_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/tv_home_name"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_home_name"
+                    app:layout_constraintLeft_toLeftOf="@id/iv_away_logo"
+                    app:layout_constraintRight_toRightOf="@id/iv_away_logo"
+                    android:textSize="16dp"
+                    android:textColor="@color/white"/>
+
+                <ImageView
+                    android:id="@+id/iv_home_logo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_home_name"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginLeft="12dp"
+                    android:src="@mipmap/img_team_logo_default"
+                    android:scaleType="centerCrop"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/iv_home_logo"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_home_logo"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:background="@mipmap/icon_cricket_vs_two"/>
+
+                <ImageView
+                    android:id="@+id/iv_away_logo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_away_name"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginRight="12dp"
+                    android:src="@mipmap/img_team_logo_default"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:id="@+id/tv_home_win_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/iv_home_logo"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="17dp"
+                    android:layout_marginLeft="12dp"
+                    android:text="50%"
+                    android:textSize="14dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tv_away_win_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/iv_home_logo"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginTop="17dp"
+                    android:layout_marginRight="12dp"
+                    android:text="50%"
+                    android:textSize="14dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_home_win_rate"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:max="100"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/progress_team_comparison"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/progress_bar"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/win_probability"
+                    android:textSize="14dp"
+                    android:textColor="@color/white"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="14dp"
+                android:text="@string/matches_played_recently"
+                android:textSize="16dp"
+                android:textColor="@color/c_333333"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:text="Last 5 T20 matches"
+                android:textSize="14dp"
+                android:textColor="@color/c_666666"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@mipmap/bg_shadow"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/ll_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="59dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_home_name_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textColor="@color/c_333333"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_home_round"
+                        android:layout_width="0dp"
+                        android:layout_height="24dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/icon_arrow_down_four"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@color/c_CCCCCC"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_away"
+                    android:layout_width="match_parent"
+                    android:layout_height="59dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_away_name_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textColor="@color/c_333333"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_away_round"
+                        android:layout_width="0dp"
+                        android:layout_height="24dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/icon_arrow_down_four"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_away"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/c_E5E5E5"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="14dp"
+                android:text="@string/matches_against_each_other"
+                android:textSize="16dp"
+                android:textColor="@color/c_333333"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:text="@string/all_t20_matches_in_last_2_years"
+                android:textSize="14dp"
+                android:textColor="@color/c_666666"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:orientation="horizontal">
+                <FrameLayout
+                    android:id="@+id/fl_matches_played"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:background="@mipmap/bg_matches_played">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/matches_played"
+                        android:textSize="12dp"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/tv_total_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:layout_marginBottom="11dp"
+                        android:layout_marginRight="11dp"
+                        android:textSize="20dp"
+                        android:textColor="@color/white"/>
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tv_home_won"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/fl_matches_played"
+                    app:layout_constraintLeft_toRightOf="@id/fl_matches_played"
+                    android:layout_marginLeft="12dp"
+                    android:text="MNR won"
+                    android:textSize="14dp"
+                    android:textColor="@color/c_666666"/>
+
+                <TextView
+                    android:id="@+id/tv_home_won_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/tv_home_won"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_home_won"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:text="0"
+                    android:textSize="14dp"
+                    android:textColor="@color/c_333333"/>
+
+                <ProgressBar
+                    android:id="@+id/pb_home"
+                    android:layout_width="0dp"
+                    android:layout_height="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_home_won"
+                    app:layout_constraintLeft_toRightOf="@id/fl_matches_played"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginLeft="12dp"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:max="100"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/progress_team_comparison2"/>
+
+                <TextView
+                    android:id="@+id/tv_away_won"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/tv_home_won"
+                    app:layout_constraintLeft_toRightOf="@id/fl_matches_played"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="12dp"
+                    android:text="LNS won"
+                    android:textSize="14dp"
+                    android:textColor="@color/c_666666"/>
+
+                <TextView
+                    android:id="@+id/tv_away_won_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/tv_away_won"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_away_won"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:text="0"
+                    android:textSize="14dp"
+                    android:textColor="@color/c_333333"/>
+
+                <ProgressBar
+                    android:id="@+id/pb_away"
+                    android:layout_width="0dp"
+                    android:layout_height="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_away_won"
+                    app:layout_constraintLeft_toRightOf="@id/fl_matches_played"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginLeft="12dp"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:max="100"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/progress_team_comparison2"/>
+
+                <TextView
+                    android:id="@+id/tv_no_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/tv_away_won"
+                    app:layout_constraintLeft_toRightOf="@id/fl_matches_played"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="12dp"
+                    android:text="@string/no_result"
+                    android:textSize="14dp"
+                    android:textColor="@color/c_666666"/>
+
+                <TextView
+                    android:id="@+id/tv_no_result_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/tv_no_result"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_no_result"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:text="0"
+                    android:textSize="14dp"
+                    android:textColor="@color/c_333333"/>
+
+                <ProgressBar
+                    android:id="@+id/pb_no_result"
+                    android:layout_width="0dp"
+                    android:layout_height="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_no_result"
+                    app:layout_constraintLeft_toRightOf="@id/fl_matches_played"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginLeft="12dp"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:max="100"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/progress_team_comparison2"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@mipmap/bg_shadow"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginRight="12dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/recent_matches"
+                        android:textSize="14dp"
+                        android:textColor="@color/c_333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/last5_matches_against_each_other"
+                        android:textSize="12dp"
+                        android:textColor="@color/c_999999"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginRight="12dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_home_name_three"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="9dp"
+                        android:paddingRight="9dp"
+                        android:text=""
+                        android:textSize="14dp"
+                        android:textColor="@color/white"
+                        android:background="@color/c_EEA831"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:id="@+id/tv_away_name_three"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="9dp"
+                        android:paddingRight="9dp"
+                        android:text=""
+                        android:textSize="14dp"
+                        android:textColor="@color/white"
+                        android:background="@color/c_DC3C23"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_recent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginLeft="5dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

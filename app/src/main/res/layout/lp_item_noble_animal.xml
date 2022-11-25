@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    tools:ignore="RtlSymmetry">
+
+    <RelativeLayout
+        android:id="@+id/parent_rl"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:visibility="gone">
+        <com.opensource.svgaplayer.SVGAImageView
+            android:id="@+id/svga_noble"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:autoPlay="true"
+            app:loopCount="1"/>
+
+        <TextView
+            android:id="@+id/nick_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="135dp"
+            android:layout_marginLeft="50dp"
+            android:maxEms="4"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/c_E3AC72"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/noble_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/nick_tv"
+            android:layout_marginTop="137dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@android:color/white"
+            android:textSize="13dp"
+            tools:ignore="SmallSp" />
+    </RelativeLayout>
+
+</LinearLayout>

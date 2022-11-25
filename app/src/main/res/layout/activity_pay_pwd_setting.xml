@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/common_title_bar"/>
+
+    <EditText
+        android:id="@+id/et_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:gravity="center_vertical"
+        android:textSize="14dp"
+        android:textColor="@color/black"
+        android:hint="@string/hint_input_pay_pwd"
+        android:textColorHint="@color/c_999999"
+        android:lines="1"
+        android:background="@drawable/shape_white_6dp_rec"
+        android:inputType="textPassword"/>
+
+    <EditText
+        android:id="@+id/et_pwd_two"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:gravity="center_vertical"
+        android:textSize="14dp"
+        android:textColor="@color/black"
+        android:hint="@string/hint_input_pay_pwd_again"
+        android:textColorHint="@color/c_999999"
+        android:lines="1"
+        android:background="@drawable/shape_white_6dp_rec"
+        android:inputType="textPassword"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:orientation="vertical"
+        android:background="@drawable/shape_white_6dp_rec">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_phone_prefix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="+86"
+                android:textSize="15dp"
+                android:textColor="@color/c_333333"/>
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="11dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:src="@mipmap/icon_arrow_down"
+                app:tint="@color/c_333333"/>
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:textSize="14dp"
+                android:textColor="@color/c_333333"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@color/c_E9E9E9"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/et_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:hint="@string/please_input_verify_code"
+                android:textColorHint="@color/c_999999"
+                android:lines="1"
+                android:background="@null"
+                android:inputType="number"/>
+
+            <com.coorchice.library.SuperTextView
+                android:id="@+id/tv_get_code"
+                android:layout_width="76dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="12dp"
+                android:gravity="center"
+                android:text="@string/get_verify_code"
+                android:textSize="12dp"
+                android:textColor="@color/c_DC3C23"
+                app:stv_stroke_width="1dp"
+                app:stv_stroke_color="@color/c_DC3C23"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_confirm"
+        android:layout_width="343dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="58dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/submit"
+        android:textSize="17dp"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_dc3c23_23dp_rec"/>
+</LinearLayout>

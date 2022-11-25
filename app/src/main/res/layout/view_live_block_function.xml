@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="187dp"
+    android:layout_height="38dp"
+    android:background="@mipmap/bg_block_function">
+    <LinearLayout
+        android:id="@+id/ll_envelope"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/iv_envelope"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginLeft="22dp"
+            android:background="@drawable/selector_index_toggle"/>
+
+        <TextView
+            android:id="@+id/tv_envelope"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="@string/text_block_function_one"
+            android:textSize="12dp"
+            android:textColor="@color/c_999999"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:background="@color/line_color"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/ll_noble"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/iv_noble"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginLeft="22dp"
+            android:background="@drawable/selector_index_toggle"/>
+
+        <TextView
+            android:id="@+id/tv_noble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="@string/text_block_function_two"
+            android:textSize="12dp"
+            android:textColor="@color/c_999999"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:background="@color/line_color"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/ll_gift"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/iv_gift"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginLeft="22dp"
+            android:background="@drawable/selector_index_toggle"/>
+
+        <TextView
+            android:id="@+id/tv_gift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="@string/text_block_function_three"
+            android:textSize="12dp"
+            android:textColor="@color/c_999999"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:background="@color/line_color"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/ll_enter"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/iv_enter"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginLeft="22dp"
+            android:background="@drawable/selector_index_toggle"/>
+
+        <TextView
+            android:id="@+id/tv_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="@string/text_block_function_four"
+            android:textSize="12dp"
+            android:textColor="@color/c_999999"/>
+    </LinearLayout>
+</LinearLayout>

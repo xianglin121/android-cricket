@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/c_F3F3F7">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@color/white"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white">
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/ll_football"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="20dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_football"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/match_football"
+                        android:textSize="17dp"
+                        android:textColor="@color/c_E3AC72"/>
+
+                    <View
+                        android:id="@+id/line_football"
+                        android:layout_width="34dp"
+                        android:layout_height="3dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/c_E3AC72"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_basketball"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
+                    android:paddingTop="20dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_basketball"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/match_basketball"
+                        android:textSize="17dp"
+                        android:textColor="@color/c_666666"/>
+
+                    <View
+                        android:id="@+id/line_basketball"
+                        android:layout_width="34dp"
+                        android:layout_height="3dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/c_E3AC72"
+                        android:visibility="gone"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/c_E9E9E9"
+                app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_classify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/line1"/>
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/c_E9E9E9"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/rv_classify"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_match"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/line2"
+                android:nestedScrollingEnabled="false"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

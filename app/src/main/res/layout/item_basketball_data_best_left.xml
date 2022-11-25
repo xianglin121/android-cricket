@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cl_root"
+    android:layout_width="match_parent"
+    android:layout_height="38dp"
+    android:background="@color/c_F3F3F7"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.coorchice.library.SuperTextView
+        android:id="@+id/tv_indicator"
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:stv_solid="@color/c_E3AC72"
+        app:stv_corner="10dp"
+        app:stv_left_top_corner="false"
+        app:stv_left_bottom_corner="false"
+        app:stv_right_top_corner="true"
+        app:stv_right_bottom_corner="true"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="12dp"
+        android:textColor="@color/c_999999"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="54dp"
+    android:layout_marginBottom="12dp"
+    android:gravity="center">
+    <LinearLayout
+        android:id="@+id/ll_coin"
+        android:orientation="vertical"
+        android:layout_width="105dp"
+        android:layout_height="54dp"
+        android:gravity="center"
+        android:background="@drawable/selector_charge">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="60龙钻"
+            android:textSize="14dp"
+            android:textColor="@color/c_8691AA"/>
+
+        <TextView
+            android:id="@+id/tv_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¥ 6"
+            android:textSize="14dp"
+            android:textColor="@color/c_333333"
+            android:textStyle="bold"/>
+    </LinearLayout>
+</LinearLayout>

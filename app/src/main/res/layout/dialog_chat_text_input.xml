@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <View
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_color"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:paddingLeft="16dp"
+        android:background="@color/white"
+        android:visibility="gone"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_color"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/iv_normal_danmu"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/selector_normal_barrage"/>
+
+        <ImageView
+            android:id="@+id/iv_color_danmu"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="32dp"
+            android:background="@drawable/selector_color_barrage"/>
+
+        <ImageView
+            android:id="@+id/iv_broadcast_danmu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:background="@drawable/selector_broadcast_barrage" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="16dp"
+            android:background="@color/c_999999"/>
+
+        <FrameLayout
+            android:id="@+id/fl_danmu_root"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_bg_danmu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="炫彩气泡"
+                android:textSize="16dp"
+                android:textColor="@color/c_666666"/>
+
+            <FrameLayout
+                android:id="@+id/fl_bg_danmu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_gravity="center"
+                android:visibility="gone">
+                <ImageView
+                    android:id="@+id/iv_bg_danmu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/img_background_danmu_one"/>
+
+                <TextView
+                    android:id="@+id/tv_bg_danmu_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="一级弹幕x0"
+                    android:textSize="12dp"
+                    android:textColor="@color/white"/>
+            </FrameLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_color"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <ImageView
+            android:id="@+id/iv_noble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="16dp"
+            android:background="@mipmap/icon_noble"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_live_chat_input">
+            <ImageView
+                android:id="@+id/iv_block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:background="@mipmap/icon_live_block"/>
+
+            <EditText
+                android:id="@+id/et_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="6dp"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:hint="@string/live_talk_some_hint"
+                android:textColorHint="@color/c_999999"
+                android:background="@null"
+                android:lines="1"/>
+
+            <ImageView
+                android:id="@+id/iv_emoji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:background="@mipmap/icon_emoji"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_send"
+            android:layout_width="64dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:gravity="center"
+            android:text="@string/send"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_dc3c23_17dp_rec"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/more_groups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+</LinearLayout>

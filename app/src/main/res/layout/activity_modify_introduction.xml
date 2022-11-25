@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/common_title_bar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="235dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:orientation="vertical"
+        android:background="@drawable/shape_white_6dp_rec">
+        <EditText
+            android:id="@+id/et_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:hint="@string/hint_input_introduction"
+            android:textColorHint="@color/c_999999"
+            android:textSize="14dp"
+            android:textColor="@color/black"
+            android:background="@null"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_save"
+        android:layout_width="343dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="48dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/save"
+        android:textSize="16dp"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_dc3c23_23dp_rec"/>
+</LinearLayout>

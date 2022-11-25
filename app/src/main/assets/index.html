@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>验证</title>
+	</head>
+
+	<body>
+		<script src="https://ssl.captcha.qq.com/TCaptcha.js" onerror="TCaptchaLoadError()"></script>
+		<!--点击此元素会自动激活验证码, 此例使用的button元素, 也可以使用div、span等-->
+		<!--id :            (不可变) 元素的 ID, 值必须是 'TencentCaptcha'-->
+		<!--data-appid :    (必须) 验证码CaptchaAppId, 从腾讯云的验证码控制台中获取, 验证码控制台页面内【图形验证】>【验证列表】进行查看 。如果未新建验证，请根据业务需求选择适合的验证渠道、验证场景进行新建-->
+		<!--data-cbfn :     (必须) 回调函数名, 函数名要与 data-cbfn 相同-->
+		<!--data-biz-state :(可选) 业务自定义透传参数, 会在回调函数内获取到 （res.bizState） style="visibility: hidden;"-->
+		<button type="button" style="visibility: hidden;">验证</button>
+		<div id="html"></div>
+	</body>
+
+	<script>
+		function ab() {
+			var captcha = new TencentCaptcha('189948326', callback, {
+				userLanguage: 'en'
+			});
+			captcha.show();
+
+		}
+		// 回调函数需要放在全局对象window下
+		function callback(res) {
+			// 返回结果
+			// ret         Int       验证结果，0：验证成功。2：用户主动关闭验证码。
+			// ticket      String    验证成功的票据，当且仅当 ret = 0 时 ticket 有值。
+			// CaptchaAppId       String    验证码应用ID。
+			// bizState    Any       自定义透传参数。
+			// randstr     String    本次验证的随机串，请求后台接口时需带上。
+			// console.log('callback:', res);
+			// alert(res.ret)
+			// document.getElementById("html").innerHTML = res.ret
+			window.jsBridge.getData(JSON.stringify(res));
+		}
+	</script>
+</html>

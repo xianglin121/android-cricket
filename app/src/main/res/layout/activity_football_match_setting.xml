@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/c_F3F3F7"
+    android:orientation="vertical">
+    <include layout="@layout/common_title_bar"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.longya.live.custom.LineControllerView
+                android:id="@+id/line_language"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:name="@string/language_display"
+                app:subject="中文简体"
+                app:canNav="true"
+                app:isBottom="true"/>
+
+            <com.longya.live.custom.LineControllerView
+                android:id="@+id/line_red_and_yellow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:name="@string/red_and_yellow_card_display"
+                app:isSwitch="true"/>
+
+            <com.longya.live.custom.LineControllerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:name="@string/index_display"
+                app:subject="让分指数"
+                app:canNav="true"
+                app:isBottom="true"
+                android:visibility="gone"/>
+
+            <com.longya.live.custom.LineControllerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:name="@string/index_company"
+                app:subject="指数公司"
+                app:canNav="true"
+                android:visibility="gone"/>
+
+            <com.longya.live.custom.LineControllerView
+                android:id="@+id/line_event_range"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:name="@string/event_notification_range"
+                app:subject="全部"
+                app:canNav="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="20dp"
+                android:text="@string/goal_tip"
+                android:textSize="14dp"
+                android:textColor="@color/c_999999"/>
+
+            <com.longya.live.custom.LineControllerView
+                android:id="@+id/line_goal_sound"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:name="@string/voice"
+                app:isSwitch="true"
+                app:isBottom="true"/>
+
+            <com.longya.live.custom.LineControllerView
+                android:id="@+id/line_goal_vibrator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:name="@string/shake"
+                app:isSwitch="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="20dp"
+                android:text="@string/red_card_tip"
+                android:textSize="14dp"
+                android:textColor="@color/c_999999"/>
+
+            <com.longya.live.custom.LineControllerView
+                android:id="@+id/line_red_card_sound"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:name="@string/voice"
+                app:isSwitch="true"
+                app:isBottom="true"/>
+
+            <com.longya.live.custom.LineControllerView
+                android:id="@+id/line_red_card_vibrator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:name="@string/shake"
+                app:isSwitch="true"/>
+
+            <com.longya.live.custom.LineControllerView
+                android:id="@+id/view_corner_kick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="30dp"
+                app:isSwitch="true"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

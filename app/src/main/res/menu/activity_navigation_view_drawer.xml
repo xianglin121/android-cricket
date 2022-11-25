@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_my_concerns"
+        android:title="@string/my_concerns"
+        android:icon="@mipmap/icon_my_concerns"/>
+    <item
+        android:id="@+id/menu_my_message"
+        android:title="@string/my_message"
+        android:icon="@mipmap/icon_my_message"/>
+    <item
+        android:id="@+id/menu_system_settings"
+        android:title="@string/system_settings"
+        android:icon="@mipmap/icon_system_settings"/>
+</menu>

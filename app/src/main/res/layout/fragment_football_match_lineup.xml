@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="341dp"
+            android:layout_height="684dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_78c258_10dp_rec">
+            <TextView
+                android:id="@+id/tv_home_coach"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="12dp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tv_home_formation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="10dp"
+                android:textSize="12dp"
+                android:textColor="@color/white"/>
+
+            <ImageView
+                android:id="@+id/iv_bg"
+                android:layout_width="match_parent"
+                android:layout_height="602dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@mipmap/bg_football_court"/>
+
+            <LinearLayout
+                android:id="@+id/ll_red"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/iv_bg"
+                android:layout_marginTop="26dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical"/>
+
+            <LinearLayout
+                android:id="@+id/ll_blue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/iv_bg"
+                android:layout_marginBottom="22dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical"/>
+
+           <!-- <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_red"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/iv_bg"
+                android:layout_marginTop="26dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:nestedScrollingEnabled="false"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_blue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/iv_bg"
+                android:layout_marginBottom="22dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:nestedScrollingEnabled="false"/>-->
+
+            <TextView
+                android:id="@+id/tv_away_coach"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="12dp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tv_away_formation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginBottom="12dp"
+                android:layout_marginRight="10dp"
+                android:textSize="12dp"
+                android:textColor="@color/white"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/bench_lineup"
+            android:textSize="14dp"
+            android:textColor="@color/c_333333"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_bench"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/shape_white_6dp_rec"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

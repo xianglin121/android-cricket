@@ -1,0 +1,27 @@
+include ':app'
+include ':tuikit'
+project(':tuikit').projectDir = new File(settingsDir, './TUIKit')
+
+include ':tuicore'
+project(':tuicore').projectDir = new File(settingsDir, './TUICore/tuicore')
+
+include ':tuichat'
+project(':tuichat').projectDir = new File(settingsDir, './TUIChat/tuichat')
+
+include ':tuicontact'
+project(':tuicontact').projectDir = new File(settingsDir, './TUIContact/tuicontact')
+
+include ':tuiconversation'
+project(':tuiconversation').projectDir = new File(settingsDir, './TUIConversation/tuiconversation')
+
+include ':tuisearch'
+project(':tuisearch').projectDir = new File(settingsDir, './TUISearch/tuisearch')
+
+include ':tuigroup'
+project(':tuigroup').projectDir = new File(settingsDir, './TUIGroup/tuigroup')
+
+include ':tuicalling'
+project(':tuicalling').projectDir = new File(settingsDir, './TUICalling/tuicalling')
+
+include ':superplayerkit'
+rootProject.name = "android-cricket"

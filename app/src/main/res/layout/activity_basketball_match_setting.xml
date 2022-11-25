@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/c_F3F3F7"
+    android:orientation="vertical">
+    <include layout="@layout/common_title_bar"/>
+
+    <com.longya.live.custom.LineControllerView
+        android:id="@+id/line_language"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:name="@string/language_display"
+        app:subject="中文简体"
+        app:canNav="true"
+        app:isBottom="true"/>
+
+    <com.longya.live.custom.LineControllerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:name="@string/prematch_ranking_display"
+        app:isSwitch="true"/>
+
+    <com.longya.live.custom.LineControllerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:name="@string/index_display"
+        app:subject="让分指数"
+        app:canNav="true"
+        app:isBottom="true"
+        android:visibility="gone"/>
+
+    <com.longya.live.custom.LineControllerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:name="@string/index_company"
+        app:subject="指数公司"
+        app:canNav="true"
+        android:visibility="gone"/>
+</LinearLayout>

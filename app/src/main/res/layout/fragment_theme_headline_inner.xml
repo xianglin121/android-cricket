@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smart_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+                <com.youth.banner.Banner
+                    android:id="@+id/banner_headline"
+                    android:layout_width="match_parent"
+                    android:layout_height="151dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    app:banner_indicator_selected_width="12dp"
+                    app:banner_indicator_selected_color="@color/c_E3AC72"
+                    app:banner_indicator_normal_width="6dp"
+                    app:banner_indicator_normal_color="@color/white"
+                    app:banner_indicator_gravity="right"
+                    app:banner_indicator_marginBottom="6dp"
+                    app:banner_indicator_marginRight="12dp"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:background="@drawable/shape_white_6dp_rec">
+                    <include layout="@layout/layout_common_empty"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_headline"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </FrameLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</LinearLayout>

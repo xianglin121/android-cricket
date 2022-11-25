@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/shape_white_6dp_rec"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_cover"
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_corner_radius_top_left="6dp"
+        app:riv_corner_radius_top_right="6dp"
+        android:src="@mipmap/bg_live_cover_default"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        app:layout_constraintTop_toBottomOf="@id/iv_cover"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:textSize="14dp"
+        android:textColor="@color/c_333333"
+        android:maxLines="2"
+        android:ellipsize="end"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/tv_title"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@mipmap/bg_avatar_default"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/iv_avatar"
+        app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
+        app:layout_constraintLeft_toRightOf="@id/iv_avatar"
+        android:layout_marginLeft="10dp"
+        android:textSize="12dp"
+        android:textColor="@color/c_9193B4"
+        android:maxEms="5"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tv_num"
+        app:layout_constraintBottom_toBottomOf="@id/tv_num"
+        app:layout_constraintRight_toLeftOf="@id/tv_num"
+        android:layout_marginRight="3dp"
+        android:background="@mipmap/icon_heat"/>
+
+    <TextView
+        android:id="@+id/tv_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tv_name"
+        app:layout_constraintBottom_toBottomOf="@id/tv_name"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="12dp"
+        android:textSize="11dp"
+        android:textColor="@color/c_999999"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

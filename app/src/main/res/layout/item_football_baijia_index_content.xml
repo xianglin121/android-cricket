@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootView"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="center_vertical">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_company"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.4">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:textSize="12dp"
+            android:textColor="@color/c_333333"
+            android:maxWidth="48dp"/>
+
+        <ImageView
+            android:id="@+id/iv_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:background="@mipmap/icon_arrow_right"
+            android:backgroundTint="@color/c_999999"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="14dp"
+        android:background="@color/line_color"/>
+
+    <TextView
+        android:id="@+id/tv_start_host"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:gravity="center"
+        android:textSize="12dp"
+        android:textColor="@color/c_999999"/>
+
+    <TextView
+        android:id="@+id/tv_start_index"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:gravity="center"
+        android:textSize="12dp"
+        android:textColor="@color/c_999999"/>
+
+    <TextView
+        android:id="@+id/tv_start_guest"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:gravity="center"
+        android:textSize="12dp"
+        android:textColor="@color/c_999999"/>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="14dp"
+        android:background="@color/line_color"/>
+
+    <TextView
+        android:id="@+id/tv_current_host"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:gravity="center"
+        android:textSize="12dp"
+        android:textColor="@color/c_333333"/>
+
+    <TextView
+        android:id="@+id/tv_current_index"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:gravity="center"
+        android:textSize="12dp"
+        android:textColor="@color/c_333333"/>
+
+    <TextView
+        android:id="@+id/tv_current_guest"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:gravity="center"
+        android:textSize="12dp"
+        android:textColor="@color/c_333333"/>
+</LinearLayout>

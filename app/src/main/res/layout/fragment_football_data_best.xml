@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/ll_team"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:paddingTop="13dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/team"
+                android:textSize="17dp"
+                android:textColor="@color/c_E3AC72"/>
+
+            <View
+                android:id="@+id/line_team"
+                android:layout_width="34dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/c_E3AC72"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_player"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:paddingTop="13dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_player"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="球员"
+                android:textSize="17dp"
+                android:textColor="@color/c_666666"/>
+
+            <View
+                android:id="@+id/line_player"
+                android:layout_width="34dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/c_E3AC72"
+                android:visibility="gone"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="88dp"
+        android:background="@color/c_E9E9E9"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_left"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="排名"
+                    android:textSize="12dp"
+                    android:textColor="@color/c_333333"/>
+
+                <TextView
+                    android:id="@+id/tv_type"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:gravity="center_vertical|left"
+                    android:text="球队"
+                    android:textSize="12dp"
+                    android:textColor="@color/c_333333"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="总数"
+                    android:textSize="12dp"
+                    android:textColor="@color/c_333333"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

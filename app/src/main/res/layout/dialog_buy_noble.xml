@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="325dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_white_6dp_rec">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:text="@string/btn_charge_noble"
+        android:textSize="16dp"
+        android:textColor="@color/c_333333"/>
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:textSize="16dp"
+        android:textColor="@color/c_333333"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="29dp"
+        android:layout_marginBottom="21dp"
+        android:orientation="horizontal">
+        <com.coorchice.library.SuperTextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="131dp"
+            android:layout_height="39dp"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textSize="16dp"
+            android:textColor="@color/c_333333"
+            app:stv_stroke_width="1dp"
+            app:stv_stroke_color="@color/c_E3AC72"
+            app:stv_corner="6dp"/>
+
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:layout_width="131dp"
+            android:layout_height="39dp"
+            android:layout_marginLeft="17dp"
+            android:gravity="center"
+            android:text="@string/confirm"
+            android:textSize="16dp"
+            android:textColor="@color/c_87390E"
+            android:background="@drawable/bg_send_gift_btn"/>
+    </LinearLayout>
+</LinearLayout>
