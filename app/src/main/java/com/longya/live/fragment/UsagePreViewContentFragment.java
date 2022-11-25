@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.button.MaterialButton;
 import com.longya.live.R;
 import com.longya.live.activity.MainActivity;
 import com.longya.live.activity.PreViewActivity;
@@ -43,6 +45,7 @@ public class UsagePreViewContentFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ImageView image = rootView.findViewById(R.id.image_view);
+        Button btn = rootView.findViewById(R.id.btn_start);
         int photo = requireArguments().getInt(PreViewActivity.IMAGE);
         switch (photo) {
             case 1:
@@ -56,14 +59,12 @@ public class UsagePreViewContentFragment extends Fragment {
                 break;
             case 4:
                 image.setImageResource(R.mipmap.bg_usage_four);
-                image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!SpUtil.getInstance().getBooleanValue(SpUtil.HIDE_USAGE)) {
-                            SpUtil.getInstance().setBooleanValue(SpUtil.HIDE_USAGE, true);
-                        }
-                        MainActivity.forward(getContext());
+                btn.setVisibility(View.VISIBLE);
+                btn.setOnClickListener(v -> {
+                    if (!SpUtil.getInstance().getBooleanValue(SpUtil.HIDE_USAGE)) {
+                        SpUtil.getInstance().setBooleanValue(SpUtil.HIDE_USAGE, true);
                     }
+                    MainActivity.forward(getContext());
                 });
                 break;
         }

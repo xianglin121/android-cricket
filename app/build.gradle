@@ -125,4 +125,6 @@ dependencies {
     implementation 'cn.jiguang.sdk:jcore:3.1.2'  // 此处以JCore 3.1.2 版本为例。
 
 //    implementation 'com.github.yangjie10930:EpMedia:v0.9.5'
+    //国际区号
+    implementation 'com.hbb20:ccp:2.6.1'
 }

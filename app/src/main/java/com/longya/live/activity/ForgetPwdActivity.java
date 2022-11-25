@@ -1,13 +1,28 @@
 package com.longya.live.activity;
 
+import static com.longya.live.util.UiUtils.getJsonData;
+import static com.longya.live.util.UiUtils.hideKeyboard;
+
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,19 +30,25 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
+import com.hbb20.CountryCodePicker;
 import com.longya.live.CommonAppConfig;
 import com.longya.live.R;
 import com.longya.live.adapter.PhonePrefixAdapter;
+import com.longya.live.model.AreasModel;
 import com.longya.live.model.JsonBean;
 import com.longya.live.presenter.login.ForgetPwdPresenter;
 import com.longya.live.presenter.login.RegisterPresenter;
@@ -37,6 +58,8 @@ import com.longya.live.view.MvpActivity;
 import com.longya.live.view.login.ForgetPwdView;
 import com.longya.live.view.login.RegisterView;
 
+import java.util.ArrayList;
+
 public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implements ForgetPwdView, View.OnClickListener {
 
     public static void forward(Context context) {
@@ -44,23 +67,27 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
         context.startActivity(intent);
     }
 
-    private TextView tv_phone_prefix;
-    private EditText et_phone;
-    private EditText et_code;
-    private TextView tv_get_code;
-    private EditText et_pwd_one;
-    private EditText et_pwd_two;
-    private ImageView iv_toggle_one;
-    private ImageView iv_toggle_two;
-    private TextView btn_commit;
-
-    private LayoutInflater mInflater;
+    private ImageView ivEyePassword;
+    private ImageView ivEyeConfirmPassword;
+    private TextView tvAgreement;
+    private TextView tvAuthCode;
+    private EditText etPassword;
+    private EditText etConfirmPassword;
+    private EditText etVerification;
+    private EditText etPhone;
+    private EditText etArea;
+    private Button btnConfirm;
+    private CheckBox cbAgreement;
+    private boolean isPwVisitable = false;
+    private boolean isPwConfirmVisitable = false;
+    private CountryCodePicker ccp;
+    private ArrayList<AreasModel.CountryModel> countryList;
+    private boolean isSame;
 
     private Handler handler;
     private static final int TOTAL = 60;
     private int count = TOTAL;
     private String getCodeString;
-    private String getCodeAgainString;
 
     private WebView webview;
     private WebSettings webSettings;
@@ -72,31 +99,32 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_forget_pwd;
+        return R.layout.activity_forgot_pwd_new_new;
     }
 
     @Override
     protected void initView() {
         getCodeString = WordUtil.getString(this, R.string.get_verify_code);
-        getCodeAgainString = WordUtil.getString(this, R.string.get_code_again);
-        mInflater = LayoutInflater.from(this);
-        tv_phone_prefix = findViewById(R.id.tv_phone_prefix);
-        et_phone = findViewById(R.id.et_phone);
-        et_code = findViewById(R.id.et_code);
-        tv_get_code = findViewById(R.id.tv_get_code);
-        et_pwd_one = findViewById(R.id.et_pwd_one);
-        et_pwd_two = findViewById(R.id.et_pwd_two);
-        iv_toggle_one = findViewById(R.id.iv_toggle_one);
-        iv_toggle_two = findViewById(R.id.iv_toggle_two);
-        btn_commit = findViewById(R.id.btn_commit);
 
+        tvAgreement = findViewById(R.id.tv_agreement);
+        tvAuthCode = findViewById(R.id.tv_auth_code);
+        btnConfirm = findViewById(R.id.btn_confirm);
+        ivEyePassword = findViewById(R.id.iv_eye_password);
+        ivEyeConfirmPassword = findViewById(R.id.iv_eye_confirm_password);
+        cbAgreement = findViewById(R.id.cb_agreement);
+        etPassword = findViewById(R.id.et_password);
+        etConfirmPassword = findViewById(R.id.et_confirm_password);
+        etVerification = findViewById(R.id.et_verification);
+        etPhone = findViewById(R.id.et_phone);
+        cbAgreement = findViewById(R.id.cb_agreement);
+        ccp = findViewById(R.id.ccp);
+        etArea = findViewById(R.id.et_area);
         findViewById(R.id.iv_back).setOnClickListener(this);
-        findViewById(R.id.ll_phone_prefix).setOnClickListener(this);
-        tv_get_code.setOnClickListener(this);
-        iv_toggle_one.setOnClickListener(this);
-        iv_toggle_two.setOnClickListener(this);
-        btn_commit.setOnClickListener(this);
-
+        tvAuthCode.setOnClickListener(this);
+        ivEyePassword.setOnClickListener(this);
+        ivEyeConfirmPassword.setOnClickListener(this);
+        btnConfirm.setOnClickListener(this);
+        setAgreementSpannable();
         initWebView();
     }
 
@@ -107,15 +135,15 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
             public void handleMessage(Message msg) {
                 count--;
                 if (count > 0) {
-                    tv_get_code.setText(getCodeAgainString + "(" + count + "s)");
+                    tvAuthCode.setText(count + "s");
                     if (handler != null) {
                         handler.sendEmptyMessageDelayed(0, 1000);
                     }
                 }else {
-                    tv_get_code.setText(getCodeString);
+                    tvAuthCode.setText(getCodeString);
                     count = TOTAL;
-                    if (tv_get_code != null) {
-                        tv_get_code.setEnabled(true);
+                    if (tvAuthCode != null) {
+                        tvAuthCode.setEnabled(true);
                     }
                 }
             }
@@ -157,10 +185,10 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                String phone = et_phone.getText().toString();
-                                String prefix= tv_phone_prefix.getText().toString();
-                                btn_commit.setEnabled(false);
-                                mvpPresenter.changePwd(prefix + "-" + phone, et_code.getText().toString(), et_pwd_one.getText().toString());
+                                String phone = etPhone.getText().toString().trim();
+                                String prefix= etArea.getText().toString().trim();
+                                btnConfirm.setEnabled(false);
+                                mvpPresenter.changePwd(prefix + "-" + phone, etVerification.getText().toString(), etPassword.getText().toString());
                             }
                         });
                     }
@@ -176,112 +204,198 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
 
     @Override
     public void getDataFail(String msg) {
-        tv_get_code.setEnabled(true);
+        tvAuthCode.setEnabled(true);
         ToastUtil.show(msg);
     }
 
     @Override
     public void forgetPwdSuccess(String msg) {
-        btn_commit.setEnabled(true);
+        btnConfirm.setEnabled(true);
         ToastUtil.show(getString(R.string.tip_change_pwd_success));
         finish();
     }
 
     @Override
     public void forgetPwdFail(String msg) {
-        btn_commit.setEnabled(true);
+        btnConfirm.setEnabled(true);
         ToastUtil.show(msg);
     }
 
     @Override
     public void onClick(View v) {
-        String phone = et_phone.getText().toString();
-        String prefix= tv_phone_prefix.getText().toString();
+        String phone = etPhone.getText().toString().trim();
+        String prefix = etArea.getText().toString().trim();
         switch (v.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.ll_phone_prefix:
-                choosePhonePrefix();
-                break;
-            case R.id.iv_toggle_one:
-                iv_toggle_one.setSelected(!iv_toggle_one.isSelected());
-                if (iv_toggle_one.isSelected()) {
-                    et_pwd_one.setInputType(InputType.TYPE_CLASS_TEXT);
-                }else {
-                    et_pwd_one.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            case R.id.iv_eye_password:
+                if (isPwVisitable) {
+                    isPwVisitable = false;
+                    etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    ivEyePassword.setImageResource(R.mipmap.ic_eye_close);
+                } else {
+                    isPwVisitable = true;
+                    etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    ivEyePassword.setImageResource(R.mipmap.ic_eye_open);
                 }
-                et_pwd_one.setSelection(et_pwd_one.getText().toString().length());
-                //解决英文时hint字体会发现变化
-                et_pwd_one.setTypeface(Typeface.DEFAULT);
                 break;
-            case R.id.iv_toggle_two:
-                iv_toggle_two.setSelected(!iv_toggle_two.isSelected());
-                if (iv_toggle_two.isSelected()) {
-                    et_pwd_two.setInputType(InputType.TYPE_CLASS_TEXT);
-                }else {
-                    et_pwd_two.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            case R.id.iv_eye_confirm_password:
+                if (isPwConfirmVisitable) {
+                    isPwConfirmVisitable = false;
+                    etConfirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    ivEyeConfirmPassword.setImageResource(R.mipmap.ic_eye_close);
+                } else {
+                    isPwConfirmVisitable = true;
+                    etConfirmPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    ivEyeConfirmPassword.setImageResource(R.mipmap.ic_eye_open);
                 }
-                et_pwd_two.setSelection(et_pwd_two.getText().toString().length());
-                //解决英文时hint字体会发现变化
-                et_pwd_two.setTypeface(Typeface.DEFAULT);
                 break;
-            case R.id.tv_get_code:
+            case R.id.tv_auth_code:
+                if (TextUtils.isEmpty(prefix)) {
+                    Toast.makeText(this,getString(R.string.country),Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (TextUtils.isEmpty(phone)) {
-                    ToastUtil.show(WordUtil.getString(this, R.string.please_input_phone_number));
+                    Toast.makeText(this,getString(R.string.phone),Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (!isFastDoubleClick()) {
-                    tv_get_code.setEnabled(false);
+                    tvAuthCode.setEnabled(false);
                     mvpPresenter.getCode(prefix + "-" + phone);
                 }
                 break;
-            case R.id.btn_commit:
-                if (TextUtils.isEmpty(phone)) {
-                    ToastUtil.show(WordUtil.getString(this, R.string.please_input_phone_number));
+            case R.id.btn_confirm:
+                if(!cbAgreement.isChecked()){
+                    Toast.makeText(this,WordUtil.getString(this, R.string.login_agree_protocol_tip),Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(et_code.getText().toString())) {
-                    ToastUtil.show(WordUtil.getString(this, R.string.please_input_verify_code));
+
+                if(TextUtils.isEmpty(etArea.getText().toString().trim())){
+                    Toast.makeText(this,getString(R.string.country),Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(et_pwd_one.getText().toString())) {
-                    ToastUtil.show(WordUtil.getString(this, R.string.please_input_pwd_hint));
+
+                if(TextUtils.isEmpty(etPhone.getText().toString().trim())){
+                    Toast.makeText(this,getString(R.string.phone),Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(et_pwd_two.getText().toString())) {
-                    ToastUtil.show(WordUtil.getString(this, R.string.please_input_confirm_pwd_hint));
+
+                if(TextUtils.isEmpty(etVerification.getText().toString().trim())){
+                    Toast.makeText(this,getString(R.string.verification_code),Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!et_pwd_one.getText().toString().equals(et_pwd_two.getText().toString())) {
-                    ToastUtil.show(WordUtil.getString(this, R.string.register_pwd_error));
+
+                if(TextUtils.isEmpty(etPassword.getText().toString().trim())){
+                    Toast.makeText(this,getString(R.string.login_password),Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                if(TextUtils.isEmpty(etConfirmPassword.getText().toString().trim())){
+                    Toast.makeText(this,getString(R.string.confirm_password),Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(!etPassword.getText().toString().trim().equals(etConfirmPassword.getText().toString().trim())){
+                    Toast.makeText(this,WordUtil.getString(this, R.string.register_pwd_error),Toast.LENGTH_SHORT).show();
+                }
+
                 webview.setVisibility(View.VISIBLE);
                 webview.loadUrl("javascript:ab()");
                 break;
         }
     }
-
-    //选择手机前缀
-    private void choosePhonePrefix() {
-        if (CommonAppConfig.getInstance().getConfig() != null && CommonAppConfig.getInstance().getConfig().getCountryCode() != null) {
-            View v = mInflater.inflate(R.layout.view_phone_prefix_pop, null);
-            PopupWindow popupWindow = new PopupWindow(v, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-            popupWindow.setOutsideTouchable(true);
-//        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.bg_pop_phone_prefix));
-            RecyclerView rv_prefix = v.findViewById(R.id.rv_prefix);
-            PhonePrefixAdapter prefixAdapter = new PhonePrefixAdapter(R.layout.item_phone_prefix_pop, CommonAppConfig.getInstance().getConfig().getCountryCode());
-            prefixAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    tv_phone_prefix.setText(prefixAdapter.getItem(position).getCode());
-                    popupWindow.dismiss();
+    private void setAgreementSpannable(){
+        String tips = getString(R.string.login_agreement_info);
+        SpannableString spannableString = new SpannableString(tips);
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getUser_agreement())) {
+                    WebViewNewActivity.forward(ForgetPwdActivity.this, getString(R.string.user_protocol), CommonAppConfig.getInstance().getConfig().getUser_agreement());
                 }
-            });
-            rv_prefix.setLayoutManager(new LinearLayoutManager(this));
-            rv_prefix.setAdapter(prefixAdapter);
-            popupWindow.showAsDropDown(tv_phone_prefix);
-        }
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(getResources().getColor(R.color.c_DC3C23));
+                ds.setUnderlineText(false);
+            }
+        },17, 39, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getPrivacy_policy())) {
+                    WebViewNewActivity.forward(ForgetPwdActivity.this, getString(R.string.privacy_policy), CommonAppConfig.getInstance().getConfig().getPrivacy_policy());
+                }
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(getResources().getColor(R.color.c_DC3C23));
+                ds.setUnderlineText(false);
+            }
+        },tips.length() - 14, tips.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        tvAgreement.setMovementMethod(LinkMovementMethod.getInstance());
+        tvAgreement.setHighlightColor(Color.TRANSPARENT);
+        tvAgreement.setText(spannableString);
+        //选择国家
+        ccp.setOnCountryChangeListener(() ->{
+            isSame = true;
+            etArea.setText(ccp.getSelectedCountryCode());
+            etArea.setSelection(ccp.getSelectedCountryCode().length());
+            isSame = false;
+        });
+
+        ccp.setDialogEventsListener(new CountryCodePicker.DialogEventsListener() {
+            @Override
+            public void onCcpDialogOpen(Dialog dialog) {
+
+            }
+
+            @Override
+            public void onCcpDialogDismiss(DialogInterface dialogInterface) {
+                hideKeyboard(etArea);
+            }
+
+            @Override
+            public void onCcpDialogCancel(DialogInterface dialogInterface) {
+
+            }
+        });
+
+        String json = getJsonData(this, "area.json");
+        AreasModel areasModel = new Gson().fromJson(json, AreasModel.class);
+        countryList = (ArrayList<AreasModel.CountryModel>) areasModel.getData();
+        //国家与输入框动态响应
+        etArea.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!TextUtils.isEmpty(editable.toString().trim()) && !isSame){
+                    String code = editable.toString().trim();
+                    for(AreasModel.CountryModel model:countryList){
+                        if(model.getTel().equals(code)){
+                            ccp.setCountryForNameCode(model.getShortName());
+                            return;
+                        }
+                    }
+                    etArea.setSelection(code.length());
+                }
+            }
+        });
     }
 }

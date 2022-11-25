@@ -40,6 +40,7 @@
     <color name="c_A9A9A9">#A9A9A9</color>
     <color name="c_585858">#585858</color>
     <color name="c_C8C8C8">#C8C8C8</color>
+    <color name="c_d2d5d8">#D2D5D8</color>
 
     <color name="black">#FF000000</color>
     <color name="c_80000000">#80000000</color>
@@ -129,6 +130,7 @@
     <color name="c_8691AA">#8691AA</color>
     <color name="c_76809C">#76809C</color>
     <color name="c_434A66">#434A66</color>
+    <color name="c_77778F">#77778F</color>
 
     <color name="c_78C258">#78C258</color>
     <color name="c_44AC3D">#44AC3D</color>

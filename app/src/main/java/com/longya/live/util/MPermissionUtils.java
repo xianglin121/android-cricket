@@ -110,7 +110,7 @@ public class MPermissionUtils {
      * 显示提示对话框
      */
     public static void showTipsDialog(final Context context) {
-        DialogUtil.showSimpleDialog(context, "当前应用缺少必要权限，该功能暂时无法使用。如若需要，请单击【确定】按钮前往设置中心进行权限授权。", false, "设置",
+        DialogUtil.showSimpleDialog(context, "This function cannot be used temporarily because the current application lacks necessary permissions. If necessary, please click the \"OK\" button to go to the setting center for permission authorization.", false, "OK",
                 new DialogUtil.SimpleCallback() {
                     @Override
                     public void onConfirmClick(Dialog dialog, String content) {

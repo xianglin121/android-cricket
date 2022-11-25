@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.LoginActivity"
+    android:background="@mipmap/bj_login"
+    android:fitsSystemWindows="true">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/img_logo"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="68dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/c_DC3C23"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="@string/forgot_password"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="28dp"/>
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp"
+                style="@style/LinearLayoutInputRow"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:minHeight="45dp"
+                app:ccp_textGravity="LEFT"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                app:ccp_contentColor="@color/black"
+                app:ccpDialog_cornerRadius="15dp"
+                app:ccpDialog_showCloseIcon="true"
+                app:ccpDialog_showPhoneCode="true"
+                app:ccp_arrowColor="@color/white"
+                app:ccp_defaultNameCode="IN"
+                app:ccp_showFullName="true"
+                app:ccp_showPhoneCode="false"
+                app:ccp_textSize="15sp"
+                app:ccpDialog_background="@color/white"
+                app:ccpDialog_showFlag="true"/>
+
+            <LinearLayout style="@style/LinearLayoutInputRow">
+
+                <ImageView
+                    android:layout_width="43dp"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_phone_number"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/et_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:minWidth="40dp"
+                    android:text="61"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@drawable/shape_edit_cursor"
+                    android:background="@null"
+                    android:textSize="15sp"
+                    android:digits="0123456789"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:maxLines="1"
+                    android:singleLine="true"/>
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="7.5dp"
+                    android:layout_marginBottom="7.5dp"
+                    android:background="@color/c_d2d5d8"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    style="@style/EditTextSingle"
+                    android:hint="@string/phone"
+                    android:inputType="phone"/>
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/LinearLayoutInputRow">
+
+                <ImageView
+                    android:layout_width="43dp"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_auth_code"/>
+
+                <EditText
+                    android:id="@+id/et_verification"
+                    style="@style/EditTextSingle"
+                    android:hint="@string/verification_code"
+                    android:inputType="number"/>
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="7.5dp"
+                    android:layout_marginBottom="7.5dp"
+                    android:background="@color/c_d2d5d8"/>
+
+                <TextView
+                    android:id="@+id/tv_auth_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/auth_code"
+                    android:textColor="@color/c_DC3C23"
+                    android:textSize="13sp"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/LinearLayoutInputRow">
+
+                <ImageView
+                    android:layout_width="43dp"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_password"/>
+
+                <EditText
+                    android:id="@+id/et_password"
+                    style="@style/EditTextSingle"
+                    android:hint="@string/login_password"
+                    android:inputType="textPassword"/>
+
+                <ImageView
+                    android:id="@+id/iv_eye_password"
+                    android:layout_width="43dp"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_eye_close"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/LinearLayoutInputRow">
+
+                <ImageView
+                    android:layout_width="43dp"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_confirm_password"/>
+
+                <EditText
+                    android:id="@+id/et_confirm_password"
+                    style="@style/EditTextSingle"
+                    android:hint="@string/confirm_the_password"
+                    android:inputType="textPassword"/>
+
+                <ImageView
+                    android:id="@+id/iv_eye_confirm_password"
+                    android:layout_width="43dp"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_eye_close"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"/>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/shape_btn_red_solid"
+                android:layout_marginTop="30dp"
+                android:text="@string/confirm"
+                android:textSize="15sp"
+                android:layout_marginLeft="27.5dp"
+                android:layout_marginRight="27.5dp"
+                android:textColor="@color/white"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="45dp"
+                android:layout_marginBottom="25dp">
+
+                <CheckBox
+                    android:id="@+id/cb_agreement"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:button="@null"
+                    android:background="@drawable/selector_cb"
+                    android:layout_marginRight="13.5dp"/>
+
+                <TextView
+                    android:id="@+id/tv_agreement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:padding="5dp"
+                    android:textSize="12sp"
+                    android:lineSpacingExtra="2dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_arrow_left_white"
+        android:padding="16dp"/>
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+</RelativeLayout>

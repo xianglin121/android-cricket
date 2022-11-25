@@ -146,7 +146,7 @@
     <string name="login_protocol_and_privacy_two">User Service Agreement</string>
     <string name="login_protocol_and_privacy_three">and</string>
     <string name="login_protocol_and_privacy_four">Privacy Policy</string>
-    <string name="login_agree_protocol_tip">Please agree to the User Agreement and Privacy Policy first</string>
+    <string name="login_agree_protocol_tip">Please agree to the agreement</string>
     <string name="login_success">Login successful</string>
     <string name="send_code_title">SMS verification code will be sent to:</string>
     <string name="please_enter_new_password">Please enter a new password (6-12 alphanumeric characters)</string>
@@ -733,4 +733,12 @@
     <string name="collection_cancel">Collection cancel</string>
     <string name="collection_success">Collection success</string>
     <string name="video_download_success">Video downloaded successfully</string>
+
+    <string name="phone">Phone</string>
+    <string name="country">Country</string>
+    <string name="login_password">Login password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="login_agreement_info">I read and agree User Service Agreement and Privacy Policy</string>
+    <string name="log_in">Log In</string>
+
 </resources>
