@@ -25,13 +25,17 @@ public class CricketScorecardPresenter extends BasePresenter<CricketScorecardVie
         addSubscription(apiStores.getMatchScorecard(getRequestBody(jsonObject)), new ApiCallback() {
             @Override
             public void onSuccess(String data, String msg) {
-                List<ScorecardBatterBean> battingList = JSONObject.parseArray(JSONObject.parseObject(data).getString("batting_info"), ScorecardBatterBean.class);
-                List<ScorecardBowlerBean> bowlList = JSONObject.parseArray(JSONObject.parseObject(data).getString("bowling_info"), ScorecardBowlerBean.class);
-                List<ScorecardWicketBean> wicketList = JSONObject.parseArray(JSONObject.parseObject(data).getString("partnerships"), ScorecardWicketBean.class);
-                if (isHome) {
-                    mvpView.getHomeDataSuccess(battingList, bowlList, wicketList, JSONObject.parseObject(data).getString("extras"), JSONObject.parseObject(data).getString("no_batting_name"));
-                }else {
-                    mvpView.getAwayDataSuccess(battingList, bowlList, wicketList, JSONObject.parseObject(data).getString("extras"), JSONObject.parseObject(data).getString("no_batting_name"));
+                try {
+                    List<ScorecardBatterBean> battingList = JSONObject.parseArray(JSONObject.parseObject(data).getString("batting_info"), ScorecardBatterBean.class);
+                    List<ScorecardBowlerBean> bowlList = JSONObject.parseArray(JSONObject.parseObject(data).getString("bowling_info"), ScorecardBowlerBean.class);
+                    List<ScorecardWicketBean> wicketList = JSONObject.parseArray(JSONObject.parseObject(data).getString("partnerships"), ScorecardWicketBean.class);
+                    if (isHome) {
+                        mvpView.getHomeDataSuccess(battingList, bowlList, wicketList, JSONObject.parseObject(data).getString("extras"), JSONObject.parseObject(data).getString("no_batting_name"));
+                    } else {
+                        mvpView.getAwayDataSuccess(battingList, bowlList, wicketList, JSONObject.parseObject(data).getString("extras"), JSONObject.parseObject(data).getString("no_batting_name"));
+                    }
+                } catch (Exception e) {
+
                 }
             }
 

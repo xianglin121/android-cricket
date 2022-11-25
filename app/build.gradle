@@ -28,12 +28,12 @@ android {
         versionName "1.0.8"
         multiDexEnabled true// dex突破65535的限制
         ndk {
-            abiFilters "armeabi-v7a","arm64-v8a","x86","x86_64"
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
         manifestPlaceholders = [
-                JPUSH_PKGNAME : applicationId,
+                JPUSH_PKGNAME: applicationId,
                 JPUSH_APPKEY : "410a1c3771460e2ead9d9c74", //JPush 上注册的包名对应的 Appkey.
-                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
     }
 
@@ -50,7 +50,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
@@ -121,8 +121,10 @@ dependencies {
     //标签流式布局
     implementation 'com.github.1002326270xc:LayoutManager-FlowLayout:v1.8'
 
-    implementation 'cn.jiguang.sdk:jpush:4.5.0'  // 此处以JPush 4.5.0 版本为例。
-    implementation 'cn.jiguang.sdk:jcore:3.1.2'  // 此处以JCore 3.1.2 版本为例。
+//    implementation 'cn.jiguang.sdk:jpush:4.5.0'  // 此处以JPush 4.5.0 版本为例。
+//    implementation 'cn.jiguang.sdk:jcore:3.1.2'  // 此处以JCore 3.1.2 版本为例。
+    implementation 'cn.jiguang.sdk:jpush-google:4.8.4'  // 此处以JPush 4.8.4 Google Play版本为例
+    implementation 'cn.jiguang.sdk:jcore-google:3.3.6'  // 此处以JCore 3.3.6 Google Play 版本为例。
 
 //    implementation 'com.github.yangjie10930:EpMedia:v0.9.5'
     //国际区号
