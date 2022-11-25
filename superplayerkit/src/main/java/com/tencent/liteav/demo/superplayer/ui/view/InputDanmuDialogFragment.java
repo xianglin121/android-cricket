@@ -140,7 +140,7 @@ public class InputDanmuDialogFragment extends DialogFragment implements View.OnC
             }
         }else if (v.getId() == R.id.tv_danmu_send) {
             if (TextUtils.isEmpty(et_input.getText().toString())) {
-                ToastUtil.toastShortMessage("请输入想发送的消息");
+                ToastUtil.toastShortMessage("Please enter the message you want to send");
                 return;
             }
 //            ((LiveDetailActivity)getActivity()).sendMessage(et_input.getText().toString());
