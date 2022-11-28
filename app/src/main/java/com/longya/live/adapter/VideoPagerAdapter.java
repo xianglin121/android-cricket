@@ -72,8 +72,15 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
         VideoPagerHolder viewHolder = holder;
         viewHolder.position = position;
         ShortVideoBean bean = videoBeans.get(position);
+//        if (bean.getVideo() != null && bean.getVideo().size() > 0) {
+//            GlideUtil.loadImageDefault(activity, bean.getVideo().get(0).getImg(), holder.coverImage);
+//        }
         if (bean.getVideo() != null && bean.getVideo().size() > 0) {
-            GlideUtil.loadImageDefault(activity, bean.getVideo().get(0).getImg(), holder.coverImage);
+//            GlideUtil.loadImageDefault(activity, bean.getVideo().get(0).getImg(), holder.coverImage);
+            ImageView imageView = new ImageView(activity);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            GlideUtil.loadImageDefault(activity, bean.getVideo().get(0).getImg(), imageView);
+            holder.videoView.setThumbImageView(imageView);
         }
         GlideUtil.loadUserImageDefault(activity, bean.getAvatar(), holder.iv_avatar);
         if (!TextUtils.isEmpty(bean.getUser_nickname())) {
@@ -139,7 +146,7 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
         holder.iv_comment.setOnClickListener(null);
         holder.iv_more.setOnClickListener(null);
 //        holder.mPauseIv.setVisibility(View.GONE);
-        holder.coverImage.setVisibility(View.VISIBLE);
+//        holder.coverImage.setVisibility(View.VISIBLE);
     }
 
     public ShortVideoBean getItem(int position) {
@@ -161,8 +168,8 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
     public class VideoPagerHolder extends RecyclerView.ViewHolder {
 
         public StandardGSYVideoPlayer videoView;
-        public ImageView coverImage;
-//        public View clickView;
+//        public ImageView coverImage;
+        //        public View clickView;
 //        public ImageView mPauseIv;
         public ImageView iv_avatar;
         public TextView tv_name;
@@ -182,7 +189,7 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
 
 //            clickView = itemView.findViewById(R.id.click_view);
             videoView = itemView.findViewById(R.id.video_view);
-            coverImage = itemView.findViewById(R.id.cover_iv);
+//            coverImage = itemView.findViewById(R.id.cover_iv);
 //            mPauseIv = itemView.findViewById(R.id.pause_iv);
             iv_avatar = itemView.findViewById(R.id.iv_avatar);
             tv_name = itemView.findViewById(R.id.tv_name);
