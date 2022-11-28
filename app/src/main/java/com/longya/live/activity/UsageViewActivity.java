@@ -106,7 +106,7 @@ public class UsageViewActivity extends BaseActivity {
     }
 
     private void initIndicator(){
-        //指示器 fixme 样式修改
+        //指示器
         CircleNavigator circleNavigator = new CircleNavigator(this);
         circleNavigator.setCircleCount(list.size());
         circleNavigator.setCircleColor(getResources().getColor(R.color.white));
