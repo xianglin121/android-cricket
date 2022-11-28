@@ -18,9 +18,8 @@ import com.longya.live.R;
 import com.longya.live.custom.ButtonFollowView2;
 import com.longya.live.model.ShortVideoBean;
 import com.longya.live.util.GlideUtil;
-import com.pili.pldroid.player.PLOnInfoListener;
-import com.pili.pldroid.player.PLOnSeekCompleteListener;
-import com.pili.pldroid.player.widget.PLVideoTextureView;
+import com.qiniu.qmedia.ui.QSurfacePlayerView;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.tencent.qcloud.tuikit.tuichat.component.face.FaceManager;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
@@ -32,10 +31,10 @@ import java.util.Map;
 /**
  * Copyright (C) 2018
  * 版权所有
- *
+ * <p>
  * 作者：东莞市梦幻科技有限公司
  * 创建时间：2018/10/29
- *
+ * <p>
  * 修改人：
  * 修改描述：
  * 修改日期
@@ -79,31 +78,31 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
         GlideUtil.loadUserImageDefault(activity, bean.getAvatar(), holder.iv_avatar);
         if (!TextUtils.isEmpty(bean.getUser_nickname())) {
             holder.tv_name.setText(bean.getUser_nickname());
-        }else {
+        } else {
             holder.tv_name.setText("");
         }
         if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
             if (bean.getUid() == Integer.valueOf(CommonAppConfig.getInstance().getUid())) {
                 holder.iv_follow.setVisibility(View.GONE);
-            }else {
+            } else {
                 holder.iv_follow.setVisibility(View.VISIBLE);
             }
-        }else {
+        } else {
             holder.iv_follow.setVisibility(View.VISIBLE);
         }
         if (bean.getIs_attention() == 1) {
             holder.iv_follow.setFollow(true);
-        }else {
+        } else {
             holder.iv_follow.setFollow(false);
         }
         if (!TextUtils.isEmpty(bean.getTitle())) {
             holder.tv_content.setText(FaceManager.handlerEmojiText(bean.getTitle()));
-        }else {
+        } else {
             holder.tv_content.setText("");
         }
         if (bean.getIs_likes() == 1) {
             holder.iv_like.setSelected(true);
-        }else {
+        } else {
             holder.iv_like.setSelected(false);
         }
         holder.tv_like_count.setText(String.valueOf(bean.getLikes()));
@@ -131,8 +130,8 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
     }
 
     public final void resetViewHolder(VideoPagerHolder holder) {
-        if (holder.videoView.isPlaying())
-            holder.videoView.stopPlayback();
+        if (holder.videoView.getGSYVideoManager().isPlaying())
+            holder.videoView.getGSYVideoManager().stop();
         holder.videoView.setTag(null);
         holder.clickView.setOnClickListener(null);
         holder.iv_follow.setOnClickListener(null);
@@ -161,7 +160,7 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
 
     public class VideoPagerHolder extends RecyclerView.ViewHolder {
 
-        public PLVideoTextureView videoView;
+        public StandardGSYVideoPlayer videoView;
         public ImageView coverImage;
         public View clickView;
         public ImageView mPauseIv;

@@ -1,5 +1,7 @@
 package com.longya.live.activity;
 
+import static com.qiniu.qmedia.component.player.QURLType.QAUDIO_AND_VIDEO;
+
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -55,12 +57,19 @@ import com.longya.live.util.SpUtil;
 import com.longya.live.util.ToastUtil;
 import com.longya.live.view.MvpActivity;
 import com.longya.live.view.video.VideoPagerView;
-import com.pili.pldroid.player.PLOnPreparedListener;
-import com.pili.pldroid.player.widget.PLVideoView;
+//import com.pili.pldroid.player.PLOnPreparedListener;
+//import com.pili.pldroid.player.widget.PLVideoView;
+import com.qiniu.qmedia.component.player.QMediaModel;
+import com.qiniu.qmedia.component.player.QMediaModelBuilder;
+import com.qiniu.qmedia.component.player.QPlayerSetting;
+import com.qiniu.qmedia.component.player.QURLType;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
+import com.shuyu.gsyvideoplayer.listener.GSYVideoProgressListener;
+import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -133,8 +142,8 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (videoPagerHolder != null){
-            videoPagerHolder.videoView.stopPlayback();
+        if (videoPagerHolder != null) {
+            videoPagerHolder.videoView.release();
         }
         if (mCountDownTimer != null) {
             mCountDownTimer.cancel();
@@ -203,14 +212,14 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             return 0;
         }
 
-        long position = videoPagerHolder.videoView.getCurrentPosition();
+        long position = videoPagerHolder.videoView.getPlayPosition();
         long duration = videoPagerHolder.videoView.getDuration();
         if (seekBar != null) {
             if (duration > 0) {
                 long pos = 1000L * position / duration;
                 seekBar.setProgress((int) pos);
             }
-            int percent = videoPagerHolder.videoView.getBufferPercentage();
+            int percent = videoPagerHolder.videoView.getBuffterPoint();
             seekBar.setSecondaryProgress(percent * 10);
         }
         return position;
@@ -221,7 +230,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
      */
     private void pauseVideoView() {
         if (videoPagerHolder != null && !isFinishing()) {
-            videoPagerHolder.videoView.pause();
+            videoPagerHolder.videoView.onVideoPause();
             videoPagerHolder.videoView.setTag(true);
             videoPagerHolder.mPauseIv.setVisibility(View.VISIBLE);
         }
@@ -310,7 +319,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                 refreshLayout.finishLoadMore();
             }
             videoPagerAdapter.setBeans(list, false);
-        }else {
+        } else {
             if (refreshLayout != null) {
                 refreshLayout.finishLoadMoreWithNoMoreData();
             }
@@ -329,7 +338,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
     public void doCommentSuccess(Integer cid) {
         if (cid != null) {
             mCommentDialog.updateReplyList(cid);
-        }else {
+        } else {
             if (videoPagerHolder != null) {
                 int commentCount = videoPagerAdapter.getItem(currentIndex).getComment_count();
                 commentCount++;
@@ -386,7 +395,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
         if (videoPagerHolder != null) {
             videoPagerHolder.clickView.setOnClickListener(null);
-            videoPagerHolder.videoView.stopPlayback();
+            videoPagerHolder.videoView.release();
         }
 
         final String url = bean.getVideo().get(0).getVideo();
@@ -405,14 +414,16 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
         }
         videoPagerHolder = holder;
 
-        holder.videoView.setVideoPath(url);
-        holder.videoView.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_FIT_PARENT);
+
+        holder.videoView.setUp(url, true, "");
+//        holder.videoView.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_FIT_PARENT);
         holder.videoView.setLooping(true);
-        holder.videoView.start();
+        holder.videoView.getGSYVideoManager().start();
         holder.videoView.setTag(false);
-        holder.videoView.setOnPreparedListener(new PLOnPreparedListener() {
+        GSYVideoOptionBuilder gsyVideoOptionBuilder = new GSYVideoOptionBuilder();
+        gsyVideoOptionBuilder.setGSYVideoProgressListener(new GSYVideoProgressListener() {
             @Override
-            public void onPrepared(int i) {
+            public void onProgress(int progress, int secProgress, int currentPosition, int duration) {
                 handler.sendEmptyMessage(0);//开始显示进度条
                 AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
                 alphaAnimation.setDuration(300);
@@ -435,6 +446,31 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                 videoPagerHolder.coverImage.startAnimation(alphaAnimation);
             }
         });
+//        holder.videoView.setOnPreparedListener(new PLOnPreparedListener() {
+//            @Override
+//            public void onPrepared(int i) {
+//                handler.sendEmptyMessage(0);//开始显示进度条
+//                AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
+//                alphaAnimation.setDuration(300);
+//                alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+//                    @Override
+//                    public void onAnimationStart(Animation animation) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animation animation) {
+//                        videoPagerHolder.coverImage.setVisibility(View.GONE);
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animation animation) {
+//
+//                    }
+//                });
+//                videoPagerHolder.coverImage.startAnimation(alphaAnimation);
+//            }
+//        });
         holder.clickView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -442,12 +478,12 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                     playVideo(bean);
                     return;
                 }
-                if (videoPagerHolder.videoView.isPlaying() && !isPause()) {
-                    videoPagerHolder.videoView.pause();
+                if (videoPagerHolder.videoView.isInPlayingState() && !isPause()) {
+                    videoPagerHolder.videoView.onVideoPause();
                     videoPagerHolder.mPauseIv.setVisibility(View.VISIBLE);
                     videoPagerHolder.videoView.setTag(true);
                 } else {
-                    videoPagerHolder.videoView.start();
+                    videoPagerHolder.videoView.getGSYVideoManager().start();
                     videoPagerHolder.mPauseIv.setVisibility(View.GONE);
                     videoPagerHolder.videoView.setTag(false);
                 }
@@ -480,7 +516,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                     bean.setIs_likes(0);
                     videoPagerHolder.iv_like.setSelected(false);
                     likeCount--;
-                }else {
+                } else {
                     bean.setIs_likes(1);
                     videoPagerHolder.iv_like.setSelected(true);
                     likeCount++;
@@ -512,12 +548,12 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                             if (bean.getIs_favorites() == 1) {
                                 ToastUtil.show(getString(R.string.collection_cancel));
                                 bean.setIs_favorites(0);
-                            }else {
+                            } else {
                                 ToastUtil.show(getString(R.string.collection_success));
                                 bean.setIs_favorites(1);
                             }
                             mvpPresenter.doVideoCollect(bean.getId());
-                        }else if (type == 1) {//保存
+                        } else if (type == 1) {//保存
                             mLoadingDialog.show();
                             String fileName = "LY_VIDEO_" + System.currentTimeMillis() + ".mp4";
                             DownloadUtil.get().download(mActivity, url, DownloadUtil.VIDEO_PATH, fileName, new DownloadUtil.OnDownloadListener() {
@@ -542,7 +578,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                                     mLoadingDialog.dismiss();
                                 }
                             });
-                        }else if (type == 2) {//举报
+                        } else if (type == 2) {//举报
                             if (mReportList != null && mReportList.size() > 0) {
                                 SparseArray<String> array = new SparseArray<>();
                                 for (int i = 0; i < mReportList.size(); i++) {
@@ -555,7 +591,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                                     }
                                 });
                             }
-                        }else if (type == 3) {//分享
+                        } else if (type == 3) {//分享
                             ShareUtil.shareText(mActivity, "", HttpConstant.SHORT_VIDEO_URL + bean.getId());
                         }
                     }

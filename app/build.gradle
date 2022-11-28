@@ -24,8 +24,8 @@ android {
         applicationId "com.onecric.live"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 18
-        versionName "1.0.8"
+        versionCode 20
+        versionName "1.1.0"
         multiDexEnabled true// dex突破65535的限制
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
@@ -108,8 +108,13 @@ dependencies {
     implementation project(':tuikit')
     //腾讯超级播放器
     implementation project(':superplayerkit')
+
+    //七牛云视频播放 v2版本
+    implementation("com.qiniu:qplayer2-core:1.1.2")
+
     //svga动画
-    implementation 'com.github.yyued:SVGAPlayer-Android:2.5.12'
+    implementation 'com.github.yyued:SVGAPlayer-Android:2.6.1'
+//    implementation 'com.github.yyued:SVGAPlayer-Android:latest'
     //七牛云
     implementation 'com.qiniu:qiniu-android-sdk:8.3.+'
     //WebSocket
@@ -117,7 +122,14 @@ dependencies {
     //视频压缩
     implementation files('libs/pldroid-shortvideo-3.1.1.jar')
     //七牛云视频播放
-    implementation files('libs/pldroid-player-2.4.1.jar')
+//    implementation files('libs/pldroid-player-2.4.1.jar')
+//    implementation 'com.qiniu:qplayer2-core:1.0.3'
+
+    //更换新的播放器
+    //完整版引入
+    implementation 'com.shuyu:GSYVideoPlayer:8.1.2'
+
+
     //标签流式布局
     implementation 'com.github.1002326270xc:LayoutManager-FlowLayout:v1.8'
 
