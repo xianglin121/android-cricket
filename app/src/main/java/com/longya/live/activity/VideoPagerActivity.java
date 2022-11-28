@@ -420,10 +420,14 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
         holder.videoView.setLooping(true);
         holder.videoView.startPlayLogic();
         holder.videoView.setTag(false);
-        GSYVideoOptionBuilder gsyVideoOptionBuilder = new GSYVideoOptionBuilder();
-        gsyVideoOptionBuilder.setGSYVideoProgressListener(new GSYVideoProgressListener() {
+        holder.videoView.setVideoAllCallBack(new VideoAllCallBack() {
             @Override
-            public void onProgress(int progress, int secProgress, int currentPosition, int duration) {
+            public void onStartPrepared(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onPrepared(String url, Object... objects) {
                 handler.sendEmptyMessage(0);//开始显示进度条
                 AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
                 alphaAnimation.setDuration(300);
@@ -445,7 +449,138 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                 });
                 videoPagerHolder.coverImage.startAnimation(alphaAnimation);
             }
+
+            @Override
+            public void onClickStartIcon(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickStartError(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickStop(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickStopFullscreen(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickResume(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickResumeFullscreen(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickSeekbar(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickSeekbarFullscreen(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onAutoComplete(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onComplete(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onEnterFullscreen(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onQuitFullscreen(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onQuitSmallWidget(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onEnterSmallWidget(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onTouchScreenSeekVolume(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onTouchScreenSeekPosition(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onTouchScreenSeekLight(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onPlayError(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickStartThumb(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickBlank(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickBlankFullscreen(String url, Object... objects) {
+
+            }
         });
+//        GSYVideoOptionBuilder gsyVideoOptionBuilder = new GSYVideoOptionBuilder();
+//        gsyVideoOptionBuilder.setGSYVideoProgressListener(new GSYVideoProgressListener() {
+//            @Override
+//            public void onProgress(int progress, int secProgress, int currentPosition, int duration) {
+//                handler.sendEmptyMessage(0);//开始显示进度条
+//                AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
+//                alphaAnimation.setDuration(300);
+//                alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+//                    @Override
+//                    public void onAnimationStart(Animation animation) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animation animation) {
+//                        videoPagerHolder.coverImage.setVisibility(View.GONE);
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animation animation) {
+//
+//                    }
+//                });
+//                videoPagerHolder.coverImage.startAnimation(alphaAnimation);
+//            }
+//        });
 //        holder.videoView.setOnPreparedListener(new PLOnPreparedListener() {
 //            @Override
 //            public void onPrepared(int i) {
