@@ -212,6 +212,7 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name="com.longya.live.activity.VideoPagerActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="portrait"/>
 
         <activity android:name="com.longya.live.activity.SearchMatchActivity"

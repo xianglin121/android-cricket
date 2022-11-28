@@ -8,28 +8,30 @@
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center" />
+        android:layout_gravity="center" >
 
-    <ImageView
-        android:id="@+id/cover_iv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@null"
-        android:scaleType="centerCrop" />
+        <View
+            android:id="@+id/click_view"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="match_parent" />
 
-    <View
-        android:id="@+id/click_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/cover_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop" />
+    </com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer>
 
-    <ImageView
-        android:id="@+id/pause_iv"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
-        android:layout_gravity="center"
-        android:background="@drawable/superplayer_ic_play_two"
-        android:contentDescription="@null"
-        android:visibility="gone" />
+    <!--    <ImageView-->
+<!--        android:id="@+id/pause_iv"-->
+<!--        android:layout_width="46dp"-->
+<!--        android:layout_height="46dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:background="@drawable/superplayer_ic_play_two"-->
+<!--        android:contentDescription="@null"-->
+<!--        android:visibility="gone" />-->
 
     <LinearLayout
         android:layout_width="match_parent"

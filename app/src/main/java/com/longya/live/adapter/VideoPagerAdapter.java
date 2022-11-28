@@ -133,12 +133,12 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
         if (holder.videoView.getGSYVideoManager().isPlaying())
             holder.videoView.getGSYVideoManager().stop();
         holder.videoView.setTag(null);
-        holder.clickView.setOnClickListener(null);
+//        holder.clickView.setOnClickListener(null);
         holder.iv_follow.setOnClickListener(null);
         holder.iv_like.setOnClickListener(null);
         holder.iv_comment.setOnClickListener(null);
         holder.iv_more.setOnClickListener(null);
-        holder.mPauseIv.setVisibility(View.GONE);
+//        holder.mPauseIv.setVisibility(View.GONE);
         holder.coverImage.setVisibility(View.VISIBLE);
     }
 
@@ -162,8 +162,8 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
 
         public StandardGSYVideoPlayer videoView;
         public ImageView coverImage;
-        public View clickView;
-        public ImageView mPauseIv;
+//        public View clickView;
+//        public ImageView mPauseIv;
         public ImageView iv_avatar;
         public TextView tv_name;
         public ButtonFollowView2 iv_follow;
@@ -180,10 +180,10 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
 
             super(itemView);
 
-            clickView = itemView.findViewById(R.id.click_view);
+//            clickView = itemView.findViewById(R.id.click_view);
             videoView = itemView.findViewById(R.id.video_view);
             coverImage = itemView.findViewById(R.id.cover_iv);
-            mPauseIv = itemView.findViewById(R.id.pause_iv);
+//            mPauseIv = itemView.findViewById(R.id.pause_iv);
             iv_avatar = itemView.findViewById(R.id.iv_avatar);
             tv_name = itemView.findViewById(R.id.tv_name);
             iv_follow = itemView.findViewById(R.id.iv_follow);

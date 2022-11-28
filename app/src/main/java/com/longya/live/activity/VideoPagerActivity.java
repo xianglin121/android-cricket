@@ -70,6 +70,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.GSYVideoProgressListener;
 import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack;
+import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -232,7 +233,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
         if (videoPagerHolder != null && !isFinishing()) {
             videoPagerHolder.videoView.onVideoPause();
             videoPagerHolder.videoView.setTag(true);
-            videoPagerHolder.mPauseIv.setVisibility(View.VISIBLE);
+//            videoPagerHolder.mPauseIv.setVisibility(View.VISIBLE);
         }
     }
 
@@ -394,7 +395,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
         seekBar.setProgress(0);
 
         if (videoPagerHolder != null) {
-            videoPagerHolder.clickView.setOnClickListener(null);
+//            videoPagerHolder.clickView.setOnClickListener(null);
             videoPagerHolder.videoView.release();
         }
 
@@ -416,10 +417,40 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
 
         holder.videoView.setUp(url, true, "");
-//        holder.videoView.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_FIT_PARENT);
-        holder.videoView.setLooping(true);
+
+        //设置返回键
+        holder.videoView.getBackButton().setVisibility(View.VISIBLE);
+        //设置旋转
+//        orientationUtils = new OrientationUtils(this, videoPlayer);
+        //是否可以滑动调整
+        holder.videoView.setIsTouchWiget(true);
+        VideoPagerAdapter.VideoPagerHolder finalHolder = holder;
+        holder.videoView.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finalHolder.videoView.startWindowFullscreen(VideoPagerActivity.this, true, true);
+            }
+        });
+        //设置返回按键功能
+        holder.videoView.getBackButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
+//        ///不需要屏幕旋转
+//        holder.videoView.setNeedOrientationUtils(false);
+
         holder.videoView.startPlayLogic();
-        holder.videoView.setTag(false);
+
+//
+//        holder.videoView.setUp(url, true, "");
+////        holder.videoView.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_FIT_PARENT);
+//        holder.videoView.setLooping(true);
+//        holder.videoView.startPlayLogic();
+//        holder.videoView.setTag(false);
         holder.videoView.setVideoAllCallBack(new VideoAllCallBack() {
             @Override
             public void onStartPrepared(String url, Object... objects) {
@@ -502,7 +533,6 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
             @Override
             public void onEnterFullscreen(String url, Object... objects) {
-
             }
 
             @Override
@@ -553,75 +583,6 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             @Override
             public void onClickBlankFullscreen(String url, Object... objects) {
 
-            }
-        });
-//        GSYVideoOptionBuilder gsyVideoOptionBuilder = new GSYVideoOptionBuilder();
-//        gsyVideoOptionBuilder.setGSYVideoProgressListener(new GSYVideoProgressListener() {
-//            @Override
-//            public void onProgress(int progress, int secProgress, int currentPosition, int duration) {
-//                handler.sendEmptyMessage(0);//开始显示进度条
-//                AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
-//                alphaAnimation.setDuration(300);
-//                alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-//                    @Override
-//                    public void onAnimationStart(Animation animation) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onAnimationEnd(Animation animation) {
-//                        videoPagerHolder.coverImage.setVisibility(View.GONE);
-//                    }
-//
-//                    @Override
-//                    public void onAnimationRepeat(Animation animation) {
-//
-//                    }
-//                });
-//                videoPagerHolder.coverImage.startAnimation(alphaAnimation);
-//            }
-//        });
-//        holder.videoView.setOnPreparedListener(new PLOnPreparedListener() {
-//            @Override
-//            public void onPrepared(int i) {
-//                handler.sendEmptyMessage(0);//开始显示进度条
-//                AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
-//                alphaAnimation.setDuration(300);
-//                alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-//                    @Override
-//                    public void onAnimationStart(Animation animation) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onAnimationEnd(Animation animation) {
-//                        videoPagerHolder.coverImage.setVisibility(View.GONE);
-//                    }
-//
-//                    @Override
-//                    public void onAnimationRepeat(Animation animation) {
-//
-//                    }
-//                });
-//                videoPagerHolder.coverImage.startAnimation(alphaAnimation);
-//            }
-//        });
-        holder.clickView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (videoPagerHolder.videoView.getTag() == null) {
-                    playVideo(bean);
-                    return;
-                }
-                if (videoPagerHolder.videoView.isInPlayingState() && !isPause()) {
-                    videoPagerHolder.videoView.onVideoPause();
-                    videoPagerHolder.mPauseIv.setVisibility(View.VISIBLE);
-                    videoPagerHolder.videoView.setTag(true);
-                } else {
-                    videoPagerHolder.videoView.getGSYVideoManager().start();
-                    videoPagerHolder.mPauseIv.setVisibility(View.GONE);
-                    videoPagerHolder.videoView.setTag(false);
-                }
             }
         });
         holder.iv_follow.setOnClickListener(new View.OnClickListener() {
@@ -747,5 +708,17 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+///       不需要回归竖屏
+//        if (orientationUtils.getScreenType() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+//            videoPlayer.getFullscreenButton().performClick();
+//            return;
+//        }
+        //释放所有
+        videoPagerHolder.videoView.setVideoAllCallBack(null);
+        super.onBackPressed();
     }
 }
