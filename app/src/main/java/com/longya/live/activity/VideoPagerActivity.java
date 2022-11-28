@@ -418,7 +418,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
         holder.videoView.setUp(url, true, "");
 //        holder.videoView.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_FIT_PARENT);
         holder.videoView.setLooping(true);
-        holder.videoView.getGSYVideoManager().start();
+        holder.videoView.startPlayLogic();
         holder.videoView.setTag(false);
         GSYVideoOptionBuilder gsyVideoOptionBuilder = new GSYVideoOptionBuilder();
         gsyVideoOptionBuilder.setGSYVideoProgressListener(new GSYVideoProgressListener() {
