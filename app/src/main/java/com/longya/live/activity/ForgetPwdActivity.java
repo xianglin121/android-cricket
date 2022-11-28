@@ -1,5 +1,6 @@
 package com.longya.live.activity;
 
+import static com.longya.live.util.DialogUtil.loadingDialog;
 import static com.longya.live.util.UiUtils.getJsonData;
 import static com.longya.live.util.UiUtils.hideKeyboard;
 
@@ -91,6 +92,7 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
 
     private WebView webview;
     private WebSettings webSettings;
+    private Dialog dialog;
 
     @Override
     protected ForgetPwdPresenter createPresenter() {
@@ -105,7 +107,7 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
     @Override
     protected void initView() {
         getCodeString = WordUtil.getString(this, R.string.get_verify_code);
-
+        dialog = loadingDialog(ForgetPwdActivity.this);
         tvAgreement = findViewById(R.id.tv_agreement);
         tvAuthCode = findViewById(R.id.tv_auth_code);
         btnConfirm = findViewById(R.id.btn_confirm);
@@ -199,11 +201,13 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
 
     @Override
     public void getDataSuccess(JsonBean model) {
+        if (dialog != null) {dialog.dismiss();}
         handler.sendEmptyMessage(0);
     }
 
     @Override
     public void getDataFail(String msg) {
+        if (dialog != null) {dialog.dismiss();}
         tvAuthCode.setEnabled(true);
         ToastUtil.show(msg);
     }
@@ -253,51 +257,52 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
                 break;
             case R.id.tv_auth_code:
                 if (TextUtils.isEmpty(prefix)) {
-                    Toast.makeText(this,getString(R.string.country),Toast.LENGTH_SHORT).show();
+                    ToastUtil.show(getString(R.string.country));
                     return;
                 }
                 if (TextUtils.isEmpty(phone)) {
-                    Toast.makeText(this,getString(R.string.phone),Toast.LENGTH_SHORT).show();
+                    ToastUtil.show(getString(R.string.phone));
                     return;
                 }
                 if (!isFastDoubleClick()) {
                     tvAuthCode.setEnabled(false);
+                    dialog.show();
                     mvpPresenter.getCode(prefix + "-" + phone);
                 }
                 break;
             case R.id.btn_confirm:
                 if(!cbAgreement.isChecked()){
-                    Toast.makeText(this,WordUtil.getString(this, R.string.login_agree_protocol_tip),Toast.LENGTH_SHORT).show();
+                    ToastUtil.show(getString(R.string.login_agree_protocol_tip));
                     return;
                 }
 
                 if(TextUtils.isEmpty(etArea.getText().toString().trim())){
-                    Toast.makeText(this,getString(R.string.country),Toast.LENGTH_SHORT).show();
+                    ToastUtil.show(getString(R.string.country));
                     return;
                 }
 
                 if(TextUtils.isEmpty(etPhone.getText().toString().trim())){
-                    Toast.makeText(this,getString(R.string.phone),Toast.LENGTH_SHORT).show();
+                    ToastUtil.show(getString(R.string.phone));
                     return;
                 }
 
                 if(TextUtils.isEmpty(etVerification.getText().toString().trim())){
-                    Toast.makeText(this,getString(R.string.verification_code),Toast.LENGTH_SHORT).show();
+                    ToastUtil.show(getString(R.string.verification_code));
                     return;
                 }
 
                 if(TextUtils.isEmpty(etPassword.getText().toString().trim())){
-                    Toast.makeText(this,getString(R.string.login_password),Toast.LENGTH_SHORT).show();
+                    ToastUtil.show(getString(R.string.login_password));
                     return;
                 }
 
                 if(TextUtils.isEmpty(etConfirmPassword.getText().toString().trim())){
-                    Toast.makeText(this,getString(R.string.confirm_password),Toast.LENGTH_SHORT).show();
+                    ToastUtil.show(getString(R.string.confirm_password));
                     return;
                 }
 
                 if(!etPassword.getText().toString().trim().equals(etConfirmPassword.getText().toString().trim())){
-                    Toast.makeText(this,WordUtil.getString(this, R.string.register_pwd_error),Toast.LENGTH_SHORT).show();
+                    ToastUtil.show(WordUtil.getString(this, R.string.register_pwd_error));
                 }
 
                 webview.setVisibility(View.VISIBLE);

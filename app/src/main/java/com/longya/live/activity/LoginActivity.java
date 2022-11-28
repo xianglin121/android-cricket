@@ -1,5 +1,6 @@
 package com.longya.live.activity;
 
+import static com.longya.live.util.DialogUtil.loadingDialog;
 import static com.longya.live.util.UiUtils.getJsonData;
 import static com.longya.live.util.UiUtils.hideKeyboard;
 
@@ -106,6 +107,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
 
     private WebView webview;
     private WebSettings webSettings;
+    private Dialog dialog;
 
     @Override
     protected LoginPresenter createPresenter() {
@@ -120,7 +122,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
     @Override
     protected void initView() {
         getCodeString = WordUtil.getString(this, R.string.get_verify_code);
-
+        dialog = loadingDialog(LoginActivity.this);
         tvAgreement = findViewById(R.id.tv_agreement);
         tabLayout = findViewById(R.id.tab_layout);
         tvAuthCode = findViewById(R.id.tv_auth_code);
@@ -231,11 +233,13 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
 
     @Override
     public void getDataSuccess(JsonBean model) {
+        if (dialog != null) {dialog.dismiss();}
         handler.sendEmptyMessage(0);
     }
 
     @Override
     public void getDataFail(String msg) {
+        if (dialog != null) {dialog.dismiss();}
         tvAuthCode.setEnabled(true);
         ToastUtil.show(msg);
     }
@@ -275,8 +279,11 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
                     ToastUtil.show(getString(R.string.phone));
                     return;
                 }
-                tvAuthCode.setEnabled(false);
-                mvpPresenter.getCode(area + "-" + phone);
+                if (!isFastDoubleClick()) {
+                    tvAuthCode.setEnabled(false);
+                    dialog.show();
+                    mvpPresenter.getCode(area + "-" + phone);
+                }
                 break;
             case R.id.btn_log_in:
                 if (!cbAgreement.isChecked()) {
