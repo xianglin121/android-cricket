@@ -149,7 +149,7 @@ public class MySpaceActivity extends MvpActivity<MySpacePresenter> implements My
             if (!TextUtils.isEmpty(model.getUser_nickname())) {
                 tv_name.setText(model.getUser_nickname());
             }
-            tv_count.setText("关注" + model.getAttention_num() + " | 粉丝" + model.getAttention());
+            tv_count.setText(getString(R.string.follows) + model.getAttention_num() + " | " +getString(R.string.fans)+ model.getAttention());
             if (!TextUtils.isEmpty(model.getSignature())) {
                 tv_content.setText(model.getSignature());
             }

@@ -107,7 +107,6 @@ public class RegisterActivity extends MvpActivity<RegisterPresenter> implements 
         ivEyePassword.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         setAgreementSpannable();
-
         initWebView();
     }
 

@@ -740,5 +740,6 @@
     <string name="confirm_password">Confirm password</string>
     <string name="login_agreement_info">I read and agree User Service Agreement and Privacy Policy</string>
     <string name="log_in">Log In</string>
+    <string name="follows">Follow:</string>
 
 </resources>

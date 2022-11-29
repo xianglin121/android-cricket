@@ -177,6 +177,7 @@
                         android:layout_marginLeft="12dp"
                         android:text="@string/related_articles"
                         android:textSize="16dp"
+                        android:textStyle="bold"
                         android:textColor="@color/c_333333"/>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -202,6 +203,7 @@
                         android:layout_marginLeft="12dp"
                         android:text="@string/all_comment"
                         android:textSize="16dp"
+                        android:textStyle="bold"
                         android:textColor="@color/c_333333"/>
 
                     <LinearLayout

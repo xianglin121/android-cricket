@@ -338,7 +338,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         "<body>\n" +
                         "<style> \n" +
                         "img{width:100%!important;height:auto!important}\n" +
-                        "section{line-height:150%;font-size:95%;}\n"+
+                        "section{line-height:150%;font-size:95%;text-color:#333333;}\n"+
                         "a:link{color:#1866DB;text-decoration:none;}\n" +
                         " </style>";
                 String htmlPart2 = "</body></html>";

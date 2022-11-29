@@ -3,6 +3,7 @@ package com.longya.live.activity;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.longya.live.CommonAppConfig;
@@ -76,17 +77,16 @@ public class SplashActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(String msg) {
-
+                        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(String msg) {
-
+                        Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFinish() {
-
                     }
                 });
     }
