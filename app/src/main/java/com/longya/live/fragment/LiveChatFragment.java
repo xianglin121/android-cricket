@@ -651,9 +651,9 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
 
     @Override
     public void sendGiftSuccess(GiftBean giftBean, String msg) {
-        if (giftBean != null) {
-            ((LiveDetailActivity) getActivity()).startGif(giftBean, CommonAppConfig.getInstance().getUserBean().getUser_nickname(), CommonAppConfig.getInstance().getUserBean().getAvatar());
-        }
+//        if (giftBean != null) {
+//            ((LiveDetailActivity) getActivity()).startGif(giftBean, CommonAppConfig.getInstance().getUserBean().getUser_nickname(), CommonAppConfig.getInstance().getUserBean().getAvatar());
+//        }
         ((LiveDetailActivity) getActivity()).sendGiftMessage(giftBean);
     }
 
@@ -1221,9 +1221,9 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
             if (messageInfo.getGroupId().equals(mGroupId)) {
                 CustomMsgBean customMsgBean = JSONObject.parseObject(messageInfo.getExtra().toString(), CustomMsgBean.class);
                 if (messageInfo.getMsgType() == MessageInfo.MSG_TYPE_GIFT) {
-                    if (customMsgBean.getGift() != null) {
-                        ((LiveDetailActivity) getActivity()).startGif(customMsgBean.getGift(), messageInfo.getNickName(), messageInfo.getFaceUrl());
-                    }
+//                    if (customMsgBean.getGift() != null) {
+//                        ((LiveDetailActivity) getActivity()).startGif(customMsgBean.getGift(), messageInfo.getNickName(), messageInfo.getFaceUrl());
+//                    }
 //                    updateAdapter(customMsgBean.getGift().getGuard_icon(), customMsgBean.getGift().getExp_icon(), messageInfo);
                     updateAdapter(messageInfo);
                 } else if (messageInfo.getMsgType() == MessageInfo.MSG_TYPE_COLOR_DANMU) {

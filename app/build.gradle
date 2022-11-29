@@ -24,8 +24,8 @@ android {
         applicationId "com.onecric.live"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 20
-        versionName "1.1.0"
+        versionCode 22
+        versionName "1.1.2"
         multiDexEnabled true// dex突破65535的限制
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
@@ -113,7 +113,7 @@ dependencies {
     implementation("com.qiniu:qplayer2-core:1.1.2")
 
     //svga动画
-    implementation 'com.github.yyued:SVGAPlayer-Android:2.6.1'
+//    implementation 'com.github.yyued:SVGAPlayer-Android:2.6.1'
 //    implementation 'com.github.yyued:SVGAPlayer-Android:latest'
     //七牛云
     implementation 'com.qiniu:qiniu-android-sdk:8.3.+'

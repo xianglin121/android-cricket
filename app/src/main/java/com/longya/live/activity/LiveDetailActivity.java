@@ -46,10 +46,10 @@ import com.longya.live.util.SpUtil;
 import com.longya.live.util.ToastUtil;
 import com.longya.live.view.MvpActivity;
 import com.longya.live.view.live.LiveDetailView;
-import com.opensource.svgaplayer.SVGADrawable;
-import com.opensource.svgaplayer.SVGAImageView;
-import com.opensource.svgaplayer.SVGAParser;
-import com.opensource.svgaplayer.SVGAVideoEntity;
+//import com.opensource.svgaplayer.SVGADrawable;
+//import com.opensource.svgaplayer.SVGAImageView;
+//import com.opensource.svgaplayer.SVGAParser;
+//import com.opensource.svgaplayer.SVGAVideoEntity;
 import com.tencent.imsdk.common.IMCallback;
 import com.tencent.imsdk.group.GroupManager;
 import com.tencent.imsdk.v2.V2TIMGroupManager;
@@ -98,7 +98,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 //    private LiveDetailFootballFragment liveDetailFootballFragment;
 //    private LiveDetailBasketballFragment liveDetailBasketballFragment;
     private ImageView iv_data;
-    private SVGAImageView svga_gift;
+//    private SVGAImageView svga_gift;
     private LinearLayout ll_gift_container;
     private LinearLayout ll_noble_container;
 
@@ -152,7 +152,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         fl_main = findViewById(R.id.fl_main);
         fl_menu = findViewById(R.id.fl_menu);
         iv_data = findViewById(R.id.iv_data);
-        svga_gift = findViewById(R.id.svga_gift);
+//        svga_gift = findViewById(R.id.svga_gift);
         ll_gift_container = findViewById(R.id.ll_gift_container);
         ll_noble_container = findViewById(R.id.ll_noble_container);
         view_broadcast = findViewById(R.id.view_broadcast);
@@ -515,10 +515,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         if (playerView.getPlayerMode() != SuperPlayerDef.PlayerMode.FLOAT) {
             playerView.resetPlayer();
         }
-        if (svga_gift != null) {
-            svga_gift.pauseAnimation();
-            svga_gift = null;
-        }
+//        if (svga_gift != null) {
+//            svga_gift.pauseAnimation();
+//            svga_gift = null;
+//        }
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
@@ -842,35 +842,35 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     /**
      * 开始GIF动画
      */
-    public void startGif(GiftBean giftBean, String nickname, String avatar) {
-        //展示全屏类型的礼物动画
-        if (giftBean.getType() == 1 && !TextUtils.isEmpty(giftBean.getSwf())) {
-            if (CommonAppConfig.getInstance().getBlockFunctionInfo() != null) {
-                if (!CommonAppConfig.getInstance().getBlockFunctionInfo().isBlockGift()) {
-                    SVGAParser parser = new SVGAParser(this);
-                    try {
-                        URL url = new URL(giftBean.getSwf());
-                        parser.parse(url, new SVGAParser.ParseCompletion() {
-                            @Override
-                            public void onComplete(@NotNull SVGAVideoEntity svgaVideoEntity) {
-                                SVGADrawable drawable = new SVGADrawable(svgaVideoEntity);
-                                svga_gift.setImageDrawable(drawable);
-                                svga_gift.startAnimation();
-                            }
-
-                            @Override
-                            public void onError() {
-                            }
-                        });
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-        //展示礼物进场动画
-        showGiftAnim(giftBean, nickname, avatar);
-    }
+//    public void startGif(GiftBean giftBean, String nickname, String avatar) {
+//        //展示全屏类型的礼物动画
+//        if (giftBean.getType() == 1 && !TextUtils.isEmpty(giftBean.getSwf())) {
+//            if (CommonAppConfig.getInstance().getBlockFunctionInfo() != null) {
+//                if (!CommonAppConfig.getInstance().getBlockFunctionInfo().isBlockGift()) {
+//                    SVGAParser parser = new SVGAParser(this);
+//                    try {
+//                        URL url = new URL(giftBean.getSwf());
+//                        parser.parse(url, new SVGAParser.ParseCompletion() {
+//                            @Override
+//                            public void onComplete(@NotNull SVGAVideoEntity svgaVideoEntity) {
+//                                SVGADrawable drawable = new SVGADrawable(svgaVideoEntity);
+//                                svga_gift.setImageDrawable(drawable);
+//                                svga_gift.startAnimation();
+//                            }
+//
+//                            @Override
+//                            public void onError() {
+//                            }
+//                        });
+//                    } catch (MalformedURLException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }
+//        //展示礼物进场动画
+//        showGiftAnim(giftBean, nickname, avatar);
+//    }
 
     /**
      * 显示礼物进场动画
