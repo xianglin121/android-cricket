@@ -59,12 +59,12 @@
         android:layout_centerInParent="true"
         android:orientation="vertical" />
 
-    <com.opensource.svgaplayer.SVGAImageView
-        android:id="@+id/svga_gift"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:autoPlay="true"
-        app:loopCount="1"/>
+<!--    <com.opensource.svgaplayer.SVGAImageView-->
+<!--        android:id="@+id/svga_gift"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:autoPlay="true"-->
+<!--        app:loopCount="1"/>-->
 
     <FrameLayout
         android:id="@+id/fl_float_view"

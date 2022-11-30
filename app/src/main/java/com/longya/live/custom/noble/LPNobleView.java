@@ -25,11 +25,11 @@ import com.longya.live.custom.gift.AnimMessage;
 import com.longya.live.custom.gift.GlideCircleTransform;
 import com.longya.live.custom.gift.MagicTextView;
 import com.longya.live.util.DpUtil;
-import com.opensource.svgaplayer.SVGACallback;
-import com.opensource.svgaplayer.SVGADrawable;
-import com.opensource.svgaplayer.SVGAImageView;
-import com.opensource.svgaplayer.SVGAParser;
-import com.opensource.svgaplayer.SVGAVideoEntity;
+//import com.opensource.svgaplayer.SVGACallback;
+//import com.opensource.svgaplayer.SVGADrawable;
+//import com.opensource.svgaplayer.SVGAImageView;
+//import com.opensource.svgaplayer.SVGAParser;
+//import com.opensource.svgaplayer.SVGAVideoEntity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -82,7 +82,7 @@ public class LPNobleView extends RelativeLayout {
         //获取view
         TextView nick_tv = findViewById(R.id.nick_tv);
         TextView noble_tv = findViewById(R.id.noble_tv);
-        SVGAImageView svga_noble = findViewById(R.id.svga_noble);
+//        SVGAImageView svga_noble = findViewById(R.id.svga_noble);
         final RelativeLayout giftTextContainerLayout = findViewById(R.id.parent_rl);
 
         if ("雄狮".equals(mAnimMessage.giftName)) {
@@ -104,69 +104,69 @@ public class LPNobleView extends RelativeLayout {
         //用户昵称
         nick_tv.setText(mAnimMessage.userName);
         //礼物图片`
-        SVGAParser parser = new SVGAParser(getContext());
-        svga_noble.setCallback(new SVGACallback() {
-            @Override
-            public void onPause() {
-
-            }
-
-            @Override
-            public void onFinished() {
-                if (getContext() instanceof LiveDetailActivity) {
-                    ((LiveDetailActivity)getContext()).removeNobleAnim(LPNobleView.this);
-                }
-            }
-
-            @Override
-            public void onRepeat() {
-
-            }
-
-            @Override
-            public void onStep(int i, double v) {
-
-            }
-        });
-        try {
-            URL url = new URL(mAnimMessage.giftSvgaUrl);
-            parser.parse(url, new SVGAParser.ParseCompletion() {
-                @Override
-                public void onComplete(@NotNull SVGAVideoEntity svgaVideoEntity) {
-                    SVGADrawable drawable = new SVGADrawable(svgaVideoEntity);
-                    svga_noble.setImageDrawable(drawable);
-                    svga_noble.startAnimation();
-                    giftTextContainerLayout.setVisibility(View.VISIBLE);
-                    giftTextContainerLayout.startAnimation(mGiftLayoutInAnim);//开始执行显示礼物的动画
-                    mGiftLayoutInAnim.setAnimationListener(new Animation.AnimationListener() {/*显示动画的监听*/
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-                        }
-                    });
-                }
-
-                @Override
-                public void onError() {
-
-                }
-            });
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        if (!TextUtils.isEmpty(mAnimMessage.giftName)) {
-            noble_tv.setText("骑着 " + mAnimMessage.giftName + " 驾临");
-        }
-
-        //giftNumView.setTag(1);/*给数量控件设置标记*/
-        mAnimMessage.updateTime = System.currentTimeMillis();/*设置时间标记*/
-        setTag(mAnimMessage);/*设置view标识*/
+//        SVGAParser parser = new SVGAParser(getContext());
+//        svga_noble.setCallback(new SVGACallback() {
+//            @Override
+//            public void onPause() {
+//
+//            }
+//
+//            @Override
+//            public void onFinished() {
+//                if (getContext() instanceof LiveDetailActivity) {
+//                    ((LiveDetailActivity)getContext()).removeNobleAnim(LPNobleView.this);
+//                }
+//            }
+//
+//            @Override
+//            public void onRepeat() {
+//
+//            }
+//
+//            @Override
+//            public void onStep(int i, double v) {
+//
+//            }
+//        });
+//        try {
+//            URL url = new URL(mAnimMessage.giftSvgaUrl);
+//            parser.parse(url, new SVGAParser.ParseCompletion() {
+//                @Override
+//                public void onComplete(@NotNull SVGAVideoEntity svgaVideoEntity) {
+//                    SVGADrawable drawable = new SVGADrawable(svgaVideoEntity);
+//                    svga_noble.setImageDrawable(drawable);
+//                    svga_noble.startAnimation();
+//                    giftTextContainerLayout.setVisibility(View.VISIBLE);
+//                    giftTextContainerLayout.startAnimation(mGiftLayoutInAnim);//开始执行显示礼物的动画
+//                    mGiftLayoutInAnim.setAnimationListener(new Animation.AnimationListener() {/*显示动画的监听*/
+//                        @Override
+//                        public void onAnimationStart(Animation animation) {
+//                        }
+//
+//                        @Override
+//                        public void onAnimationEnd(Animation animation) {
+//                        }
+//
+//                        @Override
+//                        public void onAnimationRepeat(Animation animation) {
+//                        }
+//                    });
+//                }
+//
+//                @Override
+//                public void onError() {
+//
+//                }
+//            });
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//        if (!TextUtils.isEmpty(mAnimMessage.giftName)) {
+//            noble_tv.setText("骑着 " + mAnimMessage.giftName + " 驾临");
+//        }
+//
+//        //giftNumView.setTag(1);/*给数量控件设置标记*/
+//        mAnimMessage.updateTime = System.currentTimeMillis();/*设置时间标记*/
+//        setTag(mAnimMessage);/*设置view标识*/
     }
 }

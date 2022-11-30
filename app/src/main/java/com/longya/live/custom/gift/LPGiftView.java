@@ -20,10 +20,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.longya.live.R;
-import com.opensource.svgaplayer.SVGADrawable;
-import com.opensource.svgaplayer.SVGAImageView;
-import com.opensource.svgaplayer.SVGAParser;
-import com.opensource.svgaplayer.SVGAVideoEntity;
+//import com.opensource.svgaplayer.SVGADrawable;
+//import com.opensource.svgaplayer.SVGAImageView;
+//import com.opensource.svgaplayer.SVGAParser;
+//import com.opensource.svgaplayer.SVGAVideoEntity;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -133,13 +133,13 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     ToastUtil.show(getString(R.string.please_login));
                     LoginActivity.forward(mActivity);
-                }else {
+                } else {
                     int id = item.getItemId();
                     if (id == R.id.menu_my_concerns) {
                         MyFollowActivity.forward(mActivity);
-                    }else if (id == R.id.menu_my_message) {
+                    } else if (id == R.id.menu_my_message) {
                         MyMessageActivity.forward(mActivity);
-                    }else if (id == R.id.menu_system_settings) {
+                    } else if (id == R.id.menu_system_settings) {
                         SettingActivity.forward(mActivity);
                     }
                 }
@@ -174,7 +174,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getUser_nickname())) {
                 tv_name_nav.setText(CommonAppConfig.getInstance().getUserBean().getUser_nickname());
             }
-        }else {
+        } else {
             iv_avatar_nav.setImageResource(R.mipmap.bg_avatar_default);
             tv_name_nav.setText("");
         }
@@ -212,12 +212,12 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         //获取默认配置
         mvpPresenter.getConfiguration();
         //检查是否有版本更新
-//        if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
-//            DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox()==1?true:false,
-//                    CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber(),
-//                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),
-//                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadUrl());
-//        }
+        if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
+            DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox()==1?true:false,
+                    CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber(),
+                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),
+                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadUrl());
+        }
     }
 
     private void loginIM() {
@@ -246,7 +246,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 public void onError(int code, String error) {
                 }
             });
-        }else {
+        } else {
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getVisitorUserId()) && !TextUtils.isEmpty(CommonAppConfig.getInstance().getVisitorUserSign())) {
                 TUIKit.login(CommonAppConfig.getInstance().getVisitorUserId(), CommonAppConfig.getInstance().getVisitorUserSign(), new V2TIMCallback() {
                     @Override
@@ -257,7 +257,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                     public void onError(int code, String error) {
                     }
                 });
-            }else {
+            } else {
                 mvpPresenter.getVisitorUserSig();
             }
         }
@@ -297,10 +297,10 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             GlideUtil.loadUserImageDefault(this, userBean.getAvatar(), iv_avatar_nav);
             if (!TextUtils.isEmpty(userBean.getUser_nickname())) {
                 tv_name_nav.setText(userBean.getUser_nickname());
-            }else {
+            } else {
                 tv_name_nav.setText("");
             }
-            ((ThemeFragment)mViewList.get(0)).updateUserInfo();
+            ((ThemeFragment) mViewList.get(0)).updateUserInfo();
         }
     }
 
@@ -389,7 +389,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
             updateNavigationInfo();
-            ((ThemeFragment)mViewList.get(0)).updateUserInfo();
+            ((ThemeFragment) mViewList.get(0)).updateUserInfo();
         }
     }
 
@@ -417,10 +417,10 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         long l = System.currentTimeMillis();
-        if (exit_time == 0 || l  - exit_time > 3000){
+        if (exit_time == 0 || l - exit_time > 3000) {
             ToastUtil.show(getString(R.string.tip_exit_app));
             exit_time = l;
-        }else {
+        } else {
             System.exit(0);
         }
     }
