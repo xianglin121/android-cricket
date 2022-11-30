@@ -64,6 +64,7 @@ import top.zibin.luban.OnCompressListener;
 /**
  * 开发公司：东莞市梦幻科技有限公司
  * 时间：2021/12/23
+ * 新闻详情
  */
 public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter> implements HeadlineDetailView, View.OnClickListener {
     public static void forward(Context context, int id) {
@@ -337,12 +338,61 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         "<body>\n" +
                         "<style> \n" +
                         "img{width:100%!important;height:auto!important}\n" +
+                        "section{line-height:150%;font-size:95%;text-color:#333333;}\n"+
+                        "a:link{color:#1866DB;text-decoration:none;}\n" +
                         " </style>";
                 String htmlPart2 = "</body></html>";
 
-                String html = htmlPart1 + model.getContent() + htmlPart2;
+/*                //fixme 1 等后端拿到真实数据
+                String replaceStr = model.getContent() ;
+                //替换一下加粗标签
+                if(replaceStr.indexOf("@B0$")!=-1){
+                    replaceStr = replaceStr.replace("@B0$","<b>In a Nutshell</b>");
+                }
 
+                if(replaceStr.indexOf("@B1$")!=-1){
+                    replaceStr = replaceStr.replace("@B1$","<b>Brief Scores</b>");
+                }
 
+                //替换一下超链接
+                if(replaceStr.indexOf("@L0$")!=-1){
+                    replaceStr = replaceStr.replace("@L0$","<a href=\"app://player_profile\">greatest highs</a>");
+                }
+
+                if(replaceStr.indexOf("@L1$")!=-1){
+                    replaceStr = replaceStr.replace("@L1$","<a href=\"app://cricket_detail\">thumping 221-run victory</a>");
+                }
+
+                if(replaceStr.indexOf("@L2$")!=-1){
+                    replaceStr = replaceStr.replace("@L2$","<a href=\"app://cricket_league\">Abu Dhabi T10 League</a>");
+                }
+
+                if(replaceStr.indexOf("@L3$")!=-1){
+                    replaceStr = replaceStr.replace("@L3$","<a href=\"app://cricket_team\">hard-fought</a>");
+                }
+
+                String html = htmlPart1 + replaceStr + htmlPart2;
+                wv_content.setWebViewClient (new WebViewClient() {
+                    *//* 这个事件，将在用户点击链接时触发。
+                     * 通过判断url，可确定如何操作，
+                     * 如果返回true，表示我们已经处理了这个request，
+                     * 如果返回false，表 示没有处理，
+                     * 那么浏览器将会根据url获取网页*//*
+                    public boolean shouldOverrideUrlLoading (WebView view, String url) {
+                        if(url.indexOf("app://player_profile")!=-1){
+                            PlayerProfileActivity.forward(mActivity, 686858);//球员 getPlayer_id() 686858  有没有根据名得到id的接口？
+                        }else if(url.indexOf("app://cricket_detail")!=-1){
+                            CricketDetailActivity.forward(mActivity, 37493661);//比赛 getMatch_id() 37493661
+                        }else if(url.indexOf("app://cricket_league")!=-1){
+                            CricketInnerActivity.forward(mActivity, "Abu Dhabi T10 League", "t10", 38573);//联赛 getTournament_name() getType() getTournament_id()
+                        }else if(url.indexOf("app://cricket_team")!=-1){
+                            CricketTeamsActivity.forward(mActivity, "", 0);//球队
+                        }
+                        return true;
+                    }
+                });*/
+
+                String html = htmlPart1 + model.getContent()  + htmlPart2;
                 wv_content.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
             }
             if (list != null) {

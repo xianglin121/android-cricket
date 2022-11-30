@@ -332,7 +332,8 @@
                 android:textSize="14sp"
                 android:textColor="@color/c_FF7B7F"
                 app:stv_corner="6dp"
-                app:stv_solid="@color/white"/>
+                app:stv_solid="@color/white"
+                android:visibility="gone"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

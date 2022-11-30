@@ -9,13 +9,17 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.navigation.NavigationView;
@@ -36,8 +40,10 @@ import com.longya.live.model.UserBean;
 import com.longya.live.presenter.login.MainPresenter;
 import com.longya.live.util.DialogUtil;
 import com.longya.live.util.GlideUtil;
+import com.longya.live.util.LogUtil;
 import com.longya.live.util.MPermissionUtils;
 import com.longya.live.util.ToastUtil;
+import com.longya.live.util.WordUtil;
 import com.longya.live.view.MvpActivity;
 import com.longya.live.view.login.MainView;
 import com.tencent.imsdk.v2.V2TIMCallback;
@@ -69,6 +75,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     private NavigationView navigationView;
     private ImageView iv_avatar_nav;
     private TextView tv_name_nav;
+    private TextView tv_sign_out;
+    private LinearLayout llNav;
 
     private NoScrollViewPager mViewPager;
     private List<Fragment> mViewList;
@@ -91,6 +99,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
+        llNav = findViewById(R.id.ll_nav);
         mViewPager = findViewById(R.id.viewpager);
         mTabLayout = findViewById(R.id.tabLayout);
 
@@ -103,6 +112,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         navigationView.setItemIconTintList(null);
         iv_avatar_nav = navigationView.getHeaderView(0).findViewById(R.id.iv_avatar_nav);
         tv_name_nav = navigationView.getHeaderView(0).findViewById(R.id.tv_name_nav);
+
+        tv_sign_out = findViewById(R.id.tv_sign_out);
         iv_avatar_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,6 +147,25 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 return true;
             }
         });
+
+        tv_sign_out.setOnClickListener(v -> {
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                DialogUtil.showSimpleDialog(mActivity, getString(R.string.tips), WordUtil.getString(mActivity, R.string.confirm_sign_out_tip), true, new DialogUtil.SimpleCallback() {
+                    @Override
+                    public void onConfirmClick(Dialog dialog, String content) {
+                        mvpPresenter.signOut(mActivity);
+                    }
+                });
+            }
+            drawerLayout.closeDrawer(GravityCompat.START);
+        });
+
+        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+            tv_sign_out.setVisibility(View.GONE);
+        }else{
+            tv_sign_out.setVisibility(View.VISIBLE);
+        }
+
     }
 
     public void updateNavigationInfo() {
@@ -180,7 +210,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         //登录IM
         loginIM();
         //获取默认配置
-//        mvpPresenter.getConfiguration();
+        mvpPresenter.getConfiguration();
         //检查是否有版本更新
         if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
             DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox()==1?true:false,

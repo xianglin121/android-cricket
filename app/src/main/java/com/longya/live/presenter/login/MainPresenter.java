@@ -1,13 +1,17 @@
 package com.longya.live.presenter.login;
 
+import android.content.Context;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.longya.live.CommonAppConfig;
+import com.longya.live.activity.MainActivity;
 import com.longya.live.model.ConfigurationBean;
 import com.longya.live.model.UserBean;
 import com.longya.live.presenter.BasePresenter;
 import com.longya.live.retrofit.ApiCallback;
+import com.longya.live.util.ToastUtil;
 import com.longya.live.view.login.MainView;
 
 public class MainPresenter extends BasePresenter<MainView> {
@@ -25,12 +29,10 @@ public class MainPresenter extends BasePresenter<MainView> {
 
                     @Override
                     public void onFailure(String msg) {
-
                     }
 
                     @Override
                     public void onError(String msg) {
-
                     }
 
                     @Override
@@ -83,6 +85,32 @@ public class MainPresenter extends BasePresenter<MainView> {
                     @Override
                     public void onError(String msg) {
 
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
+
+    public void signOut(Context context) {
+        addSubscription(apiStores.signOut(CommonAppConfig.getInstance().getToken()),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        CommonAppConfig.getInstance().clearLoginInfo();
+                        MainActivity.loginForward(context);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        ToastUtil.show(msg);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        ToastUtil.show(msg);
                     }
 
                     @Override

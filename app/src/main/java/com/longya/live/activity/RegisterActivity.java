@@ -106,8 +106,8 @@ public class RegisterActivity extends MvpActivity<RegisterPresenter> implements 
         tvAuthCode.setOnClickListener(this);
         ivEyePassword.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
+        etPhone.requestFocus();
         setAgreementSpannable();
-
         initWebView();
     }
 
@@ -338,6 +338,11 @@ public class RegisterActivity extends MvpActivity<RegisterPresenter> implements 
 
             }
         });
+        if (CommonAppConfig.getInstance().getConfig() != null && CommonAppConfig.getInstance().getConfig().getCountryCode() != null) {
+            ccp.setCustomMasterCountries(CommonAppConfig.getInstance().getConfig().getCountryListAbbr());
+        }else{
+            ccp.setCustomMasterCountries("IN");
+        }
 
         String json = getJsonData(this, "area.json");
         AreasModel areasModel = new Gson().fromJson(json, AreasModel.class);

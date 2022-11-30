@@ -147,7 +147,7 @@ public class BasketballMatchDataActivity extends MvpActivity<BasketballMatchData
             List<Channel> channels = JSONObject.parseArray(selectedJson, Channel.class);
             for (int i = 0; i < channels.size(); i++) {
                 if (channels.get(i).sourceid == mId) {
-                    tv_follow.setText("已关注");
+                    tv_follow.setText(getString(R.string.followed));
                     tv_follow.setSelected(true);
                     break;
                 }
@@ -216,9 +216,9 @@ public class BasketballMatchDataActivity extends MvpActivity<BasketballMatchData
             case R.id.tv_follow:
                 tv_follow.setSelected(!tv_follow.isSelected());
                 if (tv_follow.isSelected()) {
-                    tv_follow.setText("已关注");
+                    tv_follow.setText(getString(R.string.followed));
                 }else {
-                    tv_follow.setText("关注");
+                    tv_follow.setText(getString(R.string.follow));
                 }
                 EventBus.getDefault().post(new UpdateMatchDataFollowEvent(mId, 1));
                 break;

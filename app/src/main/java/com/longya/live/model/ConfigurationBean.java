@@ -2,6 +2,8 @@ package com.longya.live.model;
 
 import android.widget.TextView;
 
+import com.longya.live.CommonAppConfig;
+
 import java.util.List;
 
 /**
@@ -116,5 +118,16 @@ public class ConfigurationBean {
 
     public void setLive_notice(String live_notice) {
         this.live_notice = live_notice;
+    }
+
+    public String getCountryListAbbr() {
+        StringBuilder county = new StringBuilder();
+        if(CountryCode == null || CountryCode.size()<=0){
+            return null;
+        }
+        for(CountryCodeBean bean: CountryCode){
+            county.append(bean.getCountry_code()+",");
+        }
+        return county.substring(0,county.length()-1);
     }
 }
