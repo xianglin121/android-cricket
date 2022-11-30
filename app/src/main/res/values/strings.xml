@@ -96,7 +96,7 @@
     <string name="setting_clear_cache_success">cache cleared</string>
     <string name="setting_customer">Customer Service</string>
     <string name="setting_protocol">User Agreement and Policy of Use</string>
-    <string name="setting_sign_out">Sign Out</string>
+    <string name="setting_sign_out">Log Out</string>
     <string name="found_new_version">Found new version</string>
     <string name="update_now">Update Now</string>
 

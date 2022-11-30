@@ -343,7 +343,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         " </style>";
                 String htmlPart2 = "</body></html>";
 
-/*                //fixme 1 假数据
+/*                //fixme 1 等后端拿到真实数据
                 String replaceStr = model.getContent() ;
                 //替换一下加粗标签
                 if(replaceStr.indexOf("@B0$")!=-1){

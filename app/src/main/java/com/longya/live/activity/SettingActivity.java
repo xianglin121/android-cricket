@@ -80,7 +80,7 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
         findViewById(R.id.ll_pay_pwd).setOnClickListener(this);
         findViewById(R.id.cl_change_pwd).setOnClickListener(this);
         findViewById(R.id.cl_logout).setOnClickListener(this);
-        findViewById(R.id.tv_sign_out).setOnClickListener(this);
+//        findViewById(R.id.tv_sign_out).setOnClickListener(this);
         btn_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

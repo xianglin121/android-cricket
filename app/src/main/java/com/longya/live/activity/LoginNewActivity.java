@@ -48,6 +48,11 @@ public class LoginNewActivity extends MvpActivity<LoginPresenter> implements Log
     }
 
     @Override
+    public void showCountryList() {
+
+    }
+
+    @Override
     public void getDataSuccess(JsonBean model) {
 
     }

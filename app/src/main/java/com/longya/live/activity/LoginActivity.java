@@ -55,6 +55,8 @@ import com.longya.live.CommonAppConfig;
 import com.longya.live.R;
 import com.longya.live.adapter.PhonePrefixAdapter;
 import com.longya.live.model.AreasModel;
+import com.longya.live.model.ConfigurationBean;
+import com.longya.live.model.CountryCodeBean;
 import com.longya.live.model.JsonBean;
 import com.longya.live.presenter.login.LoginPresenter;
 import com.longya.live.util.DpUtil;
@@ -148,10 +150,17 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                llVerification.setVisibility(tab.getPosition() == 0 ? View.VISIBLE : View.GONE);
-                llPassword.setVisibility(tab.getPosition() == 0 ? View.GONE : View.VISIBLE);
                 etPassword.setText("");
                 etVerification.setText("");
+                if(tab.getPosition() == 0){
+                    etVerification.requestFocus();
+                    llVerification.setVisibility(View.VISIBLE);
+                    llPassword.setVisibility(View.GONE);
+                }else{
+                    etPassword.requestFocus();
+                    llVerification.setVisibility(View.GONE);
+                    llPassword.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -161,6 +170,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
             public void onTabReselected(TabLayout.Tab tab) {}
         });
         tabLayout.setTabRippleColor(ColorStateList.valueOf(getResources().getColor(R.color.transparent)));
+        etPhone.requestFocus();
         setAgreementSpannable();
         initWebView();
     }
@@ -383,31 +393,6 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
         tvAgreement.setMovementMethod(LinkMovementMethod.getInstance());
         tvAgreement.setHighlightColor(Color.TRANSPARENT);
         tvAgreement.setText(spannableString);
-        //选择国家
-        ccp.setOnCountryChangeListener(() ->{
-            isSame = true;
-            etArea.setText(ccp.getSelectedCountryCode());
-            etArea.setSelection(ccp.getSelectedCountryCode().length());
-            isSame = false;
-        });
-
-        ccp.setDialogEventsListener(new CountryCodePicker.DialogEventsListener() {
-            @Override
-            public void onCcpDialogOpen(Dialog dialog) {
-
-            }
-
-            @Override
-            public void onCcpDialogDismiss(DialogInterface dialogInterface) {
-                hideKeyboard(etArea);
-            }
-
-            @Override
-            public void onCcpDialogCancel(DialogInterface dialogInterface) {
-
-            }
-        });
-
         String json = getJsonData(this, "area.json");
         AreasModel areasModel = new Gson().fromJson(json, AreasModel.class);
         countryList = (ArrayList<AreasModel.CountryModel>) areasModel.getData();
@@ -437,5 +422,42 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
                 }
             }
         });
+        //选择国家
+        ccp.setOnCountryChangeListener(() ->{
+            isSame = true;
+            etArea.setText(ccp.getSelectedCountryCode());
+            etArea.setSelection(ccp.getSelectedCountryCode().length());
+            isSame = false;
+        });
+        ccp.setDialogEventsListener(new CountryCodePicker.DialogEventsListener() {
+            @Override
+            public void onCcpDialogOpen(Dialog dialog) {
+
+            }
+
+            @Override
+            public void onCcpDialogDismiss(DialogInterface dialogInterface) {
+                hideKeyboard(etArea);
+            }
+
+            @Override
+            public void onCcpDialogCancel(DialogInterface dialogInterface) {
+
+            }
+        });
+        ccp.setCustomMasterCountries("IN");
+        if (CommonAppConfig.getInstance().getConfig() != null && CommonAppConfig.getInstance().getConfig().getCountryCode() != null) {
+            showCountryList();
+        }else{
+            mvpPresenter.getConfiguration();
+        }
     }
+
+    @Override
+    public void showCountryList() {
+        if (CommonAppConfig.getInstance().getConfig() != null && CommonAppConfig.getInstance().getConfig().getCountryCode() != null) {
+            ccp.setCustomMasterCountries(CommonAppConfig.getInstance().getConfig().getCountryListAbbr());
+        }
+    }
+
 }

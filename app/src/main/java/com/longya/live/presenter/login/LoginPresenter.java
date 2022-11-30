@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.longya.live.CommonAppConfig;
+import com.longya.live.model.ConfigurationBean;
 import com.longya.live.model.UserBean;
 import com.longya.live.presenter.BasePresenter;
 import com.longya.live.retrofit.ApiCallback;
@@ -120,6 +121,30 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
+
+    public void getConfiguration() {
+        addSubscription(apiStores.getDefaultConfiguration(),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        CommonAppConfig.getInstance().saveConfig(JSONObject.parseObject(data, ConfigurationBean.class));
+                        mvpView.showCountryList();
                     }
 
                     @Override

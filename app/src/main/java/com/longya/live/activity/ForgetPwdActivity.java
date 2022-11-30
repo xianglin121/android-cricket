@@ -126,6 +126,7 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
         ivEyePassword.setOnClickListener(this);
         ivEyeConfirmPassword.setOnClickListener(this);
         btnConfirm.setOnClickListener(this);
+        etPhone.requestFocus();
         setAgreementSpannable();
         initWebView();
     }
@@ -372,6 +373,12 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
 
             }
         });
+
+        if (CommonAppConfig.getInstance().getConfig() != null && CommonAppConfig.getInstance().getConfig().getCountryCode() != null) {
+            ccp.setCustomMasterCountries(CommonAppConfig.getInstance().getConfig().getCountryListAbbr());
+        }else{
+            ccp.setCustomMasterCountries("IN");
+        }
 
         String json = getJsonData(this, "area.json");
         AreasModel areasModel = new Gson().fromJson(json, AreasModel.class);

@@ -44,7 +44,8 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void initData() {
         //获取默认配置
-        getConfiguration();
+//        getConfiguration();
+        mHandler.sendEmptyMessageDelayed(0, 1500);
     }
 
     private void getConfiguration() {

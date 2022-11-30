@@ -11,12 +11,14 @@ public class CountryCodeBean {
      * addtime : 1638584817
      * name : 中国
      * code : 86
+     * country_code : CN
      */
 
     private int id;
     private int addtime;
     private String name;
     private String code;
+    private String country_code;
 
     public int getId() {
         return id;
@@ -48,5 +50,13 @@ public class CountryCodeBean {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getCountry_code() {
+        return country_code;
+    }
+
+    public void setCountry_code(String country_code) {
+        this.country_code = country_code;
     }
 }
