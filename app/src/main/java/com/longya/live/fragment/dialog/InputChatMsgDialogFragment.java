@@ -453,6 +453,7 @@ public class InputChatMsgDialogFragment extends DialogFragment implements View.O
                         }
                     }
                 }
+                hideSoftInput();
                 break;
             case R.id.iv_noble:
                 OpenNobleActivity.forward(getContext(), mLiveUserBean, mNobelBean);

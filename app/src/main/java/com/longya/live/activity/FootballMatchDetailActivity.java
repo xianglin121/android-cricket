@@ -587,6 +587,7 @@ public class FootballMatchDetailActivity extends MvpActivity<FootballMatchDetail
                 }
                 sendMessage(et_input.getText().toString());
                 et_input.setText("");
+                hideSoftInput();
                 break;
         }
     }
