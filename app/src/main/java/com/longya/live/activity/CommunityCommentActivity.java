@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,6 +64,8 @@ import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
 public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresenter> implements CommunityCommentView, View.OnClickListener {
+
+    private NestedScrollView nsv;
 
     public static void forward(Context context, int anchorId, int communityId) {
         Intent intent = new Intent(context, CommunityCommentActivity.class);
@@ -117,7 +120,7 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
     protected void initView() {
         mAnchorId = getIntent().getIntExtra("anchorId", 0);
         mCommunityId = getIntent().getIntExtra("communityId", 0);
-
+        nsv = findViewById(R.id.nsv);
         iv_title_icon = findViewById(R.id.iv_title_icon);
         tv_title_name = findViewById(R.id.tv_title_name);
         iv_avatar = findViewById(R.id.iv_avatar);
@@ -180,13 +183,13 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                         replyDialog.setInfo(mCommentAdapter.getItem(position));
                         replyDialog.show();
                     }
-                }else if (view.getId() == R.id.ll_like) {
+                } else if (view.getId() == R.id.ll_like) {
                     CommunityBean item = mCommentAdapter.getItem(position);
                     int like = item.getLike();
                     if (item.getIs_likes() == 0) {
                         item.setIs_likes(1);
                         like++;
-                    }else {
+                    } else {
                         item.setIs_likes(0);
                         like--;
                     }
@@ -223,6 +226,20 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
 
     }
 
+    private int nestedScrollViewTop;
+
+    public void scrollByDistance(int dy) {
+        if (nestedScrollViewTop == 0) {
+            int[] intArray = new int[2];
+            nsv.getLocationOnScreen(intArray);
+            nestedScrollViewTop = intArray[1];
+        }
+        int distance = dy - nestedScrollViewTop;//必须算上nestedScrollView本身与屏幕的距离
+        nsv.fling(distance);//添加上这句滑动才有效
+        nsv.smoothScrollBy(0, distance);
+    }
+
+
     @Override
     public void doCommentSuccess(Integer cid) {
         mImgList.clear();
@@ -235,10 +252,13 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                     comment++;
                     item.setComment(comment);
                     mCommentAdapter.notifyItemChanged(i);
+                    int[] intArray4 = new int[2];
+                    rv_comment.getLocationOnScreen(intArray4);//测量某View相对于屏幕的距离
+                    scrollByDistance(intArray4[1]);
                     break;
                 }
             }
-        }else {
+        } else {
             mvpPresenter.getCommunityInfo(1, mCommunityId);
         }
     }
@@ -266,17 +286,17 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                 if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
                     if (bean.getUid() == Integer.valueOf(CommonAppConfig.getInstance().getUid())) {
                         ll_follow.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         ll_follow.setVisibility(View.VISIBLE);
                     }
-                }else {
+                } else {
                     ll_follow.setVisibility(View.VISIBLE);
                 }
                 if (bean.getIs_attention() == 1) {
                     ll_follow.setBackgroundResource(R.drawable.bg_live_followed_two);
                     tv_follow.setText(getString(R.string.followed));
                     iv_icon.setVisibility(View.GONE);
-                }else {
+                } else {
                     ll_follow.setBackgroundResource(R.mipmap.bg_live_follow_two);
                     tv_follow.setText(getString(R.string.follow));
                     iv_icon.setVisibility(View.VISIBLE);
@@ -289,7 +309,7 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                         rv_image.setLayoutManager(new GridLayoutManager(this, 3));
                         rv_image.setAdapter(new ImageAdapter(this, bean.getImg()));
                     }
-                }else {
+                } else {
                     iv_cover.setVisibility(View.VISIBLE);
                     icon_play.setVisibility(View.VISIBLE);
                     rv_image.setVisibility(View.GONE);
@@ -317,12 +337,12 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                 tv_like.setText(String.valueOf(bean.getLike()));
                 if (bean.getIs_likes() == 1) {
                     iv_like.setSelected(true);
-                }else {
+                } else {
                     iv_like.setSelected(false);
                 }
                 if (bean.getIs_favorites() == 1) {
                     iv_collect.setSelected(true);
-                }else {
+                } else {
                     iv_collect.setSelected(false);
                 }
             }
@@ -340,7 +360,10 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
         if (list != null && list.size() > 0) {
             smart_rl.finishLoadMore();
             mCommentAdapter.setNewData(list);
-        }else {
+            int[] intArray4 = new int[2];
+            rv_comment.getLocationOnScreen(intArray4);//测量某View相对于屏幕的距离
+            scrollByDistance(intArray4[1]);
+        } else {
             smart_rl.finishLoadMoreWithNoMoreData();
         }
     }
@@ -372,7 +395,7 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                     like--;
                     mCommunityBean.setIs_likes(0);
                     iv_like.setSelected(false);
-                }else {
+                } else {
                     like++;
                     mCommunityBean.setIs_likes(1);
                     iv_like.setSelected(true);
@@ -385,7 +408,7 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                 if (mCommunityBean.getIs_favorites() == 1) {
                     mCommunityBean.setIs_favorites(0);
                     iv_collect.setSelected(false);
-                }else {
+                } else {
                     mCommunityBean.setIs_favorites(1);
                     iv_collect.setSelected(true);
                 }
@@ -399,14 +422,14 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                         iv_icon.setVisibility(View.GONE);
                         mvpPresenter.doFollow(mAnchorId);
                     }
-                }else {
+                } else {
                     LoginActivity.forward(mActivity);
                 }
                 break;
         }
     }
 
-    public void openPicsSelect(){
+    public void openPicsSelect() {
         if (TextUtils.isEmpty(mToken)) {
             return;
         }

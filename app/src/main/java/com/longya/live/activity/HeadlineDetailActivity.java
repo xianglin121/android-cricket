@@ -160,7 +160,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     iv_avatar.setVisibility(View.VISIBLE);
                     tv_name.setVisibility(View.VISIBLE);
                     iv_follow.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     iv_avatar.setVisibility(View.GONE);
                     tv_name.setVisibility(View.GONE);
                     iv_follow.setVisibility(View.GONE);
@@ -205,13 +205,13 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         replyDialog.setInfo(mCommentAdapter.getItem(position));
                         replyDialog.show();
                     }
-                }else if (view.getId() == R.id.ll_like) {
+                } else if (view.getId() == R.id.ll_like) {
                     MovingBean item = mCommentAdapter.getItem(position);
                     int like = item.getLike();
                     if (item.getIs_likes() == 0) {
                         item.setIs_likes(1);
                         like++;
-                    }else {
+                    } else {
                         item.setIs_likes(0);
                         like--;
                     }
@@ -257,7 +257,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         like--;
                         mModel.setIs_likes(0);
                         iv_like.setSelected(false);
-                    }else {
+                    } else {
                         like++;
                         mModel.setIs_likes(1);
                         iv_like.setSelected(true);
@@ -272,7 +272,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     if (mModel.getIs_favorites() == 1) {
                         mModel.setIs_favorites(0);
                         iv_collect.setSelected(false);
-                    }else {
+                    } else {
                         mModel.setIs_favorites(1);
                         iv_collect.setSelected(true);
                     }
@@ -310,7 +310,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             }
             if (model.getIs_attention() == 1) {
                 iv_follow.setFollow(true);
-            }else {
+            } else {
                 iv_follow.setFollow(false);
             }
             if (!TextUtils.isEmpty(model.getTitle())) {
@@ -325,7 +325,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             }
             if (model.getIs_attention() == 1) {
                 iv_title_follow.setFollow(true);
-            }else {
+            } else {
                 iv_title_follow.setFollow(false);
             }
             if (!TextUtils.isEmpty(model.getContent())) {
@@ -359,12 +359,12 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             tv_like.setText(String.valueOf(model.getLikes()));
             if (model.getIs_likes() == 1) {
                 iv_like.setSelected(true);
-            }else {
+            } else {
                 iv_like.setSelected(false);
             }
             if (model.getIs_favorites() == 1) {
                 iv_collect.setSelected(true);
-            }else {
+            } else {
                 iv_collect.setSelected(false);
             }
         }
@@ -383,12 +383,15 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 list = new ArrayList<>();
             }
             mCommentAdapter.setNewData(list);
-        }else {
+            int[] intArray4 = new int[2];
+            rv_comment.getLocationOnScreen(intArray4);//测量某View相对于屏幕的距离
+            scrollByDistance(intArray4[1]);
+        } else {
             mPage++;
             if (list != null && list.size() > 0) {
                 smart_rl.finishLoadMore();
                 mCommentAdapter.addData(list);
-            }else {
+            } else {
                 smart_rl.finishLoadMoreWithNoMoreData();
             }
         }
@@ -400,7 +403,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             mModel.setIs_attention(0);
             iv_follow.setFollow(false);
             iv_title_follow.setFollow(false);
-        }else {
+        } else {
             mModel.setIs_attention(1);
             iv_follow.setFollow(true);
             iv_title_follow.setFollow(true);
@@ -436,13 +439,31 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     comment++;
                     item.setComment(comment);
                     mCommentAdapter.notifyItemChanged(i);
+                    int[] intArray4 = new int[2];
+                    rv_comment.getLocationOnScreen(intArray4);//测量某View相对于屏幕的距离
+                    scrollByDistance(intArray4[1]);
                     break;
                 }
             }
-        }else {
+        } else {
             mvpPresenter.getInfo(true, 1, mOrder, mId);
         }
     }
+
+
+    private int nestedScrollViewTop;
+
+    public void scrollByDistance(int dy) {
+        if (nestedScrollViewTop == 0) {
+            int[] intArray = new int[2];
+            scroll_view.getLocationOnScreen(intArray);
+            nestedScrollViewTop = intArray[1];
+        }
+        int distance = dy - nestedScrollViewTop;//必须算上nestedScrollView本身与屏幕的距离
+        scroll_view.fling(distance);//添加上这句滑动才有效
+        scroll_view.smoothScrollBy(0, distance);
+    }
+
 
     //更新回复弹窗的列表数据
     public void updateReplyDialog(int cid) {
@@ -464,7 +485,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
     }
 
-    public void openPicsSelect(){
+    public void openPicsSelect() {
         if (TextUtils.isEmpty(mToken)) {
             return;
         }

@@ -103,9 +103,9 @@ public class UserInfoActivity extends MvpActivity<UserInfoPresenter> implements 
             }
             if (!TextUtils.isEmpty(userBean.getMobile())) {
                 String mobile = userBean.getMobile();
-                if (mobile.contains("-")) {
-                    mobile = mobile.substring(mobile.indexOf("-")+1);
-                }
+//                if (mobile.contains("-")) {
+//                    mobile = mobile.substring(mobile.indexOf("-")+1);
+//                }
                 tv_phone.setText(ToolUtil.changPhoneNumber(mobile));
             }
         }

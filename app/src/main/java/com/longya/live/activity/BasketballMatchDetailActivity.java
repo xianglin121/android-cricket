@@ -163,7 +163,7 @@ public class BasketballMatchDetailActivity extends MvpActivity<BasketballMatchDe
 
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                float percent = (Math.abs(verticalOffset * 1.0f)/appBarLayout.getTotalScrollRange());
+                float percent = (Math.abs(verticalOffset * 1.0f) / appBarLayout.getTotalScrollRange());
                 cl_title_one.setAlpha(1f - percent);
                 cl_title_two.setAlpha(percent);
             }
@@ -223,108 +223,108 @@ public class BasketballMatchDetailActivity extends MvpActivity<BasketballMatchDe
         if (detailBean != null) {
             if (detailBean.getIs_collect() == 1) {
                 iv_collect.setSelected(true);
-            }else {
+            } else {
                 iv_collect.setSelected(false);
             }
             if ("1".equals(SpUtil.getInstance().getStringValue(SpUtil.BASKETBALL_LANGUAGE))) {//繁体中文
                 if (!TextUtils.isEmpty(detailBean.getShort_name_zht())) {
                     tv_match_name.setText(detailBean.getShort_name_zht());
-                }else {
+                } else {
                     tv_match_name.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getHome_team_data().getShort_name_zht())) {
                     tv_team_name_one.setText(detailBean.getHome_team_data().getShort_name_zht());
-                }else {
+                } else {
                     tv_team_name_one.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getAway_team_data().getShort_name_zht())) {
                     tv_team_name_two.setText(detailBean.getAway_team_data().getShort_name_zht());
-                }else {
+                } else {
                     tv_team_name_two.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getHome_team_data().getShort_name_zht())) {
                     tv_title_team_one.setText(detailBean.getHome_team_data().getShort_name_zht());
-                }else {
+                } else {
                     tv_title_team_one.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getAway_team_data().getShort_name_zht())) {
                     tv_title_team_two.setText(detailBean.getAway_team_data().getShort_name_zht());
-                }else {
+                } else {
                     tv_title_team_two.setText("");
                 }
-            }else if ("2".equals(SpUtil.getInstance().getStringValue(SpUtil.BASKETBALL_LANGUAGE))) {//英文
+            } else if ("2".equals(SpUtil.getInstance().getStringValue(SpUtil.BASKETBALL_LANGUAGE))) {//英文
                 if (!TextUtils.isEmpty(detailBean.getShort_name_en())) {
                     tv_match_name.setText(detailBean.getShort_name_en());
-                }else {
+                } else {
                     tv_match_name.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getHome_team_data().getShort_name_en())) {
                     tv_team_name_one.setText(detailBean.getHome_team_data().getShort_name_en());
-                }else {
+                } else {
                     tv_team_name_one.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getAway_team_data().getShort_name_en())) {
                     tv_team_name_two.setText(detailBean.getAway_team_data().getShort_name_en());
-                }else {
+                } else {
                     tv_team_name_two.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getHome_team_data().getShort_name_en())) {
                     tv_title_team_one.setText(detailBean.getHome_team_data().getShort_name_en());
-                }else {
+                } else {
                     tv_title_team_one.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getAway_team_data().getShort_name_en())) {
                     tv_title_team_two.setText(detailBean.getAway_team_data().getShort_name_en());
-                }else {
+                } else {
                     tv_title_team_two.setText("");
                 }
-            }else {
+            } else {
                 if (!TextUtils.isEmpty(detailBean.getShort_name_zh())) {
                     tv_match_name.setText(detailBean.getShort_name_zh());
-                }else {
+                } else {
                     tv_match_name.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getHome_team_data().getShort_name_zh())) {
                     tv_team_name_one.setText(detailBean.getHome_team_data().getShort_name_zh());
-                }else {
+                } else {
                     tv_team_name_one.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getAway_team_data().getShort_name_zh())) {
                     tv_team_name_two.setText(detailBean.getAway_team_data().getShort_name_zh());
-                }else {
+                } else {
                     tv_team_name_two.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getHome_team_data().getShort_name_zh())) {
                     tv_title_team_one.setText(detailBean.getHome_team_data().getShort_name_zh());
-                }else {
+                } else {
                     tv_title_team_one.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getAway_team_data().getShort_name_zh())) {
                     tv_title_team_two.setText(detailBean.getAway_team_data().getShort_name_zh());
-                }else {
+                } else {
                     tv_title_team_two.setText("");
                 }
             }
             if (!TextUtils.isEmpty(detailBean.getMatch_time())) {
                 tv_match_time.setText(detailBean.getMatch_time());
-            }else {
+            } else {
                 tv_match_time.setText("");
             }
             GlideUtil.loadTeamImageDefault(this, detailBean.getHome_team_data().getLogo(), iv_team_logo_one);
             GlideUtil.loadTeamImageDefault(this, detailBean.getAway_team_data().getLogo(), iv_team_logo_two);
             if (!TextUtils.isEmpty(detailBean.getStatus_name())) {
                 tv_state.setText(detailBean.getStatus_name());
-            }else {
+            } else {
                 tv_state.setText("");
             }
             if (!TextUtils.isEmpty(detailBean.getHome_scores_total())) {
                 tv_team_one_score.setText(detailBean.getHome_scores_total());
-            }else {
+            } else {
                 tv_team_one_score.setText("");
             }
             if (!TextUtils.isEmpty(detailBean.getAway_scores_total())) {
                 tv_team_two_score.setText(detailBean.getAway_scores_total());
-            }else {
+            } else {
                 tv_team_two_score.setText("");
             }
             int homeScore = 0;
@@ -338,20 +338,20 @@ public class BasketballMatchDetailActivity extends MvpActivity<BasketballMatchDe
             tv_half_score.setText(homeScore + "-" + awayScore);
             if (!TextUtils.isEmpty(detailBean.getHome_scores_total())) {
                 tv_title_score_one.setText(detailBean.getHome_scores_total());
-            }else {
+            } else {
                 tv_title_score_one.setText("");
             }
             if (!TextUtils.isEmpty(detailBean.getAway_scores_total())) {
                 tv_title_score_two.setText(detailBean.getAway_scores_total());
-            }else {
+            } else {
                 tv_title_score_two.setText("");
             }
             if (!TextUtils.isEmpty(detailBean.getStatus_name())) {
                 tv_title_match_state.setText(detailBean.getStatus_name());
-            }else {
+            } else {
                 tv_title_match_state.setText("");
             }
-            ((BasketballMatchStatusFragment)mViewList.get(0)).setData(detailBean);
+            ((BasketballMatchStatusFragment) mViewList.get(0)).setData(detailBean);
         }
     }
 
@@ -405,7 +405,7 @@ public class BasketballMatchDetailActivity extends MvpActivity<BasketballMatchDe
             case R.id.iv_emoji:
                 if (more_groups.getVisibility() == View.GONE) {
                     showFaceViewGroup();
-                }else {
+                } else {
                     hideFaceViewGroup();
                 }
                 break;
@@ -416,6 +416,7 @@ public class BasketballMatchDetailActivity extends MvpActivity<BasketballMatchDe
                 }
                 sendMessage(et_input.getText().toString());
                 et_input.setText("");
+                hideSoftInput();
                 break;
         }
     }
@@ -490,10 +491,10 @@ public class BasketballMatchDetailActivity extends MvpActivity<BasketballMatchDe
             if (more_groups.getVisibility() == View.VISIBLE) {
                 hideFaceViewGroup();
                 return false;
-            }else {
+            } else {
                 return super.onKeyDown(keyCode, event);
             }
-        }else {
+        } else {
             return super.onKeyDown(keyCode, event);
         }
     }
@@ -570,7 +571,7 @@ public class BasketballMatchDetailActivity extends MvpActivity<BasketballMatchDe
             public void onPageSelected(int i) {
                 if (i == 3) {
                     fl_input.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     fl_input.setVisibility(View.GONE);
                 }
             }
@@ -620,7 +621,7 @@ public class BasketballMatchDetailActivity extends MvpActivity<BasketballMatchDe
                         public void onSuccess(V2TIMMessage v2TIMMessage) {
                             if (mViewList != null && mViewList.size() > 0) {
                                 if (mViewList.get(3) instanceof MatchChatFragment) {
-                                    ((MatchChatFragment)mViewList.get(3)).updateMsg(messageInfo);
+                                    ((MatchChatFragment) mViewList.get(3)).updateMsg(messageInfo);
                                 }
                             }
                         }

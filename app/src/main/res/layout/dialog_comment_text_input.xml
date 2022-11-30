@@ -43,14 +43,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
+            android:background="@drawable/shape_dc3c23_17dp_rec"
             android:paddingLeft="10dp"
+            android:paddingTop="3dp"
             android:paddingRight="10dp"
+            android:paddingBottom="3dp"
             android:text="@string/send"
-            android:textSize="16dp"
             android:textColor="@color/white"
-            android:background="@drawable/shape_dc3c23_17dp_rec"/>
+            android:textSize="16dp" />
     </LinearLayout>
 
     <View

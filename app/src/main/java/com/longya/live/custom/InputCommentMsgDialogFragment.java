@@ -138,6 +138,7 @@ public class InputCommentMsgDialogFragment extends DialogFragment implements Vie
                 }
                 et_input.setText("");
                 ll_img.removeAllViews();
+                dismiss();
             }
         });
         et_input.requestFocus();

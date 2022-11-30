@@ -10,13 +10,22 @@ import com.tencent.imsdk.v2.V2TIMSDKListener;
 import com.tencent.imsdk.v2.V2TIMUserFullInfo;
 import com.tencent.qcloud.tim.uikit.TUIKit;
 import com.tencent.rtmp.TXLiveBase;
-import com.youth.banner.util.LogUtils;
+
 
 import cn.jpush.android.api.JPushInterface;
 
 public class AppManager extends MultiDexApplication {
     public static AppManager mContext;
     private UploadManager uploadManager;
+
+
+//    private Tracker tracker;
+//
+//    public synchronized Tracker getTracker() {
+//        if (tracker == null)
+//            tracker = Piwik.getInstance(this).newTracker(new TrackerConfig("https://onecric.piwik.pro", "01234567-89ab-cdef-0123-456789abcdef", "Default Tracker"));
+//        return tracker;
+//    }
 
     @Override
     public void onCreate() {
@@ -70,7 +79,7 @@ public class AppManager extends MultiDexApplication {
         initJiGuang();
     }
 
-    public UploadManager getUpLoadManager(){
+    public UploadManager getUpLoadManager() {
         return uploadManager;
     }
 

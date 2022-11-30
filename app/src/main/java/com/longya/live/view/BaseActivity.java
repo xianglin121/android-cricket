@@ -20,6 +20,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.longya.live.AppManager;
 import com.longya.live.R;
 import com.longya.live.retrofit.ApiClient;
 import com.longya.live.retrofit.ApiStores;
@@ -38,6 +39,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+//import pro.piwik.sdk.Tracker;
+//import pro.piwik.sdk.extra.TrackHelper;
 import retrofit2.Call;
 
 /**
@@ -56,6 +59,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        Tracker tracker = ((AppManager) getApplication()).getTracker();
+//        TrackHelper.track().screen(this).with(tracker);
         setClassicsLanguage();
         mIsBlack = getStatusBarTextColor();
         setStatusBar();
@@ -187,7 +192,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             if (mIsBlack) {
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            }else {
+            } else {
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             }
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -333,7 +338,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         //获取系统当前时间
         long time = System.currentTimeMillis();
 
-        if ( time - lastClickTime < 1000) {
+        if (time - lastClickTime < 1000) {
             return true;
         }
 

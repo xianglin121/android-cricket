@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,6 +63,8 @@ import top.zibin.luban.OnCompressListener;
 
 public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPresenter> implements LiveMovingCommentView, View.OnClickListener {
 
+    private NestedScrollView nsv;
+
     public static void forward(Context context, int anchorId, int movingId) {
         Intent intent = new Intent(context, LiveMovingCommentActivity.class);
         intent.putExtra("anchorId", anchorId);
@@ -108,7 +111,7 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
     protected void initView() {
         mAnchorId = getIntent().getIntExtra("anchorId", 0);
         mMovingId = getIntent().getIntExtra("movingId", 0);
-
+        nsv = findViewById(R.id.nsv);
         iv_avatar = findViewById(R.id.iv_avatar);
         tv_name = findViewById(R.id.tv_name);
         tv_date = findViewById(R.id.tv_date);
@@ -162,13 +165,13 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
                         replyDialog.setInfo(mCommentAdapter.getItem(position));
                         replyDialog.show();
                     }
-                }else if (view.getId() == R.id.ll_like) {
+                } else if (view.getId() == R.id.ll_like) {
                     MovingBean item = mCommentAdapter.getItem(position);
                     int like = item.getLike();
                     if (item.getIs_likes() == 0) {
                         item.setIs_likes(1);
                         like++;
-                    }else {
+                    } else {
                         item.setIs_likes(0);
                         like--;
                     }
@@ -205,6 +208,20 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
 
     }
 
+
+    private int nestedScrollViewTop;
+
+    public void scrollByDistance(int dy) {
+        if (nestedScrollViewTop == 0) {
+            int[] intArray = new int[2];
+            nsv.getLocationOnScreen(intArray);
+            nestedScrollViewTop = intArray[1];
+        }
+        int distance = dy - nestedScrollViewTop;//必须算上nestedScrollView本身与屏幕的距离
+        nsv.fling(distance);//添加上这句滑动才有效
+        nsv.smoothScrollBy(0, distance);
+    }
+
     @Override
     public void doCommentSuccess(Integer cid) {
         if (cid != null) {
@@ -216,10 +233,13 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
                     comment++;
                     item.setComment(comment);
                     mCommentAdapter.notifyItemChanged(i);
+                    int[] intArray4 = new int[2];
+                    rv_comment.getLocationOnScreen(intArray4);//测量某View相对于屏幕的距离
+                    scrollByDistance(intArray4[1]);
                     break;
                 }
             }
-        }else {
+        } else {
             mvpPresenter.getMovingInfo(1, mMovingId);
         }
     }
@@ -242,7 +262,7 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
                 }
                 if (bean.getIs_attention() == 1) {
                     btn_follow.setFollow(true);
-                }else {
+                } else {
                     btn_follow.setFollow(false);
                 }
                 if (bean.getIs_flie_type() == 0) {
@@ -253,7 +273,7 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
                         rv_image.setLayoutManager(new GridLayoutManager(this, 3));
                         rv_image.setAdapter(new ImageAdapter(this, bean.getImg()));
                     }
-                }else {
+                } else {
                     iv_cover.setVisibility(View.VISIBLE);
                     icon_play.setVisibility(View.VISIBLE);
                     rv_image.setVisibility(View.GONE);
@@ -277,7 +297,7 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
                 tv_like.setText(String.valueOf(bean.getLike()));
                 if (bean.getIs_likes() == 1) {
                     iv_like.setSelected(true);
-                }else {
+                } else {
                     iv_like.setSelected(false);
                 }
             }
@@ -295,7 +315,10 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
         if (list != null && list.size() > 0) {
             smart_rl.finishLoadMore();
             mCommentAdapter.setNewData(list);
-        }else {
+            int[] intArray4 = new int[2];
+            rv_comment.getLocationOnScreen(intArray4);//测量某View相对于屏幕的距离
+            scrollByDistance(intArray4[1]);
+        } else {
             smart_rl.finishLoadMoreWithNoMoreData();
         }
     }
@@ -327,7 +350,7 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
                     like--;
                     mMovingBean.setIs_likes(0);
                     iv_like.setSelected(false);
-                }else {
+                } else {
                     like++;
                     mMovingBean.setIs_likes(1);
                     iv_like.setSelected(true);
@@ -342,14 +365,14 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
                         btn_follow.setFollow(false);
                         mvpPresenter.doFollow(mAnchorId);
                     }
-                }else {
+                } else {
                     ToastUtil.show(getString(R.string.please_login));
                 }
                 break;
         }
     }
 
-    public void openPicsSelect(){
+    public void openPicsSelect() {
         if (TextUtils.isEmpty(mToken)) {
             return;
         }

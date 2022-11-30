@@ -62,7 +62,7 @@ public class InputVideoCommentMsgDialog extends DialogFragment implements View.O
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         mContext = getContext();
-        Dialog dialog  = new Dialog(getContext(), R.style.dialog2);
+        Dialog dialog = new Dialog(getContext(), R.style.dialog2);
         dialog.setContentView(R.layout.dialog_video_comment_text_input);
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
@@ -98,15 +98,16 @@ public class InputVideoCommentMsgDialog extends DialogFragment implements View.O
                 }
                 if (mCurrentType == TYPE_REPLY) {
                     if (getActivity() instanceof VideoPagerActivity) {
-                        ((VideoPagerActivity)getActivity()).doComment(et_input.getText().toString(), mCid);
+                        ((VideoPagerActivity) getActivity()).doComment(et_input.getText().toString(), mCid);
                     }
-                }else {
+                } else {
                     if (getActivity() instanceof VideoPagerActivity) {
-                        ((VideoPagerActivity)getActivity()).doComment(et_input.getText().toString(), null);
+                        ((VideoPagerActivity) getActivity()).doComment(et_input.getText().toString(), null);
                     }
                 }
                 et_input.setText("");
                 ll_img.removeAllViews();
+                dismiss();
             }
         });
         et_input.requestFocus();
@@ -232,21 +233,21 @@ public class InputVideoCommentMsgDialog extends DialogFragment implements View.O
             case R.id.iv_emoji:
                 if (more_container.getVisibility() == View.GONE) {
                     showFaceViewGroup();
-                }else {
+                } else {
                     hideFaceViewGroup();
                 }
                 break;
             case R.id.iv_img:
                 if (getActivity() instanceof HeadlineDetailActivity) {
-                    ((HeadlineDetailActivity)getActivity()).openPicsSelect();
+                    ((HeadlineDetailActivity) getActivity()).openPicsSelect();
                     hideFaceViewGroup();
                     ll_img.setVisibility(View.VISIBLE);
-                }else if (getActivity() instanceof LiveMovingCommentActivity) {
-                    ((LiveMovingCommentActivity)getActivity()).openPicsSelect();
+                } else if (getActivity() instanceof LiveMovingCommentActivity) {
+                    ((LiveMovingCommentActivity) getActivity()).openPicsSelect();
                     hideFaceViewGroup();
                     ll_img.setVisibility(View.VISIBLE);
-                }else if (getActivity() instanceof CommunityCommentActivity) {
-                    ((CommunityCommentActivity)getActivity()).openPicsSelect();
+                } else if (getActivity() instanceof CommunityCommentActivity) {
+                    ((CommunityCommentActivity) getActivity()).openPicsSelect();
                     hideFaceViewGroup();
                     ll_img.setVisibility(View.VISIBLE);
                 }
