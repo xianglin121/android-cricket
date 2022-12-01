@@ -15,7 +15,7 @@
             android:background="@color/black"
             android:gravity="center"
             android:paddingTop="25dp"
-            android:text="到顶了"
+            android:text="At the top"
             android:textColor="@color/c_8691AA"
             android:textSize="15sp" />
 

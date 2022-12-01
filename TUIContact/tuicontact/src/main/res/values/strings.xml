@@ -72,5 +72,6 @@
     <string name="auto_judge">Auto Approval...</string>
     <string name="input_tip">No nickname entered, please fill in again</string>
     <string name="profile_msgrev_opt">Message Do Not Disturb</string>
+    <string name="edit">Edit</string>
 
 </resources>

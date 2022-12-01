@@ -70,7 +70,7 @@ public class DefaultAvatarActivity extends MvpActivity<DefaultAvatarPresenter> i
                     }
                 }
                 if (TextUtils.isEmpty(avatar)) {
-                    ToastUtil.show("请选择头像");
+                    ToastUtil.show(getString(R.string.please_select_your_avatar));
                     return;
                 }
                 mvpPresenter.updateAvatar(avatar);

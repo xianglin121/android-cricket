@@ -149,7 +149,7 @@ public class BindAccountActivity extends MvpActivity<BindAccountPresenter> imple
 
     @Override
     public void bindAccountSuccess() {
-        ToastUtil.show("绑定银行卡成功");
+        ToastUtil.show(getString(R.string.binding_succeeded));
         EventBus.getDefault().post(new BindAccountSuccessEvent());
         finish();
     }

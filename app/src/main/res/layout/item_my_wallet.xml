@@ -44,7 +44,7 @@
         app:layout_constraintBottom_toBottomOf="@id/tv_time"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="14dp"
-        android:text="交易成功"
+        android:text="trade successfully"
         android:textSize="14dp"
         android:textColor="@color/c_E3AC72"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

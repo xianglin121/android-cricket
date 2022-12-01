@@ -919,9 +919,9 @@ public class LivePlayerView extends RelativeLayout {
         public void onSwitchStreamStart(boolean success, SuperPlayerDef.PlayerType playerType, VideoQuality quality) {
             if (playerType == SuperPlayerDef.PlayerType.LIVE) {
                 if (success) {
-                    Toast.makeText(mContext, "正在切换到" + quality.title + "...", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(mContext, "正在切换到" + quality.title + "...", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(mContext, "切换" + quality.title + "清晰度失败，请稍候重试", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(mContext, "切换" + quality.title + "清晰度失败，请稍候重试", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -930,9 +930,9 @@ public class LivePlayerView extends RelativeLayout {
         public void onSwitchStreamEnd(boolean success, SuperPlayerDef.PlayerType playerType, VideoQuality quality) {
             if (playerType == SuperPlayerDef.PlayerType.LIVE) {
                 if (success) {
-                    Toast.makeText(mContext, "清晰度切换成功", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(mContext, "清晰度切换成功", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(mContext, "清晰度切换失败", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(mContext, "清晰度切换失败", Toast.LENGTH_SHORT).show();
                 }
             }
         }

@@ -118,7 +118,7 @@
 
     <string name="un_download">Not downloaded</string>
     <string name="downloaded">Downloaded</string>
-    <string name="downloading">Downloading...</string>
+    <string name="downloading">Downloading</string>
     <string name="send_failed">Send Failed</string>
     <string name="sended">Sent</string>
     <string name="sending">Sending...</string>

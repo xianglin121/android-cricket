@@ -106,7 +106,7 @@ public class NetWatcher {
         final Context context = mContext.get();
         if (context == null) return;
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-        alertDialog.setMessage("检测到您的网络较差，建议切换清晰度");
+        alertDialog.setMessage("Your network is detected to be poor, it is recommended to switch the clarity");
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -115,9 +115,9 @@ public class NetWatcher {
                         if (player != null && !TextUtils.isEmpty(videoUrl)) {
                             int result = player.switchStream(videoUrl);
                             if (result < 0) {
-                                Toast.makeText(context, "切换高清清晰度失败，请稍候重试", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Failed to switch the HD definition. Please try again later", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(context, "正在为您切换为高清清晰度，请稍候...", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Switching to HD for you, please wait...", Toast.LENGTH_SHORT).show();
                             }
                         }
                         dialog.dismiss();

@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="五级弹幕x0"
+            android:text="Level 5 x0"
             android:textSize="12dp"
             android:textColor="@color/white"/>
     </FrameLayout>
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="四级弹幕x0"
+            android:text="Level 4 x0"
             android:textSize="12dp"
             android:textColor="@color/white"/>
     </FrameLayout>
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="三级弹幕x0"
+            android:text="Level 3 x0"
             android:textSize="12dp"
             android:textColor="@color/white"/>
     </FrameLayout>
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="二级弹幕x0"
+            android:text="Level 2 x0"
             android:textSize="12dp"
             android:textColor="@color/white"/>
     </FrameLayout>
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="一级弹幕x0"
+            android:text="Level 1 x0"
             android:textSize="12dp"
             android:textColor="@color/white"/>
     </FrameLayout>

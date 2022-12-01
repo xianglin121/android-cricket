@@ -74,7 +74,7 @@
                         android:id="@+id/tv_popular_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="人气"
+                        android:text="popularity"
                         android:textSize="10dp"
                         android:textColor="@color/c_87390E"/>
                 </LinearLayout>
@@ -83,10 +83,10 @@
                     android:id="@+id/iv_state_two"
                     android:layout_width="61dp"
                     android:layout_height="22dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_below="@id/ll_two"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/selector_headline_user_follow"/>
+                    android:background="@drawable/selector_headline_user_follow" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -155,7 +155,7 @@
                         android:id="@+id/tv_popular_one"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="人气"
+                        android:text="popularity"
                         android:textSize="10dp"
                         android:textColor="@color/c_87390E"/>
                 </LinearLayout>
@@ -236,7 +236,7 @@
                         android:id="@+id/tv_popular_three"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="人气"
+                        android:text="popularity"
                         android:textSize="10dp"
                         android:textColor="@color/c_87390E"/>
                 </LinearLayout>

@@ -157,12 +157,12 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         findViewById(R.id.tv_input).setOnClickListener(this);
         findViewById(R.id.iv_emoji).setOnClickListener(this);
         findViewById(R.id.iv_gift).setOnClickListener(this);
-        findViewById(R.id.iv_noble).setOnClickListener(this);
+//        findViewById(R.id.iv_noble).setOnClickListener(this);
         findViewById(R.id.iv_block).setOnClickListener(this);
         findViewById(R.id.iv_box).setOnClickListener(this);
         findViewById(R.id.iv_lottery).setOnClickListener(this);
         findViewById(R.id.iv_box_close).setOnClickListener(this);
-        findViewById(R.id.iv_red_envelope).setOnClickListener(this);
+//        findViewById(R.id.iv_red_envelope).setOnClickListener(this);
     }
 
     @Override
@@ -858,13 +858,13 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
             public void onClick(View v) {
                 if (iv_indicator_gift.getVisibility() == View.VISIBLE) {
                     if (giftAdapter.getSelectBean() == null) {
-                        ToastUtil.show("请选择礼物");
+                        ToastUtil.show("Please choose a gift");
                         return;
                     }
                     mvpPresenter.sendGift(giftAdapter.getSelectBean(), mAnchorId, 0);
                 } else {
                     if (backpackAdapter.getSelectBean() == null) {
-                        ToastUtil.show("请选择礼物");
+                        ToastUtil.show("Please choose a gift");
                         return;
                     }
                     mvpPresenter.sendGift(backpackAdapter.getSelectBean(), mAnchorId, 1);

@@ -40,11 +40,11 @@ public class WithdrawRecordAdapter extends BaseQuickAdapter<WithdrawBean, BaseVi
             helper.setText(R.id.tv_amount, "");
         }
         if (item.getStatus() == 1) {
-            helper.setText(R.id.tv_state, "提现成功");
+            helper.setText(R.id.tv_state, "Successful withdrawal");
         }else if (item.getStatus() == 2) {
-            helper.setText(R.id.tv_state, "提现失败");
+            helper.setText(R.id.tv_state, "Withdrawal failure");
         }else {
-            helper.setText(R.id.tv_state, "申请中");
+            helper.setText(R.id.tv_state, "Applying");
         }
     }
 }

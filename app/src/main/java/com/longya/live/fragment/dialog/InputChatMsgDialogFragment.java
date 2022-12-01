@@ -218,7 +218,7 @@ public class InputChatMsgDialogFragment extends DialogFragment implements View.O
             Collections.reverse(list);
         }
         ColorMsgBean freeColor = new ColorMsgBean();
-        freeColor.setName("免费");
+        freeColor.setName(getString(R.string.free));
         freeColor.setColor("#1A8FFA");
         freeColor.setOrder(0);
         freeColor.setSelect(true);
@@ -320,19 +320,19 @@ public class InputChatMsgDialogFragment extends DialogFragment implements View.O
         if (mDanmuList != null) {
             for (int i = 0; i < mDanmuList.size(); i++) {
                 if (mDanmuList.get(i).getList_order() == 1) {
-                    tv_one.setText("一级弹幕x" + mDanmuList.get(i).getNum());
+                    tv_one.setText("Level 1 Barrage x" + mDanmuList.get(i).getNum());
                 }
                 if (mDanmuList.get(i).getList_order() == 2) {
-                    tv_two.setText("二级弹幕x" + mDanmuList.get(i).getNum());
+                    tv_two.setText("Level 2 Barrage x" + mDanmuList.get(i).getNum());
                 }
                 if (mDanmuList.get(i).getList_order() == 3) {
-                    tv_three.setText("三级弹幕x" + mDanmuList.get(i).getNum());
+                    tv_three.setText("Level 3 Barrage x" + mDanmuList.get(i).getNum());
                 }
                 if (mDanmuList.get(i).getList_order() == 4) {
-                    tv_four.setText("四级弹幕x" + mDanmuList.get(i).getNum());
+                    tv_four.setText("Level 4 Barrage x" + mDanmuList.get(i).getNum());
                 }
                 if (mDanmuList.get(i).getList_order() == 5) {
-                    tv_five.setText("五级弹幕x" + mDanmuList.get(i).getNum());
+                    tv_five.setText("Level 5 Barrage x" + mDanmuList.get(i).getNum());
                 }
             }
         }
@@ -439,15 +439,15 @@ public class InputChatMsgDialogFragment extends DialogFragment implements View.O
                                 num--;
                                 temp.setNum(num);
                                 if (mSelectBgDanmu.getList_order() == 1) {
-                                    tv_bg_danmu_text.setText("一级弹幕x" + num);
+                                    tv_bg_danmu_text.setText("Level 1 Barrage x" + num);
                                 }else if (mSelectBgDanmu.getList_order() == 2) {
-                                    tv_bg_danmu_text.setText("二级弹幕x" + num);
+                                    tv_bg_danmu_text.setText("Level 2 Barrage x" + num);
                                 }else if (mSelectBgDanmu.getList_order() == 3) {
-                                    tv_bg_danmu_text.setText("三级弹幕x" + num);
+                                    tv_bg_danmu_text.setText("Level 3 Barrage x" + num);
                                 }else if (mSelectBgDanmu.getList_order() == 4) {
-                                    tv_bg_danmu_text.setText("四级弹幕x" + num);
+                                    tv_bg_danmu_text.setText("Level 4 Barrage x" + num);
                                 }else if (mSelectBgDanmu.getList_order() == 5) {
-                                    tv_bg_danmu_text.setText("五级弹幕x" + num);
+                                    tv_bg_danmu_text.setText("Level 5 Barrage x" + num);
                                 }
                             }
                         }
@@ -520,7 +520,7 @@ public class InputChatMsgDialogFragment extends DialogFragment implements View.O
                         tv_bg_danmu.setVisibility(View.GONE);
                         fl_bg_danmu.setVisibility(View.VISIBLE);
                         iv_bg_danmu.setBackgroundResource(R.mipmap.img_background_danmu_five);
-                        tv_bg_danmu_text.setText("五级弹幕x" + temp.getNum());
+                        tv_bg_danmu_text.setText("Level 5 Barrage x" + temp.getNum());
                         mSelectBgDanmu = temp;
                     }
                 }
@@ -539,7 +539,7 @@ public class InputChatMsgDialogFragment extends DialogFragment implements View.O
                         tv_bg_danmu.setVisibility(View.GONE);
                         fl_bg_danmu.setVisibility(View.VISIBLE);
                         iv_bg_danmu.setBackgroundResource(R.mipmap.img_background_danmu_four);
-                        tv_bg_danmu_text.setText("四级弹幕x" + temp.getNum());
+                        tv_bg_danmu_text.setText("Level 4 Barrage x" + temp.getNum());
                         mSelectBgDanmu = temp;
                     }
                 }
@@ -558,7 +558,7 @@ public class InputChatMsgDialogFragment extends DialogFragment implements View.O
                         tv_bg_danmu.setVisibility(View.GONE);
                         fl_bg_danmu.setVisibility(View.VISIBLE);
                         iv_bg_danmu.setBackgroundResource(R.mipmap.img_background_danmu_three);
-                        tv_bg_danmu_text.setText("三级弹幕x" + temp.getNum());
+                        tv_bg_danmu_text.setText("Level 3 Barrage x" + temp.getNum());
                         mSelectBgDanmu = temp;
                     }
                 }
@@ -577,7 +577,7 @@ public class InputChatMsgDialogFragment extends DialogFragment implements View.O
                         tv_bg_danmu.setVisibility(View.GONE);
                         fl_bg_danmu.setVisibility(View.VISIBLE);
                         iv_bg_danmu.setBackgroundResource(R.mipmap.img_background_danmu_two);
-                        tv_bg_danmu_text.setText("二级弹幕x" + temp.getNum());
+                        tv_bg_danmu_text.setText("Level 2 Barrage x" + temp.getNum());
                         mSelectBgDanmu = temp;
                     }
                 }
@@ -596,7 +596,7 @@ public class InputChatMsgDialogFragment extends DialogFragment implements View.O
                         tv_bg_danmu.setVisibility(View.GONE);
                         fl_bg_danmu.setVisibility(View.VISIBLE);
                         iv_bg_danmu.setBackgroundResource(R.mipmap.img_background_danmu_one);
-                        tv_bg_danmu_text.setText("一级弹幕x" + temp.getNum());
+                        tv_bg_danmu_text.setText("Level 1 Barrage x" + temp.getNum());
                         mSelectBgDanmu = temp;
                     }
                 }

@@ -116,7 +116,6 @@
         android:layout_marginTop="16dp"
         android:drawableRight="@mipmap/icon_anchor_moving_reply_arrow"
         android:drawablePadding="4dp"
-        android:text="共0条回复"
         android:textColor="@color/c_999999"
         android:textSize="12dp"
         app:layout_constraintLeft_toLeftOf="parent"

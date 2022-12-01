@@ -253,7 +253,7 @@ public class DialogUtil {
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
         TextView tv_content = dialog.findViewById(R.id.tv_content);
-        String str = "确定开通";
+        String str = context.getString(R.string.confirm_open);
         SpannableStringBuilder spannable = new SpannableStringBuilder(str + noble + "？");
         spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#3677FF")), str.length(), str.length()+noble.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         tv_content.setText(spannable);
@@ -327,7 +327,7 @@ public class DialogUtil {
         dialog.findViewById(R.id.tv_customer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent dialIntent =  new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "13012855368"));//跳转到拨号界面，同时传递电话号码
+                Intent dialIntent =  new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + ""));//跳转到拨号界面，同时传递电话号码
                 context.startActivity(dialIntent);
             }
         });

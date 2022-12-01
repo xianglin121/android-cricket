@@ -86,7 +86,7 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
                         isAnchor = customMsgBean.getGift().getIs_room() == 1?true:false;
                         if (customMsgBean.getGift() != null) {
                             if (!TextUtils.isEmpty(customMsgBean.getGift().getGiftname())) {
-                                content = "送给主播 " + customMsgBean.getGift().getGiftname();
+                                content = "give to network anchor " + customMsgBean.getGift().getGiftname();
                                 contentColor = Color.parseColor("#F15C43");
                             }
                         }

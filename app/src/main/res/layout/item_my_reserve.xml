@@ -136,10 +136,10 @@
                 android:id="@+id/iv_avatar_three"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:layout_toLeftOf="@id/iv_avatar_two"
                 android:layout_marginRight="-11dp"
-                android:src="@mipmap/bg_avatar_default"
-                android:scaleType="centerCrop"/>
+                android:layout_toLeftOf="@id/iv_avatar_two"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/bg_avatar_default" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_avatar_four"
@@ -154,10 +154,10 @@
                 android:id="@+id/iv_avatar_five"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:layout_toLeftOf="@id/iv_avatar_four"
                 android:layout_marginRight="-11dp"
-                android:src="@mipmap/bg_avatar_default"
-                android:scaleType="centerCrop"/>
+                android:layout_toLeftOf="@id/iv_avatar_four"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/bg_avatar_default" />
         </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

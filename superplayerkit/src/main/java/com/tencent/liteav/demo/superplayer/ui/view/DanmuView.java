@@ -303,7 +303,7 @@ public class DanmuView extends DanmakuView {
 
         private void sendDanmu() {
             int time = new Random().nextInt(300);
-            String content = "弹幕" + time + time;
+            String content = "barrage " + time + time;
             addDanmaku(content, "", false);
         }
     }

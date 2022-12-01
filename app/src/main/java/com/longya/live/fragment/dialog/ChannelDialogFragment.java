@@ -146,7 +146,7 @@ public class ChannelDialogFragment extends DialogFragment implements OnChannelDr
 
     private void processLogic() {
         Channel one = new Channel();
-        one.short_name_zh = "我的热门";
+        one.short_name_zh = getString(R.string.my_hot);
         one.itemType = Channel.TYPE_MY;
         mDatas.add(one);
         Bundle bundle = getArguments();

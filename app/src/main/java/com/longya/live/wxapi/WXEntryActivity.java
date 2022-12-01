@@ -62,7 +62,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                         wxLoginEvent.setLoginInfo(resp.code);
                         EventBus.getDefault().post(wxLoginEvent);
                     } else {
-                        ToastUtil.show("登录失败");
+                        ToastUtil.show("Logon failed");
                     }
                     finish();
                 }else {

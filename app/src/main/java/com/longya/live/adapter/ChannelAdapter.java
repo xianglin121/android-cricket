@@ -69,10 +69,10 @@ public class ChannelAdapter extends BaseMultiItemQuickAdapter<Channel, BaseViewH
                             public void onClick(View v) {
                                 if (!mIsEdit) {
                                     startEditMode(true);
-                                    helper.setText(R.id.tvEdit, "完成");
+                                    helper.setText(R.id.tvEdit, R.string.confirm);
                                 } else {
                                     startEditMode(false);
-                                    helper.setText(R.id.tvEdit, "编辑");
+                                    helper.setText(R.id.tvEdit, R.string.edit);
                                 }
                             }
                         });
@@ -97,7 +97,7 @@ public class ChannelAdapter extends BaseMultiItemQuickAdapter<Channel, BaseViewH
                                     if (!mIsEdit) {
                                         //开启编辑模式
                                         startEditMode(true);
-                                        mEditViewHolder.setText(R.id.tvEdit, "完成");
+                                        mEditViewHolder.setText(R.id.tvEdit, R.string.confirm);
                                     }
                                     if (onChannelDragListener != null)
                                         onChannelDragListener.onStarDrag(helper);

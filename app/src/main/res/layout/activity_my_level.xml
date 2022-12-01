@@ -80,21 +80,26 @@
 
                     <TextView
                         android:id="@+id/tv_desc_two"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/tv_desc_one"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="@id/tv_desc_one"
-                        android:text="直播间特有的财富等级及知识，等你哦！"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:text="Direct broadcasting room unique wealth level and knowledge, waiting for you!"
                         android:textSize="12dp"
-                        android:textColor="@color/c_87390E"/>
+                        android:textColor="@color/c_87390E"
+                        app:layout_constraintRight_toLeftOf="@id/iv"/>
 
                     <ImageView
+                        android:id="@+id/iv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="@id/tv_desc_two"
                         app:layout_constraintBottom_toBottomOf="@id/tv_desc_two"
                         app:layout_constraintLeft_toRightOf="@id/tv_desc_two"
-                        android:background="@mipmap/icon_my_level_tip"/>
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:background="@mipmap/icon_my_level_tip"
+                        android:layout_marginRight="15dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 
