@@ -80,6 +80,9 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
         mTimeType = getArguments().getString("timeType");
         iv_streaming = findViewById(R.id.iv_streaming);
         tv_streaming = findViewById(R.id.tv_streaming);
+        if ("results".equals(mTimeType)) {
+            tv_streaming.setText("Highlights");
+        }
         smart_rl = findViewById(R.id.smart_rl);
         recyclerView = findViewById(R.id.recyclerView);
 
