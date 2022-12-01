@@ -38,12 +38,20 @@ public class ThemeHeadlineAdapter extends BaseQuickAdapter<HeadlineBean, BaseVie
         }else {
             helper.getView(R.id.tv_top).setVisibility(View.GONE);
         }
+
+        helper.setVisible(R.id.iv_hot,false);
+        helper.getView(R.id.tv_comment).setVisibility(View.GONE);
         if (item.getComment_count() > 0) {
             helper.getView(R.id.tv_comment).setVisibility(View.VISIBLE);
-            helper.setText(R.id.tv_comment, String.valueOf(item.getComment_count()));
-        }else {
-            helper.getView(R.id.tv_comment).setVisibility(View.GONE);
+            //评论数>=百万时加上热门图标并用百万为单位 1M+ 2M+
+            if(item.getComment_count() >= 1000000){
+                helper.setVisible(R.id.iv_hot,true);
+                helper.setText(R.id.tv_comment, String.valueOf( item.getComment_count()/1000000 + "M+"));
+            }else{
+                helper.setText(R.id.tv_comment, String.valueOf(item.getComment_count()));
+            }
         }
+
         if (helper.getLayoutPosition() == (getItemCount()-1)) {
             helper.getView(R.id.view_line).setVisibility(View.INVISIBLE);
         }else {

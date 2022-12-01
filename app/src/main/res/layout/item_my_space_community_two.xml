@@ -109,7 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="[图片]"
+            android:text="[picture]"
             android:textSize="14dp"
             android:textColor="@color/c_E3AC72"/>
     </LinearLayout>

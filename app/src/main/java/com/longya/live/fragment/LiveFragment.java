@@ -62,7 +62,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
         findViewById(R.id.iv_more).setOnClickListener(this);
         findViewById(R.id.cl_search).setOnClickListener(this);
         findViewById(R.id.iv_ranking).setOnClickListener(this);
-        findViewById(R.id.iv_red_envelope).setOnClickListener(this);
+//        findViewById(R.id.iv_red_envelope).setOnClickListener(this);
     }
 
     @Override

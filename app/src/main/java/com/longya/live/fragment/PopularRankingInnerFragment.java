@@ -157,7 +157,7 @@ public class PopularRankingInnerFragment extends MvpFragment<PopularRankingPrese
                 }
                 GlideUtil.loadImageDefault(getContext(), userBean.getVotestotal_icon(), iv_level_one);
                 if (!TextUtils.isEmpty(userBean.getAmount())) {
-                    tv_popular_one.setText("人气" + userBean.getAmount());
+                    tv_popular_one.setText("Popularity " + userBean.getAmount());
                 }else {
                     tv_popular_one.setText("");
                 }
@@ -192,7 +192,7 @@ public class PopularRankingInnerFragment extends MvpFragment<PopularRankingPrese
                 }
                 GlideUtil.loadImageDefault(getContext(), userBean.getVotestotal_icon(), iv_level_two);
                 if (!TextUtils.isEmpty(userBean.getAmount())) {
-                    tv_popular_two.setText("人气" + userBean.getAmount());
+                    tv_popular_two.setText("Popularity " + userBean.getAmount());
                 }else {
                     tv_popular_two.setText("");
                 }
@@ -227,7 +227,7 @@ public class PopularRankingInnerFragment extends MvpFragment<PopularRankingPrese
                 }
                 GlideUtil.loadImageDefault(getContext(), userBean.getVotestotal_icon(), iv_level_three);
                 if (!TextUtils.isEmpty(userBean.getAmount())) {
-                    tv_popular_three.setText("人气" + userBean.getAmount());
+                    tv_popular_three.setText("Popularity " + userBean.getAmount());
                 }else {
                     tv_popular_three.setText("");
                 }

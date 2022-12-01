@@ -97,13 +97,13 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
                 if (mCurrentPlayType == SuperPlayerDef.PlayerType.LIVE_SHIFT) {  // 直播时移失败，返回直播
                     mLivePlayer.resumeLive();
                     updatePlayerType(SuperPlayerDef.PlayerType.LIVE);
-                    onError(SuperPlayerCode.LIVE_SHIFT_FAIL, "时移失败,返回直播");
+                    onError(SuperPlayerCode.LIVE_SHIFT_FAIL, "Time shift failed. Return to live stream");
                     updatePlayerState(SuperPlayerDef.PlayerState.PLAYING);
                 } else {
                     stop();
                     updatePlayerState(SuperPlayerDef.PlayerState.END);
                     if (event == TXLiveConstants.PLAY_ERR_NET_DISCONNECT) {
-                        onError(SuperPlayerCode.NET_ERROR, "网络不给力,点击重试");
+                        onError(SuperPlayerCode.NET_ERROR, "The network does not give force, click retry");
                     } else {
                         onError(SuperPlayerCode.LIVE_PLAY_END, param.getString(TXLiveConstants.EVT_DESCRIPTION));
                     }
@@ -322,7 +322,7 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
                 @Override
                 public void onError(int errCode, String message) {
                     TXCLog.i(TAG, "onFail: errorCode = " + errCode + " message = " + message);
-                    SuperPlayerImpl.this.onError(SuperPlayerCode.VOD_REQUEST_FILE_ID_FAIL, "播放视频文件失败 code = " + errCode + " msg = " + message);
+                    SuperPlayerImpl.this.onError(SuperPlayerCode.VOD_REQUEST_FILE_ID_FAIL, "Description Failed to play the video file code = " + errCode + " msg = " + message);
                 }
             });
         } else { // 根据URL播放
@@ -343,7 +343,7 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
             }
 
             if (TextUtils.isEmpty(videoURL)) {
-                onError(SuperPlayerCode.PLAY_URL_EMPTY, "播放视频失败，播放链接为空");
+                onError(SuperPlayerCode.PLAY_URL_EMPTY, "Failed to play the video. The play link is empty");
                 return;
             }
             if (isRTMPPlay(videoURL)) { // 直播播放器：普通RTMP流播放

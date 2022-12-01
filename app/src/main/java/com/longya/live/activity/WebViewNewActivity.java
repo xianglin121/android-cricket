@@ -136,7 +136,7 @@ public class WebViewNewActivity extends BaseActivity {
             intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         }
         intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "选择文件"), CHOOSE);
+        startActivityForResult(Intent.createChooser(intent, "Select the file"), CHOOSE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

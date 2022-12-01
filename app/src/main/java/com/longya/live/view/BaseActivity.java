@@ -291,7 +291,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public ProgressDialog showProgressDialog() {
         progressDialog = new ProgressDialog(mActivity);
-        progressDialog.setMessage("加载中");
+        progressDialog.setMessage(getString(R.string.loading));
         progressDialog.show();
         return progressDialog;
     }

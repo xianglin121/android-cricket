@@ -54,11 +54,11 @@ public class LiveRecommendMatchAdapter extends BaseQuickAdapter<LiveMatchBean, B
 
         TextView tv_reserve = helper.getView(R.id.tv_reserve);
         if (item.getStatus_type() == 1) {
-            tv_reserve.setText("进行中");
+            tv_reserve.setText(R.string.underway);
             tv_reserve.setTextColor(mContext.getResources().getColor(R.color.c_333333));
             tv_reserve.setBackground(null);
         }else if (item.getStatus_type() == 2) {
-            tv_reserve.setText("已结束");
+            tv_reserve.setText(R.string.finished);
             tv_reserve.setTextColor(mContext.getResources().getColor(R.color.c_333333));
             tv_reserve.setBackground(null);
         }else {

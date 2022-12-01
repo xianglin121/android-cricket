@@ -1,5 +1,6 @@
 package com.longya.live.adapter;
 
+import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,23 +33,32 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
         }else {
             helper.getView(R.id.line).setVisibility(View.VISIBLE);
         }
+
+        helper.setTextColor(R.id.tv_time, mContext.getResources().getColor(R.color.black_font_color));
+        TextView resultTv = helper.getView(R.id.tv_result);
         if (item.getStatus() == 2) {//已结束
+            resultTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
             helper.getView(R.id.ll_alarm).setVisibility(View.GONE);
         }else {
+            resultTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             helper.getView(R.id.ll_alarm).setVisibility(View.VISIBLE);
             if (item.getStatus() == 0) {//未开始
                 helper.getView(R.id.iv_alarm).setVisibility(View.VISIBLE);
                 if(!TextUtils.isEmpty(item.getLive_time())) {
                     helper.setText(R.id.tv_time, item.getLive_time());
+                    helper.getView(R.id.ll_alarm).setVisibility(View.VISIBLE);
                 }else {
                     helper.setText(R.id.tv_time, "");
+                    helper.getView(R.id.ll_alarm).setVisibility(View.GONE);
                 }
             }else {//已开始
+                helper.getView(R.id.ll_alarm).setVisibility(View.VISIBLE);
                 helper.getView(R.id.iv_alarm).setVisibility(View.GONE);
                 helper.setText(R.id.tv_time, mContext.getString(R.string.live2));
                 helper.setTextColor(R.id.tv_time, mContext.getResources().getColor(R.color.c_DC3C23));
             }
         }
+
         if(!TextUtils.isEmpty(item.getMatch_num())) {
             helper.setText(R.id.tv_date, item.getMatch_num());
         }else {
@@ -62,9 +72,16 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
             helper.setText(R.id.tv_home_name, "");
         }
         if(!TextUtils.isEmpty(item.getHome_display_score())) {
-            helper.setText(R.id.tv_home_score, item.getHome_display_score());
+            if (item.getHome_display_score().contains(" ")) {
+                String[] split = item.getHome_display_score().split(" ");
+                helper.setText(R.id.tv_home_score, split[0]);
+                helper.setText(R.id.tv_home_score2, " "+ split[1]);
+            } else {
+                helper.setText(R.id.tv_home_score, item.getHome_display_score());
+            }
         }else {
             helper.setText(R.id.tv_home_score, "");
+            helper.setText(R.id.tv_home_score2, " ");
         }
         ImageView iv_away_logo = helper.getView(R.id.iv_away_logo);
         GlideUtil.loadTeamImageDefault(mContext, item.getAway_logo(), iv_away_logo);
@@ -74,15 +91,23 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
             helper.setText(R.id.tv_away_name, "");
         }
         if(!TextUtils.isEmpty(item.getAway_display_score())) {
-            helper.setText(R.id.tv_away_score, item.getAway_display_score());
+            if (item.getAway_display_score().contains(" ")) {
+                String[] split = item.getAway_display_score().split(" ");
+                helper.setText(R.id.tv_away_score, split[0]);
+                helper.setText(R.id.tv_away_score2," "+ split[1]);
+            } else {
+                helper.setText(R.id.tv_away_score, item.getHome_display_score());
+            }
         }else {
             helper.setText(R.id.tv_away_score, "");
+            helper.setText(R.id.tv_away_score2, "");
         }
         if(!TextUtils.isEmpty(item.getMatch_result())) {
             helper.setText(R.id.tv_result, item.getMatch_result());
         }else {
             helper.setText(R.id.tv_result, "");
         }
+
         TextView tv_home_score = helper.getView(R.id.tv_home_score);
         TextView tv_away_score = helper.getView(R.id.tv_away_score);
         if (item.getHome_id() == item.getWinner_id()) {

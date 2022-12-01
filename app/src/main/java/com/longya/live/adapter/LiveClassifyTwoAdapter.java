@@ -77,7 +77,7 @@ public class LiveClassifyTwoAdapter extends BaseMultiItemQuickAdapter<LiveClassi
                     tv_state.setTextColor(mContext.getResources().getColor(R.color.c_87390E));
                     tv_state.setBackgroundResource(R.drawable.bg_reserve);
                 }else {
-                    tv_state.setText("已结束");
+                    tv_state.setText(mContext.getString(R.string.finished));
                     tv_state.setTextColor(mContext.getResources().getColor(R.color.c_999999));
                     tv_state.setBackgroundResource(R.drawable.shape_f1f1f1_10dp_rec);
                 }

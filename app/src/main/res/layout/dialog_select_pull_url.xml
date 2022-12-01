@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="请选择直播源线路"
+        android:text="Please select the live source line"
         android:textSize="16dp"
         android:textColor="@color/black"/>
 
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="高清直播"
+        android:text="HD live streaming"
         android:textSize="16dp"
         android:textColor="@color/black"/>
 
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="标清直播"
+        android:text="SD-SDI live streaming"
         android:textSize="16dp"
         android:textColor="@color/black"/>
 
@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="取消"
+        android:text="@string/cancel"
         android:textSize="16dp"
         android:textColor="@color/c_666666"/>
 </LinearLayout>

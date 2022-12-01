@@ -741,5 +741,11 @@
     <string name="login_agreement_info">I read and agree User Service Agreement and Privacy Policy</string>
     <string name="log_in">Log In</string>
     <string name="follows">Follow:</string>
+    <string name="binding_succeeded">Binding succeeded</string>
+    <string name="my_hot">My hot</string>
+    <string name="please_select_your_avatar">Please select your avatar</string>
+    <string name="confirm_open">Confirm open</string>
+    <string name="free">Free</string>
+    <string name="underway">underway</string>
 
 </resources>

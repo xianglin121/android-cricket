@@ -23,7 +23,6 @@
         app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
         app:layout_constraintLeft_toRightOf="@id/iv_avatar"
         android:layout_marginLeft="6dp"
-        android:text="龙牙用户156615"
         android:textSize="16dp"
         android:textColor="@color/c_333333"/>
 
@@ -107,7 +106,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="2dp"
-        android:text="共0条回复"
         android:textSize="12dp"
         android:textColor="@color/c_999999"
         android:drawableRight="@mipmap/icon_anchor_moving_reply_arrow"
