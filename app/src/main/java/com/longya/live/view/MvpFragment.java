@@ -11,8 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.longya.live.AppManager;
 import com.longya.live.R;
 import com.longya.live.presenter.BasePresenter;
+
+import pro.piwik.sdk.Tracker;
+import pro.piwik.sdk.extra.TrackHelper;
 
 
 /**
@@ -38,6 +42,8 @@ public abstract class MvpFragment<P extends BasePresenter> extends Fragment {
         mvpPresenter = createPresenter();
         super.onActivityCreated(savedInstanceState);
         initUI();
+        Tracker tracker = ((AppManager) getActivity().getApplication()).getTracker();
+        TrackHelper.track().screen(getActivity()).with(tracker);
         initData();
     }
 
@@ -50,7 +56,7 @@ public abstract class MvpFragment<P extends BasePresenter> extends Fragment {
 
     protected abstract void initData();
 
-    protected <T extends View> T  findViewById(int layoutId) {
+    protected <T extends View> T findViewById(int layoutId) {
         return rootView.findViewById(layoutId);
     }
 

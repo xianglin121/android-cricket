@@ -13,19 +13,22 @@ import com.tencent.rtmp.TXLiveBase;
 
 
 import cn.jpush.android.api.JPushInterface;
+import pro.piwik.sdk.Piwik;
+import pro.piwik.sdk.Tracker;
+import pro.piwik.sdk.TrackerConfig;
 
 public class AppManager extends MultiDexApplication {
     public static AppManager mContext;
     private UploadManager uploadManager;
 
 
-//    private Tracker tracker;
-//
-//    public synchronized Tracker getTracker() {
-//        if (tracker == null)
-//            tracker = Piwik.getInstance(this).newTracker(new TrackerConfig("https://onecric.piwik.pro", "01234567-89ab-cdef-0123-456789abcdef", "Default Tracker"));
-//        return tracker;
-//    }
+    private Tracker tracker;
+
+    public synchronized Tracker getTracker() {
+        if (tracker == null)
+            tracker = Piwik.getInstance(this).newTracker(new TrackerConfig("https://onecric.piwik.pro", "fe5a55b8-bec8-4022-ab0c-b327e32cdf82", "Default Tracker"));
+        return tracker;
+    }
 
     @Override
     public void onCreate() {
