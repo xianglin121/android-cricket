@@ -118,7 +118,7 @@ public class CricketFantasyFragment extends MvpFragment<CricketFantasyPresenter>
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(DpUtil.dp2px(24), DpUtil.dp2px(24));
                     layoutParams.rightMargin = DpUtil.dp2px(7);
                     textView.setLayoutParams(layoutParams);
-                    if ("r".equals(model.getHome().get(i))) {
+                    if ("L".equals(model.getHome().get(i))) {
                         textView.setBackgroundColor(getResources().getColor(R.color.c_DC3C23));
                         textView.setText("L");
                     }else {
@@ -141,7 +141,7 @@ public class CricketFantasyFragment extends MvpFragment<CricketFantasyPresenter>
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(DpUtil.dp2px(24), DpUtil.dp2px(24));
                     layoutParams.rightMargin = DpUtil.dp2px(7);
                     textView.setLayoutParams(layoutParams);
-                    if ("r".equals(model.getAway().get(i))) {
+                    if ("L".equals(model.getAway().get(i))) {
                         textView.setBackgroundColor(getResources().getColor(R.color.c_DC3C23));
                         textView.setText("L");
                     }else {
