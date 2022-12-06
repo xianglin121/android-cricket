@@ -58,6 +58,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import pro.piwik.sdk.extra.TrackHelper;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -266,6 +267,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     mModel.setLikes(like);
                     tv_like.setText(String.valueOf(like));
                     mvpPresenter.doHeadlineLike(mModel.getId());
+                    TrackHelper.track().socialInteraction("Like", "Headlines_user").target("onecric.live.app").with(((AppManager) getApplication()).getTracker());
                 }
                 break;
             case R.id.iv_collect:
@@ -278,6 +280,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         iv_collect.setSelected(true);
                     }
                     mvpPresenter.doHeadlineCollect(mModel.getId());
+                    TrackHelper.track().socialInteraction("Collect", "Headlines_user").target("onecric.live.app").with(((AppManager) getApplication()).getTracker());
                 }
                 break;
             case R.id.tv_time_sort:
@@ -338,7 +341,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         "<body>\n" +
                         "<style> \n" +
                         "img{width:100%!important;height:auto!important}\n" +
-                        "section{line-height:150%;font-size:95%;text-color:#333333;}\n"+
+                        "section{line-height:150%;font-size:95%;text-color:#333333;}\n" +
                         "a:link{color:#1866DB;text-decoration:none;}\n" +
                         " </style>";
                 String htmlPart2 = "</body></html>";
@@ -374,10 +377,10 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 String html = htmlPart1 + replaceStr + htmlPart2;
                 wv_content.setWebViewClient (new WebViewClient() {
                     *//* 这个事件，将在用户点击链接时触发。
-                     * 通过判断url，可确定如何操作，
-                     * 如果返回true，表示我们已经处理了这个request，
-                     * 如果返回false，表 示没有处理，
-                     * 那么浏览器将会根据url获取网页*//*
+                 * 通过判断url，可确定如何操作，
+                 * 如果返回true，表示我们已经处理了这个request，
+                 * 如果返回false，表 示没有处理，
+                 * 那么浏览器将会根据url获取网页*//*
                     public boolean shouldOverrideUrlLoading (WebView view, String url) {
                         if(url.indexOf("app://player_profile")!=-1){
                             PlayerProfileActivity.forward(mActivity, 686858);//球员 getPlayer_id() 686858  有没有根据名得到id的接口？
@@ -392,7 +395,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     }
                 });*/
 
-                String html = htmlPart1 + model.getContent()  + htmlPart2;
+                String html = htmlPart1 + model.getContent() + htmlPart2;
                 wv_content.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
             }
             if (list != null) {

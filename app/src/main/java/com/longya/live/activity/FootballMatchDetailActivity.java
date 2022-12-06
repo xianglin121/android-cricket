@@ -38,6 +38,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.appbar.AppBarLayout;
+import com.longya.live.AppManager;
 import com.longya.live.CommonAppConfig;
 import com.longya.live.R;
 import com.longya.live.custom.CustomPagerTitleView;
@@ -90,8 +91,12 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.Li
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import pro.piwik.sdk.extra.TrackHelper;
 
 public class FootballMatchDetailActivity extends MvpActivity<FootballMatchDetailPresenter> implements FootballMatchDetailView, View.OnClickListener {
 
@@ -195,7 +200,7 @@ public class FootballMatchDetailActivity extends MvpActivity<FootballMatchDetail
 
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                float percent = (Math.abs(verticalOffset * 1.0f)/appBarLayout.getTotalScrollRange());
+                float percent = (Math.abs(verticalOffset * 1.0f) / appBarLayout.getTotalScrollRange());
                 cl_title_one.setAlpha(1f - percent);
                 cl_title_two.setAlpha(percent);
             }
@@ -250,7 +255,7 @@ public class FootballMatchDetailActivity extends MvpActivity<FootballMatchDetail
         mvpPresenter.getDetail(mId);
         if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
             mvpPresenter.getReportList();
-        }else {
+        } else {
             findViewById(R.id.fl_board).setVisibility(View.VISIBLE);
             findViewById(R.id.fl_board).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -324,7 +329,7 @@ public class FootballMatchDetailActivity extends MvpActivity<FootballMatchDetail
             if (mIsFullScreen) {
                 mMatchPlayerView.switchPlayMode(SuperPlayerDef.PlayerMode.WINDOW);
                 return true;
-            }else {
+            } else {
                 //继续执行父类其他点击事件
                 return super.onKeyUp(keyCode, event);
             }
@@ -363,6 +368,11 @@ public class FootballMatchDetailActivity extends MvpActivity<FootballMatchDetail
         // 设置UserAgent标识
 //        mWebView.getSettings().setUserAgentString(mWebView.getSettings().getUserAgentString() + " app-shikuimapp");
         mWebView.loadUrl(url);
+        try {
+            TrackHelper.track().outlink(new URL(url)).with(((AppManager) getApplication()).getTracker());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -371,91 +381,91 @@ public class FootballMatchDetailActivity extends MvpActivity<FootballMatchDetail
         if (detailBean != null) {
             if (detailBean.getIs_collect() == 1) {
                 iv_collect.setSelected(true);
-            }else {
+            } else {
                 iv_collect.setSelected(false);
             }
             if ("1".equals(SpUtil.getInstance().getStringValue(SpUtil.FOOTBALL_LANGUAGE))) {//繁体中文
                 if (!TextUtils.isEmpty(detailBean.getCompetition_name_zht())) {
                     tv_match_name.setText(detailBean.getCompetition_name_zht());
-                }else {
+                } else {
                     tv_match_name.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getHome_team_name_zht())) {
                     tv_team_name_one.setText(detailBean.getHome_team_name_zht());
-                }else {
+                } else {
                     tv_team_name_one.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getAway_team_name_zht())) {
                     tv_team_name_two.setText(detailBean.getAway_team_name_zht());
-                }else {
+                } else {
                     tv_team_name_two.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getHome_team_name_zht())) {
                     tv_title_team_one.setText(detailBean.getHome_team_name_zht());
-                }else {
+                } else {
                     tv_title_team_one.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getAway_team_name_zht())) {
                     tv_title_team_two.setText(detailBean.getAway_team_name_zht());
-                }else {
+                } else {
                     tv_title_team_two.setText("");
                 }
-            }else if ("2".equals(SpUtil.getInstance().getStringValue(SpUtil.FOOTBALL_LANGUAGE))) {//英文
+            } else if ("2".equals(SpUtil.getInstance().getStringValue(SpUtil.FOOTBALL_LANGUAGE))) {//英文
                 if (!TextUtils.isEmpty(detailBean.getCompetition_name_en())) {
                     tv_match_name.setText(detailBean.getCompetition_name_en());
-                }else {
+                } else {
                     tv_match_name.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getHome_team_name_en())) {
                     tv_team_name_one.setText(detailBean.getHome_team_name_en());
-                }else {
+                } else {
                     tv_team_name_one.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getAway_team_name_en())) {
                     tv_team_name_two.setText(detailBean.getAway_team_name_en());
-                }else {
+                } else {
                     tv_team_name_two.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getHome_team_name_en())) {
                     tv_title_team_one.setText(detailBean.getHome_team_name_en());
-                }else {
+                } else {
                     tv_title_team_one.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getAway_team_name_en())) {
                     tv_title_team_two.setText(detailBean.getAway_team_name_en());
-                }else {
+                } else {
                     tv_title_team_two.setText("");
                 }
-            }else {//简体中文
+            } else {//简体中文
                 if (!TextUtils.isEmpty(detailBean.getCompetition_name_zh())) {
                     tv_match_name.setText(detailBean.getCompetition_name_zh());
-                }else {
+                } else {
                     tv_match_name.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getHome_team_name_zh())) {
                     tv_team_name_one.setText(detailBean.getHome_team_name_zh());
-                }else {
+                } else {
                     tv_team_name_one.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getAway_team_name_zh())) {
                     tv_team_name_two.setText(detailBean.getAway_team_name_zh());
-                }else {
+                } else {
                     tv_team_name_two.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getHome_team_name_zh())) {
                     tv_title_team_one.setText(detailBean.getHome_team_name_zh());
-                }else {
+                } else {
                     tv_title_team_one.setText("");
                 }
                 if (!TextUtils.isEmpty(detailBean.getAway_team_name_zh())) {
                     tv_title_team_two.setText(detailBean.getAway_team_name_zh());
-                }else {
+                } else {
                     tv_title_team_two.setText("");
                 }
             }
             if (!TextUtils.isEmpty(detailBean.getTime())) {
                 tv_match_time.setText(detailBean.getTime());
-            }else {
+            } else {
                 tv_match_time.setText("");
             }
             GlideUtil.loadTeamImageDefault(this, detailBean.getHome_team_log(), iv_team_logo_one);
@@ -499,7 +509,7 @@ public class FootballMatchDetailActivity extends MvpActivity<FootballMatchDetail
             tv_half_score.setText("半场" + detailBean.getHalf_score());
             tv_title_score_one.setText(String.valueOf(detailBean.getHome_data().get(0)));
             tv_title_score_two.setText(String.valueOf(detailBean.getAway_data().get(0)));
-            ((FootballMatchStatusFragment)mViewList.get(0)).setData(detailBean);
+            ((FootballMatchStatusFragment) mViewList.get(0)).setData(detailBean);
 
             //初始化动画直播网页
             initWebView(detailBean.getLive_animation_url());
@@ -576,7 +586,7 @@ public class FootballMatchDetailActivity extends MvpActivity<FootballMatchDetail
             case R.id.iv_emoji:
                 if (more_groups.getVisibility() == View.GONE) {
                     showFaceViewGroup();
-                }else {
+                } else {
                     hideFaceViewGroup();
                 }
                 break;
@@ -662,10 +672,10 @@ public class FootballMatchDetailActivity extends MvpActivity<FootballMatchDetail
             if (more_groups.getVisibility() == View.VISIBLE) {
                 hideFaceViewGroup();
                 return false;
-            }else {
+            } else {
                 return super.onKeyDown(keyCode, event);
             }
-        }else {
+        } else {
             return super.onKeyDown(keyCode, event);
         }
     }
@@ -742,7 +752,7 @@ public class FootballMatchDetailActivity extends MvpActivity<FootballMatchDetail
             public void onPageSelected(int i) {
                 if (i == 4) {
                     fl_input.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     fl_input.setVisibility(View.GONE);
                 }
             }
@@ -791,8 +801,8 @@ public class FootballMatchDetailActivity extends MvpActivity<FootballMatchDetail
                         @Override
                         public void onSuccess(V2TIMMessage v2TIMMessage) {
                             if (mViewList != null && mViewList.size() > 0) {
-                                if (mViewList.get(4) instanceof  MatchChatFragment) {
-                                    ((MatchChatFragment)mViewList.get(4)).updateMsg(messageInfo);
+                                if (mViewList.get(4) instanceof MatchChatFragment) {
+                                    ((MatchChatFragment) mViewList.get(4)).updateMsg(messageInfo);
                                 }
                             }
                         }
