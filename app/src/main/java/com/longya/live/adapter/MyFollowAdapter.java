@@ -31,13 +31,18 @@ public class MyFollowAdapter extends BaseQuickAdapter<UserBean, BaseViewHolder> 
         GlideUtil.loadUserImageDefault(mContext, item.getAvatar(), iv_avatar);
         if (item.getIs_live() == 0) {
             helper.getView(R.id.iv_live).setSelected(false);
-        }else {
+        } else {
             helper.getView(R.id.iv_live).setSelected(true);
         }
         if (!TextUtils.isEmpty(item.getUser_nickname())) {
             helper.setText(R.id.tv_name, item.getUser_nickname());
-        }else {
+        } else {
             helper.setText(R.id.tv_name, "");
+        }
+        if (!TextUtils.isEmpty(item.getOnlineTime())) {
+            helper.setText(R.id.tv_online_time, item.getOnlineTime());
+        } else {
+            helper.setText(R.id.tv_online_time, "");
         }
         ImageView iv_level = helper.getView(R.id.iv_level);
         GlideUtil.loadImageDefault(mContext, item.getExp_icon(), iv_level);
