@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorLiveBlueBg"
+    android:paddingTop="10dp"
+    android:paddingBottom="18dp">
+
+
+    <androidx.constraintlayout.helper.widget.Layer
+        android:id="@+id/cricket_live_over_layer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_live_blue_bg"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        app:constraint_referenced_ids="cricket_live_round,cricket_live_over"
+        app:layout_constraintBottom_toBottomOf="@id/cricket_live_round"
+        app:layout_constraintEnd_toEndOf="@id/cricket_live_over"
+        app:layout_constraintStart_toStartOf="@id/cricket_live_over"
+        app:layout_constraintTop_toTopOf="@id/cricket_live_over" />
+
+    <TextView
+        android:id="@+id/cricket_live_over"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="OVER"
+        android:textColor="@color/colorLiveGrayText"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cricket_live_round"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorLiveBlackTextBold"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/cricket_live_over"
+        app:layout_constraintStart_toStartOf="@id/cricket_live_over"
+        app:layout_constraintTop_toBottomOf="@id/cricket_live_over" />
+
+
+    <TextView
+        android:id="@+id/cricket_live_sessions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/c_333333"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/cricket_live_runs"
+        app:layout_constraintStart_toEndOf="@id/cricket_live_over"
+        app:layout_constraintTop_toTopOf="@id/cricket_live_over" />
+
+    <TextView
+        android:id="@+id/cricket_live_runs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/c_333333"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/cricket_live_round"
+        app:layout_constraintStart_toStartOf="@id/cricket_live_sessions"
+        app:layout_constraintTop_toBottomOf="@id/cricket_live_sessions" />
+
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="@color/colorLiveBlueLine"
+        app:layout_constraintBottom_toBottomOf="@id/cricket_live_over_layer"
+        app:layout_constraintStart_toStartOf="@id/cricket_live_guideline"
+        app:layout_constraintTop_toTopOf="@id/cricket_live_over_layer" />
+
+    <TextView
+        android:id="@+id/cricket_live_country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/c_333333"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/cricket_live_runs"
+        app:layout_constraintStart_toStartOf="@id/cricket_live_guideline"
+        app:layout_constraintTop_toTopOf="@id/cricket_live_over" />
+
+    <TextView
+        android:id="@+id/cricket_live_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/c_333333"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/cricket_live_country"
+        app:layout_constraintTop_toTopOf="@id/cricket_live_runs" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/cricket_live_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <View
+        android:id="@+id/cricket_live_underline"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/colorLiveBlueLine"
+        app:layout_constraintTop_toBottomOf="@id/cricket_live_over_layer" />
+
+    <TextView
+        android:id="@+id/cricket_live_striker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/c_333333"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cricket_live_underline" />
+
+    <TextView
+        android:id="@+id/cricket_live_striker_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/colorLiveBlackTextBold"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/cricket_live_striker"
+        app:layout_constraintTop_toBottomOf="@id/cricket_live_striker" />
+
+    <TextView
+        android:id="@+id/cricket_live_striker_score_pt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:textColor="@color/colorLiveBlackTextBold"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/cricket_live_striker_score"
+        app:layout_constraintStart_toEndOf="@id/cricket_live_striker_score"
+        app:layout_constraintTop_toTopOf="@id/cricket_live_striker_score" />
+
+    <TextView
+        android:id="@+id/cricket_live_non_striker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/c_333333"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/cricket_live_striker"
+        app:layout_constraintStart_toEndOf="@id/cricket_live_striker"
+        app:layout_constraintTop_toTopOf="@id/cricket_live_striker" />
+
+
+    <TextView
+        android:id="@+id/cricket_live_non_striker_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorLiveBlackTextBold"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/cricket_live_non_striker"
+        app:layout_constraintTop_toTopOf="@id/cricket_live_striker_score" />
+
+    <TextView
+        android:id="@+id/cricket_live_non_striker_score_pt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:textColor="@color/colorLiveBlackTextBold"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/cricket_live_non_striker_score"
+        app:layout_constraintStart_toEndOf="@id/cricket_live_non_striker_score"
+        app:layout_constraintTop_toTopOf="@id/cricket_live_non_striker_score" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

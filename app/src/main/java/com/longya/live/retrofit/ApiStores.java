@@ -795,7 +795,7 @@ public interface ApiStores {
     Observable<JsonObject> getCricketDetailInfo(@Body RequestBody body);
 
     //获取赛事详情-live
-    @POST("api/Cricket/cricket_match_detail_live")
+    @POST("api/Cricket/cricket_match_detail_live_new")
     Observable<JsonObject> getCricketDetailLive(@Body RequestBody body);
 
     //获取赛事详情-squad

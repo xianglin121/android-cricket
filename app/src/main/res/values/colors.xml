@@ -140,4 +140,14 @@
 
     <color name="c_FEE737">#FEE737</color>
     <color name="c_F9C33D">#F9C33D</color>
+
+    <color name="colorLiveBlueBg">#f3f8fe</color>
+    <color name="colorLiveBlueLight">#d8ecff</color>
+    <color name="colorLiveBlueLine">#b1d9ff</color>
+    <color name="colorLiveBlackTextBold">#505050</color>
+    <color name="colorLiveGrayText">#9aa2a8</color>
+    <color name="colorLiveRed">#f0283c</color>
+    <color name="colorLiveGreen">#00aa50</color>
+    <color name="colorLiveGrayLine">#f0f1f4</color>
+    <color name="colorLiveGrayBg">#c8c8c8</color>
 </resources>

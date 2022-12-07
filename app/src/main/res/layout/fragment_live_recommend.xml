@@ -78,7 +78,9 @@
                         android:drawableRight="@mipmap/icon_arrow_right_five"
                         android:text="@string/see_more"
                         android:textColor="@color/c_E05526"
-                        android:textSize="15sp" />
+                        android:textSize="12sp"
+                        android:textAllCaps="true"
+                        android:gravity="center_vertical"/>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -124,7 +126,9 @@
                         android:drawableRight="@mipmap/icon_arrow_right_five"
                         android:text="@string/see_more"
                         android:textColor="@color/c_E05526"
-                        android:textSize="15sp" />
+                        android:textSize="12sp"
+                        android:textAllCaps="true"
+                        android:gravity="center_vertical"/>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -170,7 +174,9 @@
                         android:drawableRight="@mipmap/icon_arrow_right_five"
                         android:text="@string/see_more"
                         android:textColor="@color/c_E05526"
-                        android:textSize="15sp" />
+                        android:textSize="12sp"
+                        android:textAllCaps="true"
+                        android:gravity="center_vertical"/>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
