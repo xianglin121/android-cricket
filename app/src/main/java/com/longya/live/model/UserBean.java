@@ -30,6 +30,16 @@ public class UserBean implements Serializable {
     private String mobile;
     private String token;
     private String userSig;
+
+    public String getOnlineTime() {
+        return onlineTime;
+    }
+
+    public void setOnlineTime(String onlineTime) {
+        this.onlineTime = onlineTime;
+    }
+
+    private String onlineTime;
     private int is_live;
     private int is_guard;
     private int is_defray_pass;
