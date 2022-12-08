@@ -21,8 +21,10 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.multidex.BuildConfig;
 
 import com.longya.live.CommonAppConfig;
 import com.longya.live.R;
@@ -128,6 +130,20 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
         }
     }
 
+    String googlePlay = "com.android.vending";
+
+    void transferToGooglePlay() {
+        try {
+            Uri uri = Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage(googlePlay);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -143,6 +159,7 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
 //                            CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),
 //                            CommonAppConfig.getInstance().getConfig().getAndroidDownloadUrl());
 //                }
+                transferToGooglePlay();
                 break;
             case R.id.cl_about_us:
                 AboutUsActivity.forward(this);

@@ -86,6 +86,7 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
     private TextView tv_desc_two;
     private TabLayout tabLayout;
     public ViewPager mViewPager;
+    public LinearLayout ll_top;
     private List<Fragment> mViewList;
 
     private CricketMatchBean mModel;
@@ -108,6 +109,7 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
     @Override
     protected void initView() {
         mMatchId = getIntent().getIntExtra("matchId", 0);
+        ll_top = findViewById(R.id.ll_top);
         ll_content = findViewById(R.id.ll_content);
         cl_one = findViewById(R.id.cl_one);
         tv_home_name = findViewById(R.id.tv_home_name);
@@ -138,8 +140,8 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
         findViewById(R.id.iv_back_three).setOnClickListener(this);
         findViewById(R.id.iv_back_four).setOnClickListener(this);
 
-        ((ImageView)findViewById(R.id.iv_right)).setBackgroundResource(R.mipmap.icon_share2);
-        ((ImageView)findViewById(R.id.iv_right)).setOnClickListener(new View.OnClickListener() {
+        ((ImageView) findViewById(R.id.iv_right)).setBackgroundResource(R.mipmap.icon_share2);
+        ((ImageView) findViewById(R.id.iv_right)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShareUtil.shareText(mActivity, "", HttpConstant.CRICKET_DETAIL_URL + mMatchId);
@@ -223,11 +225,15 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
     public void getDataSuccess(CricketMatchBean model) {
         if (model != null) {
             mModel = model;
-            ((CricketFantasyFragment)mViewList.get(0)).getData(mMatchId, model.getHome_name(), model.getHome_logo(), model.getAway_name(), model.getAway_logo());
-            if (!TextUtils.isEmpty(model.getTournament_id())) {
-                ((CricketInfoFragment)mViewList.get(1)).getList(model.getHome_id(), model.getAway_id(), Integer.valueOf(model.getTournament_id()));
+            if (mModel.getStatus() != 1) {
+                ll_top.setVisibility(View.GONE);
+                ll_content.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.dp2px(70)));
             }
-            ((CricketSquadFragment)mViewList.get(5)).getList(mMatchId, model.getHome_name(), model.getHome_logo(), model.getAway_name(), model.getAway_logo());
+            ((CricketFantasyFragment) mViewList.get(0)).getData(mMatchId, model.getHome_name(), model.getHome_logo(), model.getAway_name(), model.getAway_logo());
+            if (!TextUtils.isEmpty(model.getTournament_id())) {
+                ((CricketInfoFragment) mViewList.get(1)).getList(model.getHome_id(), model.getAway_id(), Integer.valueOf(model.getTournament_id()));
+            }
+            ((CricketSquadFragment) mViewList.get(5)).getList(mMatchId, model.getHome_name(), model.getHome_logo(), model.getAway_name(), model.getAway_logo());
             if (model.getStatus() == 0) {
                 cl_one.setVisibility(View.GONE);
                 cl_two.setVisibility(View.VISIBLE);
@@ -245,7 +251,7 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
                     SpannableStringBuilder builder = new SpannableStringBuilder(strOne + strTwo);
                     builder.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.c_DC3C23)), strOne.length(), (strOne.length() + strTwo.length()), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                     tv_center.setText(builder);
-                }else {
+                } else {
                     tv_center.setText(strOne);
                 }
                 String str = "";
@@ -256,7 +262,7 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
                     str = str + model.getVenue_name();
                 }
                 tv_desc_two.setText(str);
-            }else {
+            } else {
                 cl_one.setVisibility(View.VISIBLE);
                 cl_two.setVisibility(View.GONE);
                 if (!TextUtils.isEmpty(model.getHome_name())) {
@@ -288,13 +294,13 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
             //初始化视频直播地址
             initWebViewTwo(mModel.getLive_url());
             //请求记分卡数据
-            ((CricketScorecardFragment)mViewList.get(3)).getData(mModel);
+            ((CricketScorecardFragment) mViewList.get(3)).getData(mModel);
         }
     }
 
     @Override
     public void getUpdatesDataSuccess(List<UpdatesBean> list) {
-        ((CricketUpdatesFragment)mViewList.get(4)).setData(list);
+        ((CricketUpdatesFragment) mViewList.get(4)).setData(list);
     }
 
     private void initWebViewOne(String url) {
