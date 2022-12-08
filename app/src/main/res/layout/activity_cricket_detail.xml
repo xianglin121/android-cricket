@@ -10,7 +10,7 @@
         <LinearLayout
             android:id="@+id/ll_content"
             android:layout_width="match_parent"
-            android:layout_height="256dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@mipmap/bg_cricket_info_head">
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,7 +58,8 @@
                         app:layout_constraintLeft_toLeftOf="@id/iv_home_logo"
                         app:layout_constraintRight_toRightOf="@id/iv_home_logo"
                         android:textSize="16dp"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        android:layout_marginBottom="4dp"/>
 
                     <ImageView
                         android:id="@+id/iv_home_logo"
@@ -78,6 +79,7 @@
                         app:layout_constraintTop_toTopOf="@id/iv_center"
                         app:layout_constraintBottom_toBottomOf="@id/iv_center"
                         app:layout_constraintRight_toLeftOf="@id/tv_home_round"
+                        android:layout_marginRight="2dp"
                         android:textSize="18dp"
                         android:textColor="@color/white"/>
 
@@ -89,8 +91,7 @@
                         app:layout_constraintBaseline_toBaselineOf="@id/tv_home_score"
                         android:layout_marginRight="20dp"
                         android:textSize="12dp"
-                        android:textColor="@color/c_E5E5E5"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/c_E5E5E5"/>
 
                     <ImageView
                         android:id="@+id/iv_center"
@@ -110,8 +111,7 @@
                         app:layout_constraintBaseline_toBaselineOf="@id/tv_away_score"
                         android:layout_marginLeft="20dp"
                         android:textSize="12dp"
-                        android:textColor="@color/c_E5E5E5"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/c_E5E5E5"/>
 
                     <TextView
                         android:id="@+id/tv_away_score"
@@ -120,6 +120,7 @@
                         app:layout_constraintTop_toTopOf="@id/iv_center"
                         app:layout_constraintBottom_toBottomOf="@id/iv_center"
                         app:layout_constraintLeft_toRightOf="@id/tv_away_round"
+                        android:layout_marginLeft="2dp"
                         android:textSize="18dp"
                         android:textColor="@color/white"/>
 
@@ -142,6 +143,7 @@
                         app:layout_constraintLeft_toLeftOf="@id/iv_away_logo"
                         app:layout_constraintRight_toRightOf="@id/iv_away_logo"
                         android:textSize="16dp"
+                        android:layout_marginBottom="4dp"
                         android:textColor="@color/white"/>
 
                     <TextView
@@ -153,7 +155,9 @@
                         app:layout_constraintRight_toRightOf="parent"
                         android:layout_marginTop="25dp"
                         android:textSize="14dp"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginRight="@dimen/dp_10"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -235,6 +239,7 @@
                     android:layout_marginTop="12dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
+                    android:layout_marginBottom="14.5dp"
                     android:orientation="horizontal"
                     android:background="@drawable/shape_80black_14dp_rec">
                     <TextView

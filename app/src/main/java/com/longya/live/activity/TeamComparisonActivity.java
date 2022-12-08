@@ -45,6 +45,8 @@ public class TeamComparisonActivity extends MvpActivity<TeamComparisonPresenter>
     private TextView tv_away_name;
     private ImageView iv_home_logo;
     private ImageView iv_away_logo;
+    private ImageView iv_arrow_1;
+    private ImageView iv_arrow_2;
     private TextView tv_home_win_rate;
     private TextView tv_away_win_rate;
     private ProgressBar progress_bar;
@@ -90,6 +92,8 @@ public class TeamComparisonActivity extends MvpActivity<TeamComparisonPresenter>
 
         tv_home_name = findViewById(R.id.tv_home_name);
         iv_home_logo = findViewById(R.id.iv_home_logo);
+        iv_arrow_1 = findViewById(R.id.iv_arrow_1);
+        iv_arrow_2 = findViewById(R.id.iv_arrow_2);
         tv_away_name = findViewById(R.id.tv_away_name);
         iv_away_logo = findViewById(R.id.iv_away_logo);
         tv_home_win_rate = findViewById(R.id.tv_home_win_rate);
@@ -127,16 +131,20 @@ public class TeamComparisonActivity extends MvpActivity<TeamComparisonPresenter>
                 ll_home.setSelected(!ll_home.isSelected());
                 if (ll_home.isSelected()) {
                     rv_home.setVisibility(View.VISIBLE);
+                    iv_arrow_1.setImageResource(R.mipmap.icon_arrow_up_four);
                 }else {
                     rv_home.setVisibility(View.GONE);
+                    iv_arrow_1.setImageResource(R.mipmap.icon_arrow_down_four);
                 }
                 break;
             case R.id.ll_away:
                 ll_away.setSelected(!ll_away.isSelected());
                 if (ll_away.isSelected()) {
                     rv_away.setVisibility(View.VISIBLE);
+                    iv_arrow_2.setImageResource(R.mipmap.icon_arrow_up_four);
                 }else {
                     rv_away.setVisibility(View.GONE);
+                    iv_arrow_2.setImageResource(R.mipmap.icon_arrow_down_four);
                 }
                 break;
         }

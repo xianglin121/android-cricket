@@ -7,8 +7,8 @@
     android:background="@color/white">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="14dp"
         android:src="@mipmap/bg_avatar_default"
         android:scaleType="centerCrop"/>
@@ -16,7 +16,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="12dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/tv_name"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:textSize="16dp"
             android:textColor="@color/c_333333"
-            android:textStyle="bold"/>
+            style="@style/TvSansSerifMediumStyle"/>
 
         <TextView
             android:id="@+id/tv_abbreviation"

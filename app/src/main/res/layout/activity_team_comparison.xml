@@ -50,6 +50,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_home_name"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginLeft="12dp"
+                    android:layout_marginTop="@dimen/dp_4"
                     android:src="@mipmap/img_team_logo_default"
                     android:scaleType="centerCrop"/>
 
@@ -69,6 +70,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_away_name"
                     app:layout_constraintRight_toRightOf="parent"
                     android:layout_marginRight="12dp"
+                    android:layout_marginTop="@dimen/dp_4"
                     android:src="@mipmap/img_team_logo_default"
                     android:scaleType="centerCrop"/>
 
@@ -148,34 +150,40 @@
                 android:layout_marginRight="10dp"
                 android:background="@mipmap/bg_shadow"
                 android:orientation="vertical">
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/ll_home"
                     android:layout_width="match_parent"
                     android:layout_height="59dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginRight="16dp">
+
                     <TextView
                         android:id="@+id/tv_home_name_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16dp"
-                        android:textColor="@color/c_333333"/>
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/ll_home_round"
+                        android:textColor="@color/c_333333"
+                        android:textSize="16dp" />
 
                     <LinearLayout
                         android:id="@+id/ll_home_round"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="24dp"
-                        android:layout_weight="1"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/dp_10"
                         android:gravity="center"
-                        android:orientation="horizontal"/>
+                        android:orientation="horizontal" />
 
                     <ImageView
+                        android:id="@+id/iv_arrow_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/icon_arrow_down_four"/>
-                </LinearLayout>
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/icon_arrow_down_four" />
+                </RelativeLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_home"
@@ -190,35 +198,39 @@
                     android:layout_marginLeft="5dp"
                     android:background="@color/c_CCCCCC"/>
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/ll_away"
                     android:layout_width="match_parent"
                     android:layout_height="59dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginRight="16dp">
                     <TextView
                         android:id="@+id/tv_away_name_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
-                        android:textColor="@color/c_333333"/>
+                        android:textColor="@color/c_333333"
+                        android:layout_toLeftOf="@id/ll_away_round"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"/>
 
                     <LinearLayout
                         android:id="@+id/ll_away_round"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="24dp"
-                        android:layout_weight="1"
+                        android:layout_centerInParent="true"
                         android:gravity="center"
-                        android:orientation="horizontal"/>
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="@dimen/dp_10"/>
 
                     <ImageView
+                        android:id="@+id/iv_arrow_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/icon_arrow_down_four"/>
-                </LinearLayout>
-
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/icon_arrow_down_four" />
+                </RelativeLayout>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_away"
                     android:layout_width="match_parent"
@@ -405,7 +417,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:layout_marginLeft="17dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginRight="12dp"
                     android:orientation="horizontal">
                     <TextView
@@ -420,15 +432,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/last5_matches_against_each_other"
-                        android:textSize="12dp"
-                        android:textColor="@color/c_999999"/>
+                        android:textSize="11dp"
+                        android:textColor="@color/c_999999"
+                        android:gravity="center_vertical"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:layout_marginLeft="17dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginRight="12dp"
                     android:orientation="horizontal">
                     <TextView

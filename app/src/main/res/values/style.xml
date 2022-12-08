@@ -86,4 +86,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TvSmallCapsStyle">
+        <item name="android:fontFamily">sans-serif-smallcaps</item>
+    </style>
+
+    <style name="TvSansSerifMediumStyle">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
 </resources>
