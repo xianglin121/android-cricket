@@ -7,8 +7,8 @@
     android:background="@color/white">
     <ImageView
         android:id="@+id/iv_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="14dp"
         android:src="@mipmap/img_team_logo_default"
         android:scaleType="centerCrop"/>
@@ -16,7 +16,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="12dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/tv_name"
@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
             android:textSize="16dp"
             android:textColor="@color/c_333333"
-            android:textStyle="bold"/>
+            android:layout_marginBottom="@dimen/dp_4"
+            style="@style/TvSansSerifMediumStyle"/>
 
         <TextView
             android:id="@+id/tv_abbreviation"
@@ -42,6 +43,6 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="18dp"
+        android:layout_marginRight="12dp"
         android:background="@mipmap/icon_arrow_right_three"/>
 </LinearLayout>

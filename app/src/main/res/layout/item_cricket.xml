@@ -7,15 +7,15 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:layout_marginLeft="14dp"
+        android:layout_marginRight="8dp"
         android:text="The Hundred"
         android:textSize="15sp"
         android:textColor="@color/c_333333"
         android:textStyle="bold"
         android:drawableRight="@mipmap/icon_arrow_right_four"
-        android:drawablePadding="6dp"
-        android:fontFamily="sans-serif-condensed-light"/>
+        android:drawablePadding="6dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_inner"
@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
         android:layout_marginBottom="14dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
         android:background="@mipmap/bg_shadow"/>
 
     <TextView
@@ -37,7 +37,6 @@
         android:textAllCaps="true"
         android:text="@string/see_more"
         android:textSize="12sp"
-        android:textColor="@color/c_DC3C23"
-        android:fontFamily="sans-serif-condensed-light"/>
+        android:textColor="@color/c_DC3C23"/>
 
 </LinearLayout>
