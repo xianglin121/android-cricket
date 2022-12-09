@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -55,6 +58,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,16 +79,18 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     }
 
     private int mId;
-    private ImageView iv_avatar;
-    private TextView tv_name;
-    private ButtonFollowView iv_follow;
+
+
     private NestedScrollView scroll_view;
     private ConstraintLayout cl_title;
     private TextView tv_title;
-    private ImageView iv_title_avatar;
-    private TextView tv_title_name;
     private TextView tv_date;
-    private ButtonFollowView iv_title_follow;
+//    private ImageView iv_avatar;
+//    private ButtonFollowView iv_follow;
+//    private ImageView iv_title_avatar;
+//    private ButtonFollowView iv_title_follow;
+//    private TextView tv_name;
+    private TextView tv_title_name;
     private WebView wv_content;
     private RecyclerView rv_article;
     private ThemeHeadlineAdapter mAdapter;
@@ -119,22 +125,17 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_headline_detail;
+        return R.layout.activity_headline_detail_new;
     }
 
     @Override
     protected void initView() {
         mId = getIntent().getIntExtra("id", 0);
-        iv_avatar = findViewById(R.id.iv_avatar);
-        tv_name = findViewById(R.id.tv_name);
-        iv_follow = findViewById(R.id.iv_follow);
+//        tv_name = findViewById(R.id.tv_name);
         scroll_view = findViewById(R.id.scroll_view);
         cl_title = findViewById(R.id.cl_title);
-        tv_title = findViewById(R.id.tv_title);
-        iv_title_avatar = findViewById(R.id.iv_title_avatar);
-        tv_title_name = findViewById(R.id.tv_title_name);
+
         tv_date = findViewById(R.id.tv_date);
-        iv_title_follow = findViewById(R.id.iv_title_follow);
         wv_content = findViewById(R.id.wv_content);
         rv_article = findViewById(R.id.rv_article);
         tv_time_sort = findViewById(R.id.tv_time_sort);
@@ -143,19 +144,25 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
         rv_comment = findViewById(R.id.rv_comment);
         iv_like = findViewById(R.id.iv_like);
         tv_like = findViewById(R.id.tv_like);
+        tv_title = findViewById(R.id.tv_title);
         iv_collect = findViewById(R.id.iv_collect);
-
-        iv_avatar.setOnClickListener(this);
-        iv_title_avatar.setOnClickListener(this);
-        iv_follow.setOnClickListener(this);
-        iv_title_follow.setOnClickListener(this);
+        tv_title_name = findViewById(R.id.tv_title_name);
+//        iv_avatar = findViewById(R.id.iv_avatar);
+//        iv_follow = findViewById(R.id.iv_follow);
+//        iv_title_follow = findViewById(R.id.iv_title_follow);
+//        iv_title_avatar = findViewById(R.id.iv_title_avatar);
+//        iv_title_avatar.setOnClickListener(this);
+//        iv_follow.setOnClickListener(this);
+//        iv_title_follow.setOnClickListener(this);
+//        iv_avatar.setOnClickListener(this);
         tv_time_sort.setOnClickListener(this);
         tv_hot_sort.setOnClickListener(this);
         iv_collect.setOnClickListener(this);
         findViewById(R.id.ll_input).setOnClickListener(this);
         findViewById(R.id.ll_like).setOnClickListener(this);
+        tv_title_name.setOnClickListener(this);
 
-        scroll_view.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+/*        scroll_view.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY > cl_title.getHeight()) {
@@ -168,7 +175,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     iv_follow.setVisibility(View.GONE);
                 }
             }
-        });
+        });*/
 
         //初始化回复弹窗
         replyDialog = new HeadlineCommentReplyDialog(this, R.style.dialog);
@@ -233,6 +240,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_title_name:
             case R.id.iv_avatar:
             case R.id.iv_title_avatar:
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
@@ -308,7 +316,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     public void getDataSuccess(HeadlineBean model, List<HeadlineBean> list) {
         if (model != null) {
             mModel = model;
-            GlideUtil.loadImageDefault(this, model.getAvatar(), iv_avatar);
+/*          GlideUtil.loadImageDefault(this, model.getAvatar(), iv_avatar);
+            GlideUtil.loadImageDefault(this, model.getAvatar(), iv_title_avatar);
             if (!TextUtils.isEmpty(model.getUser_nickname())) {
                 tv_name.setText(model.getUser_nickname());
             }
@@ -317,21 +326,23 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             } else {
                 iv_follow.setFollow(false);
             }
+            if (model.getIs_attention() == 1) {
+                iv_title_follow.setFollow(true);
+            } else {
+                iv_title_follow.setFollow(false);
+            }
+            */
             if (!TextUtils.isEmpty(model.getTitle())) {
                 tv_title.setText(model.getTitle());
             }
-            GlideUtil.loadImageDefault(this, model.getAvatar(), iv_title_avatar);
+
             if (!TextUtils.isEmpty(model.getUser_nickname())) {
                 tv_title_name.setText(model.getUser_nickname());
             }
             if (!TextUtils.isEmpty(model.getAddtime())) {
                 tv_date.setText(model.getAddtime());
             }
-            if (model.getIs_attention() == 1) {
-                iv_title_follow.setFollow(true);
-            } else {
-                iv_title_follow.setFollow(false);
-            }
+
             if (!TextUtils.isEmpty(model.getContent())) {
                 wv_content.getSettings().setJavaScriptEnabled(true);//设置JS可用
                 String htmlPart1 = "<!DOCTYPE HTML html>\n" +
@@ -341,7 +352,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         "<body>\n" +
                         "<style> \n" +
                         "img{width:100%!important;height:auto!important}\n" +
-                        "section{line-height:150%;font-size:95%;text-color:#333333;}\n" +
+                        "section{line-height:160%;font-size:100%;text-color:#333333;}\n" +
                         "a:link{color:#1866DB;text-decoration:none;}\n" +
                         " </style>";
                 String htmlPart2 = "</body></html>";
@@ -376,11 +387,6 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
                 String html = htmlPart1 + replaceStr + htmlPart2;
                 wv_content.setWebViewClient (new WebViewClient() {
-                    *//* 这个事件，将在用户点击链接时触发。
-                 * 通过判断url，可确定如何操作，
-                 * 如果返回true，表示我们已经处理了这个request，
-                 * 如果返回false，表 示没有处理，
-                 * 那么浏览器将会根据url获取网页*//*
                     public boolean shouldOverrideUrlLoading (WebView view, String url) {
                         if(url.indexOf("app://player_profile")!=-1){
                             PlayerProfileActivity.forward(mActivity, 686858);//球员 getPlayer_id() 686858  有没有根据名得到id的接口？
@@ -395,7 +401,9 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     }
                 });*/
 
-                String html = htmlPart1 + model.getContent() + htmlPart2;
+//              String html = htmlPart1 + model.getContent() + htmlPart2;
+                String html = htmlPart1 + updateContent(model.getContent()) + htmlPart2;
+
                 wv_content.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
             }
             if (list != null) {
@@ -421,6 +429,36 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 iv_collect.setSelected(false);
             }
         }
+    }
+
+    //TODO 图片挪到第一段字符之后
+    private String updateContent(String content){
+        String suffixTag = "/section>";
+        StringBuilder builder = new StringBuilder(content);
+
+        //截走图片部分
+        int end = builder.indexOf(suffixTag) + suffixTag.length();
+        String imgStr = builder.substring(0,end) + "</br>";
+        builder.replace(0,end,"").toString();
+
+        //找到第一段文字在第几块
+        String sectionArr[] = builder.toString().split(suffixTag);
+        int i = 0;
+        for(;i<sectionArr.length;i++){
+            if(!sectionArr[i].contains("<img") && !sectionArr[i].contains("@B")){
+                break;
+            }
+        }
+
+
+        //插入到第一段文字的.后面
+        int oneIndex = builder.indexOf(sectionArr[i]);
+        builder.insert(builder.indexOf(". ",oneIndex)+2,imgStr);
+
+        //斜体
+        builder.insert(builder.indexOf(imgStr),"</i>");
+        builder.insert(0,"<i>");
+        return builder.toString();
     }
 
     @Override
@@ -452,7 +490,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
     @Override
     public void doFollowSuccess() {
-        if (mModel.getIs_attention() == 1) {
+/*        if (mModel.getIs_attention() == 1) {
             mModel.setIs_attention(0);
             iv_follow.setFollow(false);
             iv_title_follow.setFollow(false);
@@ -460,7 +498,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             mModel.setIs_attention(1);
             iv_follow.setFollow(true);
             iv_title_follow.setFollow(true);
-        }
+        }*/
     }
 
     public void showInputDialog(int type, Integer cid) {
