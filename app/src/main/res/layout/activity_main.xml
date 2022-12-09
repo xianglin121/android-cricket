@@ -16,14 +16,14 @@
                 android:layout_height="0dp"
                 android:layout_weight="1">
 
-                <com.longya.live.custom.NoScrollViewPager
+                <com.onecric.live.custom.NoScrollViewPager
                     android:id="@+id/viewpager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
             </RelativeLayout>
 
-            <com.longya.live.custom.HomeTabLayout
+            <com.onecric.live.custom.HomeTabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

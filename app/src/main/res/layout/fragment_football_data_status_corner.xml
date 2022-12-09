@@ -18,7 +18,7 @@
             android:textSize="12dp"
             android:textColor="@color/c_999999"/>
 
-        <com.longya.live.custom.VerticalProgress
+        <com.onecric.live.custom.VerticalProgress
             android:id="@+id/progress_one"
             android:layout_width="15dp"
             android:layout_height="120dp"
@@ -53,7 +53,7 @@
             android:textSize="12dp"
             android:textColor="@color/c_999999"/>
 
-        <com.longya.live.custom.VerticalProgress
+        <com.onecric.live.custom.VerticalProgress
             android:id="@+id/progress_two"
             android:layout_width="15dp"
             android:layout_height="120dp"
@@ -88,7 +88,7 @@
             android:textSize="12dp"
             android:textColor="@color/c_999999"/>
 
-        <com.longya.live.custom.VerticalProgress
+        <com.onecric.live.custom.VerticalProgress
             android:id="@+id/progress_three"
             android:layout_width="15dp"
             android:layout_height="120dp"
@@ -123,7 +123,7 @@
             android:textSize="12dp"
             android:textColor="@color/c_999999"/>
 
-        <com.longya.live.custom.VerticalProgress
+        <com.onecric.live.custom.VerticalProgress
             android:id="@+id/progress_four"
             android:layout_width="15dp"
             android:layout_height="120dp"
@@ -158,7 +158,7 @@
             android:textSize="12dp"
             android:textColor="@color/c_999999"/>
 
-        <com.longya.live.custom.VerticalProgress
+        <com.onecric.live.custom.VerticalProgress
             android:id="@+id/progress_five"
             android:layout_width="15dp"
             android:layout_height="120dp"
@@ -193,7 +193,7 @@
             android:textSize="12dp"
             android:textColor="@color/c_999999"/>
 
-        <com.longya.live.custom.VerticalProgress
+        <com.onecric.live.custom.VerticalProgress
             android:id="@+id/progress_six"
             android:layout_width="15dp"
             android:layout_height="120dp"

@@ -93,7 +93,7 @@
         app:layout_constraintRight_toLeftOf="@id/iv_follow"
         app:layout_constraintTop_toBottomOf="@id/tv_fans_count" />
 
-    <com.longya.live.custom.ButtonFollowView
+    <com.onecric.live.custom.ButtonFollowView
         android:id="@+id/iv_follow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

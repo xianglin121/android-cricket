@@ -59,7 +59,7 @@
             android:background="@mipmap/icon_headline_report"
             android:visibility="gone"/>
 
-        <com.longya.live.custom.ButtonFollowView
+        <com.onecric.live.custom.ButtonFollowView
             android:id="@+id/iv_follow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                             android:textColor="@color/c_999999"/>
                     </LinearLayout>
 
-                    <com.longya.live.custom.ButtonFollowView
+                    <com.onecric.live.custom.ButtonFollowView
                         android:id="@+id/iv_title_follow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

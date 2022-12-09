@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <com.longya.live.custom.LineControllerView
+            <com.onecric.live.custom.LineControllerView
                 android:id="@+id/line_language"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -24,14 +24,14 @@
                 app:canNav="true"
                 app:isBottom="true"/>
 
-            <com.longya.live.custom.LineControllerView
+            <com.onecric.live.custom.LineControllerView
                 android:id="@+id/line_red_and_yellow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:name="@string/red_and_yellow_card_display"
                 app:isSwitch="true"/>
 
-            <com.longya.live.custom.LineControllerView
+            <com.onecric.live.custom.LineControllerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -41,7 +41,7 @@
                 app:isBottom="true"
                 android:visibility="gone"/>
 
-            <com.longya.live.custom.LineControllerView
+            <com.onecric.live.custom.LineControllerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:name="@string/index_company"
@@ -49,7 +49,7 @@
                 app:canNav="true"
                 android:visibility="gone"/>
 
-            <com.longya.live.custom.LineControllerView
+            <com.onecric.live.custom.LineControllerView
                 android:id="@+id/line_event_range"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                 android:textSize="14dp"
                 android:textColor="@color/c_999999"/>
 
-            <com.longya.live.custom.LineControllerView
+            <com.onecric.live.custom.LineControllerView
                 android:id="@+id/line_goal_sound"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                 app:isSwitch="true"
                 app:isBottom="true"/>
 
-            <com.longya.live.custom.LineControllerView
+            <com.onecric.live.custom.LineControllerView
                 android:id="@+id/line_goal_vibrator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                 android:textSize="14dp"
                 android:textColor="@color/c_999999"/>
 
-            <com.longya.live.custom.LineControllerView
+            <com.onecric.live.custom.LineControllerView
                 android:id="@+id/line_red_card_sound"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -101,14 +101,14 @@
                 app:isSwitch="true"
                 app:isBottom="true"/>
 
-            <com.longya.live.custom.LineControllerView
+            <com.onecric.live.custom.LineControllerView
                 android:id="@+id/line_red_card_vibrator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:name="@string/shake"
                 app:isSwitch="true"/>
 
-            <com.longya.live.custom.LineControllerView
+            <com.onecric.live.custom.LineControllerView
                 android:id="@+id/view_corner_kick"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -7,65 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:463312392529:android:69839117d9754dcbf30370",
-        "android_client_info": {
-          "package_name": "com.longya.live"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "463312392529-4jn7gp6toagmqsnihad7j3k39teieo6l.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDuuVd15d_MJp1sOqgHC1_5msF0kYSkfPw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "463312392529-4jn7gp6toagmqsnihad7j3k39teieo6l.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:463312392529:android:8233f811ff512c39f30370",
-        "android_client_info": {
-          "package_name": "com.onecric.app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "463312392529-4jn7gp6toagmqsnihad7j3k39teieo6l.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDuuVd15d_MJp1sOqgHC1_5msF0kYSkfPw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "463312392529-4jn7gp6toagmqsnihad7j3k39teieo6l.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:463312392529:android:fd89a326f46abd93f30370",
+        "mobilesdk_app_id": "1:463312392529:android:5e11b5c500e85d2af30370",
         "android_client_info": {
           "package_name": "com.onecric.live"
         }

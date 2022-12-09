@@ -127,7 +127,7 @@
 -dontwarn okio.**
 
 # fastjson
--keep class com.longya.live.model**{*;} # 自定义数据模型的bean目录
+-keep class com.onecric.live.model**{*;} # 自定义数据模型的bean目录
 
 # Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
@@ -193,7 +193,7 @@
     *;
 }
 
--keep class com.longya.live.wxapi**{*;}
+-keep class com.onecric.live.wxapi**{*;}
 
 # 腾讯播放器
 -keep class com.tencent.** { *; }
