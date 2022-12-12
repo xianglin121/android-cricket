@@ -45,6 +45,10 @@ import java.util.List;
  * 时间：2022/8/27
  */
 public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> implements CricketDetailView, View.OnClickListener {
+
+    private View hor_line;
+    private TextView tv_video;
+
     public static void forward(Context context, int matchId) {
         Intent intent = new Intent(context, CricketDetailActivity.class);
         intent.putExtra("matchId", matchId);
@@ -102,6 +106,8 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
     protected void initView() {
         mMatchId = getIntent().getIntExtra("matchId", 0);
         ll_top = findViewById(R.id.ll_top);
+        hor_line = findViewById(R.id.hor_line);
+        tv_video = findViewById(R.id.tv_video);
         ll_content = findViewById(R.id.ll_content);
         cl_one = findViewById(R.id.cl_one);
         tv_home_name = findViewById(R.id.tv_home_name);
@@ -218,8 +224,10 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
         if (model != null) {
             mModel = model;
             if (mModel.getStatus() != 1) {
-                ll_top.setVisibility(View.GONE);
-                ll_content.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.dp2px(70)));
+                tv_video.setVisibility(View.GONE);
+                hor_line.setVisibility(View.GONE);
+//                ll_top.setVisibility(View.GONE);
+//                ll_content.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.dp2px(70)));
             }
             ((CricketFantasyFragment) mViewList.get(0)).getData(mMatchId, model.getHome_name(), model.getHome_logo(), model.getAway_name(), model.getAway_logo());
             if (!TextUtils.isEmpty(model.getTournament_id())) {
