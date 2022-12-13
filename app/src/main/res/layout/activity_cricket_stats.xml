@@ -6,7 +6,7 @@
     android:background="@color/white">
     <include layout="@layout/common_title_bar_two"/>
 
-    <com.longya.live.custom.CenterShowHorizontalScrollView
+    <com.onecric.live.custom.CenterShowHorizontalScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="45dp"

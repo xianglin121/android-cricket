@@ -83,7 +83,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <com.longya.live.custom.ObservableScrollView
+        <com.onecric.live.custom.ObservableScrollView
             android:id="@+id/scrollView1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -562,7 +562,7 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </com.longya.live.custom.ObservableScrollView>
+        </com.onecric.live.custom.ObservableScrollView>
     </LinearLayout>
 
     <LinearLayout
@@ -574,7 +574,7 @@
             android:layout_width="200dp"
             android:layout_height="match_parent"/>
 
-        <com.longya.live.custom.ObservableScrollView
+        <com.onecric.live.custom.ObservableScrollView
             android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -583,6 +583,6 @@
                 android:id="@+id/rv_right"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-        </com.longya.live.custom.ObservableScrollView>
+        </com.onecric.live.custom.ObservableScrollView>
     </LinearLayout>
 </LinearLayout>

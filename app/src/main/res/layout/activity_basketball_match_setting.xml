@@ -7,7 +7,7 @@
     android:orientation="vertical">
     <include layout="@layout/common_title_bar"/>
 
-    <com.longya.live.custom.LineControllerView
+    <com.onecric.live.custom.LineControllerView
         android:id="@+id/line_language"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,13 +17,13 @@
         app:canNav="true"
         app:isBottom="true"/>
 
-    <com.longya.live.custom.LineControllerView
+    <com.onecric.live.custom.LineControllerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:name="@string/prematch_ranking_display"
         app:isSwitch="true"/>
 
-    <com.longya.live.custom.LineControllerView
+    <com.onecric.live.custom.LineControllerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -33,7 +33,7 @@
         app:isBottom="true"
         android:visibility="gone"/>
 
-    <com.longya.live.custom.LineControllerView
+    <com.onecric.live.custom.LineControllerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:name="@string/index_company"

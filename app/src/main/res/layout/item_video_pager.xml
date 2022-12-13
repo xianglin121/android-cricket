@@ -62,7 +62,7 @@
                 android:textColor="@color/white"
                 android:textSize="16dp" />
 
-            <com.longya.live.custom.ButtonFollowView2
+            <com.onecric.live.custom.ButtonFollowView2
                 android:id="@+id/iv_follow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

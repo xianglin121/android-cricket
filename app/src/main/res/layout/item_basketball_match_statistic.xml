@@ -34,7 +34,7 @@
         android:textSize="12dp"
         android:textColor="@color/c_333333"/>
 
-    <com.longya.live.custom.ScoreProgressBar
+    <com.onecric.live.custom.ScoreProgressBar
         android:id="@+id/score_pb"
         android:layout_width="match_parent"
         android:layout_height="3dp"

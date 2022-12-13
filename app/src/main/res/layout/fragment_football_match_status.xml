@@ -43,7 +43,7 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/iv_team_one" />
 
-                    <com.longya.live.custom.RaceStatusView
+                    <com.onecric.live.custom.RaceStatusView
                         android:id="@+id/raceStatusView"
                         android:layout_width="match_parent"
                         android:layout_height="110dp"
@@ -362,7 +362,7 @@
                             app:layout_constraintLeft_toRightOf="@id/tv_shot_on_goal"
                             app:layout_constraintTop_toTopOf="@id/tv_shot_on_goal" />
 
-                        <com.longya.live.custom.ScoreProgressBar
+                        <com.onecric.live.custom.ScoreProgressBar
                             android:id="@+id/pb_shot_on_goal"
                             android:layout_width="119dp"
                             android:layout_height="4dp"
@@ -407,7 +407,7 @@
                             app:layout_constraintLeft_toRightOf="@id/tv_miss_the_goal"
                             app:layout_constraintTop_toTopOf="@id/tv_miss_the_goal" />
 
-                        <com.longya.live.custom.ScoreProgressBar
+                        <com.onecric.live.custom.ScoreProgressBar
                             android:id="@+id/pb_miss_the_goal"
                             android:layout_width="119dp"
                             android:layout_height="4dp"
