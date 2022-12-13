@@ -747,5 +747,11 @@
     <string name="confirm_open">Confirm open</string>
     <string name="free">Free</string>
     <string name="underway">underway</string>
+    <string name="homepage">Homepage</string>
+    <string name="follow_anchor">Follow the anchor</string>
+    <string name="follow_author">Follow the author</string>
+    <string name="fans_title">Fans</string>
+    <string name="post">Post</string>
+    <string name="videos">Videos</string>
 
 </resources>

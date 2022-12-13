@@ -365,6 +365,9 @@
         <activity
             android:name="com.onecric.live.activity.LiveMoreActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.onecric.live.activity.PersonalHomepageActivity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

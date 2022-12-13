@@ -19,6 +19,7 @@ public class ThemeClassifyBean {
     private String img;
     private String name;
     private String content;
+    private boolean isSelected;
 
     public int getId() {
         return id;
@@ -58,5 +59,13 @@ public class ThemeClassifyBean {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

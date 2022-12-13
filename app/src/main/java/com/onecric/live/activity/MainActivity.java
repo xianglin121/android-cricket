@@ -120,6 +120,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                     return;
                 }
                 UserInfoActivity.forward(mActivity);
+//                PersonalHomepageActivity.forward(mActivity, 0);
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
@@ -159,7 +160,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
         if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
             tv_sign_out.setVisibility(View.GONE);
-        }else{
+        } else {
             tv_sign_out.setVisibility(View.VISIBLE);
         }
 

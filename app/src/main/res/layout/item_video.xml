@@ -14,7 +14,6 @@
         android:src="@mipmap/bg_video_default"
         android:scaleType="fitCenter"
         app:riv_corner_radius="6dp"
-        android:maxHeight="226dp"
         android:adjustViewBounds="true"/>
 
     <TextView
