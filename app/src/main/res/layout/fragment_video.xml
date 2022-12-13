@@ -27,6 +27,7 @@
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/smart_rl"
             android:layout_width="match_parent"
+            android:background="@color/c_E5E5E5"
             android:layout_height="match_parent">
             <FrameLayout
                 android:layout_width="match_parent"
