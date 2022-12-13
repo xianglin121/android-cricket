@@ -105,7 +105,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     }
 
     private void initNavigationView() {
-
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);//禁止侧边滑动
         navigationView.setItemIconTintList(null);
         iv_avatar_nav = navigationView.getHeaderView(0).findViewById(R.id.iv_avatar_nav);
