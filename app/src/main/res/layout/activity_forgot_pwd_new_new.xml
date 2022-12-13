@@ -208,7 +208,8 @@
                     android:layout_height="19dp"
                     android:button="@null"
                     android:background="@drawable/selector_cb"
-                    android:layout_marginRight="13.5dp"/>
+                    android:layout_marginRight="13.5dp"
+                    android:checked="true"/>
 
                 <TextView
                     android:id="@+id/tv_agreement"

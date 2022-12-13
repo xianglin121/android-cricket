@@ -333,7 +333,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             }
 
             if (!TextUtils.isEmpty(model.getUser_nickname())) {
-                tv_title_name.setText("By "+model.getUser_nickname());
+                tv_title_name.setText(model.getUser_nickname());
             }
             if (!TextUtils.isEmpty(model.getAddtime())) {
                 tv_date.setText(" • Updated on "+model.getAddtime());
