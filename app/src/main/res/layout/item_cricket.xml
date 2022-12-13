@@ -10,7 +10,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="8dp"
-        android:text="The Hundred"
+        android:fontFamily="sans-serif-medium"
         android:textSize="15sp"
         android:textColor="@color/c_333333"
         android:textStyle="bold"

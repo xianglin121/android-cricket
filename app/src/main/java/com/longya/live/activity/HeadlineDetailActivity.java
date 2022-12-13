@@ -1,9 +1,13 @@
 package com.longya.live.activity;
 
+import static com.tencent.thumbplayer.core.downloadproxy.api.TPDownloadProxyHelper.getContext;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -102,6 +106,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     private ImageView iv_like;
     private TextView tv_like;
     private ImageView iv_collect;
+    private TextView tv_pre;
 
     private InputCommentMsgDialogFragment inputCommentMsgDialog;
     private HeadlineCommentReplyDialog replyDialog;
@@ -147,6 +152,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
         tv_title = findViewById(R.id.tv_title);
         iv_collect = findViewById(R.id.iv_collect);
         tv_title_name = findViewById(R.id.tv_title_name);
+        tv_pre = findViewById(R.id.tv_pre);
 //        iv_avatar = findViewById(R.id.iv_avatar);
 //        iv_follow = findViewById(R.id.iv_follow);
 //        iv_title_follow = findViewById(R.id.iv_title_follow);
@@ -337,10 +343,10 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             }
 
             if (!TextUtils.isEmpty(model.getUser_nickname())) {
-                tv_title_name.setText(model.getUser_nickname());
+                tv_title_name.setText("By "+model.getUser_nickname());
             }
             if (!TextUtils.isEmpty(model.getAddtime())) {
-                tv_date.setText(model.getAddtime());
+                tv_date.setText(" • Updated on "+model.getAddtime());
             }
 
             if (!TextUtils.isEmpty(model.getContent())) {
@@ -351,8 +357,14 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         "</head>\n" +
                         "<body>\n" +
                         "<style> \n" +
-                        "img{width:100%!important;height:auto!important}\n" +
-                        "section{line-height:160%;font-size:100%;text-color:#333333;}\n" +
+                        "@font-face {\n" +
+                        "    font-family: 'serif';\n" +
+                        "    src: url('fonts/Serif.ttf');\n" +
+                        "}\n" +
+                        "\n" +
+                        "body{font-family: 'serif';margin: 0;}"+
+                        "img{width:100%!important;height:auto!important;margin: 0;border-radius:0;}\n" +
+                        "section{line-height:170%;font-size:100%;text-color:#333333;margin: 0px 15px 0px 15px;}\n" +
                         "a:link{color:#1866DB;text-decoration:none;}\n" +
                         " </style>";
                 String htmlPart2 = "</body></html>";
@@ -401,9 +413,25 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     }
                 });*/
 
-//              String html = htmlPart1 + model.getContent() + htmlPart2;
-                String html = htmlPart1 + updateContent(model.getContent()) + htmlPart2;
 
+                //去掉<img外层的section、去掉border-radius:4px
+                StringBuilder builder = new StringBuilder(model.getContent());
+                int preIndex = builder.indexOf("<section>");
+                if(preIndex != -1){
+                    builder.replace(preIndex,preIndex+"<section>".length(),"");
+                }
+                int sufIndex = builder.indexOf("</section>");
+                if(sufIndex != -1){
+                    builder.replace(sufIndex,sufIndex+"</section>".length(),"");
+                }
+                int radiusIndex = builder.indexOf("4px");
+                if(radiusIndex!= -1){
+                    builder.replace(radiusIndex,radiusIndex+1,"0");
+                }
+
+                String html = htmlPart1 + builder + htmlPart2;
+//              String html = htmlPart1 + updateContent(model.getContent()) + htmlPart2;
+//              String html = htmlPart1 + model.getContent() + htmlPart2;
                 wv_content.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
             }
             if (list != null) {
@@ -431,17 +459,17 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
         }
     }
 
-    //TODO 图片挪到第一段字符之后
-    private String updateContent(String content){
+    //AllCric样式 图片挪到第一段字符之后
+/*    private String updateContent(String content){
         String suffixTag = "/section>";
         StringBuilder builder = new StringBuilder(content);
 
-        //截走图片部分
+        //截取图片部分
         int end = builder.indexOf(suffixTag) + suffixTag.length();
-        String imgStr = builder.substring(0,end) + "</br>";
+        String imgStr = builder.substring(0,end) + "</br><section>";
         builder.replace(0,end,"").toString();
 
-        //找到第一段文字在第几块
+        //找第一段文字位置，将图片插入到第一段文字的.后面
         String sectionArr[] = builder.toString().split(suffixTag);
         int i = 0;
         for(;i<sectionArr.length;i++){
@@ -449,17 +477,20 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 break;
             }
         }
-
-
-        //插入到第一段文字的.后面
         int oneIndex = builder.indexOf(sectionArr[i]);
-        builder.insert(builder.indexOf(". ",oneIndex)+2,imgStr);
+//        builder.insert(builder.indexOf(". ",oneIndex)+2,imgStr);
 
-        //斜体
-        builder.insert(builder.indexOf(imgStr),"</i>");
-        builder.insert(0,"<i>");
+        //第一段文字斜体
+        Typeface tf = Typeface.createFromAsset(HeadlineDetailActivity.this.getResources().getAssets(), "fonts/ritalic.ttf");
+        tv_pre.setTypeface(tf);
+        tv_pre.setText(Html.fromHtml(builder.substring(0,builder.indexOf(". ",oneIndex)+2)));
+
+        //去掉第一段文字和第一个br
+        builder.replace(0,builder.indexOf(". ",oneIndex)+2,"");
+        builder.replace(builder.indexOf("<br>"),builder.indexOf("<br>")+4,"");
+        builder.insert(0,imgStr);
         return builder.toString();
-    }
+    }*/
 
     @Override
     public void getTokenSuccess(String token) {
