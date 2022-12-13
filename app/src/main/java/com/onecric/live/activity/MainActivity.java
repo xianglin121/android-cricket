@@ -6,18 +6,21 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.multidex.BuildConfig;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.navigation.NavigationView;
@@ -209,13 +212,31 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         loginIM();
         //获取默认配置
         mvpPresenter.getConfiguration();
-//        //检查是否有版本更新
-//        if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
-//            DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox()==1?true:false,
+        //检查是否有版本更新
+        if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
+//            DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false,
 //                    CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber(),
 //                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),
 //                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadUrl());
-//        }
+            if (DialogUtil.checkUpdateInfo(this, CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
+                transferToGooglePlay();
+            }
+        }
+    }
+
+
+    String googlePlay = "com.android.vending";
+
+    void transferToGooglePlay() {
+        try {
+            Uri uri = Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage(googlePlay);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void loginIM() {

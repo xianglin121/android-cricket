@@ -142,13 +142,15 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
                 startActivity(intent);
                 break;
             case R.id.cl_update:
-//                if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
+                if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
 //                    DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox()==1?true:false,
 //                            CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber(),
 //                            CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),
 //                            CommonAppConfig.getInstance().getConfig().getAndroidDownloadUrl());
-//                }
-                transferToGooglePlay();
+                    if (DialogUtil.checkUpdateInfo(this, CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
+                        transferToGooglePlay();
+                    }
+                }
                 break;
             case R.id.cl_about_us:
                 AboutUsActivity.forward(this);
