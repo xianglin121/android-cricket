@@ -151,20 +151,24 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
         tv_sign_out.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                //退出登录
                 DialogUtil.showSimpleDialog(mActivity, getString(R.string.tips), WordUtil.getString(mActivity, R.string.confirm_sign_out_tip), true, new DialogUtil.SimpleCallback() {
                     @Override
                     public void onConfirmClick(Dialog dialog, String content) {
                         mvpPresenter.signOut(mActivity);
                     }
                 });
+            }else{
+                //登录
+                LoginActivity.forward(mActivity);
             }
             drawerLayout.closeDrawer(GravityCompat.START);
         });
 
-        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-            tv_sign_out.setVisibility(View.GONE);
+        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+            tv_sign_out.setText(getString(R.string.setting_sign_out));
         } else {
-            tv_sign_out.setVisibility(View.VISIBLE);
+            tv_sign_out.setText(getString(R.string.setting_sign_in));
         }
 
     }

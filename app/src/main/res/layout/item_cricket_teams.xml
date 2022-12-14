@@ -11,7 +11,7 @@
         android:layout_height="50dp"
         android:layout_marginLeft="14dp"
         android:src="@mipmap/img_team_logo_default"
-        android:scaleType="centerCrop"/>
+        android:scaleType="fitCenter"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
