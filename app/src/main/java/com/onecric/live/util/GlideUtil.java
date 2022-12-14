@@ -40,6 +40,12 @@ public class GlideUtil {
         Glide.with(mContext).load(path).dontAnimate().into(mImageView);
     }
 
+
+    //设置video封面图片的加载中以及加载失败图片
+    public static void loadVideoImageDefault(Context mContext, String path, ImageView mImageView) {
+        Glide.with(mContext).load(path).placeholder(R.mipmap.img_video_default).dontAnimate().error(R.mipmap.img_video_default).into(mImageView);
+    }
+
     //加载圆角图片
     public static void loadRoundImageDefault(Context mContext, String path, ImageView mImageView, int radius) {
         Glide.with(mContext).load(path).transform(new CenterCrop(), new GlideRoundTransform(radius)).into(mImageView);

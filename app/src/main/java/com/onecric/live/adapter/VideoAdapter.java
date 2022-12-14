@@ -28,13 +28,13 @@ public class VideoAdapter extends BaseQuickAdapter<ShortVideoBean, BaseViewHolde
     protected void convert(@NonNull BaseViewHolder helper, ShortVideoBean item) {
         ImageView iv_cover = helper.getView(R.id.iv_cover);
         if (item.getVideo() != null && item.getVideo().size() > 0) {
-            GlideUtil.loadImageDefault(mContext, item.getVideo().get(0).getImg(), iv_cover);
-        }else {
+            GlideUtil.loadVideoImageDefault(mContext, item.getVideo().get(0).getImg(), iv_cover);
+        } else {
             iv_cover.setImageResource(R.mipmap.img_video_default);
         }
         if (!TextUtils.isEmpty(item.getTitle())) {
             helper.setText(R.id.tv_title, FaceManager.handlerEmojiText(item.getTitle()));
-        }else {
+        } else {
             helper.setText(R.id.tv_title, "");
         }
         helper.setText(R.id.tv_play_count, String.valueOf(item.getClick()));
