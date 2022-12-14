@@ -245,7 +245,7 @@
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:src="@mipmap/img_team_logo_default"
-                            android:scaleType="centerCrop"/>
+                            android:scaleType="fitCenter"/>
 
                         <TextView
                             android:id="@+id/tv_win_home_name"
@@ -279,7 +279,7 @@
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:src="@mipmap/img_team_logo_default"
-                            android:scaleType="centerCrop"/>
+                            android:scaleType="fitCenter"/>
 
                         <TextView
                             android:id="@+id/tv_win_away_name"
@@ -328,7 +328,7 @@
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:src="@mipmap/img_team_logo_default"
-                            android:scaleType="centerCrop"/>
+                            android:scaleType="fitCenter"/>
 
                         <TextView
                             android:id="@+id/tv_attack_home_name"
@@ -362,7 +362,7 @@
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:src="@mipmap/img_team_logo_default"
-                            android:scaleType="centerCrop"/>
+                            android:scaleType="fitCenter"/>
 
                         <TextView
                             android:id="@+id/tv_attack_away_name"
@@ -410,7 +410,7 @@
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:src="@mipmap/img_team_logo_default"
-                            android:scaleType="centerCrop"/>
+                            android:scaleType="fitCenter"/>
 
                         <TextView
                             android:id="@+id/tv_defense_home_name"
@@ -444,7 +444,7 @@
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:src="@mipmap/img_team_logo_default"
-                            android:scaleType="centerCrop"/>
+                            android:scaleType="fitCenter"/>
 
                         <TextView
                             android:id="@+id/tv_defense_away_name"

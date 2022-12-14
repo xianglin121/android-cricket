@@ -15,7 +15,7 @@
             android:layout_height="24dp"
             android:layout_marginLeft="12dp"
             android:src="@mipmap/img_team_logo_default"
-            android:scaleType="centerCrop"/>
+            android:scaleType="fitCenter"/>
 
         <TextView
             android:id="@+id/tv_name"

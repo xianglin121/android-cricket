@@ -18,7 +18,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginLeft="12dp"
             android:src="@mipmap/img_team_logo_default"
-            android:scaleType="centerCrop"/>
+            android:scaleType="fitCenter"/>
 
         <TextView
             android:id="@+id/tv_team_name_one"
@@ -42,7 +42,7 @@
             android:layout_marginBottom="12dp"
             android:layout_marginLeft="12dp"
             android:src="@mipmap/img_team_logo_default"
-            android:scaleType="centerCrop"/>
+            android:scaleType="fitCenter"/>
 
         <TextView
             android:id="@+id/tv_team_name_two"

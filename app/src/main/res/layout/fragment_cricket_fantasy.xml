@@ -855,7 +855,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="24dp"
                         android:src="@mipmap/img_team_logo_default"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="fitCenter"/>
 
                     <ImageView
                         android:id="@+id/iv_away_logo"
@@ -866,7 +866,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginRight="24dp"
                         android:src="@mipmap/img_team_logo_default"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="fitCenter"/>
 
                     <TextView
                         android:id="@+id/tv_winning"

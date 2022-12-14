@@ -63,8 +63,7 @@
                 android:text="@string/setting_sign_out"
                 android:textSize="14sp"
                 android:textColor="@color/c_FF7B7F"
-                android:background="@drawable/shape_input_bg"
-                android:visibility="gone" />
+                android:background="@drawable/shape_input_bg"/>
 
         </FrameLayout>
 

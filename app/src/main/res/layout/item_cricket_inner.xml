@@ -67,7 +67,7 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@mipmap/img_team_logo_default"
-            android:scaleType="centerCrop"/>
+            android:scaleType="fitCenter"/>
 
         <TextView
             android:id="@+id/tv_home_name"
@@ -116,7 +116,7 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@mipmap/img_team_logo_default"
-            android:scaleType="centerCrop"/>
+            android:scaleType="fitCenter"/>
 
         <TextView
             android:id="@+id/tv_away_name"

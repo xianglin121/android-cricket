@@ -12,7 +12,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginLeft="14dp"
         android:src="@mipmap/img_team_logo_default"
-        android:scaleType="centerCrop"/>
+        android:scaleType="fitCenter"/>
 
     <TextView
         android:id="@+id/tv_home_name"
@@ -77,5 +77,5 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="14dp"
         android:src="@mipmap/img_team_logo_default"
-        android:scaleType="centerCrop"/>
+        android:scaleType="fitCenter"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
