@@ -6,13 +6,13 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_home_logo"
         android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_height="43.2dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="14dp"
         android:src="@mipmap/img_team_logo_default"
-        android:scaleType="fitCenter"/>
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/tv_home_name"
@@ -71,11 +71,11 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_away_logo"
         android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_height="43.2dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginRight="14dp"
         android:src="@mipmap/img_team_logo_default"
-        android:scaleType="fitCenter"/>
+        android:scaleType="centerCrop"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
