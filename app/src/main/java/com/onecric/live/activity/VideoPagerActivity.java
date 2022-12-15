@@ -401,7 +401,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
         }
         videoPagerHolder = holder;
 
-
+        holder.videoView.setLooping(true);
         holder.videoView.setUp(url, true, "");
         //播放视频统计
         TrackHelper.track().impression("Android content impression").piece("video").target(url).with(((AppManager) getApplication()).getTracker());
