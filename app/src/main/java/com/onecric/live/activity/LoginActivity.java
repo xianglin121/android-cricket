@@ -90,7 +90,8 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
     private WebView webview;
     private WebSettings webSettings;
     private Dialog dialog;
-
+    //有无发送验证码
+    private boolean isSendCode = false;
     @Override
     protected LoginPresenter createPresenter() {
         return new LoginPresenter(this);
@@ -212,7 +213,17 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                login();
+                                if(tabLayout.getSelectedTabPosition()==0){
+                                    dialog.show();
+                                    String area = etArea.getText().toString().trim();
+                                    String phone = etPhone.getText().toString().trim();
+                                    tvAuthCode.setEnabled(false);
+                                    if (!TextUtils.isEmpty(area) && !TextUtils.isEmpty(area)) {
+                                        mvpPresenter.getCode(area + "-" + phone);
+                                    }
+                                }else{
+                                    login();
+                                }
                             }
                         });
                     }
@@ -223,6 +234,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
 
     @Override
     public void getDataSuccess(JsonBean model) {
+        isSendCode = true;
         if (dialog != null) {dialog.dismiss();}
         handler.sendEmptyMessage(0);
     }
@@ -270,9 +282,8 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
                     return;
                 }
                 if (!isFastDoubleClick()) {
-                    tvAuthCode.setEnabled(false);
-                    dialog.show();
-                    mvpPresenter.getCode(area + "-" + phone);
+                    webview.setVisibility(View.VISIBLE);
+                    webview.loadUrl("javascript:ab()");
                 }
                 break;
             case R.id.btn_log_in:
@@ -292,21 +303,28 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
                 }
 
                 if(tabLayout.getSelectedTabPosition() == 0){
+                    //code
+                    if(!isSendCode){
+                        ToastUtil.show(getString(R.string.send_verification_tip));
+                        return;
+                    }
                     if(TextUtils.isEmpty(etVerification.getText().toString().trim())){
                         ToastUtil.show(getString(R.string.verification_code));
                         return;
                     }
                     hideKeyboard(etVerification);
+                    login();
                 }else{
+                    //password
                     if(TextUtils.isEmpty(etPassword.getText().toString().trim())){
                         ToastUtil.show(getString(R.string.login_password));
                         return;
                     }
                     hideKeyboard(etPassword);
+                    webview.setVisibility(View.VISIBLE);
+                    webview.loadUrl("javascript:ab()");
                 }
 
-                webview.setVisibility(View.VISIBLE);
-                webview.loadUrl("javascript:ab()");
                 break;
         }
     }

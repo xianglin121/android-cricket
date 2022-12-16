@@ -79,6 +79,7 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
     private WebView webview;
     private WebSettings webSettings;
     private Dialog dialog;
+    private boolean isSendCode = false;
 
     @Override
     protected ForgetPwdPresenter createPresenter() {
@@ -174,10 +175,13 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                dialog.show();
+                                String area = etArea.getText().toString().trim();
                                 String phone = etPhone.getText().toString().trim();
-                                String prefix= etArea.getText().toString().trim();
-                                btnConfirm.setEnabled(false);
-                                mvpPresenter.changePwd(prefix + "-" + phone, etVerification.getText().toString(), etPassword.getText().toString());
+                                tvAuthCode.setEnabled(false);
+                                if (!TextUtils.isEmpty(area) && !TextUtils.isEmpty(area)) {
+                                    mvpPresenter.getCode(area + "-" + phone);
+                                }
                             }
                         });
                     }
@@ -188,6 +192,7 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
 
     @Override
     public void getDataSuccess(JsonBean model) {
+        isSendCode = true;
         if (dialog != null) {dialog.dismiss();}
         handler.sendEmptyMessage(0);
     }
@@ -252,9 +257,8 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
                     return;
                 }
                 if (!isFastDoubleClick()) {
-                    tvAuthCode.setEnabled(false);
-                    dialog.show();
-                    mvpPresenter.getCode(prefix + "-" + phone);
+                    webview.setVisibility(View.VISIBLE);
+                    webview.loadUrl("javascript:ab()");
                 }
                 break;
             case R.id.btn_confirm:
@@ -270,6 +274,11 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
 
                 if(TextUtils.isEmpty(etPhone.getText().toString().trim())){
                     ToastUtil.show(getString(R.string.phone));
+                    return;
+                }
+
+                if(!isSendCode){
+                    ToastUtil.show(getString(R.string.send_verification_tip));
                     return;
                 }
 
@@ -290,10 +299,11 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
 
                 if(!etPassword.getText().toString().trim().equals(etConfirmPassword.getText().toString().trim())){
                     ToastUtil.show(WordUtil.getString(this, R.string.register_pwd_error));
+                    return;
                 }
 
-                webview.setVisibility(View.VISIBLE);
-                webview.loadUrl("javascript:ab()");
+                btnConfirm.setEnabled(false);
+                mvpPresenter.changePwd(prefix + "-" + phone, etVerification.getText().toString(), etPassword.getText().toString());
                 break;
         }
     }

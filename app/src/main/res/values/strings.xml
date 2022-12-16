@@ -755,6 +755,7 @@
     <string name="fans_title">Fans</string>
     <string name="post">Post</string>
     <string name="videos">Videos</string>
+    <string name="send_verification_tip">Please send the verification code first</string>
     <string name="lineups_out">Lineups out</string>
 
 </resources>

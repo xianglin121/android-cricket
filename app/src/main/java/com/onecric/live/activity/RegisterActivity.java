@@ -76,6 +76,7 @@ public class RegisterActivity extends MvpActivity<RegisterPresenter> implements 
     private WebView webview;
     private WebSettings webSettings;
     private Dialog dialog;
+    private boolean isSendCode = false;
 
     @Override
     protected RegisterPresenter createPresenter() {
@@ -168,10 +169,13 @@ public class RegisterActivity extends MvpActivity<RegisterPresenter> implements 
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                dialog.show();
+                                String area = etArea.getText().toString().trim();
                                 String phone = etPhone.getText().toString().trim();
-                                String prefix= etArea.getText().toString().trim();
-                                btnRegister.setEnabled(false);
-                                mvpPresenter.register(prefix + "-" + phone, etVerification.getText().toString().trim(), etPassword.getText().toString().trim());
+                                tvAuthCode.setEnabled(false);
+                                if (!TextUtils.isEmpty(area) && !TextUtils.isEmpty(area)) {
+                                    mvpPresenter.getCode(area + "-" + phone);
+                                }
                             }
                         });
                     }
@@ -182,6 +186,7 @@ public class RegisterActivity extends MvpActivity<RegisterPresenter> implements 
 
     @Override
     public void getDataSuccess(JsonBean model) {
+        isSendCode = true;
         if (dialog != null) {dialog.dismiss();}
         handler.sendEmptyMessage(0);
     }
@@ -239,9 +244,8 @@ public class RegisterActivity extends MvpActivity<RegisterPresenter> implements 
                     return;
                 }
                 if (!isFastDoubleClick()) {
-                    tvAuthCode.setEnabled(false);
-                    dialog.show();
-                    mvpPresenter.getCode(area + "-" + phone);
+                    webview.setVisibility(View.VISIBLE);
+                    webview.loadUrl("javascript:ab()");
                 }
                 break;
             case R.id.btn_sign_up:
@@ -260,6 +264,11 @@ public class RegisterActivity extends MvpActivity<RegisterPresenter> implements 
                     return;
                 }
 
+                if(!isSendCode){
+                    ToastUtil.show(getString(R.string.send_verification_tip));
+                    return;
+                }
+
                 if(TextUtils.isEmpty(etVerification.getText().toString().trim())){
                     ToastUtil.show(getString(R.string.verification_code));
                     return;
@@ -270,8 +279,8 @@ public class RegisterActivity extends MvpActivity<RegisterPresenter> implements 
                     return;
                 }
 
-                webview.setVisibility(View.VISIBLE);
-                webview.loadUrl("javascript:ab()");
+                btnRegister.setEnabled(false);
+                mvpPresenter.register(area + "-" + phone, etVerification.getText().toString().trim(), etPassword.getText().toString().trim());
                 break;
         }
     }
