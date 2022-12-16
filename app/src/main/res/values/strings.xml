@@ -150,7 +150,8 @@
     <string name="login_agree_protocol_tip">Please agree to the agreement</string>
     <string name="login_success">Login successful</string>
     <string name="send_code_title">SMS verification code will be sent to:</string>
-    <string name="please_enter_new_password">Please enter a new password (6-12 alphanumeric characters)</string>
+    <string name="please_enter_new_password">Please enter a new password</string>
+    <string name="please_enter_new_password_tip">6-12 alphanumeric characters</string>
 
     <string name="please_input_login_pwd">Please enter a 6~16-digit login password</string>
     <string name="please_input_pwd_again">Please re-enter password</string>
@@ -754,5 +755,6 @@
     <string name="fans_title">Fans</string>
     <string name="post">Post</string>
     <string name="videos">Videos</string>
+    <string name="lineups_out">Lineups out</string>
 
 </resources>

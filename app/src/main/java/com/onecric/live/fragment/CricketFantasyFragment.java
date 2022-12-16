@@ -10,21 +10,32 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.onecric.live.R;
 import com.onecric.live.activity.PlayerStatsActivity;
 import com.onecric.live.activity.TeamComparisonActivity;
+import com.onecric.live.adapter.PlayerMatchDataAdapter;
 import com.onecric.live.model.CricketFantasyBean;
+import com.onecric.live.model.PlayerDataBean;
 import com.onecric.live.presenter.cricket.CricketFantasyPresenter;
 import com.onecric.live.util.DpUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.cricket.CricketFantasyView;
 
+import java.util.ArrayList;
+
 /**
  * 开发公司：东莞市梦幻科技有限公司
  * 时间：2022/8/27
  */
 public class CricketFantasyFragment extends MvpFragment<CricketFantasyPresenter> implements CricketFantasyView, View.OnClickListener {
+
+    private RecyclerView rv_player;
+    private PlayerMatchDataAdapter mAdapter;
+
     public static CricketFantasyFragment newInstance() {
         CricketFantasyFragment fragment = new CricketFantasyFragment();
         Bundle bundle = new Bundle();
@@ -69,6 +80,37 @@ public class CricketFantasyFragment extends MvpFragment<CricketFantasyPresenter>
         tv_away_round = findViewById(R.id.tv_away_round);
         ll_home_round = findViewById(R.id.ll_home_round);
         ll_away_round = findViewById(R.id.ll_away_round);
+        rv_player = findViewById(R.id.rv_player_match_data);
+        mAdapter = new PlayerMatchDataAdapter(R.layout.item_player_match_data, new ArrayList<>());
+        rv_player.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rv_player.setAdapter(mAdapter);
+
+        mAdapter.getData().clear();
+        //伪数据
+        ArrayList<PlayerDataBean> list = new ArrayList<>();
+        PlayerDataBean player1 = new PlayerDataBean();
+        PlayerDataBean player2 = new PlayerDataBean();
+        PlayerDataBean player3 = new PlayerDataBean();
+        player1.setName("James");
+        player1.setRole("Bowler");
+        player1.setPoints(100);
+        player1.setMatchNum(1);
+        player1.setDt(100);
+        player2.setName("Wade");
+        player2.setRole("Wicket Keeper");
+        player2.setPoints(100);
+        player2.setMatchNum(1);
+        player2.setDt(100);
+        player3.setName("Anthony");
+        player3.setRole("All Rounder");
+        player3.setPoints(100);
+        player3.setMatchNum(1);
+        player3.setDt(100);
+        list.add(player1);
+        list.add(player2);
+        list.add(player3);
+        mAdapter.getData().addAll(list);
+        mAdapter.notifyItemInserted(list.size());
 
         findViewById(R.id.cv_player_stats).setOnClickListener(this);
 //        findViewById(R.id.cv_expert_analysis).setOnClickListener(this);
@@ -119,7 +161,7 @@ public class CricketFantasyFragment extends MvpFragment<CricketFantasyPresenter>
                     if ("L".equals(model.getHome().get(i))) {
                         textView.setBackgroundColor(getResources().getColor(R.color.c_DC3C23));
                         textView.setText("L");
-                    }else {
+                    } else {
                         winCount++;
                         textView.setBackgroundColor(getResources().getColor(R.color.c_219430));
                         textView.setText("W");
@@ -142,7 +184,7 @@ public class CricketFantasyFragment extends MvpFragment<CricketFantasyPresenter>
                     if ("L".equals(model.getAway().get(i))) {
                         textView.setBackgroundColor(getResources().getColor(R.color.c_DC3C23));
                         textView.setText("L");
-                    }else {
+                    } else {
                         winCount++;
                         textView.setBackgroundColor(getResources().getColor(R.color.c_219430));
                         textView.setText("W");
