@@ -122,7 +122,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
         etArea = findViewById(R.id.et_area);
         findViewById(R.id.iv_back).setOnClickListener(this);
         findViewById(R.id.tv_auth_code).setOnClickListener(this);
-        findViewById(R.id.btn_sign_up).setOnClickListener(this);
+//        findViewById(R.id.btn_sign_up).setOnClickListener(this);
         findViewById(R.id.tv_forgot).setOnClickListener(this);
         ivEyePassword.setOnClickListener(this);
         btn_login.setOnClickListener(this);

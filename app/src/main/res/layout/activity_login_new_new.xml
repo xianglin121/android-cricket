@@ -186,7 +186,8 @@
                 android:textSize="15sp"
                 android:layout_marginLeft="27.5dp"
                 android:layout_marginRight="27.5dp"
-                android:textColor="@color/c_DC3C23"/>
+                android:textColor="@color/c_DC3C23"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/tv_forgot"
