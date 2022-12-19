@@ -36,6 +36,7 @@ import com.onecric.live.fragment.CricketFragment;
 import com.onecric.live.fragment.LiveFragment;
 import com.onecric.live.fragment.ThemeFragment;
 import com.onecric.live.fragment.VideoFragment;
+import com.onecric.live.model.ConfigurationBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.login.MainPresenter;
@@ -158,7 +159,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                         mvpPresenter.signOut(mActivity);
                     }
                 });
-            }else{
+            } else {
                 //登录
                 LoginActivity.forward(mActivity);
             }
@@ -216,16 +217,16 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         loginIM();
         //获取默认配置
         mvpPresenter.getConfiguration();
-        //检查是否有版本更新
-        if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
-//            DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false,
-//                    CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber(),
-//                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),
-//                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadUrl());
-            if (DialogUtil.checkUpdateInfo(this, CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
-                transferToGooglePlay();
-            }
-        }
+//        //检查是否有版本更新
+//        if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
+////            DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false,
+////                    CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber(),
+////                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),
+////                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadUrl());
+//            if (DialogUtil.checkUpdateInfo(this, CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
+//                transferToGooglePlay();
+//            }
+//        }
     }
 
 
@@ -324,6 +325,21 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 tv_name_nav.setText("");
             }
             ((ThemeFragment) mViewList.get(0)).updateUserInfo();
+        }
+    }
+
+    @Override
+    public void getConfigSuccess(ConfigurationBean bean) {
+        CommonAppConfig.getInstance().saveConfig(bean);
+        //检查是否有版本更新
+        if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
+//            DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false,
+//                    CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber(),
+//                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),
+//                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadUrl());
+            if (DialogUtil.checkUpdateInfo(this, CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
+                transferToGooglePlay();
+            }
         }
     }
 

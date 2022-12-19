@@ -23,7 +23,8 @@ public class MainPresenter extends BasePresenter<MainView> {
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
-                        CommonAppConfig.getInstance().saveConfig(JSONObject.parseObject(data, ConfigurationBean.class));
+//                        CommonAppConfig.getInstance().saveConfig(JSONObject.parseObject(data, ConfigurationBean.class));
+                        mvpView.getConfigSuccess(JSONObject.parseObject(data, ConfigurationBean.class));
                     }
 
                     @Override

@@ -20,10 +20,10 @@ public class CommonAppConfig {
 
     //存放图片到sdcard中
 //    public static final String IMAGE_PATH = Environment.getExternalStorageDirectory().getPath() + File.separator + AppManager.mContext.getPackageName()+ ".image/";
-    public static final String IMAGE_PATH = AppManager.mContext.getFilesDir().getPath() + File.separator + AppManager.mContext.getPackageName()+ ".image/";
+    public static final String IMAGE_PATH = AppManager.mContext.getFilesDir().getPath() + File.separator + AppManager.mContext.getPackageName() + ".image/";
     //存放视频到sdcard中
 //    public static final String VIDEO_PATH = Environment.getExternalStorageDirectory().getPath() + File.separator + AppManager.mContext.getPackageName()+ ".video/";
-    public static final String VIDEO_PATH = AppManager.mContext.getFilesDir().getPath() + File.separator + AppManager.mContext.getPackageName()+ ".video/";
+    public static final String VIDEO_PATH = AppManager.mContext.getFilesDir().getPath() + File.separator + AppManager.mContext.getPackageName() + ".video/";
 
     private CommonAppConfig() {
 
@@ -128,7 +128,7 @@ public class CommonAppConfig {
         String json = SpUtil.getInstance().getStringValue(SpUtil.BLOCK_INFO);
         if (!TextUtils.isEmpty(json)) {
             blockFunctionBean = JSON.parseObject(json, BlockFunctionBean.class);
-        }else {
+        } else {
             blockFunctionBean = new BlockFunctionBean();
             saveBlockFunctionInfo(blockFunctionBean);
         }
@@ -148,7 +148,7 @@ public class CommonAppConfig {
         String json = SpUtil.getInstance().getStringValue(SpUtil.DEFAULT_CONFIG);
         if (!TextUtils.isEmpty(json)) {
             configurationBean = JSON.parseObject(json, ConfigurationBean.class);
-        }else {
+        } else {
             configurationBean = new ConfigurationBean();
         }
         return configurationBean;
@@ -159,7 +159,7 @@ public class CommonAppConfig {
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
                 || !Environment.isExternalStorageRemovable()) {
             cachePath = context.getExternalCacheDir().getPath();
-        }else {
+        } else {
             cachePath = context.getCacheDir().getPath();
         }
         return cachePath;
