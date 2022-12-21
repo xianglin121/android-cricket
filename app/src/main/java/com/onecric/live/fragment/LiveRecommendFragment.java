@@ -37,6 +37,8 @@ import com.youth.banner.Banner;
 import com.youth.banner.indicator.RectangleIndicator;
 import com.youth.banner.listener.OnBannerListener;
 
+import net.lucode.hackware.magicindicator.buildins.UIUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +75,10 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         rv_live = rootView.findViewById(R.id.rv_live);
         rv_today = rootView.findViewById(R.id.rv_today);
         rv_history = rootView.findViewById(R.id.rv_history);
-
+        int width = UIUtil.getScreenWidth(getContext());
+        android.view.ViewGroup.LayoutParams pp = mBanner.getLayoutParams();
+        pp.height = (int)((width-UIUtil.dip2px(getContext(),24)) * 0.6);
+        mBanner.setLayoutParams(pp);
         findViewById(R.id.tv_see_more_one).setOnClickListener(this);
         findViewById(R.id.tv_see_more_two).setOnClickListener(this);
         findViewById(R.id.tv_see_more_three).setOnClickListener(this);

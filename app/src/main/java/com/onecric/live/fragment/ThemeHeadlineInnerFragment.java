@@ -3,6 +3,7 @@ package com.onecric.live.fragment;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,6 +28,8 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.youth.banner.Banner;
 import com.youth.banner.indicator.RectangleIndicator;
 import com.youth.banner.listener.OnBannerListener;
+
+import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,10 +65,13 @@ public class ThemeHeadlineInnerFragment extends MvpFragment<ThemeHeadlineInnerPr
     @Override
     protected void initUI() {
         mId = getArguments().getInt("id");
-
         smart_rl = rootView.findViewById(R.id.smart_rl);
         mBanner = rootView.findViewById(R.id.banner_headline);
         rv_headline = rootView.findViewById(R.id.rv_headline);
+        int width = UIUtil.getScreenWidth(getContext());
+        android.view.ViewGroup.LayoutParams pp = mBanner.getLayoutParams();
+        pp.height = (int)((width-UIUtil.dip2px(getContext(),24)) * 0.6);
+        mBanner.setLayoutParams(pp);
     }
 
     @Override

@@ -21,7 +21,7 @@
                 <com.youth.banner.Banner
                     android:id="@+id/banner_headline"
                     android:layout_width="match_parent"
-                    android:layout_height="151dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="13dp"
                     android:layout_marginLeft="12dp"
