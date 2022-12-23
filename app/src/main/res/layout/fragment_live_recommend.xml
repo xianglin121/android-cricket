@@ -50,7 +50,8 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginRight="12dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -89,7 +90,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:layout_marginTop="9dp"
-                    android:layout_marginRight="12dp" />
+                    android:layout_marginRight="12dp"
+                    android:visibility="gone"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -124,11 +126,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableRight="@mipmap/icon_arrow_right_five"
-                        android:text="@string/see_more"
                         android:textColor="@color/c_E05526"
                         android:textSize="12sp"
                         android:textAllCaps="true"
-                        android:gravity="center_vertical"/>
+                        android:gravity="center_vertical"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -172,11 +174,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableRight="@mipmap/icon_arrow_right_five"
-                        android:text="@string/see_more"
                         android:textColor="@color/c_E05526"
                         android:textSize="12sp"
                         android:textAllCaps="true"
-                        android:gravity="center_vertical"/>
+                        android:gravity="center_vertical"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView

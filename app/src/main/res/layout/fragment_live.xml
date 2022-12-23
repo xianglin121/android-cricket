@@ -8,7 +8,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/c_1D2550">
+        android:background="@color/c_1D2550"
+        android:visibility="gone">
         <ImageView
             android:id="@+id/iv_more"
             android:layout_width="wrap_content"
@@ -90,8 +91,9 @@
     <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/magicIndicator"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/c_1D2550"/>
+        android:layout_height="70dp"
+        android:background="@color/c_1D2550"
+        android:paddingTop="20dp"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"

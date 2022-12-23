@@ -79,9 +79,9 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         android.view.ViewGroup.LayoutParams pp = mBanner.getLayoutParams();
         pp.height = (int)((width-UIUtil.dip2px(getContext(),24)) * 0.6);
         mBanner.setLayoutParams(pp);
-        findViewById(R.id.tv_see_more_one).setOnClickListener(this);
-        findViewById(R.id.tv_see_more_two).setOnClickListener(this);
-        findViewById(R.id.tv_see_more_three).setOnClickListener(this);
+//        findViewById(R.id.tv_see_more_one).setOnClickListener(this);
+//        findViewById(R.id.tv_see_more_two).setOnClickListener(this);
+//        findViewById(R.id.tv_see_more_three).setOnClickListener(this);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             }
         });
         //FreeLive
-        mAdapter = new LiveRecommendAdapter(R.layout.item_live_recommend, new ArrayList<>());
+/*        mAdapter = new LiveRecommendAdapter(R.layout.item_live_recommend, new ArrayList<>());
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -137,7 +137,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         });
         rv_live.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rv_live.addItemDecoration(new GridDividerItemDecoration(getContext(), 10, 2));
-        rv_live.setAdapter(mAdapter);
+        rv_live.setAdapter(mAdapter);*/
         //TodayLive
         mTodayAdapter = new LiveRecommendAdapter(R.layout.item_live_recommend, new ArrayList<>());
         mTodayAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -225,16 +225,18 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     @Override
     public void getDataSuccess(List<LiveBean> freeList, List<LiveBean> todayList, List<LiveBean> historyList) {
         smart_rl.finishRefresh();
-        if (freeList == null) {
+/*        if (freeList == null) {
             freeList = new ArrayList<>();
-        }
+        }*/
         if (todayList == null) {
             todayList = new ArrayList<>();
         }
         if (historyList == null) {
             historyList = new ArrayList<>();
         }
-        mAdapter.setNewData(freeList);
+//        mAdapter.setNewData(freeList);
+
+        //fixme 展示全部
         mTodayAdapter.setNewData(todayList);
         mHistoryAdapter.setNewData(historyList);
     }
