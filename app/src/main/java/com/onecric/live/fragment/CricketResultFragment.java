@@ -19,6 +19,7 @@ import com.onecric.live.activity.CricketInnerActivity;
 import com.onecric.live.adapter.CricketAdapter;
 import com.onecric.live.adapter.SelectTournamentAdapter;
 import com.onecric.live.custom.ItemDecoration;
+import com.onecric.live.event.ToggleTabEvent;
 import com.onecric.live.model.CricketTournamentBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.cricket.CricketPresenter;
@@ -28,6 +29,8 @@ import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -173,20 +176,23 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
             if (list != null) {
                 if (list.size() > 0) {
                     hideEmptyView();
-                }else {
+                } else {
                     showEmptyView();
+                    if (mStreaming == 1) {
+                        EventBus.getDefault().post(new ToggleTabEvent(2));
+                    }
                 }
                 mAdapter.setNewData(list);
-            }else {
+            } else {
                 mAdapter.setNewData(new ArrayList<>());
                 showEmptyView();
             }
-        }else {
+        } else {
             mPage++;
             if (mPage <= total) {
                 smart_rl.finishLoadMore();
                 mAdapter.addData(list);
-            }else {
+            } else {
                 smart_rl.finishLoadMoreWithNoMoreData();
             }
         }
@@ -226,7 +232,7 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
                     mStreaming = 0;
                     iv_streaming.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.c_CCCCCC));
                     tv_streaming.setTextColor(getResources().getColor(R.color.c_333333));
-                }else {
+                } else {
                     mStreaming = 1;
                     iv_streaming.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.c_DC3C23));
                     tv_streaming.setTextColor(getResources().getColor(R.color.c_DC3C23));
@@ -257,7 +263,7 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
                     }
                 }
                 if (mTournamentId.length() > 0) {
-                    mTournamentId = mTournamentId.substring(0, mTournamentId.length()-1);
+                    mTournamentId = mTournamentId.substring(0, mTournamentId.length() - 1);
                 }
                 smart_rl.autoRefresh();
                 break;
