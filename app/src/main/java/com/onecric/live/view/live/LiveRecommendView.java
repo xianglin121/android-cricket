@@ -9,7 +9,7 @@ import com.onecric.live.view.BaseView;
 import java.util.List;
 
 public interface LiveRecommendView extends BaseView<JsonBean> {
-    void getDataSuccess(boolean isRefresh, List<LiveBean> list);
+    void getDataSuccess(boolean isRefresh, List<LiveBean> list,int type);
 
     void getDataSuccess(List<LiveMatchBean> list);
 

@@ -1,11 +1,13 @@
 package com.onecric.live.adapter;
 
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.ColorUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -52,5 +54,11 @@ public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
         }else {
             tv_num.setText(String.valueOf(item.getHeat()));
         }
+
+        //fixme 未开播显示蒙版和开播时间
+        if(item.getIslive() == 0){
+//            iv_cover.setColorFilter(Color.parseColor("#75000000"));
+        }
+
     }
 }

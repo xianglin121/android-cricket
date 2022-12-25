@@ -1,6 +1,7 @@
 package com.onecric.live.fragment;
 
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -55,7 +56,9 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     private RecyclerView rv_history;
     private LiveRecommendAdapter mHistoryAdapter;
 
-    private int mPage = 1;
+//    private int mPage = 1;
+    private int mTodayPage = 1;
+    private int mHistoryPage = 1;
 
     @Override
     protected int getLayoutId() {
@@ -118,13 +121,15 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         smart_rl.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getList(false, -1, mPage);
+//                mvpPresenter.getList(false, -1, mPage);
+                mvpPresenter.getList(false, 2, mHistoryPage);
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-//                mvpPresenter.getList(true, -1, 1);
-                mvpPresenter.getAllList();
+//                 mvpPresenter.getAllList();
+                mvpPresenter.getList(true, -1, 1);
+                mvpPresenter.getList(true, 2, 1);
             }
         });
         //FreeLive
@@ -143,9 +148,16 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         mTodayAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                //fixme 哪个字段判断未开播
+                if(mTodayAdapter.getItem(position).getIslive() == 0){
+                    return;
+                }
                 LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(), mTodayAdapter.getItem(position).getType(), mTodayAdapter.getItem(position).getMatch_id());
             }
         });
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
+        inflate.findViewById(R.id.ll_empty).setVisibility(View.VISIBLE);
+        mTodayAdapter.setEmptyView(inflate);
         rv_today.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rv_today.addItemDecoration(new GridDividerItemDecoration(getContext(), 10, 2));
         rv_today.setAdapter(mTodayAdapter);
@@ -154,9 +166,16 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         mHistoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                //fixme
+                if(mHistoryAdapter.getItem(position).getIslive() == 0){
+                    return;
+                }
                 LiveDetailActivity.forward(getContext(), mHistoryAdapter.getItem(position).getUid(), mHistoryAdapter.getItem(position).getType(), mHistoryAdapter.getItem(position).getMatch_id());
             }
         });
+        View inflate2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
+        inflate2.findViewById(R.id.ll_empty).setVisibility(View.VISIBLE);
+        mHistoryAdapter.setEmptyView(inflate2);
         rv_history.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rv_history.addItemDecoration(new GridDividerItemDecoration(getContext(), 10, 2));
         rv_history.setAdapter(mHistoryAdapter);
@@ -197,8 +216,67 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     }
 
     @Override
-    public void getDataSuccess(boolean isRefresh, List<LiveBean> list) {
-        if (isRefresh) {
+    public void getDataSuccess(boolean isRefresh, List<LiveBean> list,int type) {
+/*        if (isRefresh) {
+            smart_rl.finishRefresh();
+            if(type == 0){
+                mTodayPage = 2;
+                if (list != null) {
+                    mTodayAdapter.setNewData(list);
+                    //fixme 分页判断
+//                    mvpPresenter.getList(false, 1, mTodayPage);
+                }
+            }else if(type == 2){
+                mHistoryPage = 2;
+                if (list != null) {
+                    mHistoryAdapter.setNewData(list);
+                }
+            }
+        }else {
+            if (list != null && list.size() > 0) {
+                smart_rl.finishLoadMore();
+                if(type == 1){
+                    mTodayPage++;
+                    mTodayAdapter.addData(list);
+                    //fixme 分页判断
+//                    mvpPresenter.getList(false, 1, mTodayPage);
+                }else if(type == 2){
+                    mHistoryPage++;
+                    mHistoryAdapter.addData(list);
+                }
+            }else {
+                smart_rl.finishLoadMoreWithNoMoreData();
+            }
+        }*/
+
+        if(type == -1){
+            if (isRefresh) {
+                smart_rl.finishRefresh();
+                mTodayPage = 2;
+                if (list != null) {
+                    mTodayAdapter.setNewData(list);
+                }
+            }else if (list != null && list.size() > 0) {
+                mTodayPage++;
+                mTodayAdapter.addData(list);
+            }
+        }else if(type == 2){
+            if (isRefresh) {
+                smart_rl.finishRefresh();
+                mHistoryPage = 2;
+                if (list != null) {
+                    mHistoryAdapter.setNewData(list);
+                }
+            }else if (list != null && list.size() > 0) {
+                    smart_rl.finishLoadMore();
+                    mHistoryPage++;
+                    mHistoryAdapter.addData(list);
+            }else{
+                smart_rl.finishLoadMoreWithNoMoreData();
+            }
+        }
+
+/*        if (isRefresh) {
             smart_rl.finishRefresh();
             mPage = 2;
             if (list != null) {
@@ -212,7 +290,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             }else {
                 smart_rl.finishLoadMoreWithNoMoreData();
             }
-        }
+        }*/
     }
 
     @Override
@@ -236,7 +314,6 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         }
 //        mAdapter.setNewData(freeList);
 
-        //fixme 展示全部
         mTodayAdapter.setNewData(todayList);
         mHistoryAdapter.setNewData(historyList);
     }

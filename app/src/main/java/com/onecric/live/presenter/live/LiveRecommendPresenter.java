@@ -27,9 +27,14 @@ public class LiveRecommendPresenter extends BasePresenter<LiveRecommendView> {
                     public void onSuccess(String data, String msg) {
                         if (!TextUtils.isEmpty(data)) {
                             List<LiveBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("data"), LiveBean.class);
-                            mvpView.getDataSuccess(isRefresh, list);
+                            int lastPage = JSONObject.parseObject(JSONObject.parseObject(data).getString("last_page"), Integer.class);
+                            mvpView.getDataSuccess(isRefresh, list,type);
+                            //fixme 分页判断,未测试
+                            if(type==-1 && lastPage>page){
+                                getList(false, -1, page+1);
+                            }
                         }else {
-                            mvpView.getDataSuccess(isRefresh, new ArrayList<>());
+                            mvpView.getDataSuccess(isRefresh, new ArrayList<>(),type);
                         }
                     }
 
@@ -49,6 +54,7 @@ public class LiveRecommendPresenter extends BasePresenter<LiveRecommendView> {
                     }
                 });
     }
+
 
     public void getAllList() {
         addSubscription(apiStores.getAllLivingList(CommonAppConfig.getInstance().getToken()),
@@ -81,6 +87,8 @@ public class LiveRecommendPresenter extends BasePresenter<LiveRecommendView> {
                     }
                 });
     }
+
+
 
     public void getRecommendList() {
         addSubscription(apiStores.getAllMatch(),

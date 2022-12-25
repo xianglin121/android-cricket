@@ -79,7 +79,6 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
         mViewList.add(LiveMatchFragment.newInstance(2));
         initViewPager();
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
