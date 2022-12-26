@@ -89,6 +89,7 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
         findViewById(R.id.ll_streaming).setOnClickListener(this);
     }
 
+
     @Override
     protected void initData() {
         MaterialHeader materialHeader = new MaterialHeader(getContext());
@@ -174,15 +175,20 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
             smart_rl.finishRefresh();
             mPage = 2;
             if (list != null) {
+                mAdapter.setNewData(list);
                 if (list.size() > 0) {
                     hideEmptyView();
                 } else {
                     showEmptyView();
                     if (mStreaming == 1) {
                         EventBus.getDefault().post(new ToggleTabEvent(2));
+                        mStreaming = 0;
+                        iv_streaming.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.c_CCCCCC));
+                        tv_streaming.setTextColor(getResources().getColor(R.color.c_333333));
+                        mvpPresenter.getCricketMatchList(true, mTimeType, mTournamentId, mStreaming, 1);
                     }
                 }
-                mAdapter.setNewData(list);
+//                mAdapter.setNewData(list);
             } else {
                 mAdapter.setNewData(new ArrayList<>());
                 showEmptyView();
