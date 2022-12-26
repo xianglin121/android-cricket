@@ -116,7 +116,7 @@ public class LiveBean {
         this.match_id = match_id;
     }
 
-    public int getStarttime() {
+    public long getStarttime() {
         return starttime;
     }
 

@@ -148,7 +148,6 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         mTodayAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //fixme 哪个字段判断未开播
                 if(mTodayAdapter.getItem(position).getIslive() == 0){
                     return;
                 }
@@ -166,7 +165,6 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         mHistoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //fixme
                 if(mHistoryAdapter.getItem(position).getIslive() == 0){
                     return;
                 }
@@ -217,38 +215,6 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 
     @Override
     public void getDataSuccess(boolean isRefresh, List<LiveBean> list,int type) {
-/*        if (isRefresh) {
-            smart_rl.finishRefresh();
-            if(type == 0){
-                mTodayPage = 2;
-                if (list != null) {
-                    mTodayAdapter.setNewData(list);
-                    //fixme 分页判断
-//                    mvpPresenter.getList(false, 1, mTodayPage);
-                }
-            }else if(type == 2){
-                mHistoryPage = 2;
-                if (list != null) {
-                    mHistoryAdapter.setNewData(list);
-                }
-            }
-        }else {
-            if (list != null && list.size() > 0) {
-                smart_rl.finishLoadMore();
-                if(type == 1){
-                    mTodayPage++;
-                    mTodayAdapter.addData(list);
-                    //fixme 分页判断
-//                    mvpPresenter.getList(false, 1, mTodayPage);
-                }else if(type == 2){
-                    mHistoryPage++;
-                    mHistoryAdapter.addData(list);
-                }
-            }else {
-                smart_rl.finishLoadMoreWithNoMoreData();
-            }
-        }*/
-
         if(type == -1){
             if (isRefresh) {
                 smart_rl.finishRefresh();
