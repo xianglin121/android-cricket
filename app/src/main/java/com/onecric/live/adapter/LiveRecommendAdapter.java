@@ -19,6 +19,7 @@ import com.tencent.qcloud.tuicore.util.DateTimeUtil;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import java.util.List;
  * 时间：2021/9/14
  */
 public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHolder> {
+    private SimpleDateFormat sfdate = new SimpleDateFormat("hh:mm a");
     public LiveRecommendAdapter(int layoutResId, @Nullable List<LiveBean> data) {
         super(layoutResId, data);
     }
@@ -64,8 +66,9 @@ public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
             iv_live.setVisibility(View.GONE);
             iv_cover.setColorFilter(Color.parseColor("#75000000"));
             tv_time.setVisibility(View.VISIBLE);
-            tv_time.setText("LIVE at "+ DateTimeUtil.getTimeFormatText(new Date(item.getStarttime() * 1000)));
+            tv_time.setText("Watch live at "+ sfdate.format(new Date(item.getStarttime() * 1000)).replace("上午","AM").replace("下午","PM"));
         }else{
+            iv_cover.setColorFilter(null);
             iv_live.setVisibility(View.VISIBLE);
             tv_time.setVisibility(View.GONE);
         }
