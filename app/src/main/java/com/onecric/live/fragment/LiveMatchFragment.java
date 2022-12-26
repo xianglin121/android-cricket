@@ -1,6 +1,7 @@
 package com.onecric.live.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -73,6 +74,9 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
                 LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
             }
         });
+//        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
+//        inflate.findViewById(R.id.ll_empty).setVisibility(View.VISIBLE);
+//        mAnchorAdapter.setEmptyView(inflate);
         rv_anchor.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         rv_anchor.setAdapter(mAnchorAdapter);
 
@@ -96,6 +100,9 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
                 LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
             }
         });
+        View inflate2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
+        inflate2.findViewById(R.id.ll_empty).setVisibility(View.VISIBLE);
+        mAdapter.setEmptyView(inflate2);
         rv_live.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rv_live.addItemDecoration(new GridDividerItemDecoration(getContext(), 10, 2));
         rv_live.setAdapter(mAdapter);
@@ -122,12 +129,12 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
                 mAdapter.setNewData(list);
                 mAnchorAdapter.setNewData(list);
             }
-        }else {
+        } else {
             mPage++;
             if (list != null && list.size() > 0) {
                 smart_rl.finishLoadMore();
                 mAdapter.addData(list);
-            }else {
+            } else {
                 smart_rl.finishLoadMoreWithNoMoreData();
             }
         }
