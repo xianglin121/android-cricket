@@ -1,6 +1,7 @@
 package com.onecric.live.adapter;
 
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,12 @@ public class MyFollowAdapter extends BaseQuickAdapter<UserBean, BaseViewHolder> 
     protected void convert(@NonNull BaseViewHolder helper, UserBean item) {
         ImageView iv_avatar = helper.getView(R.id.iv_avatar);
         GlideUtil.loadUserImageDefault(mContext, item.getAvatar(), iv_avatar);
+        int is_anchor = item.getIs_anchor();
+        if (is_anchor != 1) {
+            helper.getView(R.id.iv_live).setVisibility(View.GONE);
+        } else {
+            helper.getView(R.id.iv_live).setVisibility(View.VISIBLE);
+        }
         if (item.getIs_live() == 0) {
             helper.getView(R.id.iv_live).setSelected(false);
         } else {
