@@ -29,7 +29,7 @@ public class LiveRecommendPresenter extends BasePresenter<LiveRecommendView> {
                             List<LiveBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("data"), LiveBean.class);
                             int lastPage = JSONObject.parseObject(JSONObject.parseObject(data).getString("last_page"), Integer.class);
                             mvpView.getDataSuccess(isRefresh, list,type);
-                            //fixme 分页判断,未测试
+                            //分页,未测试
                             if(type==-1 && lastPage>page){
                                 getList(false, -1, page+1);
                             }

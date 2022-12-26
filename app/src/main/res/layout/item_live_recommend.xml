@@ -11,10 +11,32 @@
         android:layout_width="match_parent"
         android:layout_height="88dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/bg_live_cover_default"
         app:layout_constraintTop_toTopOf="parent"
         app:riv_corner_radius_top_left="6dp"
         app:riv_corner_radius_top_right="6dp" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/c_CD7F32"
+        android:gravity="center"
+        android:padding="@dimen/dp_10"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="@+id/iv_cover"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_cover"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/iv_live"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/icon_live_state_true"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/iv_cover"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_title"

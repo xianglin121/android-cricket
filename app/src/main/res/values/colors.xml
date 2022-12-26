@@ -151,4 +151,7 @@
     <color name="colorLiveGreen">#00aa50</color>
     <color name="colorLiveGrayLine">#f0f1f4</color>
     <color name="colorLiveGrayBg">#c8c8c8</color>
+
+    <color name="c_CD7F32">#CD7F32</color>
+
 </resources>
