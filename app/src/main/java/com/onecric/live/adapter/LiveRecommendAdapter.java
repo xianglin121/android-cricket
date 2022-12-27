@@ -22,13 +22,15 @@ import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 开发公司：东莞市梦幻科技有限公司
  * 时间：2021/9/14
  */
 public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHolder> {
-    private SimpleDateFormat sfdate = new SimpleDateFormat("hh:mm a");
+    private SimpleDateFormat sfdate = new SimpleDateFormat("EEE,dd MMM.", Locale.ENGLISH);
+    private SimpleDateFormat sfdate2 = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
     public LiveRecommendAdapter(int layoutResId, @Nullable List<LiveBean> data) {
         super(layoutResId, data);
     }
@@ -66,7 +68,7 @@ public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
             iv_live.setVisibility(View.GONE);
             iv_cover.setColorFilter(Color.parseColor("#75000000"));
             tv_time.setVisibility(View.VISIBLE);
-            tv_time.setText("Watch live at "+ sfdate.format(new Date(item.getStarttime() * 1000)).replace("上午","AM").replace("下午","PM"));
+            tv_time.setText(getDate(item.getStarttime()));
         }else{
             iv_cover.setColorFilter(null);
             iv_live.setVisibility(View.VISIBLE);
@@ -74,4 +76,15 @@ public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
         }
 
     }
+
+    /**
+     * Tue,27 Dec.Watch live at 11:30 AM
+     * @param time
+     * @return
+     */
+    private String getDate(long time){
+        Date date = new Date(time * 1000);
+        return sfdate.format(date)+" Watch live at "+sfdate2.format(date);
+    }
+
 }
