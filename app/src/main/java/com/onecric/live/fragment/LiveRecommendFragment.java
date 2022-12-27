@@ -149,9 +149,10 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if(mTodayAdapter.getItem(position).getIslive() == 0){
-                    return;
+                    ToastUtil.show("The broadcast has not started");
+                }else{
+                    LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(), mTodayAdapter.getItem(position).getType(), mTodayAdapter.getItem(position).getMatch_id());
                 }
-                LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(), mTodayAdapter.getItem(position).getType(), mTodayAdapter.getItem(position).getMatch_id());
             }
         });
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
