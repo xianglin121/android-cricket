@@ -144,6 +144,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     protected void initView() {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
+        params.putInt("watch_live", 0);
         mFirebaseAnalytics.logEvent("watch_live", params);
         EventBus.getDefault().register(this);
         //保持屏幕常亮
@@ -226,7 +227,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         // 禁用缓存
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
-        webSettings.setDefaultTextEncodingName("utf-8") ;
+        webSettings.setDefaultTextEncodingName("utf-8");
         webview.setBackgroundColor(0); // 设置背景色
         webview.setWebViewClient(new WebViewClient() {
             @Override
@@ -247,7 +248,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             @Override
             public void run() {
                 webview.setVisibility(View.GONE);
-                if(!TextUtils.isEmpty(data)) {
+                if (!TextUtils.isEmpty(data)) {
                     JSONObject jsonObject = JSONObject.parseObject(data);
                     if (jsonObject.getIntValue("ret") == 0) {
                         runOnUiThread(new Runnable() {
