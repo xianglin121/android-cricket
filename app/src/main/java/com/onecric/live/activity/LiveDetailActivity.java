@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -21,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.custom.gift.AnimMessage;
@@ -81,20 +83,21 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     private int mType;
     private int mMatchId;
     private int mWindowsWidth;
-//    private View statusBar;
+    //    private View statusBar;
     public LivePlayerView playerView;
     private FrameLayout fl_main;
     private LiveDetailMainFragment liveDetailMainFragment;
     private FrameLayout fl_menu;
-//    private LiveDetailFootballFragment liveDetailFootballFragment;
+    //    private LiveDetailFootballFragment liveDetailFootballFragment;
 //    private LiveDetailBasketballFragment liveDetailBasketballFragment;
     private ImageView iv_data;
-//    private SVGAImageView svga_gift;
+    //    private SVGAImageView svga_gift;
     private LinearLayout ll_gift_container;
     private LinearLayout ll_noble_container;
 
     private boolean mIsFullScreen;
     public LiveRoomBean mLiveRoomBean;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     //未登录用户倒计时三分钟跳转登录页
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
@@ -123,6 +126,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
     @Override
     protected void initView() {
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle params = new Bundle();
+        mFirebaseAnalytics.logEvent("watch_live", params);
         EventBus.getDefault().register(this);
         //保持屏幕常亮
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
@@ -169,10 +175,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         if (mType == 0) {
 //            liveDetailFootballFragment = LiveDetailFootballFragment.newInstance(mMatchId);
 //            getSupportFragmentManager().beginTransaction().replace(R.id.fl_menu, liveDetailFootballFragment).commitAllowingStateLoss();
-        }else if (mType == 1){
+        } else if (mType == 1) {
 //            liveDetailBasketballFragment = LiveDetailBasketballFragment.newInstance(mMatchId);
 //            getSupportFragmentManager().beginTransaction().replace(R.id.fl_menu, liveDetailBasketballFragment).commitAllowingStateLoss();
-        }else {
+        } else {
             iv_data.setVisibility(View.GONE);
         }
 
@@ -188,7 +194,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         mvpPresenter.getInfo(mAnchorId);
         if (mType == 0) {
 //            mvpPresenter.getFootballDetail(mMatchId);
-        }else if (mType == 1){
+        } else if (mType == 1) {
 //            mvpPresenter.getBasketballDetail(mMatchId);
         }
 
@@ -241,11 +247,11 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                     if (mLiveRoomBean.getInfo() != null && mLiveRoomBean.getInfo().getClarity() != null) {
                         if (type == 0) {
                             playerView.play(mLiveRoomBean.getInfo().getPull());
-                        }else if (type == 1) {
+                        } else if (type == 1) {
                             playerView.play(mLiveRoomBean.getInfo().getClarity().getHd());
-                        }else if (type == 2) {
+                        } else if (type == 2) {
                             playerView.play(mLiveRoomBean.getInfo().getClarity().getSd());
-                        }else if (type == 3) {
+                        } else if (type == 3) {
                             playerView.play(mLiveRoomBean.getInfo().getClarity().getSmooth());
                         }
                         playerView.updateQuality(type);
@@ -267,8 +273,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             showNobleAnim(CommonAppConfig.getInstance().getUserBean().getUser_nickname(), CommonAppConfig.getInstance().getUserBean().getGuard().getSwf_name(), CommonAppConfig.getInstance().getUserBean().getGuard().getSwf());
             //判断贵族是否即将到期
             long endtime = CommonAppConfig.getInstance().getUserBean().getGuard().getEndtime();
-            if ((endtime*1000) - System.currentTimeMillis() > 0) {
-                if (((endtime*1000) - System.currentTimeMillis()) < 7*24*60*60*1000) {
+            if ((endtime * 1000) - System.currentTimeMillis() > 0) {
+                if (((endtime * 1000) - System.currentTimeMillis()) < 7 * 24 * 60 * 60 * 1000) {
                     DialogUtil.showSimpleDialog(mActivity, getString(R.string.title_noble_expiration_reminder), getString(R.string.text_noble_expiration_reminder), false, new DialogUtil.SimpleCallback() {
                         @Override
                         public void onConfirmClick(Dialog dialog, String content) {
@@ -283,10 +289,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
             if (String.valueOf(mAnchorId).equals(CommonAppConfig.getInstance().getUid())) {
                 playerView.setPeopleCountVisibility(View.VISIBLE);
-            }else {
+            } else {
                 playerView.setPeopleCountVisibility(View.INVISIBLE);
             }
-        }else {
+        } else {
             playerView.setPeopleCountVisibility(View.INVISIBLE);
         }
 
@@ -314,10 +320,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
                     if (CommonAppConfig.getInstance().getUid().equals(String.valueOf(mAnchorId))) {
                         isShow = false;
-                    }else {
+                    } else {
                         isShow = true;
                     }
-                }else {
+                } else {
                     isShow = true;
                 }
                 if (isShow) {
@@ -329,7 +335,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                                     if (mLiveRoomBean.getUserData().getIs_attention() == 0) {
                                         doFollow();
                                     }
-                                }else {
+                                } else {
                                     LoginActivity.forward(mActivity);
                                 }
                             }
@@ -379,7 +385,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             if (mLiveRoomBean.getUserData().getIs_attention() == 0) {
                 mLiveRoomBean.getUserData().setIs_attention(1);
                 attention++;
-            }else {
+            } else {
                 mLiveRoomBean.getUserData().setIs_attention(0);
                 attention--;
             }
@@ -403,7 +409,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         msgBean.setText(text);
         if (anchorId == Integer.valueOf(CommonAppConfig.getInstance().getUid())) {
             msgBean.setIs_room(1);
-        }else {
+        } else {
             msgBean.setIs_room(0);
         }
         msgBean.setIs_guard(CommonAppConfig.getInstance().getUserBean().getIs_guard());
@@ -448,7 +454,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public void sendBroadcastResponse(boolean isSuccess, String msg) {
         if (isSuccess) {
             ToastUtil.show(getString(R.string.tip_send_broadcast_success));
-        }else {
+        } else {
             ToastUtil.show(msg);
         }
     }
@@ -558,7 +564,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
             if (mIsFullScreen) {
                 playerView.switchPlayMode(SuperPlayerDef.PlayerMode.WINDOW);
-            }else {
+            } else {
                 backAction();
             }
             return true;
@@ -572,17 +578,17 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // 6.0动态申请悬浮窗权限
                 if (Settings.canDrawOverlays(this)) {
                     playerView.switchPlayMode(SuperPlayerDef.PlayerMode.FLOAT);
-                }else {
+                } else {
                     finish();
                 }
             } else {
                 if (playerView.checkOp(this, 24)) {
                     playerView.switchPlayMode(SuperPlayerDef.PlayerMode.FLOAT);
-                }else {
+                } else {
                     finish();
                 }
             }
-        }else {
+        } else {
             finish();
         }
     }
@@ -591,7 +597,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         iv_data.setSelected(!iv_data.isSelected());
         if (iv_data.isSelected()) {
             slideRightToLeft();
-        }else {
+        } else {
             slideLeftToRight();
         }
     }
@@ -640,11 +646,11 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                     if (playerView != null) {
                         playerView.addDanmu(customMsgBean.getColor().getText(), customMsgBean.getColor().getColor(), messageInfo.isSelf());
                     }
-                }else if (messageInfo.getMsgType() == MessageInfo.MSG_TYPE_BG_DANMU){
+                } else if (messageInfo.getMsgType() == MessageInfo.MSG_TYPE_BG_DANMU) {
                     if (playerView != null) {
                         if (customMsgBean.getNormal().getIsXCBarrage() == 1) {
                             playerView.addDanmu(customMsgBean.getNormal().getText(), customMsgBean.getNormal().getXcBarrageType(), messageInfo.isSelf());
-                        }else {
+                        } else {
                             playerView.addDanmu(customMsgBean.getNormal().getText(), "", messageInfo.isSelf());
                         }
                     }
@@ -664,7 +670,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         msgBean.setText(content);
         if (mAnchorId == Integer.valueOf(CommonAppConfig.getInstance().getUid())) {
             msgBean.setIs_room(1);
-        }else {
+        } else {
             msgBean.setIs_room(0);
         }
         msgBean.setIs_guard(CommonAppConfig.getInstance().getUserBean().getIs_guard());
@@ -737,7 +743,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         giftMsgBean.setType(giftBean.getType());
         if (mAnchorId == Integer.valueOf(CommonAppConfig.getInstance().getUid())) {
             giftMsgBean.setIs_room(1);
-        }else {
+        } else {
             giftMsgBean.setIs_room(0);
         }
         giftMsgBean.setIs_guard(CommonAppConfig.getInstance().getUserBean().getIs_guard());
@@ -778,7 +784,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public void sendColorMessage(ColorMsgBean msgBean) {
         if (mAnchorId == Integer.valueOf(CommonAppConfig.getInstance().getUid())) {
             msgBean.setIs_room(1);
-        }else {
+        } else {
             msgBean.setIs_room(0);
         }
         msgBean.setIs_guard(CommonAppConfig.getInstance().getUserBean().getIs_guard());
@@ -941,7 +947,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         isAnimating = true;
         if (!TextUtils.isEmpty(msgBean.getContent())) {
             tv_content.setText(msgBean.getContent());
-        }else {
+        } else {
             tv_content.setText("");
         }
         //启动动画

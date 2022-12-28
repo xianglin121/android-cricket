@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -36,6 +37,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.hbb20.CountryCodePicker;
 import com.onecric.live.CommonAppConfig;
@@ -92,6 +94,8 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
     private Dialog dialog;
     //有无发送验证码
     private boolean isSendCode = false;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected LoginPresenter createPresenter() {
         return new LoginPresenter(this);
@@ -104,6 +108,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
 
     @Override
     protected void initView() {
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         getCodeString = WordUtil.getString(this, R.string.get_verify_code);
         dialog = loadingDialog(LoginActivity.this);
         tvAgreement = findViewById(R.id.tv_agreement);
@@ -133,11 +138,11 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
             public void onTabSelected(TabLayout.Tab tab) {
                 etPassword.setText("");
                 etVerification.setText("");
-                if(tab.getPosition() == 0){
+                if (tab.getPosition() == 0) {
                     etVerification.requestFocus();
                     llVerification.setVisibility(View.VISIBLE);
                     llPassword.setVisibility(View.GONE);
-                }else{
+                } else {
                     etPassword.requestFocus();
                     llVerification.setVisibility(View.GONE);
                     llPassword.setVisibility(View.VISIBLE);
@@ -145,10 +150,12 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
         tabLayout.setTabRippleColor(ColorStateList.valueOf(getResources().getColor(R.color.transparent)));
         etPhone.requestFocus();
@@ -167,7 +174,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
                     if (handler != null) {
                         handler.sendEmptyMessageDelayed(0, 1000);
                     }
-                }else {
+                } else {
                     tvAuthCode.setText(getCodeString);
                     count = TOTAL;
                     if (tvAuthCode != null) {
@@ -186,7 +193,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
         // 禁用缓存
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
-        webSettings.setDefaultTextEncodingName("utf-8") ;
+        webSettings.setDefaultTextEncodingName("utf-8");
         webview.setBackgroundColor(0); // 设置背景色
         webview.setWebViewClient(new WebViewClient() {
             @Override
@@ -207,13 +214,13 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
             @Override
             public void run() {
                 webview.setVisibility(View.GONE);
-                if(!TextUtils.isEmpty(data)) {
+                if (!TextUtils.isEmpty(data)) {
                     JSONObject jsonObject = JSONObject.parseObject(data);
                     if (jsonObject.getIntValue("ret") == 0) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if(tabLayout.getSelectedTabPosition()==0){
+                                if (tabLayout.getSelectedTabPosition() == 0) {
                                     dialog.show();
                                     String area = etArea.getText().toString().trim();
                                     String phone = etPhone.getText().toString().trim();
@@ -221,7 +228,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
                                     if (!TextUtils.isEmpty(area) && !TextUtils.isEmpty(area)) {
                                         mvpPresenter.getCode(area + "-" + phone);
                                     }
-                                }else{
+                                } else {
                                     login();
                                 }
                             }
@@ -235,13 +242,17 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
     @Override
     public void getDataSuccess(JsonBean model) {
         isSendCode = true;
-        if (dialog != null) {dialog.dismiss();}
+        if (dialog != null) {
+            dialog.dismiss();
+        }
         handler.sendEmptyMessage(0);
     }
 
     @Override
     public void getDataFail(String msg) {
-        if (dialog != null) {dialog.dismiss();}
+        if (dialog != null) {
+            dialog.dismiss();
+        }
         tvAuthCode.setEnabled(true);
         ToastUtil.show(msg);
     }
@@ -292,7 +303,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
                     return;
                 }
 
-                if(TextUtils.isEmpty(etArea.getText().toString().trim())){
+                if (TextUtils.isEmpty(etArea.getText().toString().trim())) {
                     ToastUtil.show(getString(R.string.country));
                     return;
                 }
@@ -302,21 +313,21 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
                     return;
                 }
 
-                if(tabLayout.getSelectedTabPosition() == 0){
+                if (tabLayout.getSelectedTabPosition() == 0) {
                     //code
-                    if(!isSendCode){
+                    if (!isSendCode) {
                         ToastUtil.show(getString(R.string.send_verification_tip));
                         return;
                     }
-                    if(TextUtils.isEmpty(etVerification.getText().toString().trim())){
+                    if (TextUtils.isEmpty(etVerification.getText().toString().trim())) {
                         ToastUtil.show(getString(R.string.verification_code));
                         return;
                     }
                     hideKeyboard(etVerification);
                     login();
-                }else{
+                } else {
                     //password
-                    if(TextUtils.isEmpty(etPassword.getText().toString().trim())){
+                    if (TextUtils.isEmpty(etPassword.getText().toString().trim())) {
                         ToastUtil.show(getString(R.string.login_password));
                         return;
                     }
@@ -330,12 +341,12 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
     }
 
     private void login() {
-        String prefix= etArea.getText().toString().trim();
-        if(tabLayout.getSelectedTabPosition()==0){
+        String prefix = etArea.getText().toString().trim();
+        if (tabLayout.getSelectedTabPosition() == 0) {
             //code
             btn_login.setEnabled(false);
             mvpPresenter.loginByCode(prefix + "-" + etPhone.getText().toString().trim(), etVerification.getText().toString().trim());
-        }else{
+        } else {
             //password
             btn_login.setEnabled(false);
             mvpPresenter.loginByPwd(prefix + "-" + etPhone.getText().toString().trim(), etPassword.getText().toString().trim());
@@ -346,14 +357,19 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
     @Override
     public void loginIsSuccess(boolean isSuccess) {
         btn_login.setEnabled(true);
-        if (isSuccess) {
+        if (isSuccess) {//登陆成功
+//            Bundle bundle = new Bundle();
+//            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.METHOD, "login");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
             mvpPresenter.updateJgId(JPushInterface.getRegistrationID(this));
             ToastUtil.show(WordUtil.getString(this, R.string.login_success));
             MainActivity.loginForward(this);
         }
     }
 
-    private void setAgreementSpannable(){
+    private void setAgreementSpannable() {
         String tips = getString(R.string.login_agreement_info);
         SpannableString spannableString = new SpannableString(tips);
         spannableString.setSpan(new ClickableSpan() {
@@ -370,7 +386,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
                 ds.setColor(getResources().getColor(R.color.c_DC3C23));
                 ds.setUnderlineText(false);
             }
-        },17, 39, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }, 17, 39, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         spannableString.setSpan(new ClickableSpan() {
             @Override
@@ -386,7 +402,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
                 ds.setColor(getResources().getColor(R.color.c_DC3C23));
                 ds.setUnderlineText(false);
             }
-        },tips.length() - 14, tips.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }, tips.length() - 14, tips.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         tvAgreement.setMovementMethod(LinkMovementMethod.getInstance());
         tvAgreement.setHighlightColor(Color.TRANSPARENT);
@@ -408,10 +424,10 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!TextUtils.isEmpty(editable.toString().trim()) && !isSame){
+                if (!TextUtils.isEmpty(editable.toString().trim()) && !isSame) {
                     String code = editable.toString().trim();
-                    for(AreasModel.CountryModel model:countryList){
-                        if(model.getTel().equals(code)){
+                    for (AreasModel.CountryModel model : countryList) {
+                        if (model.getTel().equals(code)) {
                             ccp.setCountryForNameCode(model.getShortName());
                             return;
                         }
@@ -421,7 +437,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
             }
         });
         //选择国家
-        ccp.setOnCountryChangeListener(() ->{
+        ccp.setOnCountryChangeListener(() -> {
             isSame = true;
             etArea.setText(ccp.getSelectedCountryCode());
             etArea.setSelection(ccp.getSelectedCountryCode().length());
@@ -446,7 +462,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
         ccp.setCustomMasterCountries("IN");
         if (CommonAppConfig.getInstance().getConfig() != null && CommonAppConfig.getInstance().getConfig().getCountryCode() != null) {
             showCountryList();
-        }else{
+        } else {
             mvpPresenter.getConfiguration();
         }
     }
