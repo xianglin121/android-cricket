@@ -213,7 +213,6 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
-            //fixme 通知一下当前页面&其他页面登录成功，
             liveDetailMainFragment.updateFollowData();
         }
     }
@@ -415,8 +414,6 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                                         doFollow();
                                     }
                                 } else {
-                                    //fixme 登录弹窗
-//                                  LoginActivity.forward(mActivity);
                                     loginDialog.show();
                                 }
                             }
