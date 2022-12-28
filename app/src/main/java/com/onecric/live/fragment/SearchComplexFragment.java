@@ -30,6 +30,7 @@ import com.onecric.live.model.LiveBean;
 import com.onecric.live.model.MatchListBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.live.SearchComplexPresenter;
+import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.SearchComplexView;
 
@@ -113,7 +114,11 @@ public class SearchComplexFragment extends MvpFragment<SearchComplexPresenter> i
         mLiveAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getType(), mLiveAdapter.getItem(position).getMatch_id());
+                if(mLiveAdapter.getItem(position).getIslive() == 0){
+                    ToastUtil.show("The broadcast has not started");
+                }else{
+                    LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getType(), mLiveAdapter.getItem(position).getMatch_id());
+                }
             }
         });
         rv_live.setLayoutManager(new GridLayoutManager(getContext(), 2));

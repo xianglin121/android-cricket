@@ -427,6 +427,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
+            loginIM();
             updateNavigationInfo();
             ((ThemeFragment) mViewList.get(0)).updateUserInfo();
         }

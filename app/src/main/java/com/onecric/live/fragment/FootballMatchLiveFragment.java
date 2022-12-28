@@ -18,6 +18,7 @@ import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveAnchorBean;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.presenter.match.FootballMatchLivePresenter;
+import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.match.FootballMatchLiveView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -97,7 +98,11 @@ public class FootballMatchLiveFragment extends MvpFragment<FootballMatchLivePres
         mLiveAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getType(), mLiveAdapter.getItem(position).getMatch_id());
+                if(mLiveAdapter.getItem(position).getIslive() == 0){
+                    ToastUtil.show("The broadcast has not started");
+                }else{
+                    LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getType(), mLiveAdapter.getItem(position).getMatch_id());
+                }
             }
         });
         rv_live.setLayoutManager(new GridLayoutManager(getContext(), 2));

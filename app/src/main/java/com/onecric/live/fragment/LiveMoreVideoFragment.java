@@ -13,6 +13,7 @@ import com.onecric.live.adapter.LiveRecommendAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.presenter.live.LiveMoreVideoPresenter;
+import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.LiveMoreVideoView;
 
@@ -51,8 +52,12 @@ public class LiveMoreVideoFragment extends MvpFragment<LiveMoreVideoPresenter> i
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
-                getActivity().finish();
+                if(mAdapter.getItem(position).getIslive() == 0){
+                    ToastUtil.show("The broadcast has not started");
+                }else{
+                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
+                    getActivity().finish();
+                }
             }
         });
         rv_live.setLayoutManager(new GridLayoutManager(getContext(), 2));

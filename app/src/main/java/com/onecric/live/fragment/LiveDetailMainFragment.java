@@ -21,6 +21,7 @@ import com.onecric.live.R;
 import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.custom.CustomPagerTitleView;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.LiveUserBean;
 import com.onecric.live.util.DpUtil;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
@@ -65,6 +66,10 @@ public class LiveDetailMainFragment extends Fragment {
 
     private LiveUserBean mUserBean;
 
+    private LoginDialog loginDialog;
+    public void setLoginDialog(LoginDialog dialog){
+        loginDialog = dialog;
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -98,7 +103,11 @@ public class LiveDetailMainFragment extends Fragment {
                         ((LiveDetailActivity)getActivity()).doFollow();
                     }
                 }else {
-                    LoginActivity.forward(getContext());
+                    if(loginDialog!=null){
+                        loginDialog.show();
+                    }else{
+                        LoginActivity.forward(getContext());
+                    }
                 }
             }
         });
@@ -168,8 +177,13 @@ public class LiveDetailMainFragment extends Fragment {
         mTitles.add(getActivity().getString(R.string.live_anchor));
 //        mTitles.add(getActivity().getString(R.string.live_ranking));
         mTitles.add(getActivity().getString(R.string.live_about_video));
-        mViewList.add(LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId")));
-        mViewList.add(LiveAnchorFragment.newInstance(getArguments().getInt("anchorId")));
+        LiveChatFragment chatFragment = LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId"));
+        chatFragment.setLoginDialog(loginDialog);
+
+        LiveAnchorFragment anchorFragment = LiveAnchorFragment.newInstance(getArguments().getInt("anchorId"));
+        anchorFragment.setLoginDialog(loginDialog);
+        mViewList.add(chatFragment);
+        mViewList.add(anchorFragment);
 //        mViewList.add(LiveRankingFragment.newInstance(getArguments().getInt("anchorId")));
         mViewList.add(LiveMoreVideoFragment.newInstance());
         //初始化viewpager

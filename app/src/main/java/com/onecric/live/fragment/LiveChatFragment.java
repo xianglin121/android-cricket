@@ -15,6 +15,8 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,6 +50,7 @@ import com.onecric.live.adapter.layoutmanager.OnViewPagerListener;
 import com.onecric.live.adapter.layoutmanager.ViewPagerLayoutManager;
 import com.onecric.live.custom.TreasureChestDialog;
 import com.onecric.live.fragment.dialog.InputChatMsgDialogFragment;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.BlockFunctionBean;
 import com.onecric.live.model.BoxBean;
 import com.onecric.live.model.CustomMsgBean;
@@ -129,6 +132,10 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
 
     private Dialog mLoadingDialog;
 
+    private LoginDialog loginDialog;
+    public void setLoginDialog(LoginDialog dialog){
+        loginDialog = dialog;
+    }
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_live_chat;
@@ -171,7 +178,11 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
             findViewById(R.id.fl_board).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LoginActivity.forward(getContext());
+                    if(loginDialog!=null){
+                        loginDialog.show();
+                    }else{
+                        LoginActivity.forward(getContext());
+                    }
                 }
             });
             SpannableStringBuilder spannable = new SpannableStringBuilder(getString(R.string.tip_send_bullet_screen));

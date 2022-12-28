@@ -22,6 +22,7 @@ import com.onecric.live.adapter.LiveAnchorMovingAdapter;
 import com.onecric.live.adapter.LivePreviewAdapter;
 import com.onecric.live.adapter.LiveReplyAdapter;
 import com.onecric.live.custom.ButtonFollowView;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.LiveUserBean;
 import com.onecric.live.model.MovingBean;
 import com.onecric.live.model.ReserveLiveBean;
@@ -68,6 +69,11 @@ public class LiveAnchorFragment extends MvpFragment<LiveAnchorPresenter> impleme
     private LiveReplyAdapter mReplyAdapter;
 
     private LiveUserBean mUserBean;
+
+    private LoginDialog loginDialog;
+    public void setLoginDialog(LoginDialog dialog){
+        loginDialog = dialog;
+    }
 
     @Override
     protected int getLayoutId() {

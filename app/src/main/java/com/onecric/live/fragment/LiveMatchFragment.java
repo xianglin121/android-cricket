@@ -18,6 +18,7 @@ import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.presenter.live.LiveMatchPresenter;
+import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.LiveMatchView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -97,7 +98,11 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
+                if(mAdapter.getItem(position).getIslive() == 0){
+                    ToastUtil.show("The broadcast has not started");
+                }else{
+                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
+                }
             }
         });
         View inflate2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);

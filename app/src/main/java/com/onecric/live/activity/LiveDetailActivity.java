@@ -1,8 +1,11 @@
 package com.onecric.live.activity;
 
+import static com.tencent.imsdk.base.ThreadUtils.runOnUiThread;
+
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +19,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,11 +32,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
+import com.onecric.live.custom.AnchorMovingReplyDialog;
 import com.onecric.live.custom.gift.AnimMessage;
 import com.onecric.live.custom.gift.LPAnimationManager;
 import com.onecric.live.custom.noble.LPNobleView;
 import com.onecric.live.event.UpdateAnchorFollowEvent;
+import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.fragment.LiveDetailMainFragment;
+import com.onecric.live.fragment.ThemeFragment;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.BasketballDetailBean;
 import com.onecric.live.model.BroadcastMsgBean;
 import com.onecric.live.model.ColorMsgBean;
@@ -99,6 +110,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public LiveRoomBean mLiveRoomBean;
     private FirebaseAnalytics mFirebaseAnalytics;
 
+    private LoginDialog loginDialog;
+    private WebView webview;
+    private WebSettings webSettings;
+
     //未登录用户倒计时三分钟跳转登录页
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
         @Override
@@ -109,8 +124,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         @Override
         public void onFinish() {
             ToastUtil.show(getString(R.string.tip_login_to_live));
-            finish();
-            LoginActivity.forward(mActivity);
+//            finish();
+//            LoginActivity.forward(mActivity);
+            loginDialog.show();
         }
     };
 
@@ -169,8 +185,16 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 //        objectAnimator.setDuration(0);
 //        objectAnimator.start();
 
+        initWebView();
+        loginDialog = new LoginDialog(this, R.style.dialog, () -> {
+            loginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
+
         //初始化fragment
         liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId);
+        liveDetailMainFragment.setLoginDialog(loginDialog);
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_main, liveDetailMainFragment).commitAllowingStateLoss();
         if (mType == 0) {
 //            liveDetailFootballFragment = LiveDetailFootballFragment.newInstance(mMatchId);
@@ -184,6 +208,61 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
         //去掉状态栏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
+        if (event != null) {
+            //fixme 通知一下当前页面&其他页面登录成功，
+            liveDetailMainFragment.updateFollowData();
+        }
+    }
+
+    @SuppressLint("JavascriptInterface")
+    private void initWebView() {
+        webview = (WebView) findViewById(R.id.webview);
+        webSettings = webview.getSettings();
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        // 禁用缓存
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        webSettings.setDefaultTextEncodingName("utf-8") ;
+        webview.setBackgroundColor(0); // 设置背景色
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        // 开启js支持
+        webSettings.setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(this, "jsBridge");
+        webview.loadUrl("file:///android_asset/index.html");
+    }
+
+    @JavascriptInterface
+    public void getData(String data) {
+        webview.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                webview.setVisibility(View.GONE);
+                if(!TextUtils.isEmpty(data)) {
+                    JSONObject jsonObject = JSONObject.parseObject(data);
+                    if (jsonObject.getIntValue("ret") == 0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                dialog.show();
+                                loginDialog.show();
+                                loginDialog.passWebView();
+                            }
+                        });
+                    }
+                }
+            }
+        }, 500);
     }
 
     @Override
@@ -336,7 +415,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                                         doFollow();
                                     }
                                 } else {
-                                    LoginActivity.forward(mActivity);
+                                    //fixme 登录弹窗
+//                                  LoginActivity.forward(mActivity);
+                                    loginDialog.show();
                                 }
                             }
                         });
