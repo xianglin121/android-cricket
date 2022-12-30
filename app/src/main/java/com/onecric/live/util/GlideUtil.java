@@ -1,6 +1,7 @@
 package com.onecric.live.util;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -49,5 +50,10 @@ public class GlideUtil {
     //加载圆角图片
     public static void loadRoundImageDefault(Context mContext, String path, ImageView mImageView, int radius) {
         Glide.with(mContext).load(path).transform(new CenterCrop(), new GlideRoundTransform(radius)).into(mImageView);
+    }
+
+    //设置图像的加载中以及加载失败图片
+    public static void loadLiveImageDefault(Context mContext, String path, ImageView mImageView) {
+        Glide.with(mContext).load(TextUtils.isEmpty(path)?R.mipmap.bg_team_comparison_head:path).placeholder(R.mipmap.bg_team_comparison_head).error(R.mipmap.bg_team_comparison_head).dontAnimate().into(mImageView);
     }
 }

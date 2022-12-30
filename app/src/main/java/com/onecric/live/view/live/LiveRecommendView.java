@@ -1,6 +1,7 @@
 package com.onecric.live.view.live;
 
 import com.onecric.live.model.BannerBean;
+import com.onecric.live.model.HistoryLiveBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.model.LiveMatchBean;
@@ -9,7 +10,8 @@ import com.onecric.live.view.BaseView;
 import java.util.List;
 
 public interface LiveRecommendView extends BaseView<JsonBean> {
-    void getDataSuccess(boolean isRefresh, List<LiveBean> list,int type);
+    void getDataSuccess(boolean isRefresh, List<LiveBean> list);
+    void getDataHistorySuccess(boolean isRefresh, List<HistoryLiveBean> list);
 
     void getDataSuccess(List<LiveMatchBean> list);
 

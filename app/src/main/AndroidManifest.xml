@@ -369,6 +369,11 @@
             android:name="com.onecric.live.activity.PersonalHomepageActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name="com.onecric.live.activity.VideoSingleActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"

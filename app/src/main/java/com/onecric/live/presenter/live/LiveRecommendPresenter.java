@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.model.BannerBean;
+import com.onecric.live.model.HistoryLiveBean;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.model.LiveMatchBean;
 import com.onecric.live.presenter.BasePresenter;
@@ -20,21 +21,51 @@ public class LiveRecommendPresenter extends BasePresenter<LiveRecommendView> {
         attachView(view);
     }
 
-    public void getList(boolean isRefresh, int type, int page) {
-        addSubscription(apiStores.getLivingList(CommonAppConfig.getInstance().getToken(), page, type, 0),
+    public void getList(boolean isRefresh, int page) {
+        addSubscription(apiStores.getLivingList(CommonAppConfig.getInstance().getToken(), page, -1, 0),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
                         if (!TextUtils.isEmpty(data)) {
                             List<LiveBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("data"), LiveBean.class);
                             int lastPage = JSONObject.parseObject(JSONObject.parseObject(data).getString("last_page"), Integer.class);
-                            mvpView.getDataSuccess(isRefresh, list,type);
+                            mvpView.getDataSuccess(isRefresh, list);
                             //分页,未测试
-                            if(type==-1 && lastPage>page){
-                                getList(false, -1, page+1);
+                            if(lastPage>page){
+                                getList(false, page+1);
                             }
                         }else {
-                            mvpView.getDataSuccess(isRefresh, new ArrayList<>(),type);
+                            mvpView.getDataSuccess(isRefresh, new ArrayList<>());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
+
+    public void getHistoryList(boolean isRefresh, int page) {
+        addSubscription(apiStores.getHistoryLiveList(CommonAppConfig.getInstance().getToken(), page,  0),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        if (!TextUtils.isEmpty(data)) {
+                            List<HistoryLiveBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("list"), HistoryLiveBean.class);
+                            mvpView.getDataHistorySuccess(isRefresh, list);
+                        }else {
+                            mvpView.getDataHistorySuccess(isRefresh, new ArrayList<>());
                         }
                     }
 

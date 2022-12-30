@@ -823,4 +823,10 @@ public interface ApiStores {
     //获取赛事详情-scorecard
     @POST("api/Cricket/cricket_match_detail_scorecard")
     Observable<JsonObject> getMatchScorecard(@Body RequestBody body);
+
+    //获取历史直播列表
+    @GET("api/LivePlayBack/list")
+    Observable<JsonObject> getHistoryLiveList(@Header("token") String token,
+                                         @Query("page") int page,
+                                         @Query("isweb") int isweb);
 }

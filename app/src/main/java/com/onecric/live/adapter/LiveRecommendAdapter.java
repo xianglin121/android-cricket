@@ -45,7 +45,7 @@ public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
         TextView tv_num = helper.getView(R.id.tv_num);
         TextView tv_time = helper.getView(R.id.tv_time);
 
-        GlideUtil.loadImageDefault(mContext, item.getThumb(), iv_cover);
+        GlideUtil.loadLiveImageDefault(mContext, item.getThumb(), iv_cover);
         GlideUtil.loadUserImageDefault(mContext, item.getAvatar(), iv_avatar);
         if (!TextUtils.isEmpty(item.getTitle())) {
             tv_title.setText(item.getTitle());
@@ -66,8 +66,8 @@ public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
 
         if(item.getIslive() == 0){
             iv_live.setVisibility(View.GONE);
-            iv_cover.setColorFilter(Color.parseColor("#75000000"));
             tv_time.setVisibility(View.VISIBLE);
+            iv_cover.setColorFilter(Color.parseColor("#75000000"));
             tv_time.setText(getDate(item.getStarttime()));
         }else{
             iv_cover.setColorFilter(null);

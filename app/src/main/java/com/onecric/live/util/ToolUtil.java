@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -25,6 +26,7 @@ import com.onecric.live.CommonAppConfig;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
+import java.util.HashMap;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -316,5 +318,27 @@ public class ToolUtil {
             e.printStackTrace();
         }
         return outputImage;
+    }
+
+    public static Bitmap getFirstBitmap(Context context,String url, boolean isSD) {
+        Bitmap bitmap = null;
+        //从输入的媒体文件中取得帧和元数据
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            if (isSD){
+                //根据文件路径获取缩略图
+                retriever.setDataSource(context, Uri.fromFile(new File(url)));
+            }else {
+                //根据网络路径获取缩略图
+                retriever.setDataSource(url, new HashMap());
+            }
+            //得到第一帧图片
+            bitmap = retriever.getFrameAtTime();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } finally {
+            retriever.release();
+        }
+        return bitmap;
     }
 }

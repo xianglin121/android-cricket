@@ -9,7 +9,6 @@
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="09:37"
         android:textSize="14dp"
         android:textColor="@color/c_333333"/>
 
@@ -17,7 +16,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="欧洲豪门俱乐部：诺坎普之巴萨"
         android:textSize="14dp"
         android:textColor="@color/c_333333"
         android:maxWidth="235dp"/>
@@ -30,7 +28,7 @@
             android:id="@+id/iv_cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/bg_live_cover_default"
+            android:src="@mipmap/bg_team_comparison_head"
             android:scaleType="centerCrop"
             app:riv_corner_radius="6dp"/>
 

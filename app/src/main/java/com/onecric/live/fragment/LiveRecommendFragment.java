@@ -16,11 +16,15 @@ import com.onecric.live.activity.BasketballMatchDetailActivity;
 import com.onecric.live.activity.FootballMatchDetailActivity;
 import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.activity.LiveMoreActivity;
+import com.onecric.live.activity.VideoPagerActivity;
+import com.onecric.live.activity.VideoSingleActivity;
 import com.onecric.live.adapter.BannerRoundImageAdapter;
 import com.onecric.live.adapter.LiveRecommendAdapter;
+import com.onecric.live.adapter.LiveRecommendHistoryAdapter;
 import com.onecric.live.adapter.LiveRecommendMatchAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
 import com.onecric.live.model.BannerBean;
+import com.onecric.live.model.HistoryLiveBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.model.LiveMatchBean;
@@ -54,7 +58,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     private RecyclerView rv_today;
     private LiveRecommendAdapter mTodayAdapter;
     private RecyclerView rv_history;
-    private LiveRecommendAdapter mHistoryAdapter;
+    private LiveRecommendHistoryAdapter mHistoryAdapter;
 
 //    private int mPage = 1;
     private int mTodayPage = 1;
@@ -122,14 +126,14 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
 //                mvpPresenter.getList(false, -1, mPage);
-                mvpPresenter.getList(false, 2, mHistoryPage);
+                mvpPresenter.getHistoryList(false, mHistoryPage);
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
 //                 mvpPresenter.getAllList();
-                mvpPresenter.getList(true, -1, 1);
-                mvpPresenter.getList(true, 2, 1);
+                mvpPresenter.getList(true, 1);
+                mvpPresenter.getHistoryList(true, 1);
             }
         });
         //FreeLive
@@ -162,14 +166,15 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         rv_today.addItemDecoration(new GridDividerItemDecoration(getContext(), 10, 2));
         rv_today.setAdapter(mTodayAdapter);
         //HistoryLive
-        mHistoryAdapter = new LiveRecommendAdapter(R.layout.item_live_recommend, new ArrayList<>());
+        mHistoryAdapter = new LiveRecommendHistoryAdapter(R.layout.item_live_recommend, new ArrayList<>());
         mHistoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if(mHistoryAdapter.getItem(position).getIslive() == 0){
-                    return;
+                //fixme 播放视频、缺少封面
+                String url = mHistoryAdapter.getItem(position).getMediaUrl();
+                if(!TextUtils.isEmpty(url)){
+                    VideoSingleActivity.forward(getContext(),mHistoryAdapter.getItem(position).getMediaUrl(),null);
                 }
-                LiveDetailActivity.forward(getContext(), mHistoryAdapter.getItem(position).getUid(), mHistoryAdapter.getItem(position).getType(), mHistoryAdapter.getItem(position).getMatch_id());
             }
         });
         View inflate2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
@@ -215,49 +220,34 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     }
 
     @Override
-    public void getDataSuccess(boolean isRefresh, List<LiveBean> list,int type) {
-        if(type == -1){
-            if (isRefresh) {
-                smart_rl.finishRefresh();
-                mTodayPage = 2;
-                if (list != null) {
-                    mTodayAdapter.setNewData(list);
-                }
-            }else if (list != null && list.size() > 0) {
-                mTodayPage++;
-                mTodayAdapter.addData(list);
-            }
-        }else if(type == 2){
-            if (isRefresh) {
-                smart_rl.finishRefresh();
-                mHistoryPage = 2;
-                if (list != null) {
-                    mHistoryAdapter.setNewData(list);
-                }
-            }else if (list != null && list.size() > 0) {
-                    smart_rl.finishLoadMore();
-                    mHistoryPage++;
-                    mHistoryAdapter.addData(list);
-            }else{
-                smart_rl.finishLoadMoreWithNoMoreData();
-            }
-        }
-
-/*        if (isRefresh) {
+    public void getDataSuccess(boolean isRefresh, List<LiveBean> list) {
+        if (isRefresh) {
             smart_rl.finishRefresh();
-            mPage = 2;
+            mTodayPage = 2;
             if (list != null) {
-                mAdapter.setNewData(list);
+                mTodayAdapter.setNewData(list);
             }
-        }else {
-            mPage++;
-            if (list != null && list.size() > 0) {
-                smart_rl.finishLoadMore();
-                mAdapter.addData(list);
-            }else {
-                smart_rl.finishLoadMoreWithNoMoreData();
+        }else if (list != null && list.size() > 0) {
+            mTodayPage++;
+            mTodayAdapter.addData(list);
+        }
+    }
+
+    @Override
+    public void getDataHistorySuccess(boolean isRefresh, List<HistoryLiveBean> list) {
+        if (isRefresh) {
+            smart_rl.finishRefresh();
+            mHistoryPage = 2;
+            if (list != null) {
+                mHistoryAdapter.setNewData(list);
             }
-        }*/
+        }else if (list != null && list.size() > 0) {
+            smart_rl.finishLoadMore();
+            mHistoryPage++;
+            mHistoryAdapter.addData(list);
+        }else{
+            smart_rl.finishLoadMoreWithNoMoreData();
+        }
     }
 
     @Override
@@ -272,7 +262,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         smart_rl.finishRefresh();
 /*        if (freeList == null) {
             freeList = new ArrayList<>();
-        }*/
+        }
         if (todayList == null) {
             todayList = new ArrayList<>();
         }
@@ -282,7 +272,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 //        mAdapter.setNewData(freeList);
 
         mTodayAdapter.setNewData(todayList);
-        mHistoryAdapter.setNewData(historyList);
+        mHistoryAdapter.setNewData(historyList);*/
     }
 
     @Override
