@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.BasketballMatchDetailActivity;
+import com.onecric.live.activity.CricketDetailActivity;
 import com.onecric.live.activity.FootballMatchDetailActivity;
 import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.activity.LiveMoreActivity;
@@ -60,7 +61,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     private RecyclerView rv_history;
     private LiveRecommendHistoryAdapter mHistoryAdapter;
 
-//    private int mPage = 1;
+    //    private int mPage = 1;
     private int mTodayPage = 1;
     private int mHistoryPage = 1;
 
@@ -84,7 +85,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         rv_history = rootView.findViewById(R.id.rv_history);
         int width = UIUtil.getScreenWidth(getContext());
         android.view.ViewGroup.LayoutParams pp = mBanner.getLayoutParams();
-        pp.height = (int)((width-UIUtil.dip2px(getContext(),24)) * 0.6);
+        pp.height = (int) ((width - UIUtil.dip2px(getContext(), 24)) * 0.6);
         mBanner.setLayoutParams(pp);
 //        findViewById(R.id.tv_see_more_one).setOnClickListener(this);
 //        findViewById(R.id.tv_see_more_two).setOnClickListener(this);
@@ -99,7 +100,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mMatchAdapter.getItem(position).getType() == 0) {
                     FootballMatchDetailActivity.forward(getContext(), mMatchAdapter.getItem(position).getSourceid());
-                }else if (mMatchAdapter.getItem(position).getType() == 1) {
+                } else if (mMatchAdapter.getItem(position).getType() == 1) {
                     BasketballMatchDetailActivity.forward(getContext(), mMatchAdapter.getItem(position).getSourceid());
                 }
             }
@@ -134,6 +135,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 //                 mvpPresenter.getAllList();
                 mvpPresenter.getList(true, 1);
                 mvpPresenter.getHistoryList(true, 1);
+//                mvpPresenter.getBannerList();
             }
         });
         //FreeLive
@@ -152,9 +154,9 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         mTodayAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if(mTodayAdapter.getItem(position).getIslive() == 0){
+                if (mTodayAdapter.getItem(position).getIslive() == 0) {
                     ToastUtil.show("The broadcast has not started");
-                }else{
+                } else {
                     LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(), mTodayAdapter.getItem(position).getType(), mTodayAdapter.getItem(position).getMatch_id());
                 }
             }
@@ -172,8 +174,8 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 //fixme 播放视频、缺少封面
                 String url = mHistoryAdapter.getItem(position).getMediaUrl();
-                if(!TextUtils.isEmpty(url)){
-                    VideoSingleActivity.forward(getContext(),mHistoryAdapter.getItem(position).getMediaUrl(),null);
+                if (!TextUtils.isEmpty(url)) {
+                    VideoSingleActivity.forward(getContext(), mHistoryAdapter.getItem(position).getMediaUrl(), null);
                 }
             }
         });
@@ -227,7 +229,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             if (list != null) {
                 mTodayAdapter.setNewData(list);
             }
-        }else if (list != null && list.size() > 0) {
+        } else if (list != null && list.size() > 0) {
             mTodayPage++;
             mTodayAdapter.addData(list);
         }
@@ -241,11 +243,11 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             if (list != null) {
                 mHistoryAdapter.setNewData(list);
             }
-        }else if (list != null && list.size() > 0) {
+        } else if (list != null && list.size() > 0) {
             smart_rl.finishLoadMore();
             mHistoryPage++;
             mHistoryAdapter.addData(list);
-        }else{
+        } else {
             smart_rl.finishLoadMoreWithNoMoreData();
         }
     }
@@ -280,7 +282,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         LiveMatchBean item = mMatchAdapter.getItem(position);
         if (item.getReserve() == 0) {
             item.setReserve(1);
-        }else {
+        } else {
             item.setReserve(0);
         }
         mMatchAdapter.notifyItemChanged(position);
@@ -294,14 +296,18 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                 @Override
                 public void onBindView(Object holder, Object data, int position, int size) {
                     BannerBean bannerBean = (BannerBean) data;
-                    GlideUtil.loadImageDefault(getContext(), bannerBean.getImg(), ((BannerRoundImageHolder)holder).imageView);
+                    GlideUtil.loadImageDefault(getContext(), bannerBean.getImg(), ((BannerRoundImageHolder) holder).imageView);
                 }
             };
             bannerAdapter.setOnBannerListener(new OnBannerListener() {
                 @Override
                 public void OnBannerClick(Object data, int position) {
                     BannerBean bannerBean = (BannerBean) data;
-                    LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(), bannerBean.getParam_id());
+                    if (bannerBean.getAnchor_id() != 0) {
+                        LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(), bannerBean.getParam_id());
+                    } else if (bannerBean.getParam_id() != 0) {
+                        CricketDetailActivity.forward(getActivity(), bannerBean.getParam_id());
+                    }
                 }
             });
             mBanner.setAdapter(bannerAdapter);
