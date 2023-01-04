@@ -42,7 +42,7 @@ public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
         ImageView iv_live = helper.getView(R.id.iv_live);
         TextView tv_title = helper.getView(R.id.tv_title);
         TextView tv_name = helper.getView(R.id.tv_name);
-        TextView tv_num = helper.getView(R.id.tv_num);
+//        TextView tv_num = helper.getView(R.id.tv_num);
         TextView tv_time = helper.getView(R.id.tv_time);
 
         GlideUtil.loadLiveImageDefault(mContext, item.getThumb(), iv_cover);
@@ -57,12 +57,12 @@ public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
         }else {
             tv_name.setText("");
         }
-        if (item.getHeat() > 10000) {
+/*        if (item.getHeat() > 10000) {
             String heat = new BigDecimal(item.getHeat()).divide(new BigDecimal(10000), 2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
             tv_num.setText(heat + "w");
         }else {
             tv_num.setText(String.valueOf(item.getHeat()));
-        }
+        }*/
 
         if(item.getIslive() == 0){
             iv_live.setVisibility(View.GONE);
