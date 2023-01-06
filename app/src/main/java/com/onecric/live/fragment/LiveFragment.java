@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -17,6 +18,7 @@ import com.onecric.live.activity.RankingActivity;
 import com.onecric.live.activity.SearchLiveActivity;
 import com.onecric.live.custom.CustomPagerTitleView;
 import com.onecric.live.model.JsonBean;
+import com.onecric.live.model.LiveBean;
 import com.onecric.live.presenter.live.LivePresenter;
 import com.onecric.live.util.DpUtil;
 import com.onecric.live.util.ToastUtil;
@@ -41,6 +43,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
     private List<String> mTitles;
     private ViewPager mViewPager;
     private List<Fragment> mViewList;
+    private ConstraintLayout clSingleTitle;
 
     @Override
     protected int getLayoutId() {
@@ -56,6 +59,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
     protected void initUI() {
         magicIndicator = rootView.findViewById(R.id.magicIndicator);
         mViewPager = rootView.findViewById(R.id.viewpager);
+        clSingleTitle = rootView.findViewById(R.id.cl_single_title);
 
         findViewById(R.id.iv_more).setOnClickListener(this);
         findViewById(R.id.cl_search).setOnClickListener(this);
@@ -65,9 +69,9 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
 
     @Override
     protected void initData() {
-        mTitles = new ArrayList<>();
-        mViewList = new ArrayList<>();
-//        mTitles.add(WordUtil.getString(getActivity(), R.string.live_classify));
+        //判断other是否为空来布局
+        mvpPresenter.getOtherList(2,1);
+/*//        mTitles.add(WordUtil.getString(getActivity(), R.string.live_classify));
         mTitles.add(WordUtil.getString(getActivity(), R.string.live_recommend));
 //        mTitles.add(WordUtil.getString(getActivity(), R.string.live_football));
 //        mTitles.add(WordUtil.getString(getActivity(), R.string.live_basketball));
@@ -77,7 +81,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
 //        mViewList.add(LiveMatchFragment.newInstance(0));
 //        mViewList.add(LiveMatchFragment.newInstance(1));
         mViewList.add(LiveMatchFragment.newInstance(2));
-        initViewPager();
+        initViewPager();*/
     }
     @Override
     public void onClick(View v) {
@@ -215,5 +219,23 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
         });
         magicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(magicIndicator, mViewPager);
+    }
+
+    @Override
+    public void getOtherDataSuccess(List<LiveBean> list) {
+        mTitles = new ArrayList<>();
+        mViewList = new ArrayList<>();
+        mTitles.add(WordUtil.getString(getActivity(), R.string.live_recommend));
+        mViewList.add(new LiveRecommendFragment());
+        if (list != null && list.size() > 0) {
+            mTitles.add(WordUtil.getString(getActivity(), R.string.live_other));
+            mViewList.add(LiveMatchFragment.newInstance(2));
+            magicIndicator.setVisibility(View.VISIBLE);
+            clSingleTitle.setVisibility(View.GONE);
+        }else{
+            magicIndicator.setVisibility(View.GONE);
+            clSingleTitle.setVisibility(View.VISIBLE);
+        }
+        initViewPager();
     }
 }

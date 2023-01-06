@@ -41,12 +41,12 @@ public class LiveRecommendPresenter extends BasePresenter<LiveRecommendView> {
 
                     @Override
                     public void onFailure(String msg) {
-
+                        mvpView.getDataSuccess(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
                     }
 
                     @Override
                     public void onError(String msg) {
-
+                        mvpView.getDataSuccess(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
                     }
 
                     @Override
