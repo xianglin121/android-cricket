@@ -34,6 +34,7 @@ import com.onecric.live.presenter.LiveMovingCommentPresenter;
 import com.onecric.live.util.DpUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ToastUtil;
+import com.onecric.live.util.ToolUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.live.LiveMovingCommentView;
 import com.qiniu.android.http.ResponseInfo;
@@ -371,6 +372,9 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
 
     public void openPicsSelect() {
         if (TextUtils.isEmpty(mToken)) {
+            return;
+        }
+        if (!ToolUtil.checkPermission(this)) {
             return;
         }
         Matisse.from(this)

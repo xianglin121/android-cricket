@@ -34,6 +34,7 @@ import com.onecric.live.presenter.CommunityCommentPresenter;
 import com.onecric.live.util.DpUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ToastUtil;
+import com.onecric.live.util.ToolUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.live.CommunityCommentView;
 import com.qiniu.android.http.ResponseInfo;
@@ -426,6 +427,9 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
 
     public void openPicsSelect() {
         if (TextUtils.isEmpty(mToken)) {
+            return;
+        }
+        if (!ToolUtil.checkPermission(this)) {
             return;
         }
         Matisse.from(this)
