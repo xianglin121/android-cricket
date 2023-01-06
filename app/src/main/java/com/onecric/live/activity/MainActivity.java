@@ -192,21 +192,21 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
     @Override
     protected void initData() {
-        MPermissionUtils.requestPermissionsResult(this, 300, new String[]{
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_PHONE_STATE}
-                , new MPermissionUtils.OnPermissionListener() {
-                    @Override
-                    public void onPermissionGranted() {
-                    }
-
-                    @Override
-                    public void onPermissionDenied() {
-                        MPermissionUtils.showTipsDialog(mActivity);
-                    }
-                });
+//        MPermissionUtils.requestPermissionsResult(this, 300, new String[]{
+//                        Manifest.permission.CAMERA,
+//                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                        Manifest.permission.READ_EXTERNAL_STORAGE,
+//                        Manifest.permission.READ_PHONE_STATE}
+//                , new MPermissionUtils.OnPermissionListener() {
+//                    @Override
+//                    public void onPermissionGranted() {
+//                    }
+//
+//                    @Override
+//                    public void onPermissionDenied() {
+//                        MPermissionUtils.showTipsDialog(mActivity);
+//                    }
+//                });
         mTabLayout.setOnSwitchTabListener(new HomeTabLayout.OnSwitchTabListener() {
             @Override
             public void onSwitch(TRANSTYPE type) {

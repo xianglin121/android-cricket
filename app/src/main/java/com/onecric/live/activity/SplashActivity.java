@@ -23,7 +23,7 @@ public class SplashActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             if (!SpUtil.getInstance().getBooleanValue(SpUtil.HIDE_USAGE)) {
                 UsageViewActivity.forward(mActivity);
-            }else {
+            } else {
                 MainActivity.forward(mActivity);
             }
             finish();
@@ -70,7 +70,7 @@ public class SplashActivity extends BaseActivity {
 //                                }
 //                            });
 //                        }else {
-                            mHandler.sendEmptyMessageDelayed(0, 1500);
+                        mHandler.sendEmptyMessageDelayed(0, 1500);
 //                        }
                     }
 

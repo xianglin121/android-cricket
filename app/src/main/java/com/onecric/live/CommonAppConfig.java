@@ -53,6 +53,20 @@ public class CommonAppConfig {
     }
 
     /**
+     * 保存是否第一次进入app的标记
+     */
+    public void setFirstEnter(boolean firstEnter) {
+        SpUtil.getInstance().setBooleanValue(SpUtil.FIRST_ENTER, firstEnter);
+    }
+
+    /**
+     * 获取是否第一次进入app的标记
+     */
+    public boolean getFirstEnter() {
+        return SpUtil.getInstance().getBooleanValue(SpUtil.FIRST_ENTER);
+    }
+
+    /**
      * 保存游客ID
      */
     public void setVisitorUserId(String userId) {
