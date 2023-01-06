@@ -165,6 +165,7 @@ public class LiveDetailMainFragment extends Fragment {
             }
             tv_attention_count.setText(String.valueOf(mUserBean.getAttention()));
             ((LiveAnchorFragment)mViewList.get(1)).updateFollowData();
+            ((LiveChatFragment)mViewList.get(0)).updateLoginData();
         }
     }
 

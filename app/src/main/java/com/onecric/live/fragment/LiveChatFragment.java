@@ -189,6 +189,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
             spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.c_E3AC72)), 0, 6, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tv_input.setText(spannable);
         }
+
         tv_notice.setSelected(true);
         if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAnnouncement())) {
             tv_notice.setText(CommonAppConfig.getInstance().getConfig().getAnnouncement());
@@ -356,6 +357,14 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
             mvpPresenter.getRedEnvelopeList(mAnchorId);
             //红包定时器
             mHandler.sendEmptyMessageDelayed(100, 0);
+        }
+    }
+
+    //登录成功更新状态
+    public void updateLoginData() {
+        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+            tv_input.setText(R.string.live_talk_some_hint);
+            findViewById(R.id.fl_board).setVisibility(View.GONE);
         }
     }
 
