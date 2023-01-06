@@ -36,6 +36,7 @@ import com.onecric.live.model.MovingBean;
 import com.onecric.live.presenter.theme.HeadlineDetailPresenter;
 import com.onecric.live.util.DpUtil;
 import com.onecric.live.util.ToastUtil;
+import com.onecric.live.util.ToolUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.theme.HeadlineDetailView;
 import com.qiniu.android.http.ResponseInfo;
@@ -79,7 +80,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     private ConstraintLayout cl_title;
     private TextView tv_title;
     private TextView tv_date;
-//    private ImageView iv_avatar;
+    //    private ImageView iv_avatar;
 //    private ButtonFollowView iv_follow;
 //    private ImageView iv_title_avatar;
 //    private ButtonFollowView iv_title_follow;
@@ -336,7 +337,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 tv_title_name.setText(model.getUser_nickname());
             }
             if (!TextUtils.isEmpty(model.getAddtime())) {
-                tv_date.setText(" • Updated on "+model.getAddtime());
+                tv_date.setText(" • Updated on " + model.getAddtime());
             }
 
             if (!TextUtils.isEmpty(model.getContent())) {
@@ -352,7 +353,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         "    src: url('fonts/Serif.ttf');\n" +
                         "}\n" +
                         "\n" +
-                        "body{font-family: 'serif';margin: 0;}"+
+                        "body{font-family: 'serif';margin: 0;}" +
                         "img{width:100%!important;height:auto!important;margin: 0;border-radius:0;}\n" +
                         "section{line-height:170%;font-size:100%;text-color:#333333;margin: 0px 15px 0px 15px;}\n" +
                         "a:link{color:#1866DB;text-decoration:none;}\n" +
@@ -407,16 +408,16 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 //去掉<img外层的section、去掉border-radius:4px
                 StringBuilder builder = new StringBuilder(model.getContent());
                 int preIndex = builder.indexOf("<section>");
-                if(preIndex != -1){
-                    builder.replace(preIndex,preIndex+"<section>".length(),"");
+                if (preIndex != -1) {
+                    builder.replace(preIndex, preIndex + "<section>".length(), "");
                 }
                 int sufIndex = builder.indexOf("</section>");
-                if(sufIndex != -1){
-                    builder.replace(sufIndex,sufIndex+"</section>".length(),"");
+                if (sufIndex != -1) {
+                    builder.replace(sufIndex, sufIndex + "</section>".length(), "");
                 }
                 int radiusIndex = builder.indexOf("4px");
-                if(radiusIndex!= -1){
-                    builder.replace(radiusIndex,radiusIndex+1,"0");
+                if (radiusIndex != -1) {
+                    builder.replace(radiusIndex, radiusIndex + 1, "0");
                 }
 
                 String html = htmlPart1 + builder + htmlPart2;
@@ -599,6 +600,9 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
     public void openPicsSelect() {
         if (TextUtils.isEmpty(mToken)) {
+            return;
+        }
+        if (!ToolUtil.checkPermission(this)) {
             return;
         }
         Matisse.from(this)

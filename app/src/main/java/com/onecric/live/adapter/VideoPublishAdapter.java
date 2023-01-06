@@ -24,6 +24,7 @@ import com.onecric.live.custom.popup.PopBottomView;
 import com.onecric.live.util.DpUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ToolUtil;
+import com.onecric.live.view.MvpActivity;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
@@ -60,7 +61,7 @@ public class VideoPublishAdapter extends RecyclerView.Adapter<VideoPublishAdapte
         return type;
     }
 
-    public VideoPublishAdapter(Context context){
+    public VideoPublishAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
         this.mContext = context;
         list = new ArrayList<>();
@@ -83,7 +84,7 @@ public class VideoPublishAdapter extends RecyclerView.Adapter<VideoPublishAdapte
         }
     }
 
-    public void addVideo(List<String> list){
+    public void addVideo(List<String> list) {
         this.list.add(list.get(0));
         showList.add(list.get(0));
         try {
@@ -99,14 +100,14 @@ public class VideoPublishAdapter extends RecyclerView.Adapter<VideoPublishAdapte
             int videoViewWidth = PREVIEW_VIDEO_IMAGE_HEIGHT * videoWidth / videoHeight;
             int videoViewHeight = PREVIEW_VIDEO_IMAGE_HEIGHT;
             scaledBitmap = Bitmap.createScaledBitmap(previewBitmap, videoViewWidth, videoViewHeight, true);
-            File fm_file = ToolUtil.saveLocalBitmap(scaledBitmap,"video_fm_"+System.currentTimeMillis());
-            ((VideoPublishActivity)mContext).addCover(fm_file);
+            File fm_file = ToolUtil.saveLocalBitmap(scaledBitmap, "video_fm_" + System.currentTimeMillis());
+            ((VideoPublishActivity) mContext).addCover(fm_file);
             // 获取时长
             String strDuration = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
             int duration = Integer.parseInt(strDuration) / 1000;
-            String min = String.valueOf(duration / 60).length() >=2 ? String.valueOf(duration / 60) : "0"+String.valueOf(duration / 60);
-            String sec = String.valueOf(duration % 60).length() >=2 ? String.valueOf(duration % 60) : "0"+String.valueOf(duration % 60);
-            format = String.format("%s:%s", min,sec);
+            String min = String.valueOf(duration / 60).length() >= 2 ? String.valueOf(duration / 60) : "0" + String.valueOf(duration / 60);
+            String sec = String.valueOf(duration % 60).length() >= 2 ? String.valueOf(duration % 60) : "0" + String.valueOf(duration % 60);
+            format = String.format("%s:%s", min, sec);
 
             mmr.release();
             notifyDataSetChanged();
@@ -125,13 +126,13 @@ public class VideoPublishAdapter extends RecyclerView.Adapter<VideoPublishAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(mInflater.inflate(R.layout.item_community_publish,viewGroup,false));
+        return new ViewHolder(mInflater.inflate(R.layout.item_community_publish, viewGroup, false));
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
-        if (i>=list.size()){
+        if (i >= list.size()) {
             viewHolder.img_ic.setImageResource(R.mipmap.bg_community_publish_add);
             viewHolder.close_iv.setVisibility(View.GONE);
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -141,10 +142,10 @@ public class VideoPublishAdapter extends RecyclerView.Adapter<VideoPublishAdapte
                     openVideoSelect();
                 }
             });
-        }else {
+        } else {
             if (type.equals("0")) {
                 GlideUtil.loadImageDefault(mContext, list.get(i), viewHolder.img_ic);
-            }else {
+            } else {
                 viewHolder.img_ic.setImageBitmap(scaledBitmap);
             }
             viewHolder.close_iv.setVisibility(View.VISIBLE);
@@ -157,7 +158,7 @@ public class VideoPublishAdapter extends RecyclerView.Adapter<VideoPublishAdapte
                             intent.putStringArrayListExtra(PreViewActivity.IMAGE, (ArrayList<String>) showList);
                             intent.putExtra(PreViewActivity.POSITION, 0);
                             mContext.startActivity(intent);
-                        }else {
+                        } else {
                             Intent intent = new Intent(mContext, VideoCompletePlayActivity.class);
                             intent.putExtra("videoUrl", showList.get(0));
                             mContext.startActivity(intent);
@@ -175,15 +176,15 @@ public class VideoPublishAdapter extends RecyclerView.Adapter<VideoPublishAdapte
         }
     }
 
-    public void showPop(View v){
+    public void showPop(View v) {
         if (photo_view == null) {
             photo_view = new PopBottomView(mContext);
 
         }
         List<String> value = new ArrayList<>();
-        if ("0".equals(type)){
+        if ("0".equals(type)) {
             value.add("图片");
-        }else {
+        } else {
             value.add("图片");
             value.add("视频");
         }
@@ -192,7 +193,7 @@ public class VideoPublishAdapter extends RecyclerView.Adapter<VideoPublishAdapte
         photo_view.setListen(new PopBottomView.OnPopClickListen() {
             @Override
             public void itemClick(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                         openPicsSelect(9 - list.size());
                         break;
@@ -210,10 +211,13 @@ public class VideoPublishAdapter extends RecyclerView.Adapter<VideoPublishAdapte
     }
 
     public void openVideoSelect() {
+        if (!ToolUtil.checkPermission((MvpActivity) mContext)) {
+            return;
+        }
         openVoiceSelect();
     }
 
-    public void openPicsSelect(int size){
+    public void openPicsSelect(int size) {
         Matisse.from((Activity) mContext)
                 .choose(MimeType.ofImage())
                 .countable(true)
@@ -232,13 +236,13 @@ public class VideoPublishAdapter extends RecyclerView.Adapter<VideoPublishAdapte
                 .forResult(201);
     }
 
-    public void openVoiceSelect(){
+    public void openVoiceSelect() {
         Matisse.from((Activity) mContext)
                 .choose(MimeType.ofVideo())
                 .countable(true)
                 .capture(false)
                 .captureStrategy(
-        new CaptureStrategy(true, AppManager.mContext.getPackageName() + ".fileProvider"))
+                        new CaptureStrategy(true, AppManager.mContext.getPackageName() + ".fileProvider"))
                 .maxSelectable(1)
                 .gridExpectedSize(DpUtil.dp2px(120))
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
@@ -253,15 +257,15 @@ public class VideoPublishAdapter extends RecyclerView.Adapter<VideoPublishAdapte
 
     @Override
     public int getItemCount() {
-        if (list.size()>= 9){
+        if (list.size() >= 9) {
             return list.size();
-        }else if ("0".equals(type)){
+        } else if ("0".equals(type)) {
             return list.size() + 1;
         }
         return list.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img_ic;
         ImageView close_iv;
 
@@ -273,7 +277,7 @@ public class VideoPublishAdapter extends RecyclerView.Adapter<VideoPublishAdapte
     }
 
     public interface OnItemClick {
-        void click(int position,Object value);
+        void click(int position, Object value);
     }
 
 }
