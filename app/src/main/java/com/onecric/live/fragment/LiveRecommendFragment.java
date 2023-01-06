@@ -188,7 +188,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 
         smart_rl.autoRefresh();
         mvpPresenter.getRecommendList();
-        mvpPresenter.getBannerList();
+        mvpPresenter.getBannerList(-1);
     }
 
     @Override
@@ -289,7 +289,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     }
 
     @Override
-    public void getBannerSuccess(List<BannerBean> list) {
+    public void getBannerSuccess(List<BannerBean> list, int position) {
         if (list != null && list.size() > 0) {
             mBanner.setIndicator(new RectangleIndicator(getContext()));
             BannerRoundImageAdapter bannerAdapter = new BannerRoundImageAdapter(list) {
@@ -302,16 +302,30 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             bannerAdapter.setOnBannerListener(new OnBannerListener() {
                 @Override
                 public void OnBannerClick(Object data, int position) {
-                    BannerBean bannerBean = (BannerBean) data;
-                    if (bannerBean.getAnchor_id() != 0) {
-                        LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(), bannerBean.getParam_id());
-                    } else if (bannerBean.getParam_id() != 0) {
-                        CricketDetailActivity.forward(getActivity(), bannerBean.getParam_id());
-                    }
+                    mvpPresenter.getBannerList(position);
+//                    BannerBean bannerBean = (BannerBean) data;
+//                    if (bannerBean.getAnchor_id() != 0) {
+//                        LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(), bannerBean.getParam_id());
+//                    } else if (bannerBean.getParam_id() != 0) {
+//                        CricketDetailActivity.forward(getActivity(), bannerBean.getParam_id());
+//                    }
                 }
             });
-            mBanner.setAdapter(bannerAdapter);
-            mBanner.addBannerLifecycleObserver(this);
+            if (position != -1) {
+                BannerBean bannerBean = list.get(position);
+                if (bannerBean.getAnchor_id() != 0) {
+                    LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(), bannerBean.getParam_id());
+                } else if (bannerBean.getParam_id() != 0) {
+                    CricketDetailActivity.forward(getActivity(), bannerBean.getParam_id());
+                }
+            }
+            if (mBanner.getAdapter() == null) {
+                mBanner.setAdapter(bannerAdapter);
+                mBanner.addBannerLifecycleObserver(this);
+            } else {
+                mBanner.getAdapter().notifyDataSetChanged();
+            }
+//            mBanner.addBannerLifecycleObserver(this);
         }
     }
 

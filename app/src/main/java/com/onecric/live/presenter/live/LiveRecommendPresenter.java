@@ -177,14 +177,14 @@ public class LiveRecommendPresenter extends BasePresenter<LiveRecommendView> {
                 });
     }
 
-    public void getBannerList() {
+    public void getBannerList(int position) {
         addSubscription(apiStores.getBannerList(1),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
                         if (!TextUtils.isEmpty(data)) {
                             List<BannerBean> list = JSONObject.parseArray(data, BannerBean.class);
-                            mvpView.getBannerSuccess(list);
+                            mvpView.getBannerSuccess(list,position);
                         }
                     }
 

@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface LiveRecommendView extends BaseView<JsonBean> {
     void getDataSuccess(boolean isRefresh, List<LiveBean> list);
+
     void getDataHistorySuccess(boolean isRefresh, List<HistoryLiveBean> list);
 
     void getDataSuccess(List<LiveMatchBean> list);
@@ -19,5 +20,5 @@ public interface LiveRecommendView extends BaseView<JsonBean> {
 
     void doReserveSuccess(int position);
 
-    void getBannerSuccess(List<BannerBean> list);
+    void getBannerSuccess(List<BannerBean> list, int position);
 }
