@@ -396,15 +396,15 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             //判断是否弹出关注弹窗
             if (mLiveRoomBean.getUserData() != null) {
                 boolean isShow = false;
-                if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-                    if (CommonAppConfig.getInstance().getUid().equals(String.valueOf(mAnchorId))) {
-                        isShow = false;
-                    } else {
-                        isShow = true;
-                    }
-                } else {
-                    isShow = true;
-                }
+//                if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
+//                    if (CommonAppConfig.getInstance().getUid().equals(String.valueOf(mAnchorId))) {
+//                        isShow = false;
+//                    } else {
+//                        isShow = true;
+//                    }
+//                } else {
+//                    isShow = true;
+//                }
                 if (isShow) {
                     if (mLiveRoomBean.getUserData().getIs_attention() == 0) {
                         Dialog dialog = DialogUtil.showAnchorFollowDialog(mActivity, mLiveRoomBean.getUserData(), new DialogUtil.SimpleCallback() {
