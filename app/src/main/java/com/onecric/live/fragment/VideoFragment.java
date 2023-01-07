@@ -1,6 +1,7 @@
 package com.onecric.live.fragment;
 
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +42,7 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
     private VideoAdapter mAdapter;
 
     private int mPage = 1;
+    private TextView tv_empty;
 
     @Override
     protected int getLayoutId() {
@@ -56,7 +58,7 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
     protected void initUI() {
         smart_rl = findViewById(R.id.smart_rl);
         rv_video = findViewById(R.id.rv_video);
-
+        tv_empty = rootView.findViewById(R.id.tv_empty);
         findViewById(R.id.iv_publish).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +73,7 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
                 }
             }
         });
+        tv_empty.setText(R.string.pull_refresh);
     }
 
     @Override
@@ -119,6 +122,7 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
 
     @Override
     public void getDataSuccess(boolean isRefresh, List<ShortVideoBean> list) {
+        findViewById(R.id.ll_empty).setVisibility(View.GONE);
         if (isRefresh) {
             smart_rl.finishRefresh();
             mPage = 2;
@@ -153,7 +157,13 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
+        //没网时空图
+        if(msg.equals(getString(R.string.no_internet_connection)) && mAdapter.getData().size()<=0){
+            ToastUtil.show(getString(R.string.no_internet_connection));
+            showEmptyView();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
