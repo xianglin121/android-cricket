@@ -23,7 +23,6 @@
         app:layout_constraintTop_toBottomOf="@id/tv_name"
         app:layout_constraintLeft_toLeftOf="@id/tv_name"
         android:layout_marginTop="6dp"
-        android:text="1月前"
         android:textSize="12dp"
         android:textColor="@color/c_999999"/>
 

@@ -48,7 +48,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
         app:layout_constraintLeft_toLeftOf="@id/tv_name"
-        android:text="壕气"
         android:textSize="10dp"
         android:textColor="@color/c_E3AC72"/>
 

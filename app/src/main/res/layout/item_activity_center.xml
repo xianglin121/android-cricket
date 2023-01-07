@@ -42,7 +42,6 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         app:layout_constraintLeft_toLeftOf="@id/iv_cover"
         android:layout_marginTop="10dp"
-        android:text="活动时间：2021-09-23~2021-09-30"
         android:textSize="14dp"
         android:textColor="@color/c_999999"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

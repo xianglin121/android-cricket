@@ -64,7 +64,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     //    private int mPage = 1;
     private int mTodayPage = 1;
     private int mHistoryPage = 1;
-
+    private BannerRoundImageAdapter bannerAdapter;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_live_recommend;
@@ -135,7 +135,9 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 //                 mvpPresenter.getAllList();
                 mvpPresenter.getList(true, 1);
                 mvpPresenter.getHistoryList(true, 1);
-//                mvpPresenter.getBannerList();
+                if(bannerAdapter == null){
+                    mvpPresenter.getBannerList(-1);
+                }
             }
         });
         //FreeLive
@@ -188,7 +190,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 
         smart_rl.autoRefresh();
         mvpPresenter.getRecommendList();
-        mvpPresenter.getBannerList(-1);
+//        mvpPresenter.getBannerList(-1);
     }
 
     @Override
@@ -292,7 +294,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     public void getBannerSuccess(List<BannerBean> list, int position) {
         if (list != null && list.size() > 0) {
             mBanner.setIndicator(new RectangleIndicator(getContext()));
-            BannerRoundImageAdapter bannerAdapter = new BannerRoundImageAdapter(list) {
+            bannerAdapter = new BannerRoundImageAdapter(list) {
                 @Override
                 public void onBindView(Object holder, Object data, int position, int size) {
                     BannerBean bannerBean = (BannerBean) data;
