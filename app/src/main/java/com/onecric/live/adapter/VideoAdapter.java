@@ -2,6 +2,7 @@ package com.onecric.live.adapter;
 
 import android.text.TextUtils;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,8 +28,9 @@ public class VideoAdapter extends BaseQuickAdapter<ShortVideoBean, BaseViewHolde
     @Override
     protected void convert(@NonNull BaseViewHolder helper, ShortVideoBean item) {
         ImageView iv_cover = helper.getView(R.id.iv_cover);
+        ProgressBar progressBar = (ProgressBar) helper.getView(R.id.progress);
         if (item.getVideo() != null && item.getVideo().size() > 0) {
-            GlideUtil.loadVideoImageDefault(mContext, item.getVideo().get(0).getImg(), iv_cover);
+            GlideUtil.loadVideoImageDefault(mContext, item.getVideo().get(0).getImg(), iv_cover, progressBar);
         } else {
             iv_cover.setImageResource(R.mipmap.img_video_default);
         }
