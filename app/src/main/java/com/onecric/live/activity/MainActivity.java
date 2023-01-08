@@ -6,7 +6,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.multidex.BuildConfig;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
@@ -24,6 +23,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.navigation.NavigationView;
+import com.onecric.live.BuildConfig;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.common.TRANSTYPE;
