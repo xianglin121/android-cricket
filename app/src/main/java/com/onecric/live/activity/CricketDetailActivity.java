@@ -89,7 +89,7 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
 
     @Override
     public boolean getStatusBarTextColor() {
-        return true;
+        return false;
     }
 
     @Override

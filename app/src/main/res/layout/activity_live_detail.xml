@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,15 +18,16 @@
             android:id="@+id/playerView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="@color/black"/>
+            android:background="@mipmap/live_bg" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <FrameLayout
                 android:id="@+id/fl_main"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <FrameLayout
                 android:id="@+id/fl_menu"
@@ -39,7 +41,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="82dp"
                 android:background="@drawable/selector_live_detail_data"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -59,12 +61,12 @@
         android:layout_centerInParent="true"
         android:orientation="vertical" />
 
-<!--    <com.opensource.svgaplayer.SVGAImageView-->
-<!--        android:id="@+id/svga_gift"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:autoPlay="true"-->
-<!--        app:loopCount="1"/>-->
+    <!--    <com.opensource.svgaplayer.SVGAImageView-->
+    <!--        android:id="@+id/svga_gift"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        app:autoPlay="true"-->
+    <!--        app:loopCount="1"/>-->
 
     <FrameLayout
         android:id="@+id/fl_float_view"
@@ -72,30 +74,32 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:visibility="gone">
+
         <LinearLayout
             android:id="@+id/view_broadcast"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
-            android:padding="0dp"
-            android:background="@mipmap/bg_broadcast">
+            android:background="@mipmap/bg_broadcast"
+            android:padding="0dp">
+
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="8dp"
-                android:background="@mipmap/icon_broadcast_barrage_selected"/>
+                android:background="@mipmap/icon_broadcast_barrage_selected" />
 
             <TextView
                 android:id="@+id/tv_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="35dp"
-                android:textSize="12dp"
-                android:textColor="@color/white"/>
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:textSize="12dp" />
         </LinearLayout>
     </FrameLayout>
 
@@ -103,6 +107,6 @@
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </RelativeLayout>
