@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.R;
 import com.onecric.live.activity.HeadlineDetailActivity;
@@ -20,6 +21,7 @@ import com.onecric.live.presenter.theme.ThemeHeadlineInnerPresenter;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.theme.ThemeHeadlineInnerView;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -76,7 +78,9 @@ public class ThemeHeadlineInnerFragment extends MvpFragment<ThemeHeadlineInnerPr
 
     @Override
     protected void initData() {
-        smart_rl.setRefreshHeader(new ClassicsHeader(getContext()));
+        MaterialHeader materialHeader = new MaterialHeader(getContext());
+        materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
+        smart_rl.setRefreshHeader(materialHeader);
         smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
         smart_rl.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
@@ -151,7 +155,7 @@ public class ThemeHeadlineInnerFragment extends MvpFragment<ThemeHeadlineInnerPr
         mBanner.setAdapter(new BannerRoundImageAdapter(banners) {
             @Override
             public void onBindView(Object holder, Object data, int position, int size) {
-                GlideUtil.loadImageDefault(getContext(), ((HeadlineBean)data).getImg(), ((BannerRoundImageHolder)holder).imageView);
+                Glide.with(getContext()).load(((HeadlineBean)data).getImg()).placeholder(R.mipmap.loading_news_big).into(((BannerRoundImageHolder)holder).imageView);
                 if (!TextUtils.isEmpty(((HeadlineBean)data).getTitle())) {
                     ((BannerRoundImageHolder)holder).textView.setText(((HeadlineBean)data).getTitle());
                 }else {

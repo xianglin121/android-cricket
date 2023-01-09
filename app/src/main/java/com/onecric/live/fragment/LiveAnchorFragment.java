@@ -30,6 +30,7 @@ import com.onecric.live.presenter.live.LiveAnchorPresenter;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.LiveAnchorView;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -113,7 +114,9 @@ public class LiveAnchorFragment extends MvpFragment<LiveAnchorPresenter> impleme
         tv_notice.setSelected(true);
         tv_anchor_moving.setSelected(true);
 
-        smart_rl.setRefreshHeader(new ClassicsHeader(getContext()));
+        MaterialHeader materialHeader = new MaterialHeader(getContext());
+        materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
+        smart_rl.setRefreshHeader(materialHeader);
         smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
         smart_rl.setEnableRefresh(false);
         smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -265,6 +268,7 @@ public class LiveAnchorFragment extends MvpFragment<LiveAnchorPresenter> impleme
                     rv_reply.setVisibility(View.VISIBLE);
                     findViewById(R.id.ll_empty).setVisibility(View.GONE);
                 }
+                //fixme 测一下数据源 R.id.tv_live_replay
                 break;
         }
     }

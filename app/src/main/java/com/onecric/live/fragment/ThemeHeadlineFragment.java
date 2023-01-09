@@ -19,6 +19,7 @@ import com.onecric.live.model.ThemeClassifyBean;
 import com.onecric.live.presenter.theme.ThemeHeadlinePresenter;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.theme.ThemeHeadlineView;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
@@ -79,8 +80,9 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
                 ThemeCollectionActivity.forward(getContext(), 0);
             }
         });
-
-        smart_no_network.setRefreshHeader(new ClassicsHeader(getContext()));
+        MaterialHeader materialHeader = new MaterialHeader(getContext());
+        materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
+        smart_no_network.setRefreshHeader(materialHeader);
         smart_no_network.setOnRefreshListener(refreshLayout -> {
             initData();
         });

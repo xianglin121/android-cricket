@@ -276,7 +276,6 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         } else if (mType == 1) {
 //            mvpPresenter.getBasketballDetail(mMatchId);
         }
-
         playerView.setPlayerViewCallback(new LivePlayerView.OnSuperPlayerViewCallback() {
             @Override
             public void onStartFullScreenPlay() {

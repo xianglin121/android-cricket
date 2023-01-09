@@ -23,6 +23,7 @@ import com.onecric.live.presenter.match.FootballMatchSchedulePresenter;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.match.FootballMatchScheduleView;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -123,7 +124,9 @@ public class FootballMatchScheduleFragment extends MvpFragment<FootballMatchSche
         rv_date.setLayoutManager(new GridLayoutManager(getContext(), 6));
         rv_date.setAdapter(mDateAdapter);
 
-        smart_rl.setRefreshHeader(new ClassicsHeader(getContext()));
+        MaterialHeader materialHeader = new MaterialHeader(getContext());
+        materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
+        smart_rl.setRefreshHeader(materialHeader);
         smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
         smart_rl.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override

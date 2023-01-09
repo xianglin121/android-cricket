@@ -16,6 +16,7 @@ import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.live.SearchAnchorPresenter;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.SearchAnchorView;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -65,7 +66,9 @@ public class SearchAnchorFragment extends MvpFragment<SearchAnchorPresenter> imp
 
     @Override
     public void initData() {
-        smart_rl.setRefreshHeader(new ClassicsHeader(getContext()));
+        MaterialHeader materialHeader = new MaterialHeader(getContext());
+        materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
+        smart_rl.setRefreshHeader(materialHeader);
         smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
         smart_rl.setEnableRefresh(false);
         smart_rl.setEnableLoadMore(false);

@@ -14,6 +14,7 @@ import com.onecric.live.model.RankingBean;
 import com.onecric.live.presenter.live.LiveRankingPresenter;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.LiveRankingView;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -65,7 +66,9 @@ public class LiveRankingFragment extends MvpFragment<LiveRankingPresenter> imple
     protected void initData() {
         tv_daily_list.setSelected(true);
 
-        smart_rl.setRefreshHeader(new ClassicsHeader(getContext()));
+        MaterialHeader materialHeader = new MaterialHeader(getContext());
+        materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
+        smart_rl.setRefreshHeader(materialHeader);
         smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
         smart_rl.setEnableLoadMore(false);
         smart_rl.setOnRefreshListener(new OnRefreshListener() {

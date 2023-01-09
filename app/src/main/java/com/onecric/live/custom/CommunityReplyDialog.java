@@ -29,6 +29,7 @@ import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.retrofit.ApiClient;
 import com.onecric.live.retrofit.ApiStores;
 import com.onecric.live.util.GlideUtil;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -88,7 +89,9 @@ public class CommunityReplyDialog extends Dialog implements View.OnClickListener
         findViewById(R.id.ll_reply_input).setOnClickListener(this);
         findViewById(R.id.ll_like).setOnClickListener(this);
 
-        smart_rl.setRefreshHeader(new ClassicsHeader(getContext()));
+        MaterialHeader materialHeader = new MaterialHeader(getContext());
+        materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
+        smart_rl.setRefreshHeader(materialHeader);
         smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
         smart_rl.setEnableRefresh(false);
         smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {

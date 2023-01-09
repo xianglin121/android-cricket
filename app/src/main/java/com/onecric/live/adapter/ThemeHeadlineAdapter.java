@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
@@ -32,7 +33,8 @@ public class ThemeHeadlineAdapter extends BaseQuickAdapter<HeadlineBean, BaseVie
             helper.setText(R.id.tv_title, "");
         }
         ImageView iv_cover = helper.getView(R.id.iv_cover);
-        GlideUtil.loadImageDefault(mContext, item.getImg(), iv_cover);
+//        GlideUtil.loadImageDefault(mContext, item.getImg(), iv_cover);
+        Glide.with(mContext).load(item.getImg()).placeholder(R.mipmap.img_updates_default).into(iv_cover);
         if (item.getIs_top() == 1) {
             helper.getView(R.id.tv_top).setVisibility(View.VISIBLE);
         }else {

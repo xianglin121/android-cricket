@@ -17,6 +17,7 @@ import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.user.MySpaceCommunityOnePresenter;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.user.MySpaceCommunityOneView;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -62,7 +63,9 @@ public class MySpaceCommunityOneFragment extends MvpFragment<MySpaceCommunityOne
 
     @Override
     protected void initData() {
-        smart_rl.setRefreshHeader(new ClassicsHeader(getContext()));
+        MaterialHeader materialHeader = new MaterialHeader(getContext());
+        materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
+        smart_rl.setRefreshHeader(materialHeader);
         smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
         smart_rl.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override

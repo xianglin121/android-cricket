@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/selectableItemBackground">
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="0dp"
@@ -28,7 +29,7 @@
         app:layout_constraintLeft_toRightOf="@id/tv_title"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="12dp"
-        android:src="@mipmap/bg_banner_default"
+        android:src="@mipmap/img_updates_default"
         android:scaleType="centerCrop"
         app:riv_corner_radius="6dp"/>
 

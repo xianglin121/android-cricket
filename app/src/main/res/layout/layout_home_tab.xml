@@ -20,7 +20,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="?attr/selectableItemBackgroundBorderless">
             <ImageView
                 android:id="@+id/iv_theme"
                 android:layout_width="20dp"
@@ -43,7 +44,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="?attr/selectableItemBackgroundBorderless">
             <ImageView
                 android:id="@+id/iv_match"
                 android:layout_width="20dp"
@@ -66,7 +68,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="?attr/selectableItemBackgroundBorderless">
             <ImageView
                 android:id="@+id/iv_live"
                 android:layout_width="20dp"
@@ -89,7 +92,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="?attr/selectableItemBackgroundBorderless">
             <ImageView
                 android:id="@+id/iv_video"
                 android:layout_width="20dp"

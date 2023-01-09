@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -61,6 +62,7 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
     private RecyclerView rv_tournament;
     private SelectTournamentAdapter mTournamentAdapter;
     private String mTournamentId = "";
+    private LinearLayout ll_streaming;
 
     private int mStreaming = 0;
 
@@ -84,9 +86,9 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
         }
         smart_rl = findViewById(R.id.smart_rl);
         recyclerView = findViewById(R.id.recyclerView);
-
+        ll_streaming = findViewById(R.id.ll_streaming);
         findViewById(R.id.tv_tournament).setOnClickListener(this);
-        findViewById(R.id.ll_streaming).setOnClickListener(this);
+        ll_streaming.setOnClickListener(this);
     }
 
 
@@ -183,6 +185,7 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
                     if (mStreaming == 1) {
                         EventBus.getDefault().post(new ToggleTabEvent(2));
                         mStreaming = 0;
+                        ll_streaming.setSelected(false);
                         iv_streaming.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.c_CCCCCC));
                         tv_streaming.setTextColor(getResources().getColor(R.color.c_333333));
                         mvpPresenter.getCricketMatchList(true, mTimeType, mTournamentId, mStreaming, 1);
@@ -236,10 +239,12 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
             case R.id.ll_streaming:
                 if (mStreaming == 1) {
                     mStreaming = 0;
+                    ll_streaming.setSelected(false);
                     iv_streaming.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.c_CCCCCC));
                     tv_streaming.setTextColor(getResources().getColor(R.color.c_333333));
                 } else {
                     mStreaming = 1;
+                    ll_streaming.setSelected(true);
                     iv_streaming.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.c_DC3C23));
                     tv_streaming.setTextColor(getResources().getColor(R.color.c_DC3C23));
                 }

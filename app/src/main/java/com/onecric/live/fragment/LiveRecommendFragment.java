@@ -3,12 +3,14 @@ package com.onecric.live.fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
@@ -34,6 +36,7 @@ import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.LiveRecommendView;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -60,10 +63,11 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     private LiveRecommendAdapter mTodayAdapter;
     private RecyclerView rv_history;
     private LiveRecommendHistoryAdapter mHistoryAdapter;
+    private TextView tv_see_more_three;
 
     //    private int mPage = 1;
     private int mTodayPage = 1;
-    private int mHistoryPage = 1;
+//    private int mHistoryPage = 1;
     private BannerRoundImageAdapter bannerAdapter;
     @Override
     protected int getLayoutId() {
@@ -83,13 +87,14 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         rv_live = rootView.findViewById(R.id.rv_live);
         rv_today = rootView.findViewById(R.id.rv_today);
         rv_history = rootView.findViewById(R.id.rv_history);
+        tv_see_more_three = rootView.findViewById(R.id.tv_see_more_three);
         int width = UIUtil.getScreenWidth(getContext());
         android.view.ViewGroup.LayoutParams pp = mBanner.getLayoutParams();
         pp.height = (int) ((width - UIUtil.dip2px(getContext(), 24)) * 0.6);
         mBanner.setLayoutParams(pp);
 //        findViewById(R.id.tv_see_more_one).setOnClickListener(this);
 //        findViewById(R.id.tv_see_more_two).setOnClickListener(this);
-//        findViewById(R.id.tv_see_more_three).setOnClickListener(this);
+        tv_see_more_three.setOnClickListener(this);
     }
 
     @Override
@@ -119,20 +124,17 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         });
         rv_match.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         rv_match.setAdapter(mMatchAdapter);
-
-        smart_rl.setRefreshHeader(new ClassicsHeader(getContext()));
-        smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
+        MaterialHeader materialHeader = new MaterialHeader(getContext());
+        materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
+        smart_rl.setRefreshHeader(materialHeader);
         smart_rl.setEnableLoadMore(false);
         smart_rl.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-//                mvpPresenter.getList(false, -1, mPage);
-                mvpPresenter.getHistoryList(false, mHistoryPage);
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-//                 mvpPresenter.getAllList();
                 mvpPresenter.getList(true, 1);
                 mvpPresenter.getHistoryList(true, 1);
                 if(bannerAdapter == null){
@@ -169,16 +171,30 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         rv_today.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rv_today.addItemDecoration(new GridDividerItemDecoration(getContext(), 10, 2));
         rv_today.setAdapter(mTodayAdapter);
+        rv_today.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                GridLayoutManager manager = (GridLayoutManager) recyclerView.getLayoutManager();
+                // 当不滚动时
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    //获取最后一个完全显示的ItemPosition
+                    int lastVisibleItem = manager.findLastVisibleItemPosition();
+                    int totalItemCount = manager.getItemCount();
+                    // 判断是否滚动到底部
+                    if (lastVisibleItem == (totalItemCount - 1)) {
+                        //加载更多功能的代码
+                        mvpPresenter.getList(false, mTodayPage);
+                    }
+                }
+            }
+        });
+
         //HistoryLive
         mHistoryAdapter = new LiveRecommendHistoryAdapter(R.layout.item_live_recommend, new ArrayList<>());
-        mHistoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //fixme 播放视频、缺少封面
-                String url = mHistoryAdapter.getItem(position).getMediaUrl();
-                if (!TextUtils.isEmpty(url)) {
-                    VideoSingleActivity.forward(getContext(), mHistoryAdapter.getItem(position).getMediaUrl(), null);
-                }
+        mHistoryAdapter.setOnItemClickListener((adapter, view, position) -> {
+            String url = mHistoryAdapter.getItem(position).getMediaUrl();
+            if (!TextUtils.isEmpty(url)) {
+                VideoSingleActivity.forward(getContext(), mHistoryAdapter.getItem(position).getMediaUrl(), null);
             }
         });
         View inflate2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
@@ -239,18 +255,14 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 
     @Override
     public void getDataHistorySuccess(boolean isRefresh, List<HistoryLiveBean> list) {
-        if (isRefresh) {
-            smart_rl.finishRefresh();
-            mHistoryPage = 2;
-            if (list != null) {
-                mHistoryAdapter.setNewData(list);
-            }
-        } else if (list != null && list.size() > 0) {
-            smart_rl.finishLoadMore();
-            mHistoryPage++;
-            mHistoryAdapter.addData(list);
-        } else {
-            smart_rl.finishLoadMoreWithNoMoreData();
+        smart_rl.finishRefresh();
+        if (list == null) {return;}
+        if(list.size()>6){
+            mHistoryAdapter.setNewData(list.subList(0,6));
+            tv_see_more_three.setVisibility(View.VISIBLE);
+        }else{
+            mHistoryAdapter.setNewData(list);
+            tv_see_more_three.setVisibility(View.GONE);
         }
     }
 
@@ -298,7 +310,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                 @Override
                 public void onBindView(Object holder, Object data, int position, int size) {
                     BannerBean bannerBean = (BannerBean) data;
-                    GlideUtil.loadImageDefault(getContext(), bannerBean.getImg(), ((BannerRoundImageHolder) holder).imageView);
+                    Glide.with(getContext()).load(bannerBean.getImg()).placeholder(R.mipmap.loading_live_banner).into(((BannerRoundImageHolder) holder).imageView);
                 }
             };
             bannerAdapter.setOnBannerListener(new OnBannerListener() {

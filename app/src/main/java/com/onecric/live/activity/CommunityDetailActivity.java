@@ -24,6 +24,7 @@ import com.onecric.live.presenter.theme.CommunityDetailPresenter;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.theme.CommunityDetailView;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -105,7 +106,9 @@ public class CommunityDetailActivity extends MvpActivity<CommunityDetailPresente
 
     @Override
     protected void initData() {
-        smart_rl.setRefreshHeader(new ClassicsHeader(this));
+        MaterialHeader materialHeader = new MaterialHeader(this);
+        materialHeader.setColorSchemeColors(getResources().getColor(R.color.c_DC3C23));
+        smart_rl.setRefreshHeader(materialHeader);
         smart_rl.setRefreshFooter(new ClassicsFooter(this));
         smart_rl.setEnableRefresh(false);
         smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {

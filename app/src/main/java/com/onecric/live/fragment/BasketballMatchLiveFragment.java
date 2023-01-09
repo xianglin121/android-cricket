@@ -21,6 +21,7 @@ import com.onecric.live.presenter.match.BasketballMatchLivePresenter;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.match.BasketballMatchLiveView;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -79,7 +80,9 @@ public class BasketballMatchLiveFragment extends MvpFragment<BasketballMatchLive
         rv_anchor.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_anchor.setAdapter(mAnchorAdapter);
 
-        smart_rl.setRefreshHeader(new ClassicsHeader(getContext()));
+        MaterialHeader materialHeader = new MaterialHeader(getContext());
+        materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
+        smart_rl.setRefreshHeader(materialHeader);
         smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
         smart_rl.setEnableRefresh(false);
         smart_rl.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {

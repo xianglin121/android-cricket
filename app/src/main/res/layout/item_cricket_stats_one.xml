@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:id="@+id/cl_root"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/selectableItemBackground">
     <FrameLayout
         android:id="@+id/fl_avatar"
         android:layout_width="0dp"

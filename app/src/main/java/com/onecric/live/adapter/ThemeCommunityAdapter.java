@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
@@ -103,7 +104,7 @@ public class ThemeCommunityAdapter extends BaseQuickAdapter<CommunityBean, BaseV
             iv_icon.setVisibility(View.VISIBLE);
             rv_image.setVisibility(View.GONE);
             if (item.getVideo() != null && item.getVideo().size() > 0) {
-                GlideUtil.loadImageDefault(mContext, item.getVideo().get(0).getImg(), iv_cover);
+                Glide.with(mContext).load(item.getVideo().get(0).getImg()).placeholder(R.mipmap.loading_news_big).into(iv_cover);
             }
             iv_cover.setOnClickListener(new View.OnClickListener() {
                 @Override

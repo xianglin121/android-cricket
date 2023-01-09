@@ -39,6 +39,7 @@ import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.live.CommunityCommentView;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -159,8 +160,9 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                 }
             });
         }
-
-        smart_rl.setRefreshHeader(new ClassicsHeader(this));
+        MaterialHeader materialHeader = new MaterialHeader(this);
+        materialHeader.setColorSchemeColors(getResources().getColor(R.color.c_DC3C23));
+        smart_rl.setRefreshHeader(materialHeader);
         smart_rl.setRefreshFooter(new ClassicsFooter(this));
         smart_rl.setEnableRefresh(false);
         smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {

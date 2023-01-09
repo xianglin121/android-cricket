@@ -15,6 +15,7 @@ import com.onecric.live.model.SpeakerBean;
 import com.onecric.live.presenter.user.SpeakerHistoryPresenter;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.user.SpeakerHistoryView;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -56,7 +57,9 @@ public class SpeakerHistoryActivity extends MvpActivity<SpeakerHistoryPresenter>
 
     @Override
     protected void initData() {
-        smart_rl.setRefreshHeader(new ClassicsHeader(this));
+        MaterialHeader materialHeader = new MaterialHeader(this);
+        materialHeader.setColorSchemeColors(getResources().getColor(R.color.c_DC3C23));
+        smart_rl.setRefreshHeader(materialHeader);
         smart_rl.setRefreshFooter(new ClassicsFooter(this));
         smart_rl.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override

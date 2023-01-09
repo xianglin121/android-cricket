@@ -216,6 +216,7 @@ public class FoldTextView extends AppCompatTextView {
                 StringBuilder builder = new StringBuilder(ELLIPSIZE_END).append(mFoldText);
                 end -= paint.breakText(mOriginalText, start, end, false, paint.measureText(builder.toString()), null);
                 float x = getWidth() - getPaddingLeft() - getPaddingRight() - getTextWidth(mFoldText);
+                //防止超长崩溃
                 while (end <= mOriginalText.length() && layout.getPrimaryHorizontal(end - 1) + getTextWidth(mOriginalText.subSequence(end - 1, end).toString()) < x) {
                     end++;
                 }

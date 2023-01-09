@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/shape_white_6dp_rec">
+    android:background="@drawable/ripple_6dp"
+    android:clickable="true"
+    android:focusable="true">
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/iv_cover"

@@ -18,6 +18,7 @@ import com.onecric.live.model.MatchListBean;
 import com.onecric.live.presenter.live.SearchLiveMatchPresenter;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.SearchLiveMatchView;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -62,7 +63,9 @@ public class SearchLiveMatchFragment extends MvpFragment<SearchLiveMatchPresente
 
     @Override
     protected void initData() {
-        smart_rl.setRefreshHeader(new ClassicsHeader(getContext()));
+        MaterialHeader materialHeader = new MaterialHeader(getContext());
+        materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
+        smart_rl.setRefreshHeader(materialHeader);
         smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
         smart_rl.setEnableRefresh(false);
         smart_rl.setEnableLoadMore(false);

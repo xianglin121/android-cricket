@@ -16,7 +16,6 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="60龙钻"
             android:textSize="14dp"
             android:textColor="@color/c_8691AA"/>
 
@@ -24,7 +23,6 @@
             android:id="@+id/tv_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="¥ 6"
             android:textSize="14dp"
             android:textColor="@color/c_333333"
             android:textStyle="bold"/>

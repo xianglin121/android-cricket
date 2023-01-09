@@ -177,6 +177,7 @@
                         android:textColor="@color/c_E05526"
                         android:textSize="12sp"
                         android:textAllCaps="true"
+                        android:text="@string/see_more"
                         android:gravity="center_vertical"
                         android:visibility="gone"/>
                 </LinearLayout>

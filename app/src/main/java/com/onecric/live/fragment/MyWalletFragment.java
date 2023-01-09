@@ -15,6 +15,7 @@ import com.onecric.live.model.WithdrawBean;
 import com.onecric.live.presenter.user.MyWalletPresenter;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.user.MyWalletView;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -64,7 +65,9 @@ public class MyWalletFragment extends MvpFragment<MyWalletPresenter> implements 
 
     @Override
     public void initData() {
-        smart_rl.setRefreshHeader(new ClassicsHeader(getContext()));
+        MaterialHeader materialHeader = new MaterialHeader(getContext());
+        materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
+        smart_rl.setRefreshHeader(materialHeader);
         smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
         smart_rl.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override

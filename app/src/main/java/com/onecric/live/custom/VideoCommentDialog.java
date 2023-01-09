@@ -31,6 +31,7 @@ import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.retrofit.ApiClient;
 import com.onecric.live.retrofit.ApiStores;
 import com.onecric.live.util.GlideUtil;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -109,7 +110,9 @@ public class VideoCommentDialog extends Dialog implements View.OnClickListener {
         findViewById(R.id.ll_like).setOnClickListener(this);
 
         //评论
-        srl_comment.setRefreshHeader(new ClassicsHeader(getContext()));
+        MaterialHeader materialHeader = new MaterialHeader(getContext());
+        materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
+        srl_comment.setRefreshHeader(materialHeader);
         srl_comment.setRefreshFooter(new ClassicsFooter(getContext()));
         srl_comment.setEnableRefresh(false);
         srl_comment.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -145,7 +148,9 @@ public class VideoCommentDialog extends Dialog implements View.OnClickListener {
         rv_comment.setAdapter(mCommentAdapter);
 
         //回复
-        smart_rl.setRefreshHeader(new ClassicsHeader(getContext()));
+        MaterialHeader materialHeader2 = new MaterialHeader(getContext());
+        materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
+        smart_rl.setRefreshHeader(materialHeader2);
         smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
         smart_rl.setEnableRefresh(false);
         smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {

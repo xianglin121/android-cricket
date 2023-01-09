@@ -76,7 +76,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:src="@mipmap/bg_banner_default"
             android:scaleType="centerCrop"
             app:riv_corner_radius="6dp"/>
 
@@ -88,7 +87,8 @@
             app:layout_constraintBottom_toBottomOf="@id/iv_cover"
             app:layout_constraintLeft_toLeftOf="@id/iv_cover"
             app:layout_constraintRight_toRightOf="@id/iv_cover"
-            android:background="@drawable/superplayer_ic_play"/>
+            android:background="@drawable/superplayer_ic_play"
+            android:visibility="gone"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_image"

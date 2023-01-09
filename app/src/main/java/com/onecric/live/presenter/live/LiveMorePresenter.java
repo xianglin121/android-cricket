@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.onecric.live.CommonAppConfig;
+import com.onecric.live.model.HistoryLiveBean;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
@@ -33,12 +34,42 @@ public class LiveMorePresenter extends BasePresenter<LiveMoreView> {
 
                     @Override
                     public void onFailure(String msg) {
-
+                        mvpView.getDataFail(msg);
                     }
 
                     @Override
                     public void onError(String msg) {
+                        mvpView.getDataFail(msg);
+                    }
 
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
+
+    public void getHistoryList(boolean isRefresh, int page) {
+        addSubscription(apiStores.getHistoryLiveList(CommonAppConfig.getInstance().getToken(), page,  0),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        if (!TextUtils.isEmpty(data)) {
+                            List<HistoryLiveBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("list"), HistoryLiveBean.class);
+                            mvpView.getDataHistorySuccess(isRefresh, list);
+                        }else {
+                            mvpView.getDataHistorySuccess(isRefresh, new ArrayList<>());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        mvpView.getDataFail(msg);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        mvpView.getDataFail(msg);
                     }
 
                     @Override

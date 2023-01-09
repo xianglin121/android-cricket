@@ -50,7 +50,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_batters"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:background="@color/white"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,7 +81,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_bowlers"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:background="@color/white"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -110,7 +112,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_all_rounder"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:background="@color/white"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>
