@@ -64,6 +64,6 @@ public class GlideUtil {
 
     //设置图像的加载中以及加载失败图片
     public static void loadLiveImageDefault(Context mContext, String path, ImageView mImageView) {
-        Glide.with(mContext).load(path).placeholder(R.mipmap.loading_live).error(R.mipmap.loading_live).dontAnimate().into(mImageView);
+        Glide.with(mContext).load(path).placeholder(R.mipmap.ball_live_bg).error(R.mipmap.ball_live_bg).dontAnimate().into(mImageView);
     }
 }
