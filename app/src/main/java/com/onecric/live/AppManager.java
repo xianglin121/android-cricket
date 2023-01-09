@@ -84,7 +84,7 @@ public class AppManager extends MultiDexApplication {
         uploadManager = new UploadManager(config);
 
         initJiGuang();
-        CrashReport.initCrashReport(getApplicationContext(), "8b6829edfc", true);
+        CrashReport.initCrashReport(getApplicationContext(), "8b6829edfc", false);
         if (!TextUtils.isEmpty(SystemUtil.getDeviceType())) {
             CrashReport.setDeviceModel(this, SystemUtil.getDeviceType());
         }
