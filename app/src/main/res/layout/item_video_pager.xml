@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
 
     <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
-        android:layout_marginTop="5dp"
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center" >
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
 
         <View
             android:id="@+id/click_view"
             android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/cover_iv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@null"
-            android:visibility="gone"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
     </com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer>
 
     <!--    <ImageView-->
-<!--        android:id="@+id/pause_iv"-->
-<!--        android:layout_width="46dp"-->
-<!--        android:layout_height="46dp"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:background="@drawable/superplayer_ic_play_two"-->
-<!--        android:contentDescription="@null"-->
-<!--        android:visibility="gone" />-->
+    <!--        android:id="@+id/pause_iv"-->
+    <!--        android:layout_width="46dp"-->
+    <!--        android:layout_height="46dp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:background="@drawable/superplayer_ic_play_two"-->
+    <!--        android:contentDescription="@null"-->
+    <!--        android:visibility="gone" />-->
 
     <LinearLayout
+        android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="64dp"
         android:orientation="vertical">
 
@@ -84,9 +85,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_above="@id/ll_bottom"
+        android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="158dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -136,4 +137,4 @@
             android:textColor="@color/white"
             android:textSize="10dp" />
     </LinearLayout>
-</FrameLayout>
+</RelativeLayout>
