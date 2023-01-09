@@ -146,4 +146,5 @@ dependencies {
     implementation 'pro.piwik:sdk-framework-android:1.0.3'
     implementation 'com.google.firebase:firebase-analytics:17.4.1'
     implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.tencent.bugly:crashreport:latest.release'//其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如4.0.3
 }

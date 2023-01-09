@@ -218,3 +218,6 @@
 
 -dontwarn cn.jiguang.**
 -keep class cn.jiguang.** { *; }
+
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

@@ -1,11 +1,15 @@
 package com.onecric.live;
 
+import android.text.TextUtils;
+
 import androidx.multidex.MultiDexApplication;
 
 import com.onecric.live.util.LogUtil;
 import com.qiniu.android.common.FixedZone;
 import com.qiniu.android.storage.Configuration;
 import com.qiniu.android.storage.UploadManager;
+import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.imsdk.common.SystemUtil;
 import com.tencent.imsdk.v2.V2TIMSDKListener;
 import com.tencent.imsdk.v2.V2TIMUserFullInfo;
 import com.tencent.qcloud.tim.uikit.TUIKit;
@@ -80,7 +84,12 @@ public class AppManager extends MultiDexApplication {
         uploadManager = new UploadManager(config);
 
         initJiGuang();
+        CrashReport.initCrashReport(getApplicationContext(), "8b6829edfc", true);
+        if (!TextUtils.isEmpty(SystemUtil.getDeviceType())) {
+            CrashReport.setDeviceModel(this, SystemUtil.getDeviceType());
+        }
     }
+
 
     public UploadManager getUpLoadManager() {
         return uploadManager;
