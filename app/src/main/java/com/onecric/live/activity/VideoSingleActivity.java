@@ -9,16 +9,21 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
+
 import com.onecric.live.AppManager;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.BaseActivity;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.shuyu.gsyvideoplayer.cache.CacheFactory;
+import com.shuyu.gsyvideoplayer.player.PlayerFactory;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import pro.piwik.sdk.extra.TrackHelper;
+import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
+import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager;
 
 public class VideoSingleActivity extends BaseActivity {
 
@@ -42,7 +47,7 @@ public class VideoSingleActivity extends BaseActivity {
         }
     };
 
-    public static void forward(Context context, String url,String img) {
+    public static void forward(Context context, String url, String img) {
         Intent starter = new Intent(context, VideoSingleActivity.class);
         starter.putExtra("url", url);
         starter.putExtra("img", url);
@@ -65,7 +70,8 @@ public class VideoSingleActivity extends BaseActivity {
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         GlideUtil.loadImageDefault(this, img, imageView);
         videoPlayer.setThumbImageView(imageView);*/
-
+        PlayerFactory.setPlayManager(Exo2PlayerManager.class);
+        CacheFactory.setCacheManager(ExoPlayerCacheManager.class);
         //配置url
         videoView.setLooping(true);
         videoView.setUp(url, true, "");

@@ -49,16 +49,17 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
                 if (!TextUtils.isEmpty(item.getLive_time())) {
                     helper.setText(R.id.tv_time, item.getLive_time());
                     helper.getView(R.id.ll_alarm).setVisibility(View.VISIBLE);
-//                    TextView tv_time = helper.getView(R.id.tv_time);
-//                    new CountDownTimer(item.getLive_time_unix(), 1000) {
-//                        public void onTick(long millisUntilFinished) {
-//                            tv_time.setText(TimeUtil.timeConversion(millisUntilFinished / 1000));
-//                        }
-//
-//                        public void onFinish() {
-//                            tv_time.setText("0s");
-//                        }
-//                    }.start();
+                    TextView tv_time = helper.getView(R.id.tv_time);
+                    new CountDownTimer(item.getLive_time_unix(), 1000) {
+                        public void onTick(long millisUntilFinished) {
+                            tv_time.setText(TimeUtil.timeConversion(millisUntilFinished / 1000));
+                        }
+
+                        public void onFinish() {
+                            item.setStatus(1);
+                            notifyItemChanged(helper.getLayoutPosition());
+                        }
+                    }.start();
 
                 } else {
                     helper.setText(R.id.tv_time, "");

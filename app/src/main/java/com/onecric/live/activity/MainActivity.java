@@ -47,6 +47,7 @@ import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.WordUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.login.MainView;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMManager;
 import com.tencent.imsdk.v2.V2TIMUserFullInfo;
@@ -449,6 +450,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
+        GSYVideoManager.instance().clearAllDefaultCache(this);
     }
 
     @Override
