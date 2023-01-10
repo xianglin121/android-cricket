@@ -1,21 +1,10 @@
 package com.onecric.live.util;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-
-import androidx.annotation.Nullable;
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.onecric.live.R;
 import com.onecric.live.common.GlideRoundTransform;
 

@@ -3,6 +3,8 @@ package com.onecric.live.fragment;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -43,7 +45,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
     private List<String> mTitles;
     private ViewPager mViewPager;
     private List<Fragment> mViewList;
-    private ConstraintLayout clSingleTitle;
+    private TextView tvSingleTitle;
 
     @Override
     protected int getLayoutId() {
@@ -59,11 +61,12 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
     protected void initUI() {
         magicIndicator = rootView.findViewById(R.id.magicIndicator);
         mViewPager = rootView.findViewById(R.id.viewpager);
-        clSingleTitle = rootView.findViewById(R.id.cl_single_title);
+        tvSingleTitle = rootView.findViewById(R.id.tv_single_title);
 
         findViewById(R.id.iv_more).setOnClickListener(this);
         findViewById(R.id.cl_search).setOnClickListener(this);
         findViewById(R.id.iv_ranking).setOnClickListener(this);
+        findViewById(R.id.iv_more2).setOnClickListener(this);
 //        findViewById(R.id.iv_red_envelope).setOnClickListener(this);
     }
 
@@ -87,6 +90,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_more:
+            case R.id.iv_more2:
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     LoginActivity.forward(getContext());
                     return;
@@ -227,14 +231,15 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
         mViewList = new ArrayList<>();
         mTitles.add(WordUtil.getString(getActivity(), R.string.live_recommend));
         mViewList.add(new LiveRecommendFragment());
+
         if (list != null && list.size() > 0) {
             mTitles.add(WordUtil.getString(getActivity(), R.string.live_other));
             mViewList.add(LiveMatchFragment.newInstance(2));
             magicIndicator.setVisibility(View.VISIBLE);
-            clSingleTitle.setVisibility(View.GONE);
+            tvSingleTitle.setVisibility(View.GONE);
         }else{
             magicIndicator.setVisibility(View.GONE);
-            clSingleTitle.setVisibility(View.VISIBLE);
+            tvSingleTitle.setVisibility(View.VISIBLE);
         }
         initViewPager();
     }

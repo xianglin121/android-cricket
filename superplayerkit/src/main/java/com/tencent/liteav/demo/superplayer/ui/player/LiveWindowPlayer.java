@@ -885,4 +885,9 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
             mControllerCallback.onHWAccelerationToggle(isAccelerate);
         }
     }
+
+    //隐藏返回键
+    public void hideBackKey(){
+        mIvBack.setVisibility(GONE);
+    }
 }

@@ -1051,4 +1051,11 @@ public class LivePlayerView extends RelativeLayout {
     public void addDanmu(String content, int level, boolean withBorder) {
         mDanmuView.addDanmaku(content, level, withBorder);
     }
+
+    //隐藏返回键
+    public void hideBackKey(){
+        if(mWindowPlayer!=null){
+            mWindowPlayer.hideBackKey();
+        }
+    }
 }

@@ -90,30 +90,41 @@
             app:layout_constraintTop_toTopOf="@id/iv_more" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_single_title"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="78dp"
-        android:background="@color/c_1D2550"
-        android:visibility="gone">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/c_1D2550">
         <TextView
+            android:id="@+id/tv_single_title"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="78dp"
+            android:paddingTop="20dp"
+            android:paddingLeft="12dp"
+            android:text="@string/live_recommend"
+            android:textSize="22sp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:visibility="gone"/>
+
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/magicIndicator"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="70dp"
+            android:paddingTop="20dp"/>
+
+        <ImageView
+            android:id="@+id/iv_more2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="12dp"
-            android:text="@string/live_recommend"
-            android:textSize="22dp"
-            android:textColor="@color/white"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_marginRight="12dp"
+            android:src="@mipmap/icon_calendar"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/dp_10"/>
+    </LinearLayout>
 
-    <net.lucode.hackware.magicindicator.MagicIndicator
-        android:id="@+id/magicIndicator"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@color/c_1D2550"
-        android:paddingTop="20dp" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"

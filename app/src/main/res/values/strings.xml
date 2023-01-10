@@ -49,7 +49,7 @@
     <string name="second">seconds</string>
     <string name="tip_exit_app">Press again to exit</string>
     <string name="network_is_weak">Network is weak</string>
-    <string name="no_internet_connection">no internet connection</string>
+    <string name="no_internet_connection">No internet connection</string>
     <string name="tip_network_error_one">Server exception, please try again later</string>
     <string name="tip_login_error_one">The login status is invalid, please log in again</string>
     <string name="tip_login_error_two">please sign in</string>

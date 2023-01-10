@@ -1,5 +1,7 @@
 package com.onecric.live.adapter;
 
+import static com.onecric.live.util.DateUtil.getRelativeLocalDate;
+
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,18 +21,27 @@ import com.tencent.qcloud.tuicore.util.DateTimeUtil;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 开发公司：东莞市梦幻科技有限公司
  * 时间：2021/9/14
  */
 public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHolder> {
-    private SimpleDateFormat sfdate = new SimpleDateFormat("EEE,dd MMM.", Locale.ENGLISH);
+//    private SimpleDateFormat sfdate = new SimpleDateFormat("EEE,dd MMM.", Locale.ENGLISH);
     private SimpleDateFormat sfdate2 = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
+
     public LiveRecommendAdapter(int layoutResId, @Nullable List<LiveBean> data) {
         super(layoutResId, data);
     }
@@ -67,24 +78,13 @@ public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
         if(item.getIslive() == 0){
             iv_live.setVisibility(View.GONE);
             tv_time.setVisibility(View.VISIBLE);
-            iv_cover.setColorFilter(Color.parseColor("#75000000"));
-            tv_time.setText(getDate(item.getStarttime()));
+//            iv_cover.setColorFilter(Color.parseColor("#40000000"));
+            tv_time.setText("Watch live at "+getRelativeLocalDate(sfdate2,item.getStarttime()));
         }else{
             iv_cover.setColorFilter(null);
             iv_live.setVisibility(View.VISIBLE);
             tv_time.setVisibility(View.GONE);
         }
-
-    }
-
-    /**
-     * Tue,27 Dec.Watch live at 11:30 AM
-     * @param time
-     * @return
-     */
-    private String getDate(long time){
-        Date date = new Date(time * 1000);
-        return sfdate.format(date)+" Watch live at "+sfdate2.format(date);
     }
 
 }

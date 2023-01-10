@@ -18,6 +18,7 @@ import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -52,6 +53,7 @@ import com.onecric.live.model.NormalMsgBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.live.LiveDetailPresenter;
 import com.onecric.live.util.DialogUtil;
+import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ScreenUtils;
 import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
@@ -79,6 +81,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> implements LiveDetailView, View.OnClickListener {
 
     public static void forward(Context context, int anchorId, int type, int matchId) {
@@ -94,7 +98,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     private int mType;
     private int mMatchId;
     private int mWindowsWidth;
-    //    private View statusBar;
+    private View statusBar;
     public LivePlayerView playerView;
     private FrameLayout fl_main;
     private LiveDetailMainFragment liveDetailMainFragment;
@@ -113,6 +117,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     private LoginDialog loginDialog;
     private WebView webview;
     private WebSettings webSettings;
+
+    private TextView tv_title;
+    private ImageView iv_back;
+    private CircleImageView person_head_pic;
 
     //未登录用户倒计时三分钟跳转登录页
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
@@ -161,7 +169,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         mWindowsWidth = metric.widthPixels;
 
-//        statusBar = findViewById(R.id.statusBar);
+        statusBar = findViewById(R.id.statusBar);
         playerView = findViewById(R.id.playerView);
         fl_main = findViewById(R.id.fl_main);
         fl_menu = findViewById(R.id.fl_menu);
@@ -172,8 +180,12 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         view_broadcast = findViewById(R.id.view_broadcast);
         fl_float_view = findViewById(R.id.fl_float_view);
         tv_content = findViewById(R.id.tv_content);
+        tv_title = findViewById(R.id.tv_title);
+        iv_back = findViewById(R.id.iv_back);
+        person_head_pic = findViewById(R.id.person_head_pic);
 
         iv_data.setOnClickListener(this);
+        iv_back.setOnClickListener(this);
 
         //初始化悬浮窗跳转回界面所需参数
         playerView.setInitId(mAnchorId, mType, mMatchId);
@@ -208,7 +220,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         }
 
         //去掉状态栏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -280,12 +292,25 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             @Override
             public void onStartFullScreenPlay() {
                 mIsFullScreen = true;
+                statusBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onStopFullScreenPlay() {
                 mIsFullScreen = false;
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                statusBar.setVisibility(View.VISIBLE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = getWindow();
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                    if (mIsBlack) {
+                        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                    } else {
+                        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+                    }
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(0);
+                }
+//                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             }
 
             @Override
@@ -342,6 +367,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 liveDetailMainFragment.showRedEnvelopeDialog();
             }
         });
+
+        playerView.hideBackKey();
 
         //礼物进场动画
         LPAnimationManager.init(this);
@@ -434,9 +461,11 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 }
             }
             if (bean.getUserData() != null && !TextUtils.isEmpty(bean.getUserData().getTitle())) {
-                playerView.updateTitle(bean.getUserData().getTitle());
+//                playerView.updateTitle(bean.getUserData().getTitle());
+                tv_title.setText(bean.getUserData().getTitle());
             }
             liveDetailMainFragment.updateFollowData();
+            GlideUtil.loadUserImageDefault(mActivity,bean.getUserData().getAvatar(),person_head_pic);
         }
     }
 
@@ -548,6 +577,13 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             case R.id.iv_data:
                 toggleMenu();
                 break;
+            case R.id.iv_back:
+                if (mIsFullScreen) {
+                    playerView.switchPlayMode(SuperPlayerDef.PlayerMode.WINDOW);
+                } else {
+                    backAction();
+                }
+                break;
         }
     }
 
@@ -564,6 +600,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             //隐藏虚拟按键，并且全屏
             View decorView = getWindow().getDecorView();
             if (decorView == null) return;
+            //隐藏状态栏
             if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
                 decorView.setSystemUiVisibility(View.GONE);
             } else if (Build.VERSION.SDK_INT >= 19) {

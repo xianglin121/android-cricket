@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 时间格式化工具类
@@ -488,6 +489,21 @@ public class DateUtil {
             sb.append("0秒");
         }
         return sb.toString();
+    }
+
+    /**
+     * 将返回的印度时间转换成本地时间
+     * @param time
+     * @return
+     */
+    public static String getRelativeLocalDate(SimpleDateFormat format,long time){
+        //时差
+        int loc2 = TimeZone.getTimeZone("GMT+05:30").getRawOffset();
+        Calendar nowCal = Calendar.getInstance();
+        int loc1 = nowCal.getTimeZone().getRawOffset();
+        long diffInMillisec = loc1-loc2;
+        long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffInMillisec);
+        return format.format(new Date((time+diffInSec) * 1000));
     }
 }
 
