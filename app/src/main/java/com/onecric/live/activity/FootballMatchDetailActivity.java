@@ -74,7 +74,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import pro.piwik.sdk.extra.TrackHelper;
+//import pro.piwik.sdk.extra.TrackHelper;
 
 public class FootballMatchDetailActivity extends MvpActivity<FootballMatchDetailPresenter> implements FootballMatchDetailView, View.OnClickListener {
 
@@ -346,11 +346,11 @@ public class FootballMatchDetailActivity extends MvpActivity<FootballMatchDetail
         // 设置UserAgent标识
 //        mWebView.getSettings().setUserAgentString(mWebView.getSettings().getUserAgentString() + " app-shikuimapp");
         mWebView.loadUrl(url);
-        try {
-            TrackHelper.track().outlink(new URL(url)).with(((AppManager) getApplication()).getTracker());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            TrackHelper.track().outlink(new URL(url)).with(((AppManager) getApplication()).getTracker());
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override

@@ -15,8 +15,8 @@ import com.onecric.live.AppManager;
 import com.onecric.live.R;
 import com.onecric.live.presenter.BasePresenter;
 
-import pro.piwik.sdk.Tracker;
-import pro.piwik.sdk.extra.TrackHelper;
+//import pro.piwik.sdk.Tracker;
+//import pro.piwik.sdk.extra.TrackHelper;
 
 
 /**
@@ -42,8 +42,8 @@ public abstract class MvpFragment<P extends BasePresenter> extends Fragment {
         mvpPresenter = createPresenter();
         super.onActivityCreated(savedInstanceState);
         initUI();
-        Tracker tracker = ((AppManager) getActivity().getApplication()).getTracker();
-        TrackHelper.track().screen(getActivity()).with(tracker);
+//        Tracker tracker = ((AppManager) getActivity().getApplication()).getTracker();
+//        TrackHelper.track().screen(getActivity()).with(tracker);
         initData();
     }
 

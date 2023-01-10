@@ -41,8 +41,8 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 //import pro.piwik.sdk.Tracker;
 //import pro.piwik.sdk.extra.TrackHelper;
-import pro.piwik.sdk.Tracker;
-import pro.piwik.sdk.extra.TrackHelper;
+//import pro.piwik.sdk.Tracker;
+//import pro.piwik.sdk.extra.TrackHelper;
 import retrofit2.Call;
 
 /**
@@ -61,8 +61,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Tracker tracker = ((AppManager) getApplication()).getTracker();
-        TrackHelper.track().screen(this).with(tracker);
+//        Tracker tracker = ((AppManager) getApplication()).getTracker();
+//        TrackHelper.track().screen(this).with(tracker);
         setClassicsLanguage();
         mIsBlack = getStatusBarTextColor();
         setStatusBar();

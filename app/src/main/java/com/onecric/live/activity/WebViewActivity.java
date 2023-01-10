@@ -24,7 +24,7 @@ import com.onecric.live.view.BaseActivity;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import pro.piwik.sdk.extra.TrackHelper;
+//import pro.piwik.sdk.extra.TrackHelper;
 
 /**
  * 开发公司：东莞市梦幻科技有限公司 on 2018/9/25.
@@ -128,11 +128,11 @@ public class WebViewActivity extends BaseActivity {
             mWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
         mWebView.loadUrl(url);
-        try {
-            TrackHelper.track().outlink(new URL(url)).with(((AppManager) getApplication()).getTracker());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            TrackHelper.track().outlink(new URL(url)).with(((AppManager) getApplication()).getTracker());
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override

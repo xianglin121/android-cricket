@@ -51,7 +51,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
-import pro.piwik.sdk.extra.TrackHelper;
+//import pro.piwik.sdk.extra.TrackHelper;
 
 public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> implements VideoPagerView, View.OnClickListener {
 
@@ -404,7 +404,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
         holder.videoView.setLooping(true);
         holder.videoView.setUp(url, true, "");
         //播放视频统计
-        TrackHelper.track().impression("Android content impression").piece("video").target(url).with(((AppManager) getApplication()).getTracker());
+//        TrackHelper.track().impression("Android content impression").piece("video").target(url).with(((AppManager) getApplication()).getTracker());
         //设置返回键
         holder.videoView.getBackButton().setVisibility(View.VISIBLE);
         //设置旋转
@@ -609,7 +609,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                 bean.setLikes(likeCount);
                 videoPagerHolder.tv_like_count.setText(String.valueOf(likeCount));
                 mvpPresenter.doVideoLike(bean.getId());
-                TrackHelper.track().socialInteraction("Like", "Video_user").target("onecric.live.app").with(((AppManager) getApplication()).getTracker());
+//                TrackHelper.track().socialInteraction("Like", "Video_user").target("onecric.live.app").with(((AppManager) getApplication()).getTracker());
                 EventBus.getDefault().post(new UpdateVideoLikeEvent(bean.getId()));
             }
         });

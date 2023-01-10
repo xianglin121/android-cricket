@@ -58,7 +58,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import pro.piwik.sdk.extra.TrackHelper;
+//import pro.piwik.sdk.extra.TrackHelper;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -275,7 +275,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     mModel.setLikes(like);
                     tv_like.setText(String.valueOf(like));
                     mvpPresenter.doHeadlineLike(mModel.getId());
-                    TrackHelper.track().socialInteraction("Like", "Headlines_user").target("onecric.live.app").with(((AppManager) getApplication()).getTracker());
+//                    TrackHelper.track().socialInteraction("Like", "Headlines_user").target("onecric.live.app").with(((AppManager) getApplication()).getTracker());
                 }
                 break;
             case R.id.iv_collect:
@@ -288,7 +288,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         iv_collect.setSelected(true);
                     }
                     mvpPresenter.doHeadlineCollect(mModel.getId());
-                    TrackHelper.track().socialInteraction("Collect", "Headlines_user").target("onecric.live.app").with(((AppManager) getApplication()).getTracker());
+//                    TrackHelper.track().socialInteraction("Collect", "Headlines_user").target("onecric.live.app").with(((AppManager) getApplication()).getTracker());
                 }
                 break;
             case R.id.tv_time_sort:

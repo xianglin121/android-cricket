@@ -21,7 +21,7 @@ import com.shuyu.gsyvideoplayer.player.PlayerFactory;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
-import pro.piwik.sdk.extra.TrackHelper;
+//import pro.piwik.sdk.extra.TrackHelper;
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
 import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager;
 
@@ -76,7 +76,7 @@ public class VideoSingleActivity extends BaseActivity {
         videoView.setLooping(true);
         videoView.setUp(url, true, "");
         //播放视频统计
-        TrackHelper.track().impression("Android content impression").piece("video").target(url).with(((AppManager) getApplication()).getTracker());
+//        TrackHelper.track().impression("Android content impression").piece("video").target(url).with(((AppManager) getApplication()).getTracker());
         //设置返回键
         videoView.getBackButton().setVisibility(View.VISIBLE);
         //设置旋转
