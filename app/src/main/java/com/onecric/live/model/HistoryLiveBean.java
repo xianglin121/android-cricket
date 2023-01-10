@@ -37,6 +37,16 @@ public class HistoryLiveBean {
     private String fileId;
     private String height;
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    private String img;
+
     public int getHeat() {
         return Heat;
     }

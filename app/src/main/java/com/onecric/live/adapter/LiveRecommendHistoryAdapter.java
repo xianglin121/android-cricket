@@ -46,16 +46,16 @@ public class LiveRecommendHistoryAdapter extends BaseQuickAdapter<HistoryLiveBea
         TextView tv_time = helper.getView(R.id.tv_time);
         //fixme 缺少封面
 //        Glide.with(mContext).load(getFirstBitmap(mContext,item.getMediaUrl(),false)).into(iv_cover);
-        Glide.with(mContext).load(R.mipmap.bg_team_comparison_head).into(iv_cover);
+        Glide.with(mContext).load(item.getImg()).placeholder(R.mipmap.bg_team_comparison_head).into(iv_cover);
         GlideUtil.loadUserImageDefault(mContext, item.getUserHead(), iv_avatar);
         if (!TextUtils.isEmpty(item.getName())) {
             tv_title.setText(item.getName());
-        }else {
+        } else {
             tv_title.setText("");
         }
         if (!TextUtils.isEmpty(item.getUserName())) {
             tv_name.setText(item.getUserName());
-        }else {
+        } else {
             tv_name.setText("");
         }
 /*        if (item.getHeat() > 10000) {
