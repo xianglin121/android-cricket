@@ -400,7 +400,8 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             holder = (VideoPagerAdapter.VideoPagerHolder) rv.getChildViewHolder(rv.getChildAt(0));
         }
         videoPagerHolder = holder;
-
+//        AudioManager
+//        holder.videoView.getCurrentPlayer().
         holder.videoView.setLooping(true);
         holder.videoView.setUp(url, true, "");
         //播放视频统计

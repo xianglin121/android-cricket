@@ -66,6 +66,9 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
         VideoPagerHolder viewHolder = holder;
         viewHolder.position = position;
         ShortVideoBean bean = videoBeans.get(position);
+        holder.iv_silence.setOnClickListener(v -> {
+            holder.iv_silence.setVisibility(View.GONE);
+        });
 //        if (bean.getVideo() != null && bean.getVideo().size() > 0) {
 //            GlideUtil.loadImageDefault(activity, bean.getVideo().get(0).getImg(), holder.coverImage);
 //        }
@@ -162,9 +165,10 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
     public class VideoPagerHolder extends RecyclerView.ViewHolder {
 
         public StandardGSYVideoPlayer videoView;
-//        public ImageView coverImage;
+        //        public ImageView coverImage;
         //        public View clickView;
 //        public ImageView mPauseIv;
+        public ImageView iv_silence;
         public ImageView iv_avatar;
         public TextView tv_name;
         public ButtonFollowView2 iv_follow;
@@ -183,6 +187,7 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
 
 //            clickView = itemView.findViewById(R.id.click_view);
             videoView = itemView.findViewById(R.id.video_view);
+            iv_silence = itemView.findViewById(R.id.iv_silence);
 //            coverImage = itemView.findViewById(R.id.cover_iv);
 //            mPauseIv = itemView.findViewById(R.id.pause_iv);
             iv_avatar = itemView.findViewById(R.id.iv_avatar);
