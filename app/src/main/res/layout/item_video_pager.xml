@@ -143,10 +143,11 @@
             android:layout_marginTop="16dp">
 
             <RelativeLayout
+                android:id="@+id/rl_silence"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <View
                     android:layout_width="31dp"

@@ -19,6 +19,16 @@ public class UserBean implements Serializable {
      */
 
     private int id;
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    private int uid;
     private int followed_id;
     private int sex;
     private String balance;
@@ -30,6 +40,16 @@ public class UserBean implements Serializable {
     private String mobile;
     private String token;
     private String userSig;
+
+    public int isIs_attention() {
+        return is_attention;
+    }
+
+    public void setIs_attention(int is_attention) {
+        this.is_attention = is_attention;
+    }
+
+    private int is_attention;
 
     public String getOnlineTime() {
         return onlineTime;

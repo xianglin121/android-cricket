@@ -45,6 +45,16 @@ public class ShortVideoBean {
     private int is_favorites;
     private List<VideoBean> video;
 
+    public boolean isSilence() {
+        return isSilence;
+    }
+
+    public void setSilence(boolean silence) {
+        isSilence = silence;
+    }
+
+    private boolean isSilence = true;
+
     public int getId() {
         return id;
     }

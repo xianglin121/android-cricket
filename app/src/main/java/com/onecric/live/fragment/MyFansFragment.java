@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.R;
+import com.onecric.live.adapter.MyFansAdapter;
 import com.onecric.live.adapter.MyFollowAdapter;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.UserBean;
@@ -39,7 +40,7 @@ public class MyFansFragment extends MvpFragment<MyFansPresenter> implements MyFa
 
     private SmartRefreshLayout smart_rl;
     private RecyclerView rv_follow;
-    private MyFollowAdapter mAdapter;
+    private MyFansAdapter mAdapter;
 
     private int mPage = 1;
 
@@ -77,12 +78,12 @@ public class MyFansFragment extends MvpFragment<MyFansPresenter> implements MyFa
             }
         });
 
-        mAdapter = new MyFollowAdapter(R.layout.item_my_follow_inner, new ArrayList<>());
+        mAdapter = new MyFansAdapter(R.layout.item_my_follow_inner, new ArrayList<>());
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.iv_follow) {
-                    mvpPresenter.doFollow(mAdapter.getItem(position).getId());
+                    mvpPresenter.doFollow(mAdapter.getItem(position).getUid());
                 }
             }
         });
@@ -120,20 +121,20 @@ public class MyFansFragment extends MvpFragment<MyFansPresenter> implements MyFa
             if (list != null) {
                 if (list.size() > 0) {
                     hideEmptyView();
-                }else {
+                } else {
                     showEmptyView();
                 }
                 mAdapter.setNewData(list);
-            }else {
+            } else {
                 mAdapter.setNewData(new ArrayList<>());
                 showEmptyView();
             }
-        }else {
+        } else {
             mPage++;
             if (list != null && list.size() > 0) {
                 smart_rl.finishLoadMore();
                 mAdapter.addData(list);
-            }else {
+            } else {
                 smart_rl.finishLoadMoreWithNoMoreData();
             }
         }
@@ -142,9 +143,15 @@ public class MyFansFragment extends MvpFragment<MyFansPresenter> implements MyFa
     @Override
     public void doFollowSuccess(int id) {
         for (int i = 0; i < mAdapter.getItemCount(); i++) {
-            if (mAdapter.getItem(i).getId() == id) {
-                mAdapter.remove(i);
+            if (mAdapter.getItem(i).getUid() == id) {
+                if (mAdapter.getItem(i).isIs_attention() == 0) {
+                    mAdapter.getItem(i).setIs_attention(1);
+                } else {
+                    mAdapter.getItem(i).setIs_attention(0);
+                }
+                mAdapter.notifyItemChanged(i);
             }
         }
+
     }
 }

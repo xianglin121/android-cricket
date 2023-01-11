@@ -45,7 +45,9 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
+import com.shuyu.gsyvideoplayer.video.base.GSYVideoViewBridge;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -400,10 +402,10 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             holder = (VideoPagerAdapter.VideoPagerHolder) rv.getChildViewHolder(rv.getChildAt(0));
         }
         videoPagerHolder = holder;
-//        AudioManager
-//        holder.videoView.getCurrentPlayer().
-        holder.videoView.setLooping(true);
+        GSYVideoManager videoManager = (GSYVideoManager) holder.videoView.getGSYVideoManager();
         holder.videoView.setUp(url, true, "");
+//        videoManager.setNeedMute(true);
+        holder.videoView.setLooping(true);
         //播放视频统计
 //        TrackHelper.track().impression("Android content impression").piece("video").target(url).with(((AppManager) getApplication()).getTracker());
         //设置返回键
@@ -441,140 +443,126 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 //        holder.videoView.setLooping(true);
 //        holder.videoView.startPlayLogic();
 //        holder.videoView.setTag(false);
-//        holder.videoView.setVideoAllCallBack(new VideoAllCallBack() {
-//            @Override
-//            public void onStartPrepared(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onPrepared(String url, Object... objects) {
-//                handler.sendEmptyMessage(0);//开始显示进度条
-//                AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
-//                alphaAnimation.setDuration(300);
-//                alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-//                    @Override
-//                    public void onAnimationStart(Animation animation) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onAnimationEnd(Animation animation) {
-//                        videoPagerHolder.coverImage.setVisibility(View.GONE);
-//                    }
-//
-//                    @Override
-//                    public void onAnimationRepeat(Animation animation) {
-//
-//                    }
-//                });
-//                videoPagerHolder.coverImage.startAnimation(alphaAnimation);
-//            }
-//
-//            @Override
-//            public void onClickStartIcon(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onClickStartError(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onClickStop(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onClickStopFullscreen(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onClickResume(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onClickResumeFullscreen(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onClickSeekbar(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onClickSeekbarFullscreen(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onAutoComplete(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onComplete(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onEnterFullscreen(String url, Object... objects) {
-//            }
-//
-//            @Override
-//            public void onQuitFullscreen(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onQuitSmallWidget(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onEnterSmallWidget(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onTouchScreenSeekVolume(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onTouchScreenSeekPosition(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onTouchScreenSeekLight(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onPlayError(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onClickStartThumb(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onClickBlank(String url, Object... objects) {
-//
-//            }
-//
-//            @Override
-//            public void onClickBlankFullscreen(String url, Object... objects) {
-//
-//            }
-//        });
+        holder.videoView.setVideoAllCallBack(new VideoAllCallBack() {
+            @Override
+            public void onStartPrepared(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onPrepared(String url, Object... objects) {
+                videoManager.setNeedMute(true);
+                if (bean.isSilence()) {
+                    videoManager.setNeedMute(true);
+                } else {
+                    videoManager.setNeedMute(false);
+                }
+            }
+
+            @Override
+            public void onClickStartIcon(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickStartError(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickStop(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickStopFullscreen(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickResume(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickResumeFullscreen(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickSeekbar(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickSeekbarFullscreen(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onAutoComplete(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onComplete(String url, Object... objects) {
+//                videoManager.setNeedMute(true);
+            }
+
+            @Override
+            public void onEnterFullscreen(String url, Object... objects) {
+            }
+
+            @Override
+            public void onQuitFullscreen(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onQuitSmallWidget(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onEnterSmallWidget(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onTouchScreenSeekVolume(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onTouchScreenSeekPosition(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onTouchScreenSeekLight(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onPlayError(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickStartThumb(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickBlank(String url, Object... objects) {
+
+            }
+
+            @Override
+            public void onClickBlankFullscreen(String url, Object... objects) {
+
+            }
+        });
         holder.iv_follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

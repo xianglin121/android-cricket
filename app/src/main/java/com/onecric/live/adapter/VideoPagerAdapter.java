@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import com.onecric.live.R;
 import com.onecric.live.custom.ButtonFollowView2;
 import com.onecric.live.model.ShortVideoBean;
 import com.onecric.live.util.GlideUtil;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.tencent.qcloud.tuikit.tuichat.component.face.FaceManager;
 
@@ -48,6 +50,7 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
             this.videoBeans.clear();
         if (videoBeans != null)
             this.videoBeans.addAll(videoBeans);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -65,9 +68,19 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
     public void onBindViewHolder(@NonNull VideoPagerHolder holder, int position) {
         VideoPagerHolder viewHolder = holder;
         viewHolder.position = position;
+//        GSYVideoManager videoManager = (GSYVideoManager) holder.videoView.getGSYVideoManager();
+//        videoManager.setNeedMute(true);
         ShortVideoBean bean = videoBeans.get(position);
-        holder.iv_silence.setOnClickListener(v -> {
-            holder.iv_silence.setVisibility(View.GONE);
+        if (bean.isSilence()) {
+            holder.rl_silence.setVisibility(View.VISIBLE);
+        } else {
+            holder.rl_silence.setVisibility(View.GONE);
+        }
+        holder.rl_silence.setOnClickListener(v -> {
+            holder.rl_silence.setVisibility(View.GONE);
+            GSYVideoManager videoManager = (GSYVideoManager) holder.videoView.getGSYVideoManager();
+            videoManager.setNeedMute(false);
+            bean.setSilence(false);
         });
 //        if (bean.getVideo() != null && bean.getVideo().size() > 0) {
 //            GlideUtil.loadImageDefault(activity, bean.getVideo().get(0).getImg(), holder.coverImage);
@@ -168,7 +181,7 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
         //        public ImageView coverImage;
         //        public View clickView;
 //        public ImageView mPauseIv;
-        public ImageView iv_silence;
+        public RelativeLayout rl_silence;
         public ImageView iv_avatar;
         public TextView tv_name;
         public ButtonFollowView2 iv_follow;
@@ -187,7 +200,7 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
 
 //            clickView = itemView.findViewById(R.id.click_view);
             videoView = itemView.findViewById(R.id.video_view);
-            iv_silence = itemView.findViewById(R.id.iv_silence);
+            rl_silence = itemView.findViewById(R.id.rl_silence);
 //            coverImage = itemView.findViewById(R.id.cover_iv);
 //            mPauseIv = itemView.findViewById(R.id.pause_iv);
             iv_avatar = itemView.findViewById(R.id.iv_avatar);
