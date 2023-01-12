@@ -45,11 +45,11 @@
 
             <ImageView
                 android:id="@+id/iv_silence"
-                android:layout_width="29dp"
-                android:layout_height="29dp"
-               android:layout_alignRight="@id/playerView"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+               android:layout_alignLeft="@id/playerView"
                 android:layout_alignBottom="@id/playerView"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginBottom="5dp"
                 android:src="@mipmap/silence" />
         </RelativeLayout>
