@@ -827,6 +827,6 @@ public interface ApiStores {
     //获取历史直播列表
     @GET("api/LivePlayBack/list")
     Observable<JsonObject> getHistoryLiveList(@Header("token") String token,
-                                         @Query("page") int page,
-                                         @Query("isweb") int isweb);
+                                              @Query("pageNumber") int pageNumber,
+                                              @Query("pageSize") int pageSize);
 }

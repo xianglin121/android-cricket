@@ -57,7 +57,7 @@ public class LiveRecommendPresenter extends BasePresenter<LiveRecommendView> {
     }
 
     public void getHistoryList(boolean isRefresh, int page) {
-        addSubscription(apiStores.getHistoryLiveList(CommonAppConfig.getInstance().getToken(), page,  0),
+        addSubscription(apiStores.getHistoryLiveList(CommonAppConfig.getInstance().getToken(), page, 10),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

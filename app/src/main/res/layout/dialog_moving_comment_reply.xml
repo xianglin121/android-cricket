@@ -105,6 +105,7 @@
             android:layout_marginLeft="12dp"
             android:text="@string/all_comment"
             android:textSize="16dp"
+            android:fontFamily="@font/noto_sans_display_semibold"
             android:textColor="@color/c_333333"/>
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout

@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="12dp"
+            android:textSize="13sp"
             android:textColor="@color/c_999999"/>
 
         <TextView
@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1.2"
             android:gravity="center"
-            android:textSize="12dp"
+            android:textSize="13sp"
             android:textColor="@color/c_333333"/>
 
         <TextView
@@ -34,7 +34,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:textColor="@color/c_999999"/>
 
         <TextView
@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:textColor="@color/c_999999"/>
 
         <TextView
@@ -52,7 +52,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:textColor="@color/c_999999"/>
 
         <TextView
@@ -61,7 +61,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:textColor="@color/c_999999"/>
 
         <TextView
@@ -70,11 +70,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="+0.654"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:textColor="@color/c_999999"/>
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.3">
@@ -83,27 +82,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="10"
                 android:textSize="14dp"
+                android:layout_centerVertical="true"
                 android:textColor="@color/c_333333"
-                android:textStyle="bold"/>
+                android:fontFamily="@font/noto_sans_display_semibold"
+                android:layout_toLeftOf="@+id/iv_arrow"/>
 
             <ImageView
                 android:id="@+id/iv_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="12dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:background="@mipmap/icon_arrow_down_four"/>
-        </FrameLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/c_E5E5E5">
+        android:orientation="vertical">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -117,34 +118,39 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="VRS"
-                android:textSize="12dp"
-                android:textColor="@color/c_999999"/>
+                android:letterSpacing="0.1"
+                android:textSize="10sp"
+                android:paddingLeft="@dimen/dp_10"
+                android:textColor="@color/c_801D2550"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="DATE"
-                android:textSize="12dp"
-                android:textColor="@color/c_999999"/>
+                android:textSize="10sp"
+                android:letterSpacing="0.1"
+                android:textColor="@color/c_801D2550"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
                 android:text="PLACE"
-                android:textSize="12dp"
-                android:textColor="@color/c_999999"/>
+                android:textSize="10sp"
+                android:letterSpacing="0.1"
+                android:textColor="@color/c_801D2550"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="RESULT"
-                android:textSize="12dp"
-                android:textColor="@color/c_999999"/>
+                android:textSize="10sp"
+                android:letterSpacing="0.1"
+                android:textColor="@color/c_801D2550"/>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

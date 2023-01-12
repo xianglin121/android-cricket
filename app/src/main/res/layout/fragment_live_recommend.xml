@@ -114,7 +114,8 @@
                         android:text="@string/today_live"
                         android:textColor="@color/c_333333"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:fontFamily="@font/noto_sans_display_semibold"/>
 
                     <View
                         android:layout_width="0dp"
@@ -162,7 +163,8 @@
                         android:text="@string/history"
                         android:textColor="@color/c_333333"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:fontFamily="@font/noto_sans_display_semibold"/>
 
                     <View
                         android:layout_width="0dp"

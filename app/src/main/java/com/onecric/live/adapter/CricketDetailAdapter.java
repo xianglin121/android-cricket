@@ -1,8 +1,10 @@
 package com.onecric.live.adapter;
 
+import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,9 +28,13 @@ public class CricketDetailAdapter extends BaseQuickAdapter<CricketMatchBean, Bas
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, CricketMatchBean item) {
+        helper.setTextColor(R.id.tv_time, mContext.getResources().getColor(R.color.c_901D2550));
+        TextView resultTv = helper.getView(R.id.tv_result);
         if (item.getStatus() == 2) {//已结束
+            resultTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
             helper.getView(R.id.ll_alarm).setVisibility(View.GONE);
         }else {
+            resultTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             helper.getView(R.id.ll_alarm).setVisibility(View.VISIBLE);
             if (item.getStatus() == 0) {//未开始
                 helper.getView(R.id.iv_alarm).setVisibility(View.VISIBLE);
@@ -55,10 +61,17 @@ public class CricketDetailAdapter extends BaseQuickAdapter<CricketMatchBean, Bas
         }else {
             helper.setText(R.id.tv_home_name, "");
         }
-        if(!TextUtils.isEmpty(item.getHome_display_score())) {
-            helper.setText(R.id.tv_home_score, item.getHome_display_score());
-        }else {
+        if (!TextUtils.isEmpty(item.getHome_display_score())) {
+            if (item.getHome_display_score().contains(" ")) {
+                String[] split = item.getHome_display_score().split(" ");
+                helper.setText(R.id.tv_home_score, split[0]);
+                helper.setText(R.id.tv_home_score2, " " + split[1]);
+            } else {
+                helper.setText(R.id.tv_home_score, item.getHome_display_score());
+            }
+        } else {
             helper.setText(R.id.tv_home_score, "");
+            helper.setText(R.id.tv_home_score2, " ");
         }
         ImageView iv_away_logo = helper.getView(R.id.iv_away_logo);
         GlideUtil.loadTeamImageDefault(mContext, item.getAway_logo(), iv_away_logo);
@@ -67,15 +80,35 @@ public class CricketDetailAdapter extends BaseQuickAdapter<CricketMatchBean, Bas
         }else {
             helper.setText(R.id.tv_away_name, "");
         }
-        if(!TextUtils.isEmpty(item.getAway_display_score())) {
-            helper.setText(R.id.tv_away_score, item.getAway_display_score());
-        }else {
+        if (!TextUtils.isEmpty(item.getAway_display_score())) {
+            if (item.getAway_display_score().contains(" ")) {
+                String[] split = item.getAway_display_score().split(" ");
+                helper.setText(R.id.tv_away_score, split[0]);
+                helper.setText(R.id.tv_away_score2, " " + split[1]);
+            } else {
+                helper.setText(R.id.tv_away_score, item.getHome_display_score());
+            }
+        } else {
             helper.setText(R.id.tv_away_score, "");
+            helper.setText(R.id.tv_away_score2, "");
         }
         if(!TextUtils.isEmpty(item.getMatch_result())) {
             helper.setText(R.id.tv_result, item.getMatch_result());
         }else {
             helper.setText(R.id.tv_result, "");
+        }
+
+        if (item.getHome_id() == item.getWinner_id()) {
+            helper.setTextColor(R.id.tv_home_score, mContext.getResources().getColor(R.color.c_333333));
+            helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_333333));
+            helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_666666));
+            helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_666666));
+
+        } else {
+            helper.setTextColor(R.id.tv_home_score, mContext.getResources().getColor(R.color.c_666666));
+            helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_666666));
+            helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_333333));
+            helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_333333));
         }
     }
 }

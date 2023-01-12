@@ -24,6 +24,7 @@
         app:layout_constraintLeft_toRightOf="@id/iv_avatar"
         android:layout_marginLeft="8dp"
         android:textSize="16dp"
+        android:fontFamily="@font/noto_sans_display_semibold"
         android:textColor="@color/c_333333"/>
 
     <TextView

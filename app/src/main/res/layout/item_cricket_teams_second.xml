@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="69dp"
@@ -7,30 +8,33 @@
     android:background="?attr/selectableItemBackground">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_logo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginLeft="14dp"
         android:src="@mipmap/bg_avatar_default"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        app:civ_border_width="1dp"
+        app:civ_border_color="@color/c_E5E5E5"
+        app:civ_border_overlay="true"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="14dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16dp"
+            android:textSize="14sp"
             android:textColor="@color/c_333333"
-            style="@style/TvSansSerifMediumStyle"/>
+            android:fontFamily="@font/noto_sans_display_semibold"/>
 
         <TextView
             android:id="@+id/tv_abbreviation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dp"
+            android:textSize="12sp"
             android:textColor="@color/c_666666"/>
     </LinearLayout>
 

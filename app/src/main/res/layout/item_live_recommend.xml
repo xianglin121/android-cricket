@@ -21,22 +21,19 @@
         app:riv_corner_radius_top_left="6dp"
         app:riv_corner_radius_top_right="6dp"
         tools:layout_editor_absoluteX="0dp" />
-<!--c_CD7F32-->
+
     <TextView
         android:id="@+id/tv_time"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:gravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:padding="5dp"
         android:textSize="9sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="@+id/iv_cover"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_cover"
         android:visibility="gone"
-        android:background="#85000000"/>
+        android:background="@drawable/shape_85000000_left_top_5dp"/>
 
     <ImageView
         android:id="@+id/iv_live"

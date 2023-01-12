@@ -9,6 +9,7 @@
         <!--为了解决白屏问题-->
         <item name="android:windowDisablePreview">true</item>
         <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/noto_sans_display_regular</item>
     </style>
 
     <style name="dialog" parent="AppTheme">
@@ -86,11 +87,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TvSmallCapsStyle">
-        <item name="android:fontFamily">sans-serif-smallcaps</item>
-    </style>
 
-    <style name="TvSansSerifMediumStyle">
-        <item name="android:fontFamily">sans-serif-medium</item>
-    </style>
+
+
+
 </resources>

@@ -95,7 +95,7 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                 if(mType == 2){
                     mvpPresenter.getHistoryList(true, 1);
                 }else{
-                    mvpPresenter.getList(true, mType, mPage);
+                    mvpPresenter.getList(true, mType, 1);
                 }
             }
         });
@@ -161,7 +161,7 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
         if (isRefresh) {
             smart_rl.finishRefresh();
             mPage = 2;
-            if (list != null) {
+            if (list != null && list.size() > 0) {
                 mHistoryAdapter.setNewData(list);
             }else {
                 mHistoryAdapter.setNewData(new ArrayList<>());

@@ -25,6 +25,7 @@
         android:maxLines="1"
         android:maxEms="6"
         android:ellipsize="end"
+        android:fontFamily="@font/noto_sans_display_semibold"
         android:textColor="@color/c_333333"/>
 
     <TextView
@@ -57,6 +58,7 @@
         android:maxLines="1"
         android:maxEms="6"
         android:ellipsize="end"
+        android:fontFamily="@font/noto_sans_display_semibold"
         android:textColor="@color/c_333333"/>
 
     <TextView

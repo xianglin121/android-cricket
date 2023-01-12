@@ -10,11 +10,10 @@
         android:layout_marginTop="16dp"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="8dp"
-        android:fontFamily="sans-serif-medium"
         android:textSize="15sp"
         android:textColor="@color/c_333333"
-        android:textStyle="bold"
-        android:drawableRight="@mipmap/icon_arrow_right_four"
+        android:fontFamily="@font/noto_sans_display_semibold"
+        android:drawableRight="@mipmap/icon_arrow_right_full"
         android:drawablePadding="6dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -33,10 +32,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="12dp"
-        android:textStyle="bold"
         android:textAllCaps="true"
         android:text="@string/see_more"
         android:textSize="12sp"
-        android:textColor="@color/c_DC3C23"/>
+        android:textColor="@color/c_DC3C23"
+        android:fontFamily="@font/noto_sans_display_semibold"/>
 
 </LinearLayout>

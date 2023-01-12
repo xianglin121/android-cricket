@@ -8,12 +8,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="7dp"
         android:layout_marginBottom="25dp"
         android:text="@string/playing_11_for_the_match"
         android:textSize="16dp"
         android:textColor="@color/c_333333"
-        android:textStyle="bold"/>
+        android:fontFamily="@font/noto_sans_display_semibold"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
             android:layout_marginLeft="8dp"
             android:textSize="16dp"
             android:textColor="@color/c_333333"
-            android:textStyle="bold"/>
+            android:fontFamily="@font/noto_sans_display_semibold"/>
 
         <View
             android:layout_width="0.5dp"
@@ -60,7 +60,7 @@
             android:layout_marginRight="8dp"
             android:textSize="16dp"
             android:textColor="@color/c_333333"
-            android:textStyle="bold"/>
+            android:fontFamily="@font/noto_sans_display_semibold"/>
 
         <ImageView
             android:id="@+id/iv_away_logo"

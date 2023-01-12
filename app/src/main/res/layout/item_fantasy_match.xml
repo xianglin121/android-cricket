@@ -54,7 +54,7 @@
             android:text="7.5"
             android:textSize="14dp"
             android:textColor="@color/c_333333"
-            android:textStyle="bold"
+            android:fontFamily="@font/noto_sans_display_semibold"
             android:drawableRight="@mipmap/icon_arrow_down_four"
             android:drawablePadding="12dp"/>
     </FrameLayout>

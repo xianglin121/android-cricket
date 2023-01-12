@@ -19,23 +19,24 @@
             android:layout_marginLeft="14dp"
             android:layout_weight="1"
             android:textColor="@color/c_333333"
-            android:textSize="16dp"
-            android:textStyle="bold" />
+            android:textSize="17sp"
+            android:fontFamily="@font/noto_sans_display_semibold"/>
 
         <TextView
             android:id="@+id/tv_home_round"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/c_666666"
-            android:textSize="12dp" />
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/tv_home_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/c_333333"
-            android:textSize="16dp"
-            android:textStyle="bold" />
+            android:textSize="17sp"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/noto_sans_display_bold"/>
 
         <ImageView
             android:id="@+id/iv_arrow_one"
@@ -75,7 +76,7 @@
                     android:layout_weight="3"
                     android:paddingLeft="12dp"
                     android:text="BATTER"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -83,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="R"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -91,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="B"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -99,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="4s"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -107,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="6s"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -117,7 +118,7 @@
                     android:gravity="right"
                     android:paddingRight="12dp"
                     android:text="S/R"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
             </LinearLayout>
 
@@ -192,7 +193,7 @@
                     android:layout_weight="5"
                     android:paddingLeft="12dp"
                     android:text="BOWLER"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -200,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="O"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -208,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="R"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -216,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="W"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
             </LinearLayout>
 
@@ -239,7 +240,7 @@
                     android:layout_weight="6"
                     android:paddingLeft="12dp"
                     android:text="FALL OF WICKETS"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -247,7 +248,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
                     android:text="@string/score_uppercase"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -255,7 +256,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
                     android:text="@string/over_uppercase"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
             </LinearLayout>
 
@@ -282,23 +283,24 @@
             android:layout_marginLeft="14dp"
             android:layout_weight="1"
             android:textColor="@color/c_333333"
-            android:textSize="16dp"
-            android:textStyle="bold" />
+            android:textSize="17sp"
+            android:fontFamily="@font/noto_sans_display_semibold"/>
 
         <TextView
             android:id="@+id/tv_away_round"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/c_666666"
-            android:textSize="12dp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_away_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/c_333333"
-            android:textSize="16dp"
-            android:textStyle="bold" />
+            android:textSize="17sp"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/noto_sans_display_semibold"/>
 
         <ImageView
             android:id="@+id/iv_arrow_two"
@@ -338,7 +340,7 @@
                     android:layout_weight="3"
                     android:paddingLeft="12dp"
                     android:text="BATTER"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -346,7 +348,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="R"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -354,7 +356,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="B"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -362,7 +364,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="4s"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -370,7 +372,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="6s"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -380,7 +382,7 @@
                     android:gravity="right"
                     android:paddingRight="12dp"
                     android:text="S/R"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
             </LinearLayout>
 
@@ -455,7 +457,7 @@
                     android:layout_weight="5"
                     android:paddingLeft="12dp"
                     android:text="BOWLER"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -463,7 +465,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="O"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -471,7 +473,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="R"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -479,7 +481,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="W"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
             </LinearLayout>
 
@@ -502,7 +504,7 @@
                     android:layout_weight="6"
                     android:paddingLeft="12dp"
                     android:text="FALL OF WICKETS"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -510,7 +512,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
                     android:text="@string/score_uppercase"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
 
                 <TextView
@@ -518,7 +520,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
                     android:text="@string/over_uppercase"
-                    android:textColor="@color/c_999999"
+                    android:textColor="@color/c_801D2550"
                     android:textSize="12dp" />
             </LinearLayout>
 

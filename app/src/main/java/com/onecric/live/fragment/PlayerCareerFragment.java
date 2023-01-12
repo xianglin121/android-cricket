@@ -129,10 +129,12 @@ public class PlayerCareerFragment extends BaseFragment implements View.OnClickLi
         tv_performance.setText(getString(R.string.batting));
         mPerformanceAdapter.setNewData(mBattingList);
 
-        if (list == null) {
-            list = new ArrayList<>();
+        if (list == null || list.size()<=0) {
+            tv_matches.setVisibility(View.GONE);
+            findViewById(R.id.ll_2).setVisibility(View.GONE);
+        }else{
+            mMatchesAdapter.setNewData(list);
         }
-        mMatchesAdapter.setNewData(list);
     }
 
     @Override

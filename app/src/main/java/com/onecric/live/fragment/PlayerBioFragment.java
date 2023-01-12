@@ -2,6 +2,7 @@ package com.onecric.live.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -56,9 +57,18 @@ public class PlayerBioFragment extends BaseFragment {
     public void setData(String teams, List<RecentMatchesBean> list, String profile) {
         if (!TextUtils.isEmpty(teams)) {
             tv_teams.setText(teams);
+        }else{
+            findViewById(R.id.tv_1).setVisibility(View.GONE);
+            findViewById(R.id.tv_teams).setVisibility(View.GONE);
         }
         if (!TextUtils.isEmpty(profile)) {
             tv_profile.setText(profile);
+        }
+        if (list == null || list.size()<=0){
+            findViewById(R.id.tv_2).setVisibility(View.GONE);
+            findViewById(R.id.ll_2).setVisibility(View.GONE);
+        }else{
+            mAdapter.setNewData(list);
         }
     }
 }

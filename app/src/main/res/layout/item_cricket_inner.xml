@@ -38,13 +38,12 @@
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
+                android:layout_marginLeft="4dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginRight="6dp"
                 android:layout_marginBottom="3dp"
-                android:textSize="11sp"
-                android:textStyle="bold"
-                android:textColor="@color/black_font_color"/>
+                android:textSize="12sp"
+                android:fontFamily="@font/noto_sans_display_semibold"/>
         </LinearLayout>
 
         <TextView
@@ -52,9 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/c_666666"
-            android:fontFamily="sans-serif"
-            android:textAllCaps="true"/>
+            android:textColor="@color/c_666666"/>
     </LinearLayout>
 
     <LinearLayout
@@ -68,8 +65,8 @@
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/iv_home_logo"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@mipmap/img_team_logo_default"
             android:scaleType="fitCenter"/>
 
@@ -95,13 +92,13 @@
         android:layout_marginLeft="193dp"
         android:textSize="15sp"
         android:textColor="@color/c_333333"
-        android:textStyle="bold"/>
+        android:fontFamily="@font/noto_sans_display_semibold"/>
 
     <TextView
         android:id="@+id/tv_home_score2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@id/tv_home_score"
         app:layout_constraintStart_toEndOf="@id/tv_home_score"
         app:layout_constraintTop_toTopOf="@id/tv_home_score" />
@@ -117,8 +114,8 @@
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/iv_away_logo"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@mipmap/img_team_logo_default"
             android:scaleType="fitCenter"/>
 
@@ -145,13 +142,13 @@
         android:layout_marginLeft="193dp"
         android:textSize="15sp"
         android:textColor="@color/black_font_color"
-        android:textStyle="bold"/>
+        android:fontFamily="@font/noto_sans_display_semibold"/>
 
     <TextView
         android:id="@+id/tv_away_score2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@id/tv_away_score"
         app:layout_constraintStart_toEndOf="@id/tv_away_score"
         app:layout_constraintTop_toTopOf="@id/tv_away_score" />
@@ -165,8 +162,7 @@
         app:layout_constraintLeft_toLeftOf="@id/linearLayout"
         android:layout_margin="12dp"
         android:textSize="12sp"
-        android:textColor="@color/c_1D2550"
-        android:fontFamily="sans-serif"/>
+        android:textColor="@color/c_1D2550"/>
 
     <View
         android:id="@+id/line"

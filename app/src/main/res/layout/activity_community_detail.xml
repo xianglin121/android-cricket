@@ -52,6 +52,7 @@
                             android:layout_marginTop="26dp"
                             android:layout_marginLeft="12dp"
                             android:textSize="16dp"
+                            android:fontFamily="@font/noto_sans_display_semibold"
                             android:textColor="@color/white"/>
 
                         <TextView
@@ -99,6 +100,7 @@
                             app:layout_constraintLeft_toRightOf="@id/iv_back_two"
                             android:layout_marginLeft="6dp"
                             android:textSize="16dp"
+                            android:fontFamily="@font/noto_sans_display_semibold"
                             android:textColor="@color/white"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.Toolbar>
@@ -121,6 +123,7 @@
                     android:paddingRight="12dp"
                     android:text="@string/all"
                     android:textSize="14dp"
+                    android:fontFamily="@font/noto_sans_display_semibold"
                     android:textColor="@color/c_E3AC72"
                     app:stv_solid="@color/c_FFF1E0"
                     app:stv_corner="13dp"/>
@@ -135,6 +138,7 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:text="@string/best_post"
+                    android:fontFamily="@font/noto_sans_display_semibold"
                     android:textSize="14dp"
                     android:textColor="@color/c_666666"
                     app:stv_solid="@color/white"
@@ -151,8 +155,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
                     android:text="@string/best_new_post"
-                    android:textSize="14dp"
+                    android:textSize="12sp"
                     android:textColor="@color/c_666666"
+                    android:fontFamily="@font/noto_sans_display_semibold"
                     android:drawableRight="@mipmap/icon_change_sort"
                     android:drawablePadding="6dp"/>
             </LinearLayout>

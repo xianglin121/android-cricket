@@ -59,7 +59,7 @@
                             android:text="@string/player_stats"
                             android:textColor="@color/c_333333"
                             android:textSize="18dp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/noto_sans_display_semibold" />
 
                         <TextView
                             android:layout_width="91.5dp"
@@ -182,7 +182,7 @@
                             android:text="N Ellis"
                             android:textColor="@color/c_333333"
                             android:textSize="16dp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/noto_sans_display_semibold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -201,7 +201,7 @@
                         android:text="1"
                         android:textColor="@color/c_333333"
                         android:textSize="16dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -212,7 +212,7 @@
                         android:text="100"
                         android:textColor="@color/c_333333"
                         android:textSize="16dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -222,7 +222,7 @@
                         android:text="100"
                         android:textColor="@color/c_333333"
                         android:textSize="16dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -249,7 +249,7 @@
                             android:text="N Ellis"
                             android:textColor="@color/c_333333"
                             android:textSize="16dp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/noto_sans_display_semibold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -268,7 +268,7 @@
                         android:text="1"
                         android:textColor="@color/c_333333"
                         android:textSize="16dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -279,7 +279,7 @@
                         android:text="100"
                         android:textColor="@color/c_333333"
                         android:textSize="16dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -289,7 +289,7 @@
                         android:text="100"
                         android:textColor="@color/c_333333"
                         android:textSize="16dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -316,7 +316,7 @@
                             android:text="N Ellis"
                             android:textColor="@color/c_333333"
                             android:textSize="16dp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/noto_sans_display_semibold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -335,7 +335,7 @@
                         android:text="1"
                         android:textColor="@color/c_333333"
                         android:textSize="16dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -346,7 +346,7 @@
                         android:text="100"
                         android:textColor="@color/c_333333"
                         android:textSize="16dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -356,7 +356,7 @@
                         android:text="100"
                         android:textColor="@color/c_333333"
                         android:textSize="16dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
                 </LinearLayout>
 
                 <View
@@ -377,7 +377,7 @@
                     android:text="@string/see_all_players_stats"
                     android:textColor="@color/c_C83C3C"
                     android:textSize="14dp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/noto_sans_display_semibold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/line_two" />
@@ -386,7 +386,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:layout_marginRight="7dp"
-                    android:background="@mipmap/icon_arrow_right_three"
+                    android:background="@mipmap/icon_arrow_right_full"
                     app:layout_constraintBottom_toBottomOf="@id/tv_see_player"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_see_player" />
@@ -436,7 +436,7 @@
                         android:text="@string/expert_analysis"
                         android:textColor="@color/c_333333"
                         android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -504,7 +504,7 @@
                         android:text="Mega League Teams"
                         android:textColor="@color/c_333333"
                         android:textSize="14dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -515,7 +515,7 @@
                         android:text="3"
                         android:textColor="@color/c_333333"
                         android:textSize="14dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -536,7 +536,7 @@
                         android:text="Mega League Teams"
                         android:textColor="@color/c_333333"
                         android:textSize="14dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -547,7 +547,7 @@
                         android:text="3"
                         android:textColor="@color/c_333333"
                         android:textSize="14dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -568,7 +568,7 @@
                         android:text="Mega League Teams"
                         android:textColor="@color/c_333333"
                         android:textSize="14dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -579,7 +579,7 @@
                         android:text="3"
                         android:textColor="@color/c_333333"
                         android:textSize="14dp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/noto_sans_display_semibold" />
                 </LinearLayout>
 
                 <View
@@ -599,7 +599,7 @@
                     android:text="@string/see_all_expert_tips"
                     android:textColor="@color/c_C83C3C"
                     android:textSize="14dp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/noto_sans_display_semibold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/line_four" />
@@ -608,7 +608,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:layout_marginRight="7dp"
-                    android:background="@mipmap/icon_arrow_right_three"
+                    android:background="@mipmap/icon_arrow_right_full"
                     app:layout_constraintBottom_toBottomOf="@id/tv_see_expert"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_see_expert" />
@@ -628,7 +628,7 @@
                 android:text="@string/venue_and_team_stats"
                 android:textColor="@color/c_333333"
                 android:textSize="18dp"
-                android:textStyle="bold"
+                android:fontFamily="@font/noto_sans_display_semibold"
                 android:visibility="gone" />
 
             <androidx.cardview.widget.CardView
@@ -665,7 +665,7 @@
                         android:text="@string/venue"
                         android:textColor="@color/c_333333"
                         android:textSize="18dp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/noto_sans_display_semibold"
                         app:layout_constraintBottom_toBottomOf="@id/iv_three"
                         app:layout_constraintLeft_toRightOf="@id/iv_three"
                         app:layout_constraintTop_toTopOf="@id/iv_three" />
@@ -805,7 +805,7 @@
                         android:text="@string/see_top_players_at_this_venue"
                         android:textColor="@color/c_C83C3C"
                         android:textSize="14dp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/noto_sans_display_semibold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/line_six" />
@@ -814,7 +814,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:layout_marginRight="7dp"
-                        android:background="@mipmap/icon_arrow_right_three"
+                        android:background="@mipmap/icon_arrow_right_full"
                         app:layout_constraintBottom_toBottomOf="@id/tv_see_venue"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tv_see_venue" />
@@ -855,7 +855,7 @@
                         android:text="@string/team_comparison"
                         android:textColor="@color/c_333333"
                         android:textSize="18dp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/noto_sans_display_semibold"
                         app:layout_constraintBottom_toBottomOf="@id/iv_four"
                         app:layout_constraintLeft_toRightOf="@id/iv_four"
                         app:layout_constraintTop_toTopOf="@id/iv_four" />
@@ -873,7 +873,7 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="19dp"
-                        android:textColor="@color/c_666666"
+                        android:textColor="@color/c_4B4C53"
                         android:textSize="12dp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/iv_home_logo"
@@ -894,7 +894,7 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:gravity="right"
-                        android:textColor="@color/c_666666"
+                        android:textColor="@color/c_4B4C53"
                         android:textSize="12dp"
                         app:layout_constraintBottom_toBottomOf="@id/tv_home_name"
                         app:layout_constraintEnd_toEndOf="@+id/iv_away_logo"
@@ -905,7 +905,7 @@
                         android:id="@+id/iv_home_logo"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:layout_marginLeft="24dp"
+                        android:layout_marginLeft="12dp"
                         android:layout_marginTop="8dp"
                         android:scaleType="fitCenter"
                         android:src="@mipmap/img_team_logo_default"
@@ -917,7 +917,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:layout_marginTop="8dp"
-                        android:layout_marginRight="24dp"
+                        android:layout_marginRight="12dp"
                         android:scaleType="fitCenter"
                         android:src="@mipmap/img_team_logo_default"
                         app:layout_constraintRight_toRightOf="parent"
@@ -931,7 +931,7 @@
                         android:text="@string/winning_chances"
                         android:textColor="@color/c_333333"
                         android:textSize="12dp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/noto_sans_display_semibold"
                         app:layout_constraintLeft_toLeftOf="@id/tv_home_name"
                         app:layout_constraintTop_toBottomOf="@id/iv_home_logo" />
 
@@ -943,7 +943,7 @@
                         android:layout_marginTop="8dp"
                         android:textColor="@color/c_333333"
                         android:textSize="14dp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/noto_sans_display_semibold"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_winning" />
 
@@ -955,7 +955,7 @@
                         android:layout_marginRight="12dp"
                         android:textColor="@color/c_333333"
                         android:textSize="14dp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/noto_sans_display_semibold"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_winning" />
 
@@ -983,12 +983,12 @@
                         app:layout_constraintTop_toBottomOf="@id/progress_bar" />
 
                     <TextView
-                        style="@style/TvSmallCapsStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/recent_form"
                         android:textColor="@color/c_666666"
-                        android:textSize="12dp"
+                        android:textSize="10sp"
+                        android:letterSpacing="0.1"
                         app:layout_constraintBottom_toBottomOf="@id/tv_home_round"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -1027,13 +1027,13 @@
                                 android:orientation="horizontal" />
 
                             <TextView
-                                style="@style/TvSmallCapsStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dp_4"
                                 android:text="@string/latest"
-                                android:textColor="@color/c_666666"
-                                android:textSize="12dp" />
+                                android:textSize="10sp"
+                                android:letterSpacing="0.1"
+                                android:textColor="@color/c_666666"/>
                         </LinearLayout>
 
                         <View
@@ -1056,13 +1056,13 @@
                                 android:orientation="horizontal" />
 
                             <TextView
-                                style="@style/TvSmallCapsStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dp_4"
                                 android:text="@string/latest"
                                 android:textColor="@color/c_666666"
-                                android:textSize="12dp" />
+                                android:textSize="10sp"
+                                android:letterSpacing="0.1"/>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -1084,7 +1084,7 @@
                         android:text="@string/see_team_strengths"
                         android:textColor="@color/c_C83C3C"
                         android:textSize="14dp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/noto_sans_display_semibold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/line_eight" />
@@ -1093,7 +1093,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:layout_marginRight="7dp"
-                        android:background="@mipmap/icon_arrow_right_three"
+                        android:background="@mipmap/icon_arrow_right_full"
                         app:layout_constraintBottom_toBottomOf="@id/tv_see_tem"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tv_see_tem" />

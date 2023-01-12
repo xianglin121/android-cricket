@@ -25,9 +25,9 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:textSize="14dp"
+        android:textSize="14sp"
         android:textColor="@color/c_333333"
-        android:textStyle="bold"
+        android:fontFamily="@font/noto_sans_display_semibold"
         android:maxLines="2"
         android:ellipsize="end"/>
 

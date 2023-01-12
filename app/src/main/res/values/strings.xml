@@ -347,6 +347,7 @@
     <string name="live_preview">Live Preview</string>
     <string name="live_replay">Live playback</string>
     <string name="comment_time_sort">time</string>
+    <string name="comment_time_sort2">Time</string>
     <string name="comment_hot_sort">Hotness</string>
     <string name="original_poster">Host</string>
     <string name="daily_list">Daily List</string>
@@ -520,9 +521,9 @@
     <string name="upcoming">Upcoming</string>
     <string name="tournament">Tournament</string>
     <string name="streaming">Streaming</string>
-    <string name="see_more">see more</string>
+    <string name="see_more">See more</string>
     <string name="matches">Matches</string>
-    <string name="matches2">Matches</string>
+    <string name="matches2">MATCHES</string>
     <string name="stats">Stats</string>
     <string name="teams">Teams</string>
     <string name="points_table">Points Table</string>

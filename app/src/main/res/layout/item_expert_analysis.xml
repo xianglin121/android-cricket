@@ -17,7 +17,7 @@
             android:text="@string/head_to_head_teams"
             android:textSize="16dp"
             android:textColor="@color/c_333333"
-            android:textStyle="bold"/>
+            android:fontFamily="@font/noto_sans_display_semibold"/>
 
         <View
             android:layout_width="0dp"
@@ -91,7 +91,7 @@
                 android:text="Kartik Vyas"
                 android:textSize="14dp"
                 android:textColor="@color/c_333333"
-                android:textStyle="bold"/>
+                android:fontFamily="@font/noto_sans_display_semibold"/>
 
             <ImageView
                 android:layout_width="wrap_content"

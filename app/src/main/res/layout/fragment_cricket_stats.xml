@@ -26,9 +26,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:text="@string/batting_stats"
-                android:textSize="18dp"
+                android:textSize="16sp"
                 android:textColor="@color/c_333333"
-                android:textStyle="bold"/>
+                android:fontFamily="@font/noto_sans_display_semibold"/>
         </LinearLayout>
 
         <LinearLayout
@@ -55,9 +55,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/highest_individual_score"
-                        android:textSize="16dp"
+                        android:textSize="14sp"
                         android:textColor="@color/c_333333"
-                        style="@style/TvSansSerifMediumStyle"/>
+                        android:fontFamily="@font/noto_sans_display_semibold"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -69,16 +69,16 @@
                             android:id="@+id/tv_highest_score_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"/>
 
                         <TextView
                             android:id="@+id/tv_highest_score"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"
-                            style="@style/TvSansSerifMediumStyle"/>
+                            android:fontFamily="@font/noto_sans_display_semibold"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -91,10 +91,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
-                    android:background="@mipmap/icon_arrow_right_three"/>
+                    android:background="@mipmap/icon_arrow_right_full"/>
             </LinearLayout>
 
             <View
+                android:id="@+id/view_line1"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="12dp"
@@ -117,9 +118,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/most_runs"
-                        android:textSize="16dp"
+                        android:textSize="14sp"
                         android:textColor="@color/c_333333"
-                        style="@style/TvSansSerifMediumStyle"/>
+                        android:fontFamily="@font/noto_sans_display_semibold"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -131,16 +132,16 @@
                             android:id="@+id/tv_most_run_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"/>
 
                         <TextView
                             android:id="@+id/tv_most_run"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"
-                            style="@style/TvSansSerifMediumStyle"/>
+                            android:fontFamily="@font/noto_sans_display_semibold"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -153,10 +154,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
-                    android:background="@mipmap/icon_arrow_right_three"/>
+                    android:background="@mipmap/icon_arrow_right_full"/>
             </LinearLayout>
 
             <View
+                android:id="@+id/view_line2"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="12dp"
@@ -179,9 +181,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/best_batting_average"
-                        android:textSize="16dp"
+                        android:textSize="14sp"
                         android:textColor="@color/c_333333"
-                        style="@style/TvSansSerifMediumStyle"/>
+                        android:fontFamily="@font/noto_sans_display_semibold"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -193,16 +195,16 @@
                             android:id="@+id/tv_best_batting_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"/>
 
                         <TextView
                             android:id="@+id/tv_best_batting"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"
-                            style="@style/TvSansSerifMediumStyle"/>
+                            android:fontFamily="@font/noto_sans_display_semibold"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -215,10 +217,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
-                    android:background="@mipmap/icon_arrow_right_three"/>
+                    android:background="@mipmap/icon_arrow_right_full"/>
             </LinearLayout>
 
             <View
+                android:id="@+id/view_line3"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="12dp"
@@ -241,9 +244,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/highest_strike_rate"
-                        android:textSize="16dp"
+                        android:textSize="14sp"
                         android:textColor="@color/c_333333"
-                        style="@style/TvSansSerifMediumStyle"/>
+                        android:fontFamily="@font/noto_sans_display_semibold"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -255,16 +258,16 @@
                             android:id="@+id/tv_highest_strike_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"/>
 
                         <TextView
                             android:id="@+id/tv_highest_strike"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"
-                            style="@style/TvSansSerifMediumStyle"/>
+                            android:fontFamily="@font/noto_sans_display_semibold"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -277,10 +280,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
-                    android:background="@mipmap/icon_arrow_right_three"/>
+                    android:background="@mipmap/icon_arrow_right_full"/>
             </LinearLayout>
 
             <View
+                android:id="@+id/view_line4"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="12dp"
@@ -303,9 +307,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/maximum_sixes"
-                        android:textSize="16dp"
+                        android:textSize="14sp"
                         android:textColor="@color/c_333333"
-                        style="@style/TvSansSerifMediumStyle"/>
+                        android:fontFamily="@font/noto_sans_display_semibold"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -317,16 +321,16 @@
                             android:id="@+id/tv_maximum_six_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"/>
 
                         <TextView
                             android:id="@+id/tv_maximum_six"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"
-                            style="@style/TvSansSerifMediumStyle"/>
+                            android:fontFamily="@font/noto_sans_display_semibold"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -339,7 +343,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
-                    android:background="@mipmap/icon_arrow_right_three"/>
+                    android:background="@mipmap/icon_arrow_right_full"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -366,7 +370,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:text="@string/bowling_stats"
-                android:textSize="18dp"
+                android:textSize="16sp"
                 android:textColor="@color/c_333333"
                 android:textStyle="bold"/>
         </LinearLayout>
@@ -395,9 +399,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/most_wickets"
-                        android:textSize="16dp"
+                        android:textSize="14sp"
                         android:textColor="@color/c_333333"
-                        style="@style/TvSansSerifMediumStyle"/>
+                        android:fontFamily="@font/noto_sans_display_semibold"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -409,16 +413,16 @@
                             android:id="@+id/tv_most_wicket_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"/>
 
                         <TextView
                             android:id="@+id/tv_most_wicket"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"
-                            style="@style/TvSansSerifMediumStyle"/>
+                            android:fontFamily="@font/noto_sans_display_semibold"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -431,10 +435,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
-                    android:background="@mipmap/icon_arrow_right_three"/>
+                    android:background="@mipmap/icon_arrow_right_full"/>
             </LinearLayout>
 
             <View
+                android:id="@+id/view_line5"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="12dp"
@@ -457,9 +462,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/best_bowling_average"
-                        android:textSize="16dp"
+                        android:textSize="14sp"
                         android:textColor="@color/c_333333"
-                        style="@style/TvSansSerifMediumStyle"/>
+                        android:fontFamily="@font/noto_sans_display_semibold"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -471,16 +476,16 @@
                             android:id="@+id/tv_best_bowling_av_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"/>
 
                         <TextView
                             android:id="@+id/tv_best_bowling_av"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"
-                            style="@style/TvSansSerifMediumStyle"/>
+                            android:fontFamily="@font/noto_sans_display_semibold"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -493,10 +498,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
-                    android:background="@mipmap/icon_arrow_right_three"/>
+                    android:background="@mipmap/icon_arrow_right_full"/>
             </LinearLayout>
 
             <View
+                android:id="@+id/view_line6"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="12dp"
@@ -519,9 +525,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/best_bowling_economy"
-                        android:textSize="16dp"
+                        android:textSize="14sp"
                         android:textColor="@color/c_333333"
-                        style="@style/TvSansSerifMediumStyle"/>
+                        android:fontFamily="@font/noto_sans_display_semibold"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -533,16 +539,16 @@
                             android:id="@+id/tv_best_bowling_ec_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"/>
 
                         <TextView
                             android:id="@+id/tv_best_bowling_ec"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"
-                            style="@style/TvSansSerifMediumStyle"/>
+                            android:fontFamily="@font/noto_sans_display_semibold"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -555,7 +561,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
-                    android:background="@mipmap/icon_arrow_right_three"/>
+                    android:background="@mipmap/icon_arrow_right_full"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -582,7 +588,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:text="@string/fielding_stats"
-                android:textSize="18dp"
+                android:textSize="16sp"
                 android:textColor="@color/c_333333"
                 android:textStyle="bold"/>
         </LinearLayout>
@@ -611,9 +617,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/most_catches"
-                        android:textSize="16dp"
+                        android:textSize="14sp"
                         android:textColor="@color/c_333333"
-                        style="@style/TvSansSerifMediumStyle"/>
+                        android:fontFamily="@font/noto_sans_display_semibold"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -625,16 +631,16 @@
                             android:id="@+id/tv_most_catches_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"/>
 
                         <TextView
                             android:id="@+id/tv_most_catches"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"
-                            style="@style/TvSansSerifMediumStyle"/>
+                            android:fontFamily="@font/noto_sans_display_semibold"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -647,10 +653,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
-                    android:background="@mipmap/icon_arrow_right_three"/>
+                    android:background="@mipmap/icon_arrow_right_full"/>
             </LinearLayout>
 
             <View
+                android:id="@+id/view_line7"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="12dp"
@@ -673,9 +680,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/most_run_outs"
-                        android:textSize="16dp"
+                        android:textSize="14sp"
                         android:textColor="@color/c_333333"
-                        style="@style/TvSansSerifMediumStyle"/>
+                        android:fontFamily="@font/noto_sans_display_semibold"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -687,16 +694,16 @@
                             android:id="@+id/tv_most_run_out_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"/>
 
                         <TextView
                             android:id="@+id/tv_most_run_out"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"
-                            style="@style/TvSansSerifMediumStyle"/>
+                            android:fontFamily="@font/noto_sans_display_semibold"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -709,10 +716,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
-                    android:background="@mipmap/icon_arrow_right_three"/>
+                    android:background="@mipmap/icon_arrow_right_full"/>
             </LinearLayout>
 
             <View
+                android:id="@+id/view_line8"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="12dp"
@@ -736,9 +744,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/most_stumpings"
-                        android:textSize="16dp"
+                        android:textSize="14sp"
                         android:textColor="@color/c_333333"
-                        style="@style/TvSansSerifMediumStyle"/>
+                        android:fontFamily="@font/noto_sans_display_semibold"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -750,16 +758,16 @@
                             android:id="@+id/tv_most_stumping_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"/>
 
                         <TextView
                             android:id="@+id/tv_most_stumping"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16dp"
+                            android:textSize="14sp"
                             android:textColor="@color/c_333333"
-                            style="@style/TvSansSerifMediumStyle"/>
+                            android:fontFamily="@font/noto_sans_display_semibold"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -772,7 +780,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
-                    android:background="@mipmap/icon_arrow_right_three"/>
+                    android:background="@mipmap/icon_arrow_right_full"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
