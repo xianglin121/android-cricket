@@ -31,6 +31,8 @@ import com.onecric.live.view.cricket.CricketView;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -99,11 +101,18 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
         MaterialHeader materialHeader = new MaterialHeader(getContext());
         materialHeader.setColorSchemeColors(getResources().getColor(R.color.c_DC3C23));
         smart_rl.setRefreshHeader(materialHeader);
-        smart_rl.setEnableLoadMore(false);
+        smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
+        smart_rl.setEnableLoadMore(true);
         smart_rl.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 mvpPresenter.getCricketMatchList(true, mTimeType, mTournamentId, mStreaming, 1);
+            }
+        });
+        smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                mvpPresenter.getCricketMatchList(false, mTimeType, mTournamentId, mStreaming, mPage);
             }
         });
         mAdapter = new CricketAdapter(R.layout.item_cricket, new ArrayList<>());
@@ -119,22 +128,22 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(mAdapter);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                // 当不滚动时
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    //获取最后一个完全显示的ItemPosition
-                    int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                    int totalItemCount = linearLayoutManager.getItemCount();
-                    // 判断是否滚动到底部
-                    if (lastVisibleItem == (totalItemCount - 1)) {
-                        //加载更多功能的代码
-                        mvpPresenter.getCricketMatchList(false, mTimeType, mTournamentId, mStreaming, mPage);
-                    }
-                }
-            }
-        });
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                // 当不滚动时
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                    //获取最后一个完全显示的ItemPosition
+//                    int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+//                    int totalItemCount = linearLayoutManager.getItemCount();
+//                    // 判断是否滚动到底部
+//                    if (lastVisibleItem == (totalItemCount - 1)) {
+//                        //加载更多功能的代码
+//                        mvpPresenter.getCricketMatchList(false, mTimeType, mTournamentId, mStreaming, mPage);
+//                    }
+//                }
+//            }
+//        });
 
         initDialog();
         mvpPresenter.getTournamentList();
