@@ -30,5 +30,6 @@
         android:layout_centerVertical="true"
         android:layout_marginTop="50dp"
         android:layout_marginRight="10dp"
+        android:visibility="gone"
         android:src="@mipmap/silence" />
 </RelativeLayout>

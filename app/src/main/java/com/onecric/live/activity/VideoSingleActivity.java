@@ -92,7 +92,7 @@ public class VideoSingleActivity extends BaseActivity {
 
             @Override
             public void onPrepared(String url, Object... objects) {
-                videoManager.setNeedMute(true);
+//                videoManager.setNeedMute(true);
             }
 
             @Override
@@ -142,7 +142,6 @@ public class VideoSingleActivity extends BaseActivity {
 
             @Override
             public void onComplete(String url, Object... objects) {
-//                videoManager.setNeedMute(true);
             }
 
             @Override

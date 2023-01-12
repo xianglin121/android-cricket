@@ -462,7 +462,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             if (bean.getInfo() != null) {
                 if (!TextUtils.isEmpty(bean.getInfo().getPull())) {
                     //初始化播放器控件
-                    playerView.setMute(true);
+//                    playerView.setMute(true);
                     playerView.play(bean.getInfo().getPull());
                 }
             }

@@ -2,6 +2,7 @@ package com.onecric.live.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,14 +22,18 @@ import com.onecric.live.adapter.CricketAdapter;
 import com.onecric.live.adapter.SelectTournamentAdapter;
 import com.onecric.live.custom.ItemDecoration;
 import com.onecric.live.event.ToggleTabEvent;
+import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.CricketTournamentBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.cricket.CricketPresenter;
+import com.onecric.live.util.TimeUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.cricket.CricketView;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -97,11 +102,18 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
         MaterialHeader materialHeader = new MaterialHeader(getContext());
         materialHeader.setColorSchemeColors(getResources().getColor(R.color.c_DC3C23));
         smart_rl.setRefreshHeader(materialHeader);
-        smart_rl.setEnableLoadMore(false);
+        smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
+        smart_rl.setEnableLoadMore(true);
         smart_rl.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 mvpPresenter.getCricketMatchList(true, mTimeType, mTournamentId, mStreaming, 1);
+            }
+        });
+        smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                mvpPresenter.getCricketMatchList(false, mTimeType, mTournamentId, mStreaming, mPage);
             }
         });
         mAdapter = new CricketAdapter(R.layout.item_cricket, new ArrayList<>());
@@ -117,22 +129,22 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(mAdapter);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                // 当不滚动时
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    //获取最后一个完全显示的ItemPosition
-                    int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                    int totalItemCount = linearLayoutManager.getItemCount();
-                    // 判断是否滚动到底部
-                    if (lastVisibleItem == (totalItemCount - 1)) {
-                        //加载更多功能的代码
-                        mvpPresenter.getCricketMatchList(false, mTimeType, mTournamentId, mStreaming, mPage);
-                    }
-                }
-            }
-        });
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                // 当不滚动时
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                    //获取最后一个完全显示的ItemPosition
+//                    int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+//                    int totalItemCount = linearLayoutManager.getItemCount();
+//                    // 判断是否滚动到底部
+//                    if (lastVisibleItem == (totalItemCount - 1)) {
+//                        //加载更多功能的代码
+//                        mvpPresenter.getCricketMatchList(false, mTimeType, mTournamentId, mStreaming, mPage);
+//                    }
+//                }
+//            }
+//        });
 
         initDialog();
         mvpPresenter.getTournamentList();
@@ -179,6 +191,22 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
             if (list != null) {
                 mAdapter.setNewData(list);
                 if (list.size() > 0) {
+                    for (CricketTournamentBean item : list) {
+                        List<CricketMatchBean> cricket_match = item.getCricket_match();
+                        for (CricketMatchBean bean : cricket_match) {
+                            // TODO: 2023/1/12  开启子线程倒计时 可以实现显示倒计时时间实时更新 不用重新调用接口  是不是会损耗性能  还待检测
+                            new CountDownTimer(bean.getLive_time_unix(), 1000) {
+                                public void onTick(long millisUntilFinished) {
+//                                    tv_time.setText(TimeUtil.timeConversion(millisUntilFinished / 1000));
+                                    bean.setLive_time_unix(millisUntilFinished);
+                                }
+
+                                public void onFinish() {
+                                    bean.setStatus(1);
+                                }
+                            }.start();
+                        }
+                    }
                     hideEmptyView();
                 } else {
                     showEmptyView();
@@ -200,6 +228,24 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
             mPage++;
             if (mPage <= total) {
                 smart_rl.finishLoadMore();
+                if (list != null && list.size() > 0) {
+                    // TODO: 2023/1/12  开启子线程倒计时 可以实现显示倒计时时间实时更新 不用重新调用接口  是不是会损耗性能  还待检测
+                    for (CricketTournamentBean item : list) {
+                        List<CricketMatchBean> cricket_match = item.getCricket_match();
+                        for (CricketMatchBean bean : cricket_match) {
+                            new CountDownTimer(bean.getLive_time_unix(), 1000) {
+                                public void onTick(long millisUntilFinished) {
+//                                    tv_time.setText(TimeUtil.timeConversion(millisUntilFinished / 1000));
+                                    bean.setLive_time_unix(millisUntilFinished);
+                                }
+
+                                public void onFinish() {
+                                    bean.setStatus(1);
+                                }
+                            }.start();
+                        }
+                    }
+                }
                 mAdapter.addData(list);
             } else {
                 smart_rl.finishLoadMoreWithNoMoreData();

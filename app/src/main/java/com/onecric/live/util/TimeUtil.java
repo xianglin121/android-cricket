@@ -55,7 +55,7 @@ public class TimeUtil {
                 sencond = time % 60;
             }
         }
-        return ((hour != 0 ? ((hour + "h ")): "")) + (minutes < 10 ? ("0" + minutes) : minutes) + "m " + (sencond < 10 ? ("0" + sencond) : sencond) + "s";
+        return (hour != 0 ? ((hour + "h ")) : "") + (minutes != 0 ? (minutes + "m ") : "") + (sencond + "s");
     }
 
     //将时间字符串转为时间戳字符串
