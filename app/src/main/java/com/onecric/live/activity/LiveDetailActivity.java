@@ -85,6 +85,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> implements LiveDetailView, View.OnClickListener {
 
+    private ImageView iv_silence;
+
     public static void forward(Context context, int anchorId, int type, int matchId) {
         Intent intent = new Intent(context, LiveDetailActivity.class);
         intent.putExtra("anchorId", anchorId);
@@ -182,6 +184,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         tv_content = findViewById(R.id.tv_content);
         tv_title = findViewById(R.id.tv_title);
         iv_back = findViewById(R.id.iv_back);
+        iv_silence = findViewById(R.id.iv_silence);
+        iv_silence.setOnClickListener(this);
         person_head_pic = findViewById(R.id.person_head_pic);
 
         iv_data.setOnClickListener(this);
@@ -338,6 +342,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 if (mLiveRoomBean != null) {
                     if (mLiveRoomBean.getInfo() != null) {
                         if (!TextUtils.isEmpty(mLiveRoomBean.getInfo().getPull())) {
+
                             playerView.play(mLiveRoomBean.getInfo().getPull());
                         }
                     }
@@ -457,6 +462,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             if (bean.getInfo() != null) {
                 if (!TextUtils.isEmpty(bean.getInfo().getPull())) {
                     //初始化播放器控件
+                    playerView.setMute(true);
                     playerView.play(bean.getInfo().getPull());
                 }
             }
@@ -465,7 +471,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 tv_title.setText(bean.getUserData().getTitle());
             }
             liveDetailMainFragment.updateFollowData();
-            GlideUtil.loadUserImageDefault(mActivity,bean.getUserData().getAvatar(),person_head_pic);
+            GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
         }
     }
 
@@ -583,6 +589,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 } else {
                     backAction();
                 }
+                break;
+            case R.id.iv_silence:
+                playerView.setMute(false);
+                iv_silence.setVisibility(View.GONE);
                 break;
         }
     }

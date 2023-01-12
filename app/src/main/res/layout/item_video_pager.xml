@@ -147,12 +147,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:visibility="visible">
+                android:visibility="gone">
 
-                <View
-                    android:layout_width="31dp"
-                    android:layout_height="31dp"
-                    android:background="@color/c_ECECEC" />
+<!--                <View-->
+<!--                    android:layout_width="31dp"-->
+<!--                    android:layout_height="31dp"-->
+<!--                    android:background="@color/c_ECECEC" />-->
 
                 <ImageView
                     android:id="@+id/iv_silence"

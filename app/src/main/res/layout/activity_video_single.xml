@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="MissingDefaultResource"
-    android:background="@color/black">
+    android:background="@color/black"
+    tools:ignore="MissingDefaultResource">
 
     <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
-        android:layout_marginTop="5dp"
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp" />
 
-</FrameLayout>
+    <View
+        android:id="@+id/indicator"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/iv_silence"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_below="@id/indicator"
+        android:layout_alignRight="@id/indicator"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/silence" />
+</RelativeLayout>

@@ -71,28 +71,28 @@ import java.util.List;
  * 4、退出播放释放内存{@link #resetPlayer()}
  */
 public class LivePlayerView extends RelativeLayout {
-    private static final String TAG                    = "SuperPlayerView";
-    public final        int    OP_SYSTEM_ALERT_WINDOW = 24;                      // 支持TYPE_TOAST悬浮窗的最高API版本
+    private static final String TAG = "SuperPlayerView";
+    public final int OP_SYSTEM_ALERT_WINDOW = 24;                      // 支持TYPE_TOAST悬浮窗的最高API版本
 
-    private Context                    mContext;
+    private Context mContext;
     private int mAnchorId;
     private int mType;
     private int mMatchId;
-    private ViewGroup                  mRootView;                                 // SuperPlayerView的根view
-    private TXCloudVideoView           mTXCloudVideoView;                         // 腾讯云视频播放view
+    private ViewGroup mRootView;                                 // SuperPlayerView的根view
+    private TXCloudVideoView mTXCloudVideoView;                         // 腾讯云视频播放view
     private LiveFullScreenPlayer mFullScreenPlayer;                         // 全屏模式控制view
     private LiveWindowPlayer mWindowPlayer;                             // 窗口模式控制view
-    private FloatPlayer                mFloatPlayer;                              // 悬浮窗模式控制view
-    private DanmuView                  mDanmuView;                                // 弹幕
-    private ViewGroup.LayoutParams     mLayoutParamWindowMode;          // 窗口播放时SuperPlayerView的布局参数
-    private ViewGroup.LayoutParams     mLayoutParamFullScreenMode;      // 全屏播放时SuperPlayerView的布局参数
-    private LayoutParams               mVodControllerWindowParams;      // 窗口controller的布局参数
-    private LayoutParams               mVodControllerFullScreenParams;  // 全屏controller的布局参数
-    private WindowManager              mWindowManager;                  // 悬浮窗窗口管理器
+    private FloatPlayer mFloatPlayer;                              // 悬浮窗模式控制view
+    private DanmuView mDanmuView;                                // 弹幕
+    private ViewGroup.LayoutParams mLayoutParamWindowMode;          // 窗口播放时SuperPlayerView的布局参数
+    private ViewGroup.LayoutParams mLayoutParamFullScreenMode;      // 全屏播放时SuperPlayerView的布局参数
+    private LayoutParams mVodControllerWindowParams;      // 窗口controller的布局参数
+    private LayoutParams mVodControllerFullScreenParams;  // 全屏controller的布局参数
+    private WindowManager mWindowManager;                  // 悬浮窗窗口管理器
     private WindowManager.LayoutParams mWindowParams;                   // 悬浮窗布局参数
-    private OnSuperPlayerViewCallback  mPlayerViewCallback;              // SuperPlayerView回调
-    private NetWatcher                 mWatcher;                         // 网络质量监视器
-    private SuperPlayer                mSuperPlayer;
+    private OnSuperPlayerViewCallback mPlayerViewCallback;              // SuperPlayerView回调
+    private NetWatcher mWatcher;                         // 网络质量监视器
+    private SuperPlayer mSuperPlayer;
     private RelativeLayout mErrorPlayer;
 
     public LivePlayerView(Context context) {
@@ -210,7 +210,6 @@ public class LivePlayerView extends RelativeLayout {
 
     /**
      * 更新画质显示
-     *
      */
     public void updateQuality(int type) {
         mWindowPlayer.updateQuality(type);
@@ -238,9 +237,10 @@ public class LivePlayerView extends RelativeLayout {
 
     /**
      * 设置VipWatchModel 数据，传入null可隐藏掉展示的VIP页面
+     *
      * @param vipWatchModel
      */
-    public void setVipWatchModel(VipWatchModel vipWatchModel){
+    public void setVipWatchModel(VipWatchModel vipWatchModel) {
         mFullScreenPlayer.setVipWatchModel(vipWatchModel);
         mWindowPlayer.setVipWatchModel(vipWatchModel);
         mFloatPlayer.setVipWatchModel(vipWatchModel);
@@ -253,6 +253,10 @@ public class LivePlayerView extends RelativeLayout {
      */
     public void play(String url) {
         mSuperPlayer.play(url);
+    }
+
+    public void setMute(boolean issilence) {
+        mSuperPlayer.setMute(issilence);
     }
 
     /**
@@ -299,9 +303,10 @@ public class LivePlayerView extends RelativeLayout {
 
     /**
      * 用于判断VIP试看页面是否已经展示出来了
+     *
      * @return
      */
-    public boolean isShowingVipView(){
+    public boolean isShowingVipView() {
         return mFullScreenPlayer.isShowingVipView() || mWindowPlayer.isShowingVipView() || mFloatPlayer.isShowingVipView();
     }
 
@@ -657,13 +662,13 @@ public class LivePlayerView extends RelativeLayout {
         public void onClickHandleVip() {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("https://cloud.tencent.com/document/product/454/18872"));
-            if(getContext() instanceof Activity){
+            if (getContext() instanceof Activity) {
                 getContext().startActivity(intent);
             }
         }
 
         @Override
-        public void onClickVipTitleBack( SuperPlayerDef.PlayerMode playerMode) {
+        public void onClickVipTitleBack(SuperPlayerDef.PlayerMode playerMode) {
             mFullScreenPlayer.hideVipView();
             mWindowPlayer.hideVipView();
             mFloatPlayer.hideVipView();
@@ -1053,8 +1058,8 @@ public class LivePlayerView extends RelativeLayout {
     }
 
     //隐藏返回键
-    public void hideBackKey(){
-        if(mWindowPlayer!=null){
+    public void hideBackKey() {
+        if (mWindowPlayer != null) {
             mWindowPlayer.hideBackKey();
         }
     }

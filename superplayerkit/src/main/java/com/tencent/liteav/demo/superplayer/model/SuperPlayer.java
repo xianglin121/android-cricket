@@ -137,4 +137,6 @@ public interface SuperPlayer {
      * @param observer {@link SuperPlayerObserver}
      */
     void setObserver(SuperPlayerObserver observer);
+
+    void setMute(boolean mute);
 }

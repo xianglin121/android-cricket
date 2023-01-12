@@ -8,45 +8,62 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <RelativeLayout
             android:id="@+id/statusBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/c_1D2550"
-            android:paddingTop="35dp"
-            android:paddingBottom="12dp"
             android:paddingLeft="12dp"
-            android:paddingRight="12dp">
+            android:paddingTop="35dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="12dp">
+
             <ImageView
                 android:id="@+id/iv_back"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:background="@mipmap/icon_arrow_left_white"/>
+                android:background="@mipmap/icon_arrow_left_white" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/person_head_pic"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:src="@mipmap/bg_avatar_default"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/bg_avatar_default" />
         </RelativeLayout>
 
-        <com.tencent.liteav.demo.superplayer.LivePlayerView
-            android:id="@+id/playerView"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@mipmap/ball_live_bg" />
+            android:layout_height="200dp">
+
+            <com.tencent.liteav.demo.superplayer.LivePlayerView
+                android:id="@+id/playerView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@mipmap/ball_live_bg" />
+
+            <ImageView
+                android:id="@+id/iv_silence"
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+               android:layout_alignRight="@id/playerView"
+                android:layout_alignBottom="@id/playerView"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:src="@mipmap/silence" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:paddingLeft="12dp"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
             android:textColor="@color/black"
-            android:background="@color/white"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <RelativeLayout
             android:layout_width="match_parent"
