@@ -28,7 +28,7 @@
         android:layout_below="@id/indicator"
         android:layout_alignRight="@id/indicator"
         android:layout_centerVertical="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="55dp"
         android:layout_marginRight="10dp"
         android:src="@mipmap/silence" />
 </RelativeLayout>
