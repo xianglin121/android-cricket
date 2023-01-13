@@ -31,7 +31,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.onecric.live.BuildConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.SettingActivity;
 import com.onecric.live.activity.WebViewActivity;
@@ -225,8 +227,8 @@ public class DialogUtil {
             textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.dp2px(54)));
             textView.setTextColor(0xff323232);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-            textView.setGravity(Gravity.CENTER_VERTICAL|Gravity.LEFT);
-            textView.setPadding(DpUtil.dp2px(17), 0 ,0, 0);
+            textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+            textView.setPadding(DpUtil.dp2px(17), 0, 0, 0);
             textView.setText(array.valueAt(i));
             textView.setTag(array.keyAt(i));
             textView.setOnClickListener(itemListener);
@@ -255,7 +257,7 @@ public class DialogUtil {
         TextView tv_content = dialog.findViewById(R.id.tv_content);
         String str = context.getString(R.string.confirm_open);
         SpannableStringBuilder spannable = new SpannableStringBuilder(str + noble + "？");
-        spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#3677FF")), str.length(), str.length()+noble.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#3677FF")), str.length(), str.length() + noble.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         tv_content.setText(spannable);
         dialog.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -284,7 +286,7 @@ public class DialogUtil {
         if (sex == 0) {
             iv_male.setSelected(true);
             iv_female.setSelected(false);
-        }else {
+        } else {
             iv_male.setSelected(false);
             iv_female.setSelected(true);
         }
@@ -327,7 +329,7 @@ public class DialogUtil {
         dialog.findViewById(R.id.tv_customer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent dialIntent =  new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + ""));//跳转到拨号界面，同时传递电话号码
+                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + ""));//跳转到拨号界面，同时传递电话号码
                 context.startActivity(dialIntent);
             }
         });
@@ -510,15 +512,31 @@ public class DialogUtil {
             dialog.findViewById(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dialog.dismiss();
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_VIEW);
-                    Uri content_url = Uri.parse(url);
-                    intent.setData(content_url);
-                    context.startActivity(intent);
+//                    dialog.dismiss();
+//                    Intent intent = new Intent();
+//                    intent.setAction(Intent.ACTION_VIEW);
+//                    Uri content_url = Uri.parse(url);
+//                    intent.setData(content_url);
+//                    context.startActivity(intent);
+                    transferToGooglePlay(context);
                 }
             });
             dialog.show();
+        }
+    }
+
+
+    static String googlePlay = "com.android.vending";
+
+    static void transferToGooglePlay(Context context) {
+        try {
+            Uri uri = Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage(googlePlay);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -591,7 +609,7 @@ public class DialogUtil {
         String textFour = "《隐私政策》";
         String textFive = "的全部内容,同意并接受全部条款后开始使用我们的产品和服务。若选择不同意,将无法使用我们的产品和服务,并会退出应用";
         SpannableStringBuilder style = new SpannableStringBuilder();
-        style.append(textOne+textTwo+textThree+textFour+textFive);
+        style.append(textOne + textTwo + textThree + textFour + textFive);
         //设置部分文字点击事件
         ClickableSpan clickableSpanOne = new ClickableSpan() {
             @Override
@@ -645,14 +663,14 @@ public class DialogUtil {
         if (!TextUtils.isEmpty(hdUrl)) {
             dialog.findViewById(R.id.line_hd).setVisibility(View.VISIBLE);
             tv_HD.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             dialog.findViewById(R.id.line_hd).setVisibility(View.GONE);
             tv_HD.setVisibility(View.GONE);
         }
         if (!TextUtils.isEmpty(sdUrl)) {
             dialog.findViewById(R.id.line_sd).setVisibility(View.VISIBLE);
             tv_SD.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             dialog.findViewById(R.id.line_sd).setVisibility(View.GONE);
             tv_SD.setVisibility(View.GONE);
         }
