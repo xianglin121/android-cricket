@@ -489,7 +489,7 @@ public class DialogUtil {
         if (checkUpdateInfo(context, versionName)) {
             Dialog dialog = new Dialog(context, R.style.dialog);
             dialog.setContentView(R.layout.dialog_version_update);
-            dialog.setCancelable(isForce);
+            dialog.setCancelable(!isForce);
             dialog.setCanceledOnTouchOutside(false);
             TextView tv_version_name = dialog.findViewById(R.id.tv_version_name);
             TextView tv_version_content = dialog.findViewById(R.id.tv_version_content);

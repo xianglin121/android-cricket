@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -61,6 +62,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends MvpActivity<MainPresenter> implements MainView {
+
+    private boolean showUpdateDialog;
+    private boolean isForceUpdate;
 
     public static void forward(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -334,6 +338,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         CommonAppConfig.getInstance().saveConfig(bean);
         //检查是否有版本更新
         if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
+            showUpdateDialog = true;
+            isForceUpdate = CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false;
             DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false,
                     CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber(),
                     CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),
@@ -386,6 +392,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         });
         mViewPager.setCurrentItem(1);
     }
+
 
     private void transFragment(TRANSTYPE type) {
         switch (type) {
@@ -467,4 +474,5 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             System.exit(0);
         }
     }
+
 }
