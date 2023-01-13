@@ -206,7 +206,7 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishLoadMore();
     }
 
 

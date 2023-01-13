@@ -167,7 +167,8 @@ public class PersonalVideoFragment extends MvpFragment<VideoPresenter> implement
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

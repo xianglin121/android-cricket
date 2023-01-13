@@ -142,6 +142,7 @@ public class ThemeCollectionCommunityFragment extends MvpFragment<ThemeCollectio
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 }

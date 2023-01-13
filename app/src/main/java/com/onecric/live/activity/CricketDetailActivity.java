@@ -34,6 +34,7 @@ import com.onecric.live.presenter.cricket.CricketDetailPresenter;
 import com.onecric.live.util.DpUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ShareUtil;
+import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.cricket.CricketDetailView;
 
@@ -369,7 +370,8 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
 
     @Override
     public void getDataFail(String msg) {
-
+        ToastUtil.show(msg);
+        finish();
     }
 
     @Override

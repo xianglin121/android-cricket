@@ -151,6 +151,7 @@ public class MyFollowInnerFragment extends MvpFragment<MyFollowInnerPresenter> i
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 }

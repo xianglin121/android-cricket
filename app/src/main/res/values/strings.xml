@@ -460,8 +460,8 @@
     <string name="best_post">Precision</string>
     <string name="best_new_post">Latest Post</string>
     <string name="best_new_reply">Latest Reply</string>
-    <string name="full_text">Full Text</string>
-    <string name="part_text">Collapsed</string>
+    <string name="full_text">&#160;Full Text&#160;</string>
+    <string name="part_text">&#160;Collapsed</string>
 
     <string name="publish">Publish</string>
     <string name="please_input_content">Please enter your content</string>

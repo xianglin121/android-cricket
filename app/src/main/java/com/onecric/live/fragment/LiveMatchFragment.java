@@ -155,6 +155,7 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 }
