@@ -485,7 +485,7 @@ public class DialogUtil {
         dialog.show();
     }
 
-    public static void showVersionUpdateDialog(Context context, boolean isForce, String versionName, String versionContent, String url) {
+    public static void showVersionUpdateDialog(Context context, boolean isForce, String versionName, String versionContent, String url, String domain_pc_name, String android_mandatory_update_type) {
         if (checkUpdateInfo(context, versionName)) {
             Dialog dialog = new Dialog(context, R.style.dialog);
             dialog.setContentView(R.layout.dialog_version_update);
@@ -512,19 +512,31 @@ public class DialogUtil {
             dialog.findViewById(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    dialog.dismiss();
+                    dialog.dismiss();
 //                    Intent intent = new Intent();
 //                    intent.setAction(Intent.ACTION_VIEW);
 //                    Uri content_url = Uri.parse(url);
 //                    intent.setData(content_url);
 //                    context.startActivity(intent);
-                    transferToGooglePlay(context);
+                    if ("0".equals(android_mandatory_update_type)) {
+                        transferToGooglePlay(context);
+                    } else if ("1".equals(android_mandatory_update_type)) {
+                        goToDomain(context, domain_pc_name);
+                    }
                 }
             });
             dialog.show();
         }
     }
 
+
+    static void goToDomain(Context context, String url) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        Uri content_url = Uri.parse(url);
+        intent.setData(content_url);
+        context.startActivity(intent);
+    }
 
     static String googlePlay = "com.android.vending";
 

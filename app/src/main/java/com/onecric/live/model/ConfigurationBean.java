@@ -19,6 +19,25 @@ public class ConfigurationBean {
     private String androidDownloadText;
     private List<CountryCodeBean> CountryCode;
     private String live_notice;
+    private String domain_pc_name;
+
+    public String getDomain_pc_name() {
+        return domain_pc_name;
+    }
+
+    public void setDomain_pc_name(String domain_pc_name) {
+        this.domain_pc_name = domain_pc_name;
+    }
+
+    public String getAndroid_mandatory_update_type() {
+        return android_mandatory_update_type;
+    }
+
+    public void setAndroid_mandatory_update_type(String android_mandatory_update_type) {
+        this.android_mandatory_update_type = android_mandatory_update_type;
+    }
+
+    private String android_mandatory_update_type;
 
     public String getAnnouncement() {
         return announcement;
@@ -118,12 +137,12 @@ public class ConfigurationBean {
 
     public String getCountryListAbbr() {
         StringBuilder county = new StringBuilder();
-        if(CountryCode == null || CountryCode.size()<=0){
+        if (CountryCode == null || CountryCode.size() <= 0) {
             return null;
         }
-        for(CountryCodeBean bean: CountryCode){
-            county.append(bean.getCountry_code()+",");
+        for (CountryCodeBean bean : CountryCode) {
+            county.append(bean.getCountry_code() + ",");
         }
-        return county.substring(0,county.length()-1);
+        return county.substring(0, county.length() - 1);
     }
 }

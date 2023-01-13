@@ -337,7 +337,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false,
                     CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber(),
                     CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),
-                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadUrl());
+                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadUrl(), CommonAppConfig.getInstance().getConfig().getDomain_pc_name(), CommonAppConfig.getInstance().getConfig().getAndroid_mandatory_update_type()
+            );
 //            if (DialogUtil.checkUpdateInfo(this, CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
 //                transferToGooglePlay();
 //            }
