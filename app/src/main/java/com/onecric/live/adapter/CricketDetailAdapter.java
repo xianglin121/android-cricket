@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -31,10 +32,10 @@ public class CricketDetailAdapter extends BaseQuickAdapter<CricketMatchBean, Bas
         helper.setTextColor(R.id.tv_time, mContext.getResources().getColor(R.color.c_901D2550));
         TextView resultTv = helper.getView(R.id.tv_result);
         if (item.getStatus() == 2) {//已结束
-            resultTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+            resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_bold));
             helper.getView(R.id.ll_alarm).setVisibility(View.GONE);
         }else {
-            resultTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_regular));
             helper.getView(R.id.ll_alarm).setVisibility(View.VISIBLE);
             if (item.getStatus() == 0) {//未开始
                 helper.getView(R.id.iv_alarm).setVisibility(View.VISIBLE);
@@ -44,6 +45,7 @@ public class CricketDetailAdapter extends BaseQuickAdapter<CricketMatchBean, Bas
                     helper.setText(R.id.tv_time, "");
                 }
             }else {//已开始
+                resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_semibold));
                 helper.getView(R.id.iv_alarm).setVisibility(View.GONE);
                 helper.setText(R.id.tv_time, mContext.getString(R.string.live2));
                 helper.setTextColor(R.id.tv_time, mContext.getResources().getColor(R.color.c_DC3C23));
