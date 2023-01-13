@@ -307,6 +307,7 @@ public class HotMatchInnerFragment extends MvpFragment<HotMatchInnerPresenter> i
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 }

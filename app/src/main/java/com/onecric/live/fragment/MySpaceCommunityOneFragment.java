@@ -155,6 +155,7 @@ public class MySpaceCommunityOneFragment extends MvpFragment<MySpaceCommunityOne
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 }

@@ -138,6 +138,7 @@ public class MySpaceVideoTwoFragment extends MvpFragment<MySpaceVideoTwoPresente
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 }

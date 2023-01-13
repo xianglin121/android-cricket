@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -26,6 +27,7 @@ import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.CricketTournamentBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.cricket.CricketPresenter;
+import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.cricket.CricketView;
 import com.scwang.smartrefresh.header.MaterialHeader;
@@ -224,6 +226,7 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
                 showEmptyView();
             }
         } else {
+            hideEmptyView();
             mPage++;
             if (mPage <= total) {
                 smart_rl.finishLoadMore();
@@ -270,7 +273,11 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
     @Override
     public void getDataFail(String msg) {
         smart_rl.finishRefresh();
-        showEmptyView();
+        if(mAdapter.getData().size() <= 0 ){
+            showEmptyView();
+        }else{
+            ToastUtil.show(msg);
+        }
     }
 
     @Override

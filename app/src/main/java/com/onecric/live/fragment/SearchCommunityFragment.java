@@ -159,6 +159,7 @@ public class SearchCommunityFragment extends MvpFragment<SearchCommunityPresente
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 }
