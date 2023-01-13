@@ -193,21 +193,23 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
                 mAdapter.setNewData(list);
                 if (list.size() > 0) {
                     // TODO: 2023/1/12  开启子线程倒计时 可以实现显示倒计时时间实时更新 不用重新调用接口  是不是会损耗性能  还待检测
-//                    for (CricketTournamentBean item : list) {
-//                        List<CricketMatchBean> cricket_match = item.getCricket_match();
-//                        for (CricketMatchBean bean : cricket_match) {
-//                            new CountDownTimer(bean.getLive_time_unix(), 1000) {
-//                                public void onTick(long millisUntilFinished) {
-////                                    tv_time.setText(TimeUtil.timeConversion(millisUntilFinished / 1000));
-//                                    bean.setLive_time_unix(millisUntilFinished);
-//                                }
-//
-//                                public void onFinish() {
-//                                    bean.setStatus(1);
-//                                }
-//                            }.start();
-//                        }
-//                    }
+                    for (CricketTournamentBean item : list) {
+                        List<CricketMatchBean> cricket_match = item.getCricket_match();
+                        for (CricketMatchBean bean : cricket_match) {
+                            if (bean.getStatus() == 0) {
+                                new CountDownTimer(bean.getLive_time_unix(), 1000) {
+                                    public void onTick(long millisUntilFinished) {
+//                                    tv_time.setText(TimeUtil.timeConversion(millisUntilFinished / 1000));
+                                        bean.setLive_time_unix(millisUntilFinished);
+                                    }
+
+                                    public void onFinish() {
+                                        bean.setStatus(1);
+                                    }
+                                }.start();
+                            }
+                        }
+                    }
                     hideEmptyView();
                 } else {
                     showEmptyView();
@@ -230,24 +232,26 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
             mPage++;
             if (mPage <= total) {
                 smart_rl.finishLoadMore();
-//                if (list != null && list.size() > 0) {
-//                    // TODO: 2023/1/12  开启子线程倒计时 可以实现显示倒计时时间实时更新 不用重新调用接口  是不是会损耗性能  还待检测
-//                    for (CricketTournamentBean item : list) {
-//                        List<CricketMatchBean> cricket_match = item.getCricket_match();
-//                        for (CricketMatchBean bean : cricket_match) {
-//                            new CountDownTimer(bean.getLive_time_unix(), 1000) {
-//                                public void onTick(long millisUntilFinished) {
-////                                    tv_time.setText(TimeUtil.timeConversion(millisUntilFinished / 1000));
-//                                    bean.setLive_time_unix(millisUntilFinished);
-//                                }
-//
-//                                public void onFinish() {
-//                                    bean.setStatus(1);
-//                                }
-//                            }.start();
-//                        }
-//                    }
-//                }
+                if (list != null && list.size() > 0) {
+                    // TODO: 2023/1/12  开启子线程倒计时 可以实现显示倒计时时间实时更新 不用重新调用接口  是不是会损耗性能  还待检测
+                    for (CricketTournamentBean item : list) {
+                        List<CricketMatchBean> cricket_match = item.getCricket_match();
+                        for (CricketMatchBean bean : cricket_match) {
+                            if (bean.getStatus() == 0) {
+                                new CountDownTimer(bean.getLive_time_unix(), 1000) {
+                                    public void onTick(long millisUntilFinished) {
+//                                    tv_time.setText(TimeUtil.timeConversion(millisUntilFinished / 1000));
+                                        bean.setLive_time_unix(millisUntilFinished);
+                                    }
+
+                                    public void onFinish() {
+                                        bean.setStatus(1);
+                                    }
+                                }.start();
+                            }
+                        }
+                    }
+                }
                 mAdapter.addData(list);
             } else {
                 smart_rl.finishLoadMoreWithNoMoreData();
