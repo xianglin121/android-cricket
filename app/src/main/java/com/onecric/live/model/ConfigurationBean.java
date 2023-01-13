@@ -13,7 +13,7 @@ public class ConfigurationBean {
     private String privacy_policy;
     private String user_agreement;
     private String h5_url;
-    private int android_mandatory_update_sandbox;
+    private int androidMandatoryUpdateSandbox;
     private String androidVersionMumber;
     private String androidDownloadUrl;
     private String androidDownloadText;
@@ -69,11 +69,11 @@ public class ConfigurationBean {
     }
 
     public int getAndroidMandatoryUpdateSandbox() {
-        return android_mandatory_update_sandbox;
+        return androidMandatoryUpdateSandbox;
     }
 
     public void setAndroidMandatoryUpdateSandbox(int androidMandatoryUpdateSandbox) {
-        this.android_mandatory_update_sandbox = androidMandatoryUpdateSandbox;
+        this.androidMandatoryUpdateSandbox = androidMandatoryUpdateSandbox;
     }
 
     public String getAndroidVersionMumber() {
@@ -118,12 +118,12 @@ public class ConfigurationBean {
 
     public String getCountryListAbbr() {
         StringBuilder county = new StringBuilder();
-        if (CountryCode == null || CountryCode.size() <= 0) {
+        if(CountryCode == null || CountryCode.size()<=0){
             return null;
         }
-        for (CountryCodeBean bean : CountryCode) {
-            county.append(bean.getCountry_code() + ",");
+        for(CountryCodeBean bean: CountryCode){
+            county.append(bean.getCountry_code()+",");
         }
-        return county.substring(0, county.length() - 1);
+        return county.substring(0,county.length()-1);
     }
 }
