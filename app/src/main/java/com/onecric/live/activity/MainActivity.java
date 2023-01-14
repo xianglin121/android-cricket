@@ -63,9 +63,6 @@ import java.util.List;
 
 public class MainActivity extends MvpActivity<MainPresenter> implements MainView {
 
-    private boolean showUpdateDialog;
-    private boolean isForceUpdate;
-
     public static void forward(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
@@ -148,6 +145,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                         MyMessageActivity.forward(mActivity);
                     } else if (id == R.id.menu_system_settings) {
                         SettingActivity.forward(mActivity);
+                    } else if (id == R.id.menu_about_us) {
+                        AboutUsActivity.forward(mActivity);
                     }
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -338,8 +337,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         CommonAppConfig.getInstance().saveConfig(bean);
         //检查是否有版本更新
         if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
-            showUpdateDialog = true;
-            isForceUpdate = CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false;
             DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false,
                     CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber(),
                     CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),
