@@ -12,6 +12,7 @@ import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.retrofit.ApiClient;
 import com.onecric.live.retrofit.ApiStores;
 import com.onecric.live.util.SpUtil;
+import com.onecric.live.util.ToolUtil;
 import com.onecric.live.view.BaseActivity;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -48,7 +49,7 @@ public class SplashActivity extends BaseActivity {
 
     private void getConfiguration() {
         ApiClient.retrofit().create(ApiStores.class)
-                .getDefaultConfiguration(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())
+                .getDefaultConfiguration(ToolUtil.getCurrentVersionCode(this))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new ApiCallback() {

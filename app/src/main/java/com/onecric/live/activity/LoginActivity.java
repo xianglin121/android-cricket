@@ -46,6 +46,7 @@ import com.onecric.live.model.AreasModel;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.login.LoginPresenter;
 import com.onecric.live.util.ToastUtil;
+import com.onecric.live.util.ToolUtil;
 import com.onecric.live.util.WordUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.login.LoginView;
@@ -463,7 +464,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
         if (CommonAppConfig.getInstance().getConfig() != null && CommonAppConfig.getInstance().getConfig().getCountryCode() != null) {
             showCountryList();
         } else {
-            mvpPresenter.getConfiguration();
+            mvpPresenter.getConfiguration(ToolUtil.getCurrentVersionCode(this));
         }
     }
 

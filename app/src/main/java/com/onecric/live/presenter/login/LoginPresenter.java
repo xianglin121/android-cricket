@@ -10,6 +10,7 @@ import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.util.ToastUtil;
+import com.onecric.live.util.ToolUtil;
 import com.onecric.live.view.login.LoginView;
 
 public class LoginPresenter extends BasePresenter<LoginView> {
@@ -136,8 +137,8 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 });
     }
 
-    public void getConfiguration() {
-        addSubscription(apiStores.getDefaultConfiguration(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber()),
+    public void getConfiguration(String currentVersionNumber) {
+        addSubscription(apiStores.getDefaultConfiguration(currentVersionNumber),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

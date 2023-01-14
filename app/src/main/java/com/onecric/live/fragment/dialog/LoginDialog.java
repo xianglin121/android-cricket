@@ -51,6 +51,7 @@ import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.retrofit.ApiClient;
 import com.onecric.live.retrofit.ApiStores;
 import com.onecric.live.util.ToastUtil;
+import com.onecric.live.util.ToolUtil;
 import com.onecric.live.util.WordUtil;
 import com.onecric.live.view.BaseActivity;
 
@@ -297,7 +298,7 @@ public class LoginDialog extends Dialog {
     @SuppressLint("CheckResult")
     public void requestConfiguration() {
         ApiClient.retrofit().create(ApiStores.class)
-                .getDefaultConfiguration(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())
+                .getDefaultConfiguration(ToolUtil.getCurrentVersionCode(mContext))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new ApiCallback() {
