@@ -169,7 +169,11 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
     public void getDataFail(String msg) {
         //没网时空图
         smart_no_network.finishRefresh();
-        if(msg.equals(getString(R.string.no_internet_connection)) && (mIndicatorAdapter == null)){
+//        if (msg.equals(getString(R.string.no_internet_connection)) && (mIndicatorAdapter == null)) {
+//            smart_no_network.setVisibility(View.VISIBLE);
+//            mViewPager.setVisibility(View.GONE);
+//        }
+        if ((mIndicatorAdapter == null)) {
             smart_no_network.setVisibility(View.VISIBLE);
             mViewPager.setVisibility(View.GONE);
         }
