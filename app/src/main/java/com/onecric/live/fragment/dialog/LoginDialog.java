@@ -80,13 +80,13 @@ public class LoginDialog extends Dialog {
     private static final int TOTAL = 60;
     private int count = TOTAL;
     private String getCodeString;
-//    private WebView webview;
+    //    private WebView webview;
 //    private WebSettings webSettings;
     private boolean isSendCode = false;
     private boolean isSame;
     public OnWebViewListener mWebViewListener;
 
-    public LoginDialog(@NonNull BaseActivity context, int themeResId,OnWebViewListener listener) {
+    public LoginDialog(@NonNull BaseActivity context, int themeResId, OnWebViewListener listener) {
         super(context, themeResId);
         mContext = context;
         mWebViewListener = listener;
@@ -104,7 +104,7 @@ public class LoginDialog extends Dialog {
                     if (handler != null) {
                         handler.sendEmptyMessageDelayed(0, 1000);
                     }
-                }else {
+                } else {
                     tvAuthCode.setText(getCodeString);
                     count = TOTAL;
                     if (tvAuthCode != null) {
@@ -164,7 +164,7 @@ public class LoginDialog extends Dialog {
                 return;
             }
 
-            if(TextUtils.isEmpty(etArea.getText().toString().trim())){
+            if (TextUtils.isEmpty(etArea.getText().toString().trim())) {
                 ToastUtil.show(mContext.getString(R.string.country));
                 return;
             }
@@ -174,12 +174,12 @@ public class LoginDialog extends Dialog {
                 return;
             }
 
-            if(!isSendCode){
+            if (!isSendCode) {
                 ToastUtil.show(mContext.getString(R.string.send_verification_tip));
                 return;
             }
 
-            if(TextUtils.isEmpty(etVerification.getText().toString().trim())){
+            if (TextUtils.isEmpty(etVerification.getText().toString().trim())) {
                 ToastUtil.show(mContext.getString(R.string.verification_code));
                 return;
             }
@@ -190,7 +190,7 @@ public class LoginDialog extends Dialog {
 
     }
 
-    private void setAgreementSpannable(){
+    private void setAgreementSpannable() {
         String tips = mContext.getString(R.string.login_agreement_info);
         SpannableString spannableString = new SpannableString(tips);
         spannableString.setSpan(new ClickableSpan() {
@@ -207,7 +207,7 @@ public class LoginDialog extends Dialog {
                 ds.setColor(mContext.getResources().getColor(R.color.c_DC3C23));
                 ds.setUnderlineText(false);
             }
-        },17, 39, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }, 17, 39, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         spannableString.setSpan(new ClickableSpan() {
             @Override
@@ -223,7 +223,7 @@ public class LoginDialog extends Dialog {
                 ds.setColor(mContext.getResources().getColor(R.color.c_DC3C23));
                 ds.setUnderlineText(false);
             }
-        },tips.length() - 14, tips.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }, tips.length() - 14, tips.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         tvAgreement.setMovementMethod(LinkMovementMethod.getInstance());
         tvAgreement.setHighlightColor(Color.TRANSPARENT);
@@ -245,10 +245,10 @@ public class LoginDialog extends Dialog {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!TextUtils.isEmpty(editable.toString().trim()) && !isSame){
+                if (!TextUtils.isEmpty(editable.toString().trim()) && !isSame) {
                     String code = editable.toString().trim();
-                    for(AreasModel.CountryModel model:countryList){
-                        if(model.getTel().equals(code)){
+                    for (AreasModel.CountryModel model : countryList) {
+                        if (model.getTel().equals(code)) {
                             ccp.setCountryForNameCode(model.getShortName());
                             return;
                         }
@@ -258,7 +258,7 @@ public class LoginDialog extends Dialog {
             }
         });
         //选择国家
-        ccp.setOnCountryChangeListener(() ->{
+        ccp.setOnCountryChangeListener(() -> {
             isSame = true;
             etArea.setText(ccp.getSelectedCountryCode());
             etArea.setSelection(ccp.getSelectedCountryCode().length());
@@ -283,7 +283,7 @@ public class LoginDialog extends Dialog {
         ccp.setCustomMasterCountries("IN");
         if (CommonAppConfig.getInstance().getConfig() != null && CommonAppConfig.getInstance().getConfig().getCountryCode() != null) {
             showCountryList();
-        }else{
+        } else {
             requestConfiguration();
         }
     }
@@ -297,7 +297,7 @@ public class LoginDialog extends Dialog {
     @SuppressLint("CheckResult")
     public void requestConfiguration() {
         ApiClient.retrofit().create(ApiStores.class)
-                .getDefaultConfiguration()
+                .getDefaultConfiguration(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new ApiCallback() {
@@ -322,7 +322,7 @@ public class LoginDialog extends Dialog {
                 });
     }
 
-    private void requestCode(String phone){
+    private void requestCode(String phone) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("mobile", phone);
         jsonObject.put("type", 3);
@@ -336,7 +336,7 @@ public class LoginDialog extends Dialog {
                         isSendCode = true;
 //        if (dialog != null) {dialog.dismiss();}
                         handler.sendEmptyMessage(0);
-                }
+                    }
 
                     @Override
                     public void onFailure(String msg) {
@@ -357,8 +357,8 @@ public class LoginDialog extends Dialog {
                 });
     }
 
-    private void requestLogin(){
-        String prefix= etArea.getText().toString().trim();
+    private void requestLogin() {
+        String prefix = etArea.getText().toString().trim();
         btn_login.setEnabled(false);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("mobile", prefix + "-" + etPhone.getText().toString().trim());
@@ -431,11 +431,11 @@ public class LoginDialog extends Dialog {
         return requestBody;
     }
 
-    public interface OnWebViewListener{
+    public interface OnWebViewListener {
         void onShow();
     }
 
-    public void passWebView(){
+    public void passWebView() {
         String area = etArea.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
         tvAuthCode.setEnabled(false);

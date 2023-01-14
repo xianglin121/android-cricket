@@ -80,7 +80,7 @@ public interface ApiStores {
 
     //获取默认配置
     @GET("api/universal/getHot")
-    Observable<JsonObject> getDefaultConfiguration();
+    Observable<JsonObject> getDefaultConfiguration(@Query("versionNumber") String versionNumber);
 
     //获取首页足球列表
     @GET("api/Football/football_match")
@@ -690,12 +690,12 @@ public interface ApiStores {
     //获取篮球赛事列表
     @GET("api/Basketball_database/tournamentList")
     Observable<JsonObject> getBasketBallMatchDataList(@Query("country_id") int country_id,
-                                            @Query("category_id") int category_id);
+                                                      @Query("category_id") int category_id);
 
     //获取篮球赛事列表
     @GET("api/Football_database/tournamentList")
     Observable<JsonObject> getFootBallMatchDataList(@Query("country_id") int country_id,
-                                            @Query("category_id") int category_id);
+                                                    @Query("category_id") int category_id);
 
     //获取篮球赛事详情
     @GET("api/Basketball_database/competitionInfo")
@@ -716,7 +716,7 @@ public interface ApiStores {
     //获取篮球球员列表
     @GET("api/Basketball_database/teamMember")
     Observable<JsonObject> getBasketballMatchDataBestMember(@Query("id") int id,
-                                                          @Query("type") int type);
+                                                            @Query("type") int type);
 
     //获取足球赛事详情
     @GET("api/football_database/competitionInfo")
@@ -732,17 +732,17 @@ public interface ApiStores {
     //获取足球赛程积分
     @GET("api/Football_database/integral")
     Observable<JsonObject> getFootballMatchDataRanking(@Query("season_id") int season_id,
-                                                     @Query("integral_type") int integral_type);
+                                                       @Query("integral_type") int integral_type);
 
     //获取足球球队列表
     @GET("api/Football_database/TeamData")
     Observable<JsonObject> getFootballMatchDataBestTeam(@Query("id") int id,
-                                                          @Query("type") int type);
+                                                        @Query("type") int type);
 
     //获取足球球员列表
     @GET("api/Football_database/teamMember")
     Observable<JsonObject> getFootballMatchDataBestMember(@Query("id") int id,
-                                                            @Query("type") int type);
+                                                          @Query("type") int type);
 
     //获取轮播图
     @GET("api/banner/getBannerList")

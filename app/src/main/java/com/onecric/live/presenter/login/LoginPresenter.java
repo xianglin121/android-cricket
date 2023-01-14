@@ -137,7 +137,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void getConfiguration() {
-        addSubscription(apiStores.getDefaultConfiguration(),
+        addSubscription(apiStores.getDefaultConfiguration(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber()),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

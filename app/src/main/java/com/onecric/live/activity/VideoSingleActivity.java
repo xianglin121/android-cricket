@@ -247,7 +247,7 @@ public class VideoSingleActivity extends BaseActivity {
             mCountDownTimer.cancel();
         }
         GSYVideoManager.releaseAllVideos();
-//        GSYVideoManager.instance().clearAllDefaultCache(this);
+        GSYVideoManager.instance().clearAllDefaultCache(this);
         if (orientationUtils != null)
             orientationUtils.releaseListener();
     }

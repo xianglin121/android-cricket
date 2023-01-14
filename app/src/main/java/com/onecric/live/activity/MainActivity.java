@@ -220,7 +220,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         //登录IM
         loginIM();
         //获取默认配置
-        mvpPresenter.getConfiguration();
+        mvpPresenter.getConfiguration(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber());
 //        //检查是否有版本更新
 //        if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
 ////            DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false,

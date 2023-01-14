@@ -48,7 +48,7 @@ public class SplashActivity extends BaseActivity {
 
     private void getConfiguration() {
         ApiClient.retrofit().create(ApiStores.class)
-                .getDefaultConfiguration()
+                .getDefaultConfiguration(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new ApiCallback() {
