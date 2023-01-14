@@ -170,15 +170,18 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
                     public void onConfirmClick(Dialog dialog, String content) {
 //                        clearCache();
                         DataCleanManager.cleanInternalCache(SettingActivity.this);
+                        Dialog loadingDialog = DialogUtil.loadingDialog(SettingActivity.this);
+                        loadingDialog.show();
                         if (mHandler == null) {
                             mHandler = new Handler();
                         }
                         mHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if (dialog != null) {
-                                    dialog.dismiss();
-                                }
+//                                if (dialog != null) {
+//                                    dialog.dismiss();
+//                                }
+                                loadingDialog.dismiss();
                                 tv_cache_size.setText("0.00MB");
                                 ToastUtil.show(WordUtil.getString(mActivity, R.string.setting_clear_cache_success));
                             }

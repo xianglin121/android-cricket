@@ -44,7 +44,7 @@ public class DataCleanManager {
     public static void cleanSharedPreference(Context context) {
 
         deleteFilesByDirectory(new File("/data/data/"
-                + context.getPackageName() + "/shared_prefs"));
+                + context.getPackageName() + "/SharedPreferences"));
     }
 
     /**
