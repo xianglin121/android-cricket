@@ -90,8 +90,8 @@ public class CricketLiveFragment extends MvpFragment<CricketLivePresenter> imple
         mAdapter = new CricketNewLiveAdapter(mCricketLiveBeanList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAdapter);
-
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
+        inflate.findViewById(R.id.ll_empty).setVisibility(View.VISIBLE);
         mAdapter.setEmptyView(inflate);
 
         mvpPresenter.getList(mMatchId, mPage, mLimit, TYPE_REFRESH);
