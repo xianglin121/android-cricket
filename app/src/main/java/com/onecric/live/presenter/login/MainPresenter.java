@@ -18,8 +18,8 @@ public class MainPresenter extends BasePresenter<MainView> {
         attachView(view);
     }
 
-    public void getConfiguration() {
-        addSubscription(apiStores.getDefaultConfiguration(),
+    public void getConfiguration(String versionNumber) {
+        addSubscription(apiStores.getDefaultConfiguration(versionNumber),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

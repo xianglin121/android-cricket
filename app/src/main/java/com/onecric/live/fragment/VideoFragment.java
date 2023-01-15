@@ -66,10 +66,10 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
                 if (CommonAppConfig.getInstance().getUserBean() != null) {
                     if (CommonAppConfig.getInstance().getUserBean().getIs_writer() == 1) {
                         VideoPublishActivity.forward(getContext());
-                    }else {
+                    } else {
                         ToastUtil.show(getActivity().getString(R.string.please_join_writer));
                     }
-                }else {
+                } else {
                     LoginActivity.forward(getContext());
                 }
             }
@@ -132,22 +132,22 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
             if (list != null) {
                 if (list.size() > 0) {
                     hideEmptyView();
-                }else {
+                } else {
                     showEmptyView();
                 }
                 mAdapter.getData().clear();
                 mAdapter.getData().addAll(list);
                 mAdapter.notifyItemInserted(list.size());
-            }else {
+            } else {
                 mAdapter.setNewData(new ArrayList<>());
                 hideEmptyView();
             }
-        }else {
+        } else {
             mPage++;
             if (list != null && list.size() > 0) {
                 smart_rl.finishLoadMore();
                 mAdapter.addData(list);
-            }else {
+            } else {
                 smart_rl.finishLoadMoreWithNoMoreData();
             }
         }
@@ -163,7 +163,11 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
         smart_rl.finishRefresh();
         smart_rl.finishLoadMore();
         //没网时空图
-        if(msg.equals(getString(R.string.no_internet_connection)) && mAdapter.getData().size()<=0){
+//        if (msg.equals(getString(R.string.no_internet_connection)) && mAdapter.getData().size() <= 0) {
+//            ToastUtil.show(getString(R.string.no_internet_connection));
+//            showEmptyView();
+//        }
+        if (mAdapter.getData().size() <= 0) {
             ToastUtil.show(getString(R.string.no_internet_connection));
             showEmptyView();
         }
@@ -175,11 +179,11 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
             for (int i = 0; i < mAdapter.getData().size(); i++) {
                 ShortVideoBean shortVideoBean = mAdapter.getData().get(i);
                 if (shortVideoBean.getId() == event.id) {
-                    int likeCount =  shortVideoBean.getLikes();
+                    int likeCount = shortVideoBean.getLikes();
                     if (shortVideoBean.getIs_likes() == 1) {
                         shortVideoBean.setIs_likes(0);
                         likeCount--;
-                    }else {
+                    } else {
                         shortVideoBean.setIs_likes(1);
                         likeCount++;
                     }

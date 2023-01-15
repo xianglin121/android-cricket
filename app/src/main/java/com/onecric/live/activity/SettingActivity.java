@@ -12,17 +12,19 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.multidex.BuildConfig;
 
+import com.onecric.live.BuildConfig;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.user.SettingPresenter;
+import com.onecric.live.util.DataCleanManager;
 import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
@@ -34,6 +36,8 @@ import com.onecric.live.view.user.SettingView;
 import java.lang.reflect.Method;
 
 public class SettingActivity extends MvpActivity<SettingPresenter> implements SettingView, View.OnClickListener {
+
+    private LinearLayout ll_login_container;
 
     public static void forward(Context context) {
         Intent intent = new Intent(context, SettingActivity.class);
@@ -71,6 +75,7 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
         findViewById(R.id.ll_pay_pwd).setOnClickListener(this);
         findViewById(R.id.cl_change_pwd).setOnClickListener(this);
         findViewById(R.id.cl_logout).setOnClickListener(this);
+        ll_login_container = findViewById(R.id.ll_login_container);
 //        findViewById(R.id.tv_sign_out).setOnClickListener(this);
         btn_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -78,6 +83,11 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
                 SpUtil.getInstance().setBooleanValue(SpUtil.FLOATING_PLAY, btn_switch.isChecked());
             }
         });
+        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+            ll_login_container.setVisibility(View.GONE);
+        } else {
+            ll_login_container.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -92,7 +102,8 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
                 ll_tip.setVisibility(View.VISIBLE);
             }
         }
-        tv_cache_size.setText(ToolUtil.getCacheSize());
+//        tv_cache_size.setText(ToolUtil.getCacheSize());
+        tv_cache_size.setText(DataCleanManager.getCacheSize(this));
     }
 
     @Override
@@ -143,13 +154,11 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
                 break;
             case R.id.cl_update:
                 if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
-//                    DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox()==1?true:false,
-//                            CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber(),
-//                            CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),
-//                            CommonAppConfig.getInstance().getConfig().getAndroidDownloadUrl());
-                    if (DialogUtil.checkUpdateInfo(this, CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
-                        transferToGooglePlay();
-                    }
+                    DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false,
+                            CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber(),
+                            CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),
+                            CommonAppConfig.getInstance().getConfig().getAndroidDownloadUrl(), CommonAppConfig.getInstance().getConfig().getDomain_pc_name(), CommonAppConfig.getInstance().getConfig().getAndroid_mandatory_update_type()
+                    );
                 }
                 break;
             case R.id.cl_about_us:
@@ -159,7 +168,24 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
                 DialogUtil.showSimpleDialog(this, getString(R.string.clear_cache), getString(R.string.clear_cache_tip), true, new DialogUtil.SimpleCallback() {
                     @Override
                     public void onConfirmClick(Dialog dialog, String content) {
-                        clearCache();
+//                        clearCache();
+                        DataCleanManager.cleanInternalCache(SettingActivity.this);
+                        Dialog loadingDialog = DialogUtil.loadingDialog(SettingActivity.this);
+                        loadingDialog.show();
+                        if (mHandler == null) {
+                            mHandler = new Handler();
+                        }
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+//                                if (dialog != null) {
+//                                    dialog.dismiss();
+//                                }
+                                loadingDialog.dismiss();
+                                tv_cache_size.setText("0.00MB");
+                                ToastUtil.show(WordUtil.getString(mActivity, R.string.setting_clear_cache_success));
+                            }
+                        }, 3000);
                     }
                 });
                 break;

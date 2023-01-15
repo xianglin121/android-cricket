@@ -45,6 +45,7 @@ import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.MPermissionUtils;
 import com.onecric.live.util.ToastUtil;
+import com.onecric.live.util.ToolUtil;
 import com.onecric.live.util.WordUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.login.MainView;
@@ -62,9 +63,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends MvpActivity<MainPresenter> implements MainView {
-
-    private boolean showUpdateDialog;
-    private boolean isForceUpdate;
 
     public static void forward(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -137,10 +135,10 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                    ToastUtil.show(getString(R.string.please_login));
-                    LoginActivity.forward(mActivity);
-                } else {
+//                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+//                    ToastUtil.show(getString(R.string.please_login));
+//                    LoginActivity.forward(mActivity);
+//                } else {
                     int id = item.getItemId();
                     if (id == R.id.menu_my_concerns) {
                         MyFollowActivity.forward(mActivity);
@@ -148,8 +146,10 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                         MyMessageActivity.forward(mActivity);
                     } else if (id == R.id.menu_system_settings) {
                         SettingActivity.forward(mActivity);
+                    } else if (id == R.id.menu_about_us) {
+                        AboutUsActivity.forward(mActivity);
                     }
-                }
+//                }
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
@@ -221,7 +221,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         //登录IM
         loginIM();
         //获取默认配置
-        mvpPresenter.getConfiguration();
+        mvpPresenter.getConfiguration(ToolUtil.getCurrentVersionCode(this));
 //        //检查是否有版本更新
 //        if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
 ////            DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false,
@@ -338,8 +338,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         CommonAppConfig.getInstance().saveConfig(bean);
         //检查是否有版本更新
         if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
-            showUpdateDialog = true;
-            isForceUpdate = CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false;
             DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false,
                     CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber(),
                     CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),

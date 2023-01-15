@@ -127,6 +127,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             mCountDownTimer.cancel();
         }
         GSYVideoManager.releaseAllVideos();
+//        GSYVideoManager.instance().clearAllDefaultCache(this);
         if (orientationUtils != null)
             orientationUtils.releaseListener();
     }

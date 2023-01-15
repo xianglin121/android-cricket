@@ -3,14 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_my_concerns"
-        android:title="@string/my_concerns"
-        android:icon="@mipmap/icon_my_concerns"/>
+        android:icon="@mipmap/icon_my_concerns"
+        android:title="@string/my_concerns" />
+    <item
+        android:id="@+id/menu_about_us"
+        android:icon="@mipmap/slice"
+        android:visible="false"
+        android:title="@string/about_us" />
     <item
         android:id="@+id/menu_my_message"
-        android:title="@string/my_message"
-        android:icon="@mipmap/icon_my_message"/>
+        android:icon="@mipmap/icon_my_message"
+        android:title="@string/my_message" />
     <item
         android:id="@+id/menu_system_settings"
-        android:title="@string/system_settings"
-        android:icon="@mipmap/icon_system_settings"/>
+        android:icon="@mipmap/icon_system_settings"
+        android:title="@string/system_settings" />
 </menu>
