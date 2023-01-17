@@ -242,3 +242,9 @@
 
 # 知乎
 -keep class com.zhihu.matisse.** { *; }
+
+#  七牛
+-keep class com.qiniu.pili.droid.** { *; }
+
+
+
