@@ -39,10 +39,10 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
     private TabLayout tabLayout;
     private ViewPager mViewPager;
     private List<Fragment> mViewList;
-    private int id;
+    private String id;
 
 
-    public static void forward(Context context, int id) {
+    public static void forward(Context context, String id) {
         Intent intent = new Intent(context, PersonalHomepageActivity.class);
         intent.putExtra("id", id);
         context.startActivity(intent);
@@ -61,9 +61,9 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
 
     @Override
     protected void initView() {
-        id = getIntent().getIntExtra("id", 0);
+        id = getIntent().getStringExtra("id");
         View ll_follow = findViewById(R.id.ll_follow);
-        if (id == 0) {
+        if (id.equals(CommonAppConfig.getInstance().getUid())) {
             ll_follow.setVisibility(View.GONE);
         }
         head_pic = findViewById(R.id.person_head_pic);
@@ -174,7 +174,7 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
             case R.id.ll_follow:
                 break;
             case R.id.person_head_pic:
-                if (id == 0) {
+                if (id.equals(CommonAppConfig.getInstance().getUid())) {
                     UserInfoActivity.forward(mActivity);
                 }
                 break;

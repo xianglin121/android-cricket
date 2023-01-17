@@ -65,6 +65,17 @@ public interface ApiStores {
     Observable<JsonObject> getUserInfo(@Header("token") String token,
                                        @Query("id") int uid);
 
+
+    //获取个人动态信息
+    @GET("api/circle/index")
+    Observable<JsonObject> getUserDynamic(@Header("page") String page,
+                                          @Query("user_id") int user_id);
+
+    //获取个人视频列表
+    @GET("api/Video/getList")
+    Observable<JsonObject> getUserVideoList(@Header("page") String token,
+                                            @Query("type") int type, @Query("user_id") int user_id);
+
     //关注用户
     @GET("api/Member/attention")
     Observable<JsonObject> doFollow(@Header("token") String token,

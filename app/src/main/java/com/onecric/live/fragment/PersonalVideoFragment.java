@@ -45,10 +45,10 @@ public class PersonalVideoFragment extends MvpFragment<VideoPresenter> implement
     private int mPage = 1;
 
 
-    public static PersonalVideoFragment newInstance(int id) {
+    public static PersonalVideoFragment newInstance(String id) {
         PersonalVideoFragment fragment = new PersonalVideoFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("id", id);
+        bundle.putString("id", id);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -86,7 +86,7 @@ public class PersonalVideoFragment extends MvpFragment<VideoPresenter> implement
 
     @Override
     protected void initData() {
-        int id = getArguments().getInt("id");
+        String id = getArguments().getString("id");
         MaterialHeader materialHeader = new MaterialHeader(getContext());
         materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
         smart_rl.setRefreshHeader(materialHeader);

@@ -7,15 +7,15 @@ import com.onecric.live.CommonAppConfig;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
-import com.onecric.live.view.user.PersonalHomepageView;
+import com.onecric.live.view.user.MySpaceView;
 
-public class PersonalHomepagePresenter extends BasePresenter<PersonalHomepageView> {
-    public PersonalHomepagePresenter(PersonalHomepageView view) {
+public class PersonalVideosPresenter extends BasePresenter<MySpaceView> {
+    public PersonalVideosPresenter(MySpaceView view) {
         attachView(view);
     }
 
-    public void getUserInfo(String id) {
-        addSubscription(apiStores.getUserInfo(CommonAppConfig.getInstance().getToken(), Integer.parseInt(id)),
+    public void getUserInfo(int uid) {
+        addSubscription(apiStores.getUserInfo(CommonAppConfig.getInstance().getToken(), uid),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

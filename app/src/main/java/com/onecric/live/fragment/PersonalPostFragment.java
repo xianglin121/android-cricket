@@ -39,10 +39,10 @@ public class PersonalPostFragment extends MvpFragment<ThemeCommunityHotPresenter
 
     private PersonalPostThemeAdapter mGroupAdapter;
 
-    public static PersonalPostFragment newInstance(int id) {
+    public static PersonalPostFragment newInstance(String id) {
         PersonalPostFragment fragment = new PersonalPostFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("id", id);
+        bundle.putString("id", id);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -91,6 +91,7 @@ public class PersonalPostFragment extends MvpFragment<ThemeCommunityHotPresenter
 
     @Override
     protected void initData() {
+        String id = getArguments().getString("id");
         MaterialHeader materialHeader = new MaterialHeader(getContext());
         materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
         smart_rl.setRefreshHeader(materialHeader);

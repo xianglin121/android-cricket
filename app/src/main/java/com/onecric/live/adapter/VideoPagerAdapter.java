@@ -80,7 +80,10 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
             holder.rl_silence.setVisibility(View.GONE);
             GSYVideoManager videoManager = (GSYVideoManager) holder.videoView.getGSYVideoManager();
             videoManager.setNeedMute(false);
-            bean.setSilence(false);
+//            bean.setSilence(false);
+            for (ShortVideoBean item : videoBeans) {
+                item.setSilence(false);
+            }
         });
 //        if (bean.getVideo() != null && bean.getVideo().size() > 0) {
 //            GlideUtil.loadImageDefault(activity, bean.getVideo().get(0).getImg(), holder.coverImage);
