@@ -135,21 +135,21 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-//                    ToastUtil.show(getString(R.string.please_login));
-//                    LoginActivity.forward(mActivity);
-//                } else {
-                    int id = item.getItemId();
-                    if (id == R.id.menu_my_concerns) {
-                        MyFollowActivity.forward(mActivity);
-                    } else if (id == R.id.menu_my_message) {
-                        MyMessageActivity.forward(mActivity);
-                    } else if (id == R.id.menu_system_settings) {
-                        SettingActivity.forward(mActivity);
-                    } else if (id == R.id.menu_about_us) {
-                        AboutUsActivity.forward(mActivity);
+                int id = item.getItemId();
+                if (id == R.id.menu_system_settings) {
+                    SettingActivity.forward(mActivity);
+                } else {
+                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                        ToastUtil.show(getString(R.string.please_login));
+                        LoginActivity.forward(mActivity);
+                    } else {
+                        if (id == R.id.menu_my_concerns) {
+                            MyFollowActivity.forward(mActivity);
+                        } else if (id == R.id.menu_my_message) {
+                            MyMessageActivity.forward(mActivity);
+                        }
                     }
-//                }
+                }
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
