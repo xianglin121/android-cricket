@@ -246,5 +246,5 @@
 #  七牛
 -keep class com.qiniu.pili.droid.** { *; }
 
-
+-keep class cn.qqtheme.framework.** { *; }
 
