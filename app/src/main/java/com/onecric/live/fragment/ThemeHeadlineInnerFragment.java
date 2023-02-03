@@ -94,13 +94,8 @@ public class ThemeHeadlineInnerFragment extends MvpFragment<ThemeHeadlineInnerPr
             }
         });
 
-        mAdapter = new ThemeHeadlineAdapter(R.layout.item_theme_headline, new ArrayList<>());
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                HeadlineDetailActivity.forward(getContext(), mAdapter.getItem(position).getId());
-            }
-        });
+        mAdapter = new ThemeHeadlineAdapter(new ArrayList<>(),getActivity());
+        mAdapter.setmOnItemClickListener((view, position, bean) -> HeadlineDetailActivity.forward(getContext(), bean.getId()));
         rv_headline.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_headline.setAdapter(mAdapter);
 
@@ -135,7 +130,7 @@ public class ThemeHeadlineInnerFragment extends MvpFragment<ThemeHeadlineInnerPr
             }else {
                 showEmptyView();
             }
-            mAdapter.setNewData(list);
+            mAdapter.setData(list);
         }else {
             mPage++;
             if (list != null && list.size() > 0) {
@@ -155,7 +150,7 @@ public class ThemeHeadlineInnerFragment extends MvpFragment<ThemeHeadlineInnerPr
         mBanner.setAdapter(new BannerRoundImageAdapter(banners) {
             @Override
             public void onBindView(Object holder, Object data, int position, int size) {
-                Glide.with(getContext()).load(((HeadlineBean)data).getImg()).placeholder(R.mipmap.loading_news_big).into(((BannerRoundImageHolder)holder).imageView);
+                Glide.with(getContext()).load(((HeadlineBean)data).getImg()).into(((BannerRoundImageHolder)holder).imageView);
                 if (!TextUtils.isEmpty(((HeadlineBean)data).getTitle())) {
                     ((BannerRoundImageHolder)holder).textView.setText(((HeadlineBean)data).getTitle());
                 }else {

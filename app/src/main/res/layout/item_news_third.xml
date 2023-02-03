@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/ripple_6dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="14dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_head"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="8dp"/>
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/c_333333"
+            android:fontFamily="@font/noto_sans_display_semibold"
+            android:layout_toRightOf="@+id/iv_head"/>
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/c_999999"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@+id/tv_user_name"
+            android:layout_toLeftOf="@id/iv_logo"
+            android:layout_alignTop="@id/tv_user_name"
+            android:layout_alignBottom="@+id/tv_user_name"/>
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginLeft="5dp"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_logo"
+            android:layout_alignLeft="@+id/tv_user_name"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="2dp"
+            android:textSize="14sp"
+            android:fontFamily="@font/noto_sans_display_semibold"
+            android:textColor="@color/c_333333"/>
+
+        <com.onecric.live.custom.FoldTextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_title"
+            android:layout_marginTop="2dp"
+            android:textSize="13dp"
+            android:textColor="@color/c_333333"
+            app:showMaxLine="3"
+            app:showTipAfterExpand="true"
+            android:layout_alignLeft="@+id/tv_user_name"
+            android:layout_alignParentRight="true"
+            app:tipClickable="true"
+            app:tipColor="@color/colorPrimary"
+            app:tipGravity="0"/>
+
+        <TextView
+            android:id="@+id/tv_full_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/full_text"
+            android:textSize="14sp"
+            android:textColor="@color/c_E3AC72"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/flowlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="9.5dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="5dp">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/iv_cover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginBottom="10dp"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="6dp"/>
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/iv_cover"
+            app:layout_constraintBottom_toBottomOf="@id/iv_cover"
+            app:layout_constraintLeft_toLeftOf="@id/iv_cover"
+            app:layout_constraintRight_toRightOf="@id/iv_cover"
+            android:background="@drawable/superplayer_ic_play"
+            android:visibility="gone"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="14dp"
+        android:background="@color/line_color"/>
+
+</LinearLayout>

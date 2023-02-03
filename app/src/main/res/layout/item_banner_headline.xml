@@ -7,8 +7,9 @@
         android:id="@+id/iv_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        app:riv_corner_radius="6dp"/>
+        android:scaleType="matrix"
+        app:riv_corner_radius="6dp"
+        android:background="@mipmap/loading_news_big"/>
 
     <TextView
         android:id="@+id/tv_title"
@@ -17,7 +18,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="12dp"
-        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:textSize="16dp"
         android:textColor="@color/white"

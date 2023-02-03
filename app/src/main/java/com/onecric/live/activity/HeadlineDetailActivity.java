@@ -429,11 +429,11 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 wv_content.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
             }
             if (list != null) {
-                mAdapter = new ThemeHeadlineAdapter(R.layout.item_theme_headline, list);
-                mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                mAdapter = new ThemeHeadlineAdapter(list,mActivity);
+                mAdapter.setmOnItemClickListener(new ThemeHeadlineAdapter.OnItemClickListener() {
                     @Override
-                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        HeadlineDetailActivity.forward(mActivity, mAdapter.getItem(position).getId());
+                    public void onItemClick(View view, int position, HeadlineBean bean) {
+                        HeadlineDetailActivity.forward(mActivity, bean.getId());
                     }
                 });
                 rv_article.setLayoutManager(new LinearLayoutManager(mActivity));
