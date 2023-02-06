@@ -73,5 +73,9 @@
     <string name="input_tip">No nickname entered, please fill in again</string>
     <string name="profile_msgrev_opt">Message Do Not Disturb</string>
     <string name="edit">Edit</string>
+    <string name="all">All</string>
+    <string name="published">Published</string>
+    <string name="under_review">Under review</string>
+    <string name="audit_failure">Audit failure</string>
 
 </resources>

@@ -126,8 +126,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                     LoginActivity.forward(mActivity);
                     return;
                 }
-                UserInfoActivity.forward(mActivity);
-//                PersonalHomepageActivity.forward(mActivity, CommonAppConfig.getInstance().getUid());
+//                UserInfoActivity.forward(mActivity);
+                PersonalHomepageActivity.forward(mActivity, CommonAppConfig.getInstance().getUid());
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });

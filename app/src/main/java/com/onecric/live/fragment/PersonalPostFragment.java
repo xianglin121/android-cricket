@@ -22,6 +22,7 @@ import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.ThemeClassifyBean;
 import com.onecric.live.presenter.theme.ThemeCommunityFollowPresenter;
 import com.onecric.live.presenter.theme.ThemeCommunityHotPresenter;
+import com.onecric.live.presenter.user.PersonalPostPresenter;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.theme.ThemeCommunityFollowView;
 import com.onecric.live.view.theme.ThemeCommunityHotView;
@@ -35,7 +36,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonalPostFragment extends MvpFragment<ThemeCommunityHotPresenter> implements ThemeCommunityHotView, View.OnClickListener {
+public class PersonalPostFragment extends MvpFragment<PersonalPostPresenter> implements ThemeCommunityHotView, View.OnClickListener {
 
     private PersonalPostThemeAdapter mGroupAdapter;
 
@@ -61,8 +62,8 @@ public class PersonalPostFragment extends MvpFragment<ThemeCommunityHotPresenter
     }
 
     @Override
-    protected ThemeCommunityHotPresenter createPresenter() {
-        return new ThemeCommunityHotPresenter(this);
+    protected PersonalPostPresenter createPresenter() {
+        return new PersonalPostPresenter(this);
     }
 
     @Override
@@ -99,12 +100,12 @@ public class PersonalPostFragment extends MvpFragment<ThemeCommunityHotPresenter
         smart_rl.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getData(false, mPage);
+                mvpPresenter.getData(false, mPage, Integer.parseInt(id));
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getData(true, 1);
+                mvpPresenter.getData(true, 1, Integer.parseInt(id));
             }
         });
 
