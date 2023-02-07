@@ -16,8 +16,8 @@ public class PersonalPostPresenter extends BasePresenter<ThemeCommunityHotView> 
         attachView(view);
     }
 
-    public void getData(boolean isRefresh, int page, int id) {
-        addSubscription(apiStores.getUserDynamic(CommonAppConfig.getInstance().getToken(), page, id),
+    public void getData(boolean isRefresh, int page, int userid,int id) {
+        addSubscription(apiStores.getUserDynamic(CommonAppConfig.getInstance().getToken(), page,userid,id),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

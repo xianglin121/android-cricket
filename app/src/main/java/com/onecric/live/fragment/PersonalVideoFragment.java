@@ -55,7 +55,8 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
     private int type = 0;
     private LinearLayout ll_select;
     private PopupWindow popupWindow;
-//    private int selectPosition = 0;
+    private String id;
+    //    private int selectPosition = 0;
 
 
     public static PersonalVideoFragment newInstance(String id) {
@@ -119,6 +120,7 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
                             if (popupWindow.isShowing())
                                 popupWindow.dismiss();
                         }
+                        mvpPresenter.getList(true, 1, type, Integer.parseInt(id));
                     }
                 });
                 published.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +135,7 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
                             if (popupWindow.isShowing())
                                 popupWindow.dismiss();
                         }
+                        mvpPresenter.getList(true, 1, type, Integer.parseInt(id));
                     }
                 });
                 under_review.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +150,7 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
                             if (popupWindow.isShowing())
                                 popupWindow.dismiss();
                         }
+                        mvpPresenter.getList(true, 1, type, Integer.parseInt(id));
                     }
                 });
                 audit_failure.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +165,7 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
                             if (popupWindow.isShowing())
                                 popupWindow.dismiss();
                         }
+                        mvpPresenter.getList(true, 1, type, Integer.parseInt(id));
                     }
                 });
                 showPop(view);
@@ -185,7 +190,7 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
 
     @Override
     protected void initData() {
-        String id = getArguments().getString("id");
+        id = getArguments().getString("id");
         MaterialHeader materialHeader = new MaterialHeader(getContext());
         materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
         smart_rl.setRefreshHeader(materialHeader);

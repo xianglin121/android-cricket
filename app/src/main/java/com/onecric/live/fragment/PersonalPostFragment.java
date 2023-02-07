@@ -39,6 +39,8 @@ import java.util.List;
 public class PersonalPostFragment extends MvpFragment<PersonalPostPresenter> implements ThemeCommunityHotView, View.OnClickListener {
 
     private PersonalPostThemeAdapter mGroupAdapter;
+    private String userid;
+    private int id;
 
     public static PersonalPostFragment newInstance(String id) {
         PersonalPostFragment fragment = new PersonalPostFragment();
@@ -77,6 +79,7 @@ public class PersonalPostFragment extends MvpFragment<PersonalPostPresenter> imp
         mGroupAdapter.setOnItemClickListener((adapter, view, position) -> {
 //                CommunityDetailActivity.forward(getContext(), mGroupAdapter.getItem(position).getId());
             ThemeClassifyBean item = (ThemeClassifyBean) adapter.getItem(position);
+            id = item.getId();
             List<ThemeClassifyBean> data = adapter.getData();
             for (ThemeClassifyBean bean : data) {
                 bean.setSelected(false);
@@ -84,6 +87,7 @@ public class PersonalPostFragment extends MvpFragment<PersonalPostPresenter> imp
             item.setSelected(true);
             adapter.notifyDataSetChanged();
             //todo 调用接口根据筛选条件获取数据
+            mvpPresenter.getData(true, 1, Integer.parseInt(this.userid), id);
         });
         rv_group.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rv_group.setAdapter(mGroupAdapter);
@@ -92,7 +96,7 @@ public class PersonalPostFragment extends MvpFragment<PersonalPostPresenter> imp
 
     @Override
     protected void initData() {
-        String id = getArguments().getString("id");
+        userid = getArguments().getString("id");
         MaterialHeader materialHeader = new MaterialHeader(getContext());
         materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
         smart_rl.setRefreshHeader(materialHeader);
@@ -100,12 +104,12 @@ public class PersonalPostFragment extends MvpFragment<PersonalPostPresenter> imp
         smart_rl.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getData(false, mPage, Integer.parseInt(id));
+                mvpPresenter.getData(false, mPage, Integer.parseInt(userid), id);
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getData(true, 1, Integer.parseInt(id));
+                mvpPresenter.getData(true, 1, Integer.parseInt(userid), id);
             }
         });
 
