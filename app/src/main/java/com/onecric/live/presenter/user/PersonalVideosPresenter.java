@@ -1,37 +1,37 @@
 package com.onecric.live.presenter.user;
 
-import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.onecric.live.CommonAppConfig;
-import com.onecric.live.model.UserBean;
+import com.onecric.live.model.ShortVideoBean;
 import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
-import com.onecric.live.view.user.MySpaceView;
+import com.onecric.live.view.video.VideoView;
 
-public class PersonalVideosPresenter extends BasePresenter<MySpaceView> {
-    public PersonalVideosPresenter(MySpaceView view) {
+import java.util.List;
+
+public class PersonalVideosPresenter extends BasePresenter<VideoView> {
+    public PersonalVideosPresenter(VideoView view) {
         attachView(view);
     }
 
-    public void getUserInfo(int uid) {
-        addSubscription(apiStores.getUserInfo(CommonAppConfig.getInstance().getToken(), uid),
+    public void getList(boolean isRefresh, int page, int type, int id) {
+        addSubscription(apiStores.getUserVideoList(CommonAppConfig.getInstance().getToken(), page, type, id),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
-                        if (!TextUtils.isEmpty(data)) {
-                            mvpView.getDataSuccess(JSONObject.parseObject(data, UserBean.class));
-                        }
+                        List<ShortVideoBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("data"), ShortVideoBean.class);
+                        mvpView.getDataSuccess(isRefresh, list);
                     }
 
                     @Override
                     public void onFailure(String msg) {
-
+                        mvpView.getDataFail(msg);
                     }
 
                     @Override
                     public void onError(String msg) {
-
+                        mvpView.getDataFail(msg);
                     }
 
                     @Override

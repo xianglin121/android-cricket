@@ -40,6 +40,34 @@ public class UserBean implements Serializable {
     private String mobile;
     private String token;
     private String userSig;
+    private int follow_the_anchor;
+
+    public int getFollow_the_anchor() {
+        return follow_the_anchor;
+    }
+
+    public void setFollow_the_anchor(int follow_the_anchor) {
+        this.follow_the_anchor = follow_the_anchor;
+    }
+
+    public int getFollow_the_author() {
+        return follow_the_author;
+    }
+
+    public void setFollow_the_author(int follow_the_author) {
+        this.follow_the_author = follow_the_author;
+    }
+
+    public int getFans() {
+        return fans;
+    }
+
+    public void setFans(int fans) {
+        this.fans = fans;
+    }
+
+    private int follow_the_author;
+    private int fans;
 
     public int isIs_attention() {
         return is_attention;

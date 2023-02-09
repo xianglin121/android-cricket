@@ -160,6 +160,9 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
             } else {
                 user_profile.setText("");
             }
+            anchor_num.setText(userBean.getFollow_the_anchor() + "");
+            author_num.setText(userBean.getFollow_the_author() + "");
+            fans_num.setText(userBean.getFans() + "");
         }
     }
 

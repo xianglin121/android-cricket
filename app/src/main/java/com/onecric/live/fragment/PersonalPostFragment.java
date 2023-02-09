@@ -22,6 +22,7 @@ import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.ThemeClassifyBean;
 import com.onecric.live.presenter.theme.ThemeCommunityFollowPresenter;
 import com.onecric.live.presenter.theme.ThemeCommunityHotPresenter;
+import com.onecric.live.presenter.user.PersonalPostPresenter;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.theme.ThemeCommunityFollowView;
 import com.onecric.live.view.theme.ThemeCommunityHotView;
@@ -35,9 +36,11 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonalPostFragment extends MvpFragment<ThemeCommunityHotPresenter> implements ThemeCommunityHotView, View.OnClickListener {
+public class PersonalPostFragment extends MvpFragment<PersonalPostPresenter> implements ThemeCommunityHotView, View.OnClickListener {
 
     private PersonalPostThemeAdapter mGroupAdapter;
+    private String userid;
+    private int id;
 
     public static PersonalPostFragment newInstance(String id) {
         PersonalPostFragment fragment = new PersonalPostFragment();
@@ -61,8 +64,8 @@ public class PersonalPostFragment extends MvpFragment<ThemeCommunityHotPresenter
     }
 
     @Override
-    protected ThemeCommunityHotPresenter createPresenter() {
-        return new ThemeCommunityHotPresenter(this);
+    protected PersonalPostPresenter createPresenter() {
+        return new PersonalPostPresenter(this);
     }
 
     @Override
@@ -76,6 +79,7 @@ public class PersonalPostFragment extends MvpFragment<ThemeCommunityHotPresenter
         mGroupAdapter.setOnItemClickListener((adapter, view, position) -> {
 //                CommunityDetailActivity.forward(getContext(), mGroupAdapter.getItem(position).getId());
             ThemeClassifyBean item = (ThemeClassifyBean) adapter.getItem(position);
+            id = item.getId();
             List<ThemeClassifyBean> data = adapter.getData();
             for (ThemeClassifyBean bean : data) {
                 bean.setSelected(false);
@@ -83,6 +87,7 @@ public class PersonalPostFragment extends MvpFragment<ThemeCommunityHotPresenter
             item.setSelected(true);
             adapter.notifyDataSetChanged();
             //todo 调用接口根据筛选条件获取数据
+            mvpPresenter.getData(true, 1, Integer.parseInt(this.userid), id);
         });
         rv_group.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rv_group.setAdapter(mGroupAdapter);
@@ -91,7 +96,7 @@ public class PersonalPostFragment extends MvpFragment<ThemeCommunityHotPresenter
 
     @Override
     protected void initData() {
-        String id = getArguments().getString("id");
+        userid = getArguments().getString("id");
         MaterialHeader materialHeader = new MaterialHeader(getContext());
         materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
         smart_rl.setRefreshHeader(materialHeader);
@@ -99,12 +104,12 @@ public class PersonalPostFragment extends MvpFragment<ThemeCommunityHotPresenter
         smart_rl.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getData(false, mPage);
+                mvpPresenter.getData(false, mPage, Integer.parseInt(userid), id);
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getData(true, 1);
+                mvpPresenter.getData(true, 1, Integer.parseInt(userid), id);
             }
         });
 
