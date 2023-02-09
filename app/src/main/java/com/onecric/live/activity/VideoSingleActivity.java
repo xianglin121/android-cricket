@@ -64,7 +64,7 @@ public class VideoSingleActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        showSysBar();
+//        showSysBar();
         url = getIntent().getStringExtra("url");
         img = getIntent().getStringExtra("img");
         videoView = findViewById(R.id.video_view);
@@ -255,6 +255,7 @@ public class VideoSingleActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        showSysBar();
         videoView.onVideoResume();
     }
 

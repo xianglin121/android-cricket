@@ -472,6 +472,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             }
             liveDetailMainFragment.updateFollowData();
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
+        }else{
+            finish();
         }
     }
 
@@ -574,7 +576,6 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
     @Override
     public void getDataFail(String msg) {
-
     }
 
     @Override

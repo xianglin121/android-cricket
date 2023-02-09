@@ -215,7 +215,7 @@ public class LiveAnchorFragment extends MvpFragment<LiveAnchorPresenter> impleme
         switch (v.getId()) {
             case R.id.ll_follow:
                 if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                    if (mUserBean.getIs_attention() == 0) {
+                    if (mUserBean!=null && mUserBean.getIs_attention() == 0) {
                         ((LiveDetailActivity)getActivity()).doFollow();
                     }
                 }else {

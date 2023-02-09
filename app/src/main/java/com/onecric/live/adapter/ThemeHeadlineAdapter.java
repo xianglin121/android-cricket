@@ -122,6 +122,22 @@ public class ThemeHeadlineAdapter extends RecyclerView.Adapter {
     }
 
     private void onBindThird(HeadlineBean bean, ThirdViewHolder mHolder, int position) {
+        mHolder.tvContent.setVisibility(View.GONE);
+        mHolder.tv_title.setVisibility(View.GONE);
+        mHolder.rv_image.setVisibility(View.GONE);
+        mHolder.flowLayout.setVisibility(View.GONE);
+        mHolder.iv_icon.setVisibility(View.GONE);
+        mHolder.iv_cover.setVisibility(View.GONE);
+        mHolder.ivLogo.setVisibility(View.INVISIBLE);
+        String name = bean.getSource_name();
+        if(!TextUtils.isEmpty(name)){
+            mHolder.ivLogo.setVisibility(View.VISIBLE);
+            if(name.equals("Reddit")){
+                mHolder.ivLogo.setImageResource(R.mipmap.icon_reddit);
+            }else if(name.equals("Twitter")){
+                mHolder.ivLogo.setImageResource(R.mipmap.icon_twitter);
+            }
+        }
         mHolder.itemView.setOnClickListener(view -> {
             if(!TextUtils.isEmpty(bean.getSource_url())){
                 Intent intent = new Intent();
@@ -131,14 +147,6 @@ public class ThemeHeadlineAdapter extends RecyclerView.Adapter {
                 mContext.startActivity(intent);
             }
         });
-        mHolder.tvContent.setVisibility(View.GONE);
-        mHolder.tv_title.setVisibility(View.GONE);
-        mHolder.rv_image.setVisibility(View.GONE);
-        mHolder.flowLayout.setVisibility(View.GONE);
-        mHolder.iv_icon.setVisibility(View.GONE);
-        mHolder.iv_cover.setVisibility(View.GONE);
-        mHolder.cl_center.setVisibility(View.GONE);
-        mHolder.ivLogo.setVisibility(View.INVISIBLE);
 
         GlideUtil.loadUserImageDefault(mContext, bean.getAvatar(), mHolder.ivHead);
         mHolder.tvUserName.setText(!TextUtils.isEmpty(bean.getUser_nickname())?bean.getUser_nickname():"");
@@ -152,16 +160,6 @@ public class ThemeHeadlineAdapter extends RecyclerView.Adapter {
             mHolder.tvContent.setVisibility(View.VISIBLE);
             SpannableStringBuilder msg = FaceManager.handlerEmojiText(bean.getContent());
             mHolder.tvContent.setText(msg);
-        }
-
-        String name = bean.getSource_name();
-        if(!TextUtils.isEmpty(name)){
-            mHolder.ivLogo.setVisibility(View.VISIBLE);
-            if(name.equals("Reddit")){
-                mHolder.ivLogo.setImageResource(R.mipmap.icon_reddit);
-            }else if(name.equals("Twitter")){
-                mHolder.ivLogo.setImageResource(R.mipmap.icon_twitter);
-            }
         }
 
         String tags = bean.getTags();
@@ -185,7 +183,6 @@ public class ThemeHeadlineAdapter extends RecyclerView.Adapter {
         if (TextUtils.isEmpty(video)) {
             String url = bean.getImg();
             if (!TextUtils.isEmpty(url)) {
-                mHolder.cl_center.setVisibility(View.VISIBLE);
                 String[] splitList = url.split(",");
                 ArrayList<String> imageInfo = new ArrayList<>();
                 if (splitList.length <= 1) {
@@ -203,7 +200,6 @@ public class ThemeHeadlineAdapter extends RecyclerView.Adapter {
                 }
             }
         } else {
-            mHolder.cl_center.setVisibility(View.VISIBLE);
             mHolder.iv_cover.setVisibility(View.VISIBLE);
             mHolder.iv_icon.setVisibility(View.VISIBLE);
             String[] splitList = video.split(",");

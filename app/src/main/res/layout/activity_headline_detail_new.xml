@@ -85,6 +85,7 @@
                         android:lineSpacingExtra="@dimen/dp_4"/>
 
                     <LinearLayout
+                        android:id="@+id/ll_author"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toBottomOf="@id/tv_title"
@@ -118,6 +119,27 @@
 
                     </LinearLayout>
 
+                    <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+                        android:id="@+id/video_player"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="15dp"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/ll_author"
+                        app:layout_constraintLeft_toLeftOf="@id/ll_author"/>
+
+                    <ImageView
+                        android:id="@+id/iv_silence"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:padding="5dp"
+                        android:layout_marginRight="5dp"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/video_player"
+                        android:layout_marginBottom="40dp"
+                        android:src="@mipmap/silence"
+                        android:visibility="gone"/>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -139,12 +161,14 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     tools:ignore="WebViewLayout">
+
                     <WebView
                         android:id="@+id/wv_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false"
                         android:scrollbars="none" />
+
                 </FrameLayout>
 
 

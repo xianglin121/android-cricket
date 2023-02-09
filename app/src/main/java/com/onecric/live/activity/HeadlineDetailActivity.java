@@ -1,12 +1,13 @@
 package com.onecric.live.activity;
 
-import static com.tencent.thumbplayer.core.downloadproxy.api.TPDownloadProxyHelper.getContext;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +22,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.AppManager;
 import com.onecric.live.CommonAppConfig;
@@ -47,6 +49,9 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
@@ -99,6 +104,23 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     private TextView tv_like;
     private ImageView iv_collect;
     private TextView tv_pre;
+    private StandardGSYVideoPlayer video_player;
+    private ImageView iv_silence;
+    private static boolean isNewsNeedMute = true;
+    //未登录用户倒计时三分钟跳转登录页
+    private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            ToastUtil.show(getString(R.string.tip_login_to_live));
+            finish();
+            LoginActivity.forward(mActivity);
+        }
+    };
 
     private InputCommentMsgDialogFragment inputCommentMsgDialog;
     private HeadlineCommentReplyDialog replyDialog;
@@ -109,6 +131,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     private int mPage = 1;
 
     private HeadlineBean mModel;
+    private OrientationUtils orientationUtils;
 
     @Override
     public boolean getStatusBarTextColor() {
@@ -145,6 +168,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
         iv_collect = findViewById(R.id.iv_collect);
         tv_title_name = findViewById(R.id.tv_title_name);
         tv_pre = findViewById(R.id.tv_pre);
+        video_player = findViewById(R.id.video_player);
+        iv_silence = findViewById(R.id.iv_silence);
 //        iv_avatar = findViewById(R.id.iv_avatar);
 //        iv_follow = findViewById(R.id.iv_follow);
 //        iv_title_follow = findViewById(R.id.iv_title_follow);
@@ -359,6 +384,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         "body{font-family: 'serif';margin: 0;}" +
                         "img{width:100%!important;height:auto!important;margin: 0;border-radius:0;}\n" +
                         "section{line-height:170%;font-size:100%;text-color:#333333;margin: 0px 15px 0px 15px;}\n" +
+                        "p{line-height:170%;font-size:100%;text-color:#333333;margin: 20px 15px 0px 15px;}\n" +
                         "a:link{color:#1866DB;text-decoration:none;}\n" +
                         " </style>";
                 String htmlPart2 = "</body></html>";
@@ -423,11 +449,62 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     builder.replace(radiusIndex, radiusIndex + 1, "0");
                 }
 
+                //图片前没有<br>的加上
+                if(!builder.substring(0, 4).contains("<br>")){
+                    builder.insert(0,"<br>");
+                    builder.append("<br>");
+                }
+
                 String html = htmlPart1 + builder + htmlPart2;
 //              String html = htmlPart1 + updateContent(model.getContent()) + htmlPart2;
 //              String html = htmlPart1 + model.getContent() + htmlPart2;
+
                 wv_content.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
             }
+
+            /*//fixme 放个视频，默认静音
+            model.setVideo("https://vdse.bdstatic.com/9fe38fb1fa6e1204d028e1ab43fd0c85.mp4");
+            if(!TextUtils.isEmpty(model.getVideo())){
+                video_player.setVisibility(View.VISIBLE);
+                iv_silence.setVisibility(View.VISIBLE);
+                //是否静音
+                iv_silence.setVisibility(isNewsNeedMute?View.VISIBLE:View.GONE);
+                GSYVideoManager videoManager = (GSYVideoManager) video_player.getGSYVideoManager();
+                videoManager.setNeedMute(isNewsNeedMute);
+                iv_silence.setOnClickListener(v -> {
+                    isNewsNeedMute = !isNewsNeedMute;
+                    iv_silence.setVisibility(View.GONE);
+                    videoManager.setNeedMute(isNewsNeedMute);
+                });
+
+                //封面
+*//*                ImageView imageView = new ImageView(mActivity);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                Glide.with(mActivity).load(model.getVideo()).dontAnimate().into(imageView);
+                video_player.setThumbImageView(imageView);*//*
+                video_player.getTitleTextView().setVisibility(View.GONE);
+                video_player.getBackButton().setVisibility(View.GONE);
+                video_player.setUp(model.getVideo(), true, "");
+                //设置旋转
+                orientationUtils = new OrientationUtils(this, video_player);
+                //fixme 设置全屏按键功能,这是使用的是选择屏幕，而不是全屏
+                video_player.getFullscreenButton().setOnClickListener(v -> {
+                    video_player.startWindowFullscreen(mActivity, true, true);
+                    orientationUtils.resolveByClick();
+
+                });
+                //是否可以滑动调整
+                video_player.setIsTouchWiget(true);
+                video_player.setNeedLockFull(true);
+                video_player.setAutoFullWithSize(true);
+                video_player.startPlayLogic();
+
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                    mCountDownTimer.start();
+                }
+
+            }*/
+
             if (list != null) {
                 mAdapter = new ThemeHeadlineAdapter(list,mActivity);
                 mAdapter.setmOnItemClickListener(new ThemeHeadlineAdapter.OnItemClickListener() {
@@ -688,4 +765,38 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     }
                 }).launch();
     }
+
+    @Override
+    public void onBackPressed() {
+        //释放所有
+        video_player.setVideoAllCallBack(null);
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!isFinishing()) {
+            video_player.onVideoPause();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
+        }
+        GSYVideoManager.releaseAllVideos();
+        GSYVideoManager.instance().clearAllDefaultCache(this);
+        if (orientationUtils != null)
+            orientationUtils.releaseListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        video_player.onVideoResume();
+    }
+
 }
