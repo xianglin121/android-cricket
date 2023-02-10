@@ -187,6 +187,13 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         iv_silence = findViewById(R.id.iv_silence);
         iv_silence.setOnClickListener(this);
         person_head_pic = findViewById(R.id.person_head_pic);
+        person_head_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mLiveRoomBean != null)
+                    PersonalHomepageActivity.forward(LiveDetailActivity.this, mLiveRoomBean.getUserData().getUid() + "");
+            }
+        });
 
         iv_data.setOnClickListener(this);
         iv_back.setOnClickListener(this);
@@ -472,7 +479,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             }
             liveDetailMainFragment.updateFollowData();
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
-        }else{
+        } else {
             finish();
         }
     }

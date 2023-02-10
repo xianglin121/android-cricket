@@ -271,6 +271,12 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                     tv_title_name.setText(bean.getClassification_name());
                 }
                 GlideUtil.loadUserImageDefault(this, bean.getAvatar(), iv_avatar);
+                iv_avatar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        PersonalHomepageActivity.forward(CommunityCommentActivity.this, mCommunityBean.getId() + "");
+                    }
+                });
                 if (!TextUtils.isEmpty(bean.getUser_nickname())) {
                     tv_name.setText(bean.getUser_nickname());
                 }
