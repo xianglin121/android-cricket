@@ -15,7 +15,9 @@ import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.LiveMoreFunctionActivity;
 import com.onecric.live.activity.LoginActivity;
+import com.onecric.live.activity.MainActivity;
 import com.onecric.live.activity.MyTaskActivity;
+import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.activity.RankingActivity;
 import com.onecric.live.activity.SearchLiveActivity;
 import com.onecric.live.custom.CustomPagerTitleView;
@@ -23,6 +25,7 @@ import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.presenter.live.LivePresenter;
 import com.onecric.live.util.DpUtil;
+import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.WordUtil;
 import com.onecric.live.view.MvpFragment;
@@ -46,6 +49,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
     private ViewPager mViewPager;
     private List<Fragment> mViewList;
     private TextView tvSingleTitle;
+    private ImageView iv_avatar;
 
     @Override
     protected int getLayoutId() {
@@ -62,29 +66,35 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
         magicIndicator = rootView.findViewById(R.id.magicIndicator);
         mViewPager = rootView.findViewById(R.id.viewpager);
         tvSingleTitle = rootView.findViewById(R.id.tv_single_title);
+        iv_avatar = rootView.findViewById(R.id.iv_avatar);
 
         findViewById(R.id.iv_more).setOnClickListener(this);
         findViewById(R.id.cl_search).setOnClickListener(this);
         findViewById(R.id.iv_ranking).setOnClickListener(this);
         findViewById(R.id.iv_more2).setOnClickListener(this);
+        findViewById(R.id.iv_avatar).setOnClickListener(this);
 //        findViewById(R.id.iv_red_envelope).setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
-        //判断other是否为空来布局
-        mvpPresenter.getOtherList(2,1);
-/*//        mTitles.add(WordUtil.getString(getActivity(), R.string.live_classify));
+        mTitles = new ArrayList<>();
+        mViewList = new ArrayList<>();
         mTitles.add(WordUtil.getString(getActivity(), R.string.live_recommend));
-//        mTitles.add(WordUtil.getString(getActivity(), R.string.live_football));
-//        mTitles.add(WordUtil.getString(getActivity(), R.string.live_basketball));
-        mTitles.add(WordUtil.getString(getActivity(), R.string.live_other));
-//        mViewList.add(new LiveClassifyFragment());
         mViewList.add(new LiveRecommendFragment());
-//        mViewList.add(LiveMatchFragment.newInstance(0));
-//        mViewList.add(LiveMatchFragment.newInstance(1));
-        mViewList.add(LiveMatchFragment.newInstance(2));
-        initViewPager();*/
+        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+            @Override
+            public Fragment getItem(int i) {
+                return mViewList.get(i);
+            }
+
+            @Override
+            public int getCount() {
+                return mViewList.size();
+            }
+        });
+        updateUserInfo();
+        mvpPresenter.getOtherList(2,1);
     }
     @Override
     public void onClick(View v) {
@@ -109,6 +119,14 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
                     return;
                 }
                 MyTaskActivity.forward(getContext());
+                break;
+            case R.id.iv_avatar:
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
+                    LoginActivity.forward(getActivity());
+                    return;
+                }else{
+                    PersonalHomepageActivity.forward(getActivity(), CommonAppConfig.getInstance().getUid());
+                }
                 break;
         }
     }
@@ -227,20 +245,20 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
 
     @Override
     public void getOtherDataSuccess(List<LiveBean> list) {
-        mTitles = new ArrayList<>();
-        mViewList = new ArrayList<>();
-        mTitles.add(WordUtil.getString(getActivity(), R.string.live_recommend));
-        mViewList.add(new LiveRecommendFragment());
-
         if (list != null && list.size() > 0) {
             mTitles.add(WordUtil.getString(getActivity(), R.string.live_other));
             mViewList.add(LiveMatchFragment.newInstance(2));
             magicIndicator.setVisibility(View.VISIBLE);
             tvSingleTitle.setVisibility(View.GONE);
-        }else{
-            magicIndicator.setVisibility(View.GONE);
-            tvSingleTitle.setVisibility(View.VISIBLE);
+            initViewPager();
         }
-        initViewPager();
+    }
+
+    public void updateUserInfo() {
+        if (CommonAppConfig.getInstance().getUserBean() != null) {
+            GlideUtil.loadUserImageDefault(getContext(), CommonAppConfig.getInstance().getUserBean().getAvatar(), iv_avatar);
+        }else {
+            iv_avatar.setImageResource(R.mipmap.bg_avatar_default);
+        }
     }
 }

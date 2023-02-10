@@ -64,14 +64,26 @@ public class ThemeFragment extends MvpFragment<ThemePresenter> implements ThemeV
 
     @Override
     protected void initData() {
-        mTitles = new ArrayList<>();
+/*        mTitles = new ArrayList<>();
         mViewList = new ArrayList<>();
         mTitles.add(WordUtil.getString(getActivity(), R.string.theme_headline));
         mTitles.add(WordUtil.getString(getActivity(), R.string.theme_community));
         mViewList.add(ThemeHeadlineFragment.newInstance());
         mViewList.add(ThemeCommunityFragment.newInstance());
-        initViewPager();
+        initViewPager();*/
+        mViewList = new ArrayList<>();
+        mViewList.add(ThemeHeadlineFragment.newInstance());
+        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+            @Override
+            public Fragment getItem(int i) {
+                return mViewList.get(i);
+            }
 
+            @Override
+            public int getCount() {
+                return mViewList.size();
+            }
+        });
         updateUserInfo();
     }
 
@@ -115,11 +127,17 @@ public class ThemeFragment extends MvpFragment<ThemePresenter> implements ThemeV
             @Override
             public IPagerTitleView getTitleView(Context context, int index) {
                 CustomPagerTitleView titleView = new CustomPagerTitleView(context);
-                titleView.setNormalColor(getResources().getColor(R.color.white));
-                titleView.setSelectedColor(getResources().getColor(R.color.c_DC3C23));
-                titleView.setText(mTitles.get(index));
-                titleView.setTextSize(17);
+//                titleView.setNormalColor(getResources().getColor(R.color.white));
+//                titleView.setSelectedColor(getResources().getColor(R.color.c_DC3C23));
+//                titleView.setText(mTitles.get(index));
+//                titleView.setTextSize(17);
 //                titleView.getPaint().setFakeBoldText(true);
+
+                titleView.setNormalColor(getResources().getColor(R.color.white));
+                titleView.setSelectedColor(getResources().getColor(R.color.white));
+                titleView.setText(mTitles.get(index));
+                titleView.setTextSize(22);
+
                 titleView.setOnPagerTitleChangeListener(new CustomPagerTitleView.OnPagerTitleChangeListener() {
                     @Override
                     public void onSelected(int index, int totalCount) {

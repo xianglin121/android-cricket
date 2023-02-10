@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_tab_match"
-                android:textColor="@color/c_DC3C23"
+                android:textColor="@color/c_959DB0"
                 android:textSize="10sp"/>
         </LinearLayout>
 
@@ -82,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_tab_live"
-                android:textColor="@color/c_959DB0"
+                android:textColor="@color/c_DC3C23"
                 android:textSize="10sp"/>
         </LinearLayout>
 

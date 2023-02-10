@@ -14,14 +14,16 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:layout_marginLeft="12dp"/>
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"/>
 
         <ImageView
             android:id="@+id/iv_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
-            android:src="@mipmap/icon_theme_headline_more"/>
+            android:src="@mipmap/icon_theme_headline_more"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager

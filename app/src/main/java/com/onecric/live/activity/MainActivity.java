@@ -100,7 +100,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
     private HomeTabLayout mTabLayout;
 
-    public int mPosition = 1;
+    public int mPosition = 2;
 
     private long exit_time;
 
@@ -349,6 +349,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 tv_name_nav.setText("");
             }
             ((ThemeFragment) mViewList.get(0)).updateUserInfo();
+            ((LiveFragment) mViewList.get(2)).updateUserInfo();
         }
     }
 
@@ -407,7 +408,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
             }
         });
-        mViewPager.setCurrentItem(1);
+        mViewPager.setCurrentItem(2);
     }
 
 
@@ -456,6 +457,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             loginIM();
             updateNavigationInfo();
             ((ThemeFragment) mViewList.get(0)).updateUserInfo();
+            ((LiveFragment) mViewList.get(2)).updateUserInfo();
         }
     }
 
