@@ -23,6 +23,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.engine.executor.GlideExecutor;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
@@ -86,7 +89,7 @@ public class ThemeHeadlineAdapter extends RecyclerView.Adapter {
             mHolder.tv_title.setText("");
         }
         ImageView iv_cover = mHolder.iv_cover;
-        Glide.with(mContext).load(item.getImg()).placeholder(R.mipmap.img_updates_default).into(iv_cover);
+        GlideUtil.loadUpdatesImageDefault(mContext,item.getImg(),iv_cover);
         if (item.getIs_top() == 1) {
             mHolder.tv_top.setVisibility(View.VISIBLE);
         }else {
@@ -187,9 +190,7 @@ public class ThemeHeadlineAdapter extends RecyclerView.Adapter {
                 ArrayList<String> imageInfo = new ArrayList<>();
                 if (splitList.length <= 1) {
                     mHolder.iv_cover.setVisibility(View.VISIBLE);
-                    Glide.with(mContext).load(url)
-                            .placeholder(R.mipmap.img_updates_default).error(R.mipmap.img_updates_default)
-                            .dontAnimate().into(mHolder.iv_cover);
+                    GlideUtil.loadUpdatesImageDefault(mContext,url,mHolder.iv_cover);
                 } else {
                     mHolder.rv_image.setVisibility(View.VISIBLE);
                     for (int i = 0; i < splitList.length; i++) {
@@ -203,9 +204,7 @@ public class ThemeHeadlineAdapter extends RecyclerView.Adapter {
             mHolder.iv_cover.setVisibility(View.VISIBLE);
             mHolder.iv_icon.setVisibility(View.VISIBLE);
             String[] splitList = video.split(",");
-            Glide.with(mContext).load(splitList[0])
-                    .placeholder(R.mipmap.img_updates_default).error(R.mipmap.img_updates_default)
-                    .dontAnimate().into(mHolder.iv_cover);
+            GlideUtil.loadUpdatesImageDefault(mContext,splitList[0],mHolder.iv_cover);
         }
 
     }

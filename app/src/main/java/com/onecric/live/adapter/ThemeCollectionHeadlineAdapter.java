@@ -33,8 +33,7 @@ public class ThemeCollectionHeadlineAdapter extends BaseQuickAdapter<HeadlineBea
             helper.setText(R.id.tv_title, "");
         }
         ImageView iv_cover = helper.getView(R.id.iv_cover);
-
-        Glide.with(mContext).load(item.getImg()).placeholder(R.mipmap.img_updates_default).into(iv_cover);
+        GlideUtil.loadUpdatesImageDefault(mContext,item.getImg(),iv_cover);
         if (item.getComment_count() > 0) {
             helper.getView(R.id.tv_comment).setVisibility(View.VISIBLE);
             helper.setText(R.id.tv_comment, String.valueOf(item.getComment_count()));

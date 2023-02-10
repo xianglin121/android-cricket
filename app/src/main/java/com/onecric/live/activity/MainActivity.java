@@ -27,12 +27,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.load.engine.executor.GlideExecutor;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.iid.FcmBroadcastProcessor;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.onecric.live.BuildConfig;
@@ -111,6 +112,11 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     @Override
     protected void initView() {
         EventBus.getDefault().register(this);
+        //设置2倍的cpu数实现图片加载的提速
+        GlideBuilder builder = new GlideBuilder();
+        builder.setSourceExecutor(GlideExecutor.newSourceExecutor(
+                GlideExecutor.calculateBestThreadCount()*2,"newsImg", GlideExecutor.UncaughtThrowableStrategy.DEFAULT));
+
         mViewList = new ArrayList<>();
 
         drawerLayout = findViewById(R.id.drawerLayout);
