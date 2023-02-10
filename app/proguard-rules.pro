@@ -248,3 +248,32 @@
 
 -keep class cn.qqtheme.framework.** { *; }
 
+
+#aurora
+-keep class com.engagelab.** {*;}
+-dontwarn com.engagelab.**
+
+#google
+-keep class com.google.**{*;}
+-dontwarn com.google.**
+
+#huawei
+-keep class com.google.**{*;}
+-dontwarn com.google.**
+
+#xiaomi
+-keep class com.xiaomi.** {*;}
+-dontwarn com.xiaomi.**
+
+#meizu，如果使用R8混淆，可能会导致拿不到token
+-keep class com.meizu.** {*;}
+-dontwarn com.meizu.**
+
+#oppo
+-keep class com.heytap.** {*;}
+-dontwarn com.heytap.**
+
+#vivo
+-keep class com.vivo.** {*;}
+-dontwarn com.vivo.**
+
