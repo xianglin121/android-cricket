@@ -87,6 +87,7 @@ public class PersonalPostFragment extends MvpFragment<PersonalPostPresenter> imp
             item.setSelected(true);
             adapter.notifyDataSetChanged();
             //todo 调用接口根据筛选条件获取数据
+            smart_rl.setNoMoreData(false);
             mvpPresenter.getData(true, 1, Integer.parseInt(this.userid), id);
         });
         rv_group.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -185,7 +186,9 @@ public class PersonalPostFragment extends MvpFragment<PersonalPostPresenter> imp
                 } else {
                     showEmptyView();
                 }
-                mAdapter.setNewData(list);
+                mAdapter = new ThemeCommunityAdapter(R.layout.item_theme_community, list);
+                rv_community.setAdapter(mAdapter);
+//                mAdapter.setNewData(list);
             } else {
                 mAdapter.setNewData(new ArrayList<>());
                 showEmptyView();
