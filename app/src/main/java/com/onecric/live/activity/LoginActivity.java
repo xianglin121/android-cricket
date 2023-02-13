@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.engagelab.privates.core.api.MTCorePrivatesApi;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
@@ -346,11 +347,11 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
         if (tabLayout.getSelectedTabPosition() == 0) {
             //code
             btn_login.setEnabled(false);
-            mvpPresenter.loginByCode(prefix + "-" + etPhone.getText().toString().trim(), etVerification.getText().toString().trim());
+            mvpPresenter.loginByCode(prefix + "-" + etPhone.getText().toString().trim(), etVerification.getText().toString().trim(), MTCorePrivatesApi.getRegistrationId(this));
         } else {
             //password
             btn_login.setEnabled(false);
-            mvpPresenter.loginByPwd(prefix + "-" + etPhone.getText().toString().trim(), etPassword.getText().toString().trim());
+            mvpPresenter.loginByPwd(prefix + "-" + etPhone.getText().toString().trim(), etPassword.getText().toString().trim(), MTCorePrivatesApi.getRegistrationId(this));
         }
     }
 
@@ -364,7 +365,8 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.METHOD, "login");
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
-            mvpPresenter.updateJgId(JPushInterface.getRegistrationID(this));
+//            mvpPresenter.updateJgId(JPushInterface.getRegistrationID(this));
+//            mvpPresenter.updateJgId(MTCorePrivatesApi.getRegistrationId(this));
             ToastUtil.show(WordUtil.getString(this, R.string.login_success));
             MainActivity.loginForward(this);
         }

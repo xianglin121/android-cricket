@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.engagelab.privates.core.api.MTCorePrivatesApi;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.model.ConfigurationBean;
 import com.onecric.live.model.UserBean;
@@ -46,10 +47,11 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 });
     }
 
-    public void loginByPwd(String mobile, String password) {
+    public void loginByPwd(String mobile, String password, String pushid) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("mobile", mobile);
         jsonObject.put("password", password);
+        jsonObject.put("pushid", pushid);
         jsonObject.put("device_type", "android");
         addSubscription(apiStores.loginByPwd(getRequestBody(jsonObject)),
                 new ApiCallback() {
@@ -80,10 +82,11 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 });
     }
 
-    public void loginByCode(String mobile, String code) {
+    public void loginByCode(String mobile, String code, String pushid) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("mobile", mobile);
         jsonObject.put("code", code);
+        jsonObject.put("pushid", pushid);
         jsonObject.put("device_type", "android");
         addSubscription(apiStores.loginByPwd(getRequestBody(jsonObject)),
                 new ApiCallback() {

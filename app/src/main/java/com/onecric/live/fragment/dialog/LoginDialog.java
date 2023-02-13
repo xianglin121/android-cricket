@@ -36,6 +36,7 @@ import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.engagelab.privates.core.api.MTCorePrivatesApi;
 import com.google.gson.Gson;
 import com.hbb20.CountryCodePicker;
 import com.onecric.live.CommonAppConfig;
@@ -376,7 +377,8 @@ public class LoginDialog extends Dialog {
                             CommonAppConfig.getInstance().saveLoginInfo(JSON.parseObject(data).getString("id"), JSON.parseObject(data).getString("token"), JSONObject.parseObject(data, UserBean.class).getUserSig(), data);
                         }
                         btn_login.setEnabled(true);
-                        updateJgId(JPushInterface.getRegistrationID(mContext));
+//                        updateJgId(JPushInterface.getRegistrationID(mContext));
+//                        updateJgId(MTCorePrivatesApi.getRegistrationId(mContext));
                         ToastUtil.show(mContext.getString(R.string.login_success));
                         dismiss();
                         EventBus.getDefault().post(new UpdateLoginTokenEvent());

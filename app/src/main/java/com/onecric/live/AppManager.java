@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import androidx.multidex.MultiDexApplication;
 
+import com.engagelab.privates.core.api.MTCorePrivatesApi;
+import com.engagelab.privates.push.api.MTPushPrivatesApi;
 import com.onecric.live.util.LogUtil;
 import com.qiniu.android.common.FixedZone;
 import com.qiniu.android.storage.Configuration;
@@ -105,6 +107,10 @@ public class AppManager extends MultiDexApplication {
 
     private void initJiGuang() {
 //        JPushInterface.setDebugMode(true);
-        JPushInterface.init(this);
+//        JPushInterface.init(this);
+        // 必须在application.onCreate中配置，不要判断进程，sdk内部有判断
+        MTCorePrivatesApi.configDebugMode(this, true);
+        // 初始化推送，需要单独配置后台环境，否则会无法使用推送功能，不需要则删除
+        MTPushPrivatesApi.init(this);
     }
 }

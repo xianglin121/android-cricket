@@ -1,7 +1,5 @@
 package com.onecric.live.activity;
 
-import static com.tencent.qcloud.tim.uikit.TUIKit.getAppContext;
-import static com.tencent.qcloud.tuikit.tuicontact.TUIContactService.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,14 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,13 +24,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.engine.executor.GlideExecutor;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.onecric.live.BuildConfig;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
@@ -55,7 +44,6 @@ import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.login.MainPresenter;
 import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
-import com.onecric.live.util.LogUtil;
 import com.onecric.live.util.MPermissionUtils;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.ToolUtil;
@@ -494,24 +482,24 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         }
     }
 
-    private void getFCMToken() {
-        int googlePlayServicesAvailable = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
-
-        if (googlePlayServicesAvailable == ConnectionResult.SUCCESS) {
-            FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                @Override
-                public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                    if (!task.isSuccessful()) {
-                        Log.e(TAG, "getInstanceId failed" + task.getException());
-                        return;
-                    }
-                    String token = task.getResult() != null ? task.getResult().getToken() : "Token is null";
-                    Toast.makeText(getAppContext(), token, Toast.LENGTH_SHORT).show();
-                    LogUtil.e("token::::" + token);
-                }
-            });
-        }
-    }
+//    private void getFCMToken() {
+//        int googlePlayServicesAvailable = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
+//
+//        if (googlePlayServicesAvailable == ConnectionResult.SUCCESS) {
+//            FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+//                @Override
+//                public void onComplete(@NonNull Task<InstanceIdResult> task) {
+//                    if (!task.isSuccessful()) {
+//                        Log.e(TAG, "getInstanceId failed" + task.getException());
+//                        return;
+//                    }
+//                    String token = task.getResult() != null ? task.getResult().getToken() : "Token is null";
+//                    Toast.makeText(getAppContext(), token, Toast.LENGTH_SHORT).show();
+//                    LogUtil.e("token::::" + token);
+//                }
+//            });
+//        }
+//    }
 
 
 }
