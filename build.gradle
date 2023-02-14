@@ -4,10 +4,15 @@ buildscript {
 //        mavenCentral()
         google()
         jcenter()
+        // huawei push need
+        maven { url 'https://developer.huawei.com/repo/' }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.1"
         classpath 'com.google.gms:google-services:4.3.3'
+
+        // huawei push need
+        classpath 'com.huawei.agconnect:agcp:1.6.0.300'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -20,7 +25,9 @@ allprojects {
         jcenter()
         maven { url "https://maven.aliyun.com/repository/public" }
         maven { url "https://jitpack.io" }
-        flatDir{
+        maven { url 'https://developer.huawei.com/repo/' }
+        maven { url "https://dl.google.com/dl/android/maven2/" }
+        flatDir {
             dirs 'libs'
         }
     }

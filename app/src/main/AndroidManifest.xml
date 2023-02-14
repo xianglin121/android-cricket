@@ -181,16 +181,20 @@
         <activity
             android:name="com.onecric.live.activity.LiveDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
-            android:exported="true">
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
             <!-- scheme设置 -->
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="onematch" android:host="live_detail"/>
+
+                <data
+                    android:host="live_detail"
+                    android:scheme="onematch" />
             </intent-filter>
         </activity>
 
@@ -233,14 +237,18 @@
 
         <activity
             android:name="com.onecric.live.activity.HeadlineDetailActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <!-- scheme设置 -->
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="onematch" android:host="headline_detail"/>
+
+                <data
+                    android:host="headline_detail"
+                    android:scheme="onematch" />
             </intent-filter>
         </activity>
 
@@ -279,14 +287,18 @@
         <activity
             android:name="com.onecric.live.activity.VideoPagerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <!-- scheme设置 -->
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="onematch" android:host="video_list"/>
+
+                <data
+                    android:host="video_list"
+                    android:scheme="onematch" />
             </intent-filter>
         </activity>
 
@@ -348,27 +360,35 @@
 
         <activity
             android:name="com.onecric.live.activity.CricketInnerActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <!-- scheme设置 -->
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="onematch" android:host="match_list"/>
+
+                <data
+                    android:host="match_list"
+                    android:scheme="onematch" />
             </intent-filter>
         </activity>
 
         <activity
             android:name="com.onecric.live.activity.CricketDetailActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <!-- scheme设置 -->
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="onematch" android:host="cricket_detail"/>
+
+                <data
+                    android:host="cricket_detail"
+                    android:scheme="onematch" />
             </intent-filter>
         </activity>
 
@@ -390,28 +410,36 @@
 
         <activity
             android:name="com.onecric.live.activity.CricketTeamsActivity"
-            android:screenOrientation="portrait"
             android:exported="false"
+            android:screenOrientation="portrait"
             tools:ignore="AppLinkUrlError">
             <!-- scheme设置 -->
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="onematch" android:host="teams_detail"/>
+
+                <data
+                    android:host="teams_detail"
+                    android:scheme="onematch" />
             </intent-filter>
         </activity>
 
         <activity
             android:name="com.onecric.live.activity.PlayerProfileActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <!-- scheme设置 -->
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="onematch" android:host="player_detail"/>
+
+                <data
+                    android:host="player_detail"
+                    android:scheme="onematch" />
             </intent-filter>
         </activity>
 
@@ -522,6 +550,11 @@
                 <action android:name="com.engagelab.privates.intent.USER_RECEIVER" />
             </intent-filter>
         </receiver>
+
+        <!-- google push need -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
 
 
     </application>

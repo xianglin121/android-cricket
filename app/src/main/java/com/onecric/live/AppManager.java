@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import androidx.multidex.MultiDexApplication;
 
+import com.engagelab.privates.common.global.MTGlobal;
 import com.engagelab.privates.core.api.MTCorePrivatesApi;
 import com.engagelab.privates.push.api.MTPushPrivatesApi;
 import com.onecric.live.util.LogUtil;
@@ -18,7 +19,7 @@ import com.tencent.qcloud.tim.uikit.TUIKit;
 import com.tencent.rtmp.TXLiveBase;
 
 
-import cn.jpush.android.api.JPushInterface;
+//import cn.jpush.android.api.JPushInterface;
 //import pro.piwik.sdk.Piwik;
 //import pro.piwik.sdk.Tracker;
 //import pro.piwik.sdk.TrackerConfig;
@@ -110,6 +111,7 @@ public class AppManager extends MultiDexApplication {
 //        JPushInterface.init(this);
         // 必须在application.onCreate中配置，不要判断进程，sdk内部有判断
         MTCorePrivatesApi.configDebugMode(this, true);
+        MTGlobal.setCountryCode("US");
         // 初始化推送，需要单独配置后台环境，否则会无法使用推送功能，不需要则删除
         MTPushPrivatesApi.init(this);
     }

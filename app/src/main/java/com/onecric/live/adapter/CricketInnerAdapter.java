@@ -40,10 +40,13 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
 
         helper.setTextColor(R.id.tv_time, mContext.getResources().getColor(R.color.c_901D2550));
         TextView resultTv = helper.getView(R.id.tv_result);
+        ImageView subscribeIv = helper.getView(R.id.iv_subscribe);
         if (item.getStatus() == 2) {//已结束
+            subscribeIv.setVisibility(View.GONE);
             resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_bold));
             helper.getView(R.id.ll_alarm).setVisibility(View.GONE);
         } else {
+            subscribeIv.setVisibility(View.VISIBLE);
             resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_regular));
             helper.getView(R.id.ll_alarm).setVisibility(View.VISIBLE);
             if (item.getStatus() == 0) {//未开始

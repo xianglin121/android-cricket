@@ -37,7 +37,7 @@ import com.onecric.live.util.WordUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.login.LoginView;
 
-import cn.jpush.android.api.JPushInterface;
+//import cn.jpush.android.api.JPushInterface;
 
 public class LoginOldActivity extends MvpActivity<LoginPresenter> implements LoginView, View.OnClickListener {
     public static void forward(Context context) {

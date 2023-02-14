@@ -54,7 +54,7 @@ import com.onecric.live.view.login.LoginView;
 
 import java.util.ArrayList;
 
-import cn.jpush.android.api.JPushInterface;
+//import cn.jpush.android.api.JPushInterface;
 
 public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginView, View.OnClickListener {
 

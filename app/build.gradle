@@ -34,9 +34,9 @@ android {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
         manifestPlaceholders = [
-                JPUSH_PKGNAME             : applicationId,
-                JPUSH_APPKEY              : "ee0e1987dcf995c464e38631", //JPush 上注册的包名对应的 Appkey.
-                JPUSH_CHANNEL             : "developer-default", //暂时填写默认值即可.
+//                JPUSH_PKGNAME             : applicationId,
+//                JPUSH_APPKEY              : "ee0e1987dcf995c464e38631", //JPush 上注册的包名对应的 Appkey.
+//                JPUSH_CHANNEL             : "developer-default", //暂时填写默认值即可.
                 // aurora appKey，需要与AURORA控制台上的一样，与packageName是一对一关系
                 ENGAGELAB_PRIVATES_APPKEY : "ee0e1987dcf995c464e38631",
                 // aurora appChannel，用于渠道统计
@@ -68,7 +68,7 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
@@ -168,8 +168,8 @@ dependencies {
 
 //    implementation 'cn.jiguang.sdk:jpush:4.5.0'  // 此处以JPush 4.5.0 版本为例。
 //    implementation 'cn.jiguang.sdk:jcore:3.1.2'  // 此处以JCore 3.1.2 版本为例。
-    implementation 'cn.jiguang.sdk:jpush-google:4.8.4'  // 此处以JPush 4.8.4 Google Play版本为例
-    implementation 'cn.jiguang.sdk:jcore-google:3.3.6'  // 此处以JCore 3.3.6 Google Play 版本为例。
+//    implementation 'cn.jiguang.sdk:jpush-google:4.8.4'  // 此处以JPush 4.8.4 Google Play版本为例
+//    implementation 'cn.jiguang.sdk:jcore-google:3.3.6'  // 此处以JCore 3.3.6 Google Play 版本为例。
 
 //    implementation 'com.github.yangjie10930:EpMedia:v0.9.5'
     //国际区号
@@ -181,8 +181,9 @@ dependencies {
     implementation 'com.tencent.bugly:crashreport:latest.release'
 //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如4.0.3
 
-//    implementation 'com.google.firebase:firebase-core:15.0.0'
-    implementation 'com.google.firebase:firebase-messaging:20.2.4'
+    implementation 'com.google.firebase:firebase-messaging:23.0.8'
+
+    implementation 'com.google.firebase:firebase-iid:21.1.0'
 
     //流式标签
     implementation 'com.hyman:flowlayout-lib:1.1.2'
