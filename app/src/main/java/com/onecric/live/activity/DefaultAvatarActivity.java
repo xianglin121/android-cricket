@@ -80,6 +80,13 @@ public class DefaultAvatarActivity extends MvpActivity<DefaultAvatarPresenter> i
     protected void initData() {
         GlideUtil.loadUserImageDefault(this, CommonAppConfig.getInstance().getUserBean().getAvatar(), iv_avatar);
 
+        iv_avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PersonalHomepageActivity.forward(DefaultAvatarActivity.this, CommonAppConfig.getInstance().getUid());
+            }
+        });
+
         mAdapter = new DefaultAvatarAdapter(R.layout.item_default_avatar, new ArrayList<>());
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -87,7 +94,7 @@ public class DefaultAvatarActivity extends MvpActivity<DefaultAvatarPresenter> i
                 for (int i = 0; i < mAdapter.getData().size(); i++) {
                     if (i == position) {
                         mAdapter.getItem(i).setSelect(true);
-                    }else {
+                    } else {
                         mAdapter.getItem(i).setSelect(false);
                     }
                 }
