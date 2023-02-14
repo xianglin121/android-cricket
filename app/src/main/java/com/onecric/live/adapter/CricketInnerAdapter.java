@@ -46,7 +46,18 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
             resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_bold));
             helper.getView(R.id.ll_alarm).setVisibility(View.GONE);
         } else {
-            subscribeIv.setVisibility(View.VISIBLE);
+            subscribeIv.setVisibility(View.GONE);
+            if (item.getIs_subscribe() == 1) {//已经订阅过了
+                subscribeIv.setImageResource(R.mipmap.subscribe);
+            } else {
+                subscribeIv.setImageResource(R.mipmap.unsubscribe);
+            }
+            subscribeIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
             resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_regular));
             helper.getView(R.id.ll_alarm).setVisibility(View.VISIBLE);
             if (item.getStatus() == 0) {//未开始

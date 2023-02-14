@@ -31,6 +31,16 @@ public class CricketMatchBean implements Serializable {
     private String date;
     private String opponent_name;
 
+    public int getIs_subscribe() {
+        return is_subscribe;
+    }
+
+    public void setIs_subscribe(int is_subscribe) {
+        this.is_subscribe = is_subscribe;
+    }
+
+    private int is_subscribe;
+
     public long getLive_time_unix() {
         return live_time_unix;
     }
