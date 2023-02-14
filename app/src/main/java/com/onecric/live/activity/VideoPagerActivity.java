@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -95,6 +96,8 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
     private Dialog mLoadingDialog;
 
     private List<ReportBean> mReportList;//举报列表
+    private boolean isTagJump = false;
+    private String jumpKeyword;
 
     //未登录用户倒计时三分钟跳转登录页
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
@@ -167,10 +170,25 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
     @Override
     protected void initView() {
-        defaultIndex = getIntent().getIntExtra("index", 0);
+        //scheme
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                isTagJump = true;
+                jumpKeyword = uri.getQueryParameter("key");
+                if(TextUtils.isEmpty(jumpKeyword)){finish();}
+                mPage = 0;
+                defaultIndex = 0;
+            }
+        }else{
+            defaultIndex = getIntent().getIntExtra("index", 0);
+            mPage = getIntent().getIntExtra("page", 0);
+            mPage++;
+        }
+
         currentIndex = defaultIndex;
-        mPage = getIntent().getIntExtra("page", 0);
-        mPage++;
 
         refreshLayout = findViewById(R.id.smart_rl);
         rv = findViewById(R.id.recyclerView);
@@ -270,9 +288,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                 VideoPagerActivity.this.dismissLoadingDialog();
             }
         };
-        List<ShortVideoBean> data = JSON.parseObject(getIntent().getStringExtra("data"), new TypeReference<List<ShortVideoBean>>() {
-        });
-        videoPagerAdapter.setBeans(data, false);
+
         rv.setLayoutManager(mLayoutManager);
         rv.setAdapter(videoPagerAdapter);
         rv.scrollToPosition(defaultIndex);
@@ -296,9 +312,16 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             }
         });
 
-        if (defaultIndex == data.size() - 1) {
-            mvpPresenter.getList(false, mPage);
+        if(isTagJump){
+//            mvpPresenter.getKeywordList(jumpKeyword);
+        }else{
+            List<ShortVideoBean> data = JSON.parseObject(getIntent().getStringExtra("data"), new TypeReference<List<ShortVideoBean>>() {});
+            videoPagerAdapter.setBeans(data, false);
+            if (defaultIndex == data.size() - 1) {
+                mvpPresenter.getList(false, mPage);
+            }
         }
+
     }
 
     @Override

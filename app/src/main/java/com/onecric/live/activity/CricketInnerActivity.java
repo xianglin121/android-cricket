@@ -2,6 +2,7 @@ package com.onecric.live.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ import java.util.List;
 /**
  * 开发公司：东莞市梦幻科技有限公司
  * 时间：2022/8/27
+ * 联赛列表页
  */
 public class CricketInnerActivity extends MvpActivity<CricketInnerPresenter> implements CricketInnerView {
     public static void forward(Context context, String name, String type, int id) {
@@ -62,15 +64,30 @@ public class CricketInnerActivity extends MvpActivity<CricketInnerPresenter> imp
 
     @Override
     protected void initView() {
-        if (!TextUtils.isEmpty(getIntent().getStringExtra("name"))) {
-            setTitleText(getIntent().getStringExtra("name"));
-        }else {
-            setTitleText("");
+        //scheme
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String name = uri.getQueryParameter("name");
+                String type = uri.getQueryParameter("type");
+                String id = uri.getQueryParameter("id");
+                setTitleText(name);
+                mType = type;
+                mId = Integer.parseInt(id);
+            }
+        }else{
+            if (!TextUtils.isEmpty(getIntent().getStringExtra("name"))) {
+                setTitleText(getIntent().getStringExtra("name"));
+            }else {
+                setTitleText("");
+            }
+            if (!TextUtils.isEmpty(getIntent().getStringExtra("type"))) {
+                mType = getIntent().getStringExtra("type");
+            }
+            mId = getIntent().getIntExtra("id", 0);
         }
-        if (!TextUtils.isEmpty(getIntent().getStringExtra("type"))) {
-            mType = getIntent().getStringExtra("type");
-        }
-        mId = getIntent().getIntExtra("id", 0);
 
         tabLayout = findViewById(R.id.tab_layout);
         mViewPager = findViewById(R.id.view_pager);

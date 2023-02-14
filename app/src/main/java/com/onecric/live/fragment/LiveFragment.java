@@ -125,7 +125,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
                     LoginActivity.forward(getActivity());
                     return;
                 }else{
-                    PersonalHomepageActivity.forward(getActivity(), CommonAppConfig.getInstance().getUid());
+//                    PersonalHomepageActivity.forward(getActivity(), CommonAppConfig.getInstance().getUid());
                 }
                 break;
         }

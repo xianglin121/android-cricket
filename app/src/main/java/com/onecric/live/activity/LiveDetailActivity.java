@@ -9,6 +9,8 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -74,6 +76,8 @@ import com.tencent.liteav.demo.superplayer.model.event.SendDanmuEvent;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
 import com.tencent.qcloud.tuikit.tuichat.util.ChatMessageInfoUtil;
 
+import net.lucode.hackware.magicindicator.buildins.UIUtil;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -83,6 +87,9 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * 直播详情
+ */
 public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> implements LiveDetailView, View.OnClickListener {
 
     private ImageView iv_silence;
@@ -161,9 +168,25 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        mAnchorId = getIntent().getIntExtra("anchorId", 0);
-        mType = getIntent().getIntExtra("type", 0);
-        mMatchId = getIntent().getIntExtra("matchId", 0);
+        //scheme
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String aId = uri.getQueryParameter("anchorId");
+                String type = uri.getQueryParameter("type");
+                String mid = uri.getQueryParameter("matchId");
+                mAnchorId = Integer.parseInt(aId);
+                mType =  Integer.parseInt(type);
+                mMatchId = Integer.parseInt(mid);
+            }
+        }else{
+            mAnchorId = getIntent().getIntExtra("anchorId", 0);
+            mType = getIntent().getIntExtra("type", 0);
+            mMatchId = getIntent().getIntExtra("matchId", 0);
+        }
+
         mGroupId = String.valueOf(mAnchorId);
         mvpPresenter.setGroupId(mGroupId);
         //获取屏幕宽度
@@ -198,6 +221,11 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         iv_data.setOnClickListener(this);
         iv_back.setOnClickListener(this);
 
+        //视频尺寸
+        int width = UIUtil.getScreenWidth(this);
+        android.view.ViewGroup.LayoutParams pp = playerView.getLayoutParams();
+        pp.height = (int)(width * 0.5625);
+        playerView.setLayoutParams(pp);
         //初始化悬浮窗跳转回界面所需参数
         playerView.setInitId(mAnchorId, mType, mMatchId);
 
@@ -217,7 +245,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         });
 
         //初始化fragment
-        liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId);
+        liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId,mMatchId);
         liveDetailMainFragment.setLoginDialog(loginDialog);
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_main, liveDetailMainFragment).commitAllowingStateLoss();
         if (mType == 0) {
@@ -302,6 +330,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         playerView.setPlayerViewCallback(new LivePlayerView.OnSuperPlayerViewCallback() {
             @Override
             public void onStartFullScreenPlay() {
+                playerView.setBackgroundColor(Color.BLACK);
                 mIsFullScreen = true;
                 statusBar.setVisibility(View.GONE);
             }
@@ -346,6 +375,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
             @Override
             public void onRefreshClick() {
+                playerView.setBackgroundColor(Color.BLACK);
                 if (mLiveRoomBean != null) {
                     if (mLiveRoomBean.getInfo() != null) {
                         if (!TextUtils.isEmpty(mLiveRoomBean.getInfo().getPull())) {
@@ -358,6 +388,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
             @Override
             public void onQualityChange(int type) {
+                playerView.setBackgroundColor(Color.BLACK);
                 if (mLiveRoomBean != null) {
                     if (mLiveRoomBean.getInfo() != null && mLiveRoomBean.getInfo().getClarity() != null) {
                         if (type == 0) {
