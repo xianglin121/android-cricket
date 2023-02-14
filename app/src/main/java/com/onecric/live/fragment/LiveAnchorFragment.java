@@ -268,7 +268,6 @@ public class LiveAnchorFragment extends MvpFragment<LiveAnchorPresenter> impleme
                     rv_reply.setVisibility(View.VISIBLE);
                     findViewById(R.id.ll_empty).setVisibility(View.GONE);
                 }
-                //fixme 测一下数据源 R.id.tv_live_replay
                 break;
         }
     }

@@ -42,11 +42,12 @@ import java.util.List;
  * 时间：2021/10/25
  */
 public class LiveDetailMainFragment extends Fragment {
-    public static LiveDetailMainFragment newInstance(String groupId, int anchorId) {
+    public static LiveDetailMainFragment newInstance(String groupId, int anchorId,int matchId) {
         LiveDetailMainFragment fragment = new LiveDetailMainFragment();
         Bundle bundle = new Bundle();
         bundle.putString("groupId", groupId);
         bundle.putInt("anchorId", anchorId);
+        bundle.putInt("matchId", anchorId);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -174,9 +175,23 @@ public class LiveDetailMainFragment extends Fragment {
     }
 
     private void initViewPager() {
+        int mMatchId = getArguments().getInt("matchId");
+
         mTitles.add(getActivity().getString(R.string.live_chat));
         mTitles.add(getActivity().getString(R.string.live_anchor));
 //        mTitles.add(getActivity().getString(R.string.live_ranking));
+
+        /*
+         mTitles.add(getString(R.string.fantasy));
+        if(mMatchId!=0){
+            mTitles.add(getString(R.string.info));
+            mTitles.add(getString(R.string.live));
+        }
+        mTitles.add(getString(R.string.scorecard));
+        mTitles.add(getString(R.string.updates));
+        mTitles.add(getString(R.string.squad));
+         */
+
         mTitles.add(getActivity().getString(R.string.live_about_video));
         LiveChatFragment chatFragment = LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId"));
         chatFragment.setLoginDialog(loginDialog);
@@ -186,6 +201,19 @@ public class LiveDetailMainFragment extends Fragment {
         mViewList.add(chatFragment);
         mViewList.add(anchorFragment);
 //        mViewList.add(LiveRankingFragment.newInstance(getArguments().getInt("anchorId")));
+
+        /*
+        mViewList.add(CricketFantasyFragment.newInstance());
+        if(mMatchId!=0){
+            mViewList.add(CricketInfoFragment.newInstance(mMatchId));
+            mViewList.add(CricketLiveFragment.newInstance(mMatchId));
+        }
+        mViewList.add(CricketScorecardFragment.newInstance());
+//        mViewList.add(CricketFantasyFragment.newInstance());
+        mViewList.add(CricketUpdatesFragment.newInstance());
+        mViewList.add(CricketSquadFragment.newInstance());
+        */
+
         mViewList.add(LiveMoreVideoFragment.newInstance());
         //初始化viewpager
         //初始化指示器

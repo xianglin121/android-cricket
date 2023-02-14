@@ -2,6 +2,7 @@ package com.onecric.live.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,6 +34,7 @@ import java.util.List;
 /**
  * 开发公司：东莞市梦幻科技有限公司
  * 时间：2022/9/2
+ * 球员详情页
  */
 public class PlayerProfileActivity extends MvpActivity<PlayerProfilePresenter> implements PlayerProfileView {
     public static void forward(Context context, int playerId) {
@@ -62,7 +64,19 @@ public class PlayerProfileActivity extends MvpActivity<PlayerProfilePresenter> i
 
     @Override
     protected void initView() {
-        mPlayerId = getIntent().getIntExtra("player_id", 0);
+        //scheme
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String id = uri.getQueryParameter("id");
+                mPlayerId = Integer.parseInt(id);
+            }
+        }else{
+            mPlayerId = getIntent().getIntExtra("player_id", 0);
+        }
+
         setTitleText(getString(R.string.player_profile));
 
         iv_avatar = findViewById(R.id.iv_avatar);

@@ -2,6 +2,7 @@ package com.onecric.live.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import java.util.List;
 /**
  * 开发公司：东莞市梦幻科技有限公司
  * 时间：2022/9/1
+ * 球队详情
  */
 public class CricketTeamsActivity extends MvpActivity<CricketTeamsPresenter> implements CricketTeamsView {
     public static void forward(Context context, String name, int teamId) {
@@ -58,8 +60,22 @@ public class CricketTeamsActivity extends MvpActivity<CricketTeamsPresenter> imp
 
     @Override
     protected void initView() {
-        mName = getIntent().getStringExtra("name");
-        mTeamId = getIntent().getIntExtra("teamId", 0);
+        //scheme
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String name = uri.getQueryParameter("name");
+                String id = uri.getQueryParameter("teamId");
+                mName = name;
+                mTeamId = Integer.parseInt(id);
+            }
+        }else{
+            mName = getIntent().getStringExtra("name");
+            mTeamId = getIntent().getIntExtra("teamId", 0);
+        }
+
         if (!TextUtils.isEmpty(mName)) {
             setTitleText(mName);
         }

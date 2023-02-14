@@ -22,6 +22,7 @@ import java.util.Arrays;
 /**
  * 开发公司：东莞市梦幻科技有限公司
  * 时间：2022/9/6
+ * 球员统计详情页
  */
 public class PlayerStatsActivity extends MvpActivity<PlayerStatsPresenter> implements PlayerStatsView {
     public static void forward(Context context) {

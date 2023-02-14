@@ -35,12 +35,12 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="wrap_content">
 
             <com.tencent.liteav.demo.superplayer.LivePlayerView
                 android:id="@+id/playerView"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:background="@mipmap/ball_live_bg" />
 
             <ImageView

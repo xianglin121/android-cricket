@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
@@ -150,7 +151,19 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
     @Override
     protected void initView() {
-        mId = getIntent().getIntExtra("id", 0);
+        //scheme
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String id = uri.getQueryParameter("id");
+                mId = Integer.parseInt(id);
+            }
+        }else{
+            mId = getIntent().getIntExtra("id", 0);
+        }
+
 //        tv_name = findViewById(R.id.tv_name);
         scroll_view = findViewById(R.id.scroll_view);
         cl_title = findViewById(R.id.cl_title);
