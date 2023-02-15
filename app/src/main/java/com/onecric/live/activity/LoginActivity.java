@@ -366,7 +366,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
             bundle.putString(FirebaseAnalytics.Param.METHOD, "login");
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
 //            mvpPresenter.updateJgId(JPushInterface.getRegistrationID(this));
-//            mvpPresenter.updateJgId(MTCorePrivatesApi.getRegistrationId(this));
+            mvpPresenter.updateJgId(MTCorePrivatesApi.getRegistrationId(this));
             ToastUtil.show(WordUtil.getString(this, R.string.login_success));
             MainActivity.loginForward(this);
         }

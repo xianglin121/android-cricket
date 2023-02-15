@@ -840,4 +840,8 @@ public interface ApiStores {
     Observable<JsonObject> getHistoryLiveList(@Header("token") String token,
                                               @Query("pageNumber") int pageNumber,
                                               @Query("pageSize") int pageSize);
+
+    //订阅赛事消息推送   todo 未完成
+    @POST("api/")
+    Observable<JsonObject> doSubscribe(@Body RequestBody body);
 }

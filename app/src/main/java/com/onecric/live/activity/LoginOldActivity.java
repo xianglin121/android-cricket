@@ -361,7 +361,7 @@ public class LoginOldActivity extends MvpActivity<LoginPresenter> implements Log
         btn_login.setEnabled(true);
         if (isSuccess) {
 //            mvpPresenter.updateJgId(JPushInterface.getRegistrationID(this));
-//            mvpPresenter.updateJgId(MTCorePrivatesApi.getRegistrationId(this));
+            mvpPresenter.updateJgId(MTCorePrivatesApi.getRegistrationId(this));
             ToastUtil.show(WordUtil.getString(this, R.string.login_success));
             MainActivity.loginForward(this);
         }

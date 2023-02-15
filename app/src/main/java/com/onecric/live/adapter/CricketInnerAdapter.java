@@ -1,6 +1,5 @@
 package com.onecric.live.adapter;
 
-import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,8 +12,11 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.model.CricketMatchBean;
+import com.onecric.live.presenter.match.SubscribePresenter;
+import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.TimeUtil;
 
@@ -46,16 +48,42 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
             resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_bold));
             helper.getView(R.id.ll_alarm).setVisibility(View.GONE);
         } else {
-            subscribeIv.setVisibility(View.GONE);
-            if (item.getIs_subscribe() == 1) {//已经订阅过了
-                subscribeIv.setImageResource(R.mipmap.subscribe);
+            //先判断是否登陆了账号
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                subscribeIv.setVisibility(View.VISIBLE);
+                if (item.getIs_subscribe() == 1) {//已经订阅过了
+                    subscribeIv.setImageResource(R.mipmap.subscribe);
+                } else {
+                    subscribeIv.setImageResource(R.mipmap.unsubscribe);
+                }
             } else {
-                subscribeIv.setImageResource(R.mipmap.unsubscribe);
+                subscribeIv.setVisibility(View.GONE);
             }
             subscribeIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // TODO: 2023/2/14  订阅消息推送
+                    new SubscribePresenter().doSubscribe(item.getMatch_id() + "", new ApiCallback() {
+                        @Override
+                        public void onSuccess(String data, String msg) {
 
+                        }
+
+                        @Override
+                        public void onFailure(String msg) {
+
+                        }
+
+                        @Override
+                        public void onError(String msg) {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+                    });
                 }
             });
             resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_regular));

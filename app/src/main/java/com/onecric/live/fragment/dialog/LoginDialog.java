@@ -378,7 +378,7 @@ public class LoginDialog extends Dialog {
                         }
                         btn_login.setEnabled(true);
 //                        updateJgId(JPushInterface.getRegistrationID(mContext));
-//                        updateJgId(MTCorePrivatesApi.getRegistrationId(mContext));
+                        updateJgId(MTCorePrivatesApi.getRegistrationId(mContext));
                         ToastUtil.show(mContext.getString(R.string.login_success));
                         dismiss();
                         EventBus.getDefault().post(new UpdateLoginTokenEvent());
