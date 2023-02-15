@@ -14,11 +14,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
+import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.presenter.match.SubscribePresenter;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.TimeUtil;
+import com.onecric.live.util.ToastUtil;
 
 import java.util.List;
 
@@ -49,41 +51,27 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
             helper.getView(R.id.ll_alarm).setVisibility(View.GONE);
         } else {
             //先判断是否登陆了账号
-            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                subscribeIv.setVisibility(View.VISIBLE);
-                if (item.getIs_subscribe() == 1) {//已经订阅过了
-                    subscribeIv.setImageResource(R.mipmap.subscribe);
-                } else {
-                    subscribeIv.setImageResource(R.mipmap.unsubscribe);
-                }
+//            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+            subscribeIv.setVisibility(View.GONE);// TODO: 2023/2/15  这里在订阅接口调试好后要放开为visible
+            if (item.getIs_subscribe() == 1) {//已经订阅过了
+                subscribeIv.setImageResource(R.mipmap.subscribe);
             } else {
-                subscribeIv.setVisibility(View.GONE);
+                subscribeIv.setImageResource(R.mipmap.unsubscribe);
             }
+//            }
+//            else {
+//                subscribeIv.setVisibility(View.GONE);
+//            }
             subscribeIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+//                        ToastUtil.show(mContext.getString(R.string.please_login));
+//                        LoginActivity.forward(mContext);
+//                        return;
+//                    }
                     // TODO: 2023/2/14  订阅消息推送
-                    new SubscribePresenter().doSubscribe(item.getMatch_id() + "", new ApiCallback() {
-                        @Override
-                        public void onSuccess(String data, String msg) {
-
-                        }
-
-                        @Override
-                        public void onFailure(String msg) {
-
-                        }
-
-                        @Override
-                        public void onError(String msg) {
-
-                        }
-
-                        @Override
-                        public void onFinish() {
-
-                        }
-                    });
+                    //这里先弹出一个订阅消息的内容选择框  待选择好后点击确定订阅按钮再调用订阅接口
                 }
             });
             resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_regular));
@@ -179,5 +167,29 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
             helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_333333));
             helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_333333));
         }
+    }
+
+    private void doSubscribe(CricketMatchBean item, ImageView subscribeIv) {//订阅推送消息
+        new SubscribePresenter().doSubscribe(item.getMatch_id() + "", new ApiCallback() {
+            @Override
+            public void onSuccess(String data, String msg) {
+                subscribeIv.setImageResource(R.mipmap.subscribe);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+            }
+
+            @Override
+            public void onError(String msg) {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
     }
 }

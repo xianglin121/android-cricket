@@ -713,6 +713,59 @@ public class DialogUtil {
         dialog.show();
     }
 
+    public static void showSelectSubscribeDialog(Context context, String hdUrl, String sdUrl, SelectPullUrlBack callback) {
+        final Dialog dialog = new Dialog(context, R.style.dialog);
+        dialog.setContentView(R.layout.dialog_select_subscribe);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.getWindow().setWindowAnimations(R.style.bottomToTopAnim);
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.gravity = Gravity.BOTTOM;
+        dialog.getWindow().setAttributes(params);
+        TextView tv_HD = (TextView) dialog.findViewById(R.id.tv_HD);
+        TextView tv_SD = (TextView) dialog.findViewById(R.id.tv_SD);
+        if (!TextUtils.isEmpty(hdUrl)) {
+            dialog.findViewById(R.id.line_hd).setVisibility(View.VISIBLE);
+            tv_HD.setVisibility(View.VISIBLE);
+        } else {
+            dialog.findViewById(R.id.line_hd).setVisibility(View.GONE);
+            tv_HD.setVisibility(View.GONE);
+        }
+        if (!TextUtils.isEmpty(sdUrl)) {
+            dialog.findViewById(R.id.line_sd).setVisibility(View.VISIBLE);
+            tv_SD.setVisibility(View.VISIBLE);
+        } else {
+            dialog.findViewById(R.id.line_sd).setVisibility(View.GONE);
+            tv_SD.setVisibility(View.GONE);
+        }
+        tv_HD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if (callback != null) {
+                    callback.onSelectUrl(hdUrl);
+                }
+            }
+        });
+        tv_SD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if (callback != null) {
+                    callback.onSelectUrl(sdUrl);
+                }
+            }
+        });
+        dialog.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
     public interface SimpleCallback3 {
         void onClick(boolean isConfirm);
     }
