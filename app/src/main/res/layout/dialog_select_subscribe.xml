@@ -45,8 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:checked="true"
-            android:thumb="@drawable/switch_thumb"
-            android:track="@drawable/switch_track" />
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -194,6 +193,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_c_e05526_10dp_rec"
         android:gravity="center"
+        android:textStyle="bold"
         android:text="SAVE PREFERENCES"
         android:textColor="@color/white"
         android:textSize="13sp" />
