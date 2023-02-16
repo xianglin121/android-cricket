@@ -53,7 +53,7 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
         } else {
             //先判断是否登陆了账号
 //            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-            subscribeIv.setVisibility(View.VISIBLE);// TODO: 2023/2/15  这里在订阅接口调试好后要放开为visible
+            subscribeIv.setVisibility(View.GONE);// TODO: 2023/2/15  这里在订阅接口调试好后要放开为visible
             if (item.getIs_subscribe() == 1) {//已经订阅过了
                 subscribeIv.setImageResource(R.mipmap.subscribe);
             } else {
