@@ -83,7 +83,7 @@ public class DefaultAvatarActivity extends MvpActivity<DefaultAvatarPresenter> i
         iv_avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PersonalHomepageActivity.forward(DefaultAvatarActivity.this, CommonAppConfig.getInstance().getUid());
+//                PersonalHomepageActivity.forward(DefaultAvatarActivity.this, CommonAppConfig.getInstance().getUid());
             }
         });
 

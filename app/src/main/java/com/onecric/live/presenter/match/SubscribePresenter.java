@@ -13,10 +13,16 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SubscribePresenter extends BasePresenter {
 
-    public void doSubscribe(String mid, DisposableObserver observer) {
+    public void doSubscribe(String mid, int start, int out, int wickets, int miles, int delay, int result, DisposableObserver observer) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("token", CommonAppConfig.getInstance().getToken());
         jsonObject.put("mid", mid);
+        jsonObject.put("start", start);
+        jsonObject.put("out", out);
+        jsonObject.put("wickets", wickets);
+        jsonObject.put("miles", miles);
+        jsonObject.put("delay", delay);
+        jsonObject.put("result", result);
         ApiClient.retrofit().create(ApiStores.class)
                 .doSubscribe(getRequestBody(jsonObject))
                 .subscribeOn(Schedulers.io())

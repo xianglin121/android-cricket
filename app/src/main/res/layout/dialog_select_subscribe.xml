@@ -6,11 +6,12 @@
     android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingTop="20dp"
+    android:paddingBottom="30dp"
     android:paddingRight="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -21,9 +22,10 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_match_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="A VS B"
+                android:text=""
                 android:textColor="@color/c_666666"
                 android:textSize="9sp" />
 
@@ -42,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
+            android:checked="true"
             android:thumb="@drawable/switch_thumb"
             android:track="@drawable/switch_track" />
     </LinearLayout>
@@ -52,9 +55,10 @@
         android:background="@drawable/shape_c8c8c8_5dp_rec"
         android:orientation="vertical"
         android:paddingLeft="10dp"
-        android:paddingTop="25dp"
+        android:paddingTop="20dp"
+        android:layout_marginTop="@dimen/dp_10"
         android:paddingRight="10dp"
-        android:paddingBottom="25dp">
+        android:paddingBottom="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,60 +74,7 @@
                 android:textStyle="normal" />
 
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Match Started"
-                android:textColor="@color/black"
-                android:textSize="11sp"
-                android:textStyle="normal" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Match Started"
-                android:textColor="@color/black"
-                android:textSize="11sp"
-                android:textStyle="normal" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Match Started"
-                android:textColor="@color/black"
-                android:textSize="11sp"
-                android:textStyle="normal" />
-
-            <CheckBox
+                android:id="@+id/checkbox_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true" />
@@ -131,18 +82,104 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Match Started"
+                android:text="Toss and Line-ups Out"
                 android:textColor="@color/black"
                 android:textSize="11sp"
                 android:textStyle="normal" />
 
             <CheckBox
+                android:id="@+id/checkbox_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Wickets"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                android:textStyle="normal" />
+
+            <CheckBox
+                android:id="@+id/checkbox_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Milestones"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                android:textStyle="normal" />
+
+            <CheckBox
+                android:id="@+id/checkbox_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Delay and Breaks"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                android:textStyle="normal" />
+
+            <CheckBox
+                android:id="@+id/checkbox_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Result"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                android:textStyle="normal" />
+
+            <CheckBox
+                android:id="@+id/checkbox_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true" />
@@ -151,7 +188,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_cancel"
+        android:id="@+id/tv_save"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginTop="10dp"

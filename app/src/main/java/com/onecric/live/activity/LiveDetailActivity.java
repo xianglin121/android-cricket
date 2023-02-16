@@ -213,8 +213,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         person_head_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mLiveRoomBean != null)
-                    PersonalHomepageActivity.forward(LiveDetailActivity.this, mLiveRoomBean.getUserData().getUid() + "");
+                if (mLiveRoomBean != null) {
+//                    PersonalHomepageActivity.forward(LiveDetailActivity.this, mLiveRoomBean.getUserData().getUid() + "");
+                }
             }
         });
 

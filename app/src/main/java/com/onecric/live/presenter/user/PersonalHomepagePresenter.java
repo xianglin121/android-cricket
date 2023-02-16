@@ -40,4 +40,29 @@ public class PersonalHomepagePresenter extends BasePresenter<PersonalHomepageVie
                     }
                 });
     }
+
+    public void doFollow(int id) {
+        addSubscription(apiStores.doFollow(CommonAppConfig.getInstance().getToken(), id),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        mvpView.doFollowSuccess(id);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        mvpView.getDataFail(msg);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        mvpView.getDataFail(msg);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
 }

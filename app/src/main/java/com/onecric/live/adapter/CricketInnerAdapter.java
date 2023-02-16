@@ -18,6 +18,7 @@ import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.presenter.match.SubscribePresenter;
 import com.onecric.live.retrofit.ApiCallback;
+import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.TimeUtil;
 import com.onecric.live.util.ToastUtil;
@@ -52,7 +53,7 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
         } else {
             //先判断是否登陆了账号
 //            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-            subscribeIv.setVisibility(View.GONE);// TODO: 2023/2/15  这里在订阅接口调试好后要放开为visible
+            subscribeIv.setVisibility(View.VISIBLE);// TODO: 2023/2/15  这里在订阅接口调试好后要放开为visible
             if (item.getIs_subscribe() == 1) {//已经订阅过了
                 subscribeIv.setImageResource(R.mipmap.subscribe);
             } else {
@@ -72,6 +73,12 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
 //                    }
                     // TODO: 2023/2/14  订阅消息推送
                     //这里先弹出一个订阅消息的内容选择框  待选择好后点击确定订阅按钮再调用订阅接口
+                    DialogUtil.showSelectSubscribeDialog(mContext, item.getHome_name() + " VS " + item.getAway_name(), new DialogUtil.SelectSubscribeBack() {
+                        @Override
+                        public void onSelectSubscribe(int start, int out, int wickets, int miles, int delay, int result) {
+                            doSubscribe(item.getMatch_id() + "", start, out, wickets, miles, delay, result, subscribeIv);
+                        }
+                    });
                 }
             });
             resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_regular));
@@ -169,8 +176,8 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
         }
     }
 
-    private void doSubscribe(CricketMatchBean item, ImageView subscribeIv) {//订阅推送消息
-        new SubscribePresenter().doSubscribe(item.getMatch_id() + "", new ApiCallback() {
+    private void doSubscribe(String matchId, int start, int out, int wickets, int miles, int delay, int result, ImageView subscribeIv) {//订阅推送消息
+        new SubscribePresenter().doSubscribe(matchId, start, out, wickets, miles, delay, result, new ApiCallback() {
             @Override
             public void onSuccess(String data, String msg) {
                 subscribeIv.setImageResource(R.mipmap.subscribe);

@@ -26,10 +26,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -713,7 +716,7 @@ public class DialogUtil {
         dialog.show();
     }
 
-    public static void showSelectSubscribeDialog(Context context, String hdUrl, String sdUrl, SelectPullUrlBack callback) {
+    public static void showSelectSubscribeDialog(Context context, String matchTitle, SelectSubscribeBack callback) {
         final Dialog dialog = new Dialog(context, R.style.dialog);
         dialog.setContentView(R.layout.dialog_select_subscribe);
         dialog.setCancelable(true);
@@ -723,44 +726,51 @@ public class DialogUtil {
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
         params.gravity = Gravity.BOTTOM;
         dialog.getWindow().setAttributes(params);
-        TextView tv_HD = (TextView) dialog.findViewById(R.id.tv_HD);
-        TextView tv_SD = (TextView) dialog.findViewById(R.id.tv_SD);
-        if (!TextUtils.isEmpty(hdUrl)) {
-            dialog.findViewById(R.id.line_hd).setVisibility(View.VISIBLE);
-            tv_HD.setVisibility(View.VISIBLE);
-        } else {
-            dialog.findViewById(R.id.line_hd).setVisibility(View.GONE);
-            tv_HD.setVisibility(View.GONE);
-        }
-        if (!TextUtils.isEmpty(sdUrl)) {
-            dialog.findViewById(R.id.line_sd).setVisibility(View.VISIBLE);
-            tv_SD.setVisibility(View.VISIBLE);
-        } else {
-            dialog.findViewById(R.id.line_sd).setVisibility(View.GONE);
-            tv_SD.setVisibility(View.GONE);
-        }
-        tv_HD.setOnClickListener(new View.OnClickListener() {
+        TextView tv_match_title = (TextView) dialog.findViewById(R.id.tv_match_title);
+        tv_match_title.setText(matchTitle);
+        TextView tv_save = (TextView) dialog.findViewById(R.id.tv_save);
+        CheckBox checkBox1 = (CheckBox) dialog.findViewById(R.id.checkbox_1);
+        CheckBox checkBox2 = (CheckBox) dialog.findViewById(R.id.checkbox_2);
+        CheckBox checkBox3 = (CheckBox) dialog.findViewById(R.id.checkbox_3);
+        CheckBox checkBox4 = (CheckBox) dialog.findViewById(R.id.checkbox_4);
+        CheckBox checkBox5 = (CheckBox) dialog.findViewById(R.id.checkbox_5);
+        CheckBox checkBox6 = (CheckBox) dialog.findViewById(R.id.checkbox_6);
+        Switch btn_switch = (Switch) dialog.findViewById(R.id.btn_switch);
+        btn_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            boolean checked1, checked2, checked3, checked4, checked5, checked6;
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    checked1 = checkBox1.isChecked();
+                    checked2 = checkBox2.isChecked();
+                    checked3 = checkBox3.isChecked();
+                    checked4 = checkBox4.isChecked();
+                    checked5 = checkBox5.isChecked();
+                    checked6 = checkBox6.isChecked();
+                    checkBox1.setChecked(false);
+                    checkBox2.setChecked(false);
+                    checkBox3.setChecked(false);
+                    checkBox4.setChecked(false);
+                    checkBox5.setChecked(false);
+                    checkBox6.setChecked(false);
+                } else {
+                    checkBox1.setChecked(checked1);
+                    checkBox2.setChecked(checked2);
+                    checkBox3.setChecked(checked3);
+                    checkBox4.setChecked(checked4);
+                    checkBox5.setChecked(checked5);
+                    checkBox6.setChecked(checked6);
+                }
+            }
+        });
+        tv_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
                 if (callback != null) {
-                    callback.onSelectUrl(hdUrl);
+                    callback.onSelectSubscribe(checkBox1.isChecked() ? 1 : 0, checkBox2.isChecked() ? 1 : 0, checkBox3.isChecked() ? 1 : 0, checkBox4.isChecked() ? 1 : 0, checkBox5.isChecked() ? 1 : 0, checkBox6.isChecked() ? 1 : 0);
                 }
-            }
-        });
-        tv_SD.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                if (callback != null) {
-                    callback.onSelectUrl(sdUrl);
-                }
-            }
-        });
-        dialog.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
             }
         });
         dialog.show();
@@ -935,6 +945,10 @@ public class DialogUtil {
 
     public interface SelectPullUrlBack {
         void onSelectUrl(String url);
+    }
+
+    public interface SelectSubscribeBack {
+        void onSelectSubscribe(int start, int out, int wickets, int miles, int delay, int result);
     }
 
     public interface StringArrayDialogCallback {
