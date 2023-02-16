@@ -54,7 +54,7 @@
                 android:visibility="gone">
 
                 <ImageView
-                    android:layout_width="13dp"
+                    android:layout_width="10dp"
                     android:layout_height="match_parent"
                     android:src="@mipmap/select" />
 

@@ -243,8 +243,10 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
             if (list != null) {
                 if (list.size() > 0) {
                     hideEmptyView();
+                    ll_select.setVisibility(View.VISIBLE);
                 } else {
                     showEmptyView();
+                    ll_select.setVisibility(View.GONE);
                 }
                 mAdapter.getData().clear();
                 mAdapter.getData().addAll(list);
@@ -334,6 +336,6 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
         int[] lv2 = {0, 0};
         ll_select.getLocationInWindow(lv2);
         // 设置弹窗位置
-        popupWindow.showAtLocation(ll_select, Gravity.NO_GRAVITY, lv2[0] - DpUtil.dp2px(125), lv2[1] + DpUtil.dp2px(15));
+        popupWindow.showAtLocation(ll_select, Gravity.NO_GRAVITY, lv2[0] - DpUtil.dp2px(10), lv2[1] + DpUtil.dp2px(10));
     }
 }
