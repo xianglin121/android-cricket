@@ -42,7 +42,7 @@ public class LiveRecommendHistoryAdapter extends BaseQuickAdapter<HistoryLiveBea
         ImageView iv_live = helper.getView(R.id.iv_history_live);
         TextView tv_title = helper.getView(R.id.tv_title);
         TextView tv_name = helper.getView(R.id.tv_name);
-//        TextView tv_num = helper.getView(R.id.tv_num);
+        TextView tv_num = helper.getView(R.id.tv_num);
         TextView tv_time = helper.getView(R.id.tv_time);
 //        Glide.with(mContext).load(getFirstBitmap(mContext,item.getMediaUrl(),false)).into(iv_cover);
         Glide.with(mContext).load(item.getImg()).placeholder(R.mipmap.bg_team_comparison_head).into(iv_cover);
@@ -57,12 +57,12 @@ public class LiveRecommendHistoryAdapter extends BaseQuickAdapter<HistoryLiveBea
         } else {
             tv_name.setText("");
         }
-/*        if (item.getHeat() > 10000) {
-            String heat = new BigDecimal(item.getHeat()).divide(new BigDecimal(10000), 2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
-            tv_num.setText(heat + "w");
+        if (item.getHeat() > 1000) {
+            String heat = new BigDecimal(item.getHeat()).divide(new BigDecimal(1000), 2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
+            tv_num.setText(heat + "k");
         }else {
             tv_num.setText(String.valueOf(item.getHeat()));
-        }*/
+        }
 
         iv_cover.setColorFilter(null);
         iv_live.setVisibility(View.VISIBLE);

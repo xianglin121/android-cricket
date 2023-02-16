@@ -6,6 +6,7 @@ import com.onecric.live.CommonAppConfig;
 import com.onecric.live.activity.MainActivity;
 import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.user.SettingView;
 
@@ -20,6 +21,7 @@ public class SettingPresenter extends BasePresenter<SettingView> {
                     @Override
                     public void onSuccess(String data, String msg) {
                         CommonAppConfig.getInstance().clearLoginInfo();
+                        SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, false);
                         MainActivity.loginForward(context);
                     }
 

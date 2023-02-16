@@ -4,12 +4,17 @@ import static com.onecric.live.util.DialogUtil.loadingDialog;
 import static com.onecric.live.util.UiUtils.getJsonData;
 import static com.onecric.live.util.UiUtils.hideKeyboard;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -34,6 +39,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.tabs.TabLayout;
@@ -45,6 +55,9 @@ import com.onecric.live.R;
 import com.onecric.live.model.AreasModel;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.login.LoginPresenter;
+import com.onecric.live.service.SMSBroadcastReceiver;
+import com.onecric.live.service.SMSObserver;
+import com.onecric.live.util.MPermissionUtils;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.ToolUtil;
 import com.onecric.live.util.WordUtil;
@@ -56,7 +69,6 @@ import java.util.ArrayList;
 import cn.jpush.android.api.JPushInterface;
 
 public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginView, View.OnClickListener {
-
     public static void forward(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
@@ -96,6 +108,10 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
     //有无发送验证码
     private boolean isSendCode = false;
     private FirebaseAnalytics mFirebaseAnalytics;
+//    private SMSObserver mSMSObserver;
+//    private Handler smsHandler;
+//    private SMSBroadcastReceiver mSMSBroadcastReceiver;
+//    private IntentFilter intentFilter;
 
     @Override
     protected LoginPresenter createPresenter() {
@@ -184,6 +200,18 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
                 }
             }
         };
+
+/*        smsHandler = new Handler(){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                if(msg.what == 1){
+                    etVerification.setText(msg.obj.toString());
+                }
+            }
+        };
+        mSMSObserver = new SMSObserver(this, smsHandler);
+        fixedPhone();*/
+
     }
 
     private void initWebView() {
@@ -472,6 +500,83 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
     public void showCountryList() {
         if (CommonAppConfig.getInstance().getConfig() != null && CommonAppConfig.getInstance().getConfig().getCountryCode() != null) {
             ccp.setCustomMasterCountries(CommonAppConfig.getInstance().getConfig().getCountryListAbbr());
+        }
+    }
+
+    /**
+     * SMS自动收验证码
+     */
+    private void fixedPhone() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED
+                    | ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECEIVE_SMS) | ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {//是否请求过该权限
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.RECEIVE_SMS,
+                                    Manifest.permission.READ_SMS,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.READ_EXTERNAL_STORAGE}, 10001);
+                } else {//没有则请求获取权限，示例权限是：存储权限和短信权限，需要其他权限请更改或者替换
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.RECEIVE_SMS,
+                                    Manifest.permission.READ_SMS,
+                                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10001);
+                }
+            } else {
+//                getContentResolver().registerContentObserver(Uri.parse("content://sms"),true, mSMSObserver);
+//                getContentResolver().registerContentObserver(Uri.parse("content://sms/inbox"),true, mSMSObserver);
+//                getContentResolver().registerContentObserver(Uri.parse("content://mms-sms/"),true, mSMSObserver);
+                // 广播接收验证码自动填入
+/*                if(mSMSBroadcastReceiver == null){
+                    mSMSBroadcastReceiver = new SMSBroadcastReceiver();
+                    mSMSBroadcastReceiver.setOnReceiveSMSListener(message -> etVerification.setText(message));
+                }
+
+                if(intentFilter == null){
+                    intentFilter = new IntentFilter();
+                    intentFilter.setPriority(Integer.MAX_VALUE);
+                    intentFilter.addAction(SMSBroadcastReceiver.SMS_RECEIVED_ACTION);
+                }
+
+                registerReceiver(mSMSBroadcastReceiver,intentFilter);*/
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+/*        if(mSMSObserver!=null){
+            this.getContentResolver().unregisterContentObserver(mSMSObserver);
+        }*/
+/*        if(mSMSBroadcastReceiver != null){
+            unregisterReceiver(mSMSBroadcastReceiver);
+        }*/
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 10001:
+                for (int i = 0; i < grantResults.length; i++) {
+//                   如果拒绝获取权限
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        //判断是否勾选禁止后不再询问
+                        boolean flag = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]);
+                        if (flag) {
+                            fixedPhone();
+                            return;//用户权限是一个一个的请求的，只要有拒绝，剩下的请求就可以停止，再次请求打开权限了
+                        } else { // 勾选不再询问，并拒绝
+                            return;
+                        }
+                    }
+                }
+//                Toast.makeText(LoginActivity.this, "权限开启完成",Toast.LENGTH_LONG).show();
+                break;
+            default:
+                break;
         }
     }
 

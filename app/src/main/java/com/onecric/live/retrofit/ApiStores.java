@@ -840,4 +840,10 @@ public interface ApiStores {
     Observable<JsonObject> getHistoryLiveList(@Header("token") String token,
                                               @Query("pageNumber") int pageNumber,
                                               @Query("pageSize") int pageSize);
+
+    //获取历史直播列表
+    @GET("api/member/live_like")
+    Observable<JsonObject> getLiveLike( @Header("token") String token,@Query("id") int id,
+                                        @Query("type") int type);
+
 }

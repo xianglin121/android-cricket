@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.onecric.live.CommonAppConfig;
 import com.onecric.live.Constant;
 import com.onecric.live.R;
 import com.onecric.live.activity.BasketballMatchDetailActivity;
@@ -16,6 +17,7 @@ import com.onecric.live.activity.CommunityCommentActivity;
 import com.onecric.live.activity.FootballMatchDetailActivity;
 import com.onecric.live.activity.HeadlineDetailActivity;
 import com.onecric.live.activity.LiveDetailActivity;
+import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.activity.SearchLiveDetailActivity;
 import com.onecric.live.adapter.LiveClassifyAdapter;
 import com.onecric.live.adapter.LiveRecommendAdapter;
@@ -30,6 +32,7 @@ import com.onecric.live.model.LiveBean;
 import com.onecric.live.model.MatchListBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.live.SearchComplexPresenter;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.SearchComplexView;
@@ -116,6 +119,8 @@ public class SearchComplexFragment extends MvpFragment<SearchComplexPresenter> i
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if(mLiveAdapter.getItem(position).getIslive() == 0){
                     ToastUtil.show("The broadcast has not started");
+                }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    LoginActivity.forward(getContext());
                 }else{
                     LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getType(), mLiveAdapter.getItem(position).getMatch_id());
                 }

@@ -1,6 +1,7 @@
 package com.onecric.live.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -9,8 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.LiveDetailActivity;
+import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.adapter.FootballMatchLiveAnchorAdapter;
 import com.onecric.live.adapter.LiveRecommendAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
@@ -18,6 +21,7 @@ import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveAnchorBean;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.presenter.match.BasketballMatchLivePresenter;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.match.BasketballMatchLiveView;
@@ -74,7 +78,11 @@ public class BasketballMatchLiveFragment extends MvpFragment<BasketballMatchLive
         mAnchorAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                LiveDetailActivity.forward(getContext(), mAnchorAdapter.getItem(position).getId(), 1, mId);
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    LoginActivity.forward(getContext());
+                }else{
+                    LiveDetailActivity.forward(getContext(), mAnchorAdapter.getItem(position).getId(), 1, mId);
+                }
             }
         });
         rv_anchor.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -103,6 +111,8 @@ public class BasketballMatchLiveFragment extends MvpFragment<BasketballMatchLive
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if(mLiveAdapter.getItem(position).getIslive() == 0){
                     ToastUtil.show("The broadcast has not started");
+                }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    LoginActivity.forward(getContext());
                 }else{
                     LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getType(), mLiveAdapter.getItem(position).getMatch_id());
                 }

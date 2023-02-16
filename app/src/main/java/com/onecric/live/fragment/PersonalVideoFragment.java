@@ -1,6 +1,7 @@
 package com.onecric.live.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.onecric.live.model.ShortVideoBean;
 import com.onecric.live.presenter.user.PersonalVideosPresenter;
 import com.onecric.live.presenter.video.VideoPresenter;
 import com.onecric.live.util.DpUtil;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.video.VideoView;
@@ -211,7 +213,11 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                VideoPagerActivity.forward(getContext(), mAdapter.getData(), position, mPage);
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    LoginActivity.forward(getContext());
+                }else{
+                    VideoPagerActivity.forward(getContext(), mAdapter.getData(), position, mPage);
+                }
             }
         });
         //解决瀑布流从底部到顶部出现画面重新排版动画还有间距出现问题

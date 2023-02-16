@@ -2,47 +2,41 @@ package com.onecric.live.adapter;
 
 import static com.onecric.live.util.DateUtil.getRelativeLocalDate;
 
-import android.graphics.Color;
+import android.content.Context;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.ColorUtils;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.util.GlideUtil;
-import com.tencent.qcloud.tuicore.util.DateTimeUtil;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 开发公司：东莞市梦幻科技有限公司
  * 时间：2021/9/14
  */
-public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHolder> {
-//    private SimpleDateFormat sfdate = new SimpleDateFormat("EEE,dd MMM.", Locale.ENGLISH);
+public class LiveMoreVideoAdapter extends BaseQuickAdapter<LiveBean, BaseViewHolder>{
+    //    private SimpleDateFormat sfdate = new SimpleDateFormat("EEE,dd MMM.", Locale.ENGLISH);
     private SimpleDateFormat sfdate2 = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
 
-    public LiveRecommendAdapter(int layoutResId, @Nullable List<LiveBean> data) {
+    public LiveMoreVideoAdapter(int layoutResId, @Nullable List<LiveBean> data) {
         super(layoutResId, data);
     }
 

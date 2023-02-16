@@ -19,6 +19,7 @@ import com.onecric.live.activity.CricketDetailActivity;
 import com.onecric.live.activity.FootballMatchDetailActivity;
 import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.activity.LiveMoreActivity;
+import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.activity.VideoPagerActivity;
 import com.onecric.live.activity.VideoSingleActivity;
 import com.onecric.live.adapter.BannerRoundImageAdapter;
@@ -33,6 +34,7 @@ import com.onecric.live.model.LiveBean;
 import com.onecric.live.model.LiveMatchBean;
 import com.onecric.live.presenter.live.LiveRecommendPresenter;
 import com.onecric.live.util.GlideUtil;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.LiveRecommendView;
@@ -147,7 +149,11 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    LoginActivity.forward(getContext());
+                }else{
+                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
+                }
             }
         });
         rv_live.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -160,7 +166,9 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mTodayAdapter.getItem(position).getIslive() == 0) {
                     ToastUtil.show("The broadcast has not started");
-                } else {
+                } else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    LoginActivity.forward(getContext());
+                }else{
                     LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(), mTodayAdapter.getItem(position).getType(), mTodayAdapter.getItem(position).getMatch_id());
                 }
             }
@@ -193,7 +201,12 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         mHistoryAdapter = new LiveRecommendHistoryAdapter(R.layout.item_live_recommend, new ArrayList<>());
         mHistoryAdapter.setOnItemClickListener((adapter, view, position) -> {
             String url = mHistoryAdapter.getItem(position).getMediaUrl();
-            if (!TextUtils.isEmpty(url)) {
+            if (TextUtils.isEmpty(url)) {
+                return;
+            }
+            if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                LoginActivity.forward(getContext());
+            }else{
                 VideoSingleActivity.forward(getContext(), mHistoryAdapter.getItem(position).getMediaUrl(), null);
             }
         });
@@ -328,7 +341,11 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             if (position != -1) {
                 BannerBean bannerBean = list.get(position);
                 if (bannerBean.getAnchor_id() != 0) {
-                    LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(), bannerBean.getParam_id());
+                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                        LoginActivity.forward(getContext());
+                    }else{
+                        LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(), bannerBean.getParam_id());
+                    }
                 } else if (bannerBean.getParam_id() != 0) {
                     CricketDetailActivity.forward(getActivity(), bannerBean.getParam_id());
                 }

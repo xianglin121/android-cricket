@@ -12,8 +12,8 @@ public class LiveUserBean implements Serializable {
      * uid : 2
      * user_nickname :
      * avatar :
-     * attention : 0
-     * heat : 0
+     * attention : 0  粉丝数
+     * heat : 0  热度、观看人数
      * title : 测试
      * is_attention : 0
      * votestotal : 1

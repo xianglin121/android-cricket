@@ -5,13 +5,20 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.model.BasketballDetailBean;
+import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.FootballDetailBean;
+import com.onecric.live.model.HistoryLiveBean;
 import com.onecric.live.model.LiveRoomBean;
+import com.onecric.live.model.UpdatesBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.view.live.LiveDetailView;
 import com.tencent.qcloud.tuikit.tuichat.interfaces.GroupChatEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TimeZone;
 
 
 public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
@@ -26,12 +33,16 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
         mGroupId = groupId;
     }
 
-    public void getInfo(int id) {
+    public void getInfo(int id , boolean isLoginUpdate) {
         addSubscription(apiStores.getLiveDetail(CommonAppConfig.getInstance().getToken(), id),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
-                        mvpView.getDataSuccess(JSONObject.parseObject(data, LiveRoomBean.class));
+                        if(isLoginUpdate){
+                            mvpView.getUpdateUserData(JSONObject.parseObject(data, LiveRoomBean.class));
+                        }else{
+                            mvpView.getDataSuccess(JSONObject.parseObject(data, LiveRoomBean.class));
+                        }
                     }
 
                     @Override
@@ -194,6 +205,86 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
                     @Override
                     public void onError(String msg) {
                         mvpView.sendBroadcastResponse(false, msg);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
+
+    public void getMatchDetail(int matchId) {
+        JSONObject jsonObject = new JSONObject();
+        TimeZone timeZone = TimeZone.getDefault();
+        jsonObject.put("timezone", timeZone.getID());
+        jsonObject.put("match_id", matchId);
+        addSubscription(apiStores.getCricketDetail(getRequestBody(jsonObject)), new ApiCallback() {
+            @Override
+            public void onSuccess(String data, String msg) {
+                mvpView.getMatchDataSuccess(JSONObject.parseObject(data, CricketMatchBean.class));
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                mvpView.getDataFail(msg);
+            }
+
+            @Override
+            public void onError(String msg) {
+                mvpView.getDataFail(msg);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
+
+    public void getUpdatesDetail(int matchId) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", matchId);
+        jsonObject.put("type", 0);
+        addSubscription(apiStores.getCricketDetailUpdates(getRequestBody(jsonObject)), new ApiCallback() {
+            @Override
+            public void onSuccess(String data, String msg) {
+                mvpView.getUpdatesDataSuccess(JSONObject.parseArray(data, UpdatesBean.class));
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+            }
+
+            @Override
+            public void onError(String msg) {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
+
+    public void goLike(int id, int isLike) {
+        addSubscription(apiStores.getLiveLike(CommonAppConfig.getInstance().getToken(),id, isLike),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        mvpView.showLikeSuccess();
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        mvpView.getDataFail(msg);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        mvpView.getDataFail(msg);
                     }
 
                     @Override
