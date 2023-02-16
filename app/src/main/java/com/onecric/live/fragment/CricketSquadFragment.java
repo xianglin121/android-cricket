@@ -130,6 +130,7 @@ public class CricketSquadFragment extends MvpFragment<CricketSquadPresenter> imp
         smart_rl.finishRefresh();
         if (list != null) {
             mAdapter.setNewData(list);
+            mAdapter.notifyDataSetChanged();
         }
     }
 

@@ -1,6 +1,7 @@
 package com.onecric.live.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -8,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
+import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.activity.VideoPagerActivity;
 import com.onecric.live.adapter.VideoAdapter;
 import com.onecric.live.adapter.decoration.StaggeredDividerItemDecoration;
@@ -16,6 +19,7 @@ import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.ShortVideoBean;
 import com.onecric.live.presenter.user.MySpaceVideoOnePresenter;
 import com.onecric.live.util.CommonUtil;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.user.MySpaceVideoOneView;
 import com.scwang.smartrefresh.header.MaterialHeader;
@@ -90,7 +94,11 @@ public class MySpaceVideoOneFragment extends MvpFragment<MySpaceVideoOnePresente
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                VideoPagerActivity.forward(getContext(), mAdapter.getData(), position, mPage);
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    LoginActivity.forward(getContext());
+                }else{
+                    VideoPagerActivity.forward(getContext(), mAdapter.getData(), position, mPage);
+                }
             }
         });
         rv_video.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));

@@ -759,5 +759,6 @@
     <string name="send_verification_tip">Please send the verification code first</string>
     <string name="lineups_out">Lineups out</string>
     <string name="pull_refresh">Pull down to refresh</string>
+    <string name="list">List</string>
 
 </resources>

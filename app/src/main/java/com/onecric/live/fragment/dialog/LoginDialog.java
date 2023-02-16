@@ -87,6 +87,7 @@ public class LoginDialog extends Dialog {
     private boolean isSendCode = false;
     private boolean isSame;
     public OnWebViewListener mWebViewListener;
+    public boolean isCanClose = true;
 
     public LoginDialog(@NonNull BaseActivity context, int themeResId, OnWebViewListener listener) {
         super(context, themeResId);
@@ -119,8 +120,8 @@ public class LoginDialog extends Dialog {
 
     private void initView() {
         setContentView(R.layout.dialog_login);
-        setCancelable(true);
-        setCanceledOnTouchOutside(true);
+        setCancelable(false);
+        setCanceledOnTouchOutside(false);
         getWindow().setWindowAnimations(R.style.bottomToTopAnim);
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -444,6 +445,16 @@ public class LoginDialog extends Dialog {
         tvAuthCode.setEnabled(false);
         if (!TextUtils.isEmpty(area) && !TextUtils.isEmpty(area)) {
             requestCode(area + "-" + phone);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(!isCanClose){
+            mContext.finish();
+        }else{
+            dismiss();
         }
     }
 }

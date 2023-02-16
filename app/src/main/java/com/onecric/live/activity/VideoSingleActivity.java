@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.onecric.live.AppManager;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.BaseActivity;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
@@ -27,6 +28,9 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
 import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager;
 
+/**
+ * 历史直播页
+ */
 public class VideoSingleActivity extends BaseActivity {
 
     private StandardGSYVideoPlayer videoView;
@@ -43,6 +47,7 @@ public class VideoSingleActivity extends BaseActivity {
 
         @Override
         public void onFinish() {
+            SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
             finish();
             LoginActivity.forward(mActivity);

@@ -841,6 +841,12 @@ public interface ApiStores {
                                               @Query("pageNumber") int pageNumber,
                                               @Query("pageSize") int pageSize);
 
+    //获取历史直播列表
+    @GET("api/member/live_like")
+    Observable<JsonObject> getLiveLike( @Header("token") String token,@Query("id") int id,
+                                        @Query("type") int type);
+
+
     //订阅赛事消息推送   todo 未完成
     @POST("api/")
     Observable<JsonObject> doSubscribe(@Body RequestBody body);

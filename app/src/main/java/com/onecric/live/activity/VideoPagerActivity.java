@@ -36,6 +36,7 @@ import com.onecric.live.presenter.video.VideoPagerPresenter;
 import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.DownloadUtil;
 import com.onecric.live.util.ShareUtil;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.video.VideoPagerView;
@@ -108,6 +109,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
         @Override
         public void onFinish() {
+            SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
             finish();
             LoginActivity.forward(mActivity);

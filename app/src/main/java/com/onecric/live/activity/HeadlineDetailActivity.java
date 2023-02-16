@@ -38,6 +38,7 @@ import com.onecric.live.model.HeadlineBean;
 import com.onecric.live.model.MovingBean;
 import com.onecric.live.presenter.theme.HeadlineDetailPresenter;
 import com.onecric.live.util.DpUtil;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.ToolUtil;
 import com.onecric.live.view.MvpActivity;
@@ -117,6 +118,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
         @Override
         public void onFinish() {
+            SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
             finish();
             LoginActivity.forward(mActivity);
@@ -491,7 +493,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 });
 
                 //封面
-*//*                ImageView imageView = new ImageView(mActivity);
+*/
+/*                ImageView imageView = new ImageView(mActivity);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 Glide.with(mActivity).load(model.getVideo()).dontAnimate().into(imageView);
                 video_player.setThumbImageView(imageView);*//*
@@ -510,12 +513,17 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 video_player.setIsTouchWiget(true);
                 video_player.setNeedLockFull(true);
                 video_player.setAutoFullWithSize(true);
-                video_player.startPlayLogic();
 
+                video_player.startPlayLogic();
+                //fixme 先判断符合播放要求->再显示播放组件，否则显示图片+播放icon 点击去登录 销毁当前页面 播放时开始计时，
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     mCountDownTimer.start();
                 }
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    LoginActivity.forward(getContext());
+                }else{
 
+                }
             }*/
 
             if (list != null) {

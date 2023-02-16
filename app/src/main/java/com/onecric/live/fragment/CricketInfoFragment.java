@@ -152,6 +152,15 @@ public class CricketInfoFragment extends MvpFragment<CricketInfoPresenter> imple
         mvpPresenter.getPointsList(tournamentId);
     }
 
+    public void getData(int homeId, int awayId, int tournamentId,int mId) {
+        mMatchId = mId;
+        mTournamentId = tournamentId;
+        mHomeId = homeId;
+        mAwayId = awayId;
+        mvpPresenter.getData(mMatchId);
+        mvpPresenter.getPointsList(tournamentId);
+    }
+
     @Override
     public void showLoading() {
 

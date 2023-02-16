@@ -45,7 +45,7 @@ public class SpUtil {
     public static final String FLOATING_PLAY = "floatingPlay";//悬浮窗播放
     public static final String BOX_TIME = "boxTime";//宝箱剩余开启时间
     public static final String FIRST_ENTER = "first_enter";//是否第一次进入app
-
+    public static final String VIDEO_OVERTIME = "video_overtime";//未登录状态下播放是否超时
 
     private SpUtil() {
         mSharedPreferences = AppManager.mContext.getSharedPreferences("SharedPreferences", Context.MODE_PRIVATE);

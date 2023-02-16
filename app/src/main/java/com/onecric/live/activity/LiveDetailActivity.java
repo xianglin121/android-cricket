@@ -1,5 +1,9 @@
 package com.onecric.live.activity;
 
+import static android.view.MotionEvent.ACTION_DOWN;
+import static android.view.MotionEvent.ACTION_UP;
+import static com.onecric.live.util.UiUtils.collapseView;
+import static com.onecric.live.util.UiUtils.expandView;
 import static com.tencent.imsdk.base.ThreadUtils.runOnUiThread;
 
 import android.animation.Animator;
@@ -10,6 +14,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +23,7 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -29,11 +35,15 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.onecric.live.CommonAppConfig;
+import com.onecric.live.HttpConstant;
 import com.onecric.live.R;
 import com.onecric.live.custom.AnchorMovingReplyDialog;
 import com.onecric.live.custom.gift.AnimMessage;
@@ -41,22 +51,29 @@ import com.onecric.live.custom.gift.LPAnimationManager;
 import com.onecric.live.custom.noble.LPNobleView;
 import com.onecric.live.event.UpdateAnchorFollowEvent;
 import com.onecric.live.event.UpdateLoginTokenEvent;
+import com.onecric.live.fragment.CricketInfoFragment;
+import com.onecric.live.fragment.CricketScorecardFragment;
+import com.onecric.live.fragment.CricketSquadFragment;
+import com.onecric.live.fragment.CricketUpdatesFragment;
 import com.onecric.live.fragment.LiveDetailMainFragment;
 import com.onecric.live.fragment.ThemeFragment;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.BasketballDetailBean;
 import com.onecric.live.model.BroadcastMsgBean;
 import com.onecric.live.model.ColorMsgBean;
+import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.CustomMsgBean;
 import com.onecric.live.model.FootballDetailBean;
 import com.onecric.live.model.GiftBean;
 import com.onecric.live.model.LiveRoomBean;
 import com.onecric.live.model.NormalMsgBean;
+import com.onecric.live.model.UpdatesBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.live.LiveDetailPresenter;
 import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ScreenUtils;
+import com.onecric.live.util.ShareUtil;
 import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpActivity;
@@ -88,11 +105,11 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * 直播详情
+ * LIVE直播详情
  */
 public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> implements LiveDetailView, View.OnClickListener {
 
-    private ImageView iv_silence;
+//    private ImageView iv_silence;
 
     public static void forward(Context context, int anchorId, int type, int matchId) {
         Intent intent = new Intent(context, LiveDetailActivity.class);
@@ -131,6 +148,21 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     private ImageView iv_back;
     private CircleImageView person_head_pic;
 
+    private ConstraintLayout cl_avatar;
+    private CircleImageView iv_avatar;
+    private TextView tv_name;
+    private TextView tv_desc;
+    private ImageView iv_star;
+    private TextView tv_tool_eyes;
+    private ImageView iv_tool_heart;
+    private ImageView iv_tool_share;
+    private TextView tv_tool_heart;
+
+    private boolean isOpenAvatar = false;
+    private int clAvatarHeight;
+
+
+    private Drawable drawableArrUp, drawableArrDown;
     //未登录用户倒计时三分钟跳转登录页
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
         @Override
@@ -140,9 +172,11 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
         @Override
         public void onFinish() {
+            SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
 //            finish();
 //            LoginActivity.forward(mActivity);
+            loginDialog.isCanClose = false;
             loginDialog.show();
         }
     };
@@ -207,8 +241,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         tv_content = findViewById(R.id.tv_content);
         tv_title = findViewById(R.id.tv_title);
         iv_back = findViewById(R.id.iv_back);
-        iv_silence = findViewById(R.id.iv_silence);
-        iv_silence.setOnClickListener(this);
+//        iv_silence = findViewById(R.id.iv_silence);
+//        iv_silence.setOnClickListener(this);
         person_head_pic = findViewById(R.id.person_head_pic);
         person_head_pic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,6 +256,29 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         iv_data.setOnClickListener(this);
         iv_back.setOnClickListener(this);
 
+        cl_avatar = findViewById(R.id.cl_avatar);
+        iv_avatar = findViewById(R.id.iv_avatar);
+        tv_name = findViewById(R.id.tv_name);
+        tv_desc = findViewById(R.id.tv_desc);
+        iv_star = findViewById(R.id.iv_star);
+        tv_tool_eyes = findViewById(R.id.tv_tool_eyes);
+        iv_tool_heart = findViewById(R.id.iv_tool_heart);
+        iv_tool_share = findViewById(R.id.iv_tool_share);
+        findViewById(R.id.ll_eyes).setOnClickListener(this);
+        tv_tool_heart = findViewById(R.id.tv_tool_heart);
+        person_head_pic.setOnClickListener(this);
+        tv_title.setOnClickListener(this);
+        iv_avatar.setOnClickListener(this);
+        iv_star.setOnClickListener(this);
+        iv_tool_heart.setOnClickListener(this);
+        findViewById(R.id.ll_heart).setOnClickListener(this);
+        iv_tool_share.setOnClickListener(this);
+        drawableArrUp = getResources().getDrawable(R.mipmap.icon_arrow_up_up);
+        drawableArrUp.setTint(getResources().getColor(R.color.c_959697));
+        drawableArrUp.setBounds(0, 0, drawableArrUp.getMinimumWidth(),drawableArrUp.getMinimumHeight());
+        drawableArrDown = getResources().getDrawable(R.mipmap.icon_arrow_down);
+        drawableArrDown.setTint(getResources().getColor(R.color.c_959697));
+        drawableArrDown.setBounds(0, 0, drawableArrUp.getMinimumWidth(),drawableArrUp.getMinimumHeight());
         //视频尺寸
         int width = UIUtil.getScreenWidth(this);
         android.view.ViewGroup.LayoutParams pp = playerView.getLayoutParams();
@@ -259,14 +316,19 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             iv_data.setVisibility(View.GONE);
         }
 
+        clAvatarHeight = UIUtil.dip2px(this,75);;
+
         //去掉状态栏
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
+
+
+    //登录成功，更新信息
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
-            liveDetailMainFragment.updateFollowData();
+            mvpPresenter.getInfo(mAnchorId,true);
         }
     }
 
@@ -322,7 +384,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         //设置状态栏高度
 //        LinearLayout.LayoutParams statusBarParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.getStatusBarHeight(this));
 //        statusBar.setLayoutParams(statusBarParams);
-        mvpPresenter.getInfo(mAnchorId);
+        mvpPresenter.getInfo(mAnchorId,false);
         if (mType == 0) {
 //            mvpPresenter.getFootballDetail(mMatchId);
         } else if (mType == 1) {
@@ -463,6 +525,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public void getDataSuccess(LiveRoomBean bean) {
         if (bean != null) {
             mLiveRoomBean = bean;
+            mMatchId = mLiveRoomBean.getInfo().getMatch_id();
+            if(mMatchId!=0){
+                mvpPresenter.getMatchDetail(mMatchId);
+            }
             //判断是否弹出关注弹窗
             if (mLiveRoomBean.getUserData() != null) {
                 boolean isShow = false;
@@ -485,6 +551,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                                         doFollow();
                                     }
                                 } else {
+                                    loginDialog.isCanClose = true;
                                     loginDialog.show();
                                 }
                             }
@@ -501,35 +568,36 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             if (bean.getInfo() != null) {
                 if (!TextUtils.isEmpty(bean.getInfo().getPull())) {
                     //初始化播放器控件
-                    playerView.setMute(true);
+                    //静音
+//                    playerView.setMute(false);
                     playerView.play(bean.getInfo().getPull());
                 }
             }
             if (bean.getUserData() != null && !TextUtils.isEmpty(bean.getUserData().getTitle())) {
 //                playerView.updateTitle(bean.getUserData().getTitle());
                 tv_title.setText(bean.getUserData().getTitle());
+                iv_star.setSelected(bean.getUserData().getIs_attention() == 0 ? false : true);
+                tv_name.setText(bean.getUserData().getUser_nickname());
+                tv_desc.setText("Fans: " +bean.getUserData().getAttention());
+                int heatNum = bean.getUserData().getHeat();
+                tv_tool_eyes.setText(heatNum>1000 ? (float)heatNum/1000 + "K" :heatNum+"");
+                if (bean.getInfo().getIs_like() == 1) {
+                    iv_tool_heart.setSelected(true);
+                } else {
+                    iv_tool_heart.setSelected(false);
+                }
+                tv_tool_heart.setText(bean.getInfo().getLike_num()+"");
             }
             liveDetailMainFragment.updateFollowData();
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
+            GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), iv_avatar);
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid()) && CommonAppConfig.getInstance().getUid().equals(String.valueOf(mAnchorId))) {
+                iv_star.setVisibility(View.GONE);
+            }
+
         } else {
             finish();
         }
-    }
-
-    //直播间右侧足球数据页
-    @Override
-    public void getDataSuccess(FootballDetailBean bean) {
-//        if (liveDetailFootballFragment != null) {
-//            liveDetailFootballFragment.setData(bean);
-//        }
-    }
-
-    //直播间右侧篮球数据页
-    @Override
-    public void getDataSuccess(BasketballDetailBean bean) {
-//        if (liveDetailBasketballFragment != null) {
-//            liveDetailBasketballFragment.setData(bean);
-//        }
     }
 
     @Override
@@ -539,11 +607,14 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             if (mLiveRoomBean.getUserData().getIs_attention() == 0) {
                 mLiveRoomBean.getUserData().setIs_attention(1);
                 attention++;
+                iv_star.setSelected(true);
             } else {
                 mLiveRoomBean.getUserData().setIs_attention(0);
                 attention--;
+                iv_star.setSelected(false);
             }
             mLiveRoomBean.getUserData().setAttention(attention);
+            tv_desc.setText("Fans: "+attention);
             liveDetailMainFragment.updateFollowData();
         }
     }
@@ -552,6 +623,33 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public void getDataSuccess(UserBean bean) {
         if (bean != null) {
             CommonAppConfig.getInstance().saveUserInfo(JSONObject.toJSONString(bean));
+        }
+    }
+
+    @Override
+    public void getUpdateUserData(LiveRoomBean bean) {
+        if (bean != null) {
+            mLiveRoomBean = bean;
+            if (bean.getUserData() != null && !TextUtils.isEmpty(bean.getUserData().getTitle())) {
+                tv_title.setText(bean.getUserData().getTitle());
+                iv_star.setSelected(bean.getUserData().getIs_attention() == 0 ? false : true);
+                tv_name.setText(bean.getUserData().getUser_nickname());
+                tv_desc.setText("Fans: " +bean.getUserData().getAttention());
+                int heatNum = bean.getUserData().getHeat();
+                tv_tool_eyes.setText(heatNum>1000 ? heatNum/1000 + "K" :heatNum+"");
+                if (bean.getInfo().getIs_like() == 1) {
+                    iv_tool_heart.setSelected(true);
+                } else {
+                    iv_tool_heart.setSelected(false);
+                }
+                tv_tool_heart.setText(bean.getInfo().getLike_num()+"");
+            }
+            liveDetailMainFragment.updateFollowData();
+            GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
+            GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), iv_avatar);
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid()) && CommonAppConfig.getInstance().getUid().equals(String.valueOf(mAnchorId))) {
+                iv_star.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -614,8 +712,37 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     }
 
     @Override
-    public void getDataFail(String msg) {
+    public void getMatchDataSuccess(CricketMatchBean model) {
+        if (model != null) {
+            liveDetailMainFragment.setMatchData(model);
+        }
     }
+
+    @Override
+    public void getUpdatesDataSuccess(List<UpdatesBean> list) {
+//        liveDetailMainFragment.setUpdateData(list);
+    }
+
+    @Override
+    public void showLikeSuccess() {
+        int likeNum = mLiveRoomBean.getInfo().getLike_num();
+        //1喜欢 0取消
+        if(mLiveRoomBean.getInfo().getIs_like() == 1){
+            mLiveRoomBean.getInfo().setIs_like(0);
+            iv_tool_heart.setSelected(false);
+            --likeNum;
+            tv_tool_heart.setText(likeNum+"");
+        }else{
+            mLiveRoomBean.getInfo().setIs_like(1);
+            iv_tool_heart.setSelected(true);
+            ++likeNum;
+            tv_tool_heart.setText(likeNum+"");
+        }
+        mLiveRoomBean.getInfo().setLike_num(likeNum);
+    }
+
+    @Override
+    public void getDataFail(String msg) {}
 
     @Override
     public void onClick(View v) {
@@ -631,8 +758,61 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 }
                 break;
             case R.id.iv_silence:
-                playerView.setMute(false);
-                iv_silence.setVisibility(View.GONE);
+//                playerView.setMute(false);
+//                iv_silence.setVisibility(View.GONE);
+                break;
+            case R.id.person_head_pic:
+            case R.id.iv_avatar:
+                if (mLiveRoomBean != null)
+                    PersonalHomepageActivity.forward(LiveDetailActivity.this, mLiveRoomBean.getUserData().getUid() + "");
+                break;
+            case R.id.tv_title:
+                //展开、折叠
+                if(cl_avatar.getVisibility() == View.GONE){
+                    cl_avatar.setVisibility(View.VISIBLE);
+                }
+                if(isOpenAvatar){
+                    tv_title.setCompoundDrawables(null, null, drawableArrUp,null);
+                    expandView(cl_avatar,clAvatarHeight,0);
+                }else{
+                    tv_title.setCompoundDrawables(null, null, drawableArrDown,null);
+                    collapseView(cl_avatar,0,clAvatarHeight);
+                }
+                isOpenAvatar = !isOpenAvatar;
+                break;
+            case R.id.iv_star:
+                //关注作者
+                if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                    if (mLiveRoomBean.getUserData() != null && mLiveRoomBean.getUserData().getIs_attention() == 0) {
+                        doFollow();
+                    }
+                }else {
+                    if(loginDialog!=null){
+                        loginDialog.isCanClose = true;
+                        loginDialog.show();
+                    }else{
+                        finish();
+                        LoginActivity.forward(this);
+                    }
+                }
+                break;
+            case R.id.iv_tool_heart:
+            case R.id.ll_heart:
+                if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                    mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(),mLiveRoomBean.getInfo().getIs_like()==1?0:1);
+                }else {
+                    if(loginDialog!=null){
+                        loginDialog.isCanClose = true;
+                        loginDialog.show();
+                    }else{
+                        finish();
+                        LoginActivity.forward(this);
+                    }
+                }
+                break;
+            case R.id.iv_tool_share:
+                //fixme 分享H5 带标题
+//                ShareUtil.shareText(mActivity, "", HttpConstant.PLAYER_PROFILE_URL + 0);
                 break;
         }
     }
@@ -662,6 +842,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         if (playerView.getPlayerMode() != SuperPlayerDef.PlayerMode.FLOAT) {
             playerView.onResume();
         }
+
     }
 
     @Override
@@ -1158,4 +1339,21 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         animatorSet.start();
     }
     /***********************喇叭消息end***********************/
+
+    //直播间右侧足球数据页
+    @Override
+    public void getDataSuccess(FootballDetailBean bean) {
+//        if (liveDetailFootballFragment != null) {
+//            liveDetailFootballFragment.setData(bean);
+//        }
+    }
+
+    //直播间右侧篮球数据页
+    @Override
+    public void getDataSuccess(BasketballDetailBean bean) {
+//        if (liveDetailBasketballFragment != null) {
+//            liveDetailBasketballFragment.setData(bean);
+//        }
+    }
+
 }

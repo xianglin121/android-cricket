@@ -1,7 +1,9 @@
 package com.onecric.live.util;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 
 import java.io.BufferedReader;
@@ -36,5 +38,49 @@ public class UiUtils {
         if (imm != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    /**
+     * 展开动画
+     * @param v
+     * @param duration
+     * @param targetHeight
+     */
+    public static void expandView(final View v, int duration, int targetHeight) {
+        int prevHeight  = v.getHeight();
+        v.setVisibility(View.VISIBLE);
+        ValueAnimator valueAnimator = ValueAnimator.ofInt(prevHeight, targetHeight);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                v.getLayoutParams().height = (int) animation.getAnimatedValue();
+                v.requestLayout();
+            }
+        });
+        valueAnimator.setInterpolator(new DecelerateInterpolator());
+        valueAnimator.setDuration(duration);
+        valueAnimator.start();
+    }
+
+    /**
+     * 收缩动画
+     * @param v
+     * @param duration
+     * @param targetHeight
+     */
+    public static void collapseView(final View v, int duration, int targetHeight) {
+        int prevHeight  = v.getHeight();
+        ValueAnimator valueAnimator = ValueAnimator.ofInt(prevHeight, targetHeight);
+        valueAnimator.setInterpolator(new DecelerateInterpolator());
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                v.getLayoutParams().height = (int) animation.getAnimatedValue();
+                v.requestLayout();
+            }
+        });
+        valueAnimator.setInterpolator(new DecelerateInterpolator());
+        valueAnimator.setDuration(duration);
+        valueAnimator.start();
     }
 }

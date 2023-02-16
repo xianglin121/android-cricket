@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.onecric.live.R;
 import com.onecric.live.adapter.CricketNewLiveAdapter;
 import com.onecric.live.model.CricketLiveBean;
+import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.presenter.cricket.CricketLivePresenter;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.cricket.CricketLiveView;
@@ -141,5 +142,10 @@ public class CricketLiveFragment extends MvpFragment<CricketLivePresenter> imple
     private void finishRefreshAndLoadMore() {
         smart_rl.finishRefresh();
         smart_rl.finishLoadMore();
+    }
+
+    public void getData(int mId) {
+        mMatchId = mId;
+        mvpPresenter.getList(mId, mPage, mLimit, TYPE_REFRESH);
     }
 }

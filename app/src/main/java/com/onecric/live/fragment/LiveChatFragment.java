@@ -179,6 +179,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                 @Override
                 public void onClick(View v) {
                     if(loginDialog!=null){
+                        loginDialog.isCanClose = true;
                         loginDialog.show();
                     }else{
                         LoginActivity.forward(getContext());
