@@ -150,7 +150,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                     ToastUtil.show(getString(R.string.please_login));
                     loginDialog.isCanClose = true;
                     loginDialog.show();
-//                    LoginActivity.forward(mActivity);
                     return;
                 }
 //                UserInfoActivity.forward(mActivity);
@@ -170,7 +169,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                         ToastUtil.show(getString(R.string.please_login));
                         loginDialog.isCanClose = true;
                         loginDialog.show();
-//                        LoginActivity.forward(mActivity);
                     } else {
                         if (id == R.id.menu_my_concerns) {
                             MyFollowActivity.forward(mActivity);
@@ -195,7 +193,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 });
             } else {
                 //登录
-//                LoginActivity.forward(mActivity);
                 loginDialog.isCanClose = true;
                 loginDialog.show();
             }
