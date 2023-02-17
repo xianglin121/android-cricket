@@ -8,9 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="matrix"
-        app:riv_corner_radius="6dp"
         android:background="@mipmap/loading_news_big"/>
-
+    <!--app:riv_corner_radius="6dp"-->
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
