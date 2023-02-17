@@ -385,9 +385,16 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     }
 
     private void initFragment() {
-        mViewList.add(new ThemeFragment());
+        //给有登录需求的页面加loginDialog
+        // fixme 开发中
+        ThemeFragment themeFragment = new ThemeFragment();
+        LiveFragment liveFragment = new LiveFragment();
+        themeFragment.loginDialog = loginDialog;
+//        liveFragment.loginDialog = loginDialog;
+
+        mViewList.add(themeFragment);
         mViewList.add(new CricketFragment());
-        mViewList.add(new LiveFragment());
+        mViewList.add(liveFragment);
         mViewList.add(new VideoFragment());
         mViewPager.setScroll(false);
         mViewPager.setOffscreenPageLimit(mViewList.size());

@@ -12,6 +12,7 @@ import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.MainActivity;
 import com.onecric.live.custom.CustomPagerTitleView;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.theme.ThemePresenter;
 import com.onecric.live.util.DpUtil;
@@ -37,6 +38,8 @@ public class ThemeFragment extends MvpFragment<ThemePresenter> implements ThemeV
     private List<String> mTitles;
     private ViewPager mViewPager;
     private List<Fragment> mViewList;
+
+    public LoginDialog loginDialog;
 
     @Override
     protected int getLayoutId() {
@@ -72,7 +75,11 @@ public class ThemeFragment extends MvpFragment<ThemePresenter> implements ThemeV
         mViewList.add(ThemeCommunityFragment.newInstance());
         initViewPager();*/
         mViewList = new ArrayList<>();
-        mViewList.add(ThemeHeadlineFragment.newInstance());
+        ThemeHeadlineFragment headlineFragment = ThemeHeadlineFragment.newInstance();
+        if(loginDialog!=null){
+            headlineFragment.loginDialog = loginDialog;
+            mViewList.add(headlineFragment);
+        }
         mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int i) {

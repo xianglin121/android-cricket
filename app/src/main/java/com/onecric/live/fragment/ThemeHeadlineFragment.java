@@ -11,10 +11,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
-import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.activity.ThemeCollectionActivity;
 import com.onecric.live.adapter.ChannelPagerAdapter;
 import com.onecric.live.custom.CustomPagerInnerTitleView;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.ThemeClassifyBean;
 import com.onecric.live.presenter.theme.ThemeHeadlinePresenter;
 import com.onecric.live.view.MvpFragment;
@@ -51,6 +51,8 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
     private SmartRefreshLayout smart_no_network;
     private TextView tv_empty;
 
+    public LoginDialog loginDialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_theme_headline;
@@ -74,7 +76,10 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-                    LoginActivity.forward(getContext());
+                    if(loginDialog!=null){
+                        loginDialog.isCanClose = true;
+                        loginDialog.show();
+                    }
                     return;
                 }
                 ThemeCollectionActivity.forward(getContext(), 0);

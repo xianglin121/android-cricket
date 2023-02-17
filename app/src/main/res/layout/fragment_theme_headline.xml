@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:src="@mipmap/icon_theme_headline_more"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
     </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager
@@ -35,7 +35,7 @@
         android:id="@+id/smart_no_network"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <include layout="@layout/layout_common_empty"/>
 

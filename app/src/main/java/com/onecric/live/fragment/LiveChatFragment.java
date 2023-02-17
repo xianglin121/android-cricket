@@ -181,8 +181,6 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                     if(loginDialog!=null){
                         loginDialog.isCanClose = true;
                         loginDialog.show();
-                    }else{
-                        LoginActivity.forward(getContext());
                     }
                 }
             });
