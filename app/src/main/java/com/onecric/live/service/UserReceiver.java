@@ -2,6 +2,7 @@ package com.onecric.live.service;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import com.engagelab.privates.common.component.MTCommonReceiver;
@@ -12,6 +13,7 @@ import com.engagelab.privates.push.api.MobileNumberMessage;
 import com.engagelab.privates.push.api.NotificationMessage;
 import com.engagelab.privates.push.api.PlatformTokenMessage;
 import com.onecric.live.activity.AboutUsActivity;
+import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.common.ExampleGlobal;
 import com.onecric.live.listener.StatusObserver;
 import com.onecric.live.log.ExampleLogger;
@@ -85,8 +87,13 @@ public class UserReceiver extends MTCommonReceiver {
         // 用于演示消息展示
         Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setClass(context, AboutUsActivity.class);
-//        intent.putExtra("message", customMessage);
+        intent.setClass(context, LiveDetailActivity.class);
+        Bundle bundle = notificationMessage.getExtras();
+        if (bundle != null) {
+            intent.putExtra("anchorId", bundle.getInt("anchorId"));
+            intent.putExtra("type", bundle.getInt("type"));
+            intent.putExtra("matchId", bundle.getInt("matchId"));
+        }
         context.startActivity(intent);
     }
 
