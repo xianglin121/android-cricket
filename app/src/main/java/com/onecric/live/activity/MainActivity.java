@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,10 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,6 +43,7 @@ import com.onecric.live.fragment.CricketFragment;
 import com.onecric.live.fragment.LiveFragment;
 import com.onecric.live.fragment.ThemeFragment;
 import com.onecric.live.fragment.VideoFragment;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.ConfigurationBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.UserBean;
@@ -92,6 +98,10 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
     private long exit_time;
 
+    private LoginDialog loginDialog;
+    private WebView webview;
+    private WebSettings webSettings;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;
@@ -113,9 +123,17 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         mViewPager = findViewById(R.id.viewpager);
         mTabLayout = findViewById(R.id.tabLayout);
 
+        initWebView();
+        loginDialog = new LoginDialog(this, R.style.dialog, () -> {
+            loginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
+
         initNavigationView();
         initFragment();
 //        getFCMToken();
+
     }
 
     private void initNavigationView() {
@@ -130,7 +148,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     ToastUtil.show(getString(R.string.please_login));
-                    LoginActivity.forward(mActivity);
+                    loginDialog.isCanClose = true;
+                    loginDialog.show();
+//                    LoginActivity.forward(mActivity);
                     return;
                 }
 //                UserInfoActivity.forward(mActivity);
@@ -148,7 +168,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 } else {
                     if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                         ToastUtil.show(getString(R.string.please_login));
-                        LoginActivity.forward(mActivity);
+                        loginDialog.isCanClose = true;
+                        loginDialog.show();
+//                        LoginActivity.forward(mActivity);
                     } else {
                         if (id == R.id.menu_my_concerns) {
                             MyFollowActivity.forward(mActivity);
@@ -173,7 +195,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 });
             } else {
                 //登录
-                LoginActivity.forward(mActivity);
+//                LoginActivity.forward(mActivity);
+                loginDialog.isCanClose = true;
+                loginDialog.show();
             }
             drawerLayout.closeDrawer(GravityCompat.START);
         });
@@ -309,6 +333,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
     }
 
+    //获取游客id
     @Override
     public void getVisitorUserSigSuccess(String userId, String userSig) {
         if (!TextUtils.isEmpty(userId) && !TextUtils.isEmpty(userSig)) {
@@ -500,6 +525,54 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 //            });
 //        }
 //    }
+
+    @SuppressLint("JavascriptInterface")
+    private void initWebView() {
+        webview = (WebView) findViewById(R.id.webview);
+        webSettings = webview.getSettings();
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        // 禁用缓存
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        webSettings.setDefaultTextEncodingName("utf-8");
+        webview.setBackgroundColor(0); // 设置背景色
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        // 开启js支持
+        webSettings.setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(this, "jsBridge");
+        webview.loadUrl("file:///android_asset/index.html");
+    }
+
+    @JavascriptInterface
+    public void getData(String data) {
+        webview.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                webview.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(data)) {
+                    JSONObject jsonObject = JSONObject.parseObject(data);
+                    if (jsonObject.getIntValue("ret") == 0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                dialog.show();
+                                loginDialog.show();
+                                loginDialog.passWebView();
+                            }
+                        });
+                    }
+                }
+            }
+        }, 500);
+    }
+
 
 
 }

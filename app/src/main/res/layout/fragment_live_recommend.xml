@@ -23,9 +23,6 @@
                     android:id="@+id/banner_live"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="12dp"
                     app:banner_indicator_height="3dp"
                     app:banner_indicator_normal_color="@color/white"
                     app:banner_indicator_normal_width="6dp"
@@ -96,9 +93,9 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginRight="12dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="6dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -138,16 +135,16 @@
                     android:id="@+id/rv_today"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="9dp"
-                    android:layout_marginRight="12dp" />
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="6dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginRight="12dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="6dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -188,9 +185,9 @@
                     android:id="@+id/rv_history"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="9dp"
-                    android:layout_marginRight="12dp" />
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="6dp" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>

@@ -173,7 +173,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
 
     @Override
     protected void initData() {
-        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+/*        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
             findViewById(R.id.fl_board).setVisibility(View.VISIBLE);
             findViewById(R.id.fl_board).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -189,7 +189,10 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
             SpannableStringBuilder spannable = new SpannableStringBuilder(getString(R.string.tip_send_bullet_screen));
             spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.c_E3AC72)), 0, 6, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tv_input.setText(spannable);
-        }
+        }*/
+        //游客可发言
+        tv_input.setText(R.string.live_talk_some_hint);
+        findViewById(R.id.fl_board).setVisibility(View.GONE);
 
         tv_notice.setSelected(true);
         if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAnnouncement())) {
@@ -363,10 +366,10 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
 
     //登录成功更新状态
     public void updateLoginData() {
-        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+/*        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
             tv_input.setText(R.string.live_talk_some_hint);
             findViewById(R.id.fl_board).setVisibility(View.GONE);
-        }
+        }*/
     }
 
     //更新数据

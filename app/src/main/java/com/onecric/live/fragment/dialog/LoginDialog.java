@@ -87,9 +87,9 @@ public class LoginDialog extends Dialog {
     private boolean isSendCode = false;
     private boolean isSame;
     public OnWebViewListener mWebViewListener;
-    public boolean isCanClose = true;
+    public static boolean isCanClose = false;//可以关闭
 
-    public LoginDialog(@NonNull BaseActivity context, int themeResId, OnWebViewListener listener) {
+    public LoginDialog(@NonNull BaseActivity context, int themeResId,OnWebViewListener listener) {
         super(context, themeResId);
         mContext = context;
         mWebViewListener = listener;
@@ -457,4 +457,6 @@ public class LoginDialog extends Dialog {
             dismiss();
         }
     }
+
+
 }
