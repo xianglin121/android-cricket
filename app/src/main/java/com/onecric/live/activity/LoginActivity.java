@@ -557,6 +557,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
         }*/
     }
 
+/*
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -581,5 +582,6 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
                 break;
         }
     }
+*/
 
 }
