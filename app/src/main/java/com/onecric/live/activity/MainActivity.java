@@ -150,7 +150,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                     ToastUtil.show(getString(R.string.please_login));
                     loginDialog.isCanClose = true;
                     loginDialog.show();
-                    return;
+//                    return;
                 }
 //                UserInfoActivity.forward(mActivity);
 //                PersonalHomepageActivity.forward(mActivity, CommonAppConfig.getInstance().getUid());
