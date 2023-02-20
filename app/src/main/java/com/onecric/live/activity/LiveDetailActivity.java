@@ -142,7 +142,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public LiveRoomBean mLiveRoomBean;
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    private LoginDialog loginDialog;
+    private LoginDialog loginDialog,constraintLoginDialog;
     private WebView webview;
     private WebSettings webSettings;
 
@@ -167,6 +167,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
 
     private Drawable drawableArrUp, drawableArrDown;
+    private boolean isCancelLoginDialog;
+
     //未登录用户倒计时三分钟跳转登录页
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
         @Override
@@ -178,8 +180,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         public void onFinish() {
             SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
-            loginDialog.isCanClose = false;
-            loginDialog.show();
+            isCancelLoginDialog = false;
+            constraintLoginDialog.show();
         }
     };
 
@@ -299,8 +301,14 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 //        objectAnimator.start();
 
         initWebView();
-        loginDialog = new LoginDialog(this, R.style.dialog, () -> {
+        loginDialog = new LoginDialog(this, R.style.dialog,true, () -> {
             loginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
+
+        constraintLoginDialog = new LoginDialog(this, R.style.dialog,false, () -> {
+            constraintLoginDialog.dismiss();
             webview.setVisibility(View.VISIBLE);
             webview.loadUrl("javascript:ab()");
         });
@@ -372,10 +380,17 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                             @Override
                             public void run() {
 //                                dialog.show();
-                                loginDialog.show();
-                                loginDialog.passWebView();
+                                if(isCancelLoginDialog){
+                                    loginDialog.show();
+                                    loginDialog.passWebView();
+                                }else{
+                                    constraintLoginDialog.show();
+                                    constraintLoginDialog.passWebView();
+                                }
                             }
                         });
+                    }else if(!isCancelLoginDialog){
+                        constraintLoginDialog.show();
                     }
                 }
             }
@@ -554,7 +569,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                                         doFollow();
                                     }
                                 } else {
-                                    loginDialog.isCanClose = true;
+                                    isCancelLoginDialog = true;
                                     loginDialog.show();
                                 }
                             }
@@ -583,14 +598,14 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 tv_name.setText(bean.getUserData().getUser_nickname());
                 tv_desc.setText("Fans: " +bean.getUserData().getAttention());
                 int heatNum = bean.getUserData().getHeat();
-                tv_tool_eyes.setText(heatNum>1000 ? (float)heatNum/1000 + "K" :heatNum+"");
+                tv_tool_eyes.setText(heatNum>1000 ? (double)heatNum/1000 + "K" :heatNum+"");
                 if (bean.getInfo().getIs_like() == 1) {
                     iv_tool_heart.setSelected(true);
                 } else {
                     iv_tool_heart.setSelected(false);
                 }
                 int likeNum = bean.getInfo().getLike_num();
-                tv_tool_heart.setText(likeNum>1000 ? (float)likeNum/1000 + "K" :likeNum+"");
+                tv_tool_heart.setText(likeNum>1000 ? (double)likeNum/1000 + "K" :likeNum+"");
             }
             liveDetailMainFragment.updateFollowData();
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
@@ -641,14 +656,14 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 tv_desc.setText("Fans: " +bean.getUserData().getAttention());
                 int heatNum = bean.getUserData().getHeat();
 
-                tv_tool_eyes.setText(heatNum>1000 ? heatNum/1000 + "K" :heatNum+"");
+                tv_tool_eyes.setText(heatNum>1000 ? (double)heatNum/1000 + "K" :heatNum+"");
                 if (bean.getInfo().getIs_like() == 1) {
                     iv_tool_heart.setSelected(true);
                 } else {
                     iv_tool_heart.setSelected(false);
                 }
                 int likeNum = bean.getInfo().getLike_num();
-                tv_tool_heart.setText(likeNum>1000 ? (float)likeNum/1000 + "K" :likeNum+"");
+                tv_tool_heart.setText(likeNum>1000 ? (double)likeNum/1000 + "K" :likeNum+"");
             }
             liveDetailMainFragment.updateFollowData();
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
@@ -737,12 +752,12 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             mLiveRoomBean.getInfo().setIs_like(0);
             iv_tool_heart.setSelected(false);
             --likeNum;
-            tv_tool_heart.setText(likeNum>1000 ? (float)likeNum/1000 + "K" :likeNum+"");
+            tv_tool_heart.setText(likeNum>1000 ? (double)likeNum/1000 + "K" :likeNum+"");
         }else{
             mLiveRoomBean.getInfo().setIs_like(1);
             iv_tool_heart.setSelected(true);
             ++likeNum;
-            tv_tool_heart.setText(likeNum>1000 ? (float)likeNum/1000 + "K" :likeNum+"");
+            tv_tool_heart.setText(likeNum>1000 ? (double)likeNum/1000 + "K" :likeNum+"");
         }
         mLiveRoomBean.getInfo().setLike_num(likeNum);
     }
@@ -793,8 +808,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                         doFollow();
                     }
                 }else if(loginDialog!=null){
-                    loginDialog.isCanClose = true;
+                    isCancelLoginDialog = true;
                     loginDialog.show();
+                }else{
+                    ToastUtil.show(getString(R.string.please_login));
                 }
                 break;
             case R.id.iv_tool_heart:
@@ -802,8 +819,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(),mLiveRoomBean.getInfo().getIs_like()==1?0:1);
                 }else if(loginDialog!=null){
-                    loginDialog.isCanClose = true;
+                    isCancelLoginDialog = true;
                     loginDialog.show();
+                }else{
+                    ToastUtil.show(getString(R.string.please_login));
                 }
                 break;
             case R.id.iv_tool_share:

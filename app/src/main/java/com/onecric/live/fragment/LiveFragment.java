@@ -14,13 +14,13 @@ import androidx.viewpager.widget.ViewPager;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.LiveMoreFunctionActivity;
-import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.activity.MainActivity;
 import com.onecric.live.activity.MyTaskActivity;
 import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.activity.RankingActivity;
 import com.onecric.live.activity.SearchLiveActivity;
 import com.onecric.live.custom.CustomPagerTitleView;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.presenter.live.LivePresenter;
@@ -50,6 +50,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
     private List<Fragment> mViewList;
     private TextView tvSingleTitle;
     private ImageView iv_avatar;
+    public LoginDialog loginDialog;
 
     @Override
     protected int getLayoutId() {
@@ -81,7 +82,9 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
         mTitles = new ArrayList<>();
         mViewList = new ArrayList<>();
         mTitles.add(WordUtil.getString(getActivity(), R.string.live_recommend));
-        mViewList.add(new LiveRecommendFragment());
+        LiveRecommendFragment liveRecommendFragment = new LiveRecommendFragment();
+        liveRecommendFragment.loginDialog = loginDialog;
+        mViewList.add(liveRecommendFragment);
         mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
@@ -101,11 +104,15 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
         switch (v.getId()) {
             case R.id.iv_more:
             case R.id.iv_more2:
-                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                    LoginActivity.forward(getContext());
+                if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                    LiveMoreFunctionActivity.forward(getContext());
                     return;
                 }
-                LiveMoreFunctionActivity.forward(getContext());
+                if(loginDialog!=null){
+                    loginDialog.show();
+                }else{
+                    ToastUtil.show(getString(R.string.please_login));
+                }
                 break;
             case R.id.cl_search:
                 SearchLiveActivity.forward(getContext());
@@ -122,7 +129,11 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
                 break;
             case R.id.iv_avatar:
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-                    LoginActivity.forward(getActivity());
+                    if(loginDialog!=null){
+                        loginDialog.show();
+                    }else{
+                        ToastUtil.show(getString(R.string.please_login));
+                    }
                     return;
                 }else{
 //                    PersonalHomepageActivity.forward(getActivity(), CommonAppConfig.getInstance().getUid());
@@ -247,6 +258,8 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
     public void getOtherDataSuccess(List<LiveBean> list) {
         if (list != null && list.size() > 0) {
             mTitles.add(WordUtil.getString(getActivity(), R.string.live_other));
+            LiveMatchFragment liveMatchFragment = LiveMatchFragment.newInstance(2);
+            liveMatchFragment.loginDialog = loginDialog;
             mViewList.add(LiveMatchFragment.newInstance(2));
             magicIndicator.setVisibility(View.VISIBLE);
             tvSingleTitle.setVisibility(View.GONE);

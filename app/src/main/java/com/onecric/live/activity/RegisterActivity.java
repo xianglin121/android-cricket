@@ -220,7 +220,7 @@ public class RegisterActivity extends MvpActivity<RegisterPresenter> implements 
                 finish();
                 break;
             case R.id.btn_log_in:
-                LoginActivity.forward(this);
+//                LoginActivity.forward(this);
                 break;
             case R.id.iv_eye_password:
                 if (isPwVisitable) {

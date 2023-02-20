@@ -1,6 +1,7 @@
 package com.onecric.live.activity;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -12,7 +13,10 @@ import android.os.CountDownTimer;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +38,8 @@ import com.onecric.live.adapter.ThemeHeadlineAdapter;
 import com.onecric.live.custom.Glide4Engine;
 import com.onecric.live.custom.HeadlineCommentReplyDialog;
 import com.onecric.live.custom.InputCommentMsgDialogFragment;
+import com.onecric.live.event.UpdateLoginTokenEvent;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.HeadlineBean;
 import com.onecric.live.model.MovingBean;
 import com.onecric.live.presenter.theme.HeadlineDetailPresenter;
@@ -58,6 +64,8 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -109,6 +117,12 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     private StandardGSYVideoPlayer video_player;
     private ImageView iv_silence;
     private static boolean isNewsNeedMute = true;
+
+    private LoginDialog loginDialog,constraintLoginDialog;
+    private WebView webview;
+    private WebSettings webSettings;
+    private boolean isCancelLoginDialog;
+
     //未登录用户倒计时三分钟跳转登录页
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
         @Override
@@ -120,8 +134,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
         public void onFinish() {
             SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
-            finish();
-            LoginActivity.forward(mActivity);
+            isCancelLoginDialog = false;
+            constraintLoginDialog.show();
         }
     };
 
@@ -217,6 +231,18 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
         //初始化回复弹窗
         replyDialog = new HeadlineCommentReplyDialog(this, R.style.dialog);
+
+        initWebView();
+        loginDialog =  new LoginDialog(this, R.style.dialog,true, () -> {
+            loginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
+        constraintLoginDialog =  new LoginDialog(this, R.style.dialog,false, () -> {
+            constraintLoginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
     }
 
     @Override
@@ -226,52 +252,54 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             findViewById(R.id.fl_board).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LoginActivity.forward(mActivity);
+                    isCancelLoginDialog = true;
+                    loginDialog.show();
                 }
             });
         }
+        if(mCommentAdapter == null){
+            tv_time_sort.setSelected(true);
 
-        tv_time_sort.setSelected(true);
-
-        MaterialHeader materialHeader = new MaterialHeader(this);
-        materialHeader.setColorSchemeColors(getResources().getColor(R.color.c_DC3C23));
-        smart_rl.setRefreshHeader(materialHeader);
-        smart_rl.setRefreshFooter(new ClassicsFooter(this));
-        smart_rl.setEnableRefresh(false);
-        smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getInfo(false, mPage, mOrder, mId);
-            }
-        });
-
-        mCommentAdapter = new LiveMovingCommentAdapter(R.layout.item_live_moving_comment, new ArrayList<>());
-        mCommentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.tv_reply) {
-                    if (replyDialog != null) {
-                        replyDialog.setInfo(mCommentAdapter.getItem(position));
-                        replyDialog.show();
-                    }
-                } else if (view.getId() == R.id.ll_like) {
-                    MovingBean item = mCommentAdapter.getItem(position);
-                    int like = item.getLike();
-                    if (item.getIs_likes() == 0) {
-                        item.setIs_likes(1);
-                        like++;
-                    } else {
-                        item.setIs_likes(0);
-                        like--;
-                    }
-                    item.setLike(like);
-                    mCommentAdapter.notifyItemChanged(position, Constant.PAYLOAD);
-                    mvpPresenter.doLike(item.getId());
+            MaterialHeader materialHeader = new MaterialHeader(this);
+            materialHeader.setColorSchemeColors(getResources().getColor(R.color.c_DC3C23));
+            smart_rl.setRefreshHeader(materialHeader);
+            smart_rl.setRefreshFooter(new ClassicsFooter(this));
+            smart_rl.setEnableRefresh(false);
+            smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                    mvpPresenter.getInfo(false, mPage, mOrder, mId);
                 }
-            }
-        });
-        rv_comment.setLayoutManager(new LinearLayoutManager(this));
-        rv_comment.setAdapter(mCommentAdapter);
+            });
+
+            mCommentAdapter = new LiveMovingCommentAdapter(R.layout.item_live_moving_comment, new ArrayList<>());
+            mCommentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    if (view.getId() == R.id.tv_reply) {
+                        if (replyDialog != null) {
+                            replyDialog.setInfo(mCommentAdapter.getItem(position));
+                            replyDialog.show();
+                        }
+                    } else if (view.getId() == R.id.ll_like) {
+                        MovingBean item = mCommentAdapter.getItem(position);
+                        int like = item.getLike();
+                        if (item.getIs_likes() == 0) {
+                            item.setIs_likes(1);
+                            like++;
+                        } else {
+                            item.setIs_likes(0);
+                            like--;
+                        }
+                        item.setLike(like);
+                        mCommentAdapter.notifyItemChanged(position, Constant.PAYLOAD);
+                        mvpPresenter.doLike(item.getId());
+                    }
+                }
+            });
+            rv_comment.setLayoutManager(new LinearLayoutManager(this));
+            rv_comment.setAdapter(mCommentAdapter);
+        }
 
         mvpPresenter.getInfo(true, 1, mOrder, mId);
         mvpPresenter.getToken();
@@ -520,7 +548,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     mCountDownTimer.start();
                 }
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                    LoginActivity.forward(getContext());
+                    isCancelLoginDialog = true;
+                    loginDialog.show();
                 }else{
 
                 }
@@ -820,4 +849,66 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
         video_player.onVideoResume();
     }
 
+    //登录成功，更新信息
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
+        if (event != null) {
+            //fixme 刷新数据 测试
+            initData();
+        }
+    }
+
+    @SuppressLint("JavascriptInterface")
+    private void initWebView() {
+        webview = (WebView) findViewById(R.id.webview);
+        webSettings = webview.getSettings();
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        // 禁用缓存
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        webSettings.setDefaultTextEncodingName("utf-8");
+        webview.setBackgroundColor(0); // 设置背景色
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        // 开启js支持
+        webSettings.setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(this, "jsBridge");
+        webview.loadUrl("file:///android_asset/index.html");
+    }
+
+    @JavascriptInterface
+    public void getData(String data) {
+        webview.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                webview.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(data)) {
+                    com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(data);
+                    if (jsonObject.getIntValue("ret") == 0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(isCancelLoginDialog){
+                                    loginDialog.show();
+                                    loginDialog.passWebView();
+                                }else{
+                                    constraintLoginDialog.show();
+                                    constraintLoginDialog.passWebView();
+                                }
+
+                            }
+                        });
+                    }else if(!isCancelLoginDialog){
+                        constraintLoginDialog.show();
+                    }
+                }
+            }
+        }, 500);
+    }
 }

@@ -53,4 +53,11 @@
         android:background="@null"
         android:progressDrawable="@drawable/short_video_progress_bar"
         android:thumb="@null"/>
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
 </FrameLayout>

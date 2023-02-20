@@ -87,12 +87,13 @@ public class LoginDialog extends Dialog {
     private boolean isSendCode = false;
     private boolean isSame;
     public OnWebViewListener mWebViewListener;
-    public static boolean isCanClose = false;//可以关闭
+    private boolean isCanClose;
 
-    public LoginDialog(@NonNull BaseActivity context, int themeResId,OnWebViewListener listener) {
+    public LoginDialog(@NonNull BaseActivity context, int themeResId,boolean isCanClose,OnWebViewListener listener) {
         super(context, themeResId);
         mContext = context;
         mWebViewListener = listener;
+        this.isCanClose = isCanClose;
         initView();
         initData();
     }
@@ -120,8 +121,8 @@ public class LoginDialog extends Dialog {
 
     private void initView() {
         setContentView(R.layout.dialog_login);
-        setCancelable(false);
-        setCanceledOnTouchOutside(false);
+        setCancelable(isCanClose);
+        setCanceledOnTouchOutside(isCanClose);
         getWindow().setWindowAnimations(R.style.bottomToTopAnim);
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -443,7 +444,7 @@ public class LoginDialog extends Dialog {
         String area = etArea.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
         tvAuthCode.setEnabled(false);
-        if (!TextUtils.isEmpty(area) && !TextUtils.isEmpty(area)) {
+        if (!TextUtils.isEmpty(area) && !TextUtils.isEmpty(phone)) {
             requestCode(area + "-" + phone);
         }
     }

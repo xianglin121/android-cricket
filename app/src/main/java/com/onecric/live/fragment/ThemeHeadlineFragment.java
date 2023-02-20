@@ -17,6 +17,7 @@ import com.onecric.live.custom.CustomPagerInnerTitleView;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.ThemeClassifyBean;
 import com.onecric.live.presenter.theme.ThemeHeadlinePresenter;
+import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.theme.ThemeHeadlineView;
 import com.scwang.smartrefresh.header.MaterialHeader;
@@ -77,8 +78,9 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
                     if(loginDialog!=null){
-                        loginDialog.isCanClose = true;
                         loginDialog.show();
+                    }else{
+                        ToastUtil.show(getString(R.string.please_login));
                     }
                     return;
                 }

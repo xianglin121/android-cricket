@@ -5,6 +5,13 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="78dp"
@@ -45,7 +52,8 @@
             app:layout_constraintBottom_toBottomOf="@id/btn_left"
             android:layout_marginRight="10dp"
             android:background="@mipmap/icon_headline_report"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -352,4 +360,5 @@
                 android:visibility="gone"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>

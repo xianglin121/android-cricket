@@ -12,6 +12,7 @@ import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.activity.LoginActivity;
+import com.onecric.live.activity.SearchLiveDetailActivity;
 import com.onecric.live.adapter.LiveRecommendAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
 import com.onecric.live.model.LiveBean;
@@ -62,7 +63,7 @@ public class SearchLiveFragment extends MvpFragment<SearchLiveSecondPresenter> i
                 if(mAdapter.getItem(position).getIslive() == 0){
                     ToastUtil.show("The broadcast has not started");
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                    LoginActivity.forward(getContext());
+                    ((SearchLiveDetailActivity)getActivity()).loginDialog.show();
                 }else{
                     LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
                 }

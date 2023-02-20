@@ -133,7 +133,7 @@ public class BasketballMatchInnerAdapter extends BaseQuickAdapter<BasketballMatc
                 @Override
                 public void onClick(View v) {
                     if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                        LoginActivity.forward(mContext);
+//                        LoginActivity.forward(mContext);
                     }else{
                         LiveDetailActivity.forward(mContext, item.getAnchor().getId(), 2, item.getAnchor().getMatch_id());
                     }

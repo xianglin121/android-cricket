@@ -28,6 +28,7 @@ import com.onecric.live.model.MovingBean;
 import com.onecric.live.model.ReserveLiveBean;
 import com.onecric.live.presenter.live.LiveAnchorPresenter;
 import com.onecric.live.util.GlideUtil;
+import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.LiveAnchorView;
 import com.scwang.smartrefresh.header.MaterialHeader;
@@ -219,7 +220,7 @@ public class LiveAnchorFragment extends MvpFragment<LiveAnchorPresenter> impleme
                         ((LiveDetailActivity)getActivity()).doFollow();
                     }
                 }else {
-                    LoginActivity.forward(getContext());
+                    ToastUtil.show(getString(R.string.please_login));
                 }
                 break;
             case R.id.tv_anchor_moving:

@@ -1,22 +1,30 @@
 package com.onecric.live.activity;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.adapter.LiveRecommendAdapter;
 import com.onecric.live.adapter.LiveRecommendHistoryAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
+import com.onecric.live.event.UpdateLoginTokenEvent;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.HistoryLiveBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
@@ -31,6 +39,9 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +61,10 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
     private LiveRecommendHistoryAdapter mHistoryAdapter;
 
     private int mPage = 1;
+
+    private LoginDialog loginDialog;
+    private WebView webview;
+    private WebSettings webSettings;
 
     @Override
     protected LiveMorePresenter createPresenter() {
@@ -74,6 +89,12 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
 
         smart_rl = findViewById(R.id.smart_rl);
         recyclerview = findViewById(R.id.recyclerview);
+        initWebView();
+        loginDialog =  new LoginDialog(this, R.style.dialog,true, () -> {
+            loginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
     }
 
     @Override
@@ -116,7 +137,11 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                         return;
                     }
                     if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                        LoginActivity.forward(mActivity);
+                        if(loginDialog!=null){
+                            loginDialog.show();
+                        }else{
+                            ToastUtil.show(getString(R.string.please_login));
+                        }
                     }else{
                         VideoSingleActivity.forward(mActivity, mHistoryAdapter.getItem(position).getMediaUrl(), null);
                     }
@@ -132,7 +157,11 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                     if(mAdapter.getItem(position).getIslive() == 0){
                         ToastUtil.show("The broadcast has not started");
                     }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                        LoginActivity.forward(mActivity);
+                        if(loginDialog!=null){
+                            loginDialog.show();
+                        }else{
+                            ToastUtil.show(getString(R.string.please_login));
+                        }
                     }else{
                         LiveDetailActivity.forward(mActivity, mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
                     }
@@ -201,5 +230,60 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
     public void onClick(View v) {
         switch (v.getId()) {
         }
+    }
+
+    //登录成功，更新信息
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
+        if (event != null) {
+            //fixme 刷新数据 测试
+            smart_rl.autoRefresh();
+        }
+    }
+
+    @SuppressLint("JavascriptInterface")
+    private void initWebView() {
+        webview = (WebView) findViewById(R.id.webview);
+        webSettings = webview.getSettings();
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        // 禁用缓存
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        webSettings.setDefaultTextEncodingName("utf-8");
+        webview.setBackgroundColor(0); // 设置背景色
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        // 开启js支持
+        webSettings.setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(this, "jsBridge");
+        webview.loadUrl("file:///android_asset/index.html");
+    }
+
+    @JavascriptInterface
+    public void getData(String data) {
+        webview.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                webview.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(data)) {
+                    JSONObject jsonObject = JSONObject.parseObject(data);
+                    if (jsonObject.getIntValue("ret") == 0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                loginDialog.show();
+                                loginDialog.passWebView();
+                            }
+                        });
+                    }
+                }
+            }
+        }, 500);
     }
 }

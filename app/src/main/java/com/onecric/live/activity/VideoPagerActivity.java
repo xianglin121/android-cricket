@@ -1,5 +1,6 @@
 package com.onecric.live.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,10 @@ import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
@@ -18,6 +23,7 @@ import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.onecric.live.AppManager;
 import com.onecric.live.CommonAppConfig;
@@ -28,7 +34,9 @@ import com.onecric.live.adapter.layoutmanager.OnVideoViewPagerListener;
 import com.onecric.live.adapter.layoutmanager.VideoViewPagerLayoutManager;
 import com.onecric.live.custom.InputVideoCommentMsgDialog;
 import com.onecric.live.custom.VideoCommentDialog;
+import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.event.UpdateVideoLikeEvent;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.ReportBean;
 import com.onecric.live.model.ShortVideoBean;
@@ -52,6 +60,8 @@ import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoViewBridge;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -100,6 +110,11 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
     private boolean isTagJump = false;
     private String jumpKeyword;
 
+    private LoginDialog loginDialog,constraintLoginDialog;
+    private WebView webview;
+    private WebSettings webSettings;
+    private boolean isCancelLoginDialog;
+
     //未登录用户倒计时三分钟跳转登录页
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
         @Override
@@ -111,8 +126,8 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
         public void onFinish() {
             SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
-            finish();
-            LoginActivity.forward(mActivity);
+            isCancelLoginDialog = false;
+            constraintLoginDialog.show();
         }
     };
 
@@ -198,10 +213,24 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
         findViewById(R.id.iv_back).setOnClickListener(this);
 
+        initWebView();
+        loginDialog =  new LoginDialog(this, R.style.dialog,true, () -> {
+            loginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
+        constraintLoginDialog =  new LoginDialog(this, R.style.dialog,false, () -> {
+            constraintLoginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
+
         //初始化回复弹窗
         mCommentDialog = new VideoCommentDialog(this, R.style.dialog);
+        mCommentDialog.loginDialog = loginDialog;
         //初始化下载中弹窗
         mLoadingDialog = DialogUtil.loadingDialog(this, getString(R.string.downloading));
+
     }
 
     @Override
@@ -334,6 +363,10 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                 refreshLayout.finishLoadMore();
             }
             videoPagerAdapter.setBeans(list, false);
+            if(isRefresh){
+                rv.scrollToPosition(defaultIndex);
+                mLayoutManager.setPosition(defaultIndex);
+            }
         } else {
             if (refreshLayout != null) {
                 refreshLayout.finishLoadMoreWithNoMoreData();
@@ -593,7 +626,8 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-                    LoginActivity.forward(mActivity);
+                    isCancelLoginDialog = true;
+                    loginDialog.show();
                     return;
                 }
                 if (bean.getUid() != Integer.parseInt(CommonAppConfig.getInstance().getUid())) {
@@ -608,7 +642,8 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-                    LoginActivity.forward(mActivity);
+                    isCancelLoginDialog = true;
+                    loginDialog.show();
                     return;
                 }
                 int likeCount = bean.getLikes();
@@ -639,7 +674,8 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-                    LoginActivity.forward(mActivity);
+                    isCancelLoginDialog = true;
+                    loginDialog.show();
                     return;
                 }
                 DialogUtil.showVideoMoreDialog(mActivity, new DialogUtil.SelectMoreCallback() {
@@ -725,5 +761,71 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
         //释放所有
         videoPagerHolder.videoView.setVideoAllCallBack(null);
         super.onBackPressed();
+    }
+
+    //登录成功，更新信息
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
+        if (event != null) {
+           //fixme 刷新数据 测试
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                mvpPresenter.getReportList();
+            }
+            mvpPresenter.getList(true, --mPage);
+        }
+    }
+
+    @SuppressLint("JavascriptInterface")
+    private void initWebView() {
+        webview = (WebView) findViewById(R.id.webview);
+        webSettings = webview.getSettings();
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        // 禁用缓存
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        webSettings.setDefaultTextEncodingName("utf-8");
+        webview.setBackgroundColor(0); // 设置背景色
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        // 开启js支持
+        webSettings.setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(this, "jsBridge");
+        webview.loadUrl("file:///android_asset/index.html");
+    }
+
+    @JavascriptInterface
+    public void getData(String data) {
+        webview.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                webview.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(data)) {
+                    JSONObject jsonObject = JSONObject.parseObject(data);
+                    if (jsonObject.getIntValue("ret") == 0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(isCancelLoginDialog){
+                                    loginDialog.show();
+                                    loginDialog.passWebView();
+                                }else{
+                                    constraintLoginDialog.show();
+                                    constraintLoginDialog.passWebView();
+                                }
+
+                            }
+                        });
+                    }else if(!isCancelLoginDialog){
+                        constraintLoginDialog.show();
+                    }
+                }
+            }
+        }, 500);
     }
 }

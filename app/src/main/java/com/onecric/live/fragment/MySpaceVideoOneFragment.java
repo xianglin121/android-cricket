@@ -20,6 +20,7 @@ import com.onecric.live.model.ShortVideoBean;
 import com.onecric.live.presenter.user.MySpaceVideoOnePresenter;
 import com.onecric.live.util.CommonUtil;
 import com.onecric.live.util.SpUtil;
+import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.user.MySpaceVideoOneView;
 import com.scwang.smartrefresh.header.MaterialHeader;
@@ -95,7 +96,7 @@ public class MySpaceVideoOneFragment extends MvpFragment<MySpaceVideoOnePresente
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                    LoginActivity.forward(getContext());
+                    ToastUtil.show(getString(R.string.please_login));
                 }else{
                     VideoPagerActivity.forward(getContext(), mAdapter.getData(), position, mPage);
                 }

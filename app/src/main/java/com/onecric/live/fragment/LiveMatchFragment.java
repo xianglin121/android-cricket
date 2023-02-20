@@ -18,6 +18,7 @@ import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.adapter.LiveAnchorAdapter;
 import com.onecric.live.adapter.LiveRecommendAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.presenter.live.LiveMatchPresenter;
@@ -52,6 +53,7 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
     private LiveRecommendAdapter mAdapter;
 
     private int mPage = 1;
+    public LoginDialog loginDialog;
 
     @Override
     protected int getLayoutId() {
@@ -78,9 +80,17 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                    LoginActivity.forward(getContext());
+                    if(loginDialog!=null){
+                        loginDialog.show();
+                    }else{
+                        ToastUtil.show(getString(R.string.please_login));
+                    }
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                    LoginActivity.forward(getContext());
+                    if(loginDialog!=null){
+                        loginDialog.show();
+                    }else{
+                        ToastUtil.show(getString(R.string.please_login));
+                    }
                 }else{
                     LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
                 }
@@ -114,7 +124,11 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
                 if(mAdapter.getItem(position).getIslive() == 0){
                     ToastUtil.show("The broadcast has not started");
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                    LoginActivity.forward(getContext());
+                    if(loginDialog!=null){
+                        loginDialog.show();
+                    }else{
+                        ToastUtil.show(getString(R.string.please_login));
+                    }
                 }else{
                     LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
                 }

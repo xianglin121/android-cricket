@@ -79,7 +79,7 @@ public class FootballMatchLiveFragment extends MvpFragment<FootballMatchLivePres
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                    LoginActivity.forward(getContext());
+//                    LoginActivity.forward(getContext());
                 }else{
                     LiveDetailActivity.forward(getContext(), mAnchorAdapter.getItem(position).getId(), 0, mId);
                 }
@@ -113,7 +113,7 @@ public class FootballMatchLiveFragment extends MvpFragment<FootballMatchLivePres
                     ToastUtil.show("The broadcast has not started");
                 }else{
                     if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                        LoginActivity.forward(getContext());
+//                        LoginActivity.forward(getContext());
                     }else{
                         LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getType(), mLiveAdapter.getItem(position).getMatch_id());
                     }

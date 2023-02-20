@@ -17,6 +17,7 @@ import com.onecric.live.activity.VideoPublishActivity;
 import com.onecric.live.adapter.VideoAdapter;
 import com.onecric.live.adapter.decoration.StaggeredDividerItemDecoration;
 import com.onecric.live.event.UpdateVideoLikeEvent;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.ShortVideoBean;
 import com.onecric.live.presenter.video.VideoPresenter;
@@ -46,6 +47,7 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
 
     private int mPage = 1;
     private TextView tv_empty;
+    public LoginDialog loginDialog;
 
     @Override
     protected int getLayoutId() {
@@ -71,8 +73,10 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
                     } else {
                         ToastUtil.show(getActivity().getString(R.string.please_join_writer));
                     }
-                } else {
-                    LoginActivity.forward(getContext());
+                } else if(loginDialog!=null){
+                    loginDialog.show();
+                }else{
+                    ToastUtil.show(getString(R.string.please_login));
                 }
             }
         });
@@ -102,7 +106,11 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                    LoginActivity.forward(getContext());
+                    if(loginDialog!=null){
+                        loginDialog.show();
+                    }else{
+                        ToastUtil.show(getString(R.string.please_login));
+                    }
                 }else{
                     VideoPagerActivity.forward(getContext(), mAdapter.getData(), position, mPage);
                 }

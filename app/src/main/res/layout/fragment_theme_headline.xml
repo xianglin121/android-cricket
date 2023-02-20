@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:src="@mipmap/icon_theme_headline_more"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
     </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager

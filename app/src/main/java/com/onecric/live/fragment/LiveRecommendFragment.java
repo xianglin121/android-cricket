@@ -19,7 +19,6 @@ import com.onecric.live.activity.CricketDetailActivity;
 import com.onecric.live.activity.FootballMatchDetailActivity;
 import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.activity.LiveMoreActivity;
-import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.activity.VideoPagerActivity;
 import com.onecric.live.activity.VideoSingleActivity;
 import com.onecric.live.adapter.BannerRoundImageAdapter;
@@ -27,6 +26,7 @@ import com.onecric.live.adapter.LiveRecommendAdapter;
 import com.onecric.live.adapter.LiveRecommendHistoryAdapter;
 import com.onecric.live.adapter.LiveRecommendMatchAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.BannerBean;
 import com.onecric.live.model.HistoryLiveBean;
 import com.onecric.live.model.JsonBean;
@@ -71,6 +71,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     private int mTodayPage = 1;
 //    private int mHistoryPage = 1;
     private BannerRoundImageAdapter bannerAdapter;
+    public LoginDialog loginDialog;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_live_recommend;
@@ -167,7 +168,11 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                 if (mTodayAdapter.getItem(position).getIslive() == 0) {
                     ToastUtil.show("The broadcast has not started");
                 } else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                    LoginActivity.forward(getContext());
+                    if(loginDialog!=null){
+                        loginDialog.show();
+                    }else{
+                        ToastUtil.show(getString(R.string.please_login));
+                    }
                 }else{
                     LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(), mTodayAdapter.getItem(position).getType(), mTodayAdapter.getItem(position).getMatch_id());
                 }
@@ -205,7 +210,11 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                 return;
             }
             if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                LoginActivity.forward(getContext());
+                if(loginDialog!=null){
+                    loginDialog.show();
+                }else{
+                    ToastUtil.show(getString(R.string.please_login));
+                }
             }else{
                 VideoSingleActivity.forward(getContext(), mHistoryAdapter.getItem(position).getMediaUrl(), null);
             }
@@ -342,7 +351,11 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                 BannerBean bannerBean = list.get(position);
                 if (bannerBean.getAnchor_id() != 0) {
                     if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                        LoginActivity.forward(getContext());
+                        if(loginDialog!=null){
+                            loginDialog.show();
+                        }else{
+                            ToastUtil.show(getString(R.string.please_login));
+                        }
                     }else{
                         LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(), bannerBean.getParam_id());
                     }

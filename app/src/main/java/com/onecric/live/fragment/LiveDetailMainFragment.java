@@ -206,7 +206,9 @@ public class LiveDetailMainFragment extends Fragment {
 
         LiveChatFragment chatFragment = LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId"));
         chatFragment.setLoginDialog(loginDialog);
-        mViewList.add(LiveMoreVideoFragment.newInstance());
+        LiveMoreVideoFragment moreVideoFragment = LiveMoreVideoFragment.newInstance();
+        moreVideoFragment.setLoginDialog(loginDialog);
+        mViewList.add(moreVideoFragment);
         mViewList.add(chatFragment);
         mViewList.add(CricketLiveFragment.newInstance(mMatchId));
         mViewList.add(CricketInfoFragment.newInstance(mMatchId));
@@ -334,7 +336,9 @@ public class LiveDetailMainFragment extends Fragment {
         tab_layout.getTabAt(5).view.setVisibility(View.GONE);
         LiveChatFragment chatFragment = LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId"));
         chatFragment.setLoginDialog(loginDialog);
-        mViewList.add(LiveMoreVideoFragment.newInstance());
+        LiveMoreVideoFragment moreVideoFragment = LiveMoreVideoFragment.newInstance();
+        moreVideoFragment.setLoginDialog(loginDialog);
+        mViewList.add(moreVideoFragment);
         mViewList.add(chatFragment);
         mViewList.add(CricketLiveFragment.newInstance(mMatchId));
         mViewList.add(CricketInfoFragment.newInstance(mMatchId));

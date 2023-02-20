@@ -50,7 +50,8 @@ public class VideoSingleActivity extends BaseActivity {
             SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
             finish();
-            LoginActivity.forward(mActivity);
+            //fixme 这里也要登录弹窗
+//            LoginActivity.forward(mActivity);
         }
     };
     private ImageView iv_silence;

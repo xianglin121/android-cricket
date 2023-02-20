@@ -238,7 +238,7 @@ public class FootballMatchDetailActivity extends MvpActivity<FootballMatchDetail
             findViewById(R.id.fl_board).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LoginActivity.forward(mActivity);
+//                    LoginActivity.forward(mActivity);
                 }
             });
         }

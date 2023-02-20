@@ -70,10 +70,10 @@ import java.util.ArrayList;
 //import cn.jpush.android.api.JPushInterface;
 
 public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginView, View.OnClickListener {
-    public static void forward(Context context) {
+/*    public static void forward(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
-    }
+    }*/
 
     public static void forward2(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);

@@ -124,7 +124,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         mTabLayout = findViewById(R.id.tabLayout);
 
         initWebView();
-        loginDialog = new LoginDialog(this, R.style.dialog, () -> {
+        loginDialog = new LoginDialog(this, R.style.dialog,true, () -> {
             loginDialog.dismiss();
             webview.setVisibility(View.VISIBLE);
             webview.loadUrl("javascript:ab()");
@@ -148,7 +148,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     ToastUtil.show(getString(R.string.please_login));
-                    loginDialog.isCanClose = true;
                     loginDialog.show();
 //                    return;
                 }
@@ -167,7 +166,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 } else {
                     if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                         ToastUtil.show(getString(R.string.please_login));
-                        loginDialog.isCanClose = true;
                         loginDialog.show();
                     } else {
                         if (id == R.id.menu_my_concerns) {
@@ -193,7 +191,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 });
             } else {
                 //登录
-                loginDialog.isCanClose = true;
                 loginDialog.show();
             }
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -389,13 +386,15 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         // fixme 开发中
         ThemeFragment themeFragment = new ThemeFragment();
         LiveFragment liveFragment = new LiveFragment();
+        VideoFragment videoFragment = new VideoFragment();
         themeFragment.loginDialog = loginDialog;
-//        liveFragment.loginDialog = loginDialog;
+        liveFragment.loginDialog = loginDialog;
+        videoFragment.loginDialog = loginDialog;
 
         mViewList.add(themeFragment);
         mViewList.add(new CricketFragment());
         mViewList.add(liveFragment);
-        mViewList.add(new VideoFragment());
+        mViewList.add(videoFragment);
         mViewPager.setScroll(false);
         mViewPager.setOffscreenPageLimit(mViewList.size());
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {

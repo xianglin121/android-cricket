@@ -16,6 +16,7 @@ import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.model.MatchListBean;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.SpUtil;
+import com.onecric.live.util.ToastUtil;
 
 import java.util.List;
 
@@ -124,7 +125,7 @@ public class MatchSecondAdapter extends BaseMultiItemQuickAdapter<MatchListBean,
                         @Override
                         public void onClick(View v) {
                             if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                                LoginActivity.forward(mContext);
+                                ToastUtil.show(mContext.getString(R.string.please_login));
                             }else{
                                 LiveDetailActivity.forward(mContext, item.getAnchor().getId(), item.getType(), item.getAnchor().getMatch_id());
                             }

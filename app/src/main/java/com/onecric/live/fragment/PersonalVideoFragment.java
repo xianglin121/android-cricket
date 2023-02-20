@@ -184,7 +184,7 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
                         ToastUtil.show(getActivity().getString(R.string.please_join_writer));
                     }
                 } else {
-                    LoginActivity.forward(getContext());
+
                 }
             }
         });
@@ -214,7 +214,7 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                    LoginActivity.forward(getContext());
+                    ToastUtil.show(getString(R.string.please_login));
                 }else{
                     VideoPagerActivity.forward(getContext(), mAdapter.getData(), position, mPage);
                 }
