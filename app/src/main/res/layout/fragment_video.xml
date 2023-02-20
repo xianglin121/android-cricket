@@ -10,7 +10,7 @@
         android:orientation="vertical">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="78dp"
+            android:layout_height="65dp"
             android:background="@color/c_1D2550">
             <TextView
                 android:layout_width="wrap_content"
@@ -37,9 +37,9 @@
                     android:id="@+id/rv_video"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="12dp"
+                    android:layout_marginLeft="6dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginRight="12dp" />
+                    android:layout_marginRight="2dp" />
             </FrameLayout>
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </LinearLayout>
