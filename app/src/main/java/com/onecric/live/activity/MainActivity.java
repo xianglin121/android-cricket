@@ -210,9 +210,11 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getUser_nickname())) {
                 tv_name_nav.setText(CommonAppConfig.getInstance().getUserBean().getUser_nickname());
             }
+            tv_sign_out.setText(getString(R.string.setting_sign_out));
         } else {
             iv_avatar_nav.setImageResource(R.mipmap.bg_avatar_default);
             tv_name_nav.setText("");
+            tv_sign_out.setText(getString(R.string.setting_sign_in));
         }
     }
 
@@ -383,7 +385,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
     private void initFragment() {
         //给有登录需求的页面加loginDialog
-        // fixme 开发中
         ThemeFragment themeFragment = new ThemeFragment();
         LiveFragment liveFragment = new LiveFragment();
         VideoFragment videoFragment = new VideoFragment();

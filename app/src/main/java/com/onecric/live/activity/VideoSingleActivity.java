@@ -55,7 +55,6 @@ public class VideoSingleActivity extends BaseActivity {
             finish();
             //fixme 这里也要登录弹窗
 //            LoginActivity.forward(mActivity);
-            finish();
         }
     };
     private ImageView iv_silence;

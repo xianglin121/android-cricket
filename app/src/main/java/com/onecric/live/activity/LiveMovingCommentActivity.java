@@ -492,7 +492,6 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
-            //fixme 刷新数据 测试
             mPage = 1;
             initData();
         }
