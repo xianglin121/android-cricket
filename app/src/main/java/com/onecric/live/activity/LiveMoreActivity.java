@@ -40,6 +40,7 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -89,6 +90,8 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
 
         smart_rl = findViewById(R.id.smart_rl);
         recyclerview = findViewById(R.id.recyclerview);
+
+        EventBus.getDefault().register(this);
         initWebView();
         loginDialog =  new LoginDialog(this, R.style.dialog,true, () -> {
             loginDialog.dismiss();
@@ -163,7 +166,7 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                             ToastUtil.show(getString(R.string.please_login));
                         }
                     }else{
-                        LiveDetailActivity.forward(mActivity, mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
+                        LiveDetailActivity.forward(mActivity, mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id(),true);
                     }
                 }
             });
@@ -236,7 +239,6 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
-            //fixme 刷新数据 测试
             smart_rl.autoRefresh();
         }
     }
@@ -285,5 +287,13 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                 }
             }
         }, 500);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        super.onDestroy();
     }
 }

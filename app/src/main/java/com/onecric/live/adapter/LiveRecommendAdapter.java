@@ -55,6 +55,7 @@ public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
         TextView tv_name = helper.getView(R.id.tv_name);
         TextView tv_num = helper.getView(R.id.tv_num);
         TextView tv_time = helper.getView(R.id.tv_time);
+        ImageView iv_hot = helper.getView(R.id.iv_hot);
 
         GlideUtil.loadLiveImageDefault(mContext, item.getThumb(), iv_cover);
         GlideUtil.loadUserImageDefault(mContext, item.getAvatar(), iv_avatar);
@@ -68,22 +69,21 @@ public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
         }else {
             tv_name.setText("");
         }
-        if (item.getHeat() > 1000) {
-            String heat = new BigDecimal(item.getHeat()).divide(new BigDecimal(1000), 2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
-            tv_num.setText(heat + "k");
-        }else {
-            tv_num.setText(String.valueOf(item.getHeat()));
-        }
 
+        tv_num.setText(item.getHeat() > 1000 ? (double)item.getHeat()/1000 + "K" :item.getHeat()+"");
         if(item.getIslive() == 0){
             iv_live.setVisibility(View.GONE);
             tv_time.setVisibility(View.VISIBLE);
 //            iv_cover.setColorFilter(Color.parseColor("#40000000"));
             tv_time.setText("Watch live at "+getRelativeLocalDate(sfdate2,item.getStarttime()));
+            iv_hot.setVisibility(View.GONE);
+            tv_num.setVisibility(View.GONE);
         }else{
             iv_cover.setColorFilter(null);
             iv_live.setVisibility(View.VISIBLE);
             tv_time.setVisibility(View.GONE);
+            iv_hot.setVisibility(View.VISIBLE);
+            tv_num.setVisibility(View.VISIBLE);
         }
     }
 

@@ -47,6 +47,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerInd
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -294,12 +295,6 @@ public class SearchLiveDetailActivity extends MvpActivity<SearchLiveDetailPresen
         }
     }
 
-    //登录成功，更新信息
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
-        if (event != null) {
-        }
-    }
 
     @SuppressLint("JavascriptInterface")
     private void initWebView() {

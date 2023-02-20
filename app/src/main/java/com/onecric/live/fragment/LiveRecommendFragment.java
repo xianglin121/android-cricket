@@ -174,7 +174,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                         ToastUtil.show(getString(R.string.please_login));
                     }
                 }else{
-                    LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(), mTodayAdapter.getItem(position).getType(), mTodayAdapter.getItem(position).getMatch_id());
+                    LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(), mTodayAdapter.getItem(position).getType(), mTodayAdapter.getItem(position).getMatch_id(),true);
                 }
             }
         });
@@ -357,7 +357,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                             ToastUtil.show(getString(R.string.please_login));
                         }
                     }else{
-                        LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(), bannerBean.getParam_id());
+                        LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(), bannerBean.getParam_id(),true);
                     }
                 } else if (bannerBean.getParam_id() != 0) {
                     CricketDetailActivity.forward(getActivity(), bannerBean.getParam_id());

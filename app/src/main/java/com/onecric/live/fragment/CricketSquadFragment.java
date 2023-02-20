@@ -100,6 +100,7 @@ public class CricketSquadFragment extends MvpFragment<CricketSquadPresenter> imp
         mAdapter.setEmptyView(inflate2);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAdapter);
+
     }
 
     public void getList(int matchId, String homeName, String homeLogo, String awayName, String awayLogo) {

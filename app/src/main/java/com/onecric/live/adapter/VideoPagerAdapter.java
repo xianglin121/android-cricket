@@ -125,7 +125,7 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
         } else {
             holder.iv_like.setSelected(false);
         }
-        holder.tv_like_count.setText(String.valueOf(bean.getLikes()));
+        holder.tv_like_count.setText(bean.getLikes()>1000?(double)bean.getLikes()/1000+"K":bean.getLikes()+"");
         holder.tv_comment_count.setText(String.valueOf(bean.getComment_count()));
     }
 

@@ -64,6 +64,7 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
@@ -132,6 +133,9 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
         @Override
         public void onFinish() {
+            if(loginDialog.isShowing()){
+                loginDialog.dismiss();
+            }
             SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
             isCancelLoginDialog = false;
@@ -232,6 +236,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
         //初始化回复弹窗
         replyDialog = new HeadlineCommentReplyDialog(this, R.style.dialog);
 
+        EventBus.getDefault().register(this);
+
         initWebView();
         loginDialog =  new LoginDialog(this, R.style.dialog,true, () -> {
             loginDialog.dismiss();
@@ -256,6 +262,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     loginDialog.show();
                 }
             });
+        }else{
+            findViewById(R.id.fl_board).setVisibility(View.GONE);
         }
         if(mCommentAdapter == null){
             tv_time_sort.setSelected(true);
@@ -833,6 +841,9 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
     @Override
     protected void onDestroy() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
         super.onDestroy();
         if (mCountDownTimer != null) {
             mCountDownTimer.cancel();
@@ -853,7 +864,9 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
-            //fixme 刷新数据 测试
+            if (mCountDownTimer != null) {
+                mCountDownTimer.cancel();
+            }
             initData();
         }
     }

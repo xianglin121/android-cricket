@@ -57,6 +57,7 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
@@ -161,6 +162,7 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
         //初始化回复弹窗
         replyDialog = new CommunityReplyDialog(this, R.style.dialog);
 
+        EventBus.getDefault().register(this);
         initWebView();
         loginDialog =  new LoginDialog(this, R.style.dialog,true, () -> {
             loginDialog.dismiss();
@@ -183,6 +185,8 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                     }
                 }
             });
+        }else{
+            findViewById(R.id.fl_board).setVisibility(View.GONE);
         }
         if(mCommentAdapter == null){
             MaterialHeader materialHeader = new MaterialHeader(this);
@@ -550,7 +554,6 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
-            //fixme 刷新数据 测试
             mPage = 1;
             initData();
         }
@@ -600,5 +603,13 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                 }
             }
         }, 500);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        super.onDestroy();
     }
 }

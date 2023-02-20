@@ -47,11 +47,15 @@ public class VideoSingleActivity extends BaseActivity {
 
         @Override
         public void onFinish() {
+            /*if(loginDialog.isShowing()){
+                loginDialog.dismiss();
+            }*/
             SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
             finish();
             //fixme 这里也要登录弹窗
 //            LoginActivity.forward(mActivity);
+            finish();
         }
     };
     private ImageView iv_silence;

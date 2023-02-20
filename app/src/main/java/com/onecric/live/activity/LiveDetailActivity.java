@@ -84,6 +84,7 @@ import com.onecric.live.view.live.LiveDetailView;
 //import com.opensource.svgaplayer.SVGAImageView;
 //import com.opensource.svgaplayer.SVGAParser;
 //import com.opensource.svgaplayer.SVGAVideoEntity;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.tencent.imsdk.v2.V2TIMManager;
 import com.tencent.imsdk.v2.V2TIMMessage;
 import com.tencent.imsdk.v2.V2TIMSendCallback;
@@ -113,11 +114,12 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
 //    private ImageView iv_silence;
 
-    public static void forward(Context context, int anchorId, int type, int matchId) {
+    public static void forward(Context context, int anchorId, int type, int matchId,boolean isLive) {
         Intent intent = new Intent(context, LiveDetailActivity.class);
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("type", type);
         intent.putExtra("matchId", matchId);
+        intent.putExtra("isLive", isLive);
         context.startActivity(intent);
     }
 
@@ -159,6 +161,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     private ImageView iv_tool_heart;
     private ImageView iv_tool_share;
     private TextView tv_tool_heart;
+    private StandardGSYVideoPlayer history_video_view;
 
     private boolean isOpenAvatar = false;
     private int clAvatarHeight;
@@ -168,6 +171,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
     private Drawable drawableArrUp, drawableArrDown;
     private boolean isCancelLoginDialog;
+    private boolean isLive;
 
     //未登录用户倒计时三分钟跳转登录页
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
@@ -178,6 +182,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
         @Override
         public void onFinish() {
+            if(loginDialog.isShowing()){
+                loginDialog.dismiss();
+            }
             SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
             isCancelLoginDialog = false;
@@ -228,6 +235,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
         mGroupId = String.valueOf(mAnchorId);
         mvpPresenter.setGroupId(mGroupId);
+
         //获取屏幕宽度
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
@@ -246,6 +254,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         tv_content = findViewById(R.id.tv_content);
         tv_title = findViewById(R.id.tv_title);
         iv_back = findViewById(R.id.iv_back);
+        history_video_view = findViewById(R.id.history_video_view);
 //        iv_silence = findViewById(R.id.iv_silence);
 //        iv_silence.setOnClickListener(this);
         person_head_pic = findViewById(R.id.person_head_pic);
@@ -339,6 +348,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
+            if (mCountDownTimer != null) {
+                mCountDownTimer.cancel();
+            }
             mvpPresenter.getInfo(mAnchorId,true);
         }
     }
@@ -543,10 +555,6 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public void getDataSuccess(LiveRoomBean bean) {
         if (bean != null) {
             mLiveRoomBean = bean;
-            mMatchId = mLiveRoomBean.getInfo().getMatch_id();
-            if(mMatchId!=0){
-                mvpPresenter.getMatchDetail(mMatchId);
-            }
             //判断是否弹出关注弹窗
             if (mLiveRoomBean.getUserData() != null) {
                 boolean isShow = false;
@@ -752,13 +760,12 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             mLiveRoomBean.getInfo().setIs_like(0);
             iv_tool_heart.setSelected(false);
             --likeNum;
-            tv_tool_heart.setText(likeNum>1000 ? (double)likeNum/1000 + "K" :likeNum+"");
         }else{
             mLiveRoomBean.getInfo().setIs_like(1);
             iv_tool_heart.setSelected(true);
             ++likeNum;
-            tv_tool_heart.setText(likeNum>1000 ? (double)likeNum/1000 + "K" :likeNum+"");
         }
+        tv_tool_heart.setText(likeNum>1000 ? (double)likeNum/1000 + "K" :likeNum+"");
         mLiveRoomBean.getInfo().setLike_num(likeNum);
     }
 
@@ -1377,4 +1384,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 //        }
     }
 
+    public void getMatchDetail(){
+        mvpPresenter.getMatchDetail(mMatchId);
+    }
 }

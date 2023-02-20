@@ -57,13 +57,13 @@ public class LiveRecommendHistoryAdapter extends BaseQuickAdapter<HistoryLiveBea
         } else {
             tv_name.setText("");
         }
-        if (item.getHeat() > 1000) {
+/*        if (item.getHeat() > 1000) {
             String heat = new BigDecimal(item.getHeat()).divide(new BigDecimal(1000), 2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
-            tv_num.setText(heat + "k");
+            tv_num.setText(heat + "K");
         }else {
             tv_num.setText(String.valueOf(item.getHeat()));
-        }
-
+        }*/
+        tv_num.setText(item.getHeat() > 1000 ? (double)item.getHeat()/1000 + "K" :item.getHeat()+"");
         iv_cover.setColorFilter(null);
         iv_live.setVisibility(View.VISIBLE);
 

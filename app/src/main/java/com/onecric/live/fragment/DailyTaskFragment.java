@@ -75,7 +75,7 @@ public class DailyTaskFragment extends MvpFragment<DailyTaskPresenter> implement
                             if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
 //                                LoginActivity.forward(getContext());
                             }else{
-                                LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getAnchor().getUid(), mAdapter.getItem(position).getAnchor().getType(), mAdapter.getItem(position).getAnchor().getMatch_id());
+                                LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getAnchor().getUid(), mAdapter.getItem(position).getAnchor().getType(), mAdapter.getItem(position).getAnchor().getMatch_id(),true);
                             }
                         }
                     }

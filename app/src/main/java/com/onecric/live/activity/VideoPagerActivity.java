@@ -124,6 +124,9 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
         @Override
         public void onFinish() {
+            if(loginDialog.isShowing()){
+                loginDialog.dismiss();
+            }
             SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
             isCancelLoginDialog = false;
@@ -139,6 +142,9 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
     @Override
     protected void onDestroy() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
         super.onDestroy();
 //        if (videoPagerHolder != null) {
 //            videoPagerHolder.videoView.release();
@@ -213,6 +219,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
         findViewById(R.id.iv_back).setOnClickListener(this);
 
+        EventBus.getDefault().register(this);
         initWebView();
         loginDialog =  new LoginDialog(this, R.style.dialog,true, () -> {
             loginDialog.dismiss();
@@ -364,8 +371,8 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             }
             videoPagerAdapter.setBeans(list, false);
             if(isRefresh){
-                rv.scrollToPosition(defaultIndex);
-                mLayoutManager.setPosition(defaultIndex);
+                rv.scrollToPosition(currentIndex);
+                mLayoutManager.setPosition(currentIndex);
             }
         } else {
             if (refreshLayout != null) {
@@ -657,7 +664,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                     likeCount++;
                 }
                 bean.setLikes(likeCount);
-                videoPagerHolder.tv_like_count.setText(String.valueOf(likeCount));
+                videoPagerHolder.tv_like_count.setText(bean.getLikes()>1000?(double)bean.getLikes()/1000+"K":bean.getLikes()+"");
                 mvpPresenter.doVideoLike(bean.getId());
 //                TrackHelper.track().socialInteraction("Like", "Video_user").target("onecric.live.app").with(((AppManager) getApplication()).getTracker());
                 EventBus.getDefault().post(new UpdateVideoLikeEvent(bean.getId()));
@@ -767,6 +774,9 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
+            if (mCountDownTimer != null) {
+                mCountDownTimer.cancel();
+            }
            //fixme 刷新数据 测试
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                 mvpPresenter.getReportList();

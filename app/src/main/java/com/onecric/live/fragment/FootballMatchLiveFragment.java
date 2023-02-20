@@ -81,7 +81,7 @@ public class FootballMatchLiveFragment extends MvpFragment<FootballMatchLivePres
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
 //                    LoginActivity.forward(getContext());
                 }else{
-                    LiveDetailActivity.forward(getContext(), mAnchorAdapter.getItem(position).getId(), 0, mId);
+                    LiveDetailActivity.forward(getContext(), mAnchorAdapter.getItem(position).getId(), 0, mId,true);
                 }
             }
         });
@@ -115,7 +115,7 @@ public class FootballMatchLiveFragment extends MvpFragment<FootballMatchLivePres
                     if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
 //                        LoginActivity.forward(getContext());
                     }else{
-                        LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getType(), mLiveAdapter.getItem(position).getMatch_id());
+                        LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getType(), mLiveAdapter.getItem(position).getMatch_id(),true);
                     }
                 }
             }

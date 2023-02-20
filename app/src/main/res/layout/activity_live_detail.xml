@@ -39,6 +39,14 @@
             android:layout_height="wrap_content"
             android:background="@mipmap/ball_live_bg" />
 
+        <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+            android:id="@+id/history_video_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@mipmap/ball_live_bg"
+            android:visibility="gone"/>
+
 <!--        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

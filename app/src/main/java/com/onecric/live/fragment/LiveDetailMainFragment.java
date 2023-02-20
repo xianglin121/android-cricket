@@ -101,6 +101,14 @@ public class LiveDetailMainFragment extends Fragment {
         initData();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mMatchId!=0){
+            ((LiveDetailActivity)getActivity()).getMatchDetail();
+        }
+    }
+
     private void initUI() {
         mTitles = new ArrayList<>();
         mViewList = new ArrayList<>();
@@ -326,24 +334,26 @@ public class LiveDetailMainFragment extends Fragment {
         mMatchId = getArguments().getInt("matchId");
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.list)));
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.live_chat)));
-        tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.live)));
-        tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.info)));
-        tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.scorecard)));
-        tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.squad)));
-        tab_layout.getTabAt(2).view.setVisibility(View.GONE);
-        tab_layout.getTabAt(3).view.setVisibility(View.GONE);
-        tab_layout.getTabAt(4).view.setVisibility(View.GONE);
-        tab_layout.getTabAt(5).view.setVisibility(View.GONE);
+        if(mMatchId != 0){
+            tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.live)));
+            tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.info)));
+            tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.scorecard)));
+            tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.squad)));
+        }
+
         LiveChatFragment chatFragment = LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId"));
         chatFragment.setLoginDialog(loginDialog);
         LiveMoreVideoFragment moreVideoFragment = LiveMoreVideoFragment.newInstance();
         moreVideoFragment.setLoginDialog(loginDialog);
         mViewList.add(moreVideoFragment);
         mViewList.add(chatFragment);
-        mViewList.add(CricketLiveFragment.newInstance(mMatchId));
-        mViewList.add(CricketInfoFragment.newInstance(mMatchId));
-        mViewList.add(CricketScorecardFragment.newInstance());
-        mViewList.add(CricketSquadFragment.newInstance());
+        if(mMatchId != 0){
+            mViewList.add(CricketLiveFragment.newInstance(mMatchId));
+            mViewList.add(CricketInfoFragment.newInstance(mMatchId));
+            mViewList.add(CricketScorecardFragment.newInstance());
+            mViewList.add(CricketSquadFragment.newInstance());
+        }
+
         tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -386,11 +396,12 @@ public class LiveDetailMainFragment extends Fragment {
 
             @Override
             public int getCount() {
-                return 2;
+                return mViewList.size();
             }
         });
         vp_live.setCurrentItem(1);
     }
+
     public void sendMessage(String nobleIcon, String expIcon, MessageInfo messageInfo) {
 //        ((LiveChatFragment)mViewList.get(0)).updateAdapter(nobleIcon, expIcon, messageInfo);
         ((LiveChatFragment)mViewList.get(1)).updateAdapter(messageInfo);
@@ -401,30 +412,12 @@ public class LiveDetailMainFragment extends Fragment {
     }
 
     public void setMatchData(CricketMatchBean model){
-        tab_layout.getTabAt(2).view.setVisibility(View.VISIBLE);
-        tab_layout.getTabAt(3).view.setVisibility(View.VISIBLE);
-        tab_layout.getTabAt(4).view.setVisibility(View.VISIBLE);
-        tab_layout.getTabAt(5).view.setVisibility(View.VISIBLE);
-        vp_live.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
-            @Override
-            public Fragment getItem(int i) {
-                return mViewList.get(i);
-            }
-
-            @Override
-            public int getCount() {
-                return mViewList.size();
-            }
-        });
-        vp_live.setCurrentItem(1);
         ((CricketLiveFragment) mViewList.get(2)).getData(model.getMatch_id());
         if (!TextUtils.isEmpty(model.getTournament_id())) {
-            ((CricketInfoFragment) mViewList.get(3)).getData(model.getHome_id(), model.getAway_id(), Integer.valueOf(model.getTournament_id()),model.getMatch_id());
+            ((CricketInfoFragment) mViewList.get(3)).getList(model.getHome_id(), model.getAway_id(), Integer.valueOf(model.getTournament_id()));
         }
         ((CricketScorecardFragment) mViewList.get(4)).getData(model);
         ((CricketSquadFragment) mViewList.get(5)).getList(model.getMatch_id(), model.getHome_name(), model.getHome_logo(), model.getAway_name(), model.getAway_logo());
     }
-
-
 
 }

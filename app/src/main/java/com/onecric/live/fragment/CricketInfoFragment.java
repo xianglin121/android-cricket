@@ -35,6 +35,7 @@ public class CricketInfoFragment extends MvpFragment<CricketInfoPresenter> imple
         CricketInfoFragment fragment = new CricketInfoFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("matchId", matchId);
+        bundle.putInt("tournamentId", matchId);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -74,6 +75,9 @@ public class CricketInfoFragment extends MvpFragment<CricketInfoPresenter> imple
     @Override
     protected void initUI() {
         mMatchId = getArguments().getInt("matchId");
+        if(getArguments().getInt("tournamentId")!=0){
+            mTournamentId = getArguments().getInt("tournamentId");
+        }
         iv_home_logo = findViewById(R.id.iv_home_logo);
         tv_home_name = findViewById(R.id.tv_home_name);
         iv_away_logo = findViewById(R.id.iv_away_logo);
@@ -149,17 +153,19 @@ public class CricketInfoFragment extends MvpFragment<CricketInfoPresenter> imple
         mTournamentId = tournamentId;
         mHomeId = homeId;
         mAwayId = awayId;
-        mvpPresenter.getPointsList(tournamentId);
+        if(mvpPresenter!=null){
+            mvpPresenter.getPointsList(tournamentId);
+        }
     }
 
-    public void getData(int homeId, int awayId, int tournamentId,int mId) {
+/*    public void getData(int homeId, int awayId, int tournamentId,int mId) {
         mMatchId = mId;
         mTournamentId = tournamentId;
         mHomeId = homeId;
         mAwayId = awayId;
         mvpPresenter.getData(mMatchId);
         mvpPresenter.getPointsList(tournamentId);
-    }
+    }*/
 
     @Override
     public void showLoading() {
