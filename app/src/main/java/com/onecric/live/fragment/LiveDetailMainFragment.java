@@ -389,6 +389,7 @@ public class LiveDetailMainFragment extends Fragment {
                 return 2;
             }
         });
+        vp_live.setCurrentItem(1);
     }
     public void sendMessage(String nobleIcon, String expIcon, MessageInfo messageInfo) {
 //        ((LiveChatFragment)mViewList.get(0)).updateAdapter(nobleIcon, expIcon, messageInfo);
@@ -415,6 +416,7 @@ public class LiveDetailMainFragment extends Fragment {
                 return mViewList.size();
             }
         });
+        vp_live.setCurrentItem(1);
         ((CricketLiveFragment) mViewList.get(2)).getData(model.getMatch_id());
         if (!TextUtils.isEmpty(model.getTournament_id())) {
             ((CricketInfoFragment) mViewList.get(3)).getData(model.getHome_id(), model.getAway_id(), Integer.valueOf(model.getTournament_id()),model.getMatch_id());

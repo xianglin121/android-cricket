@@ -39,7 +39,7 @@ public class VideoAdapter extends BaseQuickAdapter<ShortVideoBean, BaseViewHolde
         } else {
             helper.setText(R.id.tv_title, "");
         }
-        helper.setText(R.id.tv_play_count, String.valueOf(item.getClick()));
-        helper.setText(R.id.tv_like_count, String.valueOf(item.getLikes()));
+        helper.setText(R.id.tv_play_count, item.getClick()>1000?(float)item.getClick()/1000+"K":item.getClick()+"");
+        helper.setText(R.id.tv_like_count, item.getLikes()>1000?(float)item.getLikes()/1000+"K":item.getLikes()+"");
     }
 }
