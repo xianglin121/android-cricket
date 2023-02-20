@@ -505,5 +505,20 @@ public class DateUtil {
         long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffInMillisec);
         return format.format(new Date((time+diffInSec) * 1000));
     }
+
+    /**
+     * 印度时间转换成本地时间,来得到倒计时起始时间
+     */
+    public static long getLocalDateCountDown(long time){
+        int loc2 = TimeZone.getTimeZone("GMT+05:30").getRawOffset();
+        Calendar nowCal = Calendar.getInstance();
+        int loc1 = nowCal.getTimeZone().getRawOffset();
+        long diffInMillisec = loc1-loc2;
+        long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffInMillisec);
+        //时差 单位：秒
+        return ((time + diffInSec * 1000 ) - new Date().getTime())>0 ? ((time + diffInSec * 1000) - new Date().getTime()) : 0;
+    }
+
+
 }
 

@@ -174,7 +174,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                         ToastUtil.show(getString(R.string.please_login));
                     }
                 }else{
-                    LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(), mTodayAdapter.getItem(position).getType(), mTodayAdapter.getItem(position).getMatch_id(),true);
+                    LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(), mTodayAdapter.getItem(position).getType(), mTodayAdapter.getItem(position).getMatch_id());
                 }
             }
         });
@@ -216,7 +216,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                     ToastUtil.show(getString(R.string.please_login));
                 }
             }else{
-                VideoSingleActivity.forward(getContext(), mHistoryAdapter.getItem(position).getMediaUrl(), null);
+                LiveDetailActivity.forward(getContext(),mHistoryAdapter.getItem(position).getAuthorId(),mHistoryAdapter.getItem(position).getMatchId(),mHistoryAdapter.getItem(position).getMediaUrl());
             }
         });
         View inflate2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
@@ -357,7 +357,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                             ToastUtil.show(getString(R.string.please_login));
                         }
                     }else{
-                        LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(), bannerBean.getParam_id(),true);
+                        LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(), bannerBean.getParam_id());
                     }
                 } else if (bannerBean.getParam_id() != 0) {
                     CricketDetailActivity.forward(getActivity(), bannerBean.getParam_id());

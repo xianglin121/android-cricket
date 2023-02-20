@@ -1,5 +1,8 @@
 package com.onecric.live.adapter;
 
+import static com.onecric.live.util.DateUtil.getLocalDateCountDown;
+import static com.onecric.live.util.DateUtil.getRelativeLocalDate;
+
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,8 +25,12 @@ import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.TimeUtil;
 import com.onecric.live.util.ToastUtil;
+import com.tencent.qcloud.tuicore.util.DateTimeUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 开发公司：东莞市梦幻科技有限公司
@@ -89,17 +96,23 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
                     helper.setText(R.id.tv_time, item.getLive_time());
                     helper.getView(R.id.ll_alarm).setVisibility(View.VISIBLE);
                     TextView tv_time = helper.getView(R.id.tv_time);
-                    new CountDownTimer(item.getLive_time_unix(), 1000) {
-                        public void onTick(long millisUntilFinished) {
-                            tv_time.setText(TimeUtil.timeConversion(millisUntilFinished / 1000));
-                        }
+                    //转时间戳
+                    long time = DateTimeUtil.getStringToDate(item.getScheduled(), "yyyy-MM-dd HH:mm:ss");
+                    //转换成本地时间String 得到倒计时毫秒数
+                    long countTime = time - new Date().getTime();
+                    if(countTime>0){
+                        //开始倒计时
+                        new CountDownTimer(countTime, 1000) {
+                            public void onTick(long millisUntilFinished) {
+                                tv_time.setText(TimeUtil.timeConversion(millisUntilFinished / 1000));
+                            }
 
-                        public void onFinish() {
-                            item.setStatus(1);
-                            notifyItemChanged(helper.getLayoutPosition());
-                        }
-                    }.start();
-
+                            public void onFinish() {
+                                item.setStatus(1);
+                                notifyItemChanged(helper.getLayoutPosition());
+                            }
+                        }.start();
+                    }
                 } else {
                     helper.setText(R.id.tv_time, "");
                     helper.getView(R.id.ll_alarm).setVisibility(View.GONE);

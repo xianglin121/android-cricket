@@ -212,7 +212,7 @@ public class FootballMatchInnerAdapter extends BaseMultiItemQuickAdapter<Footbal
                             if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
 //                                LoginActivity.forward(mContext);
                             }else{
-                                LiveDetailActivity.forward(mContext, item.getAnchor().getId(), 1, item.getAnchor().getMatch_id(),true);
+                                LiveDetailActivity.forward(mContext, item.getAnchor().getId(), 1, item.getAnchor().getMatch_id());
                             }
                         }
                     });

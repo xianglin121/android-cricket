@@ -36,6 +36,24 @@ public class HistoryLiveBean {
     private String className;
     private String fileId;
     private String height;
+    private int MatchId;
+    private int AuthorId;
+
+    public int getAuthorId() {
+        return AuthorId;
+    }
+
+    public void setAuthorId(int authorId) {
+        AuthorId = authorId;
+    }
+
+    public int getMatchId() {
+        return MatchId;
+    }
+
+    public void setMatchId(int matchId) {
+        MatchId = matchId;
+    }
 
     public String getImg() {
         return img;
