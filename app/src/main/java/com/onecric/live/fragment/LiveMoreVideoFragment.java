@@ -64,7 +64,7 @@ public class LiveMoreVideoFragment extends MvpFragment<LiveMoreVideoPresenter> i
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if(mAdapter.getItem(position).getIslive() == 0){
-                    LiveNotStartDetailActivity.forward(getContext(),mAdapter.getItem(position).getUid(),mAdapter.getItem(position).getMatch_id());
+                    LiveNotStartDetailActivity.forward(getContext(),mAdapter.getItem(position).getUid(),mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getId());
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
                     if(loginDialog!=null){
                         loginDialog.show();
@@ -72,7 +72,7 @@ public class LiveMoreVideoFragment extends MvpFragment<LiveMoreVideoPresenter> i
                         ToastUtil.show(getString(R.string.please_login));
                     }
                 }else{
-                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
+                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getId());
                     getActivity().finish();
                 }
             }

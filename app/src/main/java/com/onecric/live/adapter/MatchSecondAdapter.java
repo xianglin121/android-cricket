@@ -127,7 +127,7 @@ public class MatchSecondAdapter extends BaseMultiItemQuickAdapter<MatchListBean,
                             if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
                                 ToastUtil.show(mContext.getString(R.string.please_login));
                             }else{
-                                LiveDetailActivity.forward(mContext, item.getAnchor().getId(), item.getType(), item.getAnchor().getMatch_id());
+                                LiveDetailActivity.forward(mContext, item.getAnchor().getId(), item.getType(), item.getAnchor().getMatch_id(),item.getAnchor().getId());
                             }
                         }
                     });

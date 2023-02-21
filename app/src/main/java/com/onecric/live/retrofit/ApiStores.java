@@ -168,7 +168,8 @@ public interface ApiStores {
     //获取直播详情
     @GET("api/live_streaming/getRoomInfo")
     Observable<JsonObject> getLiveDetail(@Header("token") String token,
-                                         @Query("uid") int uid);
+                                         @Query("uid") int uid,
+                                         @Query("id") int id);
 
     //获取礼物列表
     @GET("api/Gift/getList")

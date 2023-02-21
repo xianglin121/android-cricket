@@ -157,7 +157,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mTodayAdapter.getItem(position).getIslive() == 0) {
-                    LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),mTodayMatchAdapter.getItem(position).getMatch_id());
+                    LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getId());
                 } else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
                     if(loginDialog!=null){
                         loginDialog.show();
@@ -165,7 +165,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                         ToastUtil.show(getString(R.string.please_login));
                     }
                 }else{
-                    LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(), mTodayAdapter.getItem(position).getType(), mTodayAdapter.getItem(position).getMatch_id());
+                    LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(), mTodayAdapter.getItem(position).getType(), mTodayAdapter.getItem(position).getMatch_id(),mTodayAdapter.getItem(position).getId());
                 }
             }
         });
@@ -270,9 +270,9 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         mTodayMatchAdapter = new LiveMatchAdapter(R.layout.item_live_today, new ArrayList<>());
         mTodayMatchAdapter.setOnItemClickListener((adapter, view, position) -> {
             if(mTodayMatchAdapter.getItem(position).getIslive() == 1 && mTodayMatchAdapter.getItem(position).getUid() != 0){
-                LiveDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),3,mTodayMatchAdapter.getItem(position).getMatch_id());
+                LiveDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),3,mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getId());
             }else{
-                LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),mTodayMatchAdapter.getItem(position).getMatch_id());
+                LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getId());
             }
         });
         rv_match.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
@@ -432,7 +432,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                             ToastUtil.show(getString(R.string.please_login));
                         }
                     }else{
-                        LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(), bannerBean.getParam_id());
+                        LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(), bannerBean.getParam_id(),bannerBean.getId());
                     }
                 } else if (bannerBean.getParam_id() != 0) {
                     CricketDetailActivity.forward(getActivity(), bannerBean.getParam_id());

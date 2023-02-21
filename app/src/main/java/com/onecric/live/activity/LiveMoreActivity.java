@@ -147,7 +147,7 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                         }
                     }else{
                         VideoSingleActivity.forward(mActivity, mHistoryAdapter.getItem(position).getMediaUrl(), null);
-//                        LiveDetailActivity.forward(mActivity,mHistoryAdapter.getItem(position).getAuthorId(),mHistoryAdapter.getItem(position).getMatchId(),mHistoryAdapter.getItem(position).getMediaUrl());
+//                        LiveDetailActivity.forward(mActivity,mHistoryAdapter.getItem(position).getAuthorId(),mHistoryAdapter.getItem(position).getMatchId(),mHistoryAdapter.getItem(position).getMediaUrl()，mAnchorAdapter.getItem(position).getId());
                     }
                 }
             });
@@ -159,7 +159,7 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                     if(mAdapter.getItem(position).getIslive() == 0){
-                        LiveNotStartDetailActivity.forward(mActivity,mAdapter.getItem(position).getUid(),mAdapter.getItem(position).getMatch_id());
+                        LiveNotStartDetailActivity.forward(mActivity,mAdapter.getItem(position).getUid(),mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getId());
                     }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
                         if(loginDialog!=null){
                             loginDialog.show();
@@ -167,7 +167,7 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                             ToastUtil.show(getString(R.string.please_login));
                         }
                     }else{
-                        LiveDetailActivity.forward(mActivity, mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
+                        LiveDetailActivity.forward(mActivity, mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getId());
                     }
                 }
             });

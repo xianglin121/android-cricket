@@ -63,6 +63,15 @@ public class LiveMatchListBean {
         private String away_score;
         private int uid;
         private int islive;
+        private int id;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
 
         public String getScheduled() {
             return scheduled;
