@@ -128,7 +128,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("type", type);
         intent.putExtra("matchId", matchId);
-        intent.putExtra("aim", 1);
+        intent.putExtra("isPlay", true);
         context.startActivity(intent);
     }
 
@@ -137,22 +137,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("type", 2);//无意义
         intent.putExtra("matchId", matchId);
-        intent.putExtra("aim", 2);
+        intent.putExtra("isPlay", false);
         intent.putExtra("url", url);
         context.startActivity(intent);
     }
-
-    public static void forwardNotStart(Context context,int anchorId, int matchId,String url) {
-        Intent intent = new Intent(context, LiveDetailActivity.class);
-        intent.putExtra("anchorId", anchorId);
-        intent.putExtra("type", 2);//无意义
-        intent.putExtra("matchId", matchId);
-        intent.putExtra("aim", 3);
-        intent.putExtra("url", url);
-        context.startActivity(intent);
-    }
-
-    //aim :1 直播流、2 历史播放、3 未开播
 
     private String mGroupId;
     private int mAnchorId;
