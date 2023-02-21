@@ -664,7 +664,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                     likeCount++;
                 }
                 bean.setLikes(likeCount);
-                videoPagerHolder.tv_like_count.setText(bean.getLikes()>1000?(double)bean.getLikes()/1000+"K":bean.getLikes()+"");
+                videoPagerHolder.tv_like_count.setText(bean.getLikes()>1000?String.format("%.1f",(float)bean.getLikes()/1000)+"K":bean.getLikes()+"");
                 mvpPresenter.doVideoLike(bean.getId());
 //                TrackHelper.track().socialInteraction("Like", "Video_user").target("onecric.live.app").with(((AppManager) getApplication()).getTracker());
                 EventBus.getDefault().post(new UpdateVideoLikeEvent(bean.getId()));
@@ -777,7 +777,6 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             if (mCountDownTimer != null) {
                 mCountDownTimer.cancel();
             }
-           //fixme 刷新数据 测试
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                 mvpPresenter.getReportList();
             }

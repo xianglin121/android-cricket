@@ -63,7 +63,7 @@ public class LiveMoreVideoAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
         }else {
             tv_name.setText("");
         }
-        tv_num.setText(item.getHeat() > 1000 ? (double)item.getHeat()/1000 + "K" :item.getHeat()+"");
+        tv_num.setText(item.getHeat() > 1000 ? String.format("%.1f",(float)item.getHeat()/1000) + "K" :item.getHeat()+"");
         if(item.getIslive() == 0){
             iv_live.setVisibility(View.GONE);
             tv_time.setVisibility(View.VISIBLE);

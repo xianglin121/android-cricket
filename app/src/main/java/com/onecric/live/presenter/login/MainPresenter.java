@@ -47,7 +47,7 @@ public class MainPresenter extends BasePresenter<MainView> {
         addSubscription(apiStores.getVisitorUserSig(),
                 new ApiCallback() {
                     @Override
-                    public void onSuccess(String data, String msg) {//fixme 游客名
+                    public void onSuccess(String data, String msg) {
                         mvpView.getVisitorUserSigSuccess(JSONObject.parseObject(data).getString("id"), JSONObject.parseObject(data).getString("sig"));
                     }
 

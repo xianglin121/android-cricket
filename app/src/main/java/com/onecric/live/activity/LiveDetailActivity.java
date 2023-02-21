@@ -672,14 +672,15 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 tv_name.setText(bean.getUserData().getUser_nickname());
                 tv_desc.setText("Fans: " +bean.getUserData().getAttention());
                 int heatNum = bean.getUserData().getHeat();
-                tv_tool_eyes.setText(heatNum>1000 ? (double)heatNum/1000 + "K" :heatNum+"");
+
+                tv_tool_eyes.setText(heatNum>1000 ? String.format("%.1f",(float)heatNum/1000) + "K" :heatNum+"");
                 if (bean.getInfo().getIs_like() == 1) {
                     iv_tool_heart.setSelected(true);
                 } else {
                     iv_tool_heart.setSelected(false);
                 }
                 int likeNum = bean.getInfo().getLike_num();
-                tv_tool_heart.setText(likeNum>1000 ? (double)likeNum/1000 + "K" :likeNum+"");
+                tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
             }
             liveDetailMainFragment.updateFollowData();
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
@@ -730,14 +731,14 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 tv_desc.setText("Fans: " +bean.getUserData().getAttention());
                 int heatNum = bean.getUserData().getHeat();
 
-                tv_tool_eyes.setText(heatNum>1000 ? (double)heatNum/1000 + "K" :heatNum+"");
+                tv_tool_eyes.setText(heatNum>1000 ? String.format("%.1f",(float)heatNum/1000) + "K" :heatNum+"");
                 if (bean.getInfo().getIs_like() == 1) {
                     iv_tool_heart.setSelected(true);
                 } else {
                     iv_tool_heart.setSelected(false);
                 }
                 int likeNum = bean.getInfo().getLike_num();
-                tv_tool_heart.setText(likeNum>1000 ? (double)likeNum/1000 + "K" :likeNum+"");
+                tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
             }
             liveDetailMainFragment.updateFollowData();
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
@@ -831,7 +832,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             iv_tool_heart.setSelected(true);
             ++likeNum;
         }
-        tv_tool_heart.setText(likeNum>1000 ? (double)likeNum/1000 + "K" :likeNum+"");
+        tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
         mLiveRoomBean.getInfo().setLike_num(likeNum);
     }
 
@@ -1136,8 +1137,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         customMsgBean.setType(MessageInfo.MSG_TYPE_BG_DANMU);
         customMsgBean.setNormal(msgBean);
         MessageInfo messageInfo = ChatMessageInfoUtil.buildCustomMessage(JSONObject.toJSONString(customMsgBean), "", null);
-        //fixme 游客名
-        messageInfo.setNickName(!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) ? CommonAppConfig.getInstance().getUserBean().getUser_nickname() : "visitor_001");
+        String touristId= CommonAppConfig.getInstance().getVisitorUserId()+"";
+        messageInfo.setNickName(!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) ? CommonAppConfig.getInstance().getUserBean().getUser_nickname() : touristId);
         messageInfo.setStatus(MessageInfo.MSG_STATUS_SEND_SUCCESS);
         messageInfo.setSelf(true);
         messageInfo.setRead(true);
