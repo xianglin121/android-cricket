@@ -17,6 +17,7 @@ import com.onecric.live.activity.CommunityCommentActivity;
 import com.onecric.live.activity.FootballMatchDetailActivity;
 import com.onecric.live.activity.HeadlineDetailActivity;
 import com.onecric.live.activity.LiveDetailActivity;
+import com.onecric.live.activity.LiveNotStartDetailActivity;
 import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.activity.SearchLiveDetailActivity;
 import com.onecric.live.adapter.LiveClassifyAdapter;
@@ -118,7 +119,7 @@ public class SearchComplexFragment extends MvpFragment<SearchComplexPresenter> i
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if(mLiveAdapter.getItem(position).getIslive() == 0){
-                    ToastUtil.show("The broadcast has not started");
+                    LiveNotStartDetailActivity.forward(getContext(),mLiveAdapter.getItem(position).getUid(),mLiveAdapter.getItem(position).getMatch_id());
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
                     ((SearchLiveDetailActivity)getActivity()).loginDialog.show();
                 }else{

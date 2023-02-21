@@ -136,6 +136,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
     public void setLoginDialog(LoginDialog dialog){
         loginDialog = dialog;
     }
+    public LiveDetailMainFragment mainFragment;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_live_chat;
@@ -433,8 +434,9 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                 break;
             case R.id.iv_noble:
                 if (mNobelBean != null) {
-                    if (((LiveDetailActivity) getActivity()).mLiveRoomBean != null) {
-                        OpenNobleActivity.forward(getActivity(), ((LiveDetailActivity) getActivity()).mLiveRoomBean.getUserData(), mNobelBean);
+//                    if (((LiveDetailActivity) getActivity()).mLiveRoomBean != null) {
+                    if (mainFragment!=null && mainFragment.mUserBean != null) {
+                        OpenNobleActivity.forward(getActivity(), mainFragment.mUserBean, mNobelBean);
                     }
                 }
                 break;
@@ -597,7 +599,8 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                         if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                             sendEnterMessage();
                         }
-                        ((LiveDetailActivity) getActivity()).setPeopleCount();
+                        //fixme 临时
+//                        ((LiveDetailActivity) getActivity()).setPeopleCount();
                     }
 
                     @Override
@@ -685,8 +688,9 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         if (mNobelBean != null) {
             bundle.putSerializable("bean", mNobelBean);
         }
-        if (((LiveDetailActivity) getActivity()).mLiveRoomBean != null) {
-            bundle.putSerializable("user", ((LiveDetailActivity) getActivity()).mLiveRoomBean.getUserData());
+//        if (((LiveDetailActivity) getActivity()).mLiveRoomBean != null) {
+        if (mainFragment!=null && mainFragment.mUserBean != null) {
+            bundle.putSerializable("user", mainFragment.mUserBean);
         }
         bundle.putSerializable("danmu", (Serializable) mDanmuList);
         inputChatMsgDialog.setArguments(bundle);

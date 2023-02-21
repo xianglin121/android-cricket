@@ -159,7 +159,7 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                     if(mAdapter.getItem(position).getIslive() == 0){
-                        ToastUtil.show("The broadcast has not started");
+                        LiveNotStartDetailActivity.forward(mActivity,mAdapter.getItem(position).getUid(),mAdapter.getItem(position).getMatch_id());
                     }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
                         if(loginDialog!=null){
                             loginDialog.show();

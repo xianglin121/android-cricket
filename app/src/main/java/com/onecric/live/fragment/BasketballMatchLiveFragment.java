@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.LiveDetailActivity;
+import com.onecric.live.activity.LiveNotStartDetailActivity;
 import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.adapter.FootballMatchLiveAnchorAdapter;
 import com.onecric.live.adapter.LiveRecommendAdapter;
@@ -110,7 +111,7 @@ public class BasketballMatchLiveFragment extends MvpFragment<BasketballMatchLive
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if(mLiveAdapter.getItem(position).getIslive() == 0){
-                    ToastUtil.show("The broadcast has not started");
+                    LiveNotStartDetailActivity.forward(getContext(),mLiveAdapter.getItem(position).getUid(),mLiveAdapter.getItem(position).getMatch_id());
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
 //                    LoginActivity.forward(getContext());
                 }else{

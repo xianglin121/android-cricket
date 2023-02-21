@@ -33,6 +33,7 @@ import com.onecric.live.custom.CustomPagerTitleView;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.IndicatorBean;
+import com.onecric.live.model.LiveRoomBean;
 import com.onecric.live.model.LiveUserBean;
 import com.onecric.live.model.UpdatesBean;
 import com.onecric.live.util.DpUtil;
@@ -56,6 +57,7 @@ import java.util.UUID;
  * 时间：2021/10/25
  */
 public class LiveDetailMainFragment extends Fragment {
+    public boolean isNotStart = false;
     public static LiveDetailMainFragment newInstance(String groupId, int anchorId,int matchId) {
         LiveDetailMainFragment fragment = new LiveDetailMainFragment();
         Bundle bundle = new Bundle();
@@ -80,7 +82,7 @@ public class LiveDetailMainFragment extends Fragment {
 //    private TextView tv_follow;
 //    private TextView tv_attention_count;
 
-    private LiveUserBean mUserBean;
+    public LiveUserBean mUserBean;
 
     private LoginDialog loginDialog;
     private int mMatchId;
@@ -104,7 +106,7 @@ public class LiveDetailMainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(mMatchId!=0){
+        if(mMatchId!=0 && !isNotStart){
             ((LiveDetailActivity)getActivity()).getMatchDetail();
         }
     }
@@ -140,7 +142,7 @@ public class LiveDetailMainFragment extends Fragment {
     }
 
     private void initData() {
-        updateFollowData();
+//        updateFollowData();
 /*        List<IndicatorBean> list = new ArrayList<>();
         list.add(new IndicatorBean(getActivity().getString(R.string.live_chat), true));
         list.add(new IndicatorBean(getActivity().getString(R.string.live_anchor), false));
@@ -177,9 +179,9 @@ public class LiveDetailMainFragment extends Fragment {
 
     }
 
-    public void updateFollowData() {
-        if (((LiveDetailActivity)getActivity()).mLiveRoomBean != null) {
-            mUserBean = ((LiveDetailActivity)getActivity()).mLiveRoomBean.getUserData();
+    public void updateFollowData(LiveRoomBean bean) {
+        if (bean != null) {
+            mUserBean = bean.getUserData();
         }
         if (mUserBean != null) {
 /*            if (mUserBean.getIs_attention() == 1) {
@@ -214,6 +216,7 @@ public class LiveDetailMainFragment extends Fragment {
 
         LiveChatFragment chatFragment = LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId"));
         chatFragment.setLoginDialog(loginDialog);
+        chatFragment.mainFragment = this;
         LiveMoreVideoFragment moreVideoFragment = LiveMoreVideoFragment.newInstance();
         moreVideoFragment.setLoginDialog(loginDialog);
         mViewList.add(moreVideoFragment);
@@ -312,7 +315,7 @@ public class LiveDetailMainFragment extends Fragment {
 
             }
         });
-        vp_live.setOffscreenPageLimit( mMatchId!=0 ?6:2);
+        vp_live.setOffscreenPageLimit( (mMatchId!=0 && !isNotStart) ?6:2);
         vp_live.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
@@ -334,7 +337,7 @@ public class LiveDetailMainFragment extends Fragment {
         mMatchId = getArguments().getInt("matchId");
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.list)));
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.live_chat)));
-        if(mMatchId != 0){
+        if(mMatchId != 0 && !isNotStart){
             tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.live)));
             tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.info)));
             tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.scorecard)));
@@ -347,7 +350,7 @@ public class LiveDetailMainFragment extends Fragment {
         moreVideoFragment.setLoginDialog(loginDialog);
         mViewList.add(moreVideoFragment);
         mViewList.add(chatFragment);
-        if(mMatchId != 0){
+        if(mMatchId != 0 && !isNotStart){
             mViewList.add(CricketLiveFragment.newInstance(mMatchId));
             mViewList.add(CricketInfoFragment.newInstance(mMatchId));
             mViewList.add(CricketScorecardFragment.newInstance());

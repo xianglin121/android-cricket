@@ -24,6 +24,7 @@ import com.onecric.live.activity.CricketDetailActivity;
 import com.onecric.live.activity.FootballMatchDetailActivity;
 import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.activity.LiveMoreActivity;
+import com.onecric.live.activity.LiveNotStartDetailActivity;
 import com.onecric.live.activity.VideoPagerActivity;
 import com.onecric.live.activity.VideoSingleActivity;
 import com.onecric.live.adapter.BannerRoundImageAdapter;
@@ -156,7 +157,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mTodayAdapter.getItem(position).getIslive() == 0) {
-                    ToastUtil.show("The broadcast has not started");
+                    LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),mTodayMatchAdapter.getItem(position).getMatch_id());
                 } else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
                     if(loginDialog!=null){
                         loginDialog.show();
@@ -271,8 +272,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             if(mTodayMatchAdapter.getItem(position).getIslive() == 1 && mTodayMatchAdapter.getItem(position).getUid() != 0){
                 LiveDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),3,mTodayMatchAdapter.getItem(position).getMatch_id());
             }else{
-                //fixme 未开播也要进入页面
-                ToastUtil.show("The broadcast has not started");
+                LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),mTodayMatchAdapter.getItem(position).getMatch_id());
             }
         });
         rv_match.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));

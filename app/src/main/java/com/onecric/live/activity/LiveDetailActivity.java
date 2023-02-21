@@ -128,7 +128,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("type", type);
         intent.putExtra("matchId", matchId);
-        intent.putExtra("aim", 1);
+        intent.putExtra("isPlay", true);
         context.startActivity(intent);
     }
 
@@ -137,22 +137,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("type", 2);//无意义
         intent.putExtra("matchId", matchId);
-        intent.putExtra("aim", 2);
+        intent.putExtra("isPlay", false);
         intent.putExtra("url", url);
         context.startActivity(intent);
     }
-
-    public static void forwardNotStart(Context context,int anchorId, int matchId,String url) {
-        Intent intent = new Intent(context, LiveDetailActivity.class);
-        intent.putExtra("anchorId", anchorId);
-        intent.putExtra("type", 2);//无意义
-        intent.putExtra("matchId", matchId);
-        intent.putExtra("aim", 3);
-        intent.putExtra("url", url);
-        context.startActivity(intent);
-    }
-
-    //aim :1 直播流、2 历史播放、3 未开播
 
     private String mGroupId;
     private int mAnchorId;
@@ -682,7 +670,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 int likeNum = bean.getInfo().getLike_num();
                 tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
             }
-            liveDetailMainFragment.updateFollowData();
+            liveDetailMainFragment.updateFollowData(mLiveRoomBean);
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), iv_avatar);
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid()) && CommonAppConfig.getInstance().getUid().equals(String.valueOf(mAnchorId))) {
@@ -709,7 +697,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             }
             mLiveRoomBean.getUserData().setAttention(attention);
             tv_desc.setText("Fans: "+attention);
-            liveDetailMainFragment.updateFollowData();
+            liveDetailMainFragment.updateFollowData(mLiveRoomBean);
         }
     }
 
@@ -740,7 +728,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 int likeNum = bean.getInfo().getLike_num();
                 tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
             }
-            liveDetailMainFragment.updateFollowData();
+            liveDetailMainFragment.updateFollowData(mLiveRoomBean);
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), iv_avatar);
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid()) && CommonAppConfig.getInstance().getUid().equals(String.valueOf(mAnchorId))) {
@@ -1003,7 +991,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                     attention++;
                 }
                 mLiveRoomBean.getUserData().setAttention(attention);
-                liveDetailMainFragment.updateFollowData();
+                liveDetailMainFragment.updateFollowData(mLiveRoomBean);
             }
         }
     }

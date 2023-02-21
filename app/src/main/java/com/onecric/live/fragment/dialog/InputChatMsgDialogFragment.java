@@ -32,6 +32,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.LiveDetailActivity;
+import com.onecric.live.activity.LiveNotStartDetailActivity;
 import com.onecric.live.activity.OpenNobleActivity;
 import com.onecric.live.adapter.ColorDanmuAdapter;
 import com.onecric.live.model.BlockFunctionBean;
@@ -393,6 +394,9 @@ public class InputChatMsgDialogFragment extends DialogFragment implements View.O
                 if (mDanmuType == 0) {//普通弹幕
                     if (getActivity() instanceof LiveDetailActivity) {
                         ((LiveDetailActivity)getActivity()).sendMessage(et_input.getText().toString());
+                        et_input.setText("");
+                    }else if(getActivity() instanceof LiveNotStartDetailActivity){
+                        ((LiveNotStartDetailActivity)getActivity()).sendMessage(et_input.getText().toString());
                         et_input.setText("");
                     }
                 }else if (mDanmuType == 1) {//彩色弹幕
