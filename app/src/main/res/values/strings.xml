@@ -760,5 +760,7 @@
     <string name="lineups_out">Lineups out</string>
     <string name="pull_refresh">Pull down to refresh</string>
     <string name="list">List</string>
+    <string name="free_hd_live_broadcast">Free HD live broadcast</string>
+    <string name="upcoming_live">Upcoming Live</string>
 
 </resources>

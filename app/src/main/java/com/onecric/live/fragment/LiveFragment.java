@@ -81,7 +81,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
     protected void initData() {
         mTitles = new ArrayList<>();
         mViewList = new ArrayList<>();
-        mTitles.add(WordUtil.getString(getActivity(), R.string.live_recommend));
+        mTitles.add(WordUtil.getString(getActivity(), R.string.free_hd_live_broadcast));
         LiveRecommendFragment liveRecommendFragment = new LiveRecommendFragment();
         liveRecommendFragment.loginDialog = loginDialog;
         mViewList.add(liveRecommendFragment);

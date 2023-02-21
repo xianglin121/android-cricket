@@ -1,8 +1,13 @@
 package com.onecric.live.fragment;
 
+import static com.onecric.live.util.UiUtils.collapseView;
+import static com.onecric.live.util.UiUtils.expandView;
+
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,16 +27,19 @@ import com.onecric.live.activity.LiveMoreActivity;
 import com.onecric.live.activity.VideoPagerActivity;
 import com.onecric.live.activity.VideoSingleActivity;
 import com.onecric.live.adapter.BannerRoundImageAdapter;
+import com.onecric.live.adapter.LiveMatchAdapter;
 import com.onecric.live.adapter.LiveRecommendAdapter;
 import com.onecric.live.adapter.LiveRecommendHistoryAdapter;
 import com.onecric.live.adapter.LiveRecommendMatchAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
+import com.onecric.live.custom.ItemDecoration;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.BannerBean;
 import com.onecric.live.model.HistoryLiveBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.model.LiveMatchBean;
+import com.onecric.live.model.LiveMatchListBean;
 import com.onecric.live.presenter.live.LiveRecommendPresenter;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.SpUtil;
@@ -66,12 +74,20 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     private RecyclerView rv_history;
     private LiveRecommendHistoryAdapter mHistoryAdapter;
     private TextView tv_see_more_three;
+    private RecyclerView rv_match_upcoming;
+    private TextView tv_upcoming;
 
     //    private int mPage = 1;
     private int mTodayPage = 1;
 //    private int mHistoryPage = 1;
     private BannerRoundImageAdapter bannerAdapter;
     public LoginDialog loginDialog;
+
+    private boolean isOpenUpcoming = false;
+    private int rlComingHeight;
+    private Drawable drawableArrUp, drawableArrDown;
+    private LiveMatchAdapter mTodayMatchAdapter,mComingAdapter;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_live_recommend;
@@ -95,38 +111,25 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         android.view.ViewGroup.LayoutParams pp = mBanner.getLayoutParams();
         pp.height = (int) ((width - UIUtil.dip2px(getContext(), 24)) * 0.6);
         mBanner.setLayoutParams(pp);
-//        findViewById(R.id.tv_see_more_one).setOnClickListener(this);
-//        findViewById(R.id.tv_see_more_two).setOnClickListener(this);
         tv_see_more_three.setOnClickListener(this);
+        rv_match_upcoming = rootView.findViewById(R.id.rv_match_upcoming);
+        tv_upcoming = rootView.findViewById(R.id.tv_upcoming);
+        tv_upcoming.setOnClickListener(this);
+        rlComingHeight = UIUtil.dip2px(getContext(),120);
+
+        drawableArrUp = getResources().getDrawable(R.mipmap.icon_arrow_up_four);
+        drawableArrUp.setBounds(0, 0, drawableArrUp.getMinimumWidth(),drawableArrUp.getMinimumHeight());
+        drawableArrDown = getResources().getDrawable(R.mipmap.icon_arrow_down_four);
+        drawableArrDown.setBounds(0, 0, drawableArrDown.getMinimumWidth(),drawableArrDown.getMinimumHeight());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
     protected void initData() {
-        mMatchAdapter = new LiveRecommendMatchAdapter(R.layout.item_live_recommend_match, new ArrayList<>());
-        mMatchAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (mMatchAdapter.getItem(position).getType() == 0) {
-                    FootballMatchDetailActivity.forward(getContext(), mMatchAdapter.getItem(position).getSourceid());
-                } else if (mMatchAdapter.getItem(position).getType() == 1) {
-                    BasketballMatchDetailActivity.forward(getContext(), mMatchAdapter.getItem(position).getSourceid());
-                }
-            }
-        });
-        mMatchAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.tv_reserve) {
-                    if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                        if (mMatchAdapter.getItem(position).getReserve() == 0) {
-                            mvpPresenter.doReserve(position, mMatchAdapter.getItem(position).getSourceid(), mMatchAdapter.getItem(position).getType());
-                        }
-                    }
-                }
-            }
-        });
-        rv_match.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        rv_match.setAdapter(mMatchAdapter);
         MaterialHeader materialHeader = new MaterialHeader(getContext());
         materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
         smart_rl.setRefreshHeader(materialHeader);
@@ -140,26 +143,13 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 mvpPresenter.getList(true, 1);
                 mvpPresenter.getHistoryList(true, 1);
+                mvpPresenter.getMatchList();
                 if(bannerAdapter == null){
                     mvpPresenter.getBannerList(-1);
                 }
             }
         });
-        //FreeLive
-/*        mAdapter = new LiveRecommendAdapter(R.layout.item_live_recommend, new ArrayList<>());
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
-                    LoginActivity.forward(getContext());
-                }else{
-                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
-                }
-            }
-        });
-        rv_live.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        rv_live.addItemDecoration(new GridDividerItemDecoration(getContext(), 10, 2));
-        rv_live.setAdapter(mAdapter);*/
+
         //TodayLive
         mTodayAdapter = new LiveRecommendAdapter(R.layout.item_live_recommend, new ArrayList<>());
         mTodayAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -216,7 +206,8 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                     ToastUtil.show(getString(R.string.please_login));
                 }
             }else{
-                LiveDetailActivity.forward(getContext(),mHistoryAdapter.getItem(position).getAuthorId(),mHistoryAdapter.getItem(position).getMatchId(),mHistoryAdapter.getItem(position).getMediaUrl());
+                VideoSingleActivity.forward(getContext(), mHistoryAdapter.getItem(position).getMediaUrl(), null);
+//                LiveDetailActivity.forward(getContext(),mHistoryAdapter.getItem(position).getAuthorId(),mHistoryAdapter.getItem(position).getMatchId(),mHistoryAdapter.getItem(position).getMediaUrl());
             }
         });
         View inflate2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
@@ -226,9 +217,77 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         rv_history.addItemDecoration(new GridDividerItemDecoration(getContext(), 10, 2));
         rv_history.setAdapter(mHistoryAdapter);
 
+        initMatchList();
+
         smart_rl.autoRefresh();
-        mvpPresenter.getRecommendList();
+//        mvpPresenter.getRecommendList();
 //        mvpPresenter.getBannerList(-1);
+
+        //预约赛事 未用到
+/*        mMatchAdapter = new LiveRecommendMatchAdapter(R.layout.item_live_recommend_match, new ArrayList<>());
+        mMatchAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (mMatchAdapter.getItem(position).getType() == 0) {
+                    FootballMatchDetailActivity.forward(getContext(), mMatchAdapter.getItem(position).getSourceid());
+                } else if (mMatchAdapter.getItem(position).getType() == 1) {
+                    BasketballMatchDetailActivity.forward(getContext(), mMatchAdapter.getItem(position).getSourceid());
+                }
+            }
+        });
+        mMatchAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.tv_reserve) {
+                    if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                        if (mMatchAdapter.getItem(position).getReserve() == 0) {
+                            mvpPresenter.doReserve(position, mMatchAdapter.getItem(position).getSourceid(), mMatchAdapter.getItem(position).getType());
+                        }
+                    }
+                }
+            }
+        });*/
+        //FreeLive
+/*        mAdapter = new LiveRecommendAdapter(R.layout.item_live_recommend, new ArrayList<>());
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    LoginActivity.forward(getContext());
+                }else{
+                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
+                }
+            }
+        });
+        rv_live.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        rv_live.addItemDecoration(new GridDividerItemDecoration(getContext(), 10, 2));
+        rv_live.setAdapter(mAdapter);*/
+    }
+
+    private void initMatchList(){
+        //今日直播赛事
+        mTodayMatchAdapter = new LiveMatchAdapter(R.layout.item_live_today, new ArrayList<>());
+        mTodayMatchAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if(mTodayMatchAdapter.getItem(position).getIslive() == 1 && mTodayMatchAdapter.getItem(position).getUid() != 0){
+                LiveDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),3,mTodayMatchAdapter.getItem(position).getMatch_id());
+            }else{
+                //fixme 未开播也要进入页面
+                ToastUtil.show("The broadcast has not started");
+            }
+        });
+        rv_match.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        rv_match.setAdapter(mTodayMatchAdapter);
+
+        //将来赛事
+        mComingAdapter = new LiveMatchAdapter(R.layout.item_live_coming, new ArrayList<>());
+        mComingAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if(mComingAdapter.getItem(position).getMatch_id()!=0){
+                CricketDetailActivity.forward(getContext(), mComingAdapter.getItem(position).getMatch_id());
+            }
+        });
+
+        rv_match_upcoming.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+        rv_match_upcoming.setAdapter(mComingAdapter);
     }
 
     @Override
@@ -242,6 +301,22 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                 break;
             case R.id.tv_see_more_three:
                 LiveMoreActivity.forward(getContext(), 2);
+                break;
+            case R.id.tv_upcoming:
+                /*if(rv_match_upcoming.getVisibility() == View.GONE){
+                    rv_match_upcoming.setVisibility(View.VISIBLE);
+                }*/
+                //fixme 加上动画
+                if(isOpenUpcoming){
+                    tv_upcoming.setCompoundDrawables(null, null, drawableArrUp,null);
+//                    expandView(rv_match_upcoming,rlComingHeight,0);
+                    rv_match_upcoming.setVisibility(View.GONE);
+                }else{
+                    tv_upcoming.setCompoundDrawables(null, null, drawableArrDown,null);
+//                    collapseView(rv_match_upcoming,0,rlComingHeight);
+                    rv_match_upcoming.setVisibility(View.VISIBLE);
+                }
+                isOpenUpcoming = !isOpenUpcoming;
                 break;
         }
     }
@@ -290,9 +365,9 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 
     @Override
     public void getDataSuccess(List<LiveMatchBean> list) {
-        if (list != null) {
+/*        if (list != null) {
             mMatchAdapter.setNewData(list);
-        }
+        }*/
     }
 
     @Override
@@ -315,13 +390,13 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 
     @Override
     public void doReserveSuccess(int position) {
-        LiveMatchBean item = mMatchAdapter.getItem(position);
+/*        LiveMatchBean item = mMatchAdapter.getItem(position);
         if (item.getReserve() == 0) {
             item.setReserve(1);
         } else {
             item.setReserve(0);
         }
-        mMatchAdapter.notifyItemChanged(position);
+        mMatchAdapter.notifyItemChanged(position);*/
     }
 
     @Override
@@ -370,6 +445,16 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                 mBanner.getAdapter().notifyDataSetChanged();
             }
 //            mBanner.addBannerLifecycleObserver(this);
+        }
+    }
+
+    @Override
+    public void getMatchSuccess(List<LiveMatchListBean.MatchItemBean> today,List<LiveMatchListBean.MatchItemBean> upcoming) {
+        if (today != null) {
+            mTodayMatchAdapter.setNewData(today);
+        }
+        if (upcoming != null) {
+            mComingAdapter.setNewData(upcoming);
         }
     }
 

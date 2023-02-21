@@ -850,4 +850,9 @@ public interface ApiStores {
     //订阅赛事消息推送   todo 未完成
     @POST("api/")
     Observable<JsonObject> doSubscribe(@Body RequestBody body);
+
+    //获取live页的赛事
+    @GET("api/live_streaming/getLiveListNew")
+    Observable<JsonObject> getLiveMatchList(@Query("timezone") String timezone);
+
 }

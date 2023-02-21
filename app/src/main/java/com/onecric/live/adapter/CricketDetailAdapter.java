@@ -88,7 +88,7 @@ public class CricketDetailAdapter extends BaseQuickAdapter<CricketMatchBean, Bas
                 helper.setText(R.id.tv_away_score, split[0]);
                 helper.setText(R.id.tv_away_score2, " " + split[1]);
             } else {
-                helper.setText(R.id.tv_away_score, item.getHome_display_score());
+                helper.setText(R.id.tv_away_score, item.getAway_display_score());
             }
         } else {
             helper.setText(R.id.tv_away_score, "");

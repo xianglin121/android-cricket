@@ -128,7 +128,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("type", type);
         intent.putExtra("matchId", matchId);
-        intent.putExtra("isLive", true);
+        intent.putExtra("aim", 1);
         context.startActivity(intent);
     }
 
@@ -137,10 +137,22 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("type", 2);//无意义
         intent.putExtra("matchId", matchId);
-        intent.putExtra("isLive", false);
+        intent.putExtra("aim", 2);
         intent.putExtra("url", url);
         context.startActivity(intent);
     }
+
+    public static void forwardNotStart(Context context,int anchorId, int matchId,String url) {
+        Intent intent = new Intent(context, LiveDetailActivity.class);
+        intent.putExtra("anchorId", anchorId);
+        intent.putExtra("type", 2);//无意义
+        intent.putExtra("matchId", matchId);
+        intent.putExtra("aim", 3);
+        intent.putExtra("url", url);
+        context.startActivity(intent);
+    }
+
+    //aim :1 直播流、2 历史播放、3 未开播
 
     private String mGroupId;
     private int mAnchorId;
@@ -273,7 +285,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         drawableArrUp.setBounds(0, 0, drawableArrUp.getMinimumWidth(),drawableArrUp.getMinimumHeight());
         drawableArrDown = getResources().getDrawable(R.mipmap.icon_arrow_down);
         drawableArrDown.setTint(getResources().getColor(R.color.c_959697));
-        drawableArrDown.setBounds(0, 0, drawableArrUp.getMinimumWidth(),drawableArrUp.getMinimumHeight());
+        drawableArrDown.setBounds(0, 0, drawableArrDown.getMinimumWidth(),drawableArrDown.getMinimumHeight());
 
         //视频尺寸
         int width = UIUtil.getScreenWidth(this);
@@ -341,7 +353,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         } else {}*/
         iv_data.setVisibility(View.GONE);
 
-        clAvatarHeight = UIUtil.dip2px(this,75);;
+        clAvatarHeight = UIUtil.dip2px(this,75);
 
         //去掉状态栏
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);

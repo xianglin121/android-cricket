@@ -146,7 +146,8 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                             ToastUtil.show(getString(R.string.please_login));
                         }
                     }else{
-                        LiveDetailActivity.forward(mActivity,mHistoryAdapter.getItem(position).getAuthorId(),mHistoryAdapter.getItem(position).getMatchId(),mHistoryAdapter.getItem(position).getMediaUrl());
+                        VideoSingleActivity.forward(mActivity, mHistoryAdapter.getItem(position).getMediaUrl(), null);
+//                        LiveDetailActivity.forward(mActivity,mHistoryAdapter.getItem(position).getAuthorId(),mHistoryAdapter.getItem(position).getMatchId(),mHistoryAdapter.getItem(position).getMediaUrl());
                     }
                 }
             });
