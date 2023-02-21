@@ -670,7 +670,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 int likeNum = bean.getInfo().getLike_num();
                 tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
             }
-            liveDetailMainFragment.updateFollowData();
+            liveDetailMainFragment.updateFollowData(mLiveRoomBean);
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), iv_avatar);
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid()) && CommonAppConfig.getInstance().getUid().equals(String.valueOf(mAnchorId))) {
@@ -697,7 +697,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             }
             mLiveRoomBean.getUserData().setAttention(attention);
             tv_desc.setText("Fans: "+attention);
-            liveDetailMainFragment.updateFollowData();
+            liveDetailMainFragment.updateFollowData(mLiveRoomBean);
         }
     }
 
@@ -728,7 +728,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 int likeNum = bean.getInfo().getLike_num();
                 tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
             }
-            liveDetailMainFragment.updateFollowData();
+            liveDetailMainFragment.updateFollowData(mLiveRoomBean);
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), iv_avatar);
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid()) && CommonAppConfig.getInstance().getUid().equals(String.valueOf(mAnchorId))) {
@@ -991,7 +991,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                     attention++;
                 }
                 mLiveRoomBean.getUserData().setAttention(attention);
-                liveDetailMainFragment.updateFollowData();
+                liveDetailMainFragment.updateFollowData(mLiveRoomBean);
             }
         }
     }
