@@ -31,6 +31,7 @@
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:src="@mipmap/bg_avatar_default" />
+
         </RelativeLayout>
 
         <com.tencent.liteav.demo.superplayer.LivePlayerView
