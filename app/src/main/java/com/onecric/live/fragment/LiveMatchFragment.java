@@ -54,7 +54,10 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
     private LiveRecommendAdapter mAdapter;
 
     private int mPage = 1;
-    public LoginDialog loginDialog;
+    private LoginDialog loginDialog;
+    public void setLoginDialog(LoginDialog dialog){
+        this.loginDialog = dialog;
+    }
 
     @Override
     protected int getLayoutId() {

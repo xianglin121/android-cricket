@@ -2,57 +2,36 @@ package com.onecric.live.model;
 
 public class HistoryLiveBean {
 
-    /**
-     * {"MediaUrl":"http://1309782813.vod2.myqcloud.com/f0c263e2vodsgp1309782813/4da2a852243791577628562003/playlist.m3u8",
-     * "Rotate":"0",
-     * "Size":"53564135",
-     * "CreateTime":"2022-12-27T06:55:18Z",
-     * "Duration":"160.566",
-     * "Bitrate":"2668765",
-     * "Name":"1672123920_2022-12-27_2022-12-27-14-52-37_2022-12-27-14-55-16",
-     * "Container":"hls",
-     * "Type":"m3u8",
-     * "VideoDuration":"160.566",
-     * "ClassName":"其他",
-     * "FileId":"243791577628562003",
-     * "Height":"720"}
-     * Heat : 0
-     * UserHead :”“
-     * UserName :”“
-     */
-    private int Heat;
-    private String UserHead;
-    private String UserName;
+
     private String mediaUrl;
+    private String img;
+    private String userName;
     private String rotate;
     private String size;
     private String createTime;
     private String duration;
     private String bitrate;
+    private String avatar;//封面
     private String name;
+    private String uid;//作者id
     private String container;
     private String type;
+    private int heat;
     private String videoDuration;
+    private int matchId;
     private String className;
+    private String userHead;
     private String fileId;
     private String height;
-    private int MatchId;
-    private int AuthorId;
+    private int id;//直播id
+    private String img1;
 
-    public int getAuthorId() {
-        return AuthorId;
+    public String getMediaUrl() {
+        return mediaUrl;
     }
 
-    public void setAuthorId(int authorId) {
-        AuthorId = authorId;
-    }
-
-    public int getMatchId() {
-        return MatchId;
-    }
-
-    public void setMatchId(int matchId) {
-        MatchId = matchId;
+    public void setMediaUrl(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
     }
 
     public String getImg() {
@@ -63,38 +42,12 @@ public class HistoryLiveBean {
         this.img = img;
     }
 
-    private String img;
-
-    public int getHeat() {
-        return Heat;
-    }
-
-    public void setHeat(int heat) {
-        Heat = heat;
-    }
-
-    public String getUserHead() {
-        return UserHead;
-    }
-
-    public void setUserHead(String userHead) {
-        UserHead = userHead;
-    }
-
     public String getUserName() {
-        return UserName;
+        return userName;
     }
 
     public void setUserName(String userName) {
-        UserName = userName;
-    }
-
-    public String getMediaUrl() {
-        return mediaUrl;
-    }
-
-    public void setMediaUrl(String mediaUrl) {
-        this.mediaUrl = mediaUrl;
+        this.userName = userName;
     }
 
     public String getRotate() {
@@ -137,12 +90,28 @@ public class HistoryLiveBean {
         this.bitrate = bitrate;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getContainer() {
@@ -161,6 +130,14 @@ public class HistoryLiveBean {
         this.type = type;
     }
 
+    public int getHeat() {
+        return heat;
+    }
+
+    public void setHeat(int heat) {
+        this.heat = heat;
+    }
+
     public String getVideoDuration() {
         return videoDuration;
     }
@@ -169,12 +146,28 @@ public class HistoryLiveBean {
         this.videoDuration = videoDuration;
     }
 
+    public int getMatchId() {
+        return matchId;
+    }
+
+    public void setMatchId(int matchId) {
+        this.matchId = matchId;
+    }
+
     public String getClassName() {
         return className;
     }
 
     public void setClassName(String className) {
         this.className = className;
+    }
+
+    public String getUserHead() {
+        return userHead;
+    }
+
+    public void setUserHead(String userHead) {
+        this.userHead = userHead;
     }
 
     public String getFileId() {
@@ -191,5 +184,21 @@ public class HistoryLiveBean {
 
     public void setHeight(String height) {
         this.height = height;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getImg1() {
+        return img1;
+    }
+
+    public void setImg1(String img1) {
+        this.img1 = img1;
     }
 }

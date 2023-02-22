@@ -78,7 +78,10 @@ public class VideoCommentDialog extends Dialog implements View.OnClickListener {
     private int mCommentPage = 1;
     private int mReplyPage = 1;
 
-    public LoginDialog loginDialog;
+    private LoginDialog loginDialog;
+    public void setLoginDialog(LoginDialog dialog){
+        this.loginDialog = dialog;
+    }
 
     public VideoCommentDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);

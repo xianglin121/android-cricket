@@ -44,6 +44,8 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
+import com.google.android.exoplayer2.SeekParameters;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.HttpConstant;
@@ -88,8 +90,13 @@ import com.onecric.live.view.live.LiveDetailView;
 //import com.opensource.svgaplayer.SVGAParser;
 //import com.opensource.svgaplayer.SVGAVideoEntity;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.cache.CacheFactory;
+import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
+import com.shuyu.gsyvideoplayer.listener.GSYVideoProgressListener;
+import com.shuyu.gsyvideoplayer.listener.LockClickListener;
 import com.shuyu.gsyvideoplayer.player.PlayerFactory;
+import com.shuyu.gsyvideoplayer.utils.Debuger;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.tencent.imsdk.v2.V2TIMManager;
@@ -126,9 +133,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public static void forward(Context context, int anchorId, int type, int matchId,int mLiveId) {
         Intent intent = new Intent(context, LiveDetailActivity.class);
         intent.putExtra("anchorId", anchorId);
-        intent.putExtra("type", type);
         intent.putExtra("matchId", matchId);
-        intent.putExtra("isPlay", true);
+        intent.putExtra("isLive", true);
         intent.putExtra("mLiveId", mLiveId);
         context.startActivity(intent);
     }
@@ -136,9 +142,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public static void forward(Context context, int anchorId, int matchId, String url,int mLiveId) {
         Intent intent = new Intent(context, LiveDetailActivity.class);
         intent.putExtra("anchorId", anchorId);
-        intent.putExtra("type", 2);//无意义
         intent.putExtra("matchId", matchId);
-        intent.putExtra("isPlay", false);
+        intent.putExtra("isLive", false);
         intent.putExtra("url", url);
         intent.putExtra("mLiveId", mLiveId);
         context.startActivity(intent);
@@ -238,22 +243,26 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        //scheme  fixme 加mLiveId
+        mType =  2;
+        //scheme
         Intent intent = getIntent();
         String action = intent.getAction();
         if (Intent.ACTION_VIEW.equals(action)) {
             Uri uri = intent.getData();
             if (uri != null) {
                 String aId = uri.getQueryParameter("anchorId");
-                String type = uri.getQueryParameter("type");
                 String mid = uri.getQueryParameter("matchId");
+                String lid = uri.getQueryParameter("liveId");
+                String isLive = uri.getQueryParameter("isLive");
                 mAnchorId = Integer.parseInt(aId);
-                mType =  Integer.parseInt(type);
-                mMatchId = Integer.parseInt(mid);//历史播放+：isLive=false,url=...
+                mMatchId = Integer.parseInt(mid);
+                mLiveId = Integer.parseInt(lid);
+                if("0".equals(isLive)){
+                    videoUrl = uri.getQueryParameter("videoUrl");
+                }
             }
         }else{
             mAnchorId = getIntent().getIntExtra("anchorId", 0);
-            mType = getIntent().getIntExtra("type", 0);
             mMatchId = getIntent().getIntExtra("matchId", 0);
             isLive = getIntent().getBooleanExtra("isLive", true);
             mLiveId = getIntent().getIntExtra("mLiveId",0);
@@ -262,7 +271,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             }
         }
 
-        mGroupId = String.valueOf(mAnchorId);
+        mGroupId = String.valueOf(mLiveId);
         mvpPresenter.setGroupId(mGroupId);
 
         //获取屏幕宽度
@@ -281,34 +290,88 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
         //视频尺寸
         int width = UIUtil.getScreenWidth(this);
-        android.view.ViewGroup.LayoutParams pp = playerView.getLayoutParams();
-        pp.height = (int)(width * 0.5625);
-
         if(isLive){
             playerView.setVisibility(View.VISIBLE);
             history_video_view.setVisibility(View.GONE);
+            android.view.ViewGroup.LayoutParams pp = playerView.getLayoutParams();
+            pp.height = (int)(width * 0.5625);
             playerView.setLayoutParams(pp);
             //初始化悬浮窗跳转回界面所需参数
             playerView.setInitId(mAnchorId, mType, mMatchId);
         }else{
             playerView.setVisibility(View.GONE);
             history_video_view.setVisibility(View.VISIBLE);
+            android.view.ViewGroup.LayoutParams pp = history_video_view.getLayoutParams();
+            pp.height = (int)(width * 0.5625);
             history_video_view.setLayoutParams(pp);
             //播放视频统计
 //        TrackHelper.track().impression("Android content impression").piece("video").target(url).with(((AppManager) getApplication()).getTracker());
-            //设置返回键
-            history_video_view.getBackButton().setVisibility(View.GONE);
-            //设置旋转
+
+            PlayerFactory.setPlayManager(Exo2PlayerManager.class);
+            CacheFactory.setCacheManager(ExoPlayerCacheManager.class);
             orientationUtils = new OrientationUtils(this, history_video_view);
-            //设置全屏按键
+            orientationUtils.setEnable(false);
+            history_video_view.getBackButton().setVisibility(View.GONE);
             history_video_view.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     orientationUtils.resolveByClick();
+                    history_video_view.startWindowFullscreen(mActivity, true, true);
                 }
             });
-            //是否可以滑动调整
-            history_video_view.setIsTouchWiget(true);
+            GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
+            gsyVideoOption
+                    .setLooping(false)//循环
+                    .setIsTouchWiget(true)//滑动调整
+                    .setRotateViewAuto(false)
+                    .setLockLand(false)
+                    .setAutoFullWithSize(false)
+                    .setShowFullAnimation(false)
+                    .setNeedLockFull(true)
+                    .setUrl(videoUrl)
+                    .setCacheWithPlay(true)//边缓存
+                    .setVideoAllCallBack(new GSYSampleCallBack() {
+                        @Override
+                        public void onPrepared(String url, Object... objects) {
+                            super.onPrepared(url, objects);
+                            //开始播放了才能旋转和全屏
+                            orientationUtils.setEnable(history_video_view.isRotateWithSystem());
+                            //设置 seek 的临近帧。
+                            if (history_video_view.getGSYVideoManager().getPlayer() instanceof Exo2PlayerManager) {
+                                ((Exo2PlayerManager) history_video_view.getGSYVideoManager().getPlayer()).setSeekParameter(SeekParameters.NEXT_SYNC);
+                            }
+                        }
+
+                        @Override
+                        public void onEnterFullscreen(String url, Object... objects) {
+                            super.onEnterFullscreen(url, objects);
+                        }
+
+                        @Override
+                        public void onAutoComplete(String url, Object... objects) {
+                            super.onAutoComplete(url, objects);
+                        }
+
+                        @Override
+                        public void onClickStartError(String url, Object... objects) {
+                            super.onClickStartError(url, objects);
+                        }
+
+                        @Override
+                        public void onQuitFullscreen(String url, Object... objects) {
+                            super.onQuitFullscreen(url, objects);
+                            if (orientationUtils != null) {
+                                orientationUtils.backToProtVideo();
+                            }
+                        }
+                    })
+                    .setLockClickListener((view, lock) -> {
+                        if (orientationUtils != null) {
+                            orientationUtils.setEnable(!lock);
+                        }
+                    })
+                    .setGSYVideoProgressListener((progress, secProgress, currentPosition, duration) -> {})
+                    .build(history_video_view);
         }
 
         //将侧边栏移到屏幕外
@@ -336,13 +399,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId,mMatchId);
         liveDetailMainFragment.setLoginDialog(loginDialog);
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_main, liveDetailMainFragment).commitAllowingStateLoss();
-/*        if (mType == 0) {
-            liveDetailFootballFragment = LiveDetailFootballFragment.newInstance(mMatchId);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fl_menu, liveDetailFootballFragment).commitAllowingStateLoss();
-        } else if (mType == 1) {
-            liveDetailBasketballFragment = LiveDetailBasketballFragment.newInstance(mMatchId);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fl_menu, liveDetailBasketballFragment).commitAllowingStateLoss();
-        } else {}*/
+
         iv_data.setVisibility(View.GONE);
 
         clAvatarHeight = UIUtil.dip2px(this,75);
@@ -461,11 +518,6 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         //设置状态栏高度
 //        LinearLayout.LayoutParams statusBarParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.getStatusBarHeight(this));
 //        statusBar.setLayoutParams(statusBarParams);
-/*        if (mType == 0) {
-            mvpPresenter.getFootballDetail(mMatchId);
-        } else if (mType == 1) {
-            mvpPresenter.getBasketballDetail(mMatchId);
-        }*/
         mvpPresenter.getInfo(mAnchorId,false,mLiveId);
         if(isLive){
             playerView.setPlayerViewCallback(new LivePlayerView.OnSuperPlayerViewCallback() {
@@ -554,8 +606,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             playerView.hideBackKey();
 
             //礼物进场动画
-            LPAnimationManager.init(this);
-            LPAnimationManager.addGiftContainer(ll_gift_container);
+//            LPAnimationManager.init(this);
+//            LPAnimationManager.addGiftContainer(ll_gift_container);
 
             if (CommonAppConfig.getInstance().getUserBean() != null && CommonAppConfig.getInstance().getUserBean().getGuard() != null) {
                 showNobleAnim(CommonAppConfig.getInstance().getUserBean().getUser_nickname(), CommonAppConfig.getInstance().getUserBean().getGuard().getSwf_name(), CommonAppConfig.getInstance().getUserBean().getGuard().getSwf());
@@ -583,12 +635,6 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             } else {
                 playerView.setPeopleCountVisibility(View.INVISIBLE);
             }
-        }else{
-            PlayerFactory.setPlayManager(Exo2PlayerManager.class);
-            CacheFactory.setCacheManager(ExoPlayerCacheManager.class);
-            //配置url
-            history_video_view.setLooping(false);
-            history_video_view.setUp(videoUrl, true, "");
         }
 
         if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
@@ -953,7 +999,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             EventBus.getDefault().unregister(this);
         }
         //释放礼物进场动画
-        LPAnimationManager.release();
+//        LPAnimationManager.release();
         if (mCountDownTimer != null) {
             mCountDownTimer.cancel();
         }
@@ -961,8 +1007,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         if(!isLive){
             GSYVideoManager.releaseAllVideos();
             GSYVideoManager.instance().clearAllDefaultCache(this);
-            if (orientationUtils != null)
-                orientationUtils.releaseListener();
+        }
+        if (orientationUtils != null){
+            orientationUtils.releaseListener();
         }
 
         super.onDestroy();
@@ -1465,12 +1512,12 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public void onBackPressed() {
         if(!isLive){
             //不需要回归竖屏
-            if (orientationUtils.getScreenType() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                history_video_view.getFullscreenButton().performClick();
+            if (orientationUtils != null) {
+                orientationUtils.backToProtVideo();
+            }
+            if (GSYVideoManager.backFromWindowFull(this)) {
                 return;
             }
-            //释放所有
-            history_video_view.setVideoAllCallBack(null);
         }
         super.onBackPressed();
     }

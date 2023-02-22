@@ -39,8 +39,10 @@ public class ThemeFragment extends MvpFragment<ThemePresenter> implements ThemeV
     private ViewPager mViewPager;
     private List<Fragment> mViewList;
 
-    public LoginDialog loginDialog;
-
+    private LoginDialog loginDialog;
+    public void setLoginDialog(LoginDialog dialog){
+        this.loginDialog = dialog;
+    }
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_theme;
@@ -77,7 +79,7 @@ public class ThemeFragment extends MvpFragment<ThemePresenter> implements ThemeV
         mViewList = new ArrayList<>();
         ThemeHeadlineFragment headlineFragment = ThemeHeadlineFragment.newInstance();
         if(loginDialog!=null){
-            headlineFragment.loginDialog = loginDialog;
+            headlineFragment.setLoginDialog(loginDialog);
             mViewList.add(headlineFragment);
         }
         mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {

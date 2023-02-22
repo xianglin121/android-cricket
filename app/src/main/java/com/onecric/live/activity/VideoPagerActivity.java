@@ -234,7 +234,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
         //初始化回复弹窗
         mCommentDialog = new VideoCommentDialog(this, R.style.dialog);
-        mCommentDialog.loginDialog = loginDialog;
+        mCommentDialog.setLoginDialog(loginDialog);
         //初始化下载中弹窗
         mLoadingDialog = DialogUtil.loadingDialog(this, getString(R.string.downloading));
 

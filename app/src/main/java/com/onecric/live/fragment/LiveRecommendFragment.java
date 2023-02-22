@@ -82,7 +82,11 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     private int mTodayPage = 1;
 //    private int mHistoryPage = 1;
     private BannerRoundImageAdapter bannerAdapter;
-    public LoginDialog loginDialog;
+    private LoginDialog loginDialog;
+    public void setLoginDialog(LoginDialog dialog){
+        this.loginDialog = dialog;
+    }
+
 
     private boolean isOpenUpcoming = false;
     private int rlComingHeight;
@@ -207,8 +211,8 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                     ToastUtil.show(getString(R.string.please_login));
                 }
             }else{
-                VideoSingleActivity.forward(getContext(), mHistoryAdapter.getItem(position).getMediaUrl(), null);
-//                LiveDetailActivity.forward(getContext(),mHistoryAdapter.getItem(position).getAuthorId(),mHistoryAdapter.getItem(position).getMatchId(),mHistoryAdapter.getItem(position).getMediaUrl());
+//                VideoSingleActivity.forward(getContext(), mHistoryAdapter.getItem(position).getMediaUrl(), null);
+                LiveDetailActivity.forward(getContext(),Integer.parseInt(mHistoryAdapter.getItem(position).getUid()),mHistoryAdapter.getItem(position).getMatchId(),mHistoryAdapter.getItem(position).getMediaUrl(),mHistoryAdapter.getItem(position).getId());
             }
         });
         View inflate2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);

@@ -388,9 +388,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         ThemeFragment themeFragment = new ThemeFragment();
         LiveFragment liveFragment = new LiveFragment();
         VideoFragment videoFragment = new VideoFragment();
-        themeFragment.loginDialog = loginDialog;
-        liveFragment.loginDialog = loginDialog;
-        videoFragment.loginDialog = loginDialog;
+        themeFragment.setLoginDialog(loginDialog);
+        liveFragment.setLoginDialog(loginDialog);
+        videoFragment.setLoginDialog(loginDialog);
 
         mViewList.add(themeFragment);
         mViewList.add(new CricketFragment());
@@ -577,6 +577,16 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         }, 500);
     }
 
-
+    public void newLoginDialog(){
+        loginDialog = new LoginDialog(this, R.style.dialog,true, () -> {
+            loginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
+        ((ThemeFragment)mViewList.get(0)).setLoginDialog(loginDialog);
+        ((LiveFragment)mViewList.get(2)).setLoginDialog(loginDialog);
+        ((VideoFragment)mViewList.get(3)).setLoginDialog(loginDialog);
+        loginDialog.show();
+    }
 
 }

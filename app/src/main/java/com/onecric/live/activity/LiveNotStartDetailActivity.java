@@ -159,9 +159,25 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     @Override
     protected void initView() {
         EventBus.getDefault().register(this);
-        mAnchorId = getIntent().getIntExtra("anchorId", 0);
-        mMatchId = getIntent().getIntExtra("matchId", 0);
-        mLiveId = getIntent().getIntExtra("liveId", 0);
+
+        //scheme
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String aId = uri.getQueryParameter("anchorId");
+                String mid = uri.getQueryParameter("matchId");
+                String lid = uri.getQueryParameter("liveId");
+                mAnchorId = Integer.parseInt(aId);
+                mMatchId = Integer.parseInt(mid);
+                mLiveId = Integer.parseInt(lid);
+            }
+        }else{
+            mAnchorId = getIntent().getIntExtra("anchorId", 0);
+            mMatchId = getIntent().getIntExtra("matchId", 0);
+            mLiveId = getIntent().getIntExtra("liveId", 0);
+        }
 
         mGroupId = String.valueOf(mAnchorId);
         mvpPresenter.setGroupId(mGroupId);

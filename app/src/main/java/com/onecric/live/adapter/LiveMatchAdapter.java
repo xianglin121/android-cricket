@@ -21,12 +21,14 @@ import com.onecric.live.model.LiveMatchListBean;
 import com.onecric.live.util.GlideUtil;
 import com.tencent.qcloud.tuicore.util.DateTimeUtil;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
 public class LiveMatchAdapter extends BaseQuickAdapter<LiveMatchListBean.MatchItemBean, BaseViewHolder> {
-    private SimpleDateFormat sfdate = new SimpleDateFormat("d MMM hh:mm a", Locale.ENGLISH);
+    private SimpleDateFormat sfdate1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private SimpleDateFormat sfdate2 = new SimpleDateFormat("d MMM hh:mm a", Locale.ENGLISH);
     public LiveMatchAdapter(int layoutResId, @Nullable List<LiveMatchListBean.MatchItemBean> data) {
         super(layoutResId, data);
     }
@@ -34,11 +36,14 @@ public class LiveMatchAdapter extends BaseQuickAdapter<LiveMatchListBean.MatchIt
     @Override
     protected void convert(@NonNull BaseViewHolder helper, LiveMatchListBean.MatchItemBean item) {
         helper.setText(R.id.tv_title,item.getTitle());
-
-        if(!TextUtils.isEmpty(item.getScheduled())) {//2023-02-21 08:00:00
-            helper.setText(R.id.tv_time, getRelativeLocalDate(sfdate, DateTimeUtil.getStringToDate(item.getScheduled(), "yyyy-MM-dd HH:mm:ss")));
-        }else {
-            helper.setText(R.id.tv_time, "");
+        helper.setText(R.id.tv_time, "");
+        if(!TextUtils.isEmpty(item.getScheduled())) {
+            try {
+                String dateStr = sfdate2.format(sfdate1.parse(item.getScheduled()));
+                helper.setText(R.id.tv_time, dateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
         ImageView iv_home_logo = helper.getView(R.id.iv_home_logo);

@@ -446,7 +446,16 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            android:exported="true">
+            <!-- scheme设置 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="onematch" android:host="live_not_start_detail"/>
+            </intent-filter>
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

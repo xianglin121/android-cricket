@@ -50,7 +50,10 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
     private List<Fragment> mViewList;
     private TextView tvSingleTitle;
     private ImageView iv_avatar;
-    public LoginDialog loginDialog;
+    private LoginDialog loginDialog;
+    public void setLoginDialog(LoginDialog dialog){
+        this.loginDialog = dialog;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -83,7 +86,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
         mViewList = new ArrayList<>();
         mTitles.add(WordUtil.getString(getActivity(), R.string.free_hd_live_broadcast));
         LiveRecommendFragment liveRecommendFragment = new LiveRecommendFragment();
-        liveRecommendFragment.loginDialog = loginDialog;
+        liveRecommendFragment.setLoginDialog(loginDialog);
         mViewList.add(liveRecommendFragment);
         mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
@@ -111,7 +114,8 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
                 if(loginDialog!=null){
                     loginDialog.show();
                 }else{
-                    ToastUtil.show(getString(R.string.please_login));
+                    ((MainActivity)getActivity()).newLoginDialog();
+//                    ToastUtil.show(getString(R.string.please_login));
                 }
                 break;
             case R.id.cl_search:
@@ -132,7 +136,8 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
                     if(loginDialog!=null){
                         loginDialog.show();
                     }else{
-                        ToastUtil.show(getString(R.string.please_login));
+//                        ToastUtil.show(getString(R.string.please_login));
+                        ((MainActivity)getActivity()).newLoginDialog();
                     }
                     return;
                 }else{
@@ -259,7 +264,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
         if (list != null && list.size() > 0) {
             mTitles.add(WordUtil.getString(getActivity(), R.string.live_other));
             LiveMatchFragment liveMatchFragment = LiveMatchFragment.newInstance(2);
-            liveMatchFragment.loginDialog = loginDialog;
+            liveMatchFragment.setLoginDialog(loginDialog);
             mViewList.add(LiveMatchFragment.newInstance(2));
             magicIndicator.setVisibility(View.VISIBLE);
             tvSingleTitle.setVisibility(View.GONE);

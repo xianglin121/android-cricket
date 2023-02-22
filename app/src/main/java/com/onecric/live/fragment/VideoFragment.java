@@ -47,8 +47,10 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
 
     private int mPage = 1;
     private TextView tv_empty;
-    public LoginDialog loginDialog;
-
+    private LoginDialog loginDialog;
+    public void setLoginDialog(LoginDialog dialog){
+        this.loginDialog = dialog;
+    }
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_video;

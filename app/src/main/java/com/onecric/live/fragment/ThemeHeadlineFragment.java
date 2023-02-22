@@ -52,7 +52,10 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
     private SmartRefreshLayout smart_no_network;
     private TextView tv_empty;
 
-    public LoginDialog loginDialog;
+    private LoginDialog loginDialog;
+    public void setLoginDialog(LoginDialog dialog){
+        this.loginDialog = dialog;
+    }
 
     @Override
     protected int getLayoutId() {
