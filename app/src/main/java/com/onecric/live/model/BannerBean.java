@@ -32,6 +32,15 @@ public class BannerBean {
     private int anchor_id;
     private int param_id;
     private int param_type;
+    private int live_id;
+
+    public int getLive_id() {
+        return live_id;
+    }
+
+    public void setLive_id(int live_id) {
+        this.live_id = live_id;
+    }
 
     public int getId() {
         return id;

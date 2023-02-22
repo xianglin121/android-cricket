@@ -33,8 +33,8 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
         mGroupId = groupId;
     }
 
-    public void getInfo(int id , boolean isLoginUpdate,int mLiveId) {
-        addSubscription(apiStores.getLiveDetail(CommonAppConfig.getInstance().getToken(), id,mLiveId),
+    public void getInfo(boolean isLoginUpdate,int mLiveId) {
+        addSubscription(apiStores.getLiveDetail(CommonAppConfig.getInstance().getToken(), mLiveId),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

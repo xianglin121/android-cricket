@@ -119,11 +119,12 @@ public class SearchComplexFragment extends MvpFragment<SearchComplexPresenter> i
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if(mLiveAdapter.getItem(position).getIslive() == 0){
-                    LiveNotStartDetailActivity.forward(getContext(),mLiveAdapter.getItem(position).getUid(),mLiveAdapter.getItem(position).getMatch_id(),mLiveAdapter.getItem(position).getId());
+                    LiveNotStartDetailActivity.forward(getContext(),mLiveAdapter.getItem(position).getUid(),
+                            mLiveAdapter.getItem(position).getMatch_id(),mLiveAdapter.getItem(position).getLive_id());
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
                     ((SearchLiveDetailActivity)getActivity()).loginDialog.show();
                 }else{
-                    LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getType(), mLiveAdapter.getItem(position).getMatch_id(),mLiveAdapter.getItem(position).getId());
+                    LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getType(), mLiveAdapter.getItem(position).getMatch_id(),mLiveAdapter.getItem(position).getLive_id());
                 }
             }
         });

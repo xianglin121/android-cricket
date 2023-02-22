@@ -4,7 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/view_1"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:background="@color/c_1D2550"/>
+
     <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_below="@id/view_1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -15,7 +23,6 @@
             android:layout_height="wrap_content"
             android:background="@color/c_1D2550"
             android:paddingLeft="10dp"
-            android:paddingTop="28dp"
             android:paddingRight="12dp"
             android:paddingBottom="5dp">
 

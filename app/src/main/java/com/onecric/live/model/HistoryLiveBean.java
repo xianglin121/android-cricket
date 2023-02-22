@@ -26,6 +26,34 @@ public class HistoryLiveBean {
     private int id;//直播id
     private String img1;
 
+    private int like_num;
+    private int viewers;
+    private int live_id;
+
+    public int getLive_id() {
+        return live_id;
+    }
+
+    public void setLive_id(int live_id) {
+        this.live_id = live_id;
+    }
+
+    public int getLike_num() {
+        return like_num;
+    }
+
+    public int getViewers() {
+        return viewers;
+    }
+
+    public void setLike_num(int like_num) {
+        this.like_num = like_num;
+    }
+
+    public void setViewers(int viewers) {
+        this.viewers = viewers;
+    }
+
     public String getMediaUrl() {
         return mediaUrl;
     }

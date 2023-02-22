@@ -58,6 +58,7 @@ import java.util.UUID;
  */
 public class LiveDetailMainFragment extends Fragment {
     public boolean isNotStart = false;
+    public boolean isHistory = false;
     public static LiveDetailMainFragment newInstance(String groupId, int anchorId,int matchId) {
         LiveDetailMainFragment fragment = new LiveDetailMainFragment();
         Bundle bundle = new Bundle();
@@ -346,9 +347,16 @@ public class LiveDetailMainFragment extends Fragment {
 
         LiveChatFragment chatFragment = LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId"));
         chatFragment.setLoginDialog(loginDialog);
-        LiveMoreVideoFragment moreVideoFragment = LiveMoreVideoFragment.newInstance();
-        moreVideoFragment.setLoginDialog(loginDialog);
-        mViewList.add(moreVideoFragment);
+        if(isHistory){
+            LiveHistoryFragment historyFragment = LiveHistoryFragment.newInstance();
+            historyFragment.setLoginDialog(loginDialog);
+            mViewList.add(historyFragment);
+        }else{
+            LiveMoreVideoFragment moreVideoFragment = LiveMoreVideoFragment.newInstance();
+            moreVideoFragment.setLoginDialog(loginDialog);
+            mViewList.add(moreVideoFragment);
+        }
+
         mViewList.add(chatFragment);
         if(mMatchId != 0 && !isNotStart){
             mViewList.add(CricketLiveFragment.newInstance(mMatchId));

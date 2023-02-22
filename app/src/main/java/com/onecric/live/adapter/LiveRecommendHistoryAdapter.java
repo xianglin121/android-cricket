@@ -57,7 +57,7 @@ public class LiveRecommendHistoryAdapter extends BaseQuickAdapter<HistoryLiveBea
         } else {
             tv_name.setText("");
         }
-        tv_num.setText(item.getHeat() > 1000 ? String.format("%.1f",(float)item.getHeat()/1000) + "K" :item.getHeat()+"");
+        tv_num.setText(item.getViewers() > 1000 ? String.format("%.1f",(float)item.getViewers()/1000) + "K" :item.getViewers()+"");
         iv_cover.setColorFilter(null);
         iv_live.setVisibility(View.VISIBLE);
     }

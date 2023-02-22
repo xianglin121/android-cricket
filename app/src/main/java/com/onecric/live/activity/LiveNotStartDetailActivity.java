@@ -3,15 +3,18 @@ package com.onecric.live.activity;
 import static com.onecric.live.util.DateUtil.getRelativeLocalDate;
 import static com.onecric.live.util.UiUtils.collapseView;
 import static com.onecric.live.util.UiUtils.expandView;
+import static com.onecric.live.util.UiUtils.getScreenShotBitmap;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -34,11 +37,16 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+import com.coorchice.library.SuperTextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
@@ -145,7 +153,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     private ImageView iv_cover;
     private TextView tv_time;
     private SimpleDateFormat sfdate2 = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
-
+    private LinearLayout ll_main;
     @Override
     protected LiveDetailPresenter createPresenter() {
         return new LiveDetailPresenter(this);
@@ -243,6 +251,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         tv_tool_heart = findViewById(R.id.tv_tool_heart);
         iv_cover = findViewById(R.id.iv_cover);
         tv_time = findViewById(R.id.tv_time);
+        ll_main = findViewById(R.id.ll_main);
         findViewById(R.id.ll_eyes).setOnClickListener(this);
         findViewById(R.id.ll_heart).setOnClickListener(this);
         iv_back.setOnClickListener(this);
@@ -259,7 +268,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
-            mvpPresenter.getInfo(mAnchorId,true,mLiveId);
+            mvpPresenter.getInfo(true,mLiveId);
         }
     }
 
@@ -311,7 +320,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
 
     @Override
     protected void initData() {
-        mvpPresenter.getInfo(mAnchorId,false,mLiveId);
+        mvpPresenter.getInfo(false,mLiveId);
     }
 
     public void doFollow() {
@@ -542,8 +551,6 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 }
                 break;
             case R.id.iv_tool_share:
-                //fixme 分享H5 带标题
-//                ShareUtil.shareText(mActivity, "", HttpConstant.PLAYER_PROFILE_URL + 0);
                 break;
         }
     }
@@ -874,4 +881,40 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         mvpPresenter.getMatchDetail(mMatchId);
     }
 
+    //fixme 未完成
+    private void shareScreen(){
+        View view1 = mActivity.getLayoutInflater().inflate(R.layout.dialog_share_live,null);
+        ImageView ivCode = view1.findViewById(R.id.iv_code);
+        ImageView ivScreen = view1.findViewById(R.id.iv_screen);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        //生成二维码 https://m.onecric.tv/
+//        ivCode.setImageResource();
+
+        //拼接截图
+        ll_main.setDrawingCacheEnabled(true);
+        ll_main.buildDrawingCache();
+        Bitmap bitmap = ll_main.getDrawingCache();
+        ivScreen.setImageBitmap(bitmap);
+        android.view.ViewGroup.LayoutParams pp = ivScreen.getLayoutParams();
+        int height = (int) ((float)ll_main.getHeight()/ll_main.getWidth() * dm.widthPixels * 0.8);
+        pp.height = height;
+        ivScreen.setLayoutParams(pp);
+
+        AlertDialog dialog = new AlertDialog.Builder(mActivity).setView(view1).create();
+        dialog.setCancelable(true);
+        dialog.show();
+
+
+        Window w = dialog.getWindow();
+        w.setLayout((int) (dm.widthPixels * 0.9), ViewGroup.LayoutParams.WRAP_CONTENT);
+//        w.setBackgroundDrawableResource(R.drawable.shape_body_white_10);
+        w.findViewById(R.id.tv_save).setOnClickListener(v -> {
+            dialog.dismiss();
+            //保存图片
+
+        });
+
+    }
 }

@@ -64,6 +64,15 @@ public class LiveMatchListBean {
         private int uid;
         private int islive;
         private int id;
+        private int live_id;
+
+        public int getLive_id() {
+            return live_id;
+        }
+
+        public void setLive_id(int live_id) {
+            this.live_id = live_id;
+        }
 
         public int getId() {
             return id;

@@ -51,6 +51,15 @@ public class LiveBean {
     private String avatar;
     private String user_nickname;
     private int heat;
+    private int live_id;
+
+    public int getLive_id() {
+        return live_id;
+    }
+
+    public void setLive_id(int live_id) {
+        this.live_id = live_id;
+    }
 
     public int getId() {
         return id;

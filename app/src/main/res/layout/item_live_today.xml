@@ -4,8 +4,7 @@
     android:layout_width="167dp"
     android:layout_height="100dp"
     android:background="@drawable/ripple_6dp"
-    android:layout_marginLeft="6dp"
-    android:layout_marginRight="2dp"
+    android:layout_marginRight="8dp"
     android:orientation="vertical"
     android:paddingBottom="5dp">
 

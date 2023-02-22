@@ -160,16 +160,18 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         mTodayAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (mTodayAdapter.getItem(position).getIslive() == 0) {
-                    LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getId());
-                } else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
                     if(loginDialog!=null){
                         loginDialog.show();
                     }else{
                         ToastUtil.show(getString(R.string.please_login));
                     }
+                }else if (mTodayAdapter.getItem(position).getIslive() == 0) {
+                    LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),
+                            mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getLive_id());
                 }else{
-                    LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(), mTodayAdapter.getItem(position).getType(), mTodayAdapter.getItem(position).getMatch_id(),mTodayAdapter.getItem(position).getId());
+                    LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(), mTodayAdapter.getItem(position).getType(),
+                            mTodayAdapter.getItem(position).getMatch_id(),mTodayAdapter.getItem(position).getLive_id());
                 }
             }
         });
@@ -212,7 +214,8 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                 }
             }else{
 //                VideoSingleActivity.forward(getContext(), mHistoryAdapter.getItem(position).getMediaUrl(), null);
-                LiveDetailActivity.forward(getContext(),Integer.parseInt(mHistoryAdapter.getItem(position).getUid()),mHistoryAdapter.getItem(position).getMatchId(),mHistoryAdapter.getItem(position).getMediaUrl(),mHistoryAdapter.getItem(position).getId());
+                LiveDetailActivity.forward(getContext(),Integer.parseInt(mHistoryAdapter.getItem(position).getUid()),mHistoryAdapter.getItem(position).getMatchId(),
+                        mHistoryAdapter.getItem(position).getMediaUrl(),mHistoryAdapter.getItem(position).getLive_id());
             }
         });
         View inflate2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
@@ -273,10 +276,18 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         //今日直播赛事
         mTodayMatchAdapter = new LiveMatchAdapter(R.layout.item_live_today, new ArrayList<>());
         mTodayMatchAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if(mTodayMatchAdapter.getItem(position).getIslive() == 1 && mTodayMatchAdapter.getItem(position).getUid() != 0){
-                LiveDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),3,mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getId());
+            if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                if(loginDialog!=null){
+                    loginDialog.show();
+                }else{
+                    ToastUtil.show(getString(R.string.please_login));
+                }
+            }else if (mTodayAdapter.getItem(position).getIslive() == 0) {
+                LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),
+                        mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getLive_id());
             }else{
-                LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getId());
+                LiveDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),3,
+                        mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getLive_id());
             }
         });
         rv_match.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
@@ -436,7 +447,8 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                             ToastUtil.show(getString(R.string.please_login));
                         }
                     }else{
-                        LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(), bannerBean.getParam_id(),bannerBean.getId());
+                        LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(),
+                                bannerBean.getParam_id(),bannerBean.getLive_id());
                     }
                 } else if (bannerBean.getParam_id() != 0) {
                     CricketDetailActivity.forward(getActivity(), bannerBean.getParam_id());

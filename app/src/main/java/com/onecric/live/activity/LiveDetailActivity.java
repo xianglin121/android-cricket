@@ -271,7 +271,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             }
         }
 
-        mGroupId = String.valueOf(mLiveId);
+        mGroupId = String.valueOf(mAnchorId);
         mvpPresenter.setGroupId(mGroupId);
 
         //获取屏幕宽度
@@ -398,6 +398,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         //初始化fragment
         liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId,mMatchId);
         liveDetailMainFragment.setLoginDialog(loginDialog);
+        if(!isLive){
+            liveDetailMainFragment.isHistory = true;
+        }
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_main, liveDetailMainFragment).commitAllowingStateLoss();
 
         iv_data.setVisibility(View.GONE);
@@ -455,7 +458,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             if (mCountDownTimer != null) {
                 mCountDownTimer.cancel();
             }
-            mvpPresenter.getInfo(mAnchorId,true,mLiveId);
+            mvpPresenter.getInfo(true,mLiveId);
         }
     }
 
@@ -518,7 +521,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         //设置状态栏高度
 //        LinearLayout.LayoutParams statusBarParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.getStatusBarHeight(this));
 //        statusBar.setLayoutParams(statusBarParams);
-        mvpPresenter.getInfo(mAnchorId,false,mLiveId);
+        mvpPresenter.getInfo(false,mLiveId);
         if(isLive){
             playerView.setPlayerViewCallback(new LivePlayerView.OnSuperPlayerViewCallback() {
                 @Override

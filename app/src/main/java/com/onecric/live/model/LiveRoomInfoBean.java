@@ -65,6 +65,15 @@ public class LiveRoomInfoBean {
 
     private int is_like;
     private int like_num;
+    private int live_id;
+
+    public int getLive_id() {
+        return live_id;
+    }
+
+    public void setLive_id(int live_id) {
+        this.live_id = live_id;
+    }
 
     public int getLike_num() {
         return like_num;

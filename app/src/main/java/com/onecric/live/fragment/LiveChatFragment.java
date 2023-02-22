@@ -40,6 +40,7 @@ import com.onecric.live.HttpConstant;
 import com.onecric.live.R;
 import com.onecric.live.activity.ChargeActivity;
 import com.onecric.live.activity.LiveDetailActivity;
+import com.onecric.live.activity.LiveNotStartDetailActivity;
 import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.activity.OpenNobleActivity;
 import com.onecric.live.activity.WebViewActivity;
@@ -599,7 +600,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                         if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                             sendEnterMessage();
                         }
-                        //fixme 临时
+                        //fixme
 //                        ((LiveDetailActivity) getActivity()).setPeopleCount();
                     }
 
@@ -678,7 +679,9 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
 //        if (giftBean != null) {
 //            ((LiveDetailActivity) getActivity()).startGif(giftBean, CommonAppConfig.getInstance().getUserBean().getUser_nickname(), CommonAppConfig.getInstance().getUserBean().getAvatar());
 //        }
-        ((LiveDetailActivity) getActivity()).sendGiftMessage(giftBean);
+        if (getContext() instanceof LiveDetailActivity) {
+            ((LiveDetailActivity) getActivity()).sendGiftMessage(giftBean);
+        }
     }
 
     private void showInputTextMsgDialog(int state) {
@@ -1259,7 +1262,9 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                     }
                 } else if (messageInfo.getMsgType() == MessageInfo.MSG_TYPE_NOBEL_ENTER) {
                     if (customMsgBean.getNobel().getIs_guard() == 1) {
-                        ((LiveDetailActivity) getActivity()).showNobleAnim(messageInfo.getNickName(), customMsgBean.getNobel().getGuard_name(), customMsgBean.getNobel().getGuard_swf());
+                        if (getActivity() instanceof LiveDetailActivity) {
+                            ((LiveDetailActivity) getActivity()).showNobleAnim(messageInfo.getNickName(), customMsgBean.getNobel().getGuard_name(), customMsgBean.getNobel().getGuard_swf());
+                        }
                     }
                     if (CommonAppConfig.getInstance().getBlockFunctionInfo() != null) {
                         if (!CommonAppConfig.getInstance().getBlockFunctionInfo().isBlockEnter()) {
@@ -1267,7 +1272,10 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                             updateAdapter(messageInfo);
                         }
                     }
-                    ((LiveDetailActivity) getActivity()).setPeopleCount();
+                    if (getActivity() instanceof LiveDetailActivity) {
+                        ((LiveDetailActivity) getActivity()).setPeopleCount();
+                    }
+
                 } else if (messageInfo.getMsgType() == MessageInfo.MSG_TYPE_BG_DANMU) {
 //                    updateAdapter(customMsgBean.getNormal().getGuard_icon(), customMsgBean.getNormal().getExp_icon(), messageInfo);
                     updateAdapter(messageInfo);

@@ -6,8 +6,7 @@
     app:cardCornerRadius="3dp"
     app:cardElevation="3dp"
     app:cardBackgroundColor="@color/c_F3F3F7"
-    android:layout_marginLeft="6dp"
-    android:layout_marginRight="4dp"
+    android:layout_marginRight="9dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp">
 

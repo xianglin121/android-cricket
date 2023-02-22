@@ -62,11 +62,13 @@ public class SearchLiveFragment extends MvpFragment<SearchLiveSecondPresenter> i
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if(mAdapter.getItem(position).getIslive() == 0){
-                    LiveNotStartDetailActivity.forward(getContext(),mAdapter.getItem(position).getUid(),mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getId());
+                    LiveNotStartDetailActivity.forward(getContext(),mAdapter.getItem(position).getUid(),
+                            mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
                     ((SearchLiveDetailActivity)getActivity()).loginDialog.show();
                 }else{
-                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getId());
+                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(),
+                            mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
                 }
             }
         });
