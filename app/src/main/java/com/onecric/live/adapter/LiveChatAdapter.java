@@ -48,6 +48,9 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
             if (!TextUtils.isEmpty(item.getNickName())) {
                 nickName = item.getNickName() + "：";
                 str = nickName;
+            }else if(!TextUtils.isEmpty(item.getFromUser())){
+                nickName = item.getFromUser() + "：";
+                str = nickName;
             }
             String content = "";
             int contentColor =  0;
