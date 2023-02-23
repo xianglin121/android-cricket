@@ -51,6 +51,7 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
             }
             String content = "";
             int contentColor =  0;
+            boolean isEnterInfo = false;
             if (item.getExtra() != null) {
                 expBitmap = item.getExpIcon();
                 nobleBitmap = item.getNobleIcon();
@@ -66,8 +67,10 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
                         }
                     }else if (customMsgBean.getType() == MessageInfo.MSG_TYPE_NOBEL_ENTER) {
                         isAnchor = customMsgBean.getNobel().getIs_room() == 1?true:false;
-                        content = mContext.getString(R.string.enter_the_chat_room);
-                        contentColor = Color.parseColor("#F15C43");
+                        isEnterInfo = true;
+                        //进入房间的消息不需要发言人
+                        content = item.getNickName() + " " + mContext.getString(R.string.enter_the_chat_room);
+                        contentColor = Color.parseColor("#EEA831");
                     }else if (customMsgBean.getType() == MessageInfo.MSG_TYPE_GIFT) {
                         isAnchor = customMsgBean.getGift().getIs_room() == 1?true:false;
                         if (customMsgBean.getGift() != null) {
@@ -104,10 +107,16 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
             if (expBitmap != null) {
                 expLength = "2";
             }
+
+            /*if(isEnterInfo){
+                contentColor = Color.parseColor("#EEA831");
+            }*/
+
             if (isAnchor) {
-                str = "  " + str + content;
+                //进入房间的消息不需要发言人
+                str = "  " + (isEnterInfo?"":str) + content;
                 SpannableStringBuilder msg = FaceManager.handlerEmojiText(str);
-                ForegroundColorSpan span = new ForegroundColorSpan(Color.parseColor("#2C9CED"));
+                ForegroundColorSpan span = new ForegroundColorSpan(Color.parseColor(isEnterInfo?"#EEA831":"#2C9CED"));
                 msg.setSpan(span, 1, 1+nickName.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 if (contentColor != 0) {
                     ForegroundColorSpan contentSpan = new ForegroundColorSpan(contentColor);
@@ -117,9 +126,9 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
                 msg.setSpan(imageSpan, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 tv_content.setText(msg);
             }else {
-                str = nobleLength + expLength + str + content;
+                str = nobleLength + expLength +  (isEnterInfo?"":str) + content;
                 SpannableStringBuilder msg = FaceManager.handlerEmojiText(str);
-                ForegroundColorSpan span = new ForegroundColorSpan(Color.parseColor("#2C9CED"));
+                ForegroundColorSpan span = new ForegroundColorSpan(Color.parseColor(isEnterInfo?"#EEA831":"#2C9CED"));
                 msg.setSpan(span, nobleLength.length()+expLength.length(), nobleLength.length()+expLength.length()+nickName.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 if (contentColor != 0) {
                     ForegroundColorSpan contentSpan = new ForegroundColorSpan(contentColor);

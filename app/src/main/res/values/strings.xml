@@ -763,7 +763,8 @@
     <string name="free_hd_live_broadcast">Free HD live broadcast</string>
     <string name="upcoming_live">Upcoming Live</string>
     <string name="save_success">Save success</string>
-    <string name="start_permission_storage_tip">Go to Settings to enable file storage permissions</string>
+    <string name="start_permission_storage_setting_tip">Go to Settings to enable file storage permissions</string>
+    <string name="start_permission_storage_tip">Please grant file storage permission first</string>
     <string name="share_live_tip">I am watching free hd cricket on oneCric.tv</string>
     <string name="share_live_scan_tip">Scan code to register</string>
 </resources>

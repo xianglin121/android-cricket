@@ -2,19 +2,26 @@ package com.onecric.live.activity;
 
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_UP;
+import static com.onecric.live.HttpConstant.SHARE_LIVE_URL;
 import static com.onecric.live.util.DialogUtil.loadingDialog;
 import static com.onecric.live.util.UiUtils.collapseView;
+import static com.onecric.live.util.UiUtils.createQrCode;
 import static com.onecric.live.util.UiUtils.expandView;
+import static com.onecric.live.util.UiUtils.saveBitmapFile;
 import static com.tencent.imsdk.base.ThreadUtils.runOnUiThread;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -41,7 +48,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
@@ -201,6 +210,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     private OrientationUtils orientationUtils;
     private String videoUrl;
     private int mLiveId;
+    private LinearLayout ll_main;
 
     //未登录用户倒计时三分钟跳转登录页
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
@@ -405,7 +415,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
         iv_data.setVisibility(View.GONE);
 
-        clAvatarHeight = UIUtil.dip2px(this,75);
+        clAvatarHeight = UIUtil.dip2px(this,70);
 
         //去掉状态栏
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -438,6 +448,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         iv_tool_heart = findViewById(R.id.iv_tool_heart);
         iv_tool_share = findViewById(R.id.iv_tool_share);
         tv_tool_heart = findViewById(R.id.tv_tool_heart);
+        ll_main = findViewById(R.id.ll_main);
         findViewById(R.id.ll_eyes).setOnClickListener(this);
         findViewById(R.id.ll_heart).setOnClickListener(this);
         iv_data.setOnClickListener(this);
@@ -941,8 +952,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 }
                 break;
             case R.id.iv_tool_share:
-                //fixme 分享H5 带标题
-//                ShareUtil.shareText(mActivity, "", HttpConstant.PLAYER_PROFILE_URL + 0);
+                shareScreen();
                 break;
         }
     }
@@ -1523,5 +1533,89 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             }
         }
         super.onBackPressed();
+    }
+
+    private Bitmap shareQRCodeBitmap;
+    private AlertDialog shareDialog;
+    private Bitmap picBitmap;
+    //fixme 分享封面
+    private void shareScreen(){
+        View view1 = mActivity.getLayoutInflater().inflate(R.layout.dialog_share_live,null);
+        ImageView ivCode = view1.findViewById(R.id.iv_code);
+        ImageView ivScreen = view1.findViewById(R.id.iv_screen);
+        LinearLayout ll_pic = view1.findViewById(R.id.ll_pic);
+        ImageView iv_cover = view1.findViewById(R.id.iv_cover);
+        RelativeLayout sBar = view1.findViewById(R.id.statusBar);
+        CircleImageView head_pic = view1.findViewById(R.id.person_head_pic);
+        sBar.setVisibility(View.VISIBLE);
+        iv_cover.setVisibility(View.VISIBLE);
+
+        //赋值封面
+        android.view.ViewGroup.LayoutParams ppiv_cover = iv_cover.getLayoutParams();
+        int width = UIUtil.getScreenWidth(mActivity);
+        ppiv_cover.height = (int)(width * 0.5625 * 0.8);
+        iv_cover.setLayoutParams(ppiv_cover);
+        GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_cover);
+        GlideUtil.loadUserImageDefault(mActivity, mLiveRoomBean.getUserData().getAvatar(), head_pic);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        //生成二维码
+        if(shareQRCodeBitmap == null){
+            shareQRCodeBitmap = createQrCode(SHARE_LIVE_URL,UIUtil.dip2px(mActivity,35),UIUtil.dip2px(mActivity,35));
+        }
+        ivCode.setImageBitmap(shareQRCodeBitmap);
+
+        //拼接截图
+        //这种方式有缓存，且短视频和直播源画面空白
+        ll_main.setDrawingCacheEnabled(true);
+        ll_main.buildDrawingCache();
+        Bitmap bitmap = ll_main.getDrawingCache();
+
+        ivScreen.setImageBitmap(bitmap);
+        android.view.ViewGroup.LayoutParams ppivScreen = ivScreen.getLayoutParams();
+        int height = (int) ((float)ll_main.getHeight()/ll_main.getWidth() * dm.widthPixels  * 0.82);
+        ppivScreen.height = height;
+        ivScreen.setLayoutParams(ppivScreen);
+        //展示弹窗
+        if(shareDialog==null){
+            shareDialog = new AlertDialog.Builder(mActivity).setView(view1).create();
+        }else{
+            shareDialog.setView(view1);
+        }
+        shareDialog.setCancelable(true);
+        shareDialog.show();
+
+        ll_pic.setDrawingCacheEnabled(true);
+        Window w = shareDialog.getWindow();
+        w.setLayout((int) (dm.widthPixels * 0.9), ViewGroup.LayoutParams.WRAP_CONTENT);
+        w.findViewById(R.id.tv_save).setOnClickListener(v -> {
+            ll_pic.buildDrawingCache();
+            picBitmap = ll_pic.getDrawingCache();
+            //保存图片
+            if(saveBitmapFile(mActivity,picBitmap)){
+                shareDialog.dismiss();
+            }
+        });
+
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 10005:
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    //是否勾选禁止后不再询问
+                    boolean flag = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0]);
+                    ToastUtil.show(getString(flag?R.string.start_permission_storage_setting_tip:R.string.start_permission_storage_tip));
+                }else{
+                    saveBitmapFile(mActivity,picBitmap);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

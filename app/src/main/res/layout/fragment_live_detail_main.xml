@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
         <!--<androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_indicator"
@@ -20,18 +20,21 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@color/white"/>-->
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/c_E5E5E5"
+            android:layout_height="35dp"
+            android:background="@drawable/shape_input_bg"
             app:tabIndicatorColor="@color/c_DC3C23"
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="2dp"
             app:tabMode="scrollable"
+            app:tabRippleColor="@color/transparent"
             app:tabSelectedTextColor="@color/c_DC3C23"
             app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-            app:tabTextColor="@color/c_333333" />
+            app:tabTextColor="@color/c_333333"
+            android:layout_margin="5dp"/>
 
 <!--        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_follow"
@@ -77,5 +80,5 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_live"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </LinearLayout>

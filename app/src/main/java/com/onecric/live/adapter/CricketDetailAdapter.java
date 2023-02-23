@@ -41,8 +41,8 @@ public class CricketDetailAdapter extends BaseQuickAdapter<CricketMatchBean, Bas
                 helper.getView(R.id.iv_alarm).setVisibility(View.VISIBLE);
                 if(!TextUtils.isEmpty(item.getLive_time())) {
                     helper.setText(R.id.tv_time, item.getLive_time());
-                }else {
-                    helper.setText(R.id.tv_time, "");
+                }else{
+                    helper.getView(R.id.tv_time).setVisibility(View.GONE);
                 }
             }else {//已开始
                 resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_semibold));

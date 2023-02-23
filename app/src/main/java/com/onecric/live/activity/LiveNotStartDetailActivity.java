@@ -1,9 +1,12 @@
 package com.onecric.live.activity;
 
+import static com.onecric.live.HttpConstant.SHARE_LIVE_URL;
 import static com.onecric.live.util.DateUtil.getRelativeLocalDate;
 import static com.onecric.live.util.UiUtils.collapseView;
+import static com.onecric.live.util.UiUtils.createQrCode;
 import static com.onecric.live.util.UiUtils.expandView;
 import static com.onecric.live.util.UiUtils.getScreenShotBitmap;
+import static com.onecric.live.util.UiUtils.saveBitmapFile;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -14,6 +17,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -39,8 +43,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
@@ -70,6 +77,7 @@ import com.onecric.live.model.UpdatesBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.live.LiveDetailPresenter;
 import com.onecric.live.util.DialogUtil;
+import com.onecric.live.util.DownloadUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ScreenUtils;
 import com.onecric.live.util.SpUtil;
@@ -228,7 +236,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         liveDetailMainFragment.setLoginDialog(loginDialog);
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_main, liveDetailMainFragment).commitAllowingStateLoss();
 
-        clAvatarHeight = UIUtil.dip2px(this,75);
+        clAvatarHeight = UIUtil.dip2px(this,70);
 
     }
 
@@ -551,6 +559,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 }
                 break;
             case R.id.iv_tool_share:
+                shareScreen();
                 break;
         }
     }
@@ -881,16 +890,24 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         mvpPresenter.getMatchDetail(mMatchId);
     }
 
-    //fixme 未完成
+
+    private Bitmap shareQRCodeBitmap;
+    private AlertDialog shareDialog;
+    private Bitmap picBitmap;
+
     private void shareScreen(){
         View view1 = mActivity.getLayoutInflater().inflate(R.layout.dialog_share_live,null);
         ImageView ivCode = view1.findViewById(R.id.iv_code);
         ImageView ivScreen = view1.findViewById(R.id.iv_screen);
+        LinearLayout ll_pic = view1.findViewById(R.id.ll_pic);
 
         DisplayMetrics dm = new DisplayMetrics();
         mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        //生成二维码 https://m.onecric.tv/
-//        ivCode.setImageResource();
+        //生成二维码
+        if(shareQRCodeBitmap == null){
+           shareQRCodeBitmap = createQrCode(SHARE_LIVE_URL,UIUtil.dip2px(mActivity,35),UIUtil.dip2px(mActivity,35));
+        }
+        ivCode.setImageBitmap(shareQRCodeBitmap);
 
         //拼接截图
         ll_main.setDrawingCacheEnabled(true);
@@ -898,23 +915,50 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         Bitmap bitmap = ll_main.getDrawingCache();
         ivScreen.setImageBitmap(bitmap);
         android.view.ViewGroup.LayoutParams pp = ivScreen.getLayoutParams();
-        int height = (int) ((float)ll_main.getHeight()/ll_main.getWidth() * dm.widthPixels * 0.8);
+        int height = (int) ((float)ll_main.getHeight()/ll_main.getWidth() * dm.widthPixels  * 0.82);
         pp.height = height;
         ivScreen.setLayoutParams(pp);
+        //展示弹窗
+        if(shareDialog==null){
+            shareDialog = new AlertDialog.Builder(mActivity).setView(view1).create();
+        }else{
+            shareDialog.setView(view1);
+        }
+        shareDialog.setCancelable(true);
+        shareDialog.show();
 
-        AlertDialog dialog = new AlertDialog.Builder(mActivity).setView(view1).create();
-        dialog.setCancelable(true);
-        dialog.show();
-
-
-        Window w = dialog.getWindow();
+        ll_pic.setDrawingCacheEnabled(true);
+        ll_pic.buildDrawingCache();
+        Window w = shareDialog.getWindow();
         w.setLayout((int) (dm.widthPixels * 0.9), ViewGroup.LayoutParams.WRAP_CONTENT);
-//        w.setBackgroundDrawableResource(R.drawable.shape_body_white_10);
         w.findViewById(R.id.tv_save).setOnClickListener(v -> {
-            dialog.dismiss();
             //保存图片
-
+            ll_pic.buildDrawingCache();
+            picBitmap = ll_pic.getDrawingCache();
+            if(saveBitmapFile(mActivity,picBitmap)){
+                shareDialog.dismiss();
+            }
         });
 
     }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 10005:
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    //是否勾选禁止后不再询问
+                    boolean flag = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0]);
+                    ToastUtil.show(getString(flag?R.string.start_permission_storage_setting_tip:R.string.start_permission_storage_tip));
+                }else{
+                    saveBitmapFile(mActivity,picBitmap);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
 }

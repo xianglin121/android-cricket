@@ -368,12 +368,13 @@ public class LiveDetailMainFragment extends Fragment {
         tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                tab.view.setPadding(0,0,0,UIUtil.dip2px(getContext(),2));
                 vp_live.setCurrentItem(tab.getPosition());
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                tab.view.setPadding(0,0,0,0);
             }
 
             @Override

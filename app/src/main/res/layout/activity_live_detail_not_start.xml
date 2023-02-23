@@ -7,7 +7,7 @@
     <View
         android:id="@+id/view_1"
         android:layout_width="match_parent"
-        android:layout_height="28dp"
+        android:layout_height="25dp"
         android:background="@color/c_1D2550"/>
 
     <LinearLayout
@@ -24,7 +24,8 @@
             android:background="@color/c_1D2550"
             android:paddingLeft="10dp"
             android:paddingRight="12dp"
-            android:paddingBottom="5dp">
+            android:paddingBottom="5dp"
+            android:paddingTop="3dp">
 
             <ImageView
                 android:id="@+id/iv_back"
@@ -147,7 +148,10 @@
             android:background="@color/white"
             android:drawableRight="@mipmap/icon_arrow_up"
             android:drawableTint="@color/c_959697"
-            android:padding="12dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="12dp"
             android:textSize="15sp"
             android:fontFamily="@font/noto_sans_display_semibold"
             android:textColor="@color/black"
@@ -156,10 +160,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_avatar"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="12dp"
+            android:layout_height="70dp"
+            android:paddingLeft="8dp"
             android:paddingRight="12dp"
             android:background="@color/white"
             android:visibility="gone">
@@ -213,7 +215,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/c_f5f5f5">
 
             <FrameLayout
                 android:id="@+id/fl_main"
