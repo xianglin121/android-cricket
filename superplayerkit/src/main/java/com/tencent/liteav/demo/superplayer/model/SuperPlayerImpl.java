@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.tencent.liteav.basic.log.TXCLog;
 import com.tencent.liteav.demo.superplayer.SuperPlayerCode;
@@ -23,6 +24,7 @@ import com.tencent.liteav.demo.superplayer.model.protocol.PlayInfoParams;
 import com.tencent.liteav.demo.superplayer.model.protocol.PlayInfoProtocolV2;
 import com.tencent.liteav.demo.superplayer.model.protocol.PlayInfoProtocolV4;
 import com.tencent.liteav.demo.superplayer.model.utils.VideoQualityUtils;
+import com.tencent.qcloud.tuicore.util.ToastUtil;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.ITXVodPlayListener;
 import com.tencent.rtmp.TXBitrateItem;
@@ -138,7 +140,6 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
      */
     @Override
     public void onNetStatus(Bundle bundle) {
-
     }
 
     /**
@@ -221,7 +222,6 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
      */
     @Override
     public void onNetStatus(TXVodPlayer player, Bundle bundle) {
-
     }
 
     private void initialize(Context context, TXCloudVideoView videoView) {

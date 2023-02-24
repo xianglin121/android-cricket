@@ -316,7 +316,7 @@ public class LiveDetailMainFragment extends Fragment {
 
             }
         });
-        vp_live.setOffscreenPageLimit( (mMatchId!=0 && !isNotStart) ?6:2);
+        vp_live.setOffscreenPageLimit( (mMatchId!=0 && !isNotStart) ?7:2);
         vp_live.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
@@ -339,6 +339,7 @@ public class LiveDetailMainFragment extends Fragment {
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.list)));
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.live_chat)));
         if(mMatchId != 0 && !isNotStart){
+            tab_layout.addTab(tab_layout.newTab().setText("Animation"));
             tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.live)));
             tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.info)));
             tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.scorecard)));
@@ -359,6 +360,7 @@ public class LiveDetailMainFragment extends Fragment {
 
         mViewList.add(chatFragment);
         if(mMatchId != 0 && !isNotStart){
+            mViewList.add(AnimationLiveFragment.newInstance());
             mViewList.add(CricketLiveFragment.newInstance(mMatchId));
             mViewList.add(CricketInfoFragment.newInstance(mMatchId));
             mViewList.add(CricketScorecardFragment.newInstance());
@@ -411,6 +413,7 @@ public class LiveDetailMainFragment extends Fragment {
                 return mViewList.size();
             }
         });
+
         vp_live.setCurrentItem(1);
     }
 
@@ -424,12 +427,15 @@ public class LiveDetailMainFragment extends Fragment {
     }
 
     public void setMatchData(CricketMatchBean model){
-        ((CricketLiveFragment) mViewList.get(2)).getData(model.getMatch_id());
-        if (!TextUtils.isEmpty(model.getTournament_id())) {
-            ((CricketInfoFragment) mViewList.get(3)).getList(model.getHome_id(), model.getAway_id(), Integer.valueOf(model.getTournament_id()));
+        if(mViewList.size()>2){
+            ((AnimationLiveFragment) mViewList.get(2)).setLivePath(model.getLive_path());
+            ((CricketLiveFragment) mViewList.get(3)).getData(model.getMatch_id());
+            if (!TextUtils.isEmpty(model.getTournament_id())) {
+                ((CricketInfoFragment) mViewList.get(4)).getList(model.getHome_id(), model.getAway_id(), Integer.valueOf(model.getTournament_id()));
+            }
+            ((CricketScorecardFragment) mViewList.get(5)).getData(model);
+            ((CricketSquadFragment) mViewList.get(6)).getList(model.getMatch_id(), model.getHome_name(), model.getHome_logo(), model.getAway_name(), model.getAway_logo());
         }
-        ((CricketScorecardFragment) mViewList.get(4)).getData(model);
-        ((CricketSquadFragment) mViewList.get(5)).getList(model.getMatch_id(), model.getHome_name(), model.getHome_logo(), model.getAway_name(), model.getAway_logo());
     }
 
 }

@@ -1,18 +1,23 @@
 package com.onecric.live.util;
 
+import static com.tencent.liteav.base.ContextUtils.getApplicationContext;
+
 import android.Manifest;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
@@ -20,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -28,6 +34,8 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.onecric.live.R;
 import com.tencent.qcloud.tuikit.tuichat.util.PermissionUtils;
+
+import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -38,6 +46,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class UiUtils {
 
@@ -115,18 +124,6 @@ public class UiUtils {
         valueAnimator.start();
     }
 
-    /**
-     * 得到截屏 用于拼接二维码信息
-     */
-    public static View getScreenShotBitmap(Activity activity) {
-        //截屏-将view作为原图绘制出来
-        View v = activity.getWindow().getDecorView();
-        Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.RGB_565);
-        Canvas c = new Canvas(bitmap);
-        c.translate(-v.getScrollX(), -v.getScrollY());
-        v.draw(c);
-        return v;
-    }
 
     /**
      * 根据地址生成二维码图片
@@ -159,21 +156,23 @@ public class UiUtils {
     }
 
     /**
-     * 保存截图到本地
+     * 保存图片到本地
      */
-    public static boolean saveBitmapFile(Activity activity,Bitmap bit) {
+    public static File saveBitmapFile(Activity activity,Bitmap bit) {
         //先判断权限
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10005);
-                return false;
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, 10005);
+                return null;
             }
         }
 
         if(bit == null){
-            return false;
+            return null;
         }
 
+//        getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(),尽量用getFilesDir()之类的api
         String path = Environment.getExternalStorageDirectory().getPath();
         if (Build.VERSION.SDK_INT > 29) {
             path = activity.getExternalFilesDir(null).getAbsolutePath() ;
@@ -198,13 +197,76 @@ public class UiUtils {
             activity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
             ToastUtil.show(activity.getString(R.string.save_success));
 
-            return true;
+            return file;
         } catch (IOException e) {
             e.printStackTrace();
             ToastUtil.show(e.getMessage());
         }
 
-        return false;
+        return null;
 
     }
+
+    /**
+     * 保存图片到缓存
+     */
+    public static String saveTitmapToCache(Context context , Bitmap bitmap){
+        // 默认保存在应用缓存目录里 Context.getCacheDir()
+        File file=new File(context.getCacheDir(),System.currentTimeMillis()+".png");
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file.getPath();
+    }
+
+    /**
+     * 获取截图的Bitmap
+     */
+    public static Bitmap convertViewToBitmap(View view){
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+        return bitmap;
+    }
+
+    /**
+     * 调用系统分享图片
+     */
+    public static boolean sharePictureFile(Activity activity, Bitmap bitmap) {
+        //先判断权限
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, 10005);
+                return false;
+            }
+        }
+        //防止 Can’t compress a recycled bitmap
+        if (bitmap.isRecycled()) {
+            return false;
+        }
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//        Bitmap bitmap = Bitmap.createBitmap(((BitmapDrawable) context.getDrawable(R.mipmap.xxx)).getBitmap());
+
+        String imgpath = saveTitmapToCache(getApplicationContext(), bitmap);
+        if(!TextUtils.isEmpty(imgpath)){
+            Uri uri = FileProvider.getUriForFile(activity, activity.getPackageName() + ".fileProvider", new File(imgpath));
+            intent.setDataAndType(uri, "image/*");
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            intent.setType("image/*");
+            activity.startActivity(Intent.createChooser(intent, "Share to..."));
+        }
+        return true;
+    }
+
+
 }

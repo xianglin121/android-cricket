@@ -3,10 +3,11 @@ package com.onecric.live.activity;
 import static com.onecric.live.HttpConstant.SHARE_LIVE_URL;
 import static com.onecric.live.util.DateUtil.getRelativeLocalDate;
 import static com.onecric.live.util.UiUtils.collapseView;
+import static com.onecric.live.util.UiUtils.convertViewToBitmap;
 import static com.onecric.live.util.UiUtils.createQrCode;
 import static com.onecric.live.util.UiUtils.expandView;
-import static com.onecric.live.util.UiUtils.getScreenShotBitmap;
 import static com.onecric.live.util.UiUtils.saveBitmapFile;
+import static com.onecric.live.util.UiUtils.sharePictureFile;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -106,6 +107,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -340,6 +342,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     public void getDataSuccess(LiveRoomBean bean) {
         if (bean != null) {
             mLiveRoomBean = bean;
+            mMatchId = bean.getInfo().getMatch_id();
             tv_time.setText("Watch live at "+getRelativeLocalDate(sfdate2,bean.getInfo().getStarttime()));
             GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_cover);
             if (bean.getUserData() != null && !TextUtils.isEmpty(bean.getUserData().getTitle())) {
@@ -911,9 +914,9 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
 
         //拼接截图
         ll_main.setDrawingCacheEnabled(true);
-        ll_main.buildDrawingCache();
         Bitmap bitmap = ll_main.getDrawingCache();
         ivScreen.setImageBitmap(bitmap);
+
         android.view.ViewGroup.LayoutParams pp = ivScreen.getLayoutParams();
         int height = (int) ((float)ll_main.getHeight()/ll_main.getWidth() * dm.widthPixels  * 0.82);
         pp.height = height;
@@ -921,23 +924,30 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         //展示弹窗
         if(shareDialog==null){
             shareDialog = new AlertDialog.Builder(mActivity).setView(view1).create();
+            shareDialog.setCancelable(true);
+            shareDialog.setCanceledOnTouchOutside(true);
         }else{
             shareDialog.setView(view1);
         }
-        shareDialog.setCancelable(true);
         shareDialog.show();
 
         ll_pic.setDrawingCacheEnabled(true);
-        ll_pic.buildDrawingCache();
+        picBitmap = convertViewToBitmap(ll_pic);
+
         Window w = shareDialog.getWindow();
         w.setLayout((int) (dm.widthPixels * 0.9), ViewGroup.LayoutParams.WRAP_CONTENT);
         w.findViewById(R.id.tv_save).setOnClickListener(v -> {
-            //保存图片
-            ll_pic.buildDrawingCache();
-            picBitmap = ll_pic.getDrawingCache();
-            if(saveBitmapFile(mActivity,picBitmap)){
+            if(picBitmap==null){
+                picBitmap = convertViewToBitmap(ll_pic);
+            }
+            //分享到第三方
+            if(sharePictureFile(mActivity,picBitmap)){
                 shareDialog.dismiss();
             }
+        });
+
+        w.findViewById(R.id.ll_pic).setOnClickListener(v->{
+            shareDialog.dismiss();
         });
 
     }
@@ -948,17 +958,27 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 10005:
-                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    //是否勾选禁止后不再询问
-                    boolean flag = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0]);
-                    ToastUtil.show(getString(flag?R.string.start_permission_storage_setting_tip:R.string.start_permission_storage_tip));
-                }else{
-                    saveBitmapFile(mActivity,picBitmap);
+                for (int i = 0; i < grantResults.length; i++) {
+//                   如果拒绝获取权限
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        //判断是否勾选禁止后不再询问
+                        boolean flag = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]);
+                        ToastUtil.show(getString(flag?R.string.start_permission_storage_setting_tip:R.string.start_permission_storage_tip));
+                        return;
+                    }
                 }
+                sharePictureFile(mActivity,picBitmap);
                 break;
             default:
                 break;
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(shareDialog!=null && shareDialog.isShowing()){
+            shareDialog.dismiss();
+        }
+    }
 }

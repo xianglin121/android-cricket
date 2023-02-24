@@ -14,7 +14,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:paddingLeft="@dimen/dp_10"
             android:paddingRight="@dimen/dp_10">
             <ImageView
@@ -125,7 +125,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="@string/save"
+        android:text="@string/share"
         android:textSize="14dp"
         android:textColor="@color/white"
         android:background="@drawable/shape_dc3c23_23dp_rec"

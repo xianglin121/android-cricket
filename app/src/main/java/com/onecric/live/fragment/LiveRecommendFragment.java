@@ -146,9 +146,9 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mvpPresenter.getMatchList();
                 mvpPresenter.getList(true, 1);
                 mvpPresenter.getHistoryList(true, 1);
-                mvpPresenter.getMatchList();
                 if(bannerAdapter == null){
                     mvpPresenter.getBannerList(-1);
                 }
@@ -318,17 +318,12 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                 LiveMoreActivity.forward(getContext(), 2);
                 break;
             case R.id.tv_upcoming:
-                /*if(rv_match_upcoming.getVisibility() == View.GONE){
-                    rv_match_upcoming.setVisibility(View.VISIBLE);
-                }*/
                 //fixme 加上动画
                 if(isOpenUpcoming){
                     tv_upcoming.setCompoundDrawables(null, null, drawableArrUp,null);
-//                    expandView(rv_match_upcoming,rlComingHeight,0);
                     rv_match_upcoming.setVisibility(View.GONE);
                 }else{
                     tv_upcoming.setCompoundDrawables(null, null, drawableArrDown,null);
-//                    collapseView(rv_match_upcoming,0,rlComingHeight);
                     rv_match_upcoming.setVisibility(View.VISIBLE);
                 }
                 isOpenUpcoming = !isOpenUpcoming;
@@ -380,38 +375,16 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 
     @Override
     public void getDataSuccess(List<LiveMatchBean> list) {
-/*        if (list != null) {
-            mMatchAdapter.setNewData(list);
-        }*/
+
     }
 
     @Override
     public void getDataSuccess(List<LiveBean> freeList, List<LiveBean> todayList, List<LiveBean> historyList) {
         smart_rl.finishRefresh();
-/*        if (freeList == null) {
-            freeList = new ArrayList<>();
-        }
-        if (todayList == null) {
-            todayList = new ArrayList<>();
-        }
-        if (historyList == null) {
-            historyList = new ArrayList<>();
-        }
-//        mAdapter.setNewData(freeList);
-
-        mTodayAdapter.setNewData(todayList);
-        mHistoryAdapter.setNewData(historyList);*/
     }
 
     @Override
     public void doReserveSuccess(int position) {
-/*        LiveMatchBean item = mMatchAdapter.getItem(position);
-        if (item.getReserve() == 0) {
-            item.setReserve(1);
-        } else {
-            item.setReserve(0);
-        }
-        mMatchAdapter.notifyItemChanged(position);*/
     }
 
     @Override
@@ -466,11 +439,19 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 
     @Override
     public void getMatchSuccess(List<LiveMatchListBean.MatchItemBean> today,List<LiveMatchListBean.MatchItemBean> upcoming) {
-        if (today != null) {
-            mTodayMatchAdapter.setNewData(today);
-        }
         if (upcoming != null) {
             mComingAdapter.setNewData(upcoming);
+        }
+        if (today != null && today.size()>0) {
+            mTodayMatchAdapter.setNewData(today);
+            isOpenUpcoming = false;
+            rv_match_upcoming.setVisibility(View.GONE);
+            rv_match.setVisibility(View.VISIBLE);
+        }else{
+            //今日直播列表为空， 默认展开upComing
+            isOpenUpcoming = true;
+            rv_match_upcoming.setVisibility(View.VISIBLE);
+            rv_match.setVisibility(View.GONE);
         }
     }
 

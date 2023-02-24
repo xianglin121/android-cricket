@@ -767,4 +767,5 @@
     <string name="start_permission_storage_tip">Please grant file storage permission first</string>
     <string name="share_live_tip">I am watching free hd cricket on OneCric.tv</string>
     <string name="share_live_scan_tip">Scan code to register</string>
+    <string name="system_share">Share OneCric.tv</string>
 </resources>

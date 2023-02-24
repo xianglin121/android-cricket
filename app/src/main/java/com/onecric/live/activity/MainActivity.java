@@ -1,6 +1,8 @@
 package com.onecric.live.activity;
 
 
+import static com.onecric.live.HttpConstant.SHARE_LIVE_URL;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
@@ -51,6 +53,7 @@ import com.onecric.live.presenter.login.MainPresenter;
 import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.MPermissionUtils;
+import com.onecric.live.util.ShareUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.ToolUtil;
 import com.onecric.live.util.WordUtil;
@@ -161,19 +164,29 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                if (id == R.id.menu_system_settings) {
-                    SettingActivity.forward(mActivity);
-                } else {
-                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                        ToastUtil.show(getString(R.string.please_login));
-                        loginDialog.show();
-                    } else {
-                        if (id == R.id.menu_my_concerns) {
+                switch (id){
+                    case R.id.menu_system_settings:
+                        SettingActivity.forward(mActivity);
+                        break;
+                    case R.id.menu_system_share:
+                        ShareUtil.shareText(mActivity,"Share OneCric.tv",SHARE_LIVE_URL);
+                        break;
+                    case R.id.menu_my_concerns:
+                        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                            ToastUtil.show(getString(R.string.please_login));
+                            loginDialog.show();
+                        }else{
                             MyFollowActivity.forward(mActivity);
-                        } else if (id == R.id.menu_my_message) {
+                        }
+                        break;
+                    case R.id.menu_my_message:
+                        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                            ToastUtil.show(getString(R.string.please_login));
+                            loginDialog.show();
+                        }else{
                             MyMessageActivity.forward(mActivity);
                         }
-                    }
+                        break;
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;

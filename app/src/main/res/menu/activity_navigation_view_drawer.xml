@@ -18,4 +18,8 @@
         android:id="@+id/menu_system_settings"
         android:icon="@mipmap/icon_system_settings"
         android:title="@string/system_settings" />
+    <item
+        android:id="@+id/menu_system_share"
+        android:icon="@mipmap/icon_system_share"
+        android:title="@string/system_share" />
 </menu>

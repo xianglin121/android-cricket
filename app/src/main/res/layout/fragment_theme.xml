@@ -23,7 +23,6 @@
             android:id="@+id/tv_single_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingLeft="12dp"
             android:paddingTop="35dp"
             android:text="@string/theme_headline"
             android:textSize="20sp"
@@ -36,12 +35,14 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_avatar"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
             app:layout_constraintBottom_toBottomOf="@id/tv_single_title"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="20dp"
             android:src="@mipmap/bg_avatar_default"
             android:scaleType="centerCrop"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -50,7 +50,8 @@
         android:textColor="@color/white"
         android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="@id/iv_cover"
-        app:layout_constraintLeft_toLeftOf="@id/iv_cover" />
+        app:layout_constraintLeft_toLeftOf="@id/iv_cover"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_like_count"

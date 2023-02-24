@@ -132,17 +132,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
                 MyTaskActivity.forward(getContext());
                 break;
             case R.id.iv_avatar:
-                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-                    if(loginDialog!=null){
-                        loginDialog.show();
-                    }else{
-//                        ToastUtil.show(getString(R.string.please_login));
-                        ((MainActivity)getActivity()).newLoginDialog();
-                    }
-                    return;
-                }else{
-//                    PersonalHomepageActivity.forward(getActivity(), CommonAppConfig.getInstance().getUid());
-                }
+                ((MainActivity)getActivity()).openDrawer();
                 break;
         }
     }

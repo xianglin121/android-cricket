@@ -5,9 +5,11 @@ import static android.view.MotionEvent.ACTION_UP;
 import static com.onecric.live.HttpConstant.SHARE_LIVE_URL;
 import static com.onecric.live.util.DialogUtil.loadingDialog;
 import static com.onecric.live.util.UiUtils.collapseView;
+import static com.onecric.live.util.UiUtils.convertViewToBitmap;
 import static com.onecric.live.util.UiUtils.createQrCode;
 import static com.onecric.live.util.UiUtils.expandView;
 import static com.onecric.live.util.UiUtils.saveBitmapFile;
+import static com.onecric.live.util.UiUtils.sharePictureFile;
 import static com.tencent.imsdk.base.ThreadUtils.runOnUiThread;
 
 import android.animation.Animator;
@@ -669,6 +671,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public void getDataSuccess(LiveRoomBean bean) {
         if (bean != null) {
             mLiveRoomBean = bean;
+            mMatchId = bean.getInfo().getMatch_id();
             //判断是否弹出关注弹窗
             if (mLiveRoomBean.getUserData() != null) {
                 boolean isShow = false;
@@ -996,6 +999,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         }
         if(!isLive && !isFinishing()){
             history_video_view.onVideoPause();
+        }
+        if(shareDialog!=null && shareDialog.isShowing()){
+            shareDialog.dismiss();
         }
     }
 
@@ -1538,7 +1544,6 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     private Bitmap shareQRCodeBitmap;
     private AlertDialog shareDialog;
     private Bitmap picBitmap;
-    //fixme 分享封面
     private void shareScreen(){
         View view1 = mActivity.getLayoutInflater().inflate(R.layout.dialog_share_live,null);
         ImageView ivCode = view1.findViewById(R.id.iv_code);
@@ -1569,8 +1574,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         //拼接截图
         //这种方式有缓存，且短视频和直播源画面空白
         ll_main.setDrawingCacheEnabled(true);
-        ll_main.buildDrawingCache();
         Bitmap bitmap = ll_main.getDrawingCache();
+        ivScreen.setImageBitmap(bitmap);
 
         ivScreen.setImageBitmap(bitmap);
         android.view.ViewGroup.LayoutParams ppivScreen = ivScreen.getLayoutParams();
@@ -1580,22 +1585,35 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         //展示弹窗
         if(shareDialog==null){
             shareDialog = new AlertDialog.Builder(mActivity).setView(view1).create();
+            shareDialog.setCancelable(true);
+            shareDialog.setCanceledOnTouchOutside(true);
         }else{
             shareDialog.setView(view1);
         }
-        shareDialog.setCancelable(true);
         shareDialog.show();
 
         ll_pic.setDrawingCacheEnabled(true);
+        picBitmap = convertViewToBitmap(ll_pic);
+
         Window w = shareDialog.getWindow();
         w.setLayout((int) (dm.widthPixels * 0.9), ViewGroup.LayoutParams.WRAP_CONTENT);
         w.findViewById(R.id.tv_save).setOnClickListener(v -> {
-            ll_pic.buildDrawingCache();
-            picBitmap = ll_pic.getDrawingCache();
+            if(picBitmap==null){
+                picBitmap = convertViewToBitmap(ll_pic);
+            }
             //保存图片
-            if(saveBitmapFile(mActivity,picBitmap)){
+            /*if(saveBitmapFile(mActivity,picBitmap)){
+                shareDialog.dismiss();
+            }*/
+
+            //分享到第三方
+            if(sharePictureFile(mActivity,picBitmap)){
                 shareDialog.dismiss();
             }
+        });
+
+        w.findViewById(R.id.ll_pic).setOnClickListener(v->{
+            shareDialog.dismiss();
         });
 
     }
@@ -1606,16 +1624,21 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 10005:
-                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    //是否勾选禁止后不再询问
-                    boolean flag = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0]);
-                    ToastUtil.show(getString(flag?R.string.start_permission_storage_setting_tip:R.string.start_permission_storage_tip));
-                }else{
-                    saveBitmapFile(mActivity,picBitmap);
+                for (int i = 0; i < grantResults.length; i++) {
+//                   如果拒绝获取权限
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        //判断是否勾选禁止后不再询问
+                        boolean flag = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]);
+                        ToastUtil.show(getString(flag?R.string.start_permission_storage_setting_tip:R.string.start_permission_storage_tip));
+                        return;
+                    }
                 }
+                sharePictureFile(mActivity,picBitmap);
                 break;
             default:
                 break;
         }
     }
+
+
 }

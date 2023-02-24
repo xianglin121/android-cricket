@@ -290,13 +290,13 @@
         <FrameLayout
             android:id="@+id/fl_webview1"
             android:layout_width="match_parent"
-            android:layout_height="281dp"
+            android:layout_height="350dp"
             android:visibility="gone">
 
             <WebView
                 android:id="@+id/wv_animation"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:overScrollMode="never" />
 
