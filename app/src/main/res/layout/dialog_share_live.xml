@@ -85,8 +85,7 @@
             android:paddingLeft="10dp"
             android:paddingTop="3dp"
             android:paddingRight="12dp"
-            android:paddingBottom="5dp"
-            android:visibility="gone">
+            android:paddingBottom="5dp">
 
             <ImageView
                 android:id="@+id/iv_back"
@@ -107,8 +106,7 @@
             android:id="@+id/iv_cover"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:visibility="gone"/>
+            android:scaleType="centerCrop"/>
 
         <ImageView
             android:id="@+id/iv_screen"

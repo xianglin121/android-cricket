@@ -1552,8 +1552,6 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         ImageView iv_cover = view1.findViewById(R.id.iv_cover);
         RelativeLayout sBar = view1.findViewById(R.id.statusBar);
         CircleImageView head_pic = view1.findViewById(R.id.person_head_pic);
-        sBar.setVisibility(View.VISIBLE);
-        iv_cover.setVisibility(View.VISIBLE);
 
         //赋值封面
         android.view.ViewGroup.LayoutParams ppiv_cover = iv_cover.getLayoutParams();
@@ -1577,11 +1575,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         Bitmap bitmap = ll_main.getDrawingCache();
         ivScreen.setImageBitmap(bitmap);
 
-        ivScreen.setImageBitmap(bitmap);
-        android.view.ViewGroup.LayoutParams ppivScreen = ivScreen.getLayoutParams();
-        int height = (int) ((float)ll_main.getHeight()/ll_main.getWidth() * dm.widthPixels  * 0.82);
-        ppivScreen.height = height;
-        ivScreen.setLayoutParams(ppivScreen);
+//        android.view.ViewGroup.LayoutParams ppivScreen = ivScreen.getLayoutParams();
+//        int height = (int) ((float)ll_main.getHeight()/ll_main.getWidth() * dm.widthPixels);
+//        ppivScreen.height = height;
+//        ivScreen.setLayoutParams(ppivScreen);
         //展示弹窗
         if(shareDialog==null){
             shareDialog = new AlertDialog.Builder(mActivity).setView(view1).create();
@@ -1602,7 +1599,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 picBitmap = convertViewToBitmap(ll_pic);
             }
             //保存图片
-            /*if(saveBitmapFile(mActivity,picBitmap)){
+            /*if(saveBitmapFile(mActivity,picBitmap)!=null){
                 shareDialog.dismiss();
             }*/
 

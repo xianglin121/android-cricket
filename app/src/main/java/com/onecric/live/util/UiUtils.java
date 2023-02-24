@@ -215,7 +215,7 @@ public class UiUtils {
         File file=new File(context.getCacheDir(),System.currentTimeMillis()+".png");
         try {
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bos);
             bos.flush();
             bos.close();
         } catch (IOException e) {

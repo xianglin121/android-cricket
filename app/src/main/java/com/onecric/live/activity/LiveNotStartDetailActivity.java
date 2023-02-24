@@ -903,24 +903,38 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         ImageView ivCode = view1.findViewById(R.id.iv_code);
         ImageView ivScreen = view1.findViewById(R.id.iv_screen);
         LinearLayout ll_pic = view1.findViewById(R.id.ll_pic);
+        ImageView iv_cover = view1.findViewById(R.id.iv_cover);
+        RelativeLayout sBar = view1.findViewById(R.id.statusBar);
+        CircleImageView head_pic = view1.findViewById(R.id.person_head_pic);
+//        sBar.setVisibility(View.VISIBLE);
+//        iv_cover.setVisibility(View.VISIBLE);
+
+        //赋值封面
+        android.view.ViewGroup.LayoutParams ppiv_cover = iv_cover.getLayoutParams();
+        int width = UIUtil.getScreenWidth(mActivity);
+        ppiv_cover.height = (int)(width * 0.5625 * 0.8);
+        iv_cover.setLayoutParams(ppiv_cover);
+        GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_cover);
+        GlideUtil.loadUserImageDefault(mActivity, mLiveRoomBean.getUserData().getAvatar(), head_pic);
 
         DisplayMetrics dm = new DisplayMetrics();
         mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         //生成二维码
         if(shareQRCodeBitmap == null){
-           shareQRCodeBitmap = createQrCode(SHARE_LIVE_URL,UIUtil.dip2px(mActivity,35),UIUtil.dip2px(mActivity,35));
+            shareQRCodeBitmap = createQrCode(SHARE_LIVE_URL,UIUtil.dip2px(mActivity,35),UIUtil.dip2px(mActivity,35));
         }
         ivCode.setImageBitmap(shareQRCodeBitmap);
 
         //拼接截图
+        //这种方式有缓存，且短视频和直播源画面空白
         ll_main.setDrawingCacheEnabled(true);
         Bitmap bitmap = ll_main.getDrawingCache();
         ivScreen.setImageBitmap(bitmap);
 
-        android.view.ViewGroup.LayoutParams pp = ivScreen.getLayoutParams();
-        int height = (int) ((float)ll_main.getHeight()/ll_main.getWidth() * dm.widthPixels  * 0.82);
-        pp.height = height;
-        ivScreen.setLayoutParams(pp);
+//        android.view.ViewGroup.LayoutParams ppivScreen = ivScreen.getLayoutParams();
+//        int height = (int) ((float)ll_main.getHeight()/ll_main.getWidth() * dm.widthPixels);
+//        ppivScreen.height = height;
+//        ivScreen.setLayoutParams(ppivScreen);
         //展示弹窗
         if(shareDialog==null){
             shareDialog = new AlertDialog.Builder(mActivity).setView(view1).create();
@@ -940,6 +954,11 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             if(picBitmap==null){
                 picBitmap = convertViewToBitmap(ll_pic);
             }
+            //保存图片
+            /*if(saveBitmapFile(mActivity,picBitmap)){
+                shareDialog.dismiss();
+            }*/
+
             //分享到第三方
             if(sharePictureFile(mActivity,picBitmap)){
                 shareDialog.dismiss();
@@ -949,7 +968,6 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         w.findViewById(R.id.ll_pic).setOnClickListener(v->{
             shareDialog.dismiss();
         });
-
     }
 
 

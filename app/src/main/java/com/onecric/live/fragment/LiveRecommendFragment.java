@@ -282,13 +282,16 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                 }else{
                     ToastUtil.show(getString(R.string.please_login));
                 }
-            }else if (mTodayAdapter.getItem(position).getIslive() == 0) {
-                LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),
-                        mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getLive_id());
             }else{
-                LiveDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),3,
-                        mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getLive_id());
+                if (mTodayAdapter.getItem(position).getIslive() == 0) {
+                    LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),
+                            mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getLive_id());
+                }else{
+                    LiveDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),3,
+                            mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getLive_id());
+                }
             }
+
         });
         rv_match.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         rv_match.setAdapter(mTodayMatchAdapter);
