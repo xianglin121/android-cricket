@@ -1549,16 +1549,17 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         ImageView ivCode = view1.findViewById(R.id.iv_code);
         ImageView ivScreen = view1.findViewById(R.id.iv_screen);
         LinearLayout ll_pic = view1.findViewById(R.id.ll_pic);
-        ImageView iv_cover = view1.findViewById(R.id.iv_cover);
+        ImageView iv_c = view1.findViewById(R.id.iv_c);
         RelativeLayout sBar = view1.findViewById(R.id.statusBar);
         CircleImageView head_pic = view1.findViewById(R.id.person_head_pic);
 
         //赋值封面
-        android.view.ViewGroup.LayoutParams ppiv_cover = iv_cover.getLayoutParams();
+        android.view.ViewGroup.LayoutParams ppiv_cover = iv_c.getLayoutParams();
         int width = UIUtil.getScreenWidth(mActivity);
         ppiv_cover.height = (int)(width * 0.5625 * 0.8);
-        iv_cover.setLayoutParams(ppiv_cover);
-        GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_cover);
+        iv_c.setLayoutParams(ppiv_cover);
+        GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_c);
+//        Glide.with(mActivity).load(mLiveRoomBean.getInfo().getThumb()).dontAnimate().into(iv_c);
         GlideUtil.loadUserImageDefault(mActivity, mLiveRoomBean.getUserData().getAvatar(), head_pic);
 
         DisplayMetrics dm = new DisplayMetrics();

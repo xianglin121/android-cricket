@@ -103,7 +103,7 @@
         </RelativeLayout>
 
         <ImageView
-            android:id="@+id/iv_cover"
+            android:id="@+id/iv_c"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"/>
@@ -112,7 +112,7 @@
             android:id="@+id/iv_screen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"/>
+            android:scaleType="fitXY"/>
 
     </LinearLayout>
 
