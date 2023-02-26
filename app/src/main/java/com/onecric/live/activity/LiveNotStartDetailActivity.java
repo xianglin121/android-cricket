@@ -342,6 +342,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     public void getDataSuccess(LiveRoomBean bean) {
         if (bean != null) {
             mLiveRoomBean = bean;
+            initShareScreen();
             mMatchId = bean.getInfo().getMatch_id();
             tv_time.setText("Watch live at "+getRelativeLocalDate(sfdate2,bean.getInfo().getStarttime()));
             GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_cover);
@@ -897,17 +898,17 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     private Bitmap shareQRCodeBitmap;
     private AlertDialog shareDialog;
     private Bitmap picBitmap;
-
-    private void shareScreen(){
-        View view1 = mActivity.getLayoutInflater().inflate(R.layout.dialog_share_live,null);
+    private LinearLayout ll_pic;
+    private View view1;
+    private ImageView ivScreen;
+    private void initShareScreen(){
+        view1 = mActivity.getLayoutInflater().inflate(R.layout.dialog_share_live,null);
         ImageView ivCode = view1.findViewById(R.id.iv_code);
-        ImageView ivScreen = view1.findViewById(R.id.iv_screen);
-        LinearLayout ll_pic = view1.findViewById(R.id.ll_pic);
+        ivScreen = view1.findViewById(R.id.iv_screen);
+        ll_pic = view1.findViewById(R.id.ll_pic);
         ImageView iv_c = view1.findViewById(R.id.iv_c);
         RelativeLayout sBar = view1.findViewById(R.id.statusBar);
         CircleImageView head_pic = view1.findViewById(R.id.person_head_pic);
-//        sBar.setVisibility(View.VISIBLE);
-//        iv_cover.setVisibility(View.VISIBLE);
 
         //赋值封面
         android.view.ViewGroup.LayoutParams ppiv_cover = iv_c.getLayoutParams();
@@ -915,52 +916,65 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         ppiv_cover.height = (int)(width * 0.5625 * 0.8);
         iv_c.setLayoutParams(ppiv_cover);
         GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_c);
-        GlideUtil.loadUserImageDefault(mActivity, mLiveRoomBean.getUserData().getAvatar(), head_pic);
+        //跳过内存缓存 否则得到的是失败图片
+        Glide.with(mActivity).load(mLiveRoomBean.getInfo().getThumb()).skipMemoryCache(true).into(iv_c);
+//        GlideUtil.loadUserImageDefault(mActivity, mLiveRoomBean.getUserData().getAvatar(), head_pic);
 
-        DisplayMetrics dm = new DisplayMetrics();
-        mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         //生成二维码
         if(shareQRCodeBitmap == null){
             shareQRCodeBitmap = createQrCode(SHARE_LIVE_URL,UIUtil.dip2px(mActivity,35),UIUtil.dip2px(mActivity,35));
         }
         ivCode.setImageBitmap(shareQRCodeBitmap);
 
+//        android.view.ViewGroup.LayoutParams ppivScreen = ivScreen.getLayoutParams();
+//        int height = (int) ((float)ll_main.getHeight()/ll_main.getWidth() * dm.widthPixels);
+//        ppivScreen.height = height;
+//        ivScreen.setLayoutParams(ppivScreen);
+
+        if(shareDialog==null){
+            shareDialog = new AlertDialog.Builder(mActivity).setView(view1).create();
+            shareDialog.setCancelable(true);
+            shareDialog.setCanceledOnTouchOutside(true);
+        }
+
+    }
+    private void shareScreen(){
+        if(shareDialog == null){
+            return;
+        }
         //拼接截图
         //这种方式有缓存，且短视频和直播源画面空白
         ll_main.setDrawingCacheEnabled(true);
         Bitmap bitmap = ll_main.getDrawingCache();
         ivScreen.setImageBitmap(bitmap);
+        shareDialog.setView(view1);
 
-//        android.view.ViewGroup.LayoutParams ppivScreen = ivScreen.getLayoutParams();
-//        int height = (int) ((float)ll_main.getHeight()/ll_main.getWidth() * dm.widthPixels);
-//        ppivScreen.height = height;
-//        ivScreen.setLayoutParams(ppivScreen);
         //展示弹窗
-        if(shareDialog==null){
-            shareDialog = new AlertDialog.Builder(mActivity).setView(view1).create();
-            shareDialog.setCancelable(true);
-            shareDialog.setCanceledOnTouchOutside(true);
-        }else{
-            shareDialog.setView(view1);
-        }
         shareDialog.show();
 
         ll_pic.setDrawingCacheEnabled(true);
         picBitmap = convertViewToBitmap(ll_pic);
 
+        DisplayMetrics dm = new DisplayMetrics();
+        mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         Window w = shareDialog.getWindow();
         w.setLayout((int) (dm.widthPixels * 0.9), ViewGroup.LayoutParams.WRAP_CONTENT);
+        w.findViewById(R.id.tv_share).setOnClickListener(v -> {
+            if(picBitmap==null){
+                picBitmap = convertViewToBitmap(ll_pic);
+            }
+            //分享到第三方
+            if(sharePictureFile(mActivity,picBitmap)){
+                shareDialog.dismiss();
+            }
+        });
+
         w.findViewById(R.id.tv_save).setOnClickListener(v -> {
             if(picBitmap==null){
                 picBitmap = convertViewToBitmap(ll_pic);
             }
             //保存图片
-            /*if(saveBitmapFile(mActivity,picBitmap)){
-                shareDialog.dismiss();
-            }*/
-
-            //分享到第三方
-            if(sharePictureFile(mActivity,picBitmap)){
+            if(saveBitmapFile(mActivity,picBitmap)!=null){
                 shareDialog.dismiss();
             }
         });
@@ -968,6 +982,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         w.findViewById(R.id.ll_pic).setOnClickListener(v->{
             shareDialog.dismiss();
         });
+
     }
 
 
@@ -976,6 +991,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 10005:
+            case 10004:
                 for (int i = 0; i < grantResults.length; i++) {
 //                   如果拒绝获取权限
                     if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
@@ -985,7 +1001,11 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                         return;
                     }
                 }
-                sharePictureFile(mActivity,picBitmap);
+                if(requestCode == 10005){
+                    sharePictureFile(mActivity,picBitmap);
+                }else{//fixme 1.保存图片 第一次拿到权限会闪退 2.封面是空的
+                    saveBitmapFile(mActivity,picBitmap);
+                }
                 break;
             default:
                 break;

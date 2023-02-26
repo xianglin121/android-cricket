@@ -118,7 +118,22 @@
 
     <com.coorchice.library.SuperTextView
         android:id="@+id/tv_save"
-        android:layout_width="150dp"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/save"
+        android:textSize="14dp"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_dc3c23_23dp_rec"
+        android:layout_alignBottom="@+id/ll_pic"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentLeft="true"/>
+
+    <com.coorchice.library.SuperTextView
+        android:id="@+id/tv_share"
+        android:layout_width="80dp"
         android:layout_height="35dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
@@ -129,6 +144,6 @@
         android:background="@drawable/shape_dc3c23_23dp_rec"
         android:layout_alignBottom="@+id/ll_pic"
         android:layout_marginBottom="20dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>
