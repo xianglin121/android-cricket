@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
 import com.onecric.live.activity.CricketDetailActivity;
+import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.CricketTournamentBean;
 
@@ -52,7 +53,12 @@ public class CricketAdapter extends BaseQuickAdapter<CricketTournamentBean, Base
         innerAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                CricketDetailActivity.forward(mContext, innerAdapter.getItem(position).getId());
+                if(innerAdapter.getItem(position).getLive_id()!=0){
+                    //fixme 显示直播item 点击去直播详情
+                    LiveDetailActivity.forward(mContext,innerAdapter.getItem(position).getLive_uid(),innerAdapter.getItem(position).getMatch_id(),innerAdapter.getItem(position).getLive_id());
+                }else{
+                    CricketDetailActivity.forward(mContext, innerAdapter.getItem(position).getId());
+                }
             }
         });
         rv_inner.setAdapter(innerAdapter);

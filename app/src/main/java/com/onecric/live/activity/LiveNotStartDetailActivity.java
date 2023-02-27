@@ -991,21 +991,24 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 10005:
-            case 10004:
                 for (int i = 0; i < grantResults.length; i++) {
-//                   如果拒绝获取权限
                     if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                        //判断是否勾选禁止后不再询问
                         boolean flag = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]);
                         ToastUtil.show(getString(flag?R.string.start_permission_storage_setting_tip:R.string.start_permission_storage_tip));
                         return;
                     }
                 }
-                if(requestCode == 10005){
-                    sharePictureFile(mActivity,picBitmap);
-                }else{//fixme 1.保存图片 第一次拿到权限会闪退 2.封面是空的
-                    saveBitmapFile(mActivity,picBitmap);
+                sharePictureFile(mActivity,picBitmap);
+                break;
+            case 10004:
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        boolean flag = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]);
+                        ToastUtil.show(getString(flag?R.string.start_permission_storage_setting_tip:R.string.start_permission_storage_tip));
+                        return;
+                    }
                 }
+                saveBitmapFile(mActivity,picBitmap);
                 break;
             default:
                 break;

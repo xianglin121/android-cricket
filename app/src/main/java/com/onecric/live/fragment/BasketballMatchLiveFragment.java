@@ -82,7 +82,7 @@ public class BasketballMatchLiveFragment extends MvpFragment<BasketballMatchLive
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
 //                    LoginActivity.forward(getContext());
                 }else{
-                    LiveDetailActivity.forward(getContext(), mAnchorAdapter.getItem(position).getId(), 1, mId,mAnchorAdapter.getItem(position).getId());
+                    LiveDetailActivity.forward(getContext(), mAnchorAdapter.getItem(position).getId(), mId,mAnchorAdapter.getItem(position).getId());
                 }
             }
         });
@@ -116,7 +116,7 @@ public class BasketballMatchLiveFragment extends MvpFragment<BasketballMatchLive
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
 //                    LoginActivity.forward(getContext());
                 }else{
-                    LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getType(), mLiveAdapter.getItem(position).getMatch_id(),mLiveAdapter.getItem(position).getId());
+                    LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getMatch_id(),mLiveAdapter.getItem(position).getId());
                 }
             }
         });

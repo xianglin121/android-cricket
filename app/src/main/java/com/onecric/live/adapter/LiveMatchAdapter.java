@@ -28,7 +28,7 @@ import java.util.Locale;
 
 public class LiveMatchAdapter extends BaseQuickAdapter<LiveMatchListBean.MatchItemBean, BaseViewHolder> {
     private SimpleDateFormat sfdate1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private SimpleDateFormat sfdate2 = new SimpleDateFormat("d MMM hh:mm a", Locale.ENGLISH);
+    private SimpleDateFormat sfdate2 = new SimpleDateFormat("MM-dd hh:mm a", Locale.ENGLISH);
     public LiveMatchAdapter(int layoutResId, @Nullable List<LiveMatchListBean.MatchItemBean> data) {
         super(layoutResId, data);
     }

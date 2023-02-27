@@ -3,7 +3,6 @@ package com.onecric.live.model;
 import java.io.Serializable;
 
 public class CricketMatchBean implements Serializable {
-
     private int id;
     private int match_id;
     private String scheduled;
@@ -30,6 +29,24 @@ public class CricketMatchBean implements Serializable {
     private String venue;
     private String date;
     private String opponent_name;
+    private int live_id;//直播id
+    private int live_uid;//主播id
+
+    public int getLive_uid() {
+        return live_uid;
+    }
+
+    public void setLive_uid(int live_uid) {
+        this.live_uid = live_uid;
+    }
+
+    public void setLive_id(int live_id) {
+        this.live_id = live_id;
+    }
+
+    public int getLive_id() {
+        return live_id;
+    }
 
     public int getIs_subscribe() {
         return is_subscribe;

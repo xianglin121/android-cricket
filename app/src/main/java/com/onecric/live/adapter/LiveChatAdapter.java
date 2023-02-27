@@ -69,7 +69,11 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
                             content = "";
                         }
                     }else if (customMsgBean.getType() == MessageInfo.MSG_TYPE_NOBEL_ENTER) {
-                        isAnchor = customMsgBean.getNobel().getIs_room() == 1?true:false;
+                        if(customMsgBean.getNobel()==null){
+                            isAnchor = false;
+                        }else{
+                            isAnchor = customMsgBean.getNobel().getIs_room() == 1?true:false;
+                        }
                         isEnterInfo = true;
                         //进入房间的消息不需要发言人
                         content = item.getNickName() + " " + mContext.getString(R.string.enter_the_chat_room);

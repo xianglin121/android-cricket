@@ -170,7 +170,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                     LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),
                             mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getLive_id());
                 }else{
-                    LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(), mTodayAdapter.getItem(position).getType(),
+                    LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(),
                             mTodayAdapter.getItem(position).getMatch_id(),mTodayAdapter.getItem(position).getLive_id());
                 }
             }
@@ -287,7 +287,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                     LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),
                             mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getLive_id());
                 }else{
-                    LiveDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),3,
+                    LiveDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),
                             mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getLive_id());
                 }
             }
@@ -423,7 +423,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                             ToastUtil.show(getString(R.string.please_login));
                         }
                     }else{
-                        LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), bannerBean.getParam_type(),
+                        LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(),
                                 bannerBean.getParam_id(),bannerBean.getLive_id());
                     }
                 } else if (bannerBean.getParam_id() != 0) {

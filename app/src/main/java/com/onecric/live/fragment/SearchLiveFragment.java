@@ -67,7 +67,7 @@ public class SearchLiveFragment extends MvpFragment<SearchLiveSecondPresenter> i
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
                     ((SearchLiveDetailActivity)getActivity()).loginDialog.show();
                 }else{
-                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(),
+                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(),
                             mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
                 }
             }

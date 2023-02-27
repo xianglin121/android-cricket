@@ -8,6 +8,7 @@ import com.onecric.live.AppManager;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.LoginActivity;
+import com.onecric.live.activity.MainActivity;
 import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.util.LogUtil;
 import com.onecric.live.util.ToastUtil;
@@ -69,8 +70,9 @@ public abstract class ApiCallback extends DisposableObserver<JsonObject> {
                 ToastUtil.show(AppManager.mContext.getString(R.string.tip_login_error_one));
                 CommonAppConfig.getInstance().clearLoginInfo();
                 EventBus.getDefault().post(new UpdateLoginTokenEvent());
-                LoginActivity.forward2(AppManager.mContext);
-//                MainActivity.loginForward(AppManager.mContext);
+//                MainActivity.forward(AppManager.mContext);
+//                LoginActivity.forward2(AppManager.mContext);
+                MainActivity.loginForward(AppManager.mContext);
             }
             if (jsonObject.getIntValue("code") == 405) {
                 msg = AppManager.mContext.getString(R.string.tip_login_error_two);

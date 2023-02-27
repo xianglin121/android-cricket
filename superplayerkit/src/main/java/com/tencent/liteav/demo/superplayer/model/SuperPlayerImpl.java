@@ -209,19 +209,24 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
         }
         if (event < 0) {// 播放点播文件失败
             mVodPlayer.stopPlay(true);
-            updatePlayerState(SuperPlayerDef.PlayerState.PAUSE);
+            if(event == -6011){
+                updatePlayerState(SuperPlayerDef.PlayerState.NO_NETWORK);
+            }else{
+                updatePlayerState(SuperPlayerDef.PlayerState.PAUSE);
+            }
             onError(SuperPlayerCode.VOD_PLAY_FAIL, param.getString(TXLiveConstants.EVT_DESCRIPTION));
         }
     }
 
     /**
      * 点播播放器网络状态回调
-     *
+     * 无效
      * @param player
      * @param bundle
      */
     @Override
     public void onNetStatus(TXVodPlayer player, Bundle bundle) {
+        Log.d("lttltt",bundle.toString()+"");
     }
 
     private void initialize(Context context, TXCloudVideoView videoView) {
@@ -596,13 +601,16 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
                 mObserver.onPlayBegin(getPlayName());
                 break;
             case PAUSE:
-                mObserver.onPlayPause();
+                mObserver.onPlayPause(1);
                 break;
             case LOADING:
                 mObserver.onPlayLoading();
                 break;
             case END:
                 mObserver.onPlayStop();
+                break;
+            case NO_NETWORK:
+                mObserver.onPlayPause(2);
                 break;
         }
     }

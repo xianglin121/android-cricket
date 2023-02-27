@@ -172,6 +172,10 @@ public class UiUtils {
             return null;
         }
 
+        if (bit.isRecycled()) {
+            return null;
+        }
+
 //        getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(),尽量用getFilesDir()之类的api
         String path = Environment.getExternalStorageDirectory().getPath();
         if (Build.VERSION.SDK_INT > 29) {
@@ -200,17 +204,16 @@ public class UiUtils {
             return file;
         } catch (IOException e) {
             e.printStackTrace();
-            ToastUtil.show(e.getMessage());
+            ToastUtil.show(activity.getString(R.string.save_failed));
         }
-
         return null;
-
     }
 
     /**
      * 保存图片到缓存
      */
     public static String saveTitmapToCache(Context context , Bitmap bitmap){
+
         // 默认保存在应用缓存目录里 Context.getCacheDir()
         File file=new File(context.getCacheDir(),System.currentTimeMillis()+".png");
         try {
@@ -247,7 +250,7 @@ public class UiUtils {
                 return false;
             }
         }
-        //防止 Can’t compress a recycled bitmap
+        //压缩前要防止 Can’t compress a recycled bitmap
         if (bitmap.isRecycled()) {
             return false;
         }

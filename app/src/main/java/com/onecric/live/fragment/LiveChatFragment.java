@@ -71,9 +71,15 @@ import com.onecric.live.view.live.LiveChatView;
 import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMManager;
 import com.tencent.imsdk.v2.V2TIMMessage;
+import com.tencent.imsdk.v2.V2TIMMessageListGetOption;
 import com.tencent.imsdk.v2.V2TIMSendCallback;
+import com.tencent.imsdk.v2.V2TIMValueCallback;
+import com.tencent.qcloud.tuicore.component.interfaces.IUIKitCallback;
+import com.tencent.qcloud.tuikit.tuichat.TUIChatConstants;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
 import com.tencent.qcloud.tuikit.tuichat.util.ChatMessageInfoUtil;
+import com.tencent.qcloud.tuikit.tuichat.util.TUIChatLog;
+import com.tencent.qcloud.tuikit.tuichat.util.TUIChatUtils;
 import com.zyyoona7.popup.EasyPopup;
 import com.zyyoona7.popup.XGravity;
 import com.zyyoona7.popup.YGravity;
@@ -361,6 +367,13 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
             mvpPresenter.getRedEnvelopeList(mAnchorId);
             //红包定时器
             mHandler.sendEmptyMessageDelayed(100, 0);
+
+            //前
+            loadHistoryMessageList(mGroupId,true,10,new MessageInfo(),TUIChatConstants.GET_MESSAGE_FORWARD,null);
+            //后
+            loadHistoryMessageList(mGroupId,true,10,new MessageInfo(),TUIChatConstants.GET_MESSAGE_BACKWARD,null);
+            //双向
+            loadHistoryMessageList(mGroupId,true,10,new MessageInfo(),TUIChatConstants.GET_MESSAGE_TWO_WAY,null);
         }
     }
 
@@ -532,16 +545,24 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                 nobelMsgBean.setIs_room(0);
             }
         }
-        nobelMsgBean.setIs_guard(CommonAppConfig.getInstance().getUserBean().getIs_guard());
-        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getExp_icon())) {
-            nobelMsgBean.setExp_icon(CommonAppConfig.getInstance().getUserBean().getExp_icon());
+
+        MessageInfo messageInfo;
+        if (CommonAppConfig.getInstance().getUserBean() != null) {
+            nobelMsgBean.setIs_guard(CommonAppConfig.getInstance().getUserBean().getIs_guard());
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getExp_icon())) {
+                nobelMsgBean.setExp_icon(CommonAppConfig.getInstance().getUserBean().getExp_icon());
+            }
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
+                nobelMsgBean.setGuard_icon(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon());
+            }
+            customMsgBean.setNobel(nobelMsgBean);
+            messageInfo = ChatMessageInfoUtil.buildCustomMessage(JSONObject.toJSONString(customMsgBean), "", null);
+            messageInfo.setNickName(CommonAppConfig.getInstance().getUserBean().getUser_nickname());
+        }else{
+            messageInfo = ChatMessageInfoUtil.buildCustomMessage(JSONObject.toJSONString(customMsgBean), "", null);
+            messageInfo.setNickName(CommonAppConfig.getInstance().getVisitorUserId());
         }
-        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
-            nobelMsgBean.setGuard_icon(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon());
-        }
-        customMsgBean.setNobel(nobelMsgBean);
-        MessageInfo messageInfo = ChatMessageInfoUtil.buildCustomMessage(JSONObject.toJSONString(customMsgBean), "", null);
-        messageInfo.setNickName(CommonAppConfig.getInstance().getUserBean().getUser_nickname());
+
         V2TIMManager.getMessageManager().sendMessage(messageInfo.getTimMessage(), null, mGroupId, V2TIMMessage.V2TIM_PRIORITY_DEFAULT, false, null,
                 new V2TIMSendCallback<V2TIMMessage>() {
                     @Override
@@ -597,9 +618,8 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                     @Override
                     public void onSuccess() {
                         mvpPresenter.initListener();
-                        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                            sendEnterMessage();
-                        }
+//                        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {}
+                        sendEnterMessage();
                         //fixme
 //                        ((LiveDetailActivity) getActivity()).setPeopleCount();
                     }
@@ -1369,4 +1389,42 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
             }
         }
     }
+
+    /**
+     * 拉取历史记录
+     */
+    public void loadHistoryMessageList(String chatId, boolean isGroup, int loadCount,
+                                       MessageInfo locateMessageInfo, int getType, IUIKitCallback<List<MessageInfo>> callBack) {
+        V2TIMMessageListGetOption optionBackward = new V2TIMMessageListGetOption();
+        optionBackward.setCount(loadCount);
+        if (getType == TUIChatConstants.GET_MESSAGE_FORWARD) {
+            optionBackward.setGetType(V2TIMMessageListGetOption.V2TIM_GET_CLOUD_OLDER_MSG);
+        } else if (getType == TUIChatConstants.GET_MESSAGE_BACKWARD) {
+            optionBackward.setGetType(V2TIMMessageListGetOption.V2TIM_GET_CLOUD_NEWER_MSG);
+        }
+        if (locateMessageInfo != null) {
+            optionBackward.setLastMsg(locateMessageInfo.getTimMessage());
+        }
+        if (isGroup) {
+            optionBackward.setGroupID(chatId);
+        } else {
+            optionBackward.setUserID(chatId);
+        }
+
+        V2TIMManager.getMessageManager().getHistoryMessageList(optionBackward, new V2TIMValueCallback<List<V2TIMMessage>>() {
+            @Override
+            public void onError(int code, String desc) {
+//                TUIChatUtils.callbackOnError(callBack, "live", code, desc);
+                TUIChatLog.e("live", "loadChatMessages getHistoryMessageList optionBackward failed, code = " + code + ", desc = " + desc);
+            }
+
+            @Override
+            public void onSuccess(List<V2TIMMessage> v2TIMMessages) {
+//                List<MessageInfo> messageInfoList = ChatMessageInfoUtil.convertTIMMessages2MessageInfos(v2TIMMessages);
+//                TUIChatUtils.callbackOnSuccess(callBack, messageInfoList);
+                TUIChatLog.e("live", "loadChatMessages getHistoryMessageList success, v2TIMMessages = " + v2TIMMessages.size() );
+            }
+        });
+    }
+
 }

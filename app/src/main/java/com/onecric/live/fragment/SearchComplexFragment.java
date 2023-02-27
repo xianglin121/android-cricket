@@ -124,7 +124,7 @@ public class SearchComplexFragment extends MvpFragment<SearchComplexPresenter> i
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
                     ((SearchLiveDetailActivity)getActivity()).loginDialog.show();
                 }else{
-                    LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getType(), mLiveAdapter.getItem(position).getMatch_id(),mLiveAdapter.getItem(position).getLive_id());
+                    LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(),  mLiveAdapter.getItem(position).getMatch_id(),mLiveAdapter.getItem(position).getLive_id());
                 }
             }
         });

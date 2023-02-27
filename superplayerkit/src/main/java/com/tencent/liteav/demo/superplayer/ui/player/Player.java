@@ -296,5 +296,10 @@ public interface Player {
          */
         void onClickRedEnvelope();
 
+        /**
+         * 是否静音
+         */
+        void onClickMute(boolean isMute);
+
     }
 }

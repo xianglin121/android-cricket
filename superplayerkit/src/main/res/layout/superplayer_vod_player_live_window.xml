@@ -152,6 +152,14 @@
             android:src="@drawable/icon_live_barrage_on"/>
 
         <ImageView
+            android:id="@+id/superplayer_iv_mute"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/selector_mute"/>
+
+        <ImageView
             android:id="@+id/superplayer_iv_more"
             android:layout_width="16dp"
             android:layout_height="16dp"
@@ -182,6 +190,7 @@
             android:background="@mipmap/icon_live_end"/>
 
         <TextView
+            android:id="@+id/tv_end_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/the_anchor_has_not_yet_broadcast"

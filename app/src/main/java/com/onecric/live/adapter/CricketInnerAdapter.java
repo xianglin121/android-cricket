@@ -1,5 +1,6 @@
 package com.onecric.live.adapter;
 
+import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
@@ -48,10 +49,11 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
         helper.setTextColor(R.id.tv_time, mContext.getResources().getColor(R.color.c_901D2550));
         TextView resultTv = helper.getView(R.id.tv_result);
         ImageView subscribeIv = helper.getView(R.id.iv_subscribe);
+        helper.getView(R.id.ll_alarm).setVisibility(View.GONE);
+        helper.getView(R.id.tv_live).setVisibility(View.GONE);
         if (item.getStatus() == 2) {//已结束
             subscribeIv.setVisibility(View.GONE);
             resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_bold));
-            helper.getView(R.id.ll_alarm).setVisibility(View.GONE);
         } else {
             //先判断是否登陆了账号
 //            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
@@ -84,7 +86,6 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
                 }
             });
             resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_regular));
-            helper.getView(R.id.ll_alarm).setVisibility(View.VISIBLE);
             if (item.getStatus() == 0) {//未开始
                 helper.getView(R.id.iv_alarm).setVisibility(View.VISIBLE);
                 if (!TextUtils.isEmpty(item.getLive_time())) {
@@ -113,12 +114,13 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
                 }
             } else {//已开始
                 resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_semibold));
-//                helper.getView(R.id.ll_alarm).setVisibility(View.VISIBLE);
-                helper.getView(R.id.iv_alarm).setVisibility(View.GONE);
-                helper.setText(R.id.tv_time, mContext.getString(R.string.live2));
-                helper.setTextColor(R.id.tv_time, mContext.getResources().getColor(R.color.c_DC3C23));
+                if(item.getLive_id()!=0){
+                    helper.getView(R.id.tv_live).setVisibility(View.VISIBLE);
+                }
             }
         }
+
+
 
         if (!TextUtils.isEmpty(item.getMatch_num())) {
             helper.setText(R.id.tv_date, item.getMatch_num());

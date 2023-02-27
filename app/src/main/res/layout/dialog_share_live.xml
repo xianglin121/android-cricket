@@ -129,7 +129,8 @@
         android:background="@drawable/shape_dc3c23_23dp_rec"
         android:layout_alignBottom="@+id/ll_pic"
         android:layout_marginBottom="20dp"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/dp_10"/>
 
     <com.coorchice.library.SuperTextView
         android:id="@+id/tv_share"
@@ -144,6 +145,7 @@
         android:background="@drawable/shape_dc3c23_23dp_rec"
         android:layout_alignBottom="@+id/ll_pic"
         android:layout_marginBottom="20dp"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_10"/>
 
 </RelativeLayout>

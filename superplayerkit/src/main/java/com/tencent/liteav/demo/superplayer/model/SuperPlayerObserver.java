@@ -21,7 +21,7 @@ public abstract class SuperPlayerObserver {
     /**
      * 播放暂停
      */
-    public void onPlayPause() {
+    public void onPlayPause(int type) {
     }
 
     /**

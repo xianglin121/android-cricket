@@ -342,7 +342,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
     }
 
-    //获取游客id
     @Override
     public void getVisitorUserSigSuccess(String userId, String userSig) {
         if (!TextUtils.isEmpty(userId) && !TextUtils.isEmpty(userSig)) {

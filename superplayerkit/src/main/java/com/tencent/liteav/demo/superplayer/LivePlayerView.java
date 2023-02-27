@@ -703,6 +703,11 @@ public class LivePlayerView extends RelativeLayout {
                 mPlayerViewCallback.onClickRedEnvelope();
             }
         }
+
+        @Override
+        public void onClickMute(boolean isMute) {
+            setMute(isMute);
+        }
     };
 
     /**
@@ -815,6 +820,7 @@ public class LivePlayerView extends RelativeLayout {
          * 点击红包
          */
         void onClickRedEnvelope();
+
     }
 
     public void release() {
@@ -877,11 +883,16 @@ public class LivePlayerView extends RelativeLayout {
             }
             //默认开启弹幕
             mDanmuView.toggle(true);
+
         }
 
         @Override
-        public void onPlayPause() {
-            mWindowPlayer.updatePlayState(SuperPlayerDef.PlayerState.PAUSE);
+        public void onPlayPause(int type) {
+            if(type == 1){//暂停
+                mWindowPlayer.updatePlayState(SuperPlayerDef.PlayerState.PAUSE);
+            }else if(type == 2){//断网
+                mWindowPlayer.updatePlayState(SuperPlayerDef.PlayerState.NO_NETWORK);
+            }
             mFullScreenPlayer.updatePlayState(SuperPlayerDef.PlayerState.PAUSE);
         }
 
@@ -954,7 +965,7 @@ public class LivePlayerView extends RelativeLayout {
             if (mWatcher == null) {
                 mWatcher = new NetWatcher(mContext);
             }
-            mWatcher.start(url, player);
+//            mWatcher.start(url, player);
         }
 
         @Override

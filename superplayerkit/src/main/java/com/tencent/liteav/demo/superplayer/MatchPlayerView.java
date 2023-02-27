@@ -690,6 +690,10 @@ public class MatchPlayerView extends RelativeLayout {
                 mPlayerViewCallback.onClickRedEnvelope();
             }
         }
+
+        @Override
+        public void onClickMute(boolean isMute) {
+        }
     };
 
     /**
@@ -869,8 +873,12 @@ public class MatchPlayerView extends RelativeLayout {
         }
 
         @Override
-        public void onPlayPause() {
-            mWindowPlayer.updatePlayState(SuperPlayerDef.PlayerState.PAUSE);
+        public void onPlayPause(int type) {
+            if(type == 1){
+                mWindowPlayer.updatePlayState(SuperPlayerDef.PlayerState.PAUSE);
+            }else if(type == 2){
+                mWindowPlayer.updatePlayState(SuperPlayerDef.PlayerState.NO_NETWORK);
+            }
             mFullScreenPlayer.updatePlayState(SuperPlayerDef.PlayerState.PAUSE);
         }
 

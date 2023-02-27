@@ -73,7 +73,7 @@ public class LiveMoreVideoFragment extends MvpFragment<LiveMoreVideoPresenter> i
                         ToastUtil.show(getString(R.string.please_login));
                     }
                 }else{
-                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(),
+                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(),
                             mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
                     getActivity().finish();
                 }

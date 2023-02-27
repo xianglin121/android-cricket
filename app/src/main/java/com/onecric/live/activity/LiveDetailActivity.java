@@ -142,7 +142,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
 //    private ImageView iv_silence;
 
-    public static void forward(Context context, int anchorId, int type, int matchId,int mLiveId) {
+    public static void forward(Context context, int anchorId, int matchId,int mLiveId) {
         Intent intent = new Intent(context, LiveDetailActivity.class);
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("matchId", matchId);
@@ -200,6 +200,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     private ImageView iv_tool_share;
     private TextView tv_tool_heart;
     private StandardGSYVideoPlayer history_video_view;
+    private RelativeLayout rl_video;
+    private ImageView iv_video_mute;
 
     private boolean isOpenAvatar = false;
     private int clAvatarHeight;
@@ -305,7 +307,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         int width = UIUtil.getScreenWidth(this);
         if(isLive){
             playerView.setVisibility(View.VISIBLE);
-            history_video_view.setVisibility(View.GONE);
+            rl_video.setVisibility(View.GONE);
             android.view.ViewGroup.LayoutParams pp = playerView.getLayoutParams();
             pp.height = (int)(width * 0.5625);
             playerView.setLayoutParams(pp);
@@ -313,7 +315,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             playerView.setInitId(mAnchorId, mType, mMatchId);
         }else{
             playerView.setVisibility(View.GONE);
-            history_video_view.setVisibility(View.VISIBLE);
+            rl_video.setVisibility(View.VISIBLE);
             android.view.ViewGroup.LayoutParams pp = history_video_view.getLayoutParams();
             pp.height = (int)(width * 0.5625);
             history_video_view.setLayoutParams(pp);
@@ -332,6 +334,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                     history_video_view.startWindowFullscreen(mActivity, true, true);
                 }
             });
+            iv_video_mute.setSelected(false);
+            GSYVideoManager.instance().setNeedMute(false);
             GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
             gsyVideoOption
                     .setLooping(false)//循环
@@ -439,6 +443,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         tv_title = findViewById(R.id.tv_title);
         iv_back = findViewById(R.id.iv_back);
         history_video_view = findViewById(R.id.history_video_view);
+        iv_video_mute = findViewById(R.id.iv_video_mute);
+        rl_video = findViewById(R.id.rl_video);
 //        iv_silence = findViewById(R.id.iv_silence);
 //        iv_silence.setOnClickListener(this);
         person_head_pic = findViewById(R.id.person_head_pic);
@@ -462,6 +468,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         iv_star.setOnClickListener(this);
         iv_tool_heart.setOnClickListener(this);
         iv_tool_share.setOnClickListener(this);
+        iv_video_mute.setOnClickListener(this);
     }
 
 
@@ -958,6 +965,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 break;
             case R.id.iv_tool_share:
                 shareScreen();
+                break;
+            case R.id.iv_video_mute:
+                iv_video_mute.setSelected(!iv_video_mute.isSelected());
+                GSYVideoManager.instance().setNeedMute(iv_video_mute.isSelected());
                 break;
         }
     }
@@ -1643,23 +1654,26 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 10005:
-            case 10004:
                 for (int i = 0; i < grantResults.length; i++) {
-//                   如果拒绝获取权限
                     if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                        //判断是否勾选禁止后不再询问
                         boolean flag = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]);
                         ToastUtil.show(getString(flag?R.string.start_permission_storage_setting_tip:R.string.start_permission_storage_tip));
                         return;
                     }
                 }
-                if(requestCode == 10005){
-                    sharePictureFile(mActivity,picBitmap);
-                }else{//fixme 1.保存图片 第一次拿到权限会闪退 2.封面是空的
-                    saveBitmapFile(mActivity,picBitmap);
-                }
+                sharePictureFile(mActivity,picBitmap);
                 break;
-
+            case 10004:
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        boolean flag = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]);
+                        ToastUtil.show(getString(flag?R.string.start_permission_storage_setting_tip:R.string.start_permission_storage_tip));
+                        return;
+                    }
+                }
+                //fixme 1.保存图片 第一次拿到权限会闪退 2.封面是空的
+                saveBitmapFile(mActivity,picBitmap);
+                break;
             default:
                 break;
         }

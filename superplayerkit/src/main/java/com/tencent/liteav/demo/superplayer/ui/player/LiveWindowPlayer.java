@@ -48,6 +48,7 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
     private LinearLayout mLayoutTop;                             // 顶部标题栏布局
     private LinearLayout mLayoutBottom;                          // 底部进度条所在布局
     private LinearLayout mLayoutEnd;                          // 直播结束布局
+    private TextView mTvEndInfo;                          // 直播结束提示
     private ImageView mIvPause;                               // 暂停播放按钮
     private ImageView mIvFullScreen;                          // 全屏按钮
     private TextView mTvTitle;                               // 视频名称文本
@@ -85,6 +86,7 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
     private VodQualityWindowView mVodQualityView;                           // 画质选择弹窗
     private TextView mTvPeopleCount;                           // 观看人数
     private TextView mTvCountdown;                           // 红包倒计时
+    private ImageView mIvMute;                                // 是否静音
 
     public LiveWindowPlayer(Context context) {
         super(context);
@@ -212,6 +214,7 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
 //        mLayoutBottom = (LinearLayout) findViewById(R.id.superplayer_ll_bottom);
         mLayoutBottom = (LinearLayout) findViewById(R.id.liveplayer_ll_bottom);
         mLayoutEnd = (LinearLayout) findViewById(R.id.ll_live_end);
+        mTvEndInfo = (TextView) findViewById(R.id.tv_end_info);
         mLayoutBottom.setOnClickListener(this);
         mIvBack = (ImageView) findViewById(R.id.superplayer_iv_back);
         mLayoutReplay = (LinearLayout) findViewById(R.id.superplayer_ll_replay);
@@ -232,6 +235,7 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
         mVodQualityView = (VodQualityWindowView) findViewById(R.id.superplayer_vod_quality);
         mTvPeopleCount = (TextView) findViewById(R.id.tv_people_count);
         mTvCountdown = (TextView) findViewById(R.id.tv_countdown);
+        mIvMute = (ImageView) findViewById(R.id.superplayer_iv_mute);
         mVodMoreView.setCallBack(new WindowDanmuSettingView.CallBack() {
             @Override
             public void OnChooseTextSize(float size) {
@@ -289,6 +293,12 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
         mIvWatermark = (ImageView) findViewById(R.id.superplayer_small_iv_water_mark);
         mVipWatchView = findViewById(R.id.superplayer_vip_watch_view);
         mVipWatchView.setVipWatchViewClickListener(this);
+
+        mIvMute.setOnClickListener(this);
+        mIvMute.setSelected(false);
+        if (mControllerCallback != null) {
+            mControllerCallback.onClickMute(false);
+        }
     }
 
     public void setPeopleCount(String count) {
@@ -332,6 +342,7 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
         switch (mCurrentPlayState) {
             case PAUSE:
             case END:
+            case NO_NETWORK:
                 if (mControllerCallback != null) {
                     mControllerCallback.onResume();
                 }
@@ -432,6 +443,7 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
 
     @Override
     public void updatePlayState(SuperPlayerDef.PlayerState playState) {
+        mTvEndInfo.setText(R.string.the_anchor_has_not_yet_broadcast);
         switch (playState) {
             case PLAYING:
                 mLayoutEnd.setVisibility(View.GONE);
@@ -457,7 +469,13 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
                 toggleView(mPbLiveLoading, false);
 //                toggleView(mLayoutReplay, true);
                 break;
+            case NO_NETWORK:
+                mLayoutEnd.setVisibility(View.VISIBLE);
+                mTvEndInfo.setText("Please check your network connection and try again");
+                toggleView(mLayoutReplay, false);
+                break;
         }
+
         mCurrentPlayState = playState;
     }
 
@@ -709,6 +727,9 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
             }
         } else if (id == R.id.iv_red_envelope_close) {
             findViewById(R.id.ll_red_envelope).setVisibility(View.GONE);
+        }else if(id == R.id.superplayer_iv_mute){
+            mIvMute.setSelected(!mIvMute.isSelected());
+            mControllerCallback.onClickMute(mIvMute.isSelected());
         }
     }
 
