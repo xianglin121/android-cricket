@@ -3,11 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="160dp"
     android:layout_height="100dp"
-    android:background="@drawable/ripple_6dp"
-    android:layout_marginRight="8dp"
+    android:background="@drawable/shape_white_6dp_rec"
+    android:foreground="@drawable/selector_foreground_white"
+    android:layout_marginRight="7dp"
     android:orientation="vertical"
     android:paddingBottom="5dp">
-
+<!--android:background="@drawable/ripple_6dp"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="28dp"
@@ -23,7 +24,7 @@
             android:textSize="10sp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textColor="@color/c_999999"
+            android:textColor="@color/c_A8A9AF"
             android:layout_toLeftOf="@id/iv_live"
             android:layout_alignParentLeft="true" />
 
@@ -41,11 +42,12 @@
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:maxLines="1"
         android:ellipsize="end"
-        android:textSize="11sp"
-        android:textColor="@color/c_999999"
+        android:textSize="13sp"
+        android:textColor="@color/c_333333"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:gravity="center_vertical"/>
@@ -74,8 +76,8 @@
             android:layout_weight="1"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textSize="10sp"
-            android:textColor="@color/c_333333"
+            android:textSize="13sp"
+            android:textColor="@color/c_25282B"
             android:gravity="center_vertical"
             android:layout_marginRight="2dp"/>
 
@@ -85,8 +87,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/noto_sans_display_semibold"
             android:textSize="12sp"
-            android:textColor="@color/c_333333"
-            />
+            android:textColor="@color/c_333333" />
 
         <TextView
             android:id="@+id/tv_home_score2"
@@ -122,8 +123,8 @@
             android:layout_weight="1"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textSize="10sp"
-            android:textColor="@color/c_333333"
+            android:textSize="13sp"
+            android:textColor="@color/c_25282B"
             android:gravity="center_vertical"
             android:layout_marginRight="2dp"/>
 

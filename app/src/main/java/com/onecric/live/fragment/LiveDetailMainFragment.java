@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -393,6 +395,9 @@ public class LiveDetailMainFragment extends Fragment {
 
             }
         });
+
+//        ((FrameLayout)tab_layout).setForeground(getResources().getDrawable(R.drawable.selector_foreground_white));
+
         //初始化viewpager
         vp_live.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

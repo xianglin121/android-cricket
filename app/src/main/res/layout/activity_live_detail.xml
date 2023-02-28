@@ -59,8 +59,6 @@
 
         </RelativeLayout>
 
-
-
         <RelativeLayout
             android:id="@+id/rl_video"
             android:layout_width="match_parent"

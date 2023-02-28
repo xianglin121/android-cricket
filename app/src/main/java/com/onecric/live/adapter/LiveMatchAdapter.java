@@ -1,25 +1,16 @@
 package com.onecric.live.adapter;
 
-import static com.onecric.live.util.DateUtil.getRelativeLocalDate;
-
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.google.android.gms.common.util.DataUtils;
 import com.onecric.live.R;
-import com.onecric.live.model.CricketMatchBean;
-import com.onecric.live.model.LiveBean;
-import com.onecric.live.model.LiveMatchBean;
 import com.onecric.live.model.LiveMatchListBean;
 import com.onecric.live.util.GlideUtil;
-import com.tencent.qcloud.tuicore.util.DateTimeUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,7 +19,7 @@ import java.util.Locale;
 
 public class LiveMatchAdapter extends BaseQuickAdapter<LiveMatchListBean.MatchItemBean, BaseViewHolder> {
     private SimpleDateFormat sfdate1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private SimpleDateFormat sfdate2 = new SimpleDateFormat("MM-dd hh:mm a", Locale.ENGLISH);
+    private SimpleDateFormat sfdate2 = new SimpleDateFormat("MM-dd hh:mm", Locale.ENGLISH);
     public LiveMatchAdapter(int layoutResId, @Nullable List<LiveMatchListBean.MatchItemBean> data) {
         super(layoutResId, data);
     }
@@ -64,10 +55,10 @@ public class LiveMatchAdapter extends BaseQuickAdapter<LiveMatchListBean.MatchIt
 
         if(item.getIslive() != 1){
             helper.setVisible(R.id.iv_live,false);
-            helper.setText(R.id.tv_home_score, "﹣");
-            helper.setText(R.id.tv_home_score2, "");
-            helper.setText(R.id.tv_away_score, "﹣");
-            helper.setText(R.id.tv_away_score2, "");
+            helper.setText(R.id.tv_home_score, "");//
+            helper.setText(R.id.tv_home_score2, "﹣");
+            helper.setText(R.id.tv_away_score, "");
+            helper.setText(R.id.tv_away_score2, "﹣");
             return;
         }
 
@@ -81,8 +72,8 @@ public class LiveMatchAdapter extends BaseQuickAdapter<LiveMatchListBean.MatchIt
                 helper.setText(R.id.tv_home_score, item.getHome_score());
             }
         }else{
-            helper.setText(R.id.tv_home_score, "﹣");
-            helper.setText(R.id.tv_home_score2, "");
+            helper.setText(R.id.tv_home_score, "");
+            helper.setText(R.id.tv_home_score2, "﹣");
         }
 
         if (!TextUtils.isEmpty(item.getAway_score()) && !item.getAway_score().equals("0")) {
@@ -94,8 +85,8 @@ public class LiveMatchAdapter extends BaseQuickAdapter<LiveMatchListBean.MatchIt
                 helper.setText(R.id.tv_away_score, item.getAway_score());
             }
         } else {
-            helper.setText(R.id.tv_away_score, "﹣");
-            helper.setText(R.id.tv_away_score2, "");
+            helper.setText(R.id.tv_away_score, "");
+            helper.setText(R.id.tv_away_score2, "﹣");
         }
 
     }
