@@ -1225,10 +1225,16 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
             List<MessageInfo> msgInfo = new ArrayList<>();
             MessageInfo bean;
             HistoryMsgBean.DataDTO DataDTO;//MsgBody -> MsgContent -> Data -> 转取 text -> text不为空
+            CustomMsgBean customMsgBean = new CustomMsgBean();
             for(HistoryMsgBean.RspMsgListDTO item:list){
                 if(item.getFromAccount() != null && item.getMsgBody() != null && item.getMsgBody().get(0) != null && item.getMsgBody().get(0).getMsgContent() != null && item.getMsgBody().get(0).getMsgContent().getData() != null && !TextUtils.isEmpty(item.getMsgBody().get(0).getMsgContent().getData())){
                     DataDTO = JSONObject.parseObject(item.getMsgBody().get(0).getMsgContent().getData(), HistoryMsgBean.DataDTO.class);
-                    if(DataDTO.getNormal() != null && DataDTO.getNormal().getText() != null && !TextUtils.isEmpty(DataDTO.getNormal().getText())){
+                    if(DataDTO.getType() == 102){//入场消息 && DataDTO.getNobel() != null
+                        customMsgBean.setType(MessageInfo.MSG_TYPE_NOBEL_ENTER);
+                        bean = ChatMessageInfoUtil.buildCustomMessage(JSONObject.toJSONString(customMsgBean), "", null);
+                        bean.setNickName(item.getFromAccount());
+                        msgInfo.add(bean);
+                    }else if(DataDTO.getNormal() != null && DataDTO.getNormal().getText() != null && !TextUtils.isEmpty(DataDTO.getNormal().getText())){//普通消息
                         msgInfo.add(buildRequestMessage(DataDTO.getNormal().getText(),item.getFromAccount()));
                     }
                 }

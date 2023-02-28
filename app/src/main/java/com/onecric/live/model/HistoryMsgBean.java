@@ -58,6 +58,7 @@ public class HistoryMsgBean {
         this.rspMsgList = rspMsgList;
     }
 
+
     public static class RspMsgListDTO {
         private String cloudCustomData;
         private String fromAccount;
@@ -151,7 +152,7 @@ public class HistoryMsgBean {
         }
 
         public static class MsgBodyDTO {
-            private RspMsgListDTO.MsgBodyDTO.MsgContentDTO msgContent;
+            private MsgContentDTO msgContent;
             private String msgType;
 
             public MsgContentDTO getMsgContent() {
@@ -212,14 +213,21 @@ public class HistoryMsgBean {
     }
 
     public static class DataDTO {
-        private HistoryMsgBean.DataDTO.NormalDTO normal;
+        private NormalDTO normal;
         private Long type;
+        private NobelDTO nobel;
+        public NobelDTO getNobel() {
+            return nobel;
+        }
 
-        public HistoryMsgBean.DataDTO.NormalDTO getNormal() {
+        public void setNobel(NobelDTO nobel) {
+            this.nobel = nobel;
+        }
+        public NormalDTO getNormal() {
             return normal;
         }
 
-        public void setNormal(HistoryMsgBean.DataDTO.NormalDTO normal) {
+        public void setNormal(NormalDTO normal) {
             this.normal = normal;
         }
 
@@ -288,4 +296,43 @@ public class HistoryMsgBean {
             }
         }
 }
+
+    public static class NobelDTO {
+        private String expIcon;
+        private Integer isGuard;
+        private Integer isRoom;
+        private Integer level;
+
+        public String getExpIcon() {
+            return expIcon;
+        }
+
+        public void setExpIcon(String expIcon) {
+            this.expIcon = expIcon;
+        }
+
+        public Integer getIsGuard() {
+            return isGuard;
+        }
+
+        public void setIsGuard(Integer isGuard) {
+            this.isGuard = isGuard;
+        }
+
+        public Integer getIsRoom() {
+            return isRoom;
+        }
+
+        public void setIsRoom(Integer isRoom) {
+            this.isRoom = isRoom;
+        }
+
+        public Integer getLevel() {
+            return level;
+        }
+
+        public void setLevel(Integer level) {
+            this.level = level;
+        }
+    }
 }
