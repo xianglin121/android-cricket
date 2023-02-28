@@ -821,6 +821,11 @@ public class LivePlayerView extends RelativeLayout {
          */
         void onClickRedEnvelope();
 
+        /**
+         * 加载完全
+         */
+        void onLoadingEnd();
+
     }
 
     public void release() {
@@ -870,7 +875,13 @@ public class LivePlayerView extends RelativeLayout {
 
     private SuperPlayerObserver mSuperPlayerObserver = new SuperPlayerObserver() {
         @Override
-        public void onPlayBegin(String name) {
+        public void onPlayBegin(String name,int type) {
+            //type：1 开始播放 2 首次加载结束，开始播放
+            if(type == 2 ){
+                if (mPlayerViewCallback != null) {
+                    mPlayerViewCallback.onLoadingEnd();
+                }
+            }
             mWindowPlayer.updatePlayState(SuperPlayerDef.PlayerState.PLAYING);
             mFullScreenPlayer.updatePlayState(SuperPlayerDef.PlayerState.PLAYING);
 //            updateTitle(name);

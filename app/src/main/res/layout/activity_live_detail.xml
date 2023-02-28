@@ -34,11 +34,32 @@
 
         </RelativeLayout>
 
-        <com.tencent.liteav.demo.superplayer.LivePlayerView
-            android:id="@+id/playerView"
+        <RelativeLayout
+            android:id="@+id/rl_player"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/ball_live_bg" />
+            android:visibility="visible">
+
+            <com.tencent.liteav.demo.superplayer.LivePlayerView
+                android:id="@+id/playerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/ball_live_bg" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="14dp"
+                android:indeterminateBehavior="repeat"
+                android:indeterminateDrawable="@drawable/anim_loading"
+                android:indeterminateOnly="true" />
+
+        </RelativeLayout>
+
+
 
         <RelativeLayout
             android:id="@+id/rl_video"

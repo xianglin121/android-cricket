@@ -157,7 +157,7 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
         }
         switch (event) {
             case TXLiveConstants.PLAY_EVT_VOD_PLAY_PREPARED://视频播放开始
-                updatePlayerState(SuperPlayerDef.PlayerState.PLAYING);
+                updatePlayerState(SuperPlayerDef.PlayerState.FIRST_LOADING_END);
                 if (mIsMultiBitrateStream) {
                     List<TXBitrateItem> bitrateItems = mVodPlayer.getSupportedBitrates();
                     if (bitrateItems == null || bitrateItems.size() == 0) {
@@ -598,7 +598,7 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
         }
         switch (playState) {
             case PLAYING:
-                mObserver.onPlayBegin(getPlayName());
+                mObserver.onPlayBegin(getPlayName(),1);
                 break;
             case PAUSE:
                 mObserver.onPlayPause(1);
@@ -611,6 +611,9 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
                 break;
             case NO_NETWORK:
                 mObserver.onPlayPause(2);
+                break;
+            case FIRST_LOADING_END:
+                mObserver.onPlayBegin(getPlayName(),2);
                 break;
         }
     }

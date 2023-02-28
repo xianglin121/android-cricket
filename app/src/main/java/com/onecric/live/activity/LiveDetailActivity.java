@@ -47,6 +47,7 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -201,6 +202,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     private TextView tv_tool_heart;
     private StandardGSYVideoPlayer history_video_view;
     private RelativeLayout rl_video;
+    public RelativeLayout rl_player;
+    private ProgressBar progress_bar;
     private ImageView iv_video_mute;
 
     private boolean isOpenAvatar = false;
@@ -216,6 +219,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     private String videoUrl;
     private int mLiveId;
     private LinearLayout ll_main;
+
 
     //未登录用户倒计时三分钟跳转登录页
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
@@ -248,7 +252,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
     @Override
     protected void initView() {
-//        loadingDialog = loadingDialog(LiveDetailActivity.this);
+        loadingDialog = loadingDialog(LiveDetailActivity.this);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
         params.putInt("watch_live", 0);
@@ -306,7 +310,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         //视频尺寸
         int width = UIUtil.getScreenWidth(this);
         if(isLive){
-            playerView.setVisibility(View.VISIBLE);
+            rl_player.setVisibility(View.VISIBLE);
             rl_video.setVisibility(View.GONE);
             android.view.ViewGroup.LayoutParams pp = playerView.getLayoutParams();
             pp.height = (int)(width * 0.5625);
@@ -314,7 +318,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             //初始化悬浮窗跳转回界面所需参数
             playerView.setInitId(mAnchorId, mType, mMatchId);
         }else{
-            playerView.setVisibility(View.GONE);
+            rl_player.setVisibility(View.GONE);
             rl_video.setVisibility(View.VISIBLE);
             android.view.ViewGroup.LayoutParams pp = history_video_view.getLayoutParams();
             pp.height = (int)(width * 0.5625);
@@ -445,6 +449,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         history_video_view = findViewById(R.id.history_video_view);
         iv_video_mute = findViewById(R.id.iv_video_mute);
         rl_video = findViewById(R.id.rl_video);
+        rl_player = findViewById(R.id.rl_player);
+        progress_bar = findViewById(R.id.progress_bar);
 //        iv_silence = findViewById(R.id.iv_silence);
 //        iv_silence.setOnClickListener(this);
         person_head_pic = findViewById(R.id.person_head_pic);
@@ -596,7 +602,6 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                     if (mLiveRoomBean != null) {
                         if (mLiveRoomBean.getInfo() != null) {
                             if (!TextUtils.isEmpty(mLiveRoomBean.getInfo().getPull())) {
-
                                 playerView.play(mLiveRoomBean.getInfo().getPull());
                             }
                         }
@@ -625,6 +630,13 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 @Override
                 public void onClickRedEnvelope() {
                     liveDetailMainFragment.showRedEnvelopeDialog();
+                }
+
+                @Override
+                public void onLoadingEnd() {
+                    if(progress_bar.getVisibility() == View.VISIBLE){
+                        progress_bar.setVisibility(View.GONE);
+                    }
                 }
             });
             playerView.hideBackKey();
