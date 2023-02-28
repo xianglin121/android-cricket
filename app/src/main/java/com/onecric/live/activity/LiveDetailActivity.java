@@ -460,10 +460,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         ll_main = findViewById(R.id.ll_main);
         findViewById(R.id.ll_eyes).setOnClickListener(this);
         findViewById(R.id.ll_heart).setOnClickListener(this);
+        findViewById(R.id.ll_title).setOnClickListener(this);
         iv_data.setOnClickListener(this);
         iv_back.setOnClickListener(this);
         person_head_pic.setOnClickListener(this);
-        tv_title.setOnClickListener(this);
         iv_avatar.setOnClickListener(this);
         iv_star.setOnClickListener(this);
         iv_tool_heart.setOnClickListener(this);
@@ -925,7 +925,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 if (mLiveRoomBean != null)
 //                    PersonalHomepageActivity.forward(LiveDetailActivity.this, mLiveRoomBean.getUserData().getUid() + "");
                 break;
-            case R.id.tv_title:
+            case R.id.ll_title:
                 //展开、折叠
                 if(cl_avatar.getVisibility() == View.GONE){
                     cl_avatar.setVisibility(View.VISIBLE);
@@ -1578,9 +1578,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         int width = UIUtil.getScreenWidth(mActivity);
         ppiv_cover.height = (int)(width * 0.5625 * 0.8);
         iv_c.setLayoutParams(ppiv_cover);
-//        GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_c);
+        GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_c);
         //跳过内存缓存 否则得到的是失败图片
-        Glide.with(mActivity).load(mLiveRoomBean.getInfo().getThumb()).skipMemoryCache(true).into(iv_c);
+        Glide.with(mActivity).load(mLiveRoomBean.getInfo().getThumb()).skipMemoryCache(true).placeholder(R.mipmap.ball_live_bg).error(R.mipmap.ball_live_bg).into(iv_c);
         GlideUtil.loadUserImageDefault(mActivity, mLiveRoomBean.getUserData().getAvatar(), head_pic);
 
         //生成二维码
@@ -1630,7 +1630,14 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             if(sharePictureFile(mActivity,picBitmap)){
                 shareDialog.dismiss();
             }
+
         });
+
+        w.findViewById(R.id.tv_url).setOnClickListener(v -> {
+            //分享链接
+            ShareUtil.shareText(mActivity,"",SHARE_LIVE_URL+"pages/Live/live-detail?id="+mAnchorId+"&ID="+mLiveId);
+        });
+
 
         w.findViewById(R.id.tv_save).setOnClickListener(v -> {
             if(picBitmap==null){
@@ -1671,7 +1678,6 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                         return;
                     }
                 }
-                //fixme 1.保存图片 第一次拿到权限会闪退 2.封面是空的
                 saveBitmapFile(mActivity,picBitmap);
                 break;
             default:

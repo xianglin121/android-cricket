@@ -5,6 +5,7 @@ import static android.view.ViewGroup.LAYOUT_MODE_OPTICAL_BOUNDS;
 import static com.google.android.material.tabs.TabLayout.TAB_LABEL_VISIBILITY_LABELED;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -336,6 +337,7 @@ public class LiveDetailMainFragment extends Fragment {
 
     private void initTabViewPager(){
         mMatchId = getArguments().getInt("matchId");
+
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.list)));
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.live_chat)));
         if(mMatchId != 0 && !isNotStart){
@@ -367,6 +369,13 @@ public class LiveDetailMainFragment extends Fragment {
             mViewList.add(CricketSquadFragment.newInstance());
         }
 
+/*        for(int i=0; i<tab_layout.getTabCount(); i++){
+            TabLayout.Tab tab1 =tab_layout.getTabAt(i);
+            tab1.view.setLongClickable(false);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                tab1.view.setTooltipText(null);
+            }
+        }*/
         tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

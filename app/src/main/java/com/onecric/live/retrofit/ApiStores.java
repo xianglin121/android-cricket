@@ -855,4 +855,8 @@ public interface ApiStores {
     @GET("api/live_streaming/getLiveListNew")
     Observable<JsonObject> getLiveMatchList(@Query("timezone") String timezone);
 
+
+    //获取直播聊天室历史记录
+    @GET("api/LivePlayBack/getSimple")
+    Observable<JsonObject> getHistoryMessage(@Query("id") int id);
 }

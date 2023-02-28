@@ -1,5 +1,7 @@
 package com.onecric.live.fragment;
 
+import static com.tencent.qcloud.tuikit.tuichat.util.ChatMessageInfoUtil.buildRequestMessage;
+
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -56,6 +58,7 @@ import com.onecric.live.model.BlockFunctionBean;
 import com.onecric.live.model.BoxBean;
 import com.onecric.live.model.CustomMsgBean;
 import com.onecric.live.model.GiftBean;
+import com.onecric.live.model.HistoryMsgBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.NobelBean;
 import com.onecric.live.model.NobelMsgBean;
@@ -240,8 +243,9 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         popup.findViewById(R.id.ll_noble).setOnClickListener(this);
         popup.findViewById(R.id.ll_gift).setOnClickListener(this);
         popup.findViewById(R.id.ll_enter).setOnClickListener(this);
-        //获取贵族信息
-        mvpPresenter.getNobelData();
+
+        mvpPresenter.getHistoryMessage(Integer.parseInt(mGroupId));
+
         //获取礼物列表
         mvpPresenter.getGiftList();
         if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
@@ -367,13 +371,6 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
             mvpPresenter.getRedEnvelopeList(mAnchorId);
             //红包定时器
             mHandler.sendEmptyMessageDelayed(100, 0);
-
-            //前
-            loadHistoryMessageList(mGroupId,true,10,new MessageInfo(),TUIChatConstants.GET_MESSAGE_FORWARD,null);
-            //后
-            loadHistoryMessageList(mGroupId,true,10,new MessageInfo(),TUIChatConstants.GET_MESSAGE_BACKWARD,null);
-            //双向
-            loadHistoryMessageList(mGroupId,true,10,new MessageInfo(),TUIChatConstants.GET_MESSAGE_TWO_WAY,null);
         }
     }
 
@@ -573,10 +570,11 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                     @Override
                     public void onSuccess(V2TIMMessage v2TIMMessage) {
                         if (CommonAppConfig.getInstance().getBlockFunctionInfo() != null) {
-                            if (!CommonAppConfig.getInstance().getBlockFunctionInfo().isBlockEnter()) {
+                            //fixme 屏蔽入场信息为true？
+//                            if (!CommonAppConfig.getInstance().getBlockFunctionInfo().isBlockEnter()) {
 //                                updateAdapter(nobelMsgBean.getGuard_icon(), nobelMsgBean.getExp_icon(), messageInfo);
                                 updateAdapter(messageInfo);
-                            }
+//                            }
                         }
                     }
 
@@ -620,7 +618,6 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                         mvpPresenter.initListener();
 //                        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {}
                         sendEnterMessage();
-                        //fixme
 //                        ((LiveDetailActivity) getActivity()).setPeopleCount();
                     }
 
@@ -1220,6 +1217,26 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         }
         toggleType(TYPE_NORMAL);
         mvpPresenter.getRedEnvelopeList(mAnchorId);
+    }
+
+    @Override
+    public void getHistoryMsgListSuccess(List<HistoryMsgBean.RspMsgListDTO> list) {
+        if(list != null && list.size()>0){
+            List<MessageInfo> msgInfo = new ArrayList<>();
+            MessageInfo bean;
+            HistoryMsgBean.DataDTO DataDTO;//MsgBody -> MsgContent -> Data -> 转取 text -> text不为空
+            for(HistoryMsgBean.RspMsgListDTO item:list){
+                if(item.getFromAccount() != null && item.getMsgBody() != null && item.getMsgBody().get(0) != null && item.getMsgBody().get(0).getMsgContent() != null && item.getMsgBody().get(0).getMsgContent().getData() != null && !TextUtils.isEmpty(item.getMsgBody().get(0).getMsgContent().getData())){
+                    DataDTO = JSONObject.parseObject(item.getMsgBody().get(0).getMsgContent().getData(), HistoryMsgBean.DataDTO.class);
+                    if(DataDTO.getNormal() != null && DataDTO.getNormal().getText() != null && !TextUtils.isEmpty(DataDTO.getNormal().getText())){
+                        msgInfo.add(buildRequestMessage(DataDTO.getNormal().getText(),item.getFromAccount()));
+                    }
+                }
+            }
+            mChatAdapter.addData(msgInfo);
+        }
+        //获取贵族信息
+        mvpPresenter.getNobelData();
     }
 
     /***********************红包相关***********************/

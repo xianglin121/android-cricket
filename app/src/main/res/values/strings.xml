@@ -3,7 +3,7 @@
 
     <!--通用-->
     <string name="follow">Follow</string>
-    <string name="followed">Followed</string>
+    <string name="followed">Unfollowed</string>
     <string name="collect">Collection</string>
     <string name="all_comment">All comments</string>
     <string name="write_comment">Write a comment</string>
@@ -769,4 +769,5 @@
     <string name="share_live_tip">I am watching free hd cricket on OneCric.tv</string>
     <string name="share_live_scan_tip">Scan code to register</string>
     <string name="system_share">Share OneCric.tv</string>
+    <string name="copy_link">Copy Link</string>
 </resources>

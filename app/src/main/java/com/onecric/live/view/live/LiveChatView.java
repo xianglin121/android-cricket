@@ -2,6 +2,7 @@ package com.onecric.live.view.live;
 
 import com.onecric.live.model.BoxBean;
 import com.onecric.live.model.GiftBean;
+import com.onecric.live.model.HistoryMsgBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.NobelBean;
 import com.onecric.live.model.RedEnvelopeBean;
@@ -44,4 +45,8 @@ public interface LiveChatView extends BaseView<JsonBean> {
     void receiveRedEnvelope(String amount);
 
     void addRedEnvelopeSuccess();
+
+    void getHistoryMsgListSuccess(List<HistoryMsgBean.RspMsgListDTO> list);
+
+
 }
