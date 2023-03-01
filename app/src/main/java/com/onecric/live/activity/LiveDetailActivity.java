@@ -290,7 +290,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             }
         }
 
-        mGroupId = String.valueOf(mAnchorId);
+//        mGroupId = 1008+"";
+        mGroupId = String.valueOf(mLiveId);
         mvpPresenter.setGroupId(mGroupId);
 
         //获取屏幕宽度

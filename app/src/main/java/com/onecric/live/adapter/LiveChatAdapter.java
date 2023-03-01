@@ -76,7 +76,7 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
                         }
                         isEnterInfo = true;
                         //进入房间的消息不需要发言人
-                        content = item.getNickName() + " " + mContext.getString(R.string.enter_the_chat_room);
+                        content = TextUtils.isEmpty(item.getNickName()) ? item.getFromUser() : item.getNickName() + " " + mContext.getString(R.string.enter_the_chat_room);
                         contentColor = Color.parseColor("#EEA831");
                     }else if (customMsgBean.getType() == MessageInfo.MSG_TYPE_GIFT) {
                         isAnchor = customMsgBean.getGift().getIs_room() == 1?true:false;
@@ -136,10 +136,11 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
                 str = nobleLength + expLength +  (isEnterInfo?"":str) + content;
                 SpannableStringBuilder msg = FaceManager.handlerEmojiText(str);
                 ForegroundColorSpan span = new ForegroundColorSpan(Color.parseColor(isEnterInfo?"#EEA831":"#2C9CED"));
-                msg.setSpan(span, nobleLength.length()+expLength.length(), nobleLength.length()+expLength.length()+nickName.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                int len = (nobleLength.length()+expLength.length()+nickName.length())>msg.length()?msg.length():(nobleLength.length()+expLength.length()+nickName.length());
+                msg.setSpan(span, nobleLength.length()+expLength.length(), len, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 if (contentColor != 0) {
                     ForegroundColorSpan contentSpan = new ForegroundColorSpan(contentColor);
-                    msg.setSpan(contentSpan, nobleLength.length()+expLength.length()+nickName.length(), str.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    msg.setSpan(contentSpan, len, str.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 }
                 tv_content.setText(msg);
 //                if (nobleBitmap != null) {
