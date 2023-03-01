@@ -53,7 +53,7 @@ public class CricketAdapter extends BaseQuickAdapter<CricketTournamentBean, Base
         innerAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if(innerAdapter.getItem(position).getLive_id()!=0){
+                if(innerAdapter.getItem(position).getLive_id()!=0 && innerAdapter.getItem(position).getStatus() == 1){
                     //fixme 显示直播item 点击去直播详情
                     LiveDetailActivity.forward(mContext,innerAdapter.getItem(position).getLive_uid(),innerAdapter.getItem(position).getMatch_id(),innerAdapter.getItem(position).getLive_id());
                 }else{
