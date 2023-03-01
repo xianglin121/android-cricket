@@ -167,8 +167,8 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                         ToastUtil.show(getString(R.string.please_login));
                     }
                 }else if (mTodayAdapter.getItem(position).getIslive() == 0) {
-                    LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),
-                            mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getLive_id());
+                    LiveNotStartDetailActivity.forward(getContext(),mTodayAdapter.getItem(position).getUid(),
+                            mTodayAdapter.getItem(position).getMatch_id(),mTodayAdapter.getItem(position).getLive_id());
                 }else{
                     LiveDetailActivity.forward(getContext(), mTodayAdapter.getItem(position).getUid(),
                             mTodayAdapter.getItem(position).getMatch_id(),mTodayAdapter.getItem(position).getLive_id());
@@ -283,7 +283,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                     ToastUtil.show(getString(R.string.please_login));
                 }
             }else{
-                if (mTodayAdapter.getItem(position).getIslive() == 0) {
+                if (mTodayMatchAdapter.getItem(position).getIslive() == 0) {
                     LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),
                             mTodayMatchAdapter.getItem(position).getMatch_id(),mTodayMatchAdapter.getItem(position).getLive_id());
                 }else{

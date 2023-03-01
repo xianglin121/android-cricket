@@ -19,7 +19,7 @@ import java.util.Locale;
 
 public class LiveMatchAdapter extends BaseQuickAdapter<LiveMatchListBean.MatchItemBean, BaseViewHolder> {
     private SimpleDateFormat sfdate1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private SimpleDateFormat sfdate2 = new SimpleDateFormat("MM-dd hh:mm", Locale.ENGLISH);
+    private SimpleDateFormat sfdate2 = new SimpleDateFormat("MM-dd hh:mm:ss", Locale.ENGLISH);
     public LiveMatchAdapter(int layoutResId, @Nullable List<LiveMatchListBean.MatchItemBean> data) {
         super(layoutResId, data);
     }
@@ -34,6 +34,7 @@ public class LiveMatchAdapter extends BaseQuickAdapter<LiveMatchListBean.MatchIt
                 helper.setText(R.id.tv_time, dateStr);
             } catch (ParseException e) {
                 e.printStackTrace();
+                helper.setText(R.id.tv_time, item.getScheduled());
             }
         }
 
