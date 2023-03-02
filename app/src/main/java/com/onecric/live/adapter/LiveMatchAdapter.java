@@ -43,8 +43,10 @@ public class LiveMatchAdapter extends BaseQuickAdapter<LiveMatchListBean.MatchIt
             });
             return;
         }
-        helper.getView(R.id.ll_main).setVisibility(View.VISIBLE);
-        helper.getView(R.id.iv_footer).setVisibility(View.GONE);
+        if(helper.getView(R.id.ll_main) != null && helper.getView(R.id.iv_footer) != null){
+            helper.getView(R.id.ll_main).setVisibility(View.VISIBLE);
+            helper.getView(R.id.iv_footer).setVisibility(View.GONE);
+        }
         helper.setText(R.id.tv_title,item.getTitle());
         helper.setText(R.id.tv_time, "");
         if(!TextUtils.isEmpty(item.getScheduled())) {
