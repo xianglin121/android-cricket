@@ -101,7 +101,7 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
             });
             resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_regular));
             if (item.getStatus() == 0) {//未开始
-                helper.getView(R.id.iv_alarm).setVisibility(View.VISIBLE);
+                helper.getView(R.id.iv_alarm).setVisibility(View.GONE);
                 if (!TextUtils.isEmpty(item.getLive_time())) {
                     helper.setText(R.id.tv_time, item.getLive_time());
                     helper.getView(R.id.ll_alarm).setVisibility(View.VISIBLE);

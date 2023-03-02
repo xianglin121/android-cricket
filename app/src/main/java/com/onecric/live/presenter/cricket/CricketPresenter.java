@@ -1,6 +1,7 @@
 package com.onecric.live.presenter.cricket;
 
 import com.alibaba.fastjson.JSONObject;
+import com.onecric.live.CommonAppConfig;
 import com.onecric.live.model.CricketTournamentBean;
 import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
@@ -47,7 +48,7 @@ public class CricketPresenter extends BasePresenter<CricketView> {
         jsonObject.put("tournament_id", tournamentId);
         jsonObject.put("streaming", streaming);
         jsonObject.put("page", page);
-        addSubscription(apiStores.getCricketMatchList(getRequestBody(jsonObject)), new ApiCallback() {
+        addSubscription(apiStores.getCricketMatchList(CommonAppConfig.getInstance().getToken(), getRequestBody(jsonObject)), new ApiCallback() {
             @Override
             public void onSuccess(String data, String msg) {
                 List<CricketTournamentBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("data"), CricketTournamentBean.class);
