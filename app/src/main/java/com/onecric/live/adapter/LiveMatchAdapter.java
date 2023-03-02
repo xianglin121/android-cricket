@@ -1,16 +1,23 @@
 package com.onecric.live.adapter;
 
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
+import com.onecric.live.event.ToggleTabEvent;
 import com.onecric.live.model.LiveMatchListBean;
 import com.onecric.live.util.GlideUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,6 +33,18 @@ public class LiveMatchAdapter extends BaseQuickAdapter<LiveMatchListBean.MatchIt
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, LiveMatchListBean.MatchItemBean item) {
+        if(item.getId() == 0){
+            helper.getView(R.id.ll_main).setVisibility(View.GONE);
+            helper.setVisible(R.id.iv_footer,true);
+            ImageView ivFooter = helper.getView(R.id.iv_footer);
+            ivFooter.setVisibility(View.VISIBLE);
+            ivFooter.setOnClickListener(v -> {
+                EventBus.getDefault().post(new ToggleTabEvent(12));
+            });
+            return;
+        }
+        helper.getView(R.id.ll_main).setVisibility(View.VISIBLE);
+        helper.getView(R.id.iv_footer).setVisibility(View.GONE);
         helper.setText(R.id.tv_title,item.getTitle());
         helper.setText(R.id.tv_time, "");
         if(!TextUtils.isEmpty(item.getScheduled())) {
@@ -91,4 +110,5 @@ public class LiveMatchAdapter extends BaseQuickAdapter<LiveMatchListBean.MatchIt
         }
 
     }
+
 }

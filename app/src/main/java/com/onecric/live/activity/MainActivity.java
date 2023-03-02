@@ -43,6 +43,7 @@ import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.event.UpdateUserInfoEvent;
 import com.onecric.live.fragment.CricketFragment;
 import com.onecric.live.fragment.LiveFragment;
+import com.onecric.live.fragment.MatchFragment;
 import com.onecric.live.fragment.ThemeFragment;
 import com.onecric.live.fragment.VideoFragment;
 import com.onecric.live.fragment.dialog.LoginDialog;
@@ -492,8 +493,15 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onToggleTabEvent(ToggleTabEvent event) {
-        if (event != null) {
-            if (mTabLayout != null && mViewPager != null) {
+        if (event == null) {
+            return;
+        }
+        if (mTabLayout != null && mViewPager != null) {
+            if(event.position == 12){
+                mTabLayout.toggleBtn(1);
+                mViewPager.setCurrentItem(1);
+                ((CricketFragment)mViewList.get(1)).toTabPosition(2);
+            }else{
                 mTabLayout.toggleBtn(event.position);
                 mViewPager.setCurrentItem(event.position);
             }
@@ -590,11 +598,13 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     }
 
     public void newLoginDialog(){
-        loginDialog = new LoginDialog(this, R.style.dialog,true, () -> {
-            loginDialog.dismiss();
-            webview.setVisibility(View.VISIBLE);
-            webview.loadUrl("javascript:ab()");
-        });
+        if(loginDialog == null){
+            loginDialog = new LoginDialog(this, R.style.dialog,true, () -> {
+                loginDialog.dismiss();
+                webview.setVisibility(View.VISIBLE);
+                webview.loadUrl("javascript:ab()");
+            });
+        }
         ((ThemeFragment)mViewList.get(0)).setLoginDialog(loginDialog);
         ((LiveFragment)mViewList.get(2)).setLoginDialog(loginDialog);
         ((VideoFragment)mViewList.get(3)).setLoginDialog(loginDialog);

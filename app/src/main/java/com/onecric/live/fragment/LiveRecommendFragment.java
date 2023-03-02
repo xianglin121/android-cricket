@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ import com.onecric.live.adapter.LiveRecommendHistoryAdapter;
 import com.onecric.live.adapter.LiveRecommendMatchAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
 import com.onecric.live.custom.ItemDecoration;
+import com.onecric.live.event.ToggleTabEvent;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.BannerBean;
 import com.onecric.live.model.HistoryLiveBean;
@@ -58,6 +60,8 @@ import com.youth.banner.indicator.RectangleIndicator;
 import com.youth.banner.listener.OnBannerListener;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -299,7 +303,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         //将来赛事
         mComingAdapter = new LiveMatchAdapter(R.layout.item_live_coming, new ArrayList<>());
         mComingAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if(mComingAdapter.getItem(position).getMatch_id()!=0){
+            if(mComingAdapter.getItem(position).getId()!=0 && mComingAdapter.getItem(position).getMatch_id()!=0){
                 CricketDetailActivity.forward(getContext(), mComingAdapter.getItem(position).getMatch_id());
             }
         });
@@ -443,6 +447,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     @Override
     public void getMatchSuccess(List<LiveMatchListBean.MatchItemBean> today,List<LiveMatchListBean.MatchItemBean> upcoming) {
         if (upcoming != null) {
+            upcoming.add(new LiveMatchListBean.MatchItemBean());
             mComingAdapter.setNewData(upcoming);
         }
         if (today != null && today.size()>0) {

@@ -80,8 +80,8 @@ public class ThemeFragment extends MvpFragment<ThemePresenter> implements ThemeV
         ThemeHeadlineFragment headlineFragment = ThemeHeadlineFragment.newInstance();
         if(loginDialog!=null){
             headlineFragment.setLoginDialog(loginDialog);
-            mViewList.add(headlineFragment);
         }
+        mViewList.add(headlineFragment);
         mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int i) {

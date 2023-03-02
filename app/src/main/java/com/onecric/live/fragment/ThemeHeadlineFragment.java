@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
+import com.onecric.live.activity.MainActivity;
 import com.onecric.live.activity.ThemeCollectionActivity;
 import com.onecric.live.adapter.ChannelPagerAdapter;
 import com.onecric.live.custom.CustomPagerInnerTitleView;
@@ -83,7 +84,7 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
                     if(loginDialog!=null){
                         loginDialog.show();
                     }else{
-                        ToastUtil.show(getString(R.string.please_login));
+                        ((MainActivity)getActivity()).newLoginDialog();
                     }
                     return;
                 }

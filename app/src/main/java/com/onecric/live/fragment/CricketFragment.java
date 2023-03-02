@@ -15,11 +15,15 @@ import com.google.android.material.tabs.TabLayout;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.MainActivity;
+import com.onecric.live.event.ToggleTabEvent;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.UiUtils;
 import com.onecric.live.view.BaseFragment;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,4 +139,9 @@ public class CricketFragment extends BaseFragment {
         });
         mViewPager.setCurrentItem(1);
     }
+
+    public void toTabPosition(int index){
+        mViewPager.setCurrentItem(index);
+    }
+
 }
