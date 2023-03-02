@@ -178,98 +178,17 @@ public class UiUtils {
             return null;
         }
 
-//        getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(),尽量用getFilesDir()之类的api
-        String path = Environment.getExternalStorageDirectory().getPath();
-
-        //1.路径
-        if (Build.BRAND.equals("Xiaomi")) { // 小米手机brand.equals("xiaomi")
-            path = Environment.getExternalStorageDirectory().getPath() + "/DCIM/Camera/" ;
-        } else if (Build.BRAND.equalsIgnoreCase("Huawei")) {
-            path = Environment.getExternalStorageDirectory().getPath() + "/DCIM/Camera/" ;
-        } else { // Meizu 、Oppo
-            path = Environment.getExternalStorageDirectory().getPath() + "/DCIM/";
-        }
-
-/*        if (Build.VERSION.SDK_INT >= 29) {
-            return saveSignImage(bitName,bit)==true?new File(""):null;
-        }*/
-
-        File file = new File(path, "onecric_share_live_"+System.currentTimeMillis()+".jpg");
         try {
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-
-            //压缩Bitmap，不支持png图片的压缩，PNG格式的不能显示在相册中
-            bit.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-            bos.flush();
-            bos.close();
-
-            // 把文件插入到系统图库
-            if(Build.VERSION.SDK_INT >= 29){
-                ContentValues values = new ContentValues();
-                values.put(MediaStore.Images.Media.DATA, file.getAbsolutePath());
-                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                Uri uri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-            }else{
-                MediaStore.Images.Media.insertImage(activity.getContentResolver(), file.getAbsolutePath(), "", null);
-            }
-
-            // 通知图库更新
-            activity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+            String result = MediaStore.Images.Media.insertImage(activity.getContentResolver(), bit, "onecric_share_live_"+System.currentTimeMillis()+".jpeg", "onecric_share_live");
+            Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(result));
+            activity.sendBroadcast(scannerIntent);
             ToastUtil.show(activity.getString(R.string.save_success));
-            return file;
-        }catch (FileNotFoundException e) {
-            Log.e("FileNotFoundException", "FileNotFoundException:" + e.getMessage().toString());
-            e.printStackTrace();
-            ToastUtil.show(activity.getString(R.string.save_failed));
-        } catch (IOException e) {
-            Log.e("IOException", "IOException:" + e.getMessage().toString());
-            e.printStackTrace();
-            ToastUtil.show(activity.getString(R.string.save_failed));
-        } catch (Exception e) {
-            Log.e("Exception", "Exception:" + e.getMessage().toString());
+        }catch (Exception e) {
+            Log.e("Exception", "ltt saveBitmapFile0 Exception:" + e.getMessage().toString());
             e.printStackTrace();
             ToastUtil.show(activity.getString(R.string.save_failed));
         }
-
         return null;
-    }
-
-    //将文件保存到公共的媒体文件夹，filepath不是绝对路径，而是某个媒体文件夹下的子路径，filename单纯的指文件名，不包含路径
-    public boolean saveSignImage(/*String filePath,*/String fileName, Bitmap bitmap,Context context) {
-        try {
-            //设置保存参数到ContentValues中
-            ContentValues contentValues = new ContentValues();
-            //设置文件名
-            contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
-            //兼容Android Q和以下版本
-            //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            //android Q中不再使用DATA字段，而用RELATIVE_PATH代替
-            //RELATIVE_PATH是相对路径不是绝对路径
-            //DCIM是系统文件夹，关于系统文件夹可以到系统自带的文件管理器中查看，不可以写没存在的名字
-            //contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "DCIM/");
-            //contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Music/signImage");
-            // } else {
-            contentValues.put(MediaStore.Images.Media.DATA, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath());
-            // }
-            //设置文件类型
-            contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/JPEG");
-            //执行insert操作，向系统文件夹中添加文件
-            //EXTERNAL_CONTENT_URI代表外部存储器，该值不变
-            Uri uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-            if (uri != null) {
-                //若生成了uri，则表示该文件添加成功
-                //使用流将内容写入该uri中即可
-                OutputStream outputStream = context.getContentResolver().openOutputStream(uri);
-                if (outputStream != null) {
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                    outputStream.flush();
-                    outputStream.close();
-                }
-            }
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
     }
 
     /**
