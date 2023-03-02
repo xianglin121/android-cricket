@@ -11,18 +11,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.LoginActivity;
+import com.onecric.live.activity.MainActivity;
+import com.onecric.live.fragment.dialog.LoginDialog;
+import com.onecric.live.model.BannerBean;
 import com.onecric.live.model.CricketMatchBean;
+import com.onecric.live.model.SubscribeTypeBean;
 import com.onecric.live.presenter.match.SubscribePresenter;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.TimeUtil;
 import com.onecric.live.util.ToastUtil;
+import com.onecric.live.util.ToolUtil;
 import com.tencent.qcloud.tuicore.util.DateTimeUtil;
 
 import java.util.Date;
@@ -33,9 +39,13 @@ import java.util.List;
  * 时间：2022/8/27
  */
 public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, BaseViewHolder> {
-    public CricketInnerAdapter(int layoutResId, @Nullable List<CricketMatchBean> data) {
+    MainActivity mainActivity;
+
+    public CricketInnerAdapter(MainActivity mainActivity, int layoutResId, @Nullable List<CricketMatchBean> data) {
         super(layoutResId, data);
+        this.mainActivity = mainActivity;
     }
+
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, CricketMatchBean item) {
@@ -44,7 +54,6 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
         } else {
             helper.getView(R.id.line).setVisibility(View.VISIBLE);
         }
-
 
         helper.setTextColor(R.id.tv_time, mContext.getResources().getColor(R.color.c_901D2550));
         TextView resultTv = helper.getView(R.id.tv_result);
@@ -57,7 +66,7 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
         } else {
             //先判断是否登陆了账号
 //            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-            subscribeIv.setVisibility(View.GONE);// TODO: 2023/2/15  这里在订阅接口调试好后要放开为visible
+            subscribeIv.setVisibility(View.VISIBLE);// TODO: 2023/2/15  这里在订阅接口调试好后要放开为visible
             if (item.getIs_subscribe() == 1) {//已经订阅过了
                 subscribeIv.setImageResource(R.mipmap.subscribe);
             } else {
@@ -70,19 +79,24 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
             subscribeIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-//                        ToastUtil.show(mContext.getString(R.string.please_login));
-//                        LoginActivity.forward(mContext);
-//                        return;
-//                    }
-                    // TODO: 2023/2/14  订阅消息推送
-                    //这里先弹出一个订阅消息的内容选择框  待选择好后点击确定订阅按钮再调用订阅接口
-                    DialogUtil.showSelectSubscribeDialog(mContext, item.getHome_name() + " VS " + item.getAway_name(), new DialogUtil.SelectSubscribeBack() {
-                        @Override
-                        public void onSelectSubscribe(int start, int out, int wickets, int miles, int delay, int result) {
-                            doSubscribe(item.getMatch_id() + "", start, out, wickets, miles, delay, result, subscribeIv);
+                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                        ToastUtil.show(mContext.getString(R.string.please_login));
+                        if (mainActivity.loginDialog != null) {
+                            mainActivity.loginDialog.show();
+                        } else {
+                            mainActivity.newLoginDialog();
                         }
-                    });
+                        return;
+                    }
+                    getSubscribeType(item, subscribeIv);
+                    // TODO: 2023/2/14  订阅消息推送
+//                    //这里先弹出一个订阅消息的内容选择框  待选择好后点击确定订阅按钮再调用订阅接口
+//                    DialogUtil.showSelectSubscribeDialog(mContext, item.getHome_name() + " VS " + item.getAway_name(), new DialogUtil.SelectSubscribeBack() {
+//                        @Override
+//                        public void onSelectSubscribe(String type) {
+//                            doSubscribe(item.getMatch_id() + "", , subscribeIv);
+//                        }
+//                    });
                 }
             });
             resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_regular));
@@ -95,7 +109,7 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
                     //转时间戳 得到倒计时毫秒数
                     long time = DateTimeUtil.getStringToDate(item.getScheduled(), "yyyy-MM-dd HH:mm:ss");
                     long countTime = time - new Date().getTime();
-                    if(countTime>0) {
+                    if (countTime > 0) {
                         //开始倒计时
                         new CountDownTimer(countTime, 1000) {
                             public void onTick(long millisUntilFinished) {
@@ -185,8 +199,8 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
         }
     }
 
-    private void doSubscribe(String matchId, int start, int out, int wickets, int miles, int delay, int result, ImageView subscribeIv) {//订阅推送消息
-        new SubscribePresenter().doSubscribe(matchId, start, out, wickets, miles, delay, result, new ApiCallback() {
+    private void doSubscribe(String matchId, String type, ImageView subscribeIv) {//订阅推送消息
+        new SubscribePresenter().doSubscribe(matchId, type, new ApiCallback() {
             @Override
             public void onSuccess(String data, String msg) {
                 subscribeIv.setImageResource(R.mipmap.subscribe);
@@ -194,17 +208,52 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
 
             @Override
             public void onFailure(String msg) {
-
+                ToastUtil.show(msg);
             }
 
             @Override
             public void onError(String msg) {
-
+                ToastUtil.show(msg);
             }
 
             @Override
             public void onFinish() {
 
+            }
+        });
+    }
+
+    private void getSubscribeType(CricketMatchBean item, ImageView subscribeIv) {//订阅推送消息
+        mainActivity.showLoadingDialog();
+        new SubscribePresenter().getSubscribeType(item.getId(), new ApiCallback() {
+            @Override
+            public void onSuccess(String data, String msg) {
+                mainActivity.dismissLoadingDialog();
+                if (data != null) {
+                    List<SubscribeTypeBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("list"), SubscribeTypeBean.class);
+                    //这里先弹出一个订阅消息的内容选择框  待选择好后点击确定订阅按钮再调用订阅接口
+                    DialogUtil.showSelectSubscribeDialog(mContext, item.getHome_name() + " VS " + item.getAway_name(), list, new DialogUtil.SelectSubscribeBack() {
+                        @Override
+                        public void onSelectSubscribe(String type) {
+                            doSubscribe(item.getId() + "", type, subscribeIv);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                mainActivity.dismissLoadingDialog();
+            }
+
+            @Override
+            public void onError(String msg) {
+                mainActivity.dismissLoadingDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                mainActivity.dismissLoadingDialog();
             }
         });
     }

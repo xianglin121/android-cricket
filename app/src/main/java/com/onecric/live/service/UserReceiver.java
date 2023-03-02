@@ -89,14 +89,20 @@ public class UserReceiver extends MTCommonReceiver {
         Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Bundle bundle = notificationMessage.getExtras();
-        if (bundle != null && bundle.getInt("status") == 1) {//比赛开始   进入视频直播界面
+        String isLive = bundle.getString("isLive");
+//        String anchorId = bundle.getString("anchorId");
+//        String type = bundle.getString("type");
+//        String matchId = bundle.getString("matchId");
+        if (bundle != null && isLive.equals("1")) {//比赛开始   进入视频直播界面
             intent.setClass(context, LiveDetailActivity.class);
-            intent.putExtra("anchorId", bundle.getInt("anchorId"));
-            intent.putExtra("type", bundle.getInt("type"));
-            intent.putExtra("matchId", bundle.getInt("matchId"));
+            intent.putExtra("anchorId", Integer.parseInt(bundle.getString("anchorId")));
+            intent.putExtra("type", Integer.parseInt(bundle.getString("type")));
+            intent.putExtra("matchId", Integer.parseInt(bundle.getString("matchId")));
+            intent.putExtra("isLive", true);
+            intent.putExtra("mLiveId", Integer.parseInt(bundle.getString("mLiveId")));
         } else {//比赛已经结束 或者是延迟进入比赛详情界面
             intent.setClass(context, CricketDetailActivity.class);
-            intent.putExtra("matchId", bundle.getInt("matchId"));
+            intent.putExtra("matchId", Integer.parseInt(bundle.getString("matchId")));
             context.startActivity(intent);
         }
         context.startActivity(intent);

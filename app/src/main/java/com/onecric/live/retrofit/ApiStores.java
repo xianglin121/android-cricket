@@ -843,17 +843,21 @@ public interface ApiStores {
 
     //获取历史直播列表
     @GET("api/member/live_like")
-    Observable<JsonObject> getLiveLike( @Header("token") String token,@Query("id") int id,
-                                        @Query("type") int type);
+    Observable<JsonObject> getLiveLike(@Header("token") String token, @Query("id") int id,
+                                       @Query("type") int type);
 
 
-    //订阅赛事消息推送   todo 未完成
-    @POST("api/")
-    Observable<JsonObject> doSubscribe(@Body RequestBody body);
+    //订阅赛事消息推送   todo 完成
+    @POST("api/Cricket/subscribe_add")
+    Observable<JsonObject> doSubscribe(@Header("token") String token, @Body RequestBody body);
 
     //获取live页的赛事
     @GET("api/live_streaming/getLiveListNew")
     Observable<JsonObject> getLiveMatchList(@Query("timezone") String timezone);
+
+    //获取订阅推送消息的类型
+    @GET("api/Cricket/subscribe_type")
+    Observable<JsonObject> getSubscribeType(@Header("token") String token, @Query("mid") int mid);
 
 
     //获取直播聊天室历史记录

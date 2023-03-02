@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.R;
 import com.onecric.live.activity.CricketInnerActivity;
+import com.onecric.live.activity.MainActivity;
 import com.onecric.live.adapter.CricketAdapter;
 import com.onecric.live.adapter.SelectTournamentAdapter;
 import com.onecric.live.custom.ItemDecoration;
@@ -117,7 +118,7 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
                 mvpPresenter.getCricketMatchList(false, mTimeType, mTournamentId, mStreaming, mPage);
             }
         });
-        mAdapter = new CricketAdapter(R.layout.item_cricket, new ArrayList<>());
+        mAdapter = new CricketAdapter((MainActivity) getActivity(),R.layout.item_cricket, new ArrayList<>());
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {

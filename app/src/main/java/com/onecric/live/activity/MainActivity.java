@@ -102,7 +102,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
     private long exit_time;
 
-    private LoginDialog loginDialog;
+    public LoginDialog loginDialog;
     private WebView webview;
     private WebSettings webSettings;
 

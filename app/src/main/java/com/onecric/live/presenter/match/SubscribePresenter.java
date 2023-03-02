@@ -13,20 +13,23 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SubscribePresenter extends BasePresenter {
 
-    public void doSubscribe(String mid, int start, int out, int wickets, int miles, int delay, int result, DisposableObserver observer) {
+    public void doSubscribe(String mid, String type, DisposableObserver observer) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("token", CommonAppConfig.getInstance().getToken());
         jsonObject.put("mid", mid);
-        jsonObject.put("start", start);
-        jsonObject.put("out", out);
-        jsonObject.put("wickets", wickets);
-        jsonObject.put("miles", miles);
-        jsonObject.put("delay", delay);
-        jsonObject.put("result", result);
+        jsonObject.put("type", type);
         ApiClient.retrofit().create(ApiStores.class)
-                .doSubscribe(getRequestBody(jsonObject))
+                .doSubscribe(CommonAppConfig.getInstance().getToken(), getRequestBody(jsonObject))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer);
     }
+
+    public void getSubscribeType(int mid, DisposableObserver observer) {
+        ApiClient.retrofit().create(ApiStores.class)
+                .getSubscribeType(CommonAppConfig.getInstance().getToken(), mid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer);
+    }
+
 }

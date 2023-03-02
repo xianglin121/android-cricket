@@ -16,6 +16,7 @@ import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.MainActivity;
 import com.onecric.live.event.ToggleTabEvent;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.UiUtils;
 import com.onecric.live.view.BaseFragment;
@@ -38,10 +39,15 @@ public class CricketFragment extends BaseFragment {
     private TabLayout tabLayout;
     private ViewPager mViewPager;
     private List<Fragment> mViewList;
+    private LoginDialog loginDialog;
 
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_cricket;
+    }
+
+    public void setLoginDialog(LoginDialog dialog) {
+        this.loginDialog = dialog;
     }
 
     @Override
@@ -54,7 +60,7 @@ public class CricketFragment extends BaseFragment {
         findViewById(R.id.iv_avatar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).openDrawer();
+                ((MainActivity) getActivity()).openDrawer();
             }
         });
     }
@@ -91,7 +97,7 @@ public class CricketFragment extends BaseFragment {
                 mViewPager.setCurrentItem(tab.getPosition());
                 TextView textView = new TextView(getActivity());
                 float selectedSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 16, getResources().getDisplayMetrics());
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,selectedSize);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, selectedSize);
                 textView.setTextColor(getResources().getColor(R.color.c_DC3C23));
                 textView.setGravity(Gravity.CENTER);
                 textView.setText(tab.getText());

@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:textSize="14dp"
-                android:textColor="@color/c_219430"/>
+                android:textColor="@color/c_0081ff"/>
 
             <TextView
                 android:id="@+id/tv_r"

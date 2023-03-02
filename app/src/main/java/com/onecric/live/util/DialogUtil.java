@@ -36,14 +36,20 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.onecric.live.BuildConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.SettingActivity;
 import com.onecric.live.activity.WebViewActivity;
+import com.onecric.live.adapter.SubscribeTypeAdapter;
 import com.onecric.live.model.LiveUserBean;
+import com.onecric.live.model.SubscribeTypeBean;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import cn.qqtheme.framework.entity.Province;
 import cn.qqtheme.framework.picker.AddressPicker;
@@ -716,7 +722,7 @@ public class DialogUtil {
         dialog.show();
     }
 
-    public static void showSelectSubscribeDialog(Context context, String matchTitle, SelectSubscribeBack callback) {
+    public static void showSelectSubscribeDialog(Context context, String matchTitle, List<SubscribeTypeBean> list, SelectSubscribeBack callback) {
         final Dialog dialog = new Dialog(context, R.style.dialog);
         dialog.setContentView(R.layout.dialog_select_subscribe);
         dialog.setCancelable(true);
@@ -727,6 +733,11 @@ public class DialogUtil {
         params.gravity = Gravity.BOTTOM;
         dialog.getWindow().setAttributes(params);
         TextView tv_match_title = (TextView) dialog.findViewById(R.id.tv_match_title);
+        RecyclerView rv_type = (RecyclerView) dialog.findViewById(R.id.rv_type);
+        Switch btn_switch = (Switch) dialog.findViewById(R.id.btn_switch);
+        rv_type.setLayoutManager(new LinearLayoutManager(context));
+        SubscribeTypeAdapter adapter = new SubscribeTypeAdapter(btn_switch, R.layout.subscribe_type_item, list);
+        rv_type.setAdapter(adapter);
         tv_match_title.setText(matchTitle);
         TextView tv_save = (TextView) dialog.findViewById(R.id.tv_save);
         CheckBox checkBox1 = (CheckBox) dialog.findViewById(R.id.checkbox_1);
@@ -735,7 +746,6 @@ public class DialogUtil {
         CheckBox checkBox4 = (CheckBox) dialog.findViewById(R.id.checkbox_4);
         CheckBox checkBox5 = (CheckBox) dialog.findViewById(R.id.checkbox_5);
         CheckBox checkBox6 = (CheckBox) dialog.findViewById(R.id.checkbox_6);
-        Switch btn_switch = (Switch) dialog.findViewById(R.id.btn_switch);
         btn_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             boolean checked1, checked2, checked3, checked4, checked5, checked6;
 
@@ -769,7 +779,18 @@ public class DialogUtil {
             public void onClick(View v) {
                 dialog.dismiss();
                 if (callback != null) {
-                    callback.onSelectSubscribe(checkBox1.isChecked() ? 1 : 0, checkBox2.isChecked() ? 1 : 0, checkBox3.isChecked() ? 1 : 0, checkBox4.isChecked() ? 1 : 0, checkBox5.isChecked() ? 1 : 0, checkBox6.isChecked() ? 1 : 0);
+                    String type = "";
+                    for (int i = 0; i < list.size(); i++) {
+                        if (list.get(i).getIs_subscribe() == 1) {
+                            if (i == 0) {
+                                type += list.get(i).getType();
+                            }
+                            if (i > 0) {
+                                type += "," + list.get(i).getType();
+                            }
+                        }
+                    }
+                    callback.onSelectSubscribe(type);
                 }
             }
         });
@@ -948,7 +969,7 @@ public class DialogUtil {
     }
 
     public interface SelectSubscribeBack {
-        void onSelectSubscribe(int start, int out, int wickets, int miles, int delay, int result);
+        void onSelectSubscribe(String type);
     }
 
     public interface StringArrayDialogCallback {

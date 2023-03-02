@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
 import com.onecric.live.activity.CricketDetailActivity;
 import com.onecric.live.activity.LiveDetailActivity;
+import com.onecric.live.activity.MainActivity;
 import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.CricketTournamentBean;
 
@@ -24,8 +25,11 @@ import java.util.List;
  * 时间：2022/8/27
  */
 public class CricketAdapter extends BaseQuickAdapter<CricketTournamentBean, BaseViewHolder> {
-    public CricketAdapter(int layoutResId, @Nullable List<CricketTournamentBean> data) {
+    MainActivity mainActivity;
+
+    public CricketAdapter(MainActivity mainActivity, int layoutResId, @Nullable List<CricketTournamentBean> data) {
         super(layoutResId, data);
+        this.mainActivity = mainActivity;
     }
 
     @Override
@@ -33,7 +37,7 @@ public class CricketAdapter extends BaseQuickAdapter<CricketTournamentBean, Base
         helper.addOnClickListener(R.id.tv_title);
         if (!TextUtils.isEmpty(item.getName())) {
             helper.setText(R.id.tv_title, item.getName());
-        }else {
+        } else {
             helper.setText(R.id.tv_title, "");
         }
         RecyclerView rv_inner = helper.getView(R.id.rv_inner);
@@ -44,12 +48,12 @@ public class CricketAdapter extends BaseQuickAdapter<CricketTournamentBean, Base
             if (tempList.size() > 3) {
                 list = tempList.subList(0, 3);
                 helper.getView(R.id.tv_see_more).setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 list = tempList;
                 helper.getView(R.id.tv_see_more).setVisibility(View.GONE);
             }
         }
-        CricketInnerAdapter innerAdapter = new CricketInnerAdapter(R.layout.item_cricket_inner, list);
+        CricketInnerAdapter innerAdapter = new CricketInnerAdapter(mainActivity,R.layout.item_cricket_inner, list);
         innerAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
