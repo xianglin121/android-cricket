@@ -128,12 +128,11 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
                 }
             } else {//已开始
                 resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_semibold));
-                if(item.getLive_id()!=0){
+                if (item.getLive_id() != 0) {
                     helper.getView(R.id.tv_live).setVisibility(View.VISIBLE);
                 }
             }
         }
-
 
 
         if (!TextUtils.isEmpty(item.getMatch_num())) {
@@ -203,7 +202,11 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
         new SubscribePresenter().doSubscribe(matchId, type, new ApiCallback() {
             @Override
             public void onSuccess(String data, String msg) {
-                subscribeIv.setImageResource(R.mipmap.subscribe);
+                if (!TextUtils.isEmpty(type)) {
+                    subscribeIv.setImageResource(R.mipmap.subscribe);
+                } else {
+                    subscribeIv.setImageResource(R.mipmap.unsubscribe);
+                }
             }
 
             @Override
