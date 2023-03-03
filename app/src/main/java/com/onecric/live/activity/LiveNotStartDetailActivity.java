@@ -198,7 +198,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             mLiveId = getIntent().getIntExtra("liveId", 0);
         }
 
-        mGroupId = String.valueOf(mAnchorId);
+        mGroupId = String.valueOf(mLiveId);
         mvpPresenter.setGroupId(mGroupId);
 
         //获取屏幕宽度

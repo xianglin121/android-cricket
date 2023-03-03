@@ -23,6 +23,7 @@ import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -155,6 +156,8 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
     private SmartRefreshLayout smart_rl;
     protected List<MessageInfo> loadedMessageInfoList = new ArrayList<>();
 
+    private android.widget.ProgressBar progressBar;
+
     private LoginDialog loginDialog;
     public void setLoginDialog(LoginDialog dialog){
         loginDialog = dialog;
@@ -185,6 +188,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         rv_chat = findViewById(R.id.rv_chat);
         iv_block = findViewById(R.id.iv_block);
         smart_rl = findViewById(R.id.smart_rl);
+        progressBar = findViewById(R.id.ProgressBar);
 
         findViewById(R.id.tv_input).setOnClickListener(this);
         findViewById(R.id.iv_emoji).setOnClickListener(this);
@@ -1533,6 +1537,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                     mChatAdapter.notifyDataSetChanged();
                 }
                 if(isFirst){
+                    progressBar.setVisibility(View.GONE);
                     rv_chat.smoothScrollToPosition(mChatAdapter.getItemCount() - 1);
                     sendEnterMessage();
                 }
