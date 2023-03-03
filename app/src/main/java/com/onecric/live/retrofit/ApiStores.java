@@ -765,7 +765,7 @@ public interface ApiStores {
 
     //获取赛事列表
     @POST("api/Cricket/Cricket_match")
-    Observable<JsonObject> getCricketMatchList(@Body RequestBody body);
+    Observable<JsonObject> getCricketMatchList(@Header("token") String token, @Body RequestBody body);
 
     //获取公开赛赛事列表
     @POST("api/Cricket/get_cricket_tournament_match")
