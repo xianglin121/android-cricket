@@ -1,7 +1,13 @@
 package com.onecric.live.adapter;
 
+import static android.app.Notification.EXTRA_CHANNEL_ID;
+import static android.provider.Settings.EXTRA_APP_PACKAGE;
+
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
+import android.os.LimitExceededException;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.alibaba.fastjson.JSONObject;
@@ -30,6 +37,7 @@ import com.onecric.live.util.TimeUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.ToolUtil;
 import com.tencent.qcloud.tuicore.util.DateTimeUtil;
+import com.tencent.qcloud.tuikit.tuichat.util.PermissionUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -88,7 +96,8 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
                         }
                         return;
                     }
-                    getSubscribeType(item, subscribeIv);
+                    checkNotifySetting(item, subscribeIv);
+//                    getSubscribeType(item, subscribeIv);
                     // TODO: 2023/2/14  订阅消息推送
 //                    //这里先弹出一个订阅消息的内容选择框  待选择好后点击确定订阅按钮再调用订阅接口
 //                    DialogUtil.showSelectSubscribeDialog(mContext, item.getHome_name() + " VS " + item.getAway_name(), new DialogUtil.SelectSubscribeBack() {
@@ -260,4 +269,24 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
             }
         });
     }
+
+    private void checkNotifySetting(CricketMatchBean item, ImageView subscribeIv) {
+        NotificationManagerCompat manager = NotificationManagerCompat.from(mContext);
+        // areNotificationsEnabled方法的有效性官方只最低支持到API 19，低于19的仍可调用此方法不过只会返回true，即默认为用户已经开启了通知。
+        boolean isOpened = manager.areNotificationsEnabled();
+
+        if (isOpened) {
+            getSubscribeType(item, subscribeIv);
+        } else {
+//            ToastUtil.show("The application does not open the notification permission to authorize the open notification permission");
+//            Intent intent = new Intent();
+//            intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+//            //这种方案适用于 API 26, 即8.0(含8.0)以上可以用
+//            intent.putExtra(EXTRA_APP_PACKAGE, mContext.getPackageName());
+//            intent.putExtra(EXTRA_CHANNEL_ID, mContext.getApplicationInfo().uid);
+//            mContext.startActivity(intent);
+            PermissionUtils.showNotifiPermissionDialog(mContext);
+        }
+    }
+
 }
