@@ -5,6 +5,7 @@ import static com.onecric.live.HttpConstant.SHARE_LIVE_URL;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -65,6 +66,7 @@ import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMManager;
 import com.tencent.imsdk.v2.V2TIMUserFullInfo;
 import com.tencent.qcloud.tim.uikit.TUIKit;
+import com.tencent.qcloud.tuikit.tuichat.util.PermissionUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -117,7 +119,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         //设置2倍的cpu数实现图片加载的提速
         GlideBuilder builder = new GlideBuilder();
         builder.setSourceExecutor(GlideExecutor.newSourceExecutor(
-                GlideExecutor.calculateBestThreadCount()*2,"newsImg", GlideExecutor.UncaughtThrowableStrategy.DEFAULT));
+                GlideExecutor.calculateBestThreadCount() * 2, "newsImg", GlideExecutor.UncaughtThrowableStrategy.DEFAULT));
 
         mViewList = new ArrayList<>();
 
@@ -128,7 +130,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         mTabLayout = findViewById(R.id.tabLayout);
 
         initWebView();
-        loginDialog = new LoginDialog(this, R.style.dialog,true, () -> {
+        loginDialog = new LoginDialog(this, R.style.dialog, true, () -> {
             loginDialog.dismiss();
             webview.setVisibility(View.VISIBLE);
             webview.loadUrl("javascript:ab()");
@@ -165,18 +167,18 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                switch (id){
+                switch (id) {
                     case R.id.menu_system_settings:
                         SettingActivity.forward(mActivity);
                         break;
                     case R.id.menu_system_share:
-                        ShareUtil.shareText(mActivity,"Share OneCric.tv",SHARE_LIVE_URL);
+                        ShareUtil.shareText(mActivity, "Share OneCric.tv", SHARE_LIVE_URL);
                         break;
                     case R.id.menu_my_concerns:
                         if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                             ToastUtil.show(getString(R.string.please_login));
                             loginDialog.show();
-                        }else{
+                        } else {
                             MyFollowActivity.forward(mActivity);
                         }
                         break;
@@ -184,7 +186,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                         if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                             ToastUtil.show(getString(R.string.please_login));
                             loginDialog.show();
-                        }else{
+                        } else {
                             MyMessageActivity.forward(mActivity);
                         }
                         break;
@@ -238,6 +240,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
     @Override
     protected void initData() {
+        checkNotifySetting();
 //        MPermissionUtils.requestPermissionsResult(this, 300, new String[]{
 //                        Manifest.permission.CAMERA,
 //                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -497,11 +500,11 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             return;
         }
         if (mTabLayout != null && mViewPager != null) {
-            if(event.position == 12){
+            if (event.position == 12) {
                 mTabLayout.toggleBtn(1);
                 mViewPager.setCurrentItem(1);
-                ((CricketFragment)mViewList.get(1)).toTabPosition(2);
-            }else{
+                ((CricketFragment) mViewList.get(1)).toTabPosition(2);
+            } else {
                 mTabLayout.toggleBtn(event.position);
                 mViewPager.setCurrentItem(event.position);
             }
@@ -597,18 +600,35 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         }, 500);
     }
 
-    public void newLoginDialog(){
-        if(loginDialog == null){
-            loginDialog = new LoginDialog(this, R.style.dialog,true, () -> {
+    public void newLoginDialog() {
+        if (loginDialog == null) {
+            loginDialog = new LoginDialog(this, R.style.dialog, true, () -> {
                 loginDialog.dismiss();
                 webview.setVisibility(View.VISIBLE);
                 webview.loadUrl("javascript:ab()");
             });
         }
-        ((ThemeFragment)mViewList.get(0)).setLoginDialog(loginDialog);
-        ((LiveFragment)mViewList.get(2)).setLoginDialog(loginDialog);
-        ((VideoFragment)mViewList.get(3)).setLoginDialog(loginDialog);
+        ((ThemeFragment) mViewList.get(0)).setLoginDialog(loginDialog);
+        ((LiveFragment) mViewList.get(2)).setLoginDialog(loginDialog);
+        ((VideoFragment) mViewList.get(3)).setLoginDialog(loginDialog);
         loginDialog.show();
     }
 
+    private void checkNotifySetting() {
+        NotificationManagerCompat manager = NotificationManagerCompat.from(this);
+        // areNotificationsEnabled方法的有效性官方只最低支持到API 19，低于19的仍可调用此方法不过只会返回true，即默认为用户已经开启了通知。
+        boolean isOpened = manager.areNotificationsEnabled();
+
+        if (isOpened) {
+        } else {
+//            ToastUtil.show("The application does not open the notification permission to authorize the open notification permission");
+//            Intent intent = new Intent();
+//            intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+//            //这种方案适用于 API 26, 即8.0(含8.0)以上可以用
+//            intent.putExtra(EXTRA_APP_PACKAGE, mContext.getPackageName());
+//            intent.putExtra(EXTRA_CHANNEL_ID, mContext.getApplicationInfo().uid);
+//            mContext.startActivity(intent);
+            PermissionUtils.showNotifiPermissionDialog(this);
+        }
+    }
 }
