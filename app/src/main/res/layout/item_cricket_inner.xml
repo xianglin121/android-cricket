@@ -200,7 +200,8 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@id/ll_two" />
+        app:layout_constraintTop_toBottomOf="@id/ll_two"
+        app:layout_constraintVertical_bias="0.36" />
 
     <View
         android:id="@+id/line"

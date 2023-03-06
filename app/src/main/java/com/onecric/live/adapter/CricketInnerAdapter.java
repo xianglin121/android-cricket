@@ -184,17 +184,39 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
             helper.setText(R.id.tv_result, "");
         }
 
-        if (item.getHome_id() == item.getWinner_id()) {
-            helper.setTextColor(R.id.tv_home_score, mContext.getResources().getColor(R.color.c_333333));
-            helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_333333));
-            helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_666666));
-            helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_666666));
-
+//        if (item.getHome_id() == item.getWinner_id()) {
+//            helper.setTextColor(R.id.tv_home_score, mContext.getResources().getColor(R.color.c_333333));
+//            helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_333333));
+//            helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_666666));
+//            helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_666666));
+//
+//        } else {
+//            helper.setTextColor(R.id.tv_home_score, mContext.getResources().getColor(R.color.c_666666));
+//            helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_666666));
+//            helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_333333));
+//            helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_333333));
+//        }
+        if (item.getStatus() == 2) {
+            helper.setTextColor(R.id.tv_result, mContext.getResources().getColor(R.color.c_ff5000));
+            if (item.getHome_id() == item.getWinner_id()) {
+                helper.setTextColor(R.id.tv_home_score, mContext.getResources().getColor(R.color.c_333333));
+                helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_333333));
+                helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_666666));
+                helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_666666));
+            } else {
+                helper.setTextColor(R.id.tv_home_score, mContext.getResources().getColor(R.color.c_666666));
+                helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_666666));
+                helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_333333));
+                helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_333333));
+            }
+        } else if (item.getStatus() == 1) {
+            helper.setTextColor(R.id.tv_result, mContext.getResources().getColor(R.color.c_1D2550));
+            helper.setTextColor(R.id.tv_home_score, mContext.getResources().getColor(R.color.c_00E150));
+            helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_00E150));
+            helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_00E150));
+            helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_00E150));
         } else {
-            helper.setTextColor(R.id.tv_home_score, mContext.getResources().getColor(R.color.c_666666));
-            helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_666666));
-            helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_333333));
-            helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_333333));
+            helper.setTextColor(R.id.tv_result, mContext.getResources().getColor(R.color.c_1D2550));
         }
     }
 
