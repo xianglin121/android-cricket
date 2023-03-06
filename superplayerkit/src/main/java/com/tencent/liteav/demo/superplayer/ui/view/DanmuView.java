@@ -225,9 +225,9 @@ public class DanmuView extends DanmakuView {
                 danmaku.textColor = Color.WHITE;
             }
             danmaku.setTime(getCurrentTime());
-            if (withBorder) {
+/*            if (withBorder) {
                 danmaku.borderColor = Color.WHITE;
-            }
+            }*/
             addDanmaku(danmaku);
         }
     }
@@ -248,9 +248,9 @@ public class DanmuView extends DanmakuView {
             danmaku.textColor = Color.WHITE;
             danmaku.setTime(getCurrentTime());
             danmaku.tag = level;
-            if (withBorder) {
+/*            if (withBorder) {
                 danmaku.borderColor = Color.WHITE;
-            }
+            }*/
             addDanmaku(danmaku);
         }
     }
