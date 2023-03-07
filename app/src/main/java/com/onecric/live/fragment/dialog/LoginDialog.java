@@ -1,5 +1,6 @@
 package com.onecric.live.fragment.dialog;
 
+import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
 import static com.onecric.live.util.UiUtils.getJsonData;
 import static com.onecric.live.util.UiUtils.hideKeyboard;
 import static com.tencent.imsdk.base.ThreadUtils.runOnUiThread;
@@ -51,6 +52,7 @@ import com.onecric.live.model.UserBean;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.retrofit.ApiClient;
 import com.onecric.live.retrofit.ApiStores;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.ToolUtil;
 import com.onecric.live.util.WordUtil;
@@ -89,7 +91,7 @@ public class LoginDialog extends Dialog {
     public OnWebViewListener mWebViewListener;
     private boolean isCanClose;
 
-    public LoginDialog(@NonNull BaseActivity context, int themeResId,boolean isCanClose,OnWebViewListener listener) {
+    public LoginDialog(@NonNull BaseActivity context, int themeResId, boolean isCanClose, OnWebViewListener listener) {
         super(context, themeResId);
         mContext = context;
         mWebViewListener = listener;
@@ -367,7 +369,8 @@ public class LoginDialog extends Dialog {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("mobile", prefix + "-" + etPhone.getText().toString().trim());
         jsonObject.put("code", etVerification.getText().toString().trim());
-        jsonObject.put("pushid", MTCorePrivatesApi.getRegistrationId(mContext));
+//        jsonObject.put("pushid", MTCorePrivatesApi.getRegistrationId(mContext));
+        jsonObject.put("pushid", SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN));
         jsonObject.put("device_type", "android");
         ApiClient.retrofit().create(ApiStores.class)
                 .loginByPwd(getRequestBody(jsonObject))
@@ -453,9 +456,9 @@ public class LoginDialog extends Dialog {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(!isCanClose){
+        if (!isCanClose) {
             mContext.finish();
-        }else{
+        } else {
             dismiss();
         }
     }

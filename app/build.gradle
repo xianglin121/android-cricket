@@ -20,7 +20,7 @@ android {
             keyPassword 'phonelive'
         }
     }
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.2"
 
     defaultConfig {
@@ -182,8 +182,11 @@ dependencies {
 //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如4.0.3
 
     implementation 'com.google.firebase:firebase-messaging:23.0.8'
+    implementation platform('com.google.firebase:firebase-bom:31.2.0')
 
     implementation 'com.google.firebase:firebase-iid:21.1.0'
+
+    implementation 'androidx.work:work-runtime:2.7.1'
 
     //流式标签
     implementation 'com.hyman:flowlayout-lib:1.1.2'

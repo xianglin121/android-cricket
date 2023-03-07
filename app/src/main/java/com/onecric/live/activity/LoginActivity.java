@@ -1,6 +1,7 @@
 package com.onecric.live.activity;
 
 import static com.onecric.live.util.DialogUtil.loadingDialog;
+import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
 import static com.onecric.live.util.UiUtils.getJsonData;
 import static com.onecric.live.util.UiUtils.hideKeyboard;
 
@@ -59,6 +60,7 @@ import com.onecric.live.presenter.login.LoginPresenter;
 import com.onecric.live.service.SMSBroadcastReceiver;
 import com.onecric.live.service.SMSObserver;
 import com.onecric.live.util.MPermissionUtils;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.ToolUtil;
 import com.onecric.live.util.WordUtil;
@@ -375,11 +377,11 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
         if (tabLayout.getSelectedTabPosition() == 0) {
             //code
             btn_login.setEnabled(false);
-            mvpPresenter.loginByCode(prefix + "-" + etPhone.getText().toString().trim(), etVerification.getText().toString().trim(), MTCorePrivatesApi.getRegistrationId(this));
+            mvpPresenter.loginByCode(prefix + "-" + etPhone.getText().toString().trim(), etVerification.getText().toString().trim(), SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN));
         } else {
             //password
             btn_login.setEnabled(false);
-            mvpPresenter.loginByPwd(prefix + "-" + etPhone.getText().toString().trim(), etPassword.getText().toString().trim(), MTCorePrivatesApi.getRegistrationId(this));
+            mvpPresenter.loginByPwd(prefix + "-" + etPhone.getText().toString().trim(), etPassword.getText().toString().trim(), SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN));
         }
     }
 

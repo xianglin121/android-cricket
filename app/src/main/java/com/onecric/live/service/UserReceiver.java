@@ -103,7 +103,6 @@ public class UserReceiver extends MTCommonReceiver {
         } else {//比赛已经结束 或者是延迟进入比赛详情界面
             intent.setClass(context, CricketDetailActivity.class);
             intent.putExtra("matchId", Integer.parseInt(bundle.getString("matchId")));
-            context.startActivity(intent);
         }
         context.startActivity(intent);
     }

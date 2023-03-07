@@ -1,5 +1,7 @@
 package com.onecric.live.activity;
 
+import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -32,6 +34,7 @@ import com.onecric.live.R;
 import com.onecric.live.adapter.PhonePrefixAdapter;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.login.LoginPresenter;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.WordUtil;
 import com.onecric.live.view.MvpActivity;
@@ -327,10 +330,10 @@ public class LoginOldActivity extends MvpActivity<LoginPresenter> implements Log
         String prefix = tv_phone_prefix.getText().toString();
         if (mIsPwdLogin) {
             btn_login.setEnabled(false);
-            mvpPresenter.loginByPwd(prefix + "-" + et_phone.getText().toString(), et_pwd.getText().toString(), MTCorePrivatesApi.getRegistrationId(this));
+            mvpPresenter.loginByPwd(prefix + "-" + et_phone.getText().toString(), et_pwd.getText().toString(), SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN));
         } else {
             btn_login.setEnabled(false);
-            mvpPresenter.loginByCode(prefix + "-" + et_phone.getText().toString(), et_code.getText().toString(), MTCorePrivatesApi.getRegistrationId(this));
+            mvpPresenter.loginByCode(prefix + "-" + et_phone.getText().toString(), et_code.getText().toString(), SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN));
         }
     }
 

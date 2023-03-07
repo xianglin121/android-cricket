@@ -2,6 +2,7 @@ package com.onecric.live.activity;
 
 
 import static com.onecric.live.HttpConstant.SHARE_LIVE_URL;
+import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,10 +15,15 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -32,7 +38,10 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.engine.executor.GlideExecutor;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.onecric.live.BuildConfig;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
@@ -56,6 +65,7 @@ import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.MPermissionUtils;
 import com.onecric.live.util.ShareUtil;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.ToolUtil;
 import com.onecric.live.util.WordUtil;
@@ -138,8 +148,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
         initNavigationView();
         initFragment();
-//        getFCMToken();
-
+        getFCMToken();
     }
 
     private void initNavigationView() {
@@ -631,4 +640,83 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             PermissionUtils.showNotifiPermissionDialog(this);
         }
     }
+
+    private static final String TAG = "MainActivity";
+
+    private void getFCMToken() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        SpUtil.getInstance().setStringValue(REGISTRATION_TOKEN, token);
+                        Log.e(TAG, msg);
+//                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleNotification(intent);
+    }
+
+    private void handleNotification(Intent pintent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create channel to show notifications.
+            String channelId = getString(R.string.default_notification_channel_id);
+            String channelName = getString(R.string.default_notification_channel_name);
+            NotificationManager notificationManager =
+                    getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId,
+                    channelName, NotificationManager.IMPORTANCE_LOW));
+        }
+
+        // If a notification message is tapped, any data accompanying the notification
+        // message is available in the intent extras. In this sample the launcher
+        // intent is fired when the notification is tapped, so any accompanying data would
+        // be handled here. If you want a different intent fired, set the click_action
+        // field of the notification message to the desired intent. The launcher intent
+        // is used when no click_action is specified.
+        //
+        // Handle possible data accompanying notification message.
+        // [START handle_data_extras]
+        if (pintent.getExtras() != null) {
+//            for (String key : getIntent().getExtras().keySet()) {
+//                Object value = getIntent().getExtras().get(key);
+//                Log.d(TAG, "Key: " + key + " Value: " + value);
+//            }
+            Intent intent = new Intent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Bundle bundle = pintent.getExtras();
+            String isLive = bundle.getString("isLive");
+//        String anchorId = bundle.getString("anchorId");
+//        String type = bundle.getString("type");
+//        String matchId = bundle.getString("matchId");
+            if (bundle != null && isLive.equals("1")) {//比赛开始   进入视频直播界面
+                intent.setClass(this, LiveDetailActivity.class);
+                intent.putExtra("anchorId", Integer.parseInt(bundle.getString("anchorId")));
+                intent.putExtra("type", Integer.parseInt(bundle.getString("type")));
+                intent.putExtra("matchId", Integer.parseInt(bundle.getString("matchId")));
+                intent.putExtra("isLive", true);
+                intent.putExtra("mLiveId", Integer.parseInt(bundle.getString("mLiveId")));
+            } else {//比赛已经结束 或者是延迟进入比赛详情界面
+                intent.setClass(this, CricketDetailActivity.class);
+                intent.putExtra("matchId", Integer.parseInt(bundle.getString("matchId")));
+                this.startActivity(intent);
+            }
+            this.startActivity(intent);
+        }
+    }
+
 }
