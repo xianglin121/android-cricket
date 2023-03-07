@@ -47,6 +47,8 @@
     <uses-permission
         android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"
         tools:node="remove" />
+    <!--    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+        <uses-permission android:name="android.permission.READ_SMS" />-->
 
     <application
         android:name="com.onecric.live.AppManager"
@@ -181,9 +183,22 @@
         <activity
             android:name="com.onecric.live.activity.LiveDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
+            <!-- scheme设置 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="live_detail"
+                    android:scheme="onematch" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.onecric.live.activity.LiveMovingCommentActivity"
@@ -224,7 +239,20 @@
 
         <activity
             android:name="com.onecric.live.activity.HeadlineDetailActivity"
-            android:screenOrientation="portrait" />
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <!-- scheme设置 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="headline_detail"
+                    android:scheme="onematch" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.onecric.live.activity.CommunityCommentActivity"
@@ -261,7 +289,21 @@
         <activity
             android:name="com.onecric.live.activity.VideoPagerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:screenOrientation="portrait" />
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <!-- scheme设置 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="video_list"
+                    android:scheme="onematch" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="com.onecric.live.activity.SearchMatchActivity"
             android:screenOrientation="portrait" />
@@ -320,11 +362,37 @@
 
         <activity
             android:name="com.onecric.live.activity.CricketInnerActivity"
-            android:screenOrientation="portrait" />
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <!-- scheme设置 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="match_list"
+                    android:scheme="onematch" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.onecric.live.activity.CricketDetailActivity"
-            android:screenOrientation="portrait" />
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <!-- scheme设置 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="cricket_detail"
+                    android:scheme="onematch" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.onecric.live.activity.CricketStatsActivity"
@@ -344,11 +412,38 @@
 
         <activity
             android:name="com.onecric.live.activity.CricketTeamsActivity"
-            android:screenOrientation="portrait" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="AppLinkUrlError">
+            <!-- scheme设置 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="teams_detail"
+                    android:scheme="onematch" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.onecric.live.activity.PlayerProfileActivity"
-            android:screenOrientation="portrait" />
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <!-- scheme设置 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="player_detail"
+                    android:scheme="onematch" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.onecric.live.activity.PlayerStatsActivity"
@@ -373,6 +468,26 @@
             android:name="com.onecric.live.activity.VideoSingleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.onecric.live.activity.LiveNotStartDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
+            <!-- scheme设置 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="live_not_start_detail"
+                    android:scheme="onematch" />
+            </intent-filter>
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -400,40 +515,76 @@
 
         <!-- Since JCore2.0.0 Required SDK核心功能-->
         <!-- 这个Service要继承JCommonService -->
+<!--        <service-->
+<!--            android:name="com.onecric.live.service.JPlushService"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false"-->
+<!--            android:process=":pushcore">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="cn.jiguang.user.service.action" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
+
+
+<!--        <receiver-->
+<!--            android:name="com.onecric.live.service.JMessageReceiver"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />-->
+<!--                <category android:name="${applicationId}" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
+
+<!--        &lt;!&ndash; Required SDK核心功能&ndash;&gt;-->
+<!--        <activity-->
+<!--            android:name="cn.jpush.android.ui.PushActivity"-->
+<!--            android:configChanges="orientation|keyboardHidden"-->
+<!--            android:exported="false"-->
+<!--            android:theme="@android:style/Theme.NoTitleBar"-->
+<!--            tools:replace="android:exported">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="cn.jpush.android.ui.PushActivity" />-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="${applicationId}" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
+
+        <!-- 由于此类具有长连接功能，手机厂商省电优化时可能直接杀死包名带Engagelab字样的service -->
+        <!-- 所以需要开发者继承com.engagelab.app.component.MTCommonService，提升长连接存活率，已达到提高消息到达率的目的 -->
         <service
-            android:name="com.onecric.live.service.JPlushService"
-            android:enabled="true"
+            android:name="com.onecric.live.service.UserService"
             android:exported="false"
-            android:process=":pushcore">
+            android:process="${ENGAGELAB_PRIVATES_PROCESS}">
             <intent-filter>
-                <action android:name="cn.jiguang.user.service.action" />
+                <action android:name="com.engagelab.privates.intent.USER_SERVICE" />
             </intent-filter>
         </service>
 
-
+        <!-- 用于接收Engagelab业务的回调，包含了长连接状态/通知开关状态/通知消息到达/通知消息点击/通知消息删除/自定义消息/tag操作/alias操作/厂商token回调 -->
+        <!-- 不需要配置子进程，此回调中在主进程中，方便业务操作 -->
         <receiver
-            android:name="com.onecric.live.service.JMessageReceiver"
-            android:enabled="true"
+            android:name="com.onecric.live.service.UserReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
-                <category android:name="${applicationId}" />
+                <action android:name="com.engagelab.privates.intent.USER_RECEIVER" />
             </intent-filter>
         </receiver>
 
-        <!-- Required SDK核心功能-->
-        <activity
-            android:name="cn.jpush.android.ui.PushActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:exported="false"
-            android:theme="@android:style/Theme.NoTitleBar"
-            tools:replace="android:exported">
-            <intent-filter>
-                <action android:name="cn.jpush.android.ui.PushActivity" />
+        <!-- google push need -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="${applicationId}" />
+        <service
+            android:name=".service.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </activity>
+        </service>
+
     </application>
 </manifest>

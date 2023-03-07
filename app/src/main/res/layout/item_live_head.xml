@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorLiveBlackTextBold"
         android:textSize="20sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/noto_sans_display_semibold"
         app:layout_constraintEnd_toEndOf="@id/cricket_live_over"
         app:layout_constraintStart_toStartOf="@id/cricket_live_over"
         app:layout_constraintTop_toBottomOf="@id/cricket_live_over" />
@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/c_333333"
         android:textSize="16sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/noto_sans_display_semibold"
         app:layout_constraintBottom_toBottomOf="@id/cricket_live_round"
         app:layout_constraintStart_toStartOf="@id/cricket_live_sessions"
         app:layout_constraintTop_toBottomOf="@id/cricket_live_sessions" />
@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/c_333333"
         android:textSize="16sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/noto_sans_display_semibold"
         app:layout_constraintStart_toStartOf="@id/cricket_live_country"
         app:layout_constraintTop_toTopOf="@id/cricket_live_runs" />
 
@@ -137,7 +137,7 @@
         android:layout_marginTop="2dp"
         android:textColor="@color/colorLiveBlackTextBold"
         android:textSize="14sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/noto_sans_display_semibold"
         app:layout_constraintStart_toStartOf="@id/cricket_live_striker"
         app:layout_constraintTop_toBottomOf="@id/cricket_live_striker" />
 
@@ -170,7 +170,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorLiveBlackTextBold"
         android:textSize="14sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/noto_sans_display_semibold"
         app:layout_constraintStart_toStartOf="@id/cricket_live_non_striker"
         app:layout_constraintTop_toTopOf="@id/cricket_live_striker_score" />
 

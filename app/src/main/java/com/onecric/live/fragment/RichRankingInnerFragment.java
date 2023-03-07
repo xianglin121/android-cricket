@@ -253,6 +253,6 @@ public class RichRankingInnerFragment extends MvpFragment<RichRankingPresenter> 
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
     }
 }

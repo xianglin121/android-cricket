@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -39,10 +40,13 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
     private TabLayout tabLayout;
     private ViewPager mViewPager;
     private List<Fragment> mViewList;
-    private int id;
+    private String id;
+    private View ll_follow;
+    private ImageView iv_icon;
+    private TextView tv_follow;
 
 
-    public static void forward(Context context, int id) {
+    public static void forward(Context context, String id) {
         Intent intent = new Intent(context, PersonalHomepageActivity.class);
         intent.putExtra("id", id);
         context.startActivity(intent);
@@ -55,17 +59,19 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
 
     @Override
     public boolean getStatusBarTextColor() {
-        return true;
+        return false;
     }
 
 
     @Override
     protected void initView() {
-        id = getIntent().getIntExtra("id", 0);
-        View ll_follow = findViewById(R.id.ll_follow);
-        if (id == 0) {
+        id = getIntent().getStringExtra("id");
+        ll_follow = findViewById(R.id.ll_follow);
+        if (id.equals(CommonAppConfig.getInstance().getUid())) {
             ll_follow.setVisibility(View.GONE);
         }
+        iv_icon = findViewById(R.id.iv_icon);
+        tv_follow = findViewById(R.id.tv_follow);
         head_pic = findViewById(R.id.person_head_pic);
         user_name = findViewById(R.id.tv_user_name);
         user_profile = findViewById(R.id.tv_user_profile);
@@ -76,11 +82,11 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
         fans_num = findViewById(R.id.fans);
         tabLayout = findViewById(R.id.tab_layout);
         mViewPager = findViewById(R.id.view_pager);
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.post)));
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.post)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.videos)));
 
         mViewList = new ArrayList<>();
-        mViewList.add(PersonalPostFragment.newInstance(id));
+//        mViewList.add(PersonalPostFragment.newInstance(id));
         mViewList.add(PersonalVideoFragment.newInstance(id));
 
         initViewPager();
@@ -149,6 +155,15 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
     @Override
     public void getDataSuccess(UserBean userBean) {
         if (userBean != null) {
+            if (userBean.isIs_attention() == 1) {
+                ll_follow.setBackgroundColor(getResources().getColor(R.color.c_D5D5D5));
+                tv_follow.setText(getString(R.string.followed));
+                iv_icon.setVisibility(View.GONE);
+            } else {
+                ll_follow.setBackgroundResource(R.mipmap.bg_live_follow);
+                tv_follow.setText(getString(R.string.follow));
+                iv_icon.setVisibility(View.VISIBLE);
+            }
             GlideUtil.loadUserImageDefault(this, userBean.getAvatar(), head_pic);
             if (!TextUtils.isEmpty(userBean.getUser_nickname())) {
                 user_name.setText(userBean.getUser_nickname());
@@ -160,6 +175,9 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
             } else {
                 user_profile.setText("");
             }
+            anchor_num.setText(userBean.getFollow_the_anchor() + "");
+            author_num.setText(userBean.getFollow_the_author() + "");
+            fans_num.setText(userBean.getFans() + "");
         }
     }
 
@@ -172,12 +190,20 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_follow:
+                mvpPresenter.doFollow(Integer.parseInt(id));
                 break;
             case R.id.person_head_pic:
-                if (id == 0) {
+                if (id.equals(CommonAppConfig.getInstance().getUid())) {
                     UserInfoActivity.forward(mActivity);
                 }
                 break;
         }
+    }
+
+    @Override
+    public void doFollowSuccess(int id) {
+        ll_follow.setBackgroundColor(getResources().getColor(R.color.c_D5D5D5));
+        tv_follow.setText(getString(R.string.followed));
+        iv_icon.setVisibility(View.GONE);
     }
 }

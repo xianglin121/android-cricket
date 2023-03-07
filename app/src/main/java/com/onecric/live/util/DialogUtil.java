@@ -26,19 +26,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.onecric.live.BuildConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.SettingActivity;
 import com.onecric.live.activity.WebViewActivity;
+import com.onecric.live.adapter.SubscribeTypeAdapter;
 import com.onecric.live.model.LiveUserBean;
+import com.onecric.live.model.SubscribeTypeBean;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import cn.qqtheme.framework.entity.Province;
 import cn.qqtheme.framework.picker.AddressPicker;
@@ -225,8 +236,8 @@ public class DialogUtil {
             textView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.dp2px(54)));
             textView.setTextColor(0xff323232);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-            textView.setGravity(Gravity.CENTER_VERTICAL|Gravity.LEFT);
-            textView.setPadding(DpUtil.dp2px(17), 0 ,0, 0);
+            textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+            textView.setPadding(DpUtil.dp2px(17), 0, 0, 0);
             textView.setText(array.valueAt(i));
             textView.setTag(array.keyAt(i));
             textView.setOnClickListener(itemListener);
@@ -255,7 +266,7 @@ public class DialogUtil {
         TextView tv_content = dialog.findViewById(R.id.tv_content);
         String str = context.getString(R.string.confirm_open);
         SpannableStringBuilder spannable = new SpannableStringBuilder(str + noble + "？");
-        spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#3677FF")), str.length(), str.length()+noble.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#3677FF")), str.length(), str.length() + noble.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         tv_content.setText(spannable);
         dialog.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -284,7 +295,7 @@ public class DialogUtil {
         if (sex == 0) {
             iv_male.setSelected(true);
             iv_female.setSelected(false);
-        }else {
+        } else {
             iv_male.setSelected(false);
             iv_female.setSelected(true);
         }
@@ -327,7 +338,7 @@ public class DialogUtil {
         dialog.findViewById(R.id.tv_customer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent dialIntent =  new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + ""));//跳转到拨号界面，同时传递电话号码
+                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + ""));//跳转到拨号界面，同时传递电话号码
                 context.startActivity(dialIntent);
             }
         });
@@ -483,11 +494,11 @@ public class DialogUtil {
         dialog.show();
     }
 
-    public static void showVersionUpdateDialog(Context context, boolean isForce, String versionName, String versionContent, String url) {
+    public static void showVersionUpdateDialog(Context context, boolean isForce, String versionName, String versionContent, String url, String domain_pc_name, String android_mandatory_update_type) {
         if (checkUpdateInfo(context, versionName)) {
             Dialog dialog = new Dialog(context, R.style.dialog);
             dialog.setContentView(R.layout.dialog_version_update);
-            dialog.setCancelable(isForce);
+            dialog.setCancelable(!isForce);
             dialog.setCanceledOnTouchOutside(false);
             TextView tv_version_name = dialog.findViewById(R.id.tv_version_name);
             TextView tv_version_content = dialog.findViewById(R.id.tv_version_content);
@@ -511,14 +522,42 @@ public class DialogUtil {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_VIEW);
-                    Uri content_url = Uri.parse(url);
-                    intent.setData(content_url);
-                    context.startActivity(intent);
+//                    Intent intent = new Intent();
+//                    intent.setAction(Intent.ACTION_VIEW);
+//                    Uri content_url = Uri.parse(url);
+//                    intent.setData(content_url);
+//                    context.startActivity(intent);
+                    if ("0".equals(android_mandatory_update_type)) {
+                        transferToGooglePlay(context);
+                    } else if ("1".equals(android_mandatory_update_type)) {
+                        goToDomain(context, domain_pc_name);
+                    }
                 }
             });
             dialog.show();
+        }
+    }
+
+
+    static void goToDomain(Context context, String url) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        Uri content_url = Uri.parse(url);
+        intent.setData(content_url);
+        context.startActivity(intent);
+    }
+
+    static String googlePlay = "com.android.vending";
+
+    static void transferToGooglePlay(Context context) {
+        try {
+            Uri uri = Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage(googlePlay);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -591,7 +630,7 @@ public class DialogUtil {
         String textFour = "《隐私政策》";
         String textFive = "的全部内容,同意并接受全部条款后开始使用我们的产品和服务。若选择不同意,将无法使用我们的产品和服务,并会退出应用";
         SpannableStringBuilder style = new SpannableStringBuilder();
-        style.append(textOne+textTwo+textThree+textFour+textFive);
+        style.append(textOne + textTwo + textThree + textFour + textFive);
         //设置部分文字点击事件
         ClickableSpan clickableSpanOne = new ClickableSpan() {
             @Override
@@ -645,14 +684,14 @@ public class DialogUtil {
         if (!TextUtils.isEmpty(hdUrl)) {
             dialog.findViewById(R.id.line_hd).setVisibility(View.VISIBLE);
             tv_HD.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             dialog.findViewById(R.id.line_hd).setVisibility(View.GONE);
             tv_HD.setVisibility(View.GONE);
         }
         if (!TextUtils.isEmpty(sdUrl)) {
             dialog.findViewById(R.id.line_sd).setVisibility(View.VISIBLE);
             tv_SD.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             dialog.findViewById(R.id.line_sd).setVisibility(View.GONE);
             tv_SD.setVisibility(View.GONE);
         }
@@ -678,6 +717,81 @@ public class DialogUtil {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    public static void showSelectSubscribeDialog(Context context, String matchTitle, List<SubscribeTypeBean> list, SelectSubscribeBack callback) {
+        final Dialog dialog = new Dialog(context, R.style.dialog);
+        dialog.setContentView(R.layout.dialog_select_subscribe);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.getWindow().setWindowAnimations(R.style.bottomToTopAnim);
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.gravity = Gravity.BOTTOM;
+        dialog.getWindow().setAttributes(params);
+        TextView tv_match_title = (TextView) dialog.findViewById(R.id.tv_match_title);
+        RecyclerView rv_type = (RecyclerView) dialog.findViewById(R.id.rv_type);
+        Switch btn_switch = (Switch) dialog.findViewById(R.id.btn_switch);
+        rv_type.setLayoutManager(new LinearLayoutManager(context));
+        SubscribeTypeAdapter adapter = new SubscribeTypeAdapter(btn_switch, R.layout.subscribe_type_item, list);
+        rv_type.setAdapter(adapter);
+        tv_match_title.setText(matchTitle);
+        TextView tv_save = (TextView) dialog.findViewById(R.id.tv_save);
+        CheckBox checkBox1 = (CheckBox) dialog.findViewById(R.id.checkbox_1);
+        CheckBox checkBox2 = (CheckBox) dialog.findViewById(R.id.checkbox_2);
+        CheckBox checkBox3 = (CheckBox) dialog.findViewById(R.id.checkbox_3);
+        CheckBox checkBox4 = (CheckBox) dialog.findViewById(R.id.checkbox_4);
+        CheckBox checkBox5 = (CheckBox) dialog.findViewById(R.id.checkbox_5);
+        CheckBox checkBox6 = (CheckBox) dialog.findViewById(R.id.checkbox_6);
+        btn_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            boolean checked1, checked2, checked3, checked4, checked5, checked6;
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    checked1 = checkBox1.isChecked();
+                    checked2 = checkBox2.isChecked();
+                    checked3 = checkBox3.isChecked();
+                    checked4 = checkBox4.isChecked();
+                    checked5 = checkBox5.isChecked();
+                    checked6 = checkBox6.isChecked();
+                    checkBox1.setChecked(false);
+                    checkBox2.setChecked(false);
+                    checkBox3.setChecked(false);
+                    checkBox4.setChecked(false);
+                    checkBox5.setChecked(false);
+                    checkBox6.setChecked(false);
+                } else {
+                    checkBox1.setChecked(checked1);
+                    checkBox2.setChecked(checked2);
+                    checkBox3.setChecked(checked3);
+                    checkBox4.setChecked(checked4);
+                    checkBox5.setChecked(checked5);
+                    checkBox6.setChecked(checked6);
+                }
+            }
+        });
+        tv_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if (callback != null) {
+                    String type = "";
+                    for (int i = 0; i < list.size(); i++) {
+                        if (list.get(i).getIs_subscribe() == 1) {
+                            if (i == 0) {
+                                type += list.get(i).getType();
+                            }
+                            if (i > 0) {
+                                type += "," + list.get(i).getType();
+                            }
+                        }
+                    }
+                    callback.onSelectSubscribe(type);
+                }
             }
         });
         dialog.show();
@@ -852,6 +966,10 @@ public class DialogUtil {
 
     public interface SelectPullUrlBack {
         void onSelectUrl(String url);
+    }
+
+    public interface SelectSubscribeBack {
+        void onSelectSubscribe(String type);
     }
 
     public interface StringArrayDialogCallback {

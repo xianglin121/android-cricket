@@ -31,24 +31,28 @@ public class PlayerBioAdapter extends BaseQuickAdapter<RecentMatchesBean, BaseVi
         if (!TextUtils.isEmpty(item.getMatch_away_name())) {
             name += item.getMatch_away_name();
         }
-        if (!TextUtils.isEmpty(item.getMatch_time())) {
-            name = name + "\n" + item.getMatch_time();
-        }
         helper.setText(R.id.tv_name, name);
+        if (!TextUtils.isEmpty(item.getMatch_time())) {
+            helper.setText(R.id.tv_time, item.getMatch_time());
+        }else{
+            helper.setText(R.id.tv_time, "");
+        }
+
+        helper.setText(R.id.tv_time, name);
         if (!TextUtils.isEmpty(item.getBat())) {
             helper.setText(R.id.tv_bat, item.getBat());
         }else {
-            helper.setText(R.id.tv_bat, "");
+            helper.setText(R.id.tv_bat, "-");
         }
-        if (!TextUtils.isEmpty(item.getBowl())) {
+        if (!TextUtils.isEmpty(item.getBowl())&& !"()".equals(item.getBowl())) {
             helper.setText(R.id.tv_bowl, item.getBowl());
         }else {
-            helper.setText(R.id.tv_bowl, "");
+            helper.setText(R.id.tv_bowl, "-");
         }
         if (!TextUtils.isEmpty(item.getTournament_type())) {
             helper.setText(R.id.tv_type, item.getTournament_type());
         }else {
-            helper.setText(R.id.tv_type, "");
+            helper.setText(R.id.tv_type, "-");
         }
     }
 }

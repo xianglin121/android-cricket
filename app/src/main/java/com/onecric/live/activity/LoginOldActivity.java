@@ -1,5 +1,7 @@
 package com.onecric.live.activity;
 
+import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -26,17 +28,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.engagelab.privates.core.api.MTCorePrivatesApi;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.adapter.PhonePrefixAdapter;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.login.LoginPresenter;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.WordUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.login.LoginView;
 
-import cn.jpush.android.api.JPushInterface;
+//import cn.jpush.android.api.JPushInterface;
 
 public class LoginOldActivity extends MvpActivity<LoginPresenter> implements LoginView, View.OnClickListener {
     public static void forward(Context context) {
@@ -136,7 +140,7 @@ public class LoginOldActivity extends MvpActivity<LoginPresenter> implements Log
                     if (handler != null) {
                         handler.sendEmptyMessageDelayed(0, 1000);
                     }
-                }else {
+                } else {
                     tv_get_code.setText(getCodeString);
                     count = TOTAL;
                     if (tv_get_code != null) {
@@ -155,7 +159,7 @@ public class LoginOldActivity extends MvpActivity<LoginPresenter> implements Log
         // 禁用缓存
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
-        webSettings.setDefaultTextEncodingName("utf-8") ;
+        webSettings.setDefaultTextEncodingName("utf-8");
         webview.setBackgroundColor(0); // 设置背景色
         webview.setWebViewClient(new WebViewClient() {
             @Override
@@ -176,7 +180,7 @@ public class LoginOldActivity extends MvpActivity<LoginPresenter> implements Log
             @Override
             public void run() {
                 webview.setVisibility(View.GONE);
-                if(!TextUtils.isEmpty(data)) {
+                if (!TextUtils.isEmpty(data)) {
                     JSONObject jsonObject = JSONObject.parseObject(data);
                     if (jsonObject.getIntValue("ret") == 0) {
                         runOnUiThread(new Runnable() {
@@ -236,7 +240,7 @@ public class LoginOldActivity extends MvpActivity<LoginPresenter> implements Log
                 iv_toggle.setSelected(!iv_toggle.isSelected());
                 if (iv_toggle.isSelected()) {
                     et_pwd.setInputType(InputType.TYPE_CLASS_TEXT);
-                }else {
+                } else {
                     et_pwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 }
                 et_pwd.setSelection(et_pwd.getText().toString().length());
@@ -278,7 +282,7 @@ public class LoginOldActivity extends MvpActivity<LoginPresenter> implements Log
                         return;
                     }
                     hideKeyboard(et_pwd);
-                }else {
+                } else {
                     if (!iv_agree.isSelected()) {
                         ToastUtil.show(WordUtil.getString(this, R.string.login_agree_protocol_tip));
                         return;
@@ -323,13 +327,13 @@ public class LoginOldActivity extends MvpActivity<LoginPresenter> implements Log
     }
 
     private void login() {
-        String prefix= tv_phone_prefix.getText().toString();
+        String prefix = tv_phone_prefix.getText().toString();
         if (mIsPwdLogin) {
             btn_login.setEnabled(false);
-            mvpPresenter.loginByPwd(prefix + "-" + et_phone.getText().toString(), et_pwd.getText().toString());
-        }else {
+            mvpPresenter.loginByPwd(prefix + "-" + et_phone.getText().toString(), et_pwd.getText().toString(), SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN));
+        } else {
             btn_login.setEnabled(false);
-            mvpPresenter.loginByCode(prefix + "-" + et_phone.getText().toString(), et_code.getText().toString());
+            mvpPresenter.loginByCode(prefix + "-" + et_phone.getText().toString(), et_code.getText().toString(), SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN));
         }
     }
 
@@ -359,7 +363,8 @@ public class LoginOldActivity extends MvpActivity<LoginPresenter> implements Log
     public void loginIsSuccess(boolean isSuccess) {
         btn_login.setEnabled(true);
         if (isSuccess) {
-            mvpPresenter.updateJgId(JPushInterface.getRegistrationID(this));
+//            mvpPresenter.updateJgId(JPushInterface.getRegistrationID(this));
+            mvpPresenter.updateJgId(MTCorePrivatesApi.getRegistrationId(this));
             ToastUtil.show(WordUtil.getString(this, R.string.login_success));
             MainActivity.loginForward(this);
         }

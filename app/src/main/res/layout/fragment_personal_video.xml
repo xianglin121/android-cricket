@@ -37,6 +37,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_group"
                 android:layout_width="0dp"
+                android:visibility="invisible"
                 android:layout_height="match_parent"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="19dp"
@@ -49,11 +50,12 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
                     android:src="@mipmap/select" />
 
                 <TextView

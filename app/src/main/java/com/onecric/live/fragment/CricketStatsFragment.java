@@ -101,35 +101,91 @@ public class CricketStatsFragment extends BaseFragment implements View.OnClickLi
             if (!TextUtils.isEmpty(bean.getHighest_score_name())) {
                 tv_highest_score_name.setText(bean.getHighest_score_name() + " - ");
                 tv_highest_score.setText(bean.getHighest_score());
+            }else{
+                findViewById(R.id.ll_highest_individual_score).setVisibility(View.GONE);
+                findViewById(R.id.view_line1).setVisibility(View.GONE);
             }
+
             if (!TextUtils.isEmpty(bean.getMost_runs_name())) {
                 tv_most_run_name.setText(bean.getMost_runs_name() + " - ");
                 tv_most_run.setText(bean.getMost_runs());
+            }else{
+                findViewById(R.id.ll_most_runs).setVisibility(View.GONE);
+                findViewById(R.id.view_line2).setVisibility(View.GONE);
             }
+
             if (!TextUtils.isEmpty(bean.getBest_battingAv_name())) {
                 tv_best_batting_name.setText(bean.getBest_battingAv_name() + " - ");
                 tv_best_batting.setText(bean.getBest_battingAv());
+            }else{
+                findViewById(R.id.ll_best_batting_average).setVisibility(View.GONE);
+                findViewById(R.id.view_line3).setVisibility(View.GONE);
             }
+
             if (!TextUtils.isEmpty(bean.getHighest_strikeRate_name())) {
                 tv_highest_strike_name.setText(bean.getHighest_strikeRate_name() + " - ");
                 tv_highest_strike.setText(bean.getHighest_strikeRate());
+            }else{
+                findViewById(R.id.ll_highest_strike_rate).setVisibility(View.GONE);
+                findViewById(R.id.view_line4).setVisibility(View.GONE);
             }
+
             if (!TextUtils.isEmpty(bean.getMaximum_sixes_name())) {
                 tv_maximum_six_name.setText(bean.getMaximum_sixes_name() + " - ");
                 tv_maximum_six.setText(bean.getMaximum_sixes());
+            }else{
+                findViewById(R.id.ll_maximum_sixes).setVisibility(View.GONE);
+                findViewById(R.id.view_line4).setVisibility(View.GONE);
             }
+
             if (!TextUtils.isEmpty(bean.getMost_wickets_name())) {
                 tv_most_wicket_name.setText(bean.getMost_wickets_name() + " - ");
                 tv_most_wicket.setText(bean.getMost_wickets());
+            }else{
+                findViewById(R.id.ll_most_wickets).setVisibility(View.GONE);
+                findViewById(R.id.view_line5).setVisibility(View.GONE);
             }
+
             if (!TextUtils.isEmpty(bean.getBest_bowling_average_name())) {
                 tv_best_bowling_av_name.setText(bean.getBest_bowling_average_name() + " - ");
                 tv_best_bowling_av.setText(bean.getBest_bowling_average());
+            }else{
+                findViewById(R.id.ll_best_bowling_average).setVisibility(View.GONE);
+                findViewById(R.id.view_line6).setVisibility(View.GONE);
             }
+
             if (!TextUtils.isEmpty(bean.getBest_bowling_economy_name())) {
                 tv_best_bowling_ec_name.setText(bean.getBest_bowling_economy_name() + " - ");
                 tv_best_bowling_ec.setText(bean.getBest_bowling_economy());
+            }else{
+                findViewById(R.id.ll_best_bowling_economy).setVisibility(View.GONE);
+                findViewById(R.id.view_line6).setVisibility(View.GONE);
             }
+
+            if (!TextUtils.isEmpty(bean.getMost_catches_name())) {
+                tv_most_catches_name.setText(bean.getMost_catches_name() + " - ");
+                tv_most_catches.setText(bean.getMost_catches());
+            }else{
+                findViewById(R.id.ll_most_catches).setVisibility(View.GONE);
+                findViewById(R.id.view_line7).setVisibility(View.GONE);
+            }
+
+            if (!TextUtils.isEmpty(bean.getMost_run_outs_name())) {
+                tv_most_run_out_name.setText(bean.getMost_run_outs_name() + " - ");
+                tv_most_run_out.setText(bean.getMost_run_outs());
+            }else{
+                findViewById(R.id.ll_most_run_outs).setVisibility(View.GONE);
+                findViewById(R.id.view_line8).setVisibility(View.GONE);
+            }
+
+            if (!TextUtils.isEmpty(bean.getMost_stumpings_name())) {
+                tv_most_stumping_name.setText(bean.getMost_stumpings_name() + " - ");
+                tv_most_stumping.setText(bean.getMost_stumpings());
+            }else{
+                findViewById(R.id.ll_most_stumpings).setVisibility(View.GONE);
+                findViewById(R.id.view_line8).setVisibility(View.GONE);
+            }
+
         }
     }
 

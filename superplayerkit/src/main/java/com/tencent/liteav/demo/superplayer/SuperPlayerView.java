@@ -644,6 +644,11 @@ public class SuperPlayerView extends RelativeLayout {
         public void onClickRedEnvelope() {
 
         }
+
+        @Override
+        public void onClickMute(boolean isMute) {
+            onClickMute(isMute);
+        }
     };
 
     /**
@@ -790,7 +795,13 @@ public class SuperPlayerView extends RelativeLayout {
 
     private SuperPlayerObserver mSuperPlayerObserver = new SuperPlayerObserver() {
         @Override
-        public void onPlayBegin(String name) {
+        public void onPlayBegin(String name,int type) {
+            //type：1 开始播放 2 首次加载结束，开始播放
+            /*if(type == 2 ){
+                if (mPlayerViewCallback != null) {
+                    mPlayerViewCallback.onLoadingEnd();
+                }
+            }*/
             mWindowPlayer.updatePlayState(SuperPlayerDef.PlayerState.PLAYING);
             mFullScreenPlayer.updatePlayState(SuperPlayerDef.PlayerState.PLAYING);
             updateTitle(name);
@@ -804,8 +815,12 @@ public class SuperPlayerView extends RelativeLayout {
         }
 
         @Override
-        public void onPlayPause() {
-            mWindowPlayer.updatePlayState(SuperPlayerDef.PlayerState.PAUSE);
+        public void onPlayPause(int type) {
+            if(type == 1){
+                mWindowPlayer.updatePlayState(SuperPlayerDef.PlayerState.PAUSE);
+            }else if(type == 2){
+                mWindowPlayer.updatePlayState(SuperPlayerDef.PlayerState.NO_NETWORK);
+            }
             mFullScreenPlayer.updatePlayState(SuperPlayerDef.PlayerState.PAUSE);
         }
 

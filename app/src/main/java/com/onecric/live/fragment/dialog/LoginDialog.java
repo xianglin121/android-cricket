@@ -1,5 +1,6 @@
 package com.onecric.live.fragment.dialog;
 
+import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
 import static com.onecric.live.util.UiUtils.getJsonData;
 import static com.onecric.live.util.UiUtils.hideKeyboard;
 import static com.tencent.imsdk.base.ThreadUtils.runOnUiThread;
@@ -36,6 +37,7 @@ import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.engagelab.privates.core.api.MTCorePrivatesApi;
 import com.google.gson.Gson;
 import com.hbb20.CountryCodePicker;
 import com.onecric.live.CommonAppConfig;
@@ -50,7 +52,9 @@ import com.onecric.live.model.UserBean;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.retrofit.ApiClient;
 import com.onecric.live.retrofit.ApiStores;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
+import com.onecric.live.util.ToolUtil;
 import com.onecric.live.util.WordUtil;
 import com.onecric.live.view.BaseActivity;
 
@@ -58,7 +62,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-import cn.jpush.android.api.JPushInterface;
+//import cn.jpush.android.api.JPushInterface;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
@@ -80,16 +84,18 @@ public class LoginDialog extends Dialog {
     private static final int TOTAL = 60;
     private int count = TOTAL;
     private String getCodeString;
-//    private WebView webview;
+    //    private WebView webview;
 //    private WebSettings webSettings;
     private boolean isSendCode = false;
     private boolean isSame;
     public OnWebViewListener mWebViewListener;
+    private boolean isCanClose;
 
-    public LoginDialog(@NonNull BaseActivity context, int themeResId,OnWebViewListener listener) {
+    public LoginDialog(@NonNull BaseActivity context, int themeResId, boolean isCanClose, OnWebViewListener listener) {
         super(context, themeResId);
         mContext = context;
         mWebViewListener = listener;
+        this.isCanClose = isCanClose;
         initView();
         initData();
     }
@@ -104,7 +110,7 @@ public class LoginDialog extends Dialog {
                     if (handler != null) {
                         handler.sendEmptyMessageDelayed(0, 1000);
                     }
-                }else {
+                } else {
                     tvAuthCode.setText(getCodeString);
                     count = TOTAL;
                     if (tvAuthCode != null) {
@@ -117,8 +123,8 @@ public class LoginDialog extends Dialog {
 
     private void initView() {
         setContentView(R.layout.dialog_login);
-        setCancelable(true);
-        setCanceledOnTouchOutside(true);
+        setCancelable(isCanClose);
+        setCanceledOnTouchOutside(isCanClose);
         getWindow().setWindowAnimations(R.style.bottomToTopAnim);
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -164,7 +170,7 @@ public class LoginDialog extends Dialog {
                 return;
             }
 
-            if(TextUtils.isEmpty(etArea.getText().toString().trim())){
+            if (TextUtils.isEmpty(etArea.getText().toString().trim())) {
                 ToastUtil.show(mContext.getString(R.string.country));
                 return;
             }
@@ -174,12 +180,12 @@ public class LoginDialog extends Dialog {
                 return;
             }
 
-            if(!isSendCode){
+            if (!isSendCode) {
                 ToastUtil.show(mContext.getString(R.string.send_verification_tip));
                 return;
             }
 
-            if(TextUtils.isEmpty(etVerification.getText().toString().trim())){
+            if (TextUtils.isEmpty(etVerification.getText().toString().trim())) {
                 ToastUtil.show(mContext.getString(R.string.verification_code));
                 return;
             }
@@ -190,7 +196,7 @@ public class LoginDialog extends Dialog {
 
     }
 
-    private void setAgreementSpannable(){
+    private void setAgreementSpannable() {
         String tips = mContext.getString(R.string.login_agreement_info);
         SpannableString spannableString = new SpannableString(tips);
         spannableString.setSpan(new ClickableSpan() {
@@ -207,7 +213,7 @@ public class LoginDialog extends Dialog {
                 ds.setColor(mContext.getResources().getColor(R.color.c_DC3C23));
                 ds.setUnderlineText(false);
             }
-        },17, 39, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }, 17, 39, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         spannableString.setSpan(new ClickableSpan() {
             @Override
@@ -223,7 +229,7 @@ public class LoginDialog extends Dialog {
                 ds.setColor(mContext.getResources().getColor(R.color.c_DC3C23));
                 ds.setUnderlineText(false);
             }
-        },tips.length() - 14, tips.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }, tips.length() - 14, tips.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         tvAgreement.setMovementMethod(LinkMovementMethod.getInstance());
         tvAgreement.setHighlightColor(Color.TRANSPARENT);
@@ -245,10 +251,10 @@ public class LoginDialog extends Dialog {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!TextUtils.isEmpty(editable.toString().trim()) && !isSame){
+                if (!TextUtils.isEmpty(editable.toString().trim()) && !isSame) {
                     String code = editable.toString().trim();
-                    for(AreasModel.CountryModel model:countryList){
-                        if(model.getTel().equals(code)){
+                    for (AreasModel.CountryModel model : countryList) {
+                        if (model.getTel().equals(code)) {
                             ccp.setCountryForNameCode(model.getShortName());
                             return;
                         }
@@ -258,7 +264,7 @@ public class LoginDialog extends Dialog {
             }
         });
         //选择国家
-        ccp.setOnCountryChangeListener(() ->{
+        ccp.setOnCountryChangeListener(() -> {
             isSame = true;
             etArea.setText(ccp.getSelectedCountryCode());
             etArea.setSelection(ccp.getSelectedCountryCode().length());
@@ -283,7 +289,7 @@ public class LoginDialog extends Dialog {
         ccp.setCustomMasterCountries("IN");
         if (CommonAppConfig.getInstance().getConfig() != null && CommonAppConfig.getInstance().getConfig().getCountryCode() != null) {
             showCountryList();
-        }else{
+        } else {
             requestConfiguration();
         }
     }
@@ -297,7 +303,7 @@ public class LoginDialog extends Dialog {
     @SuppressLint("CheckResult")
     public void requestConfiguration() {
         ApiClient.retrofit().create(ApiStores.class)
-                .getDefaultConfiguration()
+                .getDefaultConfiguration(ToolUtil.getCurrentVersionCode(mContext))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new ApiCallback() {
@@ -322,7 +328,7 @@ public class LoginDialog extends Dialog {
                 });
     }
 
-    private void requestCode(String phone){
+    private void requestCode(String phone) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("mobile", phone);
         jsonObject.put("type", 3);
@@ -336,7 +342,7 @@ public class LoginDialog extends Dialog {
                         isSendCode = true;
 //        if (dialog != null) {dialog.dismiss();}
                         handler.sendEmptyMessage(0);
-                }
+                    }
 
                     @Override
                     public void onFailure(String msg) {
@@ -357,12 +363,14 @@ public class LoginDialog extends Dialog {
                 });
     }
 
-    private void requestLogin(){
-        String prefix= etArea.getText().toString().trim();
+    private void requestLogin() {
+        String prefix = etArea.getText().toString().trim();
         btn_login.setEnabled(false);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("mobile", prefix + "-" + etPhone.getText().toString().trim());
         jsonObject.put("code", etVerification.getText().toString().trim());
+//        jsonObject.put("pushid", MTCorePrivatesApi.getRegistrationId(mContext));
+        jsonObject.put("pushid", SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN));
         jsonObject.put("device_type", "android");
         ApiClient.retrofit().create(ApiStores.class)
                 .loginByPwd(getRequestBody(jsonObject))
@@ -375,7 +383,8 @@ public class LoginDialog extends Dialog {
                             CommonAppConfig.getInstance().saveLoginInfo(JSON.parseObject(data).getString("id"), JSON.parseObject(data).getString("token"), JSONObject.parseObject(data, UserBean.class).getUserSig(), data);
                         }
                         btn_login.setEnabled(true);
-                        updateJgId(JPushInterface.getRegistrationID(mContext));
+//                        updateJgId(JPushInterface.getRegistrationID(mContext));
+                        updateJgId(MTCorePrivatesApi.getRegistrationId(mContext));
                         ToastUtil.show(mContext.getString(R.string.login_success));
                         dismiss();
                         EventBus.getDefault().post(new UpdateLoginTokenEvent());
@@ -431,16 +440,28 @@ public class LoginDialog extends Dialog {
         return requestBody;
     }
 
-    public interface OnWebViewListener{
+    public interface OnWebViewListener {
         void onShow();
     }
 
-    public void passWebView(){
+    public void passWebView() {
         String area = etArea.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
         tvAuthCode.setEnabled(false);
-        if (!TextUtils.isEmpty(area) && !TextUtils.isEmpty(area)) {
+        if (!TextUtils.isEmpty(area) && !TextUtils.isEmpty(phone)) {
             requestCode(area + "-" + phone);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (!isCanClose) {
+            mContext.finish();
+        } else {
+            dismiss();
+        }
+    }
+
+
 }

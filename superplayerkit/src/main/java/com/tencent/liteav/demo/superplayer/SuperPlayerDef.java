@@ -12,7 +12,9 @@ public class SuperPlayerDef {
         PLAYING,    // 播放中
         PAUSE,      // 暂停中
         LOADING,    // 缓冲中
-        END         // 结束播放
+        END,         // 结束播放
+        NO_NETWORK,         // 没网
+        FIRST_LOADING_END         // 首次加载完成，结束loading
     }
 
     public enum PlayerType {

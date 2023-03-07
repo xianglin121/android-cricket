@@ -154,7 +154,7 @@ public class UserFragment extends MvpFragment<UserPresenter> implements UserView
         switch (v.getId()) {
             case R.id.iv_avatar:
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                    LoginActivity.forward(getActivity());
+                    ToastUtil.show(getString(R.string.please_login));
                 }else {
                     DefaultAvatarActivity.forward(getActivity());
                 }
@@ -170,7 +170,7 @@ public class UserFragment extends MvpFragment<UserPresenter> implements UserView
                 SettingActivity.forward(getActivity());
                 break;
             case R.id.ll_login_and_register:
-                LoginActivity.forward(getActivity());
+                ToastUtil.show(getString(R.string.please_login));
                 break;
             case R.id.tv_charge:
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {

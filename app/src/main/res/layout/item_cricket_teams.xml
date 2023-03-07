@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="69dp"
+    android:layout_height="63dp"
     android:gravity="center_vertical"
     android:background="?attr/selectableItemBackground">
     <ImageView
         android:id="@+id/iv_logo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
         android:layout_marginLeft="14dp"
         android:src="@mipmap/img_team_logo_default"
         android:scaleType="fitCenter"/>
@@ -22,16 +22,16 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16dp"
+            android:textSize="14sp"
             android:textColor="@color/c_333333"
-            android:layout_marginBottom="@dimen/dp_4"
-            style="@style/TvSansSerifMediumStyle"/>
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/noto_sans_display_semibold"/>
 
         <TextView
             android:id="@+id/tv_abbreviation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dp"
+            android:textSize="12sp"
             android:textColor="@color/c_666666"/>
     </LinearLayout>
 
@@ -44,5 +44,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="12dp"
-        android:background="@mipmap/icon_arrow_right_three"/>
+        android:background="@mipmap/icon_arrow_right_full"/>
 </LinearLayout>

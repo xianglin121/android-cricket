@@ -95,8 +95,12 @@ public class CricketSquadFragment extends MvpFragment<CricketSquadPresenter> imp
         iv_away_logo = inflate.findViewById(R.id.iv_away_logo);
         tv_away_name = inflate.findViewById(R.id.tv_away_name);
         mAdapter.addHeaderView(inflate);
+        View inflate2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
+        inflate2.findViewById(R.id.ll_empty).setVisibility(View.VISIBLE);
+        mAdapter.setEmptyView(inflate2);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAdapter);
+
     }
 
     public void getList(int matchId, String homeName, String homeLogo, String awayName, String awayLogo) {
@@ -127,11 +131,12 @@ public class CricketSquadFragment extends MvpFragment<CricketSquadPresenter> imp
         smart_rl.finishRefresh();
         if (list != null) {
             mAdapter.setNewData(list);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
     }
 }

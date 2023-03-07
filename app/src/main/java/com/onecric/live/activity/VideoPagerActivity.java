@@ -1,15 +1,21 @@
 package com.onecric.live.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
@@ -17,6 +23,7 @@ import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.onecric.live.AppManager;
 import com.onecric.live.CommonAppConfig;
@@ -27,7 +34,9 @@ import com.onecric.live.adapter.layoutmanager.OnVideoViewPagerListener;
 import com.onecric.live.adapter.layoutmanager.VideoViewPagerLayoutManager;
 import com.onecric.live.custom.InputVideoCommentMsgDialog;
 import com.onecric.live.custom.VideoCommentDialog;
+import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.event.UpdateVideoLikeEvent;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.ReportBean;
 import com.onecric.live.model.ShortVideoBean;
@@ -35,6 +44,7 @@ import com.onecric.live.presenter.video.VideoPagerPresenter;
 import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.DownloadUtil;
 import com.onecric.live.util.ShareUtil;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.video.VideoPagerView;
@@ -50,6 +60,8 @@ import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoViewBridge;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -95,6 +107,13 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
     private Dialog mLoadingDialog;
 
     private List<ReportBean> mReportList;//举报列表
+    private boolean isTagJump = false;
+    private String jumpKeyword;
+
+    private LoginDialog loginDialog,constraintLoginDialog;
+    private WebView webview;
+    private WebSettings webSettings;
+    private boolean isCancelLoginDialog;
 
     //未登录用户倒计时三分钟跳转登录页
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
@@ -105,9 +124,13 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
         @Override
         public void onFinish() {
+            if(loginDialog.isShowing()){
+                loginDialog.dismiss();
+            }
+            SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
-            finish();
-            LoginActivity.forward(mActivity);
+            isCancelLoginDialog = false;
+            constraintLoginDialog.show();
         }
     };
 
@@ -119,6 +142,9 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
     @Override
     protected void onDestroy() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
         super.onDestroy();
 //        if (videoPagerHolder != null) {
 //            videoPagerHolder.videoView.release();
@@ -127,6 +153,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             mCountDownTimer.cancel();
         }
         GSYVideoManager.releaseAllVideos();
+//        GSYVideoManager.instance().clearAllDefaultCache(this);
         if (orientationUtils != null)
             orientationUtils.releaseListener();
     }
@@ -166,10 +193,25 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
     @Override
     protected void initView() {
-        defaultIndex = getIntent().getIntExtra("index", 0);
+        //scheme
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                isTagJump = true;
+                jumpKeyword = uri.getQueryParameter("key");
+                if(TextUtils.isEmpty(jumpKeyword)){finish();}
+                mPage = 0;
+                defaultIndex = 0;
+            }
+        }else{
+            defaultIndex = getIntent().getIntExtra("index", 0);
+            mPage = getIntent().getIntExtra("page", 0);
+            mPage++;
+        }
+
         currentIndex = defaultIndex;
-        mPage = getIntent().getIntExtra("page", 0);
-        mPage++;
 
         refreshLayout = findViewById(R.id.smart_rl);
         rv = findViewById(R.id.recyclerView);
@@ -177,10 +219,25 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
         findViewById(R.id.iv_back).setOnClickListener(this);
 
+        EventBus.getDefault().register(this);
+        initWebView();
+        loginDialog =  new LoginDialog(this, R.style.dialog,true, () -> {
+            loginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
+        constraintLoginDialog =  new LoginDialog(this, R.style.dialog,false, () -> {
+            constraintLoginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
+
         //初始化回复弹窗
         mCommentDialog = new VideoCommentDialog(this, R.style.dialog);
+        mCommentDialog.setLoginDialog(loginDialog);
         //初始化下载中弹窗
         mLoadingDialog = DialogUtil.loadingDialog(this, getString(R.string.downloading));
+
     }
 
     @Override
@@ -269,9 +326,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                 VideoPagerActivity.this.dismissLoadingDialog();
             }
         };
-        List<ShortVideoBean> data = JSON.parseObject(getIntent().getStringExtra("data"), new TypeReference<List<ShortVideoBean>>() {
-        });
-        videoPagerAdapter.setBeans(data, false);
+
         rv.setLayoutManager(mLayoutManager);
         rv.setAdapter(videoPagerAdapter);
         rv.scrollToPosition(defaultIndex);
@@ -295,9 +350,16 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             }
         });
 
-        if (defaultIndex == data.size() - 1) {
-            mvpPresenter.getList(false, mPage);
+        if(isTagJump){
+//            mvpPresenter.getKeywordList(jumpKeyword);
+        }else{
+            List<ShortVideoBean> data = JSON.parseObject(getIntent().getStringExtra("data"), new TypeReference<List<ShortVideoBean>>() {});
+            videoPagerAdapter.setBeans(data, false);
+            if (defaultIndex == data.size() - 1) {
+                mvpPresenter.getList(false, mPage);
+            }
         }
+
     }
 
     @Override
@@ -308,6 +370,10 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                 refreshLayout.finishLoadMore();
             }
             videoPagerAdapter.setBeans(list, false);
+            if(isRefresh){
+                rv.scrollToPosition(currentIndex);
+                mLayoutManager.setPosition(currentIndex);
+            }
         } else {
             if (refreshLayout != null) {
                 refreshLayout.finishLoadMoreWithNoMoreData();
@@ -566,7 +632,8 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-                    LoginActivity.forward(mActivity);
+                    isCancelLoginDialog = true;
+                    loginDialog.show();
                     return;
                 }
                 if (bean.getUid() != Integer.parseInt(CommonAppConfig.getInstance().getUid())) {
@@ -581,7 +648,8 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-                    LoginActivity.forward(mActivity);
+                    isCancelLoginDialog = true;
+                    loginDialog.show();
                     return;
                 }
                 int likeCount = bean.getLikes();
@@ -595,7 +663,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                     likeCount++;
                 }
                 bean.setLikes(likeCount);
-                videoPagerHolder.tv_like_count.setText(String.valueOf(likeCount));
+                videoPagerHolder.tv_like_count.setText(bean.getLikes()>1000?String.format("%.1f",(float)bean.getLikes()/1000)+"K":bean.getLikes()+"");
                 mvpPresenter.doVideoLike(bean.getId());
 //                TrackHelper.track().socialInteraction("Like", "Video_user").target("onecric.live.app").with(((AppManager) getApplication()).getTracker());
                 EventBus.getDefault().post(new UpdateVideoLikeEvent(bean.getId()));
@@ -612,7 +680,8 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-                    LoginActivity.forward(mActivity);
+                    isCancelLoginDialog = true;
+                    loginDialog.show();
                     return;
                 }
                 DialogUtil.showVideoMoreDialog(mActivity, new DialogUtil.SelectMoreCallback() {
@@ -698,5 +767,73 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
         //释放所有
         videoPagerHolder.videoView.setVideoAllCallBack(null);
         super.onBackPressed();
+    }
+
+    //登录成功，更新信息
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
+        if (event != null) {
+            if (mCountDownTimer != null) {
+                mCountDownTimer.cancel();
+            }
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                mvpPresenter.getReportList();
+            }
+            mvpPresenter.getList(true, --mPage);
+        }
+    }
+
+    @SuppressLint("JavascriptInterface")
+    private void initWebView() {
+        webview = (WebView) findViewById(R.id.webview);
+        webSettings = webview.getSettings();
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        // 禁用缓存
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        webSettings.setDefaultTextEncodingName("utf-8");
+        webview.setBackgroundColor(0); // 设置背景色
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        // 开启js支持
+        webSettings.setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(this, "jsBridge");
+        webview.loadUrl("file:///android_asset/index.html");
+    }
+
+    @JavascriptInterface
+    public void getData(String data) {
+        webview.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                webview.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(data)) {
+                    JSONObject jsonObject = JSONObject.parseObject(data);
+                    if (jsonObject.getIntValue("ret") == 0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(isCancelLoginDialog){
+                                    loginDialog.show();
+                                    loginDialog.passWebView();
+                                }else{
+                                    constraintLoginDialog.show();
+                                    constraintLoginDialog.passWebView();
+                                }
+
+                            }
+                        });
+                    }else if(!isCancelLoginDialog){
+                        constraintLoginDialog.show();
+                    }
+                }
+            }
+        }, 500);
     }
 }

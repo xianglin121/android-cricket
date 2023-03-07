@@ -20,15 +20,14 @@
         android:orientation="horizontal"
         android:visibility="gone">
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_weight="1.5"
             android:gravity="bottom"
             android:paddingBottom="6dp"
-            android:paddingLeft="14dp"
+            android:paddingLeft="30dp"
             android:text="#"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
@@ -37,38 +36,40 @@
             android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="@string/team2"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="B"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="S/R"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="VS"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
@@ -77,8 +78,9 @@
             android:gravity="bottom|center_horizontal"
             android:paddingBottom="6dp"
             android:text="RUNS"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:fontFamily="@font/noto_sans_display_semibold"
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
     </LinearLayout>
 
     <LinearLayout
@@ -88,15 +90,14 @@
         android:orientation="horizontal"
         android:visibility="gone">
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_weight="1.5"
             android:gravity="bottom"
             android:paddingBottom="6dp"
-            android:paddingLeft="14dp"
+            android:paddingLeft="30dp"
             android:text="#"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
@@ -105,38 +106,41 @@
             android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="@string/team2"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="M"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="INN"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="AVG"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
@@ -145,8 +149,9 @@
             android:gravity="bottom|center_horizontal"
             android:paddingBottom="6dp"
             android:text="RUNS"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:fontFamily="@font/noto_sans_display_semibold"
+            android:textColor="@color/c_1D2550"/>
     </LinearLayout>
 
     <LinearLayout
@@ -156,15 +161,14 @@
         android:orientation="horizontal"
         android:visibility="gone">
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_weight="1.5"
             android:gravity="bottom"
             android:paddingBottom="6dp"
-            android:paddingLeft="14dp"
+            android:paddingLeft="30dp"
             android:text="#"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
@@ -173,48 +177,51 @@
             android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="@string/team2"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="M"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="INN"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="R"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="AVG"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
     </LinearLayout>
 
     <LinearLayout
@@ -224,15 +231,14 @@
         android:orientation="horizontal"
         android:visibility="gone">
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_weight="1.5"
             android:gravity="bottom"
             android:paddingBottom="6dp"
-            android:paddingLeft="14dp"
+            android:paddingLeft="30dp"
             android:text="#"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
@@ -241,48 +247,50 @@
             android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="@string/team2"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="M"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="INN"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="R"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="S/R"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
     </LinearLayout>
 
     <LinearLayout
@@ -292,15 +300,14 @@
         android:orientation="horizontal"
         android:visibility="gone">
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_weight="1.5"
             android:gravity="bottom"
             android:paddingBottom="6dp"
-            android:paddingLeft="14dp"
+            android:paddingLeft="30dp"
             android:text="#"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
@@ -309,48 +316,51 @@
             android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="@string/team2"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="M"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="INN"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="R"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="6S"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
     </LinearLayout>
 
     <LinearLayout
@@ -360,15 +370,14 @@
         android:orientation="horizontal"
         android:visibility="gone">
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_weight="1.5"
             android:gravity="bottom"
             android:paddingBottom="6dp"
-            android:paddingLeft="14dp"
+            android:paddingLeft="30dp"
             android:text="#"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
@@ -377,48 +386,50 @@
             android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="@string/team2"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="M"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="O"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="AVG"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="W"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
     </LinearLayout>
 
     <LinearLayout
@@ -428,15 +439,14 @@
         android:orientation="horizontal"
         android:visibility="gone">
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_weight="1.5"
             android:gravity="bottom"
             android:paddingBottom="6dp"
-            android:paddingLeft="14dp"
+            android:paddingLeft="30dp"
             android:text="#"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
@@ -445,48 +455,50 @@
             android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="@string/team2"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="M"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="O"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="W"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="AVG"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
     </LinearLayout>
 
     <LinearLayout
@@ -496,15 +508,14 @@
         android:orientation="horizontal"
         android:visibility="gone">
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_weight="1.5"
             android:gravity="bottom"
             android:paddingBottom="6dp"
-            android:paddingLeft="14dp"
+            android:paddingLeft="30dp"
             android:text="#"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
@@ -513,48 +524,50 @@
             android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="@string/team2"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="M"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="O"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="W"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="ECO"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
     </LinearLayout>
 
     <LinearLayout
@@ -564,15 +577,14 @@
         android:orientation="horizontal"
         android:visibility="gone">
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_weight="1.5"
             android:gravity="bottom"
             android:paddingBottom="6dp"
-            android:paddingLeft="14dp"
+            android:paddingLeft="30dp"
             android:text="#"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
@@ -581,32 +593,36 @@
             android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="@string/team2"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="M"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom"
             android:paddingBottom="6dp"
             android:text="CT"
-            android:textSize="12dp"
-            android:textColor="@color/c_666666"/>
+            
+            android:textSize="11sp"
+            android:textColor="@color/c_1D2550"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_stats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <include layout="@layout/layout_common_empty"/>
 </LinearLayout>

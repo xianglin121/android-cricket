@@ -10,6 +10,7 @@ import com.onecric.live.model.ConfigurationBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.login.MainView;
 
@@ -18,8 +19,8 @@ public class MainPresenter extends BasePresenter<MainView> {
         attachView(view);
     }
 
-    public void getConfiguration() {
-        addSubscription(apiStores.getDefaultConfiguration(),
+    public void getConfiguration(String versionNumber) {
+        addSubscription(apiStores.getDefaultConfiguration(versionNumber),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
@@ -100,6 +101,7 @@ public class MainPresenter extends BasePresenter<MainView> {
                     @Override
                     public void onSuccess(String data, String msg) {
                         CommonAppConfig.getInstance().clearLoginInfo();
+                        SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, false);
                         MainActivity.loginForward(context);
                     }
 

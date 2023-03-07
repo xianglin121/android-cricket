@@ -1,6 +1,7 @@
 package com.onecric.live.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -51,6 +52,9 @@ public class CricketUpdatesFragment extends BaseFragment {
                 HeadlineDetailActivity.forward(getContext(), mAdapter.getItem(position).getId());
             }
         });
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
+        inflate.findViewById(R.id.ll_empty).setVisibility(View.VISIBLE);
+        mAdapter.setEmptyView(inflate);
         rv_updates.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_updates.addItemDecoration(new ItemDecoration(getContext(), getResources().getColor(R.color.c_CCCCCC), 0, 0.5f));
         rv_updates.setAdapter(mAdapter);

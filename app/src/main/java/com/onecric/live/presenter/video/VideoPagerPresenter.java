@@ -225,4 +225,33 @@ public class VideoPagerPresenter extends BasePresenter<VideoPagerView> {
                     }
                 });
     }
+
+    //fixme 对接口：搜索video
+    public void getKeywordList(String key) {
+        ((VideoPagerActivity)mvpView).isRequesting = true;
+        addSubscription(apiStores.getVideoList(CommonAppConfig.getInstance().getToken(), 1),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        ((VideoPagerActivity)mvpView).isRequesting = false;
+                        List<ShortVideoBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("data"), ShortVideoBean.class);
+                        mvpView.getDataSuccess(false, list);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        ((VideoPagerActivity)mvpView).isRequesting = false;
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        ((VideoPagerActivity)mvpView).isRequesting = false;
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
 }

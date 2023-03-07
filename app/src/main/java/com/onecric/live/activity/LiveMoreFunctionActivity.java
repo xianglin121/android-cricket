@@ -75,11 +75,15 @@ public class LiveMoreFunctionActivity extends BaseActivity {
             @Override
             public IPagerTitleView getTitleView(Context context, int index) {
                 CustomPagerTitleView titleView = new CustomPagerTitleView(context);
-                titleView.setNormalColor(getResources().getColor(R.color.c_666666));
-                titleView.setSelectedColor(getResources().getColor(R.color.c_DC3C23));
-                titleView.setText(mTitles.get(index));
-                titleView.setTextSize(17);
+//                titleView.setNormalColor(getResources().getColor(R.color.c_666666));
+//                titleView.setSelectedColor(getResources().getColor(R.color.c_DC3C23));
+//                titleView.setText(mTitles.get(index));
+//                titleView.setTextSize(17);
 //                titleView.getPaint().setFakeBoldText(true);
+                titleView.setNormalColor(getResources().getColor(R.color.white));
+                titleView.setSelectedColor(getResources().getColor(R.color.white));
+                titleView.setText(mTitles.get(index));
+                titleView.setTextSize(18);
                 titleView.setOnPagerTitleChangeListener(new CustomPagerTitleView.OnPagerTitleChangeListener() {
                     @Override
                     public void onSelected(int index, int totalCount) {
@@ -112,7 +116,7 @@ public class LiveMoreFunctionActivity extends BaseActivity {
 
             @Override
             public IPagerIndicator getIndicator(Context context) {
-                LinePagerIndicator linePagerIndicator = new LinePagerIndicator(context);
+/*                LinePagerIndicator linePagerIndicator = new LinePagerIndicator(context);
                 linePagerIndicator.setMode(LinePagerIndicator.MODE_EXACTLY);
                 linePagerIndicator.setLineWidth(DpUtil.dp2px(25));
                 linePagerIndicator.setLineHeight(DpUtil.dp2px(3));
@@ -120,7 +124,8 @@ public class LiveMoreFunctionActivity extends BaseActivity {
                 linePagerIndicator.setYOffset(DpUtil.dp2px(1));
                 linePagerIndicator.setRoundRadius(DpUtil.dp2px(2));
                 linePagerIndicator.setColors(getResources().getColor(R.color.c_DC3C23));
-                return linePagerIndicator;
+                return linePagerIndicator;*/
+                return null;
             }
         });
         //初始化viewpager

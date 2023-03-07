@@ -110,7 +110,8 @@ public class MyFansFragment extends MvpFragment<MyFansPresenter> implements MyFa
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 
     @Override

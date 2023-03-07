@@ -261,6 +261,6 @@ public class PopularRankingInnerFragment extends MvpFragment<PopularRankingPrese
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
     }
 }

@@ -17,6 +17,7 @@ import com.onecric.live.adapter.ChannelPagerAdapter;
 import com.onecric.live.custom.CustomPagerInnerTitleView;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.theme.ThemeCommunityPresenter;
+import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.WordUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.theme.ThemeCommunityView;
@@ -67,7 +68,7 @@ public class ThemeCommunityFragment extends MvpFragment<ThemeCommunityPresenter>
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-                    LoginActivity.forward(getContext());
+                    ToastUtil.show(getString(R.string.please_login));
                     return;
                 }
                 ThemeCollectionActivity.forward(getContext(), 1);
@@ -79,7 +80,7 @@ public class ThemeCommunityFragment extends MvpFragment<ThemeCommunityPresenter>
                 if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     CommunityPublishActivity.forward(getContext());
                 }else {
-                    LoginActivity.forward(getContext());
+                    ToastUtil.show(getString(R.string.please_login));
                 }
             }
         });

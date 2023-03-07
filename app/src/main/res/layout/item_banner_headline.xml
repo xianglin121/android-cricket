@@ -7,20 +7,20 @@
         android:id="@+id/iv_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        app:riv_corner_radius="6dp"/>
+        android:scaleType="matrix"
 
+        android:background="@mipmap/loading_news_big"/>
+<!--app:riv_corner_radius="6dp"-->
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="12dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:textSize="14dp"
+        android:textSize="16dp"
         android:textColor="@color/white"
-        android:maxEms="15"
-        android:ellipsize="end"
-        android:singleLine="true"/>
+        android:fontFamily="@font/noto_sans_display_semibold" />
 </androidx.constraintlayout.widget.ConstraintLayout>

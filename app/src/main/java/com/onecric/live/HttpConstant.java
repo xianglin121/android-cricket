@@ -11,4 +11,5 @@ public class HttpConstant {
     public static final String CRICKET_DETAIL_URL = "https://m.onecric.tv/pages/Match/match-detail?id=";//比赛详情
     public static final String PLAYER_PROFILE_URL = "https://m.onecric.tv/pages/Match/teams/detail?id=";//球员详情
     public static final String SHORT_VIDEO_URL = "https://m.onecric.tv/pages/Tips/live?id=";//短视频
+    public static final String SHARE_LIVE_URL = "https://m.onecric.tv/";//直播
 }

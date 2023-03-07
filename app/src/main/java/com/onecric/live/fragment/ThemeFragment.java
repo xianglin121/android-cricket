@@ -12,6 +12,7 @@ import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.MainActivity;
 import com.onecric.live.custom.CustomPagerTitleView;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.theme.ThemePresenter;
 import com.onecric.live.util.DpUtil;
@@ -38,6 +39,10 @@ public class ThemeFragment extends MvpFragment<ThemePresenter> implements ThemeV
     private ViewPager mViewPager;
     private List<Fragment> mViewList;
 
+    private LoginDialog loginDialog;
+    public void setLoginDialog(LoginDialog dialog){
+        this.loginDialog = dialog;
+    }
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_theme;
@@ -64,14 +69,30 @@ public class ThemeFragment extends MvpFragment<ThemePresenter> implements ThemeV
 
     @Override
     protected void initData() {
-        mTitles = new ArrayList<>();
+/*        mTitles = new ArrayList<>();
         mViewList = new ArrayList<>();
         mTitles.add(WordUtil.getString(getActivity(), R.string.theme_headline));
         mTitles.add(WordUtil.getString(getActivity(), R.string.theme_community));
         mViewList.add(ThemeHeadlineFragment.newInstance());
         mViewList.add(ThemeCommunityFragment.newInstance());
-        initViewPager();
+        initViewPager();*/
+        mViewList = new ArrayList<>();
+        ThemeHeadlineFragment headlineFragment = ThemeHeadlineFragment.newInstance();
+        if(loginDialog!=null){
+            headlineFragment.setLoginDialog(loginDialog);
+        }
+        mViewList.add(headlineFragment);
+        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+            @Override
+            public Fragment getItem(int i) {
+                return mViewList.get(i);
+            }
 
+            @Override
+            public int getCount() {
+                return mViewList.size();
+            }
+        });
         updateUserInfo();
     }
 
@@ -115,11 +136,17 @@ public class ThemeFragment extends MvpFragment<ThemePresenter> implements ThemeV
             @Override
             public IPagerTitleView getTitleView(Context context, int index) {
                 CustomPagerTitleView titleView = new CustomPagerTitleView(context);
-                titleView.setNormalColor(getResources().getColor(R.color.white));
-                titleView.setSelectedColor(getResources().getColor(R.color.c_DC3C23));
-                titleView.setText(mTitles.get(index));
-                titleView.setTextSize(17);
+//                titleView.setNormalColor(getResources().getColor(R.color.white));
+//                titleView.setSelectedColor(getResources().getColor(R.color.c_DC3C23));
+//                titleView.setText(mTitles.get(index));
+//                titleView.setTextSize(17);
 //                titleView.getPaint().setFakeBoldText(true);
+
+                titleView.setNormalColor(getResources().getColor(R.color.white));
+                titleView.setSelectedColor(getResources().getColor(R.color.white));
+                titleView.setText(mTitles.get(index));
+                titleView.setTextSize(22);
+
                 titleView.setOnPagerTitleChangeListener(new CustomPagerTitleView.OnPagerTitleChangeListener() {
                     @Override
                     public void onSelected(int index, int totalCount) {

@@ -4,12 +4,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@drawable/shape_bg_80black_rect"
+    android:paddingLeft="1dp"
+    android:paddingRight="1dp">
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="12dp"
-        android:textColor="@color/superplayer_white"/>
+        android:textColor="@color/superplayer_white" />
 </FrameLayout>

@@ -2,6 +2,7 @@ package com.onecric.live.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -34,6 +35,7 @@ import com.onecric.live.presenter.cricket.CricketDetailPresenter;
 import com.onecric.live.util.DpUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ShareUtil;
+import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.cricket.CricketDetailView;
 
@@ -43,6 +45,7 @@ import java.util.List;
 /**
  * 开发公司：东莞市梦幻科技有限公司
  * 时间：2022/8/27
+ * 比赛详情页
  */
 public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> implements CricketDetailView, View.OnClickListener {
 
@@ -86,6 +89,7 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
     private List<Fragment> mViewList;
 
     private CricketMatchBean mModel;
+    private String tab;
 
     @Override
     public boolean getStatusBarTextColor() {
@@ -104,7 +108,20 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
 
     @Override
     protected void initView() {
-        mMatchId = getIntent().getIntExtra("matchId", 0);
+        //scheme
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String id = uri.getQueryParameter("id");
+                mMatchId = Integer.parseInt(id);
+                tab = uri.getQueryParameter("tab");
+            }
+        }else{
+            mMatchId = getIntent().getIntExtra("matchId", 0);
+        }
+
         ll_top = findViewById(R.id.ll_top);
         hor_line = findViewById(R.id.hor_line);
         tv_video = findViewById(R.id.tv_video);
@@ -217,6 +234,9 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
                 return mViewList.size();
             }
         });
+        if(!TextUtils.isEmpty(tab) && tab.equals("score")){
+            tabLayout.getTabAt(3).select();
+        }
     }
 
     @Override
@@ -369,7 +389,8 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
 
     @Override
     public void getDataFail(String msg) {
-
+        ToastUtil.show(msg);
+        finish();
     }
 
     @Override

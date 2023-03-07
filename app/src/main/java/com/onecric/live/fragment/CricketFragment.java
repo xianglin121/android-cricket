@@ -1,6 +1,8 @@
 package com.onecric.live.fragment;
 
 import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,8 +15,16 @@ import com.google.android.material.tabs.TabLayout;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.MainActivity;
+import com.onecric.live.event.ToggleTabEvent;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.util.GlideUtil;
+import com.onecric.live.util.UiUtils;
 import com.onecric.live.view.BaseFragment;
+
+import net.lucode.hackware.magicindicator.buildins.UIUtil;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +39,15 @@ public class CricketFragment extends BaseFragment {
     private TabLayout tabLayout;
     private ViewPager mViewPager;
     private List<Fragment> mViewList;
+    private LoginDialog loginDialog;
 
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_cricket;
+    }
+
+    public void setLoginDialog(LoginDialog dialog) {
+        this.loginDialog = dialog;
     }
 
     @Override
@@ -45,7 +60,7 @@ public class CricketFragment extends BaseFragment {
         findViewById(R.id.iv_avatar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).openDrawer();
+                ((MainActivity) getActivity()).openDrawer();
             }
         });
     }
@@ -80,11 +95,18 @@ public class CricketFragment extends BaseFragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
+                TextView textView = new TextView(getActivity());
+                float selectedSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 16, getResources().getDisplayMetrics());
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, selectedSize);
+                textView.setTextColor(getResources().getColor(R.color.c_DC3C23));
+                textView.setGravity(Gravity.CENTER);
+                textView.setText(tab.getText());
+                tab.setCustomView(textView);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                tab.setCustomView(null);
             }
 
             @Override
@@ -123,4 +145,9 @@ public class CricketFragment extends BaseFragment {
         });
         mViewPager.setCurrentItem(1);
     }
+
+    public void toTabPosition(int index){
+        mViewPager.setCurrentItem(index);
+    }
+
 }

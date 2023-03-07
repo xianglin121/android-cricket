@@ -1,6 +1,7 @@
 package com.onecric.live.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -10,14 +11,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.LiveDetailActivity;
+import com.onecric.live.activity.LiveNotStartDetailActivity;
+import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.adapter.LiveAnchorAdapter;
 import com.onecric.live.adapter.LiveRecommendAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.presenter.live.LiveMatchPresenter;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.LiveMatchView;
@@ -48,6 +54,10 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
     private LiveRecommendAdapter mAdapter;
 
     private int mPage = 1;
+    private LoginDialog loginDialog;
+    public void setLoginDialog(LoginDialog dialog){
+        this.loginDialog = dialog;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -73,7 +83,22 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
         mAnchorAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    if(loginDialog!=null){
+                        loginDialog.show();
+                    }else{
+                        ToastUtil.show(getString(R.string.please_login));
+                    }
+                }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    if(loginDialog!=null){
+                        loginDialog.show();
+                    }else{
+                        ToastUtil.show(getString(R.string.please_login));
+                    }
+                }else{
+                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(),
+                            mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
+                }
             }
         });
 //        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
@@ -102,9 +127,17 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if(mAdapter.getItem(position).getIslive() == 0){
-                    ToastUtil.show("The broadcast has not started");
+                    LiveNotStartDetailActivity.forward(getContext(),mAdapter.getItem(position).getUid(),
+                            mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
+                }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    if(loginDialog!=null){
+                        loginDialog.show();
+                    }else{
+                        ToastUtil.show(getString(R.string.please_login));
+                    }
                 }else{
-                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
+                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(),
+                            mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
                 }
             }
         });
@@ -155,6 +188,7 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 }

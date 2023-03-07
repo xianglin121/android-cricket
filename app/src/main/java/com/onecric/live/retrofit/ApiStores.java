@@ -65,6 +65,17 @@ public interface ApiStores {
     Observable<JsonObject> getUserInfo(@Header("token") String token,
                                        @Query("id") int uid);
 
+
+    //获取个人动态信息
+    @GET("api/circle/index")
+    Observable<JsonObject> getUserDynamic(@Header("token") String token, @Query("page") int page,
+                                          @Query("user_id") int user_id, @Query("id") int id);
+
+    //获取个人视频列表
+    @GET("api/Video/getList")
+    Observable<JsonObject> getUserVideoList(@Header("token") String token, @Query("page") int page,
+                                            @Query("type") int type, @Query("user_id") int user_id);
+
     //关注用户
     @GET("api/Member/attention")
     Observable<JsonObject> doFollow(@Header("token") String token,
@@ -80,7 +91,7 @@ public interface ApiStores {
 
     //获取默认配置
     @GET("api/universal/getHot")
-    Observable<JsonObject> getDefaultConfiguration();
+    Observable<JsonObject> getDefaultConfiguration(@Query("versionNumber") String versionNumber);
 
     //获取首页足球列表
     @GET("api/Football/football_match")
@@ -157,7 +168,7 @@ public interface ApiStores {
     //获取直播详情
     @GET("api/live_streaming/getRoomInfo")
     Observable<JsonObject> getLiveDetail(@Header("token") String token,
-                                         @Query("uid") int uid);
+                                         @Query("id") int id);
 
     //获取礼物列表
     @GET("api/Gift/getList")
@@ -690,12 +701,12 @@ public interface ApiStores {
     //获取篮球赛事列表
     @GET("api/Basketball_database/tournamentList")
     Observable<JsonObject> getBasketBallMatchDataList(@Query("country_id") int country_id,
-                                            @Query("category_id") int category_id);
+                                                      @Query("category_id") int category_id);
 
     //获取篮球赛事列表
     @GET("api/Football_database/tournamentList")
     Observable<JsonObject> getFootBallMatchDataList(@Query("country_id") int country_id,
-                                            @Query("category_id") int category_id);
+                                                    @Query("category_id") int category_id);
 
     //获取篮球赛事详情
     @GET("api/Basketball_database/competitionInfo")
@@ -716,7 +727,7 @@ public interface ApiStores {
     //获取篮球球员列表
     @GET("api/Basketball_database/teamMember")
     Observable<JsonObject> getBasketballMatchDataBestMember(@Query("id") int id,
-                                                          @Query("type") int type);
+                                                            @Query("type") int type);
 
     //获取足球赛事详情
     @GET("api/football_database/competitionInfo")
@@ -732,17 +743,17 @@ public interface ApiStores {
     //获取足球赛程积分
     @GET("api/Football_database/integral")
     Observable<JsonObject> getFootballMatchDataRanking(@Query("season_id") int season_id,
-                                                     @Query("integral_type") int integral_type);
+                                                       @Query("integral_type") int integral_type);
 
     //获取足球球队列表
     @GET("api/Football_database/TeamData")
     Observable<JsonObject> getFootballMatchDataBestTeam(@Query("id") int id,
-                                                          @Query("type") int type);
+                                                        @Query("type") int type);
 
     //获取足球球员列表
     @GET("api/Football_database/teamMember")
     Observable<JsonObject> getFootballMatchDataBestMember(@Query("id") int id,
-                                                            @Query("type") int type);
+                                                          @Query("type") int type);
 
     //获取轮播图
     @GET("api/banner/getBannerList")
@@ -754,7 +765,7 @@ public interface ApiStores {
 
     //获取赛事列表
     @POST("api/Cricket/Cricket_match")
-    Observable<JsonObject> getCricketMatchList(@Body RequestBody body);
+    Observable<JsonObject> getCricketMatchList(@Header("token") String token, @Body RequestBody body);
 
     //获取公开赛赛事列表
     @POST("api/Cricket/get_cricket_tournament_match")
@@ -827,6 +838,29 @@ public interface ApiStores {
     //获取历史直播列表
     @GET("api/LivePlayBack/list")
     Observable<JsonObject> getHistoryLiveList(@Header("token") String token,
-                                         @Query("page") int page,
-                                         @Query("isweb") int isweb);
+                                              @Query("pageNumber") int pageNumber,
+                                              @Query("pageSize") int pageSize);
+
+    //获取历史直播列表
+    @GET("api/member/live_like")
+    Observable<JsonObject> getLiveLike(@Header("token") String token, @Query("id") int id,
+                                       @Query("type") int type);
+
+
+    //订阅赛事消息推送   todo 完成
+    @POST("api/Cricket/subscribe_add")
+    Observable<JsonObject> doSubscribe(@Header("token") String token, @Body RequestBody body);
+
+    //获取live页的赛事
+    @GET("api/live_streaming/getLiveListNew")
+    Observable<JsonObject> getLiveMatchList(@Query("timezone") String timezone);
+
+    //获取订阅推送消息的类型
+    @GET("api/Cricket/subscribe_type")
+    Observable<JsonObject> getSubscribeType(@Header("token") String token, @Query("mid") int mid);
+
+
+    //获取直播聊天室历史记录
+    @GET("api/LivePlayBack/getSimple")
+    Observable<JsonObject> getHistoryMessage(@Query("id") int id);
 }

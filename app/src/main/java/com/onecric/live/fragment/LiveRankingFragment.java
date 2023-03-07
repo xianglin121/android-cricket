@@ -127,6 +127,6 @@ public class LiveRankingFragment extends MvpFragment<LiveRankingPresenter> imple
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
     }
 }

@@ -152,6 +152,7 @@ public class ThemeCommunityFollowFragment extends MvpFragment<ThemeCommunityFoll
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 }

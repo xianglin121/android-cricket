@@ -20,13 +20,13 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="78dp"
-                android:paddingTop="24dp">
+                android:layout_height="wrap_content"
+                android:paddingTop="25dp">
 
                 <LinearLayout
                     android:id="@+id/btn_left"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="14dp"
                     android:gravity="center"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -58,7 +58,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="26dp"
+                android:layout_marginTop="25dp"
                 android:orientation="horizontal"
                 android:paddingLeft="21dp"
                 android:paddingRight="21dp">
@@ -134,7 +134,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="33.5dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="17.5dp"
                 android:gravity="bottom"
                 android:orientation="horizontal"
@@ -242,7 +242,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:background="@color/white"
         app:tabIndicatorColor="@color/c_DC3C23"
         app:tabIndicatorFullWidth="false"

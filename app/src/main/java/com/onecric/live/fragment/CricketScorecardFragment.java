@@ -1,5 +1,8 @@
 package com.onecric.live.fragment;
 
+import static com.onecric.live.util.UiUtils.collapseView;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +24,8 @@ import com.onecric.live.model.ScorecardBatterBean;
 import com.onecric.live.model.ScorecardBowlerBean;
 import com.onecric.live.model.ScorecardWicketBean;
 import com.onecric.live.presenter.cricket.CricketScorecardPresenter;
+import com.onecric.live.util.DpUtil;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.cricket.CricketScorecardView;
 
@@ -78,6 +83,7 @@ public class CricketScorecardFragment extends MvpFragment<CricketScorecardPresen
         return new CricketScorecardPresenter(this);
     }
 
+    @SuppressLint("ResourceType")
     @Override
     protected void initUI() {
         ll_home = findViewById(R.id.ll_home);
@@ -111,12 +117,12 @@ public class CricketScorecardFragment extends MvpFragment<CricketScorecardPresen
     @Override
     protected void initData() {
         ll_away.setSelected(true);
-        ll_away.setBackgroundColor(getResources().getColor(R.color.c_1D2550));
+//        ll_away.setBackgroundColor(getResources().getColor(R.color.c_1D2550));
         sv_away.setVisibility(View.VISIBLE);
         iv_arrow_two.setBackgroundResource(R.mipmap.icon_arrow_up_two);
-        tv_away_name.setTextColor(getResources().getColor(R.color.white));
-        tv_away_score.setTextColor(getResources().getColor(R.color.white));
-        tv_away_round.setTextColor(getResources().getColor(R.color.c_999999));
+//        tv_away_name.setTextColor(getResources().getColor(R.color.white));
+//        tv_away_score.setTextColor(getResources().getColor(R.color.white));
+//        tv_away_round.setTextColor(getResources().getColor(R.color.c_999999));
     }
 
     public void getData(CricketMatchBean model) {
@@ -142,62 +148,100 @@ public class CricketScorecardFragment extends MvpFragment<CricketScorecardPresen
         mvpPresenter.getData(false, model.getMatch_id(), model.getAway_id());
     }
 
+    private boolean isScrolledToTop = true;// 初始化的时候设置一下值
+    private boolean isScrolledToBottom = false;
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_home:
                 if (ll_home.isSelected()) {
                     ll_home.setSelected(false);
-                    ll_home.setBackgroundColor(getResources().getColor(R.color.c_FFE6E2));
                     sv_home.setVisibility(View.GONE);
+//                    collapseView(sv_home,200, 0);
+//                    sv_home.post(new Runnable() {
+//                        public void run() {
+//                            sv_home.fullScroll(View.FOCUS_DOWN);
+//                        }
+//                    });
+//                    ll_home.setBackgroundColor(getResources().getColor(R.color.c_FFE6E2));
+//                    sv_home.setAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.topview_anim_exit));
+//                    sv_home.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+//                        @Override
+//                        public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                            if (v.getScrollY() == 0) {
+//                                isScrolledToTop = true;
+//                                isScrolledToBottom = false;
+//                                System.out.println("onScrollChanged isScrolledToTop:" + isScrolledToTop);
+//                            } else if (v.getScrollY() + v.getHeight() - v.getPaddingTop() - v.getPaddingBottom() == v.getChildAt(0).getHeight()) {
+//                                isScrolledToBottom = true;
+//                                //实例化对象
+//                                UiUtils.collapseView(sv_home, sv_home.getMeasuredHeight(), 0);
+//                                System.out.println("onScrollChanged isScrolledToBottom:" + isScrolledToBottom);
+//                                isScrolledToTop = false;
+//                            } else {
+//                                isScrolledToTop = false;
+//                                isScrolledToBottom = false;
+//                            }
+//                        }
+//                    });
+//                    sv_home.post(new Runnable() {
+//
+//                        public void run() {
+//                            sv_home.fullScroll(View.FOCUS_DOWN);
+//                        }
+//
+//                    });
+
                     iv_arrow_one.setBackgroundResource(R.mipmap.icon_arrow_down_four);
-                    tv_home_name.setTextColor(getResources().getColor(R.color.c_333333));
-                    tv_home_score.setTextColor(getResources().getColor(R.color.c_333333));
-                    tv_home_round.setTextColor(getResources().getColor(R.color.c_666666));
-                }else {
+//                    tv_home_name.setTextColor(getResources().getColor(R.color.c_333333));
+//                    tv_home_score.setTextColor(getResources().getColor(R.color.c_333333));
+//                    tv_home_round.setTextColor(getResources().getColor(R.color.c_666666));
+                } else {
                     ll_home.setSelected(true);
-                    ll_home.setBackgroundColor(getResources().getColor(R.color.c_1D2550));
+//                    ll_home.setBackgroundColor(getResources().getColor(R.color.c_1D2550));
                     sv_home.setVisibility(View.VISIBLE);
                     iv_arrow_one.setBackgroundResource(R.mipmap.icon_arrow_up_two);
-                    tv_home_name.setTextColor(getResources().getColor(R.color.white));
-                    tv_home_score.setTextColor(getResources().getColor(R.color.white));
-                    tv_home_round.setTextColor(getResources().getColor(R.color.c_999999));
+//                    tv_home_name.setTextColor(getResources().getColor(R.color.white));
+//                    tv_home_score.setTextColor(getResources().getColor(R.color.white));
+//                    tv_home_round.setTextColor(getResources().getColor(R.color.c_999999));
                     if (ll_away.isSelected()) {
                         ll_away.setSelected(false);
-                        ll_away.setBackgroundColor(getResources().getColor(R.color.c_FFE6E2));
+//                        ll_away.setBackgroundColor(getResources().getColor(R.color.c_FFE6E2));
                         sv_away.setVisibility(View.GONE);
                         iv_arrow_two.setBackgroundResource(R.mipmap.icon_arrow_down_four);
-                        tv_away_name.setTextColor(getResources().getColor(R.color.c_333333));
-                        tv_away_score.setTextColor(getResources().getColor(R.color.c_333333));
-                        tv_away_round.setTextColor(getResources().getColor(R.color.c_666666));
+//                        tv_away_name.setTextColor(getResources().getColor(R.color.c_333333));
+//                        tv_away_score.setTextColor(getResources().getColor(R.color.c_333333));
+//                        tv_away_round.setTextColor(getResources().getColor(R.color.c_666666));
                     }
                 }
                 break;
             case R.id.ll_away:
                 if (ll_away.isSelected()) {
                     ll_away.setSelected(false);
-                    ll_away.setBackgroundColor(getResources().getColor(R.color.c_FFE6E2));
+//                    ll_away.setBackgroundColor(getResources().getColor(R.color.c_FFE6E2));
                     sv_away.setVisibility(View.GONE);
+//                    sv_away.setAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.topview_anim_exit));
                     iv_arrow_two.setBackgroundResource(R.mipmap.icon_arrow_down_four);
-                    tv_away_name.setTextColor(getResources().getColor(R.color.c_333333));
-                    tv_away_score.setTextColor(getResources().getColor(R.color.c_333333));
-                    tv_away_round.setTextColor(getResources().getColor(R.color.c_666666));
-                }else {
+//                    tv_away_name.setTextColor(getResources().getColor(R.color.c_333333));
+//                    tv_away_score.setTextColor(getResources().getColor(R.color.c_333333));
+//                    tv_away_round.setTextColor(getResources().getColor(R.color.c_666666));
+                } else {
                     ll_away.setSelected(true);
-                    ll_away.setBackgroundColor(getResources().getColor(R.color.c_1D2550));
+//                    ll_away.setBackgroundColor(getResources().getColor(R.color.c_1D2550));
                     sv_away.setVisibility(View.VISIBLE);
                     iv_arrow_two.setBackgroundResource(R.mipmap.icon_arrow_up_two);
-                    tv_away_name.setTextColor(getResources().getColor(R.color.white));
-                    tv_away_score.setTextColor(getResources().getColor(R.color.white));
-                    tv_away_round.setTextColor(getResources().getColor(R.color.c_999999));
+//                    tv_away_name.setTextColor(getResources().getColor(R.color.white));
+//                    tv_away_score.setTextColor(getResources().getColor(R.color.white));
+//                    tv_away_round.setTextColor(getResources().getColor(R.color.c_999999));
                     if (ll_home.isSelected()) {
                         ll_home.setSelected(false);
-                        ll_home.setBackgroundColor(getResources().getColor(R.color.c_FFE6E2));
+//                        ll_home.setBackgroundColor(getResources().getColor(R.color.c_FFE6E2));
                         sv_home.setVisibility(View.GONE);
                         iv_arrow_one.setBackgroundResource(R.mipmap.icon_arrow_down_four);
-                        tv_home_name.setTextColor(getResources().getColor(R.color.c_333333));
-                        tv_home_score.setTextColor(getResources().getColor(R.color.c_333333));
-                        tv_home_round.setTextColor(getResources().getColor(R.color.c_666666));
+//                        tv_home_name.setTextColor(getResources().getColor(R.color.c_333333));
+//                        tv_home_score.setTextColor(getResources().getColor(R.color.c_333333));
+//                        tv_home_round.setTextColor(getResources().getColor(R.color.c_666666));
                     }
                 }
                 break;

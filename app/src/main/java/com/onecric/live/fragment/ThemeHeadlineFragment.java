@@ -11,12 +11,14 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
-import com.onecric.live.activity.LoginActivity;
+import com.onecric.live.activity.MainActivity;
 import com.onecric.live.activity.ThemeCollectionActivity;
 import com.onecric.live.adapter.ChannelPagerAdapter;
 import com.onecric.live.custom.CustomPagerInnerTitleView;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.ThemeClassifyBean;
 import com.onecric.live.presenter.theme.ThemeHeadlinePresenter;
+import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.theme.ThemeHeadlineView;
 import com.scwang.smartrefresh.header.MaterialHeader;
@@ -51,6 +53,11 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
     private SmartRefreshLayout smart_no_network;
     private TextView tv_empty;
 
+    private LoginDialog loginDialog;
+    public void setLoginDialog(LoginDialog dialog){
+        this.loginDialog = dialog;
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_theme_headline;
@@ -74,7 +81,11 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-                    LoginActivity.forward(getContext());
+                    if(loginDialog!=null){
+                        loginDialog.show();
+                    }else{
+                        ((MainActivity)getActivity()).newLoginDialog();
+                    }
                     return;
                 }
                 ThemeCollectionActivity.forward(getContext(), 0);
@@ -169,7 +180,11 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
     public void getDataFail(String msg) {
         //没网时空图
         smart_no_network.finishRefresh();
-        if(msg.equals(getString(R.string.no_internet_connection)) && (mIndicatorAdapter == null)){
+//        if (msg.equals(getString(R.string.no_internet_connection)) && (mIndicatorAdapter == null)) {
+//            smart_no_network.setVisibility(View.VISIBLE);
+//            mViewPager.setVisibility(View.GONE);
+//        }
+        if ((mIndicatorAdapter == null)) {
             smart_no_network.setVisibility(View.VISIBLE);
             mViewPager.setVisibility(View.GONE);
         }

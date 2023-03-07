@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -17,11 +18,13 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.onecric.live.AppManager;
 import com.onecric.live.CommonAppConfig;
+import com.onecric.live.view.BaseActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,7 +41,7 @@ public class ToolUtil {
      * 打开相机
      */
     public static String openCamera(Activity context, String file_name) {
-        if (!checkPermission(context)){
+        if (!checkPermission(context)) {
             return null;
         }
         File outputImage = null;
@@ -66,7 +69,7 @@ public class ToolUtil {
     }
 
     public static void openPhotoAlbum(Activity context, String file_name) {
-        if (!checkPermission(context)){
+        if (!checkPermission(context)) {
             return;
         }
 
@@ -95,6 +98,7 @@ public class ToolUtil {
                 return null;
         }
     }
+
     /**
      * 通过内容解析中查询uri中的文件路径
      */
@@ -117,10 +121,10 @@ public class ToolUtil {
     }
 
 
-    public static boolean checkPermission(Activity context){
+    public static boolean checkPermission(Activity context) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if ( ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED
                     || ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED
@@ -132,7 +136,7 @@ public class ToolUtil {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
                 }, 1001);
 
-            }else {
+            } else {
                 return true;
             }
         }
@@ -201,7 +205,7 @@ public class ToolUtil {
         try {
             long imgFolderSize = getFolderSize(new File(CommonAppConfig.IMAGE_PATH));
             long videoFolderSize = getFolderSize(new File(CommonAppConfig.VIDEO_PATH));
-            return getFormatSize(imgFolderSize+videoFolderSize);
+            return getFormatSize(imgFolderSize + videoFolderSize);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -270,7 +274,7 @@ public class ToolUtil {
     public static String changPhoneNumber(String phoneNumber) {
         StringBuffer sb = new StringBuffer();
         if (phoneNumber.length() > 6) {
-            int indexOne = (phoneNumber.length()-4)/2;
+            int indexOne = (phoneNumber.length() - 4) / 2;
             int indexTwo = indexOne + 4;
             String frontThreeString = phoneNumber.substring(0, indexOne);
             sb.append(frontThreeString);
@@ -290,10 +294,10 @@ public class ToolUtil {
         if (accountNumber.length() > 10) {
             String frontThreeString = accountNumber.substring(0, 4);
             sb.append(frontThreeString);
-            String substring = accountNumber.substring(4, accountNumber.length()-3);
+            String substring = accountNumber.substring(4, accountNumber.length() - 3);
             String replace = substring.replace(substring, "****");
             sb.append(replace);
-            String lastFourString = accountNumber.substring(accountNumber.length()-3, accountNumber.length());
+            String lastFourString = accountNumber.substring(accountNumber.length() - 3, accountNumber.length());
             sb.append(lastFourString);
             return sb.toString();
         } else {
@@ -320,15 +324,15 @@ public class ToolUtil {
         return outputImage;
     }
 
-    public static Bitmap getFirstBitmap(Context context,String url, boolean isSD) {
+    public static Bitmap getFirstBitmap(Context context, String url, boolean isSD) {
         Bitmap bitmap = null;
         //从输入的媒体文件中取得帧和元数据
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         try {
-            if (isSD){
+            if (isSD) {
                 //根据文件路径获取缩略图
                 retriever.setDataSource(context, Uri.fromFile(new File(url)));
-            }else {
+            } else {
                 //根据网络路径获取缩略图
                 retriever.setDataSource(url, new HashMap());
             }
@@ -340,5 +344,19 @@ public class ToolUtil {
             retriever.release();
         }
         return bitmap;
+    }
+
+    public static String getCurrentVersionCode(Context context) {
+        PackageManager mPackageManager = context.getPackageManager();
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = mPackageManager.getPackageInfo(context.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            return "";
+        }
+        String versionName = packageInfo.versionName;
+
+        String mCurrentVersionCode = versionName.replaceAll("\\.", "");
+        return mCurrentVersionCode;
     }
 }

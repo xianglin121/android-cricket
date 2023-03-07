@@ -5,15 +5,20 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.model.BannerBean;
+import com.onecric.live.model.CommunityBean;
+import com.onecric.live.model.CricketMatchBean;
+import com.onecric.live.model.CricketTournamentBean;
 import com.onecric.live.model.HistoryLiveBean;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.model.LiveMatchBean;
+import com.onecric.live.model.LiveMatchListBean;
 import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.view.live.LiveRecommendView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 
 public class LiveRecommendPresenter extends BasePresenter<LiveRecommendView> {
@@ -57,7 +62,7 @@ public class LiveRecommendPresenter extends BasePresenter<LiveRecommendView> {
     }
 
     public void getHistoryList(boolean isRefresh, int page) {
-        addSubscription(apiStores.getHistoryLiveList(CommonAppConfig.getInstance().getToken(), page,  0),
+        addSubscription(apiStores.getHistoryLiveList(CommonAppConfig.getInstance().getToken(), page, 10),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
@@ -204,6 +209,35 @@ public class LiveRecommendPresenter extends BasePresenter<LiveRecommendView> {
                     }
                 });
     }
+
+    public void getMatchList() {
+        TimeZone timeZone = TimeZone.getDefault();
+        addSubscription(apiStores.getLiveMatchList(timeZone.getID()), new ApiCallback() {
+            @Override
+            public void onSuccess(String data, String msg) {
+                List<LiveMatchListBean.MatchItemBean> today = JSONObject.parseArray(JSONObject.parseObject(data).getString("toay"), LiveMatchListBean.MatchItemBean.class);
+                List<LiveMatchListBean.MatchItemBean> upcoming = JSONObject.parseArray(JSONObject.parseObject(data).getString("upcoming"), LiveMatchListBean.MatchItemBean.class);
+                mvpView.getMatchSuccess(today,upcoming);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                mvpView.getDataFail(msg);
+            }
+
+            @Override
+            public void onError(String msg) {
+                mvpView.getDataFail(msg);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
+
+
 
 
 }

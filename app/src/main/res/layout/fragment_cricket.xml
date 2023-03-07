@@ -57,13 +57,13 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="30dp"
             app:tabTextColor="@color/white"
             app:tabSelectedTextColor="@color/c_DC3C23"
             app:tabIndicator="@drawable/shape_indicator"
             app:tabIndicatorHeight="3dp"
-            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"/>
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
     </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager

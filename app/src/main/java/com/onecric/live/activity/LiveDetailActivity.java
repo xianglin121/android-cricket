@@ -1,21 +1,41 @@
 package com.onecric.live.activity;
 
+import static android.view.MotionEvent.ACTION_DOWN;
+import static android.view.MotionEvent.ACTION_UP;
+import static com.onecric.live.HttpConstant.SHARE_LIVE_URL;
+import static com.onecric.live.util.DialogUtil.loadingDialog;
+import static com.onecric.live.util.UiUtils.collapseView;
+import static com.onecric.live.util.UiUtils.convertViewToBitmap;
+import static com.onecric.live.util.UiUtils.createQrCode;
+import static com.onecric.live.util.UiUtils.expandView;
+import static com.onecric.live.util.UiUtils.saveBitmapFile;
+import static com.onecric.live.util.UiUtils.sharePictureFile;
 import static com.tencent.imsdk.base.ThreadUtils.runOnUiThread;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -27,11 +47,20 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
+import com.google.android.exoplayer2.SeekParameters;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.onecric.live.CommonAppConfig;
+import com.onecric.live.HttpConstant;
 import com.onecric.live.R;
 import com.onecric.live.custom.AnchorMovingReplyDialog;
 import com.onecric.live.custom.gift.AnimMessage;
@@ -39,22 +68,32 @@ import com.onecric.live.custom.gift.LPAnimationManager;
 import com.onecric.live.custom.noble.LPNobleView;
 import com.onecric.live.event.UpdateAnchorFollowEvent;
 import com.onecric.live.event.UpdateLoginTokenEvent;
+import com.onecric.live.fragment.CricketInfoFragment;
+import com.onecric.live.fragment.CricketScorecardFragment;
+import com.onecric.live.fragment.CricketSquadFragment;
+import com.onecric.live.fragment.CricketUpdatesFragment;
+import com.onecric.live.fragment.LiveDetailBasketballFragment;
+import com.onecric.live.fragment.LiveDetailFootballFragment;
 import com.onecric.live.fragment.LiveDetailMainFragment;
+import com.onecric.live.fragment.PopularRankingInnerFragment;
 import com.onecric.live.fragment.ThemeFragment;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.BasketballDetailBean;
 import com.onecric.live.model.BroadcastMsgBean;
 import com.onecric.live.model.ColorMsgBean;
+import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.CustomMsgBean;
 import com.onecric.live.model.FootballDetailBean;
 import com.onecric.live.model.GiftBean;
 import com.onecric.live.model.LiveRoomBean;
 import com.onecric.live.model.NormalMsgBean;
+import com.onecric.live.model.UpdatesBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.live.LiveDetailPresenter;
 import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ScreenUtils;
+import com.onecric.live.util.ShareUtil;
 import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpActivity;
@@ -63,6 +102,16 @@ import com.onecric.live.view.live.LiveDetailView;
 //import com.opensource.svgaplayer.SVGAImageView;
 //import com.opensource.svgaplayer.SVGAParser;
 //import com.opensource.svgaplayer.SVGAVideoEntity;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
+import com.shuyu.gsyvideoplayer.cache.CacheFactory;
+import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
+import com.shuyu.gsyvideoplayer.listener.GSYVideoProgressListener;
+import com.shuyu.gsyvideoplayer.listener.LockClickListener;
+import com.shuyu.gsyvideoplayer.player.PlayerFactory;
+import com.shuyu.gsyvideoplayer.utils.Debuger;
+import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.tencent.imsdk.v2.V2TIMManager;
 import com.tencent.imsdk.v2.V2TIMMessage;
 import com.tencent.imsdk.v2.V2TIMSendCallback;
@@ -74,6 +123,8 @@ import com.tencent.liteav.demo.superplayer.model.event.SendDanmuEvent;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
 import com.tencent.qcloud.tuikit.tuichat.util.ChatMessageInfoUtil;
 
+import net.lucode.hackware.magicindicator.buildins.UIUtil;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -82,16 +133,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
+import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager;
 
+/**
+ * LIVE直播详情
+ */
 public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> implements LiveDetailView, View.OnClickListener {
 
-    private ImageView iv_silence;
+//    private ImageView iv_silence;
 
-    public static void forward(Context context, int anchorId, int type, int matchId) {
+    public static void forward(Context context, int anchorId, int matchId,int mLiveId) {
         Intent intent = new Intent(context, LiveDetailActivity.class);
         intent.putExtra("anchorId", anchorId);
-        intent.putExtra("type", type);
         intent.putExtra("matchId", matchId);
+        intent.putExtra("isLive", true);
+        intent.putExtra("mLiveId", mLiveId);
+        context.startActivity(intent);
+    }
+
+    public static void forward(Context context, int anchorId, int matchId, String url,int mLiveId) {
+        Intent intent = new Intent(context, LiveDetailActivity.class);
+        intent.putExtra("anchorId", anchorId);
+        intent.putExtra("matchId", matchId);
+        intent.putExtra("isLive", false);
+        intent.putExtra("url", url);
+        intent.putExtra("mLiveId", mLiveId);
         context.startActivity(intent);
     }
 
@@ -116,13 +183,43 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public LiveRoomBean mLiveRoomBean;
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    private LoginDialog loginDialog;
+    private LoginDialog loginDialog,constraintLoginDialog;
     private WebView webview;
     private WebSettings webSettings;
 
     private TextView tv_title;
     private ImageView iv_back;
     private CircleImageView person_head_pic;
+
+    private ConstraintLayout cl_avatar;
+    private CircleImageView iv_avatar;
+    private TextView tv_name;
+    private TextView tv_desc;
+    private ImageView iv_star;
+    private TextView tv_tool_eyes;
+    private ImageView iv_tool_heart;
+    private ImageView iv_tool_share;
+    private TextView tv_tool_heart;
+    private StandardGSYVideoPlayer history_video_view;
+    private RelativeLayout rl_video;
+    public RelativeLayout rl_player;
+    private ProgressBar progress_bar;
+    private ImageView iv_video_mute;
+
+    private boolean isOpenAvatar = false;
+    private int clAvatarHeight;
+
+    private Dialog loadingDialog;
+
+
+    private Drawable drawableArrUp, drawableArrDown;
+    private boolean isCancelLoginDialog;
+    private boolean isLive = true;
+    private OrientationUtils orientationUtils;
+    private String videoUrl;
+    private int mLiveId;
+    private LinearLayout ll_main;
+
 
     //未登录用户倒计时三分钟跳转登录页
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
@@ -133,10 +230,13 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
         @Override
         public void onFinish() {
+            if(loginDialog.isShowing()){
+                loginDialog.dismiss();
+            }
+            SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
-//            finish();
-//            LoginActivity.forward(mActivity);
-            loginDialog.show();
+            isCancelLoginDialog = false;
+            constraintLoginDialog.show();
         }
     };
 
@@ -152,6 +252,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
     @Override
     protected void initView() {
+        loadingDialog = loadingDialog(LiveDetailActivity.this);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
         params.putInt("watch_live", 0);
@@ -161,16 +262,178 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        mAnchorId = getIntent().getIntExtra("anchorId", 0);
-        mType = getIntent().getIntExtra("type", 0);
-        mMatchId = getIntent().getIntExtra("matchId", 0);
-        mGroupId = String.valueOf(mAnchorId);
+        mType =  2;
+        //scheme
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String aId = uri.getQueryParameter("anchorId");
+                String mid = uri.getQueryParameter("matchId");
+                String lid = uri.getQueryParameter("liveId");
+                String isLive = uri.getQueryParameter("isLive");
+                mAnchorId = Integer.parseInt(aId);
+                mMatchId = Integer.parseInt(mid);
+                mLiveId = Integer.parseInt(lid);
+                if("0".equals(isLive)){
+                    videoUrl = uri.getQueryParameter("videoUrl");
+                }
+            }
+        }else{
+            mAnchorId = getIntent().getIntExtra("anchorId", 0);
+            mMatchId = getIntent().getIntExtra("matchId", 0);
+            isLive = getIntent().getBooleanExtra("isLive", true);
+            mLiveId = getIntent().getIntExtra("mLiveId",0);
+            if(!isLive){
+                videoUrl = getIntent().getStringExtra("url");
+            }
+        }
+
+//        mGroupId = 1008+"";
+        mGroupId = String.valueOf(mLiveId);
         mvpPresenter.setGroupId(mGroupId);
+
         //获取屏幕宽度
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         mWindowsWidth = metric.widthPixels;
 
+        init();
+
+        drawableArrUp = getResources().getDrawable(R.mipmap.icon_arrow_up_up);
+        drawableArrUp.setTint(getResources().getColor(R.color.c_959697));
+        drawableArrUp.setBounds(0, 0, drawableArrUp.getMinimumWidth(),drawableArrUp.getMinimumHeight());
+        drawableArrDown = getResources().getDrawable(R.mipmap.icon_arrow_down);
+        drawableArrDown.setTint(getResources().getColor(R.color.c_959697));
+        drawableArrDown.setBounds(0, 0, drawableArrDown.getMinimumWidth(),drawableArrDown.getMinimumHeight());
+
+        //视频尺寸
+        int width = UIUtil.getScreenWidth(this);
+        if(isLive){
+            rl_player.setVisibility(View.VISIBLE);
+            rl_video.setVisibility(View.GONE);
+            android.view.ViewGroup.LayoutParams pp = playerView.getLayoutParams();
+            pp.height = (int)(width * 0.5625);
+            playerView.setLayoutParams(pp);
+            //初始化悬浮窗跳转回界面所需参数
+            playerView.setInitId(mAnchorId, mType, mMatchId);
+        }else{
+            rl_player.setVisibility(View.GONE);
+            rl_video.setVisibility(View.VISIBLE);
+            android.view.ViewGroup.LayoutParams pp = history_video_view.getLayoutParams();
+            pp.height = (int)(width * 0.5625);
+            history_video_view.setLayoutParams(pp);
+            //播放视频统计
+//        TrackHelper.track().impression("Android content impression").piece("video").target(url).with(((AppManager) getApplication()).getTracker());
+
+            PlayerFactory.setPlayManager(Exo2PlayerManager.class);
+            CacheFactory.setCacheManager(ExoPlayerCacheManager.class);
+            orientationUtils = new OrientationUtils(this, history_video_view);
+            orientationUtils.setEnable(false);
+            history_video_view.getBackButton().setVisibility(View.GONE);
+            history_video_view.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    orientationUtils.resolveByClick();
+                    history_video_view.startWindowFullscreen(mActivity, true, true);
+                }
+            });
+            iv_video_mute.setSelected(false);
+            GSYVideoManager.instance().setNeedMute(false);
+            GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
+            gsyVideoOption
+                    .setLooping(false)//循环
+                    .setIsTouchWiget(true)//滑动调整
+                    .setRotateViewAuto(false)
+                    .setLockLand(false)
+                    .setAutoFullWithSize(false)
+                    .setShowFullAnimation(false)
+                    .setNeedLockFull(true)
+                    .setUrl(videoUrl)
+                    .setCacheWithPlay(true)//边缓存
+                    .setVideoAllCallBack(new GSYSampleCallBack() {
+                        @Override
+                        public void onPrepared(String url, Object... objects) {
+                            super.onPrepared(url, objects);
+                            //开始播放了才能旋转和全屏
+                            orientationUtils.setEnable(history_video_view.isRotateWithSystem());
+                            //设置 seek 的临近帧。
+                            if (history_video_view.getGSYVideoManager().getPlayer() instanceof Exo2PlayerManager) {
+                                ((Exo2PlayerManager) history_video_view.getGSYVideoManager().getPlayer()).setSeekParameter(SeekParameters.NEXT_SYNC);
+                            }
+                        }
+
+                        @Override
+                        public void onEnterFullscreen(String url, Object... objects) {
+                            super.onEnterFullscreen(url, objects);
+                        }
+
+                        @Override
+                        public void onAutoComplete(String url, Object... objects) {
+                            super.onAutoComplete(url, objects);
+                        }
+
+                        @Override
+                        public void onClickStartError(String url, Object... objects) {
+                            super.onClickStartError(url, objects);
+                        }
+
+                        @Override
+                        public void onQuitFullscreen(String url, Object... objects) {
+                            super.onQuitFullscreen(url, objects);
+                            if (orientationUtils != null) {
+                                orientationUtils.backToProtVideo();
+                            }
+                        }
+                    })
+                    .setLockClickListener((view, lock) -> {
+                        if (orientationUtils != null) {
+                            orientationUtils.setEnable(!lock);
+                        }
+                    })
+                    .setGSYVideoProgressListener((progress, secProgress, currentPosition, duration) -> {})
+                    .build(history_video_view);
+        }
+
+        //将侧边栏移到屏幕外
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+//        params.leftMargin = mWindowsWidth;
+//        fl_menu.setLayoutParams(params);
+//        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(fl_menu, "translationX", 0, mWindowsWidth);
+//        objectAnimator.setDuration(0);
+//        objectAnimator.start();
+
+        initWebView();
+        loginDialog = new LoginDialog(this, R.style.dialog,true, () -> {
+            loginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
+
+        constraintLoginDialog = new LoginDialog(this, R.style.dialog,false, () -> {
+            constraintLoginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
+
+        //初始化fragment
+        liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId,mMatchId);
+        liveDetailMainFragment.setLoginDialog(loginDialog);
+        if(!isLive){
+            liveDetailMainFragment.isHistory = true;
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.fl_main, liveDetailMainFragment).commitAllowingStateLoss();
+
+        iv_data.setVisibility(View.GONE);
+
+        clAvatarHeight = UIUtil.dip2px(this,70);
+
+        //去掉状态栏
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    private void init(){
         statusBar = findViewById(R.id.statusBar);
         playerView = findViewById(R.id.playerView);
         fl_main = findViewById(R.id.fl_main);
@@ -184,53 +447,46 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         tv_content = findViewById(R.id.tv_content);
         tv_title = findViewById(R.id.tv_title);
         iv_back = findViewById(R.id.iv_back);
-        iv_silence = findViewById(R.id.iv_silence);
-        iv_silence.setOnClickListener(this);
+        history_video_view = findViewById(R.id.history_video_view);
+        iv_video_mute = findViewById(R.id.iv_video_mute);
+        rl_video = findViewById(R.id.rl_video);
+        rl_player = findViewById(R.id.rl_player);
+        progress_bar = findViewById(R.id.progress_bar);
+//        iv_silence = findViewById(R.id.iv_silence);
+//        iv_silence.setOnClickListener(this);
         person_head_pic = findViewById(R.id.person_head_pic);
-
+        cl_avatar = findViewById(R.id.cl_avatar);
+        iv_avatar = findViewById(R.id.iv_avatar);
+        tv_name = findViewById(R.id.tv_name);
+        tv_desc = findViewById(R.id.tv_desc);
+        iv_star = findViewById(R.id.iv_star);
+        tv_tool_eyes = findViewById(R.id.tv_tool_eyes);
+        iv_tool_heart = findViewById(R.id.iv_tool_heart);
+        iv_tool_share = findViewById(R.id.iv_tool_share);
+        tv_tool_heart = findViewById(R.id.tv_tool_heart);
+        ll_main = findViewById(R.id.ll_main);
+        findViewById(R.id.ll_eyes).setOnClickListener(this);
+        findViewById(R.id.ll_heart).setOnClickListener(this);
+        findViewById(R.id.ll_title).setOnClickListener(this);
         iv_data.setOnClickListener(this);
         iv_back.setOnClickListener(this);
-
-        //初始化悬浮窗跳转回界面所需参数
-        playerView.setInitId(mAnchorId, mType, mMatchId);
-
-        //将侧边栏移到屏幕外
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-//        params.leftMargin = mWindowsWidth;
-//        fl_menu.setLayoutParams(params);
-//        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(fl_menu, "translationX", 0, mWindowsWidth);
-//        objectAnimator.setDuration(0);
-//        objectAnimator.start();
-
-        initWebView();
-        loginDialog = new LoginDialog(this, R.style.dialog, () -> {
-            loginDialog.dismiss();
-            webview.setVisibility(View.VISIBLE);
-            webview.loadUrl("javascript:ab()");
-        });
-
-        //初始化fragment
-        liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId);
-        liveDetailMainFragment.setLoginDialog(loginDialog);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fl_main, liveDetailMainFragment).commitAllowingStateLoss();
-        if (mType == 0) {
-//            liveDetailFootballFragment = LiveDetailFootballFragment.newInstance(mMatchId);
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fl_menu, liveDetailFootballFragment).commitAllowingStateLoss();
-        } else if (mType == 1) {
-//            liveDetailBasketballFragment = LiveDetailBasketballFragment.newInstance(mMatchId);
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fl_menu, liveDetailBasketballFragment).commitAllowingStateLoss();
-        } else {
-            iv_data.setVisibility(View.GONE);
-        }
-
-        //去掉状态栏
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        person_head_pic.setOnClickListener(this);
+        iv_avatar.setOnClickListener(this);
+        iv_star.setOnClickListener(this);
+        iv_tool_heart.setOnClickListener(this);
+        iv_tool_share.setOnClickListener(this);
+        iv_video_mute.setOnClickListener(this);
     }
 
+
+    //登录成功，更新信息
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
-            liveDetailMainFragment.updateFollowData();
+            if (mCountDownTimer != null) {
+                mCountDownTimer.cancel();
+            }
+            mvpPresenter.getInfo(true,mLiveId);
         }
     }
 
@@ -271,10 +527,17 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                             @Override
                             public void run() {
 //                                dialog.show();
-                                loginDialog.show();
-                                loginDialog.passWebView();
+                                if(isCancelLoginDialog){
+                                    loginDialog.show();
+                                    loginDialog.passWebView();
+                                }else{
+                                    constraintLoginDialog.show();
+                                    constraintLoginDialog.passWebView();
+                                }
                             }
                         });
+                    }else if(!isCancelLoginDialog){
+                        constraintLoginDialog.show();
                     }
                 }
             }
@@ -286,124 +549,129 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         //设置状态栏高度
 //        LinearLayout.LayoutParams statusBarParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.getStatusBarHeight(this));
 //        statusBar.setLayoutParams(statusBarParams);
-        mvpPresenter.getInfo(mAnchorId);
-        if (mType == 0) {
-//            mvpPresenter.getFootballDetail(mMatchId);
-        } else if (mType == 1) {
-//            mvpPresenter.getBasketballDetail(mMatchId);
-        }
-        playerView.setPlayerViewCallback(new LivePlayerView.OnSuperPlayerViewCallback() {
-            @Override
-            public void onStartFullScreenPlay() {
-                mIsFullScreen = true;
-                statusBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onStopFullScreenPlay() {
-                mIsFullScreen = false;
-                statusBar.setVisibility(View.VISIBLE);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Window window = getWindow();
-                    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                    if (mIsBlack) {
-                        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                    } else {
-                        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-                    }
-                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                    window.setStatusBarColor(0);
+        mvpPresenter.getInfo(false,mLiveId);
+        if(isLive){
+            playerView.setPlayerViewCallback(new LivePlayerView.OnSuperPlayerViewCallback() {
+                @Override
+                public void onStartFullScreenPlay() {
+                    playerView.setBackgroundColor(Color.BLACK);
+                    mIsFullScreen = true;
+                    statusBar.setVisibility(View.GONE);
                 }
+
+                @Override
+                public void onStopFullScreenPlay() {
+                    mIsFullScreen = false;
+                    statusBar.setVisibility(View.VISIBLE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        Window window = getWindow();
+                        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                        if (mIsBlack) {
+                            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                        } else {
+                            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+                        }
+                        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                        window.setStatusBarColor(0);
+                    }
 //                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            }
+                }
 
-            @Override
-            public void onClickFloatCloseBtn() {
-                // 点击悬浮窗关闭按钮，那么结束整个播放
-                playerView.resetPlayer();
-                finish();
-            }
+                @Override
+                public void onClickFloatCloseBtn() {
+                    // 点击悬浮窗关闭按钮，那么结束整个播放
+                    playerView.resetPlayer();
+                    finish();
+                }
 
-            @Override
-            public void onClickSmallReturnBtn() {
-                backAction();
-            }
+                @Override
+                public void onClickSmallReturnBtn() {
+                    backAction();
+                }
 
-            @Override
-            public void onStartFloatWindowPlay() {
-                // 开始悬浮播放后，直接返回到首页，进行悬浮播放
-                Intent intent = new Intent(mActivity, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
+                @Override
+                public void onStartFloatWindowPlay() {
+                    // 开始悬浮播放后，直接返回到首页，进行悬浮播放
+                    Intent intent = new Intent(mActivity, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
 
-            @Override
-            public void onRefreshClick() {
-                if (mLiveRoomBean != null) {
-                    if (mLiveRoomBean.getInfo() != null) {
-                        if (!TextUtils.isEmpty(mLiveRoomBean.getInfo().getPull())) {
-
-                            playerView.play(mLiveRoomBean.getInfo().getPull());
+                @Override
+                public void onRefreshClick() {
+                    playerView.setBackgroundColor(Color.BLACK);
+                    if (mLiveRoomBean != null) {
+                        if (mLiveRoomBean.getInfo() != null) {
+                            if (!TextUtils.isEmpty(mLiveRoomBean.getInfo().getPull())) {
+                                playerView.play(mLiveRoomBean.getInfo().getPull());
+                            }
                         }
+                    }
+                }
+
+                @Override
+                public void onQualityChange(int type) {
+                    playerView.setBackgroundColor(Color.BLACK);
+                    if (mLiveRoomBean != null) {
+                        if (mLiveRoomBean.getInfo() != null && mLiveRoomBean.getInfo().getClarity() != null) {
+                            if (type == 0) {
+                                playerView.play(mLiveRoomBean.getInfo().getPull());
+                            } else if (type == 1) {
+                                playerView.play(mLiveRoomBean.getInfo().getClarity().getHd());
+                            } else if (type == 2) {
+                                playerView.play(mLiveRoomBean.getInfo().getClarity().getSd());
+                            } else if (type == 3) {
+                                playerView.play(mLiveRoomBean.getInfo().getClarity().getSmooth());
+                            }
+                            playerView.updateQuality(type);
+                        }
+                    }
+                }
+
+                @Override
+                public void onClickRedEnvelope() {
+                    liveDetailMainFragment.showRedEnvelopeDialog();
+                }
+
+                @Override
+                public void onLoadingEnd() {
+                    if(progress_bar.getVisibility() == View.VISIBLE){
+                        progress_bar.setVisibility(View.GONE);
+                    }
+                }
+            });
+            playerView.hideBackKey();
+
+            //礼物进场动画
+//            LPAnimationManager.init(this);
+//            LPAnimationManager.addGiftContainer(ll_gift_container);
+
+            if (CommonAppConfig.getInstance().getUserBean() != null && CommonAppConfig.getInstance().getUserBean().getGuard() != null) {
+                showNobleAnim(CommonAppConfig.getInstance().getUserBean().getUser_nickname(), CommonAppConfig.getInstance().getUserBean().getGuard().getSwf_name(), CommonAppConfig.getInstance().getUserBean().getGuard().getSwf());
+                //判断贵族是否即将到期
+                long endtime = CommonAppConfig.getInstance().getUserBean().getGuard().getEndtime();
+                if ((endtime * 1000) - System.currentTimeMillis() > 0) {
+                    if (((endtime * 1000) - System.currentTimeMillis()) < 7 * 24 * 60 * 60 * 1000) {
+                        DialogUtil.showSimpleDialog(mActivity, getString(R.string.title_noble_expiration_reminder), getString(R.string.text_noble_expiration_reminder), false, new DialogUtil.SimpleCallback() {
+                            @Override
+                            public void onConfirmClick(Dialog dialog, String content) {
+
+                            }
+                        });
                     }
                 }
             }
 
-            @Override
-            public void onQualityChange(int type) {
-                if (mLiveRoomBean != null) {
-                    if (mLiveRoomBean.getInfo() != null && mLiveRoomBean.getInfo().getClarity() != null) {
-                        if (type == 0) {
-                            playerView.play(mLiveRoomBean.getInfo().getPull());
-                        } else if (type == 1) {
-                            playerView.play(mLiveRoomBean.getInfo().getClarity().getHd());
-                        } else if (type == 2) {
-                            playerView.play(mLiveRoomBean.getInfo().getClarity().getSd());
-                        } else if (type == 3) {
-                            playerView.play(mLiveRoomBean.getInfo().getClarity().getSmooth());
-                        }
-                        playerView.updateQuality(type);
-                    }
+            //判断不是自己直播间不显示人数
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
+                if (String.valueOf(mAnchorId).equals(CommonAppConfig.getInstance().getUid())) {
+                    playerView.setPeopleCountVisibility(View.VISIBLE);
+                } else {
+                    playerView.setPeopleCountVisibility(View.INVISIBLE);
                 }
-            }
-
-            @Override
-            public void onClickRedEnvelope() {
-                liveDetailMainFragment.showRedEnvelopeDialog();
-            }
-        });
-
-        playerView.hideBackKey();
-
-        //礼物进场动画
-        LPAnimationManager.init(this);
-        LPAnimationManager.addGiftContainer(ll_gift_container);
-
-        if (CommonAppConfig.getInstance().getUserBean() != null && CommonAppConfig.getInstance().getUserBean().getGuard() != null) {
-            showNobleAnim(CommonAppConfig.getInstance().getUserBean().getUser_nickname(), CommonAppConfig.getInstance().getUserBean().getGuard().getSwf_name(), CommonAppConfig.getInstance().getUserBean().getGuard().getSwf());
-            //判断贵族是否即将到期
-            long endtime = CommonAppConfig.getInstance().getUserBean().getGuard().getEndtime();
-            if ((endtime * 1000) - System.currentTimeMillis() > 0) {
-                if (((endtime * 1000) - System.currentTimeMillis()) < 7 * 24 * 60 * 60 * 1000) {
-                    DialogUtil.showSimpleDialog(mActivity, getString(R.string.title_noble_expiration_reminder), getString(R.string.text_noble_expiration_reminder), false, new DialogUtil.SimpleCallback() {
-                        @Override
-                        public void onConfirmClick(Dialog dialog, String content) {
-
-                        }
-                    });
-                }
-            }
-        }
-
-        //判断不是自己直播间不显示人数
-        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-            if (String.valueOf(mAnchorId).equals(CommonAppConfig.getInstance().getUid())) {
-                playerView.setPeopleCountVisibility(View.VISIBLE);
             } else {
                 playerView.setPeopleCountVisibility(View.INVISIBLE);
             }
-        } else {
-            playerView.setPeopleCountVisibility(View.INVISIBLE);
         }
 
         if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
@@ -424,6 +692,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public void getDataSuccess(LiveRoomBean bean) {
         if (bean != null) {
             mLiveRoomBean = bean;
+            mMatchId = bean.getInfo().getMatch_id();
+            initShareScreen();
             //判断是否弹出关注弹窗
             if (mLiveRoomBean.getUserData() != null) {
                 boolean isShow = false;
@@ -446,6 +716,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                                         doFollow();
                                     }
                                 } else {
+                                    isCancelLoginDialog = true;
                                     loginDialog.show();
                                 }
                             }
@@ -462,33 +733,42 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             if (bean.getInfo() != null) {
                 if (!TextUtils.isEmpty(bean.getInfo().getPull())) {
                     //初始化播放器控件
-//                    playerView.setMute(true);
-                    playerView.play(bean.getInfo().getPull());
+                    //静音
+//                    playerView.setMute(false);
+                    if(isLive){
+                        playerView.play(bean.getInfo().getPull());
+                    }else{
+                        history_video_view.startPlayLogic();
+                    }
                 }
             }
             if (bean.getUserData() != null && !TextUtils.isEmpty(bean.getUserData().getTitle())) {
 //                playerView.updateTitle(bean.getUserData().getTitle());
                 tv_title.setText(bean.getUserData().getTitle());
+                iv_star.setSelected(bean.getUserData().getIs_attention() == 0 ? false : true);
+                tv_name.setText(bean.getUserData().getUser_nickname());
+                tv_desc.setText("Fans: " +bean.getUserData().getAttention());
+                int heatNum = bean.getUserData().getHeat();
+
+                tv_tool_eyes.setText(heatNum>1000 ? String.format("%.1f",(float)heatNum/1000) + "K" :heatNum+"");
+                if (bean.getInfo().getIs_like() == 1) {
+                    iv_tool_heart.setSelected(true);
+                } else {
+                    iv_tool_heart.setSelected(false);
+                }
+                int likeNum = bean.getInfo().getLike_num();
+                tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
             }
-            liveDetailMainFragment.updateFollowData();
+            liveDetailMainFragment.updateFollowData(mLiveRoomBean);
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
+            GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), iv_avatar);
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid()) && CommonAppConfig.getInstance().getUid().equals(String.valueOf(mAnchorId))) {
+                iv_star.setVisibility(View.GONE);
+            }
+
+        } else {
+            finish();
         }
-    }
-
-    //直播间右侧足球数据页
-    @Override
-    public void getDataSuccess(FootballDetailBean bean) {
-//        if (liveDetailFootballFragment != null) {
-//            liveDetailFootballFragment.setData(bean);
-//        }
-    }
-
-    //直播间右侧篮球数据页
-    @Override
-    public void getDataSuccess(BasketballDetailBean bean) {
-//        if (liveDetailBasketballFragment != null) {
-//            liveDetailBasketballFragment.setData(bean);
-//        }
     }
 
     @Override
@@ -498,12 +778,15 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             if (mLiveRoomBean.getUserData().getIs_attention() == 0) {
                 mLiveRoomBean.getUserData().setIs_attention(1);
                 attention++;
+                iv_star.setSelected(true);
             } else {
                 mLiveRoomBean.getUserData().setIs_attention(0);
                 attention--;
+                iv_star.setSelected(false);
             }
             mLiveRoomBean.getUserData().setAttention(attention);
-            liveDetailMainFragment.updateFollowData();
+            tv_desc.setText("Fans: "+attention);
+            liveDetailMainFragment.updateFollowData(mLiveRoomBean);
         }
     }
 
@@ -511,6 +794,35 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public void getDataSuccess(UserBean bean) {
         if (bean != null) {
             CommonAppConfig.getInstance().saveUserInfo(JSONObject.toJSONString(bean));
+        }
+    }
+
+    @Override
+    public void getUpdateUserData(LiveRoomBean bean) {
+        if (bean != null) {
+            mLiveRoomBean = bean;
+            if (bean.getUserData() != null && !TextUtils.isEmpty(bean.getUserData().getTitle())) {
+                tv_title.setText(bean.getUserData().getTitle());
+                iv_star.setSelected(bean.getUserData().getIs_attention() == 0 ? false : true);
+                tv_name.setText(bean.getUserData().getUser_nickname());
+                tv_desc.setText("Fans: " +bean.getUserData().getAttention());
+                int heatNum = bean.getUserData().getHeat();
+
+                tv_tool_eyes.setText(heatNum>1000 ? String.format("%.1f",(float)heatNum/1000) + "K" :heatNum+"");
+                if (bean.getInfo().getIs_like() == 1) {
+                    iv_tool_heart.setSelected(true);
+                } else {
+                    iv_tool_heart.setSelected(false);
+                }
+                int likeNum = bean.getInfo().getLike_num();
+                tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
+            }
+            liveDetailMainFragment.updateFollowData(mLiveRoomBean);
+            GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
+            GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), iv_avatar);
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid()) && CommonAppConfig.getInstance().getUid().equals(String.valueOf(mAnchorId))) {
+                iv_star.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -573,9 +885,36 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     }
 
     @Override
-    public void getDataFail(String msg) {
-
+    public void getMatchDataSuccess(CricketMatchBean model) {
+        if (model != null) {
+            liveDetailMainFragment.setMatchData(model);
+        }
     }
+
+    @Override
+    public void getUpdatesDataSuccess(List<UpdatesBean> list) {
+//        liveDetailMainFragment.setUpdateData(list);
+    }
+
+    @Override
+    public void showLikeSuccess() {
+        int likeNum = mLiveRoomBean.getInfo().getLike_num();
+        //1喜欢 0取消
+        if(mLiveRoomBean.getInfo().getIs_like() == 1){
+            mLiveRoomBean.getInfo().setIs_like(0);
+            iv_tool_heart.setSelected(false);
+            --likeNum;
+        }else{
+            mLiveRoomBean.getInfo().setIs_like(1);
+            iv_tool_heart.setSelected(true);
+            ++likeNum;
+        }
+        tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
+        mLiveRoomBean.getInfo().setLike_num(likeNum);
+    }
+
+    @Override
+    public void getDataFail(String msg) {}
 
     @Override
     public void onClick(View v) {
@@ -591,8 +930,58 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 }
                 break;
             case R.id.iv_silence:
-                playerView.setMute(false);
-                iv_silence.setVisibility(View.GONE);
+//                playerView.setMute(false);
+//                iv_silence.setVisibility(View.GONE);
+                break;
+            case R.id.person_head_pic:
+            case R.id.iv_avatar:
+                if (mLiveRoomBean != null)
+//                    PersonalHomepageActivity.forward(LiveDetailActivity.this, mLiveRoomBean.getUserData().getUid() + "");
+                break;
+            case R.id.ll_title:
+                //展开、折叠
+                if(cl_avatar.getVisibility() == View.GONE){
+                    cl_avatar.setVisibility(View.VISIBLE);
+                }
+                if(isOpenAvatar){
+                    tv_title.setCompoundDrawables(null, null, drawableArrUp,null);
+                    expandView(cl_avatar,clAvatarHeight,0);
+                }else{
+                    tv_title.setCompoundDrawables(null, null, drawableArrDown,null);
+                    collapseView(cl_avatar,0,clAvatarHeight);
+                }
+                isOpenAvatar = !isOpenAvatar;
+                break;
+            case R.id.iv_star:
+                //关注作者
+                if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                    if (mLiveRoomBean.getUserData() != null && mLiveRoomBean.getUserData().getIs_attention() == 0) {
+                        doFollow();
+                    }
+                }else if(loginDialog!=null){
+                    isCancelLoginDialog = true;
+                    loginDialog.show();
+                }else{
+                    ToastUtil.show(getString(R.string.please_login));
+                }
+                break;
+            case R.id.iv_tool_heart:
+            case R.id.ll_heart:
+                if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                    mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(),mLiveRoomBean.getInfo().getIs_like()==1?0:1);
+                }else if(loginDialog!=null){
+                    isCancelLoginDialog = true;
+                    loginDialog.show();
+                }else{
+                    ToastUtil.show(getString(R.string.please_login));
+                }
+                break;
+            case R.id.iv_tool_share:
+                shareScreen();
+                break;
+            case R.id.iv_video_mute:
+                iv_video_mute.setSelected(!iv_video_mute.isSelected());
+                GSYVideoManager.instance().setNeedMute(iv_video_mute.isSelected());
                 break;
         }
     }
@@ -600,41 +989,55 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     @Override
     protected void onResume() {
         super.onResume();
-        if (playerView.getPlayerState() == SuperPlayerDef.PlayerState.PLAYING
-                || playerView.getPlayerState() == SuperPlayerDef.PlayerState.PAUSE) {
-            if (playerView.getPlayerMode() == SuperPlayerDef.PlayerMode.FLOAT) {
-                playerView.switchPlayMode(SuperPlayerDef.PlayerMode.WINDOW);
+        if(isLive){
+            if (playerView.getPlayerState() == SuperPlayerDef.PlayerState.PLAYING
+                    || playerView.getPlayerState() == SuperPlayerDef.PlayerState.PAUSE) {
+                if (playerView.getPlayerMode() == SuperPlayerDef.PlayerMode.FLOAT) {
+                    playerView.switchPlayMode(SuperPlayerDef.PlayerMode.WINDOW);
+                }
             }
-        }
-        if (playerView.getPlayerMode() == SuperPlayerDef.PlayerMode.FULLSCREEN) {
-            //隐藏虚拟按键，并且全屏
-            View decorView = getWindow().getDecorView();
-            if (decorView == null) return;
-            //隐藏状态栏
-            if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
-                decorView.setSystemUiVisibility(View.GONE);
-            } else if (Build.VERSION.SDK_INT >= 19) {
-                int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;
-                decorView.setSystemUiVisibility(uiOptions);
+            if (playerView.getPlayerMode() == SuperPlayerDef.PlayerMode.FULLSCREEN) {
+                //隐藏虚拟按键，并且全屏
+                View decorView = getWindow().getDecorView();
+                if (decorView == null) return;
+                //隐藏状态栏
+                if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+                    decorView.setSystemUiVisibility(View.GONE);
+                } else if (Build.VERSION.SDK_INT >= 19) {
+                    int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;
+                    decorView.setSystemUiVisibility(uiOptions);
+                }
             }
-        }
-        if (playerView.getPlayerMode() != SuperPlayerDef.PlayerMode.FLOAT) {
-            playerView.onResume();
+            if (playerView.getPlayerMode() != SuperPlayerDef.PlayerMode.FLOAT) {
+                playerView.onResume();
+            }
+        }else{
+            history_video_view.onVideoResume();
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (playerView.getPlayerMode() != SuperPlayerDef.PlayerMode.FLOAT) {
+        if (isLive && playerView.getPlayerMode() != SuperPlayerDef.PlayerMode.FLOAT) {
             playerView.onPause();
+        }
+        if(!isLive && !isFinishing()){
+            history_video_view.onVideoPause();
+        }
+        if(shareDialog!=null && shareDialog.isShowing()){
+            shareDialog.dismiss();
         }
     }
 
     @Override
     protected void onDestroy() {
-        if (playerView.getPlayerMode() != SuperPlayerDef.PlayerMode.FLOAT) {
+        if(shareDialog!=null){
+            shareDialog = null;
+        }
+
+        if (isLive && playerView.getPlayerMode() != SuperPlayerDef.PlayerMode.FLOAT) {
             playerView.resetPlayer();
         }
 //        if (svga_gift != null) {
@@ -645,10 +1048,19 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             EventBus.getDefault().unregister(this);
         }
         //释放礼物进场动画
-        LPAnimationManager.release();
+//        LPAnimationManager.release();
         if (mCountDownTimer != null) {
             mCountDownTimer.cancel();
         }
+
+        if(!isLive){
+            GSYVideoManager.releaseAllVideos();
+            GSYVideoManager.instance().clearAllDefaultCache(this);
+        }
+        if (orientationUtils != null){
+            orientationUtils.releaseListener();
+        }
+
         super.onDestroy();
     }
 
@@ -679,7 +1091,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                     attention++;
                 }
                 mLiveRoomBean.getUserData().setAttention(attention);
-                liveDetailMainFragment.updateFollowData();
+                liveDetailMainFragment.updateFollowData(mLiveRoomBean);
             }
         }
     }
@@ -788,28 +1200,33 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         }
     }
 
-    //发送普通消息
+    //发送普通消息 弹幕
     public void sendMessage(String content) {
         NormalMsgBean msgBean = new NormalMsgBean();
         msgBean.setIsXCBarrage(0);
         msgBean.setText(content);
-        if (mAnchorId == Integer.valueOf(CommonAppConfig.getInstance().getUid())) {
-            msgBean.setIs_room(1);
-        } else {
-            msgBean.setIs_room(0);
+        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+            if (mAnchorId == Integer.valueOf(CommonAppConfig.getInstance().getUid())) {
+                msgBean.setIs_room(1);
+            } else {
+                msgBean.setIs_room(0);
+            }
+            msgBean.setIs_guard(CommonAppConfig.getInstance().getUserBean().getIs_guard());
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getExp_icon())) {
+                msgBean.setExp_icon(CommonAppConfig.getInstance().getUserBean().getExp_icon());
+            }
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
+                msgBean.setGuard_icon(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon());
+            }
         }
-        msgBean.setIs_guard(CommonAppConfig.getInstance().getUserBean().getIs_guard());
-        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getExp_icon())) {
-            msgBean.setExp_icon(CommonAppConfig.getInstance().getUserBean().getExp_icon());
-        }
-        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
-            msgBean.setGuard_icon(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon());
-        }
+
+
         CustomMsgBean customMsgBean = new CustomMsgBean();
         customMsgBean.setType(MessageInfo.MSG_TYPE_BG_DANMU);
         customMsgBean.setNormal(msgBean);
         MessageInfo messageInfo = ChatMessageInfoUtil.buildCustomMessage(JSONObject.toJSONString(customMsgBean), "", null);
-        messageInfo.setNickName(CommonAppConfig.getInstance().getUserBean().getUser_nickname());
+        String touristId= CommonAppConfig.getInstance().getVisitorUserId()+"";
+        messageInfo.setNickName(!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) ? CommonAppConfig.getInstance().getUserBean().getUser_nickname() : touristId);
         messageInfo.setStatus(MessageInfo.MSG_STATUS_SEND_SUCCESS);
         messageInfo.setSelf(true);
         messageInfo.setRead(true);
@@ -838,7 +1255,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 new V2TIMSendCallback<V2TIMMessage>() {
                     @Override
                     public void onProgress(int i) {
-
+                        Log.d("发送弹幕","onProgress i="+i);
                     }
 
                     @Override
@@ -853,6 +1270,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
                     @Override
                     public void onError(int i, String s) {
+                        Log.d("发送弹幕","onError i="+i+"----- s="+s);
                     }
                 });
     }
@@ -1118,4 +1536,167 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         animatorSet.start();
     }
     /***********************喇叭消息end***********************/
+
+    //直播间右侧足球数据页
+    @Override
+    public void getDataSuccess(FootballDetailBean bean) {
+//        if (liveDetailFootballFragment != null) {
+//            liveDetailFootballFragment.setData(bean);
+//        }
+    }
+
+    //直播间右侧篮球数据页
+    @Override
+    public void getDataSuccess(BasketballDetailBean bean) {
+//        if (liveDetailBasketballFragment != null) {
+//            liveDetailBasketballFragment.setData(bean);
+//        }
+    }
+
+    public void getMatchDetail(){
+        mvpPresenter.getMatchDetail(mMatchId);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!isLive){
+            //不需要回归竖屏
+            if (orientationUtils != null) {
+                orientationUtils.backToProtVideo();
+            }
+            if (GSYVideoManager.backFromWindowFull(this)) {
+                return;
+            }
+        }
+        super.onBackPressed();
+    }
+
+    private Bitmap shareQRCodeBitmap;
+    private AlertDialog shareDialog;
+    private Bitmap picBitmap;
+    private LinearLayout ll_pic;
+    private View view1;
+    private ImageView ivScreen;
+    private void initShareScreen(){
+        view1 = mActivity.getLayoutInflater().inflate(R.layout.dialog_share_live,null);
+        ImageView ivCode = view1.findViewById(R.id.iv_code);
+        ivScreen = view1.findViewById(R.id.iv_screen);
+        ll_pic = view1.findViewById(R.id.ll_pic);
+        ImageView iv_c = view1.findViewById(R.id.iv_c);
+        RelativeLayout sBar = view1.findViewById(R.id.statusBar);
+        CircleImageView head_pic = view1.findViewById(R.id.person_head_pic);
+
+        //赋值封面
+        android.view.ViewGroup.LayoutParams ppiv_cover = iv_c.getLayoutParams();
+        int width = UIUtil.getScreenWidth(mActivity);
+        ppiv_cover.height = (int)(width * 0.5625 * 0.8);
+        iv_c.setLayoutParams(ppiv_cover);
+        GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_c);
+        //跳过内存缓存 否则得到的是失败图片
+        Glide.with(mActivity).load(mLiveRoomBean.getInfo().getThumb()).skipMemoryCache(true).placeholder(R.mipmap.ball_live_bg).error(R.mipmap.ball_live_bg).into(iv_c);
+        GlideUtil.loadUserImageDefault(mActivity, mLiveRoomBean.getUserData().getAvatar(), head_pic);
+
+        //生成二维码
+        if(shareQRCodeBitmap == null){
+            shareQRCodeBitmap = createQrCode(SHARE_LIVE_URL,UIUtil.dip2px(mActivity,35),UIUtil.dip2px(mActivity,35));
+        }
+        ivCode.setImageBitmap(shareQRCodeBitmap);
+
+//        android.view.ViewGroup.LayoutParams ppivScreen = ivScreen.getLayoutParams();
+//        int height = (int) ((float)ll_main.getHeight()/ll_main.getWidth() * dm.widthPixels);
+//        ppivScreen.height = height;
+//        ivScreen.setLayoutParams(ppivScreen);
+
+        if(shareDialog==null){
+            shareDialog = new AlertDialog.Builder(mActivity).setView(view1).create();
+            shareDialog.setCancelable(true);
+            shareDialog.setCanceledOnTouchOutside(true);
+        }
+
+    }
+    private void shareScreen(){
+        if(shareDialog == null){
+            return;
+        }
+        //拼接截图
+        //这种方式有缓存，且短视频和直播源画面空白
+        ll_main.setDrawingCacheEnabled(true);
+        Bitmap bitmap = ll_main.getDrawingCache();
+        ivScreen.setImageBitmap(bitmap);
+        shareDialog.setView(view1);
+
+        //展示弹窗
+        shareDialog.show();
+
+        ll_pic.setDrawingCacheEnabled(true);
+        picBitmap = convertViewToBitmap(ll_pic);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        Window w = shareDialog.getWindow();
+        w.setLayout((int) (dm.widthPixels * 0.9), ViewGroup.LayoutParams.WRAP_CONTENT);
+        w.findViewById(R.id.tv_share).setOnClickListener(v -> {
+            if(picBitmap==null){
+                picBitmap = convertViewToBitmap(ll_pic);
+            }
+            //分享到第三方
+            if(sharePictureFile(mActivity,picBitmap)){
+                shareDialog.dismiss();
+            }
+
+        });
+
+        w.findViewById(R.id.tv_url).setOnClickListener(v -> {
+            //分享链接
+            ShareUtil.shareText(mActivity,"",SHARE_LIVE_URL+"pages/Live/live-detail?id="+mAnchorId+"&ID="+mLiveId);
+        });
+
+
+        w.findViewById(R.id.tv_save).setOnClickListener(v -> {
+            if(picBitmap==null){
+                picBitmap = convertViewToBitmap(ll_pic);
+            }
+            //保存图片
+            if(saveBitmapFile(mActivity,picBitmap)!=null){
+                shareDialog.dismiss();
+            }
+        });
+
+        w.findViewById(R.id.ll_pic).setOnClickListener(v->{
+            shareDialog.dismiss();
+        });
+
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 10005:
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        boolean flag = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]);
+                        ToastUtil.show(getString(flag?R.string.start_permission_storage_setting_tip:R.string.start_permission_storage_tip));
+                        return;
+                    }
+                }
+                sharePictureFile(mActivity,picBitmap);
+                break;
+            case 10004:
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        boolean flag = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]);
+                        ToastUtil.show(getString(flag?R.string.start_permission_storage_setting_tip:R.string.start_permission_storage_tip));
+                        return;
+                    }
+                }
+                saveBitmapFile(mActivity,picBitmap);
+                break;
+            default:
+                break;
+        }
+    }
+
+
 }

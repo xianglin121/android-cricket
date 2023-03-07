@@ -1,7 +1,14 @@
 package com.onecric.live.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +25,10 @@ import com.onecric.live.adapter.decoration.StaggeredDividerItemDecoration;
 import com.onecric.live.event.UpdateVideoLikeEvent;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.ShortVideoBean;
+import com.onecric.live.presenter.user.PersonalVideosPresenter;
 import com.onecric.live.presenter.video.VideoPresenter;
+import com.onecric.live.util.DpUtil;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.video.VideoView;
@@ -35,20 +45,26 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
-public class PersonalVideoFragment extends MvpFragment<VideoPresenter> implements VideoView {
+public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> implements VideoView {
 
     private SmartRefreshLayout smart_rl;
     private RecyclerView rv_video;
     private VideoAdapter mAdapter;
 
     private int mPage = 1;
+    private int type = 0;
+    private LinearLayout ll_select;
+    private PopupWindow popupWindow;
+    private String id;
+    //    private int selectPosition = 0;
 
 
-    public static PersonalVideoFragment newInstance(int id) {
+    public static PersonalVideoFragment newInstance(String id) {
         PersonalVideoFragment fragment = new PersonalVideoFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("id", id);
+        bundle.putString("id", id);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -59,14 +75,104 @@ public class PersonalVideoFragment extends MvpFragment<VideoPresenter> implement
     }
 
     @Override
-    protected VideoPresenter createPresenter() {
-        return new VideoPresenter(this);
+    protected PersonalVideosPresenter createPresenter() {
+        return new PersonalVideosPresenter(this);
     }
 
     @Override
     protected void initUI() {
         smart_rl = findViewById(R.id.smart_rl);
         rv_video = findViewById(R.id.rv_video);
+        ll_select = findViewById(R.id.ll_select);
+        ll_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view = LayoutInflater.from(getActivity()).inflate(R.layout.pop_view, null);
+                TextView all = view.findViewById(R.id.all);
+                TextView published = view.findViewById(R.id.published);
+                TextView under_review = view.findViewById(R.id.under_review);
+                TextView audit_failure = view.findViewById(R.id.audit_failure);
+                all.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                published.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                under_review.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                audit_failure.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                switch (type) {
+                    case 0:
+                        all.setTextColor(getActivity().getResources().getColor(R.color.c_DC3C23));
+                        break;
+                    case 1:
+                        published.setTextColor(getActivity().getResources().getColor(R.color.c_DC3C23));
+                        break;
+                    case 2:
+                        under_review.setTextColor(getActivity().getResources().getColor(R.color.c_DC3C23));
+                        break;
+                    case 3:
+                        audit_failure.setTextColor(getActivity().getResources().getColor(R.color.c_DC3C23));
+                        break;
+                }
+                all.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        type = 0;
+                        all.setTextColor(getActivity().getResources().getColor(R.color.c_DC3C23));
+                        published.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                        under_review.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                        audit_failure.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                        if (popupWindow != null) {
+                            if (popupWindow.isShowing())
+                                popupWindow.dismiss();
+                        }
+                        mvpPresenter.getList(true, 1, type, Integer.parseInt(id));
+                    }
+                });
+                published.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        type = 1;
+                        all.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                        published.setTextColor(getActivity().getResources().getColor(R.color.c_DC3C23));
+                        under_review.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                        audit_failure.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                        if (popupWindow != null) {
+                            if (popupWindow.isShowing())
+                                popupWindow.dismiss();
+                        }
+                        mvpPresenter.getList(true, 1, type, Integer.parseInt(id));
+                    }
+                });
+                under_review.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        type = 2;
+                        all.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                        published.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                        under_review.setTextColor(getActivity().getResources().getColor(R.color.c_DC3C23));
+                        audit_failure.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                        if (popupWindow != null) {
+                            if (popupWindow.isShowing())
+                                popupWindow.dismiss();
+                        }
+                        mvpPresenter.getList(true, 1, type, Integer.parseInt(id));
+                    }
+                });
+                audit_failure.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        type = 3;
+                        all.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                        published.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                        under_review.setTextColor(getActivity().getResources().getColor(R.color.c_666666));
+                        audit_failure.setTextColor(getActivity().getResources().getColor(R.color.c_DC3C23));
+                        if (popupWindow != null) {
+                            if (popupWindow.isShowing())
+                                popupWindow.dismiss();
+                        }
+                        mvpPresenter.getList(true, 1, type, Integer.parseInt(id));
+                    }
+                });
+                showPop(view);
+            }
+        });
 
         findViewById(R.id.iv_publish).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +184,7 @@ public class PersonalVideoFragment extends MvpFragment<VideoPresenter> implement
                         ToastUtil.show(getActivity().getString(R.string.please_join_writer));
                     }
                 } else {
-                    LoginActivity.forward(getContext());
+
                 }
             }
         });
@@ -86,7 +192,7 @@ public class PersonalVideoFragment extends MvpFragment<VideoPresenter> implement
 
     @Override
     protected void initData() {
-        int id = getArguments().getInt("id");
+        id = getArguments().getString("id");
         MaterialHeader materialHeader = new MaterialHeader(getContext());
         materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
         smart_rl.setRefreshHeader(materialHeader);
@@ -94,12 +200,12 @@ public class PersonalVideoFragment extends MvpFragment<VideoPresenter> implement
         smart_rl.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getList(false, mPage);
+                mvpPresenter.getList(false, mPage, type, Integer.parseInt(id));
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getList(true, 1);
+                mvpPresenter.getList(true, 1, type, Integer.parseInt(id));
             }
         });
 
@@ -107,7 +213,11 @@ public class PersonalVideoFragment extends MvpFragment<VideoPresenter> implement
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                VideoPagerActivity.forward(getContext(), mAdapter.getData(), position, mPage);
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    ToastUtil.show(getString(R.string.please_login));
+                }else{
+                    VideoPagerActivity.forward(getContext(), mAdapter.getData(), position, mPage);
+                }
             }
         });
         //解决瀑布流从底部到顶部出现画面重新排版动画还有间距出现问题
@@ -139,8 +249,10 @@ public class PersonalVideoFragment extends MvpFragment<VideoPresenter> implement
             if (list != null) {
                 if (list.size() > 0) {
                     hideEmptyView();
+                    ll_select.setVisibility(View.VISIBLE);
                 } else {
                     showEmptyView();
+                    ll_select.setVisibility(View.GONE);
                 }
                 mAdapter.getData().clear();
                 mAdapter.getData().addAll(list);
@@ -167,7 +279,8 @@ public class PersonalVideoFragment extends MvpFragment<VideoPresenter> implement
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -204,5 +317,31 @@ public class PersonalVideoFragment extends MvpFragment<VideoPresenter> implement
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
+    }
+
+
+    public void showPop(View view) {
+        popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setOutsideTouchable(true);      //点击弹窗外部是否取消弹窗
+        popupWindow.setFocusable(true);
+        popupWindow.setAnimationStyle(R.style.bottomToTopAnim);  //设置自定义好的动画
+        //弹窗出现外部为阴影
+        WindowManager.LayoutParams attributes = getActivity().getWindow().getAttributes();
+        attributes.alpha = 0.5f;
+        getActivity().getWindow().setAttributes(attributes);
+        //弹窗取消监听 取消之后恢复阴影
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams attributes = getActivity().getWindow().getAttributes();
+                attributes.alpha = 1;
+                getActivity().getWindow().setAttributes(attributes);
+            }
+        });
+        // 获取控件位置
+        int[] lv2 = {0, 0};
+        ll_select.getLocationInWindow(lv2);
+        // 设置弹窗位置
+        popupWindow.showAtLocation(ll_select, Gravity.NO_GRAVITY, lv2[0] - DpUtil.dp2px(10), lv2[1] + DpUtil.dp2px(10));
     }
 }

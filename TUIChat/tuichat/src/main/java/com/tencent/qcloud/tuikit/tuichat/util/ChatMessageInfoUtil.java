@@ -45,6 +45,21 @@ import java.util.List;
 public class ChatMessageInfoUtil {
     private static final String TAG = ChatMessageInfoUtil.class.getSimpleName();
 
+
+    /**
+     * 请求到的消息转换成文本消息
+     */
+    public static MessageInfo buildRequestMessage(String data,String fromAccount) {
+        MessageInfo info = new MessageInfo();
+        V2TIMMessage v2TIMMessage = V2TIMManager.getMessageManager().createTextMessage(data);
+        info.setExtra(data);
+        info.setMsgTime(System.currentTimeMillis() / 1000);
+        info.setSelf(false);
+        info.setTimMessage(v2TIMMessage);
+        info.setFromUser(fromAccount);
+        info.setMsgType(MessageInfo.MSG_TYPE_TEXT);
+        return info;
+    }
     /**
      * 创建一条文本消息
      *

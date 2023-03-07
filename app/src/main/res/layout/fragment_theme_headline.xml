@@ -12,16 +12,18 @@
         <net.lucode.hackware.magicindicator.MagicIndicator
             android:id="@+id/indicator"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="28dp"
             android:layout_weight="1"
-            android:layout_marginLeft="12dp"/>
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"/>
 
         <ImageView
             android:id="@+id/iv_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
-            android:src="@mipmap/icon_theme_headline_more"/>
+            android:src="@mipmap/icon_theme_headline_more"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager
@@ -33,7 +35,7 @@
         android:id="@+id/smart_no_network"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <include layout="@layout/layout_common_empty"/>
 

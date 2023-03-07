@@ -26,12 +26,12 @@ public class SearchAnchorPresenter extends BasePresenter<SearchAnchorView> {
 
                     @Override
                     public void onFailure(String msg) {
-
+                        mvpView.getDataFail(msg);
                     }
 
                     @Override
                     public void onError(String msg) {
-
+                        mvpView.getDataFail(msg);
                     }
 
                     @Override

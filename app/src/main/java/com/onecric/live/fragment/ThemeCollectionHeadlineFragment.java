@@ -144,6 +144,7 @@ public class ThemeCollectionHeadlineFragment extends MvpFragment<ThemeCollection
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 }

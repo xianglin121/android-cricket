@@ -195,7 +195,8 @@ public class CommunityDetailActivity extends MvpActivity<CommunityDetailPresente
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 
     @Override

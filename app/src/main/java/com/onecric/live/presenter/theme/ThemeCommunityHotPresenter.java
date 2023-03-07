@@ -30,12 +30,12 @@ public class ThemeCommunityHotPresenter extends BasePresenter<ThemeCommunityHotV
 
                     @Override
                     public void onFailure(String msg) {
-
+                        mvpView.getDataFail(msg);
                     }
 
                     @Override
                     public void onError(String msg) {
-
+                        mvpView.getDataFail(msg);
                     }
 
                     @Override

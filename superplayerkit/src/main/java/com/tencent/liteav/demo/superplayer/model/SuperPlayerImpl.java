@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.tencent.liteav.basic.log.TXCLog;
 import com.tencent.liteav.demo.superplayer.SuperPlayerCode;
@@ -23,6 +24,7 @@ import com.tencent.liteav.demo.superplayer.model.protocol.PlayInfoParams;
 import com.tencent.liteav.demo.superplayer.model.protocol.PlayInfoProtocolV2;
 import com.tencent.liteav.demo.superplayer.model.protocol.PlayInfoProtocolV4;
 import com.tencent.liteav.demo.superplayer.model.utils.VideoQualityUtils;
+import com.tencent.qcloud.tuicore.util.ToastUtil;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.ITXVodPlayListener;
 import com.tencent.rtmp.TXBitrateItem;
@@ -138,7 +140,6 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
      */
     @Override
     public void onNetStatus(Bundle bundle) {
-
     }
 
     /**
@@ -156,7 +157,7 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
         }
         switch (event) {
             case TXLiveConstants.PLAY_EVT_VOD_PLAY_PREPARED://视频播放开始
-                updatePlayerState(SuperPlayerDef.PlayerState.PLAYING);
+                updatePlayerState(SuperPlayerDef.PlayerState.FIRST_LOADING_END);
                 if (mIsMultiBitrateStream) {
                     List<TXBitrateItem> bitrateItems = mVodPlayer.getSupportedBitrates();
                     if (bitrateItems == null || bitrateItems.size() == 0) {
@@ -208,20 +209,24 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
         }
         if (event < 0) {// 播放点播文件失败
             mVodPlayer.stopPlay(true);
-            updatePlayerState(SuperPlayerDef.PlayerState.PAUSE);
+            if(event == -6011){
+                updatePlayerState(SuperPlayerDef.PlayerState.NO_NETWORK);
+            }else{
+                updatePlayerState(SuperPlayerDef.PlayerState.PAUSE);
+            }
             onError(SuperPlayerCode.VOD_PLAY_FAIL, param.getString(TXLiveConstants.EVT_DESCRIPTION));
         }
     }
 
     /**
      * 点播播放器网络状态回调
-     *
+     * 无效
      * @param player
      * @param bundle
      */
     @Override
     public void onNetStatus(TXVodPlayer player, Bundle bundle) {
-
+        Log.d("lttltt",bundle.toString()+"");
     }
 
     private void initialize(Context context, TXCloudVideoView videoView) {
@@ -593,16 +598,22 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
         }
         switch (playState) {
             case PLAYING:
-                mObserver.onPlayBegin(getPlayName());
+                mObserver.onPlayBegin(getPlayName(),1);
                 break;
             case PAUSE:
-                mObserver.onPlayPause();
+                mObserver.onPlayPause(1);
                 break;
             case LOADING:
                 mObserver.onPlayLoading();
                 break;
             case END:
                 mObserver.onPlayStop();
+                break;
+            case NO_NETWORK:
+                mObserver.onPlayPause(2);
+                break;
+            case FIRST_LOADING_END:
+                mObserver.onPlayBegin(getPlayName(),2);
                 break;
         }
     }

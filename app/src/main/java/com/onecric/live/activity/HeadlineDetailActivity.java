@@ -1,16 +1,22 @@
 package com.onecric.live.activity;
 
-import static com.tencent.thumbplayer.core.downloadproxy.api.TPDownloadProxyHelper.getContext;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +27,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.AppManager;
 import com.onecric.live.CommonAppConfig;
@@ -31,10 +38,13 @@ import com.onecric.live.adapter.ThemeHeadlineAdapter;
 import com.onecric.live.custom.Glide4Engine;
 import com.onecric.live.custom.HeadlineCommentReplyDialog;
 import com.onecric.live.custom.InputCommentMsgDialogFragment;
+import com.onecric.live.event.UpdateLoginTokenEvent;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.HeadlineBean;
 import com.onecric.live.model.MovingBean;
 import com.onecric.live.presenter.theme.HeadlineDetailPresenter;
 import com.onecric.live.util.DpUtil;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.ToolUtil;
 import com.onecric.live.view.MvpActivity;
@@ -47,10 +57,16 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -99,6 +115,33 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     private TextView tv_like;
     private ImageView iv_collect;
     private TextView tv_pre;
+    private StandardGSYVideoPlayer video_player;
+    private ImageView iv_silence;
+    private static boolean isNewsNeedMute = true;
+
+    private LoginDialog loginDialog,constraintLoginDialog;
+    private WebView webview;
+    private WebSettings webSettings;
+    private boolean isCancelLoginDialog;
+
+    //未登录用户倒计时三分钟跳转登录页
+    private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            if(loginDialog.isShowing()){
+                loginDialog.dismiss();
+            }
+            SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
+            ToastUtil.show(getString(R.string.tip_login_to_live));
+            isCancelLoginDialog = false;
+            constraintLoginDialog.show();
+        }
+    };
 
     private InputCommentMsgDialogFragment inputCommentMsgDialog;
     private HeadlineCommentReplyDialog replyDialog;
@@ -109,6 +152,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     private int mPage = 1;
 
     private HeadlineBean mModel;
+    private OrientationUtils orientationUtils;
 
     @Override
     public boolean getStatusBarTextColor() {
@@ -127,7 +171,19 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
     @Override
     protected void initView() {
-        mId = getIntent().getIntExtra("id", 0);
+        //scheme
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                String id = uri.getQueryParameter("id");
+                mId = Integer.parseInt(id);
+            }
+        }else{
+            mId = getIntent().getIntExtra("id", 0);
+        }
+
 //        tv_name = findViewById(R.id.tv_name);
         scroll_view = findViewById(R.id.scroll_view);
         cl_title = findViewById(R.id.cl_title);
@@ -145,6 +201,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
         iv_collect = findViewById(R.id.iv_collect);
         tv_title_name = findViewById(R.id.tv_title_name);
         tv_pre = findViewById(R.id.tv_pre);
+        video_player = findViewById(R.id.video_player);
+        iv_silence = findViewById(R.id.iv_silence);
 //        iv_avatar = findViewById(R.id.iv_avatar);
 //        iv_follow = findViewById(R.id.iv_follow);
 //        iv_title_follow = findViewById(R.id.iv_title_follow);
@@ -177,6 +235,20 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
         //初始化回复弹窗
         replyDialog = new HeadlineCommentReplyDialog(this, R.style.dialog);
+
+        EventBus.getDefault().register(this);
+
+        initWebView();
+        loginDialog =  new LoginDialog(this, R.style.dialog,true, () -> {
+            loginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
+        constraintLoginDialog =  new LoginDialog(this, R.style.dialog,false, () -> {
+            constraintLoginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
     }
 
     @Override
@@ -186,52 +258,56 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             findViewById(R.id.fl_board).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LoginActivity.forward(mActivity);
+                    isCancelLoginDialog = true;
+                    loginDialog.show();
                 }
             });
+        }else{
+            findViewById(R.id.fl_board).setVisibility(View.GONE);
         }
+        if(mCommentAdapter == null){
+            tv_time_sort.setSelected(true);
 
-        tv_time_sort.setSelected(true);
-
-        MaterialHeader materialHeader = new MaterialHeader(this);
-        materialHeader.setColorSchemeColors(getResources().getColor(R.color.c_DC3C23));
-        smart_rl.setRefreshHeader(materialHeader);
-        smart_rl.setRefreshFooter(new ClassicsFooter(this));
-        smart_rl.setEnableRefresh(false);
-        smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getInfo(false, mPage, mOrder, mId);
-            }
-        });
-
-        mCommentAdapter = new LiveMovingCommentAdapter(R.layout.item_live_moving_comment, new ArrayList<>());
-        mCommentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.tv_reply) {
-                    if (replyDialog != null) {
-                        replyDialog.setInfo(mCommentAdapter.getItem(position));
-                        replyDialog.show();
-                    }
-                } else if (view.getId() == R.id.ll_like) {
-                    MovingBean item = mCommentAdapter.getItem(position);
-                    int like = item.getLike();
-                    if (item.getIs_likes() == 0) {
-                        item.setIs_likes(1);
-                        like++;
-                    } else {
-                        item.setIs_likes(0);
-                        like--;
-                    }
-                    item.setLike(like);
-                    mCommentAdapter.notifyItemChanged(position, Constant.PAYLOAD);
-                    mvpPresenter.doLike(item.getId());
+            MaterialHeader materialHeader = new MaterialHeader(this);
+            materialHeader.setColorSchemeColors(getResources().getColor(R.color.c_DC3C23));
+            smart_rl.setRefreshHeader(materialHeader);
+            smart_rl.setRefreshFooter(new ClassicsFooter(this));
+            smart_rl.setEnableRefresh(false);
+            smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                    mvpPresenter.getInfo(false, mPage, mOrder, mId);
                 }
-            }
-        });
-        rv_comment.setLayoutManager(new LinearLayoutManager(this));
-        rv_comment.setAdapter(mCommentAdapter);
+            });
+
+            mCommentAdapter = new LiveMovingCommentAdapter(R.layout.item_live_moving_comment, new ArrayList<>());
+            mCommentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    if (view.getId() == R.id.tv_reply) {
+                        if (replyDialog != null) {
+                            replyDialog.setInfo(mCommentAdapter.getItem(position));
+                            replyDialog.show();
+                        }
+                    } else if (view.getId() == R.id.ll_like) {
+                        MovingBean item = mCommentAdapter.getItem(position);
+                        int like = item.getLike();
+                        if (item.getIs_likes() == 0) {
+                            item.setIs_likes(1);
+                            like++;
+                        } else {
+                            item.setIs_likes(0);
+                            like--;
+                        }
+                        item.setLike(like);
+                        mCommentAdapter.notifyItemChanged(position, Constant.PAYLOAD);
+                        mvpPresenter.doLike(item.getId());
+                    }
+                }
+            });
+            rv_comment.setLayoutManager(new LinearLayoutManager(this));
+            rv_comment.setAdapter(mCommentAdapter);
+        }
 
         mvpPresenter.getInfo(true, 1, mOrder, mId);
         mvpPresenter.getToken();
@@ -359,6 +435,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         "body{font-family: 'serif';margin: 0;}" +
                         "img{width:100%!important;height:auto!important;margin: 0;border-radius:0;}\n" +
                         "section{line-height:170%;font-size:100%;text-color:#333333;margin: 0px 15px 0px 15px;}\n" +
+                        "p{line-height:170%;font-size:100%;text-color:#333333;margin: 20px 15px 0px 15px;}\n" +
                         "a:link{color:#1866DB;text-decoration:none;}\n" +
                         " </style>";
                 String htmlPart2 = "</body></html>";
@@ -423,17 +500,75 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     builder.replace(radiusIndex, radiusIndex + 1, "0");
                 }
 
+                //图片前没有<br>的加上
+                if(!builder.substring(0, 4).contains("<br>")){
+                    builder.insert(0,"<br>");
+                    builder.append("<br>");
+                }
+
                 String html = htmlPart1 + builder + htmlPart2;
 //              String html = htmlPart1 + updateContent(model.getContent()) + htmlPart2;
 //              String html = htmlPart1 + model.getContent() + htmlPart2;
+
                 wv_content.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
             }
+
+            /*//fixme 放个视频，默认静音
+            model.setVideo("https://vdse.bdstatic.com/9fe38fb1fa6e1204d028e1ab43fd0c85.mp4");
+            if(!TextUtils.isEmpty(model.getVideo())){
+                video_player.setVisibility(View.VISIBLE);
+                iv_silence.setVisibility(View.VISIBLE);
+                //是否静音
+                iv_silence.setVisibility(isNewsNeedMute?View.VISIBLE:View.GONE);
+                GSYVideoManager videoManager = (GSYVideoManager) video_player.getGSYVideoManager();
+                videoManager.setNeedMute(isNewsNeedMute);
+                iv_silence.setOnClickListener(v -> {
+                    isNewsNeedMute = !isNewsNeedMute;
+                    iv_silence.setVisibility(View.GONE);
+                    videoManager.setNeedMute(isNewsNeedMute);
+                });
+
+                //封面
+*/
+/*                ImageView imageView = new ImageView(mActivity);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                Glide.with(mActivity).load(model.getVideo()).dontAnimate().into(imageView);
+                video_player.setThumbImageView(imageView);*//*
+                video_player.getTitleTextView().setVisibility(View.GONE);
+                video_player.getBackButton().setVisibility(View.GONE);
+                video_player.setUp(model.getVideo(), true, "");
+                //设置旋转
+                orientationUtils = new OrientationUtils(this, video_player);
+                //fixme 设置全屏按键功能,这是使用的是选择屏幕，而不是全屏
+                video_player.getFullscreenButton().setOnClickListener(v -> {
+                    video_player.startWindowFullscreen(mActivity, true, true);
+                    orientationUtils.resolveByClick();
+
+                });
+                //是否可以滑动调整
+                video_player.setIsTouchWiget(true);
+                video_player.setNeedLockFull(true);
+                video_player.setAutoFullWithSize(true);
+
+                video_player.startPlayLogic();
+                //fixme 先判断符合播放要求->再显示播放组件，否则显示图片+播放icon 点击去登录 销毁当前页面 播放时开始计时，
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                    mCountDownTimer.start();
+                }
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    isCancelLoginDialog = true;
+                    loginDialog.show();
+                }else{
+
+                }
+            }*/
+
             if (list != null) {
-                mAdapter = new ThemeHeadlineAdapter(R.layout.item_theme_headline, list);
-                mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                mAdapter = new ThemeHeadlineAdapter(list,mActivity);
+                mAdapter.setmOnItemClickListener(new ThemeHeadlineAdapter.OnItemClickListener() {
                     @Override
-                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        HeadlineDetailActivity.forward(mActivity, mAdapter.getItem(position).getId());
+                    public void onItemClick(View view, int position, HeadlineBean bean) {
+                        HeadlineDetailActivity.forward(mActivity, bean.getId());
                     }
                 });
                 rv_article.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -687,5 +822,106 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     public void onError(Throwable e) {
                     }
                 }).launch();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //释放所有
+        video_player.setVideoAllCallBack(null);
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!isFinishing()) {
+            video_player.onVideoPause();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        super.onDestroy();
+        if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
+        }
+        GSYVideoManager.releaseAllVideos();
+        GSYVideoManager.instance().clearAllDefaultCache(this);
+        if (orientationUtils != null)
+            orientationUtils.releaseListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        video_player.onVideoResume();
+    }
+
+    //登录成功，更新信息
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
+        if (event != null) {
+            if (mCountDownTimer != null) {
+                mCountDownTimer.cancel();
+            }
+            initData();
+        }
+    }
+
+    @SuppressLint("JavascriptInterface")
+    private void initWebView() {
+        webview = (WebView) findViewById(R.id.webview);
+        webSettings = webview.getSettings();
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        // 禁用缓存
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        webSettings.setDefaultTextEncodingName("utf-8");
+        webview.setBackgroundColor(0); // 设置背景色
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        // 开启js支持
+        webSettings.setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(this, "jsBridge");
+        webview.loadUrl("file:///android_asset/index.html");
+    }
+
+    @JavascriptInterface
+    public void getData(String data) {
+        webview.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                webview.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(data)) {
+                    com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(data);
+                    if (jsonObject.getIntValue("ret") == 0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(isCancelLoginDialog){
+                                    loginDialog.show();
+                                    loginDialog.passWebView();
+                                }else{
+                                    constraintLoginDialog.show();
+                                    constraintLoginDialog.passWebView();
+                                }
+
+                            }
+                        });
+                    }else if(!isCancelLoginDialog){
+                        constraintLoginDialog.show();
+                    }
+                }
+            }
+        }, 500);
     }
 }

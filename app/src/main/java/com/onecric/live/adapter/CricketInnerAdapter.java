@@ -1,6 +1,6 @@
 package com.onecric.live.adapter;
 
-import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,14 +9,29 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
+import com.onecric.live.activity.LoginActivity;
+import com.onecric.live.activity.MainActivity;
+import com.onecric.live.fragment.dialog.LoginDialog;
+import com.onecric.live.model.BannerBean;
 import com.onecric.live.model.CricketMatchBean;
+import com.onecric.live.model.SubscribeTypeBean;
+import com.onecric.live.presenter.match.SubscribePresenter;
+import com.onecric.live.retrofit.ApiCallback;
+import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.TimeUtil;
+import com.onecric.live.util.ToastUtil;
+import com.onecric.live.util.ToolUtil;
+import com.tencent.qcloud.tuicore.util.DateTimeUtil;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,9 +39,13 @@ import java.util.List;
  * 时间：2022/8/27
  */
 public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, BaseViewHolder> {
-    public CricketInnerAdapter(int layoutResId, @Nullable List<CricketMatchBean> data) {
+    MainActivity mainActivity;
+
+    public CricketInnerAdapter(MainActivity mainActivity, int layoutResId, @Nullable List<CricketMatchBean> data) {
         super(layoutResId, data);
+        this.mainActivity = mainActivity;
     }
+
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, CricketMatchBean item) {
@@ -36,42 +55,85 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
             helper.getView(R.id.line).setVisibility(View.VISIBLE);
         }
 
-        helper.setTextColor(R.id.tv_time, mContext.getResources().getColor(R.color.black_font_color));
+        helper.setTextColor(R.id.tv_time, mContext.getResources().getColor(R.color.c_901D2550));
         TextView resultTv = helper.getView(R.id.tv_result);
+        ImageView subscribeIv = helper.getView(R.id.iv_subscribe);
+        helper.getView(R.id.ll_alarm).setVisibility(View.GONE);
+        helper.getView(R.id.tv_live).setVisibility(View.GONE);
         if (item.getStatus() == 2) {//已结束
-            resultTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-            helper.getView(R.id.ll_alarm).setVisibility(View.GONE);
+            subscribeIv.setVisibility(View.GONE);
+            resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_regular));
         } else {
-            resultTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-            helper.getView(R.id.ll_alarm).setVisibility(View.VISIBLE);
+            //先判断是否登陆了账号
+//            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+            subscribeIv.setVisibility(View.VISIBLE);// TODO: 2023/2/15  这里在订阅接口调试好后要放开为visible
+            if (item.getIs_subscribe() == 1) {//已经订阅过了
+                subscribeIv.setImageResource(R.mipmap.subscribe);
+            } else {
+                subscribeIv.setImageResource(R.mipmap.unsubscribe);
+            }
+//            }
+//            else {
+//                subscribeIv.setVisibility(View.GONE);
+//            }
+            subscribeIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                        ToastUtil.show(mContext.getString(R.string.please_login));
+                        if (mainActivity.loginDialog != null) {
+                            mainActivity.loginDialog.show();
+                        } else {
+                            mainActivity.newLoginDialog();
+                        }
+                        return;
+                    }
+                    getSubscribeType(item, subscribeIv);
+                    // TODO: 2023/2/14  订阅消息推送
+//                    //这里先弹出一个订阅消息的内容选择框  待选择好后点击确定订阅按钮再调用订阅接口
+//                    DialogUtil.showSelectSubscribeDialog(mContext, item.getHome_name() + " VS " + item.getAway_name(), new DialogUtil.SelectSubscribeBack() {
+//                        @Override
+//                        public void onSelectSubscribe(String type) {
+//                            doSubscribe(item.getMatch_id() + "", , subscribeIv);
+//                        }
+//                    });
+                }
+            });
+            resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_regular));
             if (item.getStatus() == 0) {//未开始
-                helper.getView(R.id.iv_alarm).setVisibility(View.VISIBLE);
+                helper.getView(R.id.iv_alarm).setVisibility(View.GONE);
                 if (!TextUtils.isEmpty(item.getLive_time())) {
                     helper.setText(R.id.tv_time, item.getLive_time());
                     helper.getView(R.id.ll_alarm).setVisibility(View.VISIBLE);
                     TextView tv_time = helper.getView(R.id.tv_time);
-                    new CountDownTimer(item.getLive_time_unix(), 1000) {
-                        public void onTick(long millisUntilFinished) {
-                            tv_time.setText(TimeUtil.timeConversion(millisUntilFinished / 1000));
-                        }
+                    //转时间戳 得到倒计时毫秒数
+                    long time = DateTimeUtil.getStringToDate(item.getScheduled(), "yyyy-MM-dd HH:mm:ss");
+                    long countTime = time - new Date().getTime();
+                    if (countTime > 0) {
+                        //开始倒计时
+                        new CountDownTimer(countTime, 1000) {
+                            public void onTick(long millisUntilFinished) {
+                                tv_time.setText(TimeUtil.timeConversion(millisUntilFinished / 1000));
+                            }
 
-                        public void onFinish() {
-                            item.setStatus(1);
-                            notifyItemChanged(helper.getLayoutPosition());
-                        }
-                    }.start();
-
+                            public void onFinish() {
+                                item.setStatus(1);
+                                notifyItemChanged(helper.getLayoutPosition());
+                            }
+                        }.start();
+                    }
                 } else {
                     helper.setText(R.id.tv_time, "");
                     helper.getView(R.id.ll_alarm).setVisibility(View.GONE);
                 }
             } else {//已开始
-                helper.getView(R.id.ll_alarm).setVisibility(View.VISIBLE);
-                helper.getView(R.id.iv_alarm).setVisibility(View.GONE);
-                helper.setText(R.id.tv_time, mContext.getString(R.string.live2));
-                helper.setTextColor(R.id.tv_time, mContext.getResources().getColor(R.color.c_DC3C23));
+                resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_semibold));
+                if (item.getLive_id() != 0) {
+                    helper.getView(R.id.tv_live).setVisibility(View.VISIBLE);
+                }
             }
         }
+
 
         if (!TextUtils.isEmpty(item.getMatch_num())) {
             helper.setText(R.id.tv_date, item.getMatch_num());
@@ -110,7 +172,7 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
                 helper.setText(R.id.tv_away_score, split[0]);
                 helper.setText(R.id.tv_away_score2, " " + split[1]);
             } else {
-                helper.setText(R.id.tv_away_score, item.getHome_display_score());
+                helper.setText(R.id.tv_away_score, item.getAway_display_score());
             }
         } else {
             helper.setText(R.id.tv_away_score, "");
@@ -122,14 +184,102 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
             helper.setText(R.id.tv_result, "");
         }
 
-        TextView tv_home_score = helper.getView(R.id.tv_home_score);
-        TextView tv_away_score = helper.getView(R.id.tv_away_score);
-        if (item.getHome_id() == item.getWinner_id()) {
-            tv_home_score.setTextColor(mContext.getResources().getColor(R.color.c_333333));
-            tv_away_score.setTextColor(mContext.getResources().getColor(R.color.c_666666));
+//        if (item.getHome_id() == item.getWinner_id()) {
+//            helper.setTextColor(R.id.tv_home_score, mContext.getResources().getColor(R.color.c_333333));
+//            helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_333333));
+//            helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_666666));
+//            helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_666666));
+//
+//        } else {
+//            helper.setTextColor(R.id.tv_home_score, mContext.getResources().getColor(R.color.c_666666));
+//            helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_666666));
+//            helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_333333));
+//            helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_333333));
+//        }
+        if (item.getStatus() == 2) {
+            helper.setTextColor(R.id.tv_result, mContext.getResources().getColor(R.color.c_DC3C23));
+            if (item.getHome_id() == item.getWinner_id()) {
+                helper.setTextColor(R.id.tv_home_score, mContext.getResources().getColor(R.color.c_333333));
+                helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_333333));
+                helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_9D9EA3));
+                helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_9D9EA3));
+            } else {
+                helper.setTextColor(R.id.tv_home_score, mContext.getResources().getColor(R.color.c_9D9EA3));
+                helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_9D9EA3));
+                helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_333333));
+                helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_333333));
+            }
+        } else if (item.getStatus() == 1) {
+            helper.setTextColor(R.id.tv_result, mContext.getResources().getColor(R.color.c_1D2550));
+            helper.setTextColor(R.id.tv_home_score, mContext.getResources().getColor(R.color.c_4DA74F));
+            helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_4DA74F));
+            helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_4DA74F));
+            helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_4DA74F));
         } else {
-            tv_home_score.setTextColor(mContext.getResources().getColor(R.color.c_666666));
-            tv_away_score.setTextColor(mContext.getResources().getColor(R.color.c_333333));
+            helper.setTextColor(R.id.tv_result, mContext.getResources().getColor(R.color.c_1D2550));
         }
+    }
+
+    private void doSubscribe(String matchId, String type, ImageView subscribeIv) {//订阅推送消息
+        new SubscribePresenter().doSubscribe(matchId, type, new ApiCallback() {
+            @Override
+            public void onSuccess(String data, String msg) {
+                if (!TextUtils.isEmpty(type)) {
+                    subscribeIv.setImageResource(R.mipmap.subscribe);
+                } else {
+                    subscribeIv.setImageResource(R.mipmap.unsubscribe);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                ToastUtil.show(msg);
+            }
+
+            @Override
+            public void onError(String msg) {
+                ToastUtil.show(msg);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
+
+    private void getSubscribeType(CricketMatchBean item, ImageView subscribeIv) {//订阅推送消息
+        mainActivity.showLoadingDialog();
+        new SubscribePresenter().getSubscribeType(item.getId(), new ApiCallback() {
+            @Override
+            public void onSuccess(String data, String msg) {
+                mainActivity.dismissLoadingDialog();
+                if (data != null) {
+                    List<SubscribeTypeBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("list"), SubscribeTypeBean.class);
+                    //这里先弹出一个订阅消息的内容选择框  待选择好后点击确定订阅按钮再调用订阅接口
+                    DialogUtil.showSelectSubscribeDialog(mContext, item.getHome_name() + " VS " + item.getAway_name(), list, new DialogUtil.SelectSubscribeBack() {
+                        @Override
+                        public void onSelectSubscribe(String type) {
+                            doSubscribe(item.getId() + "", type, subscribeIv);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                mainActivity.dismissLoadingDialog();
+            }
+
+            @Override
+            public void onError(String msg) {
+                mainActivity.dismissLoadingDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                mainActivity.dismissLoadingDialog();
+            }
+        });
     }
 }

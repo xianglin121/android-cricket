@@ -1,5 +1,6 @@
 package com.onecric.live.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -7,6 +8,10 @@ import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +33,8 @@ import com.onecric.live.custom.AnchorMovingReplyDialog;
 import com.onecric.live.custom.ButtonFollowView;
 import com.onecric.live.custom.Glide4Engine;
 import com.onecric.live.custom.InputCommentMsgDialogFragment;
+import com.onecric.live.event.UpdateLoginTokenEvent;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.MovingBean;
 import com.onecric.live.presenter.LiveMovingCommentPresenter;
@@ -50,6 +57,9 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -96,6 +106,10 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
     private MovingBean mMovingBean;
     private int mPage = 1;
 
+    private LoginDialog loginDialog;
+    private WebView webview;
+    private WebSettings webSettings;
+
     @Override
     protected LiveMovingCommentPresenter createPresenter() {
         return new LiveMovingCommentPresenter(this);
@@ -131,6 +145,14 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
 
         //初始化回复弹窗
         replyDialog = new AnchorMovingReplyDialog(this, R.style.dialog);
+
+        EventBus.getDefault().register(this);
+        initWebView();
+        loginDialog =  new LoginDialog(this, R.style.dialog,true, () -> {
+            loginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
     }
 
     @Override
@@ -140,50 +162,58 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
             findViewById(R.id.fl_board).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LoginActivity.forward(mActivity);
+                    if(loginDialog!=null){
+                        loginDialog.show();
+                    }else{
+                        ToastUtil.show(getString(R.string.please_login));
+                    }
                 }
             });
+        }else{
+            findViewById(R.id.fl_board).setVisibility(View.GONE);
         }
 
-        MaterialHeader materialHeader = new MaterialHeader(this);
-        materialHeader.setColorSchemeColors(getResources().getColor(R.color.c_DC3C23));
-        smart_rl.setRefreshHeader(materialHeader);
-        smart_rl.setRefreshFooter(new ClassicsFooter(this));
-        smart_rl.setEnableRefresh(false);
-        smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getMovingInfo(mPage, mMovingId);
-            }
-        });
-
-        mCommentAdapter = new LiveMovingCommentAdapter(R.layout.item_live_moving_comment, new ArrayList<>());
-        mCommentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.tv_reply) {
-                    if (replyDialog != null) {
-                        replyDialog.setInfo(mCommentAdapter.getItem(position));
-                        replyDialog.show();
-                    }
-                } else if (view.getId() == R.id.ll_like) {
-                    MovingBean item = mCommentAdapter.getItem(position);
-                    int like = item.getLike();
-                    if (item.getIs_likes() == 0) {
-                        item.setIs_likes(1);
-                        like++;
-                    } else {
-                        item.setIs_likes(0);
-                        like--;
-                    }
-                    item.setLike(like);
-                    mCommentAdapter.notifyItemChanged(position, Constant.PAYLOAD);
-                    mvpPresenter.doLike(item.getId());
+        if(mCommentAdapter == null){
+            MaterialHeader materialHeader = new MaterialHeader(this);
+            materialHeader.setColorSchemeColors(getResources().getColor(R.color.c_DC3C23));
+            smart_rl.setRefreshHeader(materialHeader);
+            smart_rl.setRefreshFooter(new ClassicsFooter(this));
+            smart_rl.setEnableRefresh(false);
+            smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                    mvpPresenter.getMovingInfo(mPage, mMovingId);
                 }
-            }
-        });
-        rv_comment.setLayoutManager(new LinearLayoutManager(this));
-        rv_comment.setAdapter(mCommentAdapter);
+            });
+
+            mCommentAdapter = new LiveMovingCommentAdapter(R.layout.item_live_moving_comment, new ArrayList<>());
+            mCommentAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    if (view.getId() == R.id.tv_reply) {
+                        if (replyDialog != null) {
+                            replyDialog.setInfo(mCommentAdapter.getItem(position));
+                            replyDialog.show();
+                        }
+                    } else if (view.getId() == R.id.ll_like) {
+                        MovingBean item = mCommentAdapter.getItem(position);
+                        int like = item.getLike();
+                        if (item.getIs_likes() == 0) {
+                            item.setIs_likes(1);
+                            like++;
+                        } else {
+                            item.setIs_likes(0);
+                            like--;
+                        }
+                        item.setLike(like);
+                        mCommentAdapter.notifyItemChanged(position, Constant.PAYLOAD);
+                        mvpPresenter.doLike(item.getId());
+                    }
+                }
+            });
+            rv_comment.setLayoutManager(new LinearLayoutManager(this));
+            rv_comment.setAdapter(mCommentAdapter);
+        }
 
         mvpPresenter.getMovingInfo(1, mMovingId);
         mvpPresenter.getToken();
@@ -206,7 +236,7 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishLoadMore();
     }
 
 
@@ -456,5 +486,68 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
                     public void onError(Throwable e) {
                     }
                 }).launch();
+    }
+
+    //登录成功，更新信息
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
+        if (event != null) {
+            mPage = 1;
+            initData();
+        }
+    }
+
+    @SuppressLint("JavascriptInterface")
+    private void initWebView() {
+        webview = (WebView) findViewById(R.id.webview);
+        webSettings = webview.getSettings();
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        // 禁用缓存
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        webSettings.setDefaultTextEncodingName("utf-8");
+        webview.setBackgroundColor(0); // 设置背景色
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        // 开启js支持
+        webSettings.setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(this, "jsBridge");
+        webview.loadUrl("file:///android_asset/index.html");
+    }
+
+    @JavascriptInterface
+    public void getData(String data) {
+        webview.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                webview.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(data)) {
+                    com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(data);
+                    if (jsonObject.getIntValue("ret") == 0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                loginDialog.show();
+                                loginDialog.passWebView();
+                            }
+                        });
+                    }
+                }
+            }
+        }, 500);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        super.onDestroy();
     }
 }

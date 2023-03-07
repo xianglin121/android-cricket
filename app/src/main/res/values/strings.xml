@@ -3,7 +3,7 @@
 
     <!--通用-->
     <string name="follow">Follow</string>
-    <string name="followed">Followed</string>
+    <string name="followed">Unfollowed</string>
     <string name="collect">Collection</string>
     <string name="all_comment">All comments</string>
     <string name="write_comment">Write a comment</string>
@@ -347,6 +347,7 @@
     <string name="live_preview">Live Preview</string>
     <string name="live_replay">Live playback</string>
     <string name="comment_time_sort">time</string>
+    <string name="comment_time_sort2">Time</string>
     <string name="comment_hot_sort">Hotness</string>
     <string name="original_poster">Host</string>
     <string name="daily_list">Daily List</string>
@@ -459,8 +460,8 @@
     <string name="best_post">Precision</string>
     <string name="best_new_post">Latest Post</string>
     <string name="best_new_reply">Latest Reply</string>
-    <string name="full_text">Full Text</string>
-    <string name="part_text">Collapsed</string>
+    <string name="full_text">&#160;Full Text&#160;</string>
+    <string name="part_text">&#160;Collapsed</string>
 
     <string name="publish">Publish</string>
     <string name="please_input_content">Please enter your content</string>
@@ -520,9 +521,9 @@
     <string name="upcoming">Upcoming</string>
     <string name="tournament">Tournament</string>
     <string name="streaming">Streaming</string>
-    <string name="see_more">see more</string>
+    <string name="see_more">See more</string>
     <string name="matches">Matches</string>
-    <string name="matches2">Matches</string>
+    <string name="matches2">MATCHES</string>
     <string name="stats">Stats</string>
     <string name="teams">Teams</string>
     <string name="points_table">Points Table</string>
@@ -758,5 +759,26 @@
     <string name="send_verification_tip">Please send the verification code first</string>
     <string name="lineups_out">Lineups out</string>
     <string name="pull_refresh">Pull down to refresh</string>
-
+    <string name="list">List</string>
+    <string name="free_hd_live_broadcast">Free HD live broadcast</string>
+    <string name="upcoming_live">Upcoming Live</string>
+    <string name="save_success">Save success</string>
+    <string name="save_failed">Save failed</string>
+    <string name="start_permission_storage_setting_tip">Go to Settings to enable file storage permissions</string>
+    <string name="start_permission_storage_tip">Please grant file storage permission first</string>
+    <string name="share_live_tip">I am watching free hd cricket on OneCric.tv</string>
+    <string name="share_live_scan_tip">Scan code to register</string>
+    <string name="system_share">Share OneCric.tv</string>
+    <string name="copy_link">Copy Link</string>
+    <string name="msg_token_fmt" translatable="false">FCM registration Token: %s</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <!--
+        This is the name that users will see when interacting with this channel.
+        It should describe the category of notifications that will be sent through this channel
+     -->
+    <!-- [START fcm_default_icon_string] -->
+    <string name="default_notification_channel_name" translatable="true">Weather</string>
+    <!-- [END fcm_default_icon_string] -->
+    <string name="msg_subscribe_failed">Failed to subscribe to weather topic</string>
+    <string name="fcm_message">FCM Message</string>
 </resources>

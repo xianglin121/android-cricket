@@ -63,6 +63,34 @@ public class LiveRoomInfoBean {
     private String name;
     private QualityBean clarity;
 
+    private int is_like;
+    private int like_num;
+    private int live_id;
+
+    public int getLive_id() {
+        return live_id;
+    }
+
+    public void setLive_id(int live_id) {
+        this.live_id = live_id;
+    }
+
+    public int getLike_num() {
+        return like_num;
+    }
+
+    public void setLike_num(int like_num) {
+        this.like_num = like_num;
+    }
+
+    public int getIs_like() {
+        return is_like;
+    }
+
+    public void setIs_like(int is_like) {
+        this.is_like = is_like;
+    }
+
     public int getUid() {
         return uid;
     }

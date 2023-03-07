@@ -58,7 +58,7 @@ public class HomeTabLayout extends LinearLayout implements View.OnClickListener 
         findViewById(R.id.btn_live).setOnClickListener(this);
         findViewById(R.id.btn_video).setOnClickListener(this);
 
-        iv_match.setSelected(true);
+        iv_live.setSelected(true);
     }
 
     @Override

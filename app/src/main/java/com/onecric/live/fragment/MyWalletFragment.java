@@ -118,7 +118,8 @@ public class MyWalletFragment extends MvpFragment<MyWalletPresenter> implements 
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 
     @Override

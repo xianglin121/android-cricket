@@ -12,8 +12,10 @@ import androidx.annotation.NonNull;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.coorchice.library.SuperTextView;
+import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.LiveDetailActivity;
+import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.model.FootballMatchBean;
 import com.onecric.live.model.MatchListBean;
 import com.onecric.live.util.GlideUtil;
@@ -207,7 +209,11 @@ public class FootballMatchInnerAdapter extends BaseMultiItemQuickAdapter<Footbal
                     iv_anchor.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            LiveDetailActivity.forward(mContext, item.getAnchor().getId(), 1, item.getAnchor().getMatch_id());
+                            if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+//                                LoginActivity.forward(mContext);
+                            }else{
+                                LiveDetailActivity.forward(mContext, item.getAnchor().getId(), item.getAnchor().getMatch_id(),item.getAnchor().getId());
+                            }
                         }
                     });
                 }else {

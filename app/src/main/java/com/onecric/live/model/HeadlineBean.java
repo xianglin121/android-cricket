@@ -33,12 +33,12 @@ public class HeadlineBean {
 
     private int id;
     private int circle_id;
-    private String addtime;
+    private String addtime;//时间
     private int uid;
     private int cid;
-    private String title;
-    private String img;
-    private String content;
+    private String title;//标题
+    private String img;//图片，多个以","区分
+    private String content;//内容
     private String summary;
     private int click;
     private int favorites;
@@ -49,14 +49,52 @@ public class HeadlineBean {
     private int type;
     private int match_id;
     private int status;
-    private String user_nickname;
-    private String avatar;
+    private String user_nickname;//用户名
+    private String avatar;//用户头像
     private int is_attention;
     private int is_likes;
     private int is_comment;
     private int is_favorites;
     private int comment_likes;
     private int is_comment_likes;
+
+    //新增字段
+    private String tags;//标签，多个以","区分
+    private String video;//视频
+    private String source_url;//来源链接
+    private String source_name;//来源机构：Reddit/Twitter  空为普通新闻
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public String getSource_url() {
+        return source_url;
+    }
+
+    public void setSource_url(String source_url) {
+        this.source_url = source_url;
+    }
+
+    public String getSource_name() {
+        return source_name;
+    }
+
+    public void setSource_name(String source_name) {
+        this.source_name = source_name;
+    }
 
     public int getId() {
         return id;

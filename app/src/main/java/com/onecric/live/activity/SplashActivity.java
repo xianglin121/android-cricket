@@ -1,5 +1,7 @@
 package com.onecric.live.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
@@ -12,6 +14,7 @@ import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.retrofit.ApiClient;
 import com.onecric.live.retrofit.ApiStores;
 import com.onecric.live.util.SpUtil;
+import com.onecric.live.util.ToolUtil;
 import com.onecric.live.view.BaseActivity;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -24,7 +27,13 @@ public class SplashActivity extends BaseActivity {
             if (!SpUtil.getInstance().getBooleanValue(SpUtil.HIDE_USAGE)) {
                 UsageViewActivity.forward(mActivity);
             } else {
-                MainActivity.forward(mActivity);
+                if (getIntent().getExtras() == null) {
+                    MainActivity.forward(mActivity);
+                } else {
+                    Intent intent = getIntent();
+                    intent.setClass(SplashActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
             }
             finish();
         }
@@ -48,7 +57,7 @@ public class SplashActivity extends BaseActivity {
 
     private void getConfiguration() {
         ApiClient.retrofit().create(ApiStores.class)
-                .getDefaultConfiguration()
+                .getDefaultConfiguration(ToolUtil.getCurrentVersionCode(this))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new ApiCallback() {

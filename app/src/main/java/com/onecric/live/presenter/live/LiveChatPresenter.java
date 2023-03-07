@@ -3,18 +3,24 @@ package com.onecric.live.presenter.live;
 import com.alibaba.fastjson.JSONObject;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.model.BoxBean;
+import com.onecric.live.model.CricketTournamentBean;
 import com.onecric.live.model.GiftBean;
+import com.onecric.live.model.HistoryMsgBean;
 import com.onecric.live.model.NobelBean;
 import com.onecric.live.model.RedEnvelopeBean;
 import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.live.LiveChatView;
+import com.tencent.mm.opensdk.utils.Log;
 import com.tencent.qcloud.tuikit.tuichat.TUIChatService;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
 import com.tencent.qcloud.tuikit.tuichat.interfaces.GroupChatEventListener;
 
+import java.util.Collections;
 import java.util.List;
+
+import io.reactivex.observers.DisposableObserver;
 
 
 public class LiveChatPresenter extends BasePresenter<LiveChatView> {
@@ -359,5 +365,39 @@ public class LiveChatPresenter extends BasePresenter<LiveChatView> {
 
     public void destroyListener() {
         TUIChatService.getInstance().setGroupChatEventListener(null);
+    }
+
+    public void getHistoryMessage(int id) {
+        addSubscription(apiStores.getHistoryMessage(id),
+                new DisposableObserver() {
+                    @Override
+                    public void onNext(Object o) {
+                        int code = JSONObject.parseObject(o.toString()).getIntValue("errorCode");
+                        if(code == 0){
+                            //成功
+                            try{
+                                List<HistoryMsgBean.RspMsgListDTO> list = JSONObject.parseArray(JSONObject.parseObject(o.toString()).getString("RspMsgList"), HistoryMsgBean.RspMsgListDTO.class);
+                                Collections.reverse(list);
+                                mvpView.getHistoryMsgListSuccess(list);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                                mvpView.getHistoryMsgListSuccess(null);
+                            }
+                        }else{
+                            //失败
+                            mvpView.getHistoryMsgListSuccess(null);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

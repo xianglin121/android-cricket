@@ -1,28 +1,47 @@
 package com.onecric.live.activity;
 
+
+import static com.onecric.live.HttpConstant.SHARE_LIVE_URL;
+import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.load.engine.executor.GlideExecutor;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.onecric.live.BuildConfig;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
@@ -34,8 +53,10 @@ import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.event.UpdateUserInfoEvent;
 import com.onecric.live.fragment.CricketFragment;
 import com.onecric.live.fragment.LiveFragment;
+import com.onecric.live.fragment.MatchFragment;
 import com.onecric.live.fragment.ThemeFragment;
 import com.onecric.live.fragment.VideoFragment;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.ConfigurationBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.UserBean;
@@ -43,7 +64,10 @@ import com.onecric.live.presenter.login.MainPresenter;
 import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.MPermissionUtils;
+import com.onecric.live.util.ShareUtil;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
+import com.onecric.live.util.ToolUtil;
 import com.onecric.live.util.WordUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.login.MainView;
@@ -52,6 +76,7 @@ import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMManager;
 import com.tencent.imsdk.v2.V2TIMUserFullInfo;
 import com.tencent.qcloud.tim.uikit.TUIKit;
+import com.tencent.qcloud.tuikit.tuichat.util.PermissionUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -85,9 +110,13 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
     private HomeTabLayout mTabLayout;
 
-    public int mPosition = 1;
+    public int mPosition = 2;
 
     private long exit_time;
+
+    public LoginDialog loginDialog;
+    private WebView webview;
+    private WebSettings webSettings;
 
     @Override
     public int getLayoutId() {
@@ -97,6 +126,11 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     @Override
     protected void initView() {
         EventBus.getDefault().register(this);
+        //设置2倍的cpu数实现图片加载的提速
+        GlideBuilder builder = new GlideBuilder();
+        builder.setSourceExecutor(GlideExecutor.newSourceExecutor(
+                GlideExecutor.calculateBestThreadCount() * 2, "newsImg", GlideExecutor.UncaughtThrowableStrategy.DEFAULT));
+
         mViewList = new ArrayList<>();
 
         drawerLayout = findViewById(R.id.drawerLayout);
@@ -105,8 +139,16 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         mViewPager = findViewById(R.id.viewpager);
         mTabLayout = findViewById(R.id.tabLayout);
 
+        initWebView();
+        loginDialog = new LoginDialog(this, R.style.dialog, true, () -> {
+            loginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
+
         initNavigationView();
         initFragment();
+        getFCMToken();
     }
 
     private void initNavigationView() {
@@ -121,11 +163,11 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     ToastUtil.show(getString(R.string.please_login));
-                    LoginActivity.forward(mActivity);
+                    loginDialog.show();
                     return;
                 }
-                UserInfoActivity.forward(mActivity);
-//                PersonalHomepageActivity.forward(mActivity, 0);
+//                UserInfoActivity.forward(mActivity);
+                PersonalHomepageActivity.forward(mActivity, CommonAppConfig.getInstance().getUid());
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
@@ -133,18 +175,30 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                    ToastUtil.show(getString(R.string.please_login));
-                    LoginActivity.forward(mActivity);
-                } else {
-                    int id = item.getItemId();
-                    if (id == R.id.menu_my_concerns) {
-                        MyFollowActivity.forward(mActivity);
-                    } else if (id == R.id.menu_my_message) {
-                        MyMessageActivity.forward(mActivity);
-                    } else if (id == R.id.menu_system_settings) {
+                int id = item.getItemId();
+                switch (id) {
+                    case R.id.menu_system_settings:
                         SettingActivity.forward(mActivity);
-                    }
+                        break;
+                    case R.id.menu_system_share:
+                        ShareUtil.shareText(mActivity, "Share OneCric.tv", SHARE_LIVE_URL);
+                        break;
+                    case R.id.menu_my_concerns:
+                        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                            ToastUtil.show(getString(R.string.please_login));
+                            loginDialog.show();
+                        } else {
+                            MyFollowActivity.forward(mActivity);
+                        }
+                        break;
+                    case R.id.menu_my_message:
+                        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                            ToastUtil.show(getString(R.string.please_login));
+                            loginDialog.show();
+                        } else {
+                            MyMessageActivity.forward(mActivity);
+                        }
+                        break;
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
@@ -162,7 +216,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 });
             } else {
                 //登录
-                LoginActivity.forward(mActivity);
+                loginDialog.show();
             }
             drawerLayout.closeDrawer(GravityCompat.START);
         });
@@ -181,9 +235,11 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getUser_nickname())) {
                 tv_name_nav.setText(CommonAppConfig.getInstance().getUserBean().getUser_nickname());
             }
+            tv_sign_out.setText(getString(R.string.setting_sign_out));
         } else {
             iv_avatar_nav.setImageResource(R.mipmap.bg_avatar_default);
             tv_name_nav.setText("");
+            tv_sign_out.setText(getString(R.string.setting_sign_in));
         }
     }
 
@@ -193,6 +249,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
     @Override
     protected void initData() {
+        checkNotifySetting();
 //        MPermissionUtils.requestPermissionsResult(this, 300, new String[]{
 //                        Manifest.permission.CAMERA,
 //                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -217,7 +274,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         //登录IM
         loginIM();
         //获取默认配置
-        mvpPresenter.getConfiguration();
+        mvpPresenter.getConfiguration(ToolUtil.getCurrentVersionCode(this));
 //        //检查是否有版本更新
 //        if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
 ////            DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false,
@@ -326,6 +383,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 tv_name_nav.setText("");
             }
             ((ThemeFragment) mViewList.get(0)).updateUserInfo();
+            ((LiveFragment) mViewList.get(2)).updateUserInfo();
         }
     }
 
@@ -334,13 +392,14 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         CommonAppConfig.getInstance().saveConfig(bean);
         //检查是否有版本更新
         if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
-//            DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false,
-//                    CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber(),
-//                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),
-//                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadUrl());
-            if (DialogUtil.checkUpdateInfo(this, CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
-                transferToGooglePlay();
-            }
+            DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false,
+                    CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber(),
+                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadText(),
+                    CommonAppConfig.getInstance().getConfig().getAndroidDownloadUrl(), CommonAppConfig.getInstance().getConfig().getDomain_pc_name(), CommonAppConfig.getInstance().getConfig().getAndroid_mandatory_update_type()
+            );
+//            if (DialogUtil.checkUpdateInfo(this, CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
+//                transferToGooglePlay();
+//            }
         }
     }
 
@@ -350,10 +409,18 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     }
 
     private void initFragment() {
-        mViewList.add(new ThemeFragment());
+        //给有登录需求的页面加loginDialog
+        ThemeFragment themeFragment = new ThemeFragment();
+        LiveFragment liveFragment = new LiveFragment();
+        VideoFragment videoFragment = new VideoFragment();
+        themeFragment.setLoginDialog(loginDialog);
+        liveFragment.setLoginDialog(loginDialog);
+        videoFragment.setLoginDialog(loginDialog);
+
+        mViewList.add(themeFragment);
         mViewList.add(new CricketFragment());
-        mViewList.add(new LiveFragment());
-        mViewList.add(new VideoFragment());
+        mViewList.add(liveFragment);
+        mViewList.add(videoFragment);
         mViewPager.setScroll(false);
         mViewPager.setOffscreenPageLimit(mViewList.size());
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -383,8 +450,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
             }
         });
-        mViewPager.setCurrentItem(1);
+        mViewPager.setCurrentItem(2);
     }
+
 
     private void transFragment(TRANSTYPE type) {
         switch (type) {
@@ -431,13 +499,21 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             loginIM();
             updateNavigationInfo();
             ((ThemeFragment) mViewList.get(0)).updateUserInfo();
+            ((LiveFragment) mViewList.get(2)).updateUserInfo();
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onToggleTabEvent(ToggleTabEvent event) {
-        if (event != null) {
-            if (mTabLayout != null && mViewPager != null) {
+        if (event == null) {
+            return;
+        }
+        if (mTabLayout != null && mViewPager != null) {
+            if (event.position == 12) {
+                mTabLayout.toggleBtn(1);
+                mViewPager.setCurrentItem(1);
+                ((CricketFragment) mViewList.get(1)).toTabPosition(2);
+            } else {
                 mTabLayout.toggleBtn(event.position);
                 mViewPager.setCurrentItem(event.position);
             }
@@ -466,4 +542,181 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             System.exit(0);
         }
     }
+
+//    private void getFCMToken() {
+//        int googlePlayServicesAvailable = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
+//
+//        if (googlePlayServicesAvailable == ConnectionResult.SUCCESS) {
+//            FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+//                @Override
+//                public void onComplete(@NonNull Task<InstanceIdResult> task) {
+//                    if (!task.isSuccessful()) {
+//                        Log.e(TAG, "getInstanceId failed" + task.getException());
+//                        return;
+//                    }
+//                    String token = task.getResult() != null ? task.getResult().getToken() : "Token is null";
+//                    Toast.makeText(getAppContext(), token, Toast.LENGTH_SHORT).show();
+//                    LogUtil.e("token::::" + token);
+//                }
+//            });
+//        }
+//    }
+
+    @SuppressLint("JavascriptInterface")
+    private void initWebView() {
+        webview = (WebView) findViewById(R.id.webview);
+        webSettings = webview.getSettings();
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        // 禁用缓存
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        webSettings.setDefaultTextEncodingName("utf-8");
+        webview.setBackgroundColor(0); // 设置背景色
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        // 开启js支持
+        webSettings.setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(this, "jsBridge");
+        webview.loadUrl("file:///android_asset/index.html");
+    }
+
+    @JavascriptInterface
+    public void getData(String data) {
+        webview.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                webview.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(data)) {
+                    JSONObject jsonObject = JSONObject.parseObject(data);
+                    if (jsonObject.getIntValue("ret") == 0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                dialog.show();
+                                loginDialog.show();
+                                loginDialog.passWebView();
+                            }
+                        });
+                    }
+                }
+            }
+        }, 500);
+    }
+
+    public void newLoginDialog() {
+        if (loginDialog == null) {
+            loginDialog = new LoginDialog(this, R.style.dialog, true, () -> {
+                loginDialog.dismiss();
+                webview.setVisibility(View.VISIBLE);
+                webview.loadUrl("javascript:ab()");
+            });
+        }
+        ((ThemeFragment) mViewList.get(0)).setLoginDialog(loginDialog);
+        ((LiveFragment) mViewList.get(2)).setLoginDialog(loginDialog);
+        ((VideoFragment) mViewList.get(3)).setLoginDialog(loginDialog);
+        loginDialog.show();
+    }
+
+    private void checkNotifySetting() {
+        NotificationManagerCompat manager = NotificationManagerCompat.from(this);
+        // areNotificationsEnabled方法的有效性官方只最低支持到API 19，低于19的仍可调用此方法不过只会返回true，即默认为用户已经开启了通知。
+        boolean isOpened = manager.areNotificationsEnabled();
+
+        if (isOpened) {
+        } else {
+//            ToastUtil.show("The application does not open the notification permission to authorize the open notification permission");
+//            Intent intent = new Intent();
+//            intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+//            //这种方案适用于 API 26, 即8.0(含8.0)以上可以用
+//            intent.putExtra(EXTRA_APP_PACKAGE, mContext.getPackageName());
+//            intent.putExtra(EXTRA_CHANNEL_ID, mContext.getApplicationInfo().uid);
+//            mContext.startActivity(intent);
+            PermissionUtils.showNotifiPermissionDialog(this);
+        }
+    }
+
+    private static final String TAG = "MainActivity";
+
+    private void getFCMToken() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        SpUtil.getInstance().setStringValue(REGISTRATION_TOKEN, token);
+                        Log.e(TAG, msg);
+//                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleNotification(intent);
+    }
+
+    private void handleNotification(Intent pintent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create channel to show notifications.
+            String channelId = getString(R.string.default_notification_channel_id);
+            String channelName = getString(R.string.default_notification_channel_name);
+            NotificationManager notificationManager =
+                    getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId,
+                    channelName, NotificationManager.IMPORTANCE_LOW));
+        }
+
+        // If a notification message is tapped, any data accompanying the notification
+        // message is available in the intent extras. In this sample the launcher
+        // intent is fired when the notification is tapped, so any accompanying data would
+        // be handled here. If you want a different intent fired, set the click_action
+        // field of the notification message to the desired intent. The launcher intent
+        // is used when no click_action is specified.
+        //
+        // Handle possible data accompanying notification message.
+        // [START handle_data_extras]
+        if (pintent.getExtras() != null) {
+//            for (String key : getIntent().getExtras().keySet()) {
+//                Object value = getIntent().getExtras().get(key);
+//                Log.d(TAG, "Key: " + key + " Value: " + value);
+//            }
+            Intent intent = new Intent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Bundle bundle = pintent.getExtras();
+            String isLive = bundle.getString("isLive");
+//        String anchorId = bundle.getString("anchorId");
+//        String type = bundle.getString("type");
+//        String matchId = bundle.getString("matchId");
+            if (bundle != null && isLive.equals("1")) {//比赛开始   进入视频直播界面
+                intent.setClass(this, LiveDetailActivity.class);
+                intent.putExtra("anchorId", Integer.parseInt(bundle.getString("anchorId")));
+                intent.putExtra("type", Integer.parseInt(bundle.getString("type")));
+                intent.putExtra("matchId", Integer.parseInt(bundle.getString("matchId")));
+                intent.putExtra("isLive", true);
+                intent.putExtra("mLiveId", Integer.parseInt(bundle.getString("mLiveId")));
+            } else {//比赛已经结束 或者是延迟进入比赛详情界面
+                intent.setClass(this, CricketDetailActivity.class);
+                intent.putExtra("matchId", Integer.parseInt(bundle.getString("matchId")));
+                this.startActivity(intent);
+            }
+            this.startActivity(intent);
+        }
+    }
+
 }

@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "463312392529",
-    "project_id": "onecric-ga",
-    "storage_bucket": "onecric-ga.appspot.com"
+    "project_number": "693237540813",
+    "project_id": "onecric-a9f78",
+    "storage_bucket": "onecric-a9f78.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:463312392529:android:5e11b5c500e85d2af30370",
+        "mobilesdk_app_id": "1:693237540813:android:df8df557ca37405bd00684",
         "android_client_info": {
           "package_name": "com.onecric.live"
         }
       },
       "oauth_client": [
         {
-          "client_id": "463312392529-4jn7gp6toagmqsnihad7j3k39teieo6l.apps.googleusercontent.com",
+          "client_id": "693237540813-4th8a1pvhiqds7bfe485e3bgcvi97cbp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDuuVd15d_MJp1sOqgHC1_5msF0kYSkfPw"
+          "current_key": "AIzaSyBmch6TvKNPi_EPoAncswa5ihrM1nzlRoE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "463312392529-4jn7gp6toagmqsnihad7j3k39teieo6l.apps.googleusercontent.com",
+              "client_id": "693237540813-4th8a1pvhiqds7bfe485e3bgcvi97cbp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

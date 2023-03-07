@@ -1,5 +1,6 @@
 package com.onecric.live.fragment;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,9 +17,11 @@ import com.onecric.live.activity.VideoPublishActivity;
 import com.onecric.live.adapter.VideoAdapter;
 import com.onecric.live.adapter.decoration.StaggeredDividerItemDecoration;
 import com.onecric.live.event.UpdateVideoLikeEvent;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.ShortVideoBean;
 import com.onecric.live.presenter.video.VideoPresenter;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.video.VideoView;
@@ -44,7 +47,10 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
 
     private int mPage = 1;
     private TextView tv_empty;
-
+    private LoginDialog loginDialog;
+    public void setLoginDialog(LoginDialog dialog){
+        this.loginDialog = dialog;
+    }
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_video;
@@ -66,11 +72,13 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
                 if (CommonAppConfig.getInstance().getUserBean() != null) {
                     if (CommonAppConfig.getInstance().getUserBean().getIs_writer() == 1) {
                         VideoPublishActivity.forward(getContext());
-                    }else {
+                    } else {
                         ToastUtil.show(getActivity().getString(R.string.please_join_writer));
                     }
-                }else {
-                    LoginActivity.forward(getContext());
+                } else if(loginDialog!=null){
+                    loginDialog.show();
+                }else{
+                    ToastUtil.show(getString(R.string.please_login));
                 }
             }
         });
@@ -99,7 +107,15 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                VideoPagerActivity.forward(getContext(), mAdapter.getData(), position, mPage);
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    if(loginDialog!=null){
+                        loginDialog.show();
+                    }else{
+                        ToastUtil.show(getString(R.string.please_login));
+                    }
+                }else{
+                    VideoPagerActivity.forward(getContext(), mAdapter.getData(), position, mPage);
+                }
             }
         });
         //解决瀑布流从底部到顶部出现画面重新排版动画还有间距出现问题
@@ -132,22 +148,22 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
             if (list != null) {
                 if (list.size() > 0) {
                     hideEmptyView();
-                }else {
+                } else {
                     showEmptyView();
                 }
                 mAdapter.getData().clear();
                 mAdapter.getData().addAll(list);
                 mAdapter.notifyItemInserted(list.size());
-            }else {
+            } else {
                 mAdapter.setNewData(new ArrayList<>());
                 hideEmptyView();
             }
-        }else {
+        } else {
             mPage++;
             if (list != null && list.size() > 0) {
                 smart_rl.finishLoadMore();
                 mAdapter.addData(list);
-            }else {
+            } else {
                 smart_rl.finishLoadMoreWithNoMoreData();
             }
         }
@@ -163,7 +179,11 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
         smart_rl.finishRefresh();
         smart_rl.finishLoadMore();
         //没网时空图
-        if(msg.equals(getString(R.string.no_internet_connection)) && mAdapter.getData().size()<=0){
+//        if (msg.equals(getString(R.string.no_internet_connection)) && mAdapter.getData().size() <= 0) {
+//            ToastUtil.show(getString(R.string.no_internet_connection));
+//            showEmptyView();
+//        }
+        if (mAdapter.getData().size() <= 0) {
             ToastUtil.show(getString(R.string.no_internet_connection));
             showEmptyView();
         }
@@ -175,11 +195,11 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
             for (int i = 0; i < mAdapter.getData().size(); i++) {
                 ShortVideoBean shortVideoBean = mAdapter.getData().get(i);
                 if (shortVideoBean.getId() == event.id) {
-                    int likeCount =  shortVideoBean.getLikes();
+                    int likeCount = shortVideoBean.getLikes();
                     if (shortVideoBean.getIs_likes() == 1) {
                         shortVideoBean.setIs_likes(0);
                         likeCount--;
-                    }else {
+                    } else {
                         shortVideoBean.setIs_likes(1);
                         likeCount++;
                     }

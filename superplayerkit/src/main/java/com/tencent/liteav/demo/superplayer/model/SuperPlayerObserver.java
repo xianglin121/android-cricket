@@ -15,13 +15,13 @@ public abstract class SuperPlayerObserver {
      *
      * @param name 当前视频名称
      */
-    public void onPlayBegin(String name) {
+    public void onPlayBegin(String name,int type) {
     }
 
     /**
      * 播放暂停
      */
-    public void onPlayPause() {
+    public void onPlayPause(int type) {
     }
 
     /**

@@ -139,6 +139,7 @@ public class SearchHeadlineFragment extends MvpFragment<SearchHeadlinePresenter>
 
     @Override
     public void getDataFail(String msg) {
-
+        smart_rl.finishRefresh();
+        smart_rl.finishLoadMore();
     }
 }

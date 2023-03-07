@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="103dp"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="3dp"
+    app:cardBackgroundColor="@color/c_F3F3F7"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:foreground="@drawable/selector_foreground_white">
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="160dp"
+        android:layout_height="97dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:background="@mipmap/bg_live_top">
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="10sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/c_A8A9AF"
+                android:layout_toLeftOf="@id/iv_live"
+                android:layout_alignParentLeft="true" />
+
+            <ImageView
+                android:id="@+id/iv_live"
+                android:layout_width="25.2dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="5dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_live_state"
+                android:layout_alignParentRight="true"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="13sp"
+            android:textColor="@color/c_25282B"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:gravity="center_vertical"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
+
+            <ImageView
+                android:id="@+id/iv_home_logo"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/img_team_logo_default"
+                android:scaleType="fitCenter"
+                android:layout_marginRight="5dp"/>
+
+            <TextView
+                android:id="@+id/tv_home_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="13sp"
+                android:textColor="@color/c_25282B"
+                android:gravity="center_vertical"
+                android:layout_marginRight="2dp"/>
+
+            <TextView
+                android:id="@+id/tv_home_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans_display_semibold"
+                android:textSize="12sp"
+                android:textColor="@color/c_333333"/>
+
+            <TextView
+                android:id="@+id/tv_home_score2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/c_333333"
+                android:layout_marginLeft="2dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
+
+            <ImageView
+                android:id="@+id/iv_away_logo"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/img_team_logo_default"
+                android:scaleType="fitCenter"
+                android:layout_marginRight="5dp"/>
+
+            <TextView
+                android:id="@+id/tv_away_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="13sp"
+                android:textColor="@color/c_25282B"
+                android:gravity="center_vertical"
+                android:layout_marginRight="2dp"/>
+
+            <TextView
+                android:id="@+id/tv_away_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans_display_semibold"
+                android:textSize="12sp"
+                android:textColor="@color/c_333333" />
+
+            <TextView
+                android:id="@+id/tv_away_score2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/c_333333"
+                android:layout_marginLeft="2dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_footer"
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
+        android:src="@mipmap/icon_arrow_right_four"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+</androidx.cardview.widget.CardView>
