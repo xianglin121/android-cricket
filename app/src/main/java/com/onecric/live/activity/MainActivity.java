@@ -164,10 +164,10 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     ToastUtil.show(getString(R.string.please_login));
                     loginDialog.show();
-//                    return;
+                    return;
                 }
 //                UserInfoActivity.forward(mActivity);
-//                PersonalHomepageActivity.forward(mActivity, CommonAppConfig.getInstance().getUid());
+                PersonalHomepageActivity.forward(mActivity, CommonAppConfig.getInstance().getUid());
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });

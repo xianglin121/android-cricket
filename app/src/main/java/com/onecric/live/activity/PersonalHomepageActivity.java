@@ -59,7 +59,7 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
 
     @Override
     public boolean getStatusBarTextColor() {
-        return true;
+        return false;
     }
 
 
@@ -82,11 +82,11 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
         fans_num = findViewById(R.id.fans);
         tabLayout = findViewById(R.id.tab_layout);
         mViewPager = findViewById(R.id.view_pager);
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.post)));
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.post)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.videos)));
 
         mViewList = new ArrayList<>();
-        mViewList.add(PersonalPostFragment.newInstance(id));
+//        mViewList.add(PersonalPostFragment.newInstance(id));
         mViewList.add(PersonalVideoFragment.newInstance(id));
 
         initViewPager();
