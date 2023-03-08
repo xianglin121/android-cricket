@@ -71,11 +71,11 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
 //        GSYVideoManager videoManager = (GSYVideoManager) holder.videoView.getGSYVideoManager();
 //        videoManager.setNeedMute(true);
         ShortVideoBean bean = videoBeans.get(position);
-//        if (bean.isSilence()) {
-//            holder.rl_silence.setVisibility(View.VISIBLE);
-//        } else {
-//            holder.rl_silence.setVisibility(View.GONE);
-//        }
+        if (bean.isSilence()) {
+            holder.rl_silence.setVisibility(View.VISIBLE);
+        } else {
+            holder.rl_silence.setVisibility(View.GONE);
+        }
         holder.rl_silence.setOnClickListener(v -> {
             holder.rl_silence.setVisibility(View.GONE);
             GSYVideoManager videoManager = (GSYVideoManager) holder.videoView.getGSYVideoManager();

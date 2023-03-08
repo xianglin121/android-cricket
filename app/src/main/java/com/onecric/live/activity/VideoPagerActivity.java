@@ -517,12 +517,12 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
             @Override
             public void onPrepared(String url, Object... objects) {
-//                videoManager.setNeedMute(true);
-//                if (bean.isSilence()) {
-//                    videoManager.setNeedMute(true);
-//                } else {
-//                    videoManager.setNeedMute(false);
-//                }
+                videoManager.setNeedMute(true);
+                if (bean.isSilence()) {
+                    videoManager.setNeedMute(true);
+                } else {
+                    videoManager.setNeedMute(false);
+                }
             }
 
             @Override
