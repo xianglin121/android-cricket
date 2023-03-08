@@ -1,9 +1,14 @@
 package com.onecric.live.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,12 +20,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.tabs.TabLayout;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
+import com.onecric.live.fragment.LiveFragment;
 import com.onecric.live.fragment.PersonalVideoFragment;
 import com.onecric.live.fragment.PersonalPostFragment;
 import com.onecric.live.fragment.ThemeFragment;
+import com.onecric.live.fragment.VideoFragment;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.user.PersonalHomepagePresenter;
 import com.onecric.live.util.GlideUtil;
+import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.user.PersonalHomepageView;
 
@@ -44,6 +53,10 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
     private View ll_follow;
     private ImageView iv_icon;
     private TextView tv_follow;
+    public LoginDialog loginDialog;
+    private WebView webview;
+    private WebSettings webSettings;
+    UserBean userBean;
 
 
     public static void forward(Context context, String id) {
@@ -88,7 +101,12 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
         mViewList = new ArrayList<>();
 //        mViewList.add(PersonalPostFragment.newInstance(id));
         mViewList.add(PersonalVideoFragment.newInstance(id));
-
+        initWebView();
+        loginDialog = new LoginDialog(this, R.style.dialog, true, () -> {
+            loginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
         initViewPager();
     }
 
@@ -155,6 +173,7 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
     @Override
     public void getDataSuccess(UserBean userBean) {
         if (userBean != null) {
+            this.userBean = userBean;
             if (userBean.isIs_attention() == 1) {
                 ll_follow.setBackgroundColor(getResources().getColor(R.color.c_D5D5D5));
                 tv_follow.setText(getString(R.string.followed));
@@ -190,6 +209,11 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_follow:
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                    ToastUtil.show(getString(R.string.please_login));
+                    loginDialog.show();
+                    return;
+                }
                 mvpPresenter.doFollow(Integer.parseInt(id));
                 break;
             case R.id.person_head_pic:
@@ -204,6 +228,55 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
     public void doFollowSuccess(int id) {
         ll_follow.setBackgroundColor(getResources().getColor(R.color.c_D5D5D5));
         tv_follow.setText(getString(R.string.followed));
+        anchor_num.setText((userBean.getFollow_the_anchor() + 1) + "");
         iv_icon.setVisibility(View.GONE);
     }
+
+    @SuppressLint("JavascriptInterface")
+    private void initWebView() {
+        webview = (WebView) findViewById(R.id.webview);
+        webSettings = webview.getSettings();
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        // 禁用缓存
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        webSettings.setDefaultTextEncodingName("utf-8");
+        webview.setBackgroundColor(0); // 设置背景色
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        // 开启js支持
+        webSettings.setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(this, "jsBridge");
+        webview.loadUrl("file:///android_asset/index.html");
+    }
+
+    @JavascriptInterface
+    public void getData(String data) {
+        webview.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                webview.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(data)) {
+                    JSONObject jsonObject = JSONObject.parseObject(data);
+                    if (jsonObject.getIntValue("ret") == 0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                dialog.show();
+                                loginDialog.show();
+                                loginDialog.passWebView();
+                            }
+                        });
+                    }
+                }
+            }
+        }, 500);
+    }
+
 }
