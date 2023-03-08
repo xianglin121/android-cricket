@@ -86,7 +86,7 @@ public class AppManager extends MultiDexApplication {
         //配置3个线程数并发上传；不配置默认为3，只针对file.size>4M生效。线程数建议不超过5，上传速度主要取决于上行带宽，带宽很小的情况单线程和多线程没有区别
         uploadManager = new UploadManager(config);
 
-//        initJiGuang();
+        initJiGuang();
         CrashReport.initCrashReport(getApplicationContext(), "8b6829edfc", false);
         if (!TextUtils.isEmpty(SystemUtil.getDeviceType())) {
             CrashReport.setDeviceModel(this, SystemUtil.getDeviceType());
