@@ -16,11 +16,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.tabs.TabLayout;
+import com.onecric.live.CommonAppConfig;
 import com.onecric.live.HttpConstant;
 import com.onecric.live.R;
 import com.onecric.live.fragment.CricketFantasyFragment;
@@ -30,8 +33,12 @@ import com.onecric.live.fragment.CricketScorecardFragment;
 import com.onecric.live.fragment.CricketSquadFragment;
 import com.onecric.live.fragment.CricketUpdatesFragment;
 import com.onecric.live.model.CricketMatchBean;
+import com.onecric.live.model.SubscribeTypeBean;
 import com.onecric.live.model.UpdatesBean;
 import com.onecric.live.presenter.cricket.CricketDetailPresenter;
+import com.onecric.live.presenter.match.SubscribePresenter;
+import com.onecric.live.retrofit.ApiCallback;
+import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.DpUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ShareUtil;
@@ -90,7 +97,7 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
 
     private CricketMatchBean mModel;
     private String tab;
-
+    private ImageView iv_subscribe;
     @Override
     public boolean getStatusBarTextColor() {
         return false;
@@ -162,6 +169,15 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
                 ShareUtil.shareText(mActivity, "", HttpConstant.CRICKET_DETAIL_URL + mMatchId);
             }
         });
+        iv_subscribe = findViewById(R.id.iv_subscribe);
+        iv_subscribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
     }
 
     @Override
@@ -309,6 +325,33 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
                     tv_desc.setText(model.getMatch_result());
                 }
             }
+
+            //fixme 设置订阅状态 缺一个登录弹窗
+            if (mModel.getStatus() == 2) {//已结束
+                iv_subscribe.setVisibility(View.GONE);
+            } else {
+                iv_subscribe.setVisibility(View.VISIBLE);
+                if (mModel.getIs_subscribe() == 1) {//已经订阅过了
+                    iv_subscribe.setImageResource(R.mipmap.subscribe);
+                } else {
+                    iv_subscribe.setImageResource(R.mipmap.unsubscribe);
+                }
+
+                iv_subscribe.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                            ToastUtil.show(mActivity.getString(R.string.please_login));
+/*                            if (loginDialog != null) {
+                                loginDialog.show();
+                            }*/
+                            return;
+                        }
+                        getSubscribeType();
+                    }
+                });
+            }
+
             //初始化动画直播地址
             initWebViewOne(mModel.getLive_path());
             //初始化视频直播地址
@@ -316,6 +359,69 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
             //请求记分卡数据
             ((CricketScorecardFragment) mViewList.get(3)).getData(mModel);
         }
+    }
+
+    private void getSubscribeType() {//订阅推送消息
+        showLoadingDialog();
+        new SubscribePresenter().getSubscribeType(mModel.getId(), new ApiCallback() {
+            @Override
+            public void onSuccess(String data, String msg) {
+                dismissLoadingDialog();
+                if (data != null) {
+                    List<SubscribeTypeBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("list"), SubscribeTypeBean.class);
+                    //这里先弹出一个订阅消息的内容选择框  待选择好后点击确定订阅按钮再调用订阅接口
+                    DialogUtil.showSelectSubscribeDialog(mActivity, mModel.getHome_name() + " VS " + mModel.getAway_name(), list, new DialogUtil.SelectSubscribeBack() {
+                        @Override
+                        public void onSelectSubscribe(String type) {
+                            doSubscribe(mModel.getId() + "", type, iv_subscribe);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                dismissLoadingDialog();
+            }
+
+            @Override
+            public void onError(String msg) {
+                dismissLoadingDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                dismissLoadingDialog();
+            }
+        });
+    }
+
+    private void doSubscribe(String matchId, String type, ImageView subscribeIv) {//订阅推送消息
+        new SubscribePresenter().doSubscribe(matchId, type, new ApiCallback() {
+            @Override
+            public void onSuccess(String data, String msg) {
+                if (!TextUtils.isEmpty(type)) {
+                    subscribeIv.setImageResource(R.mipmap.subscribe);
+                } else {
+                    subscribeIv.setImageResource(R.mipmap.unsubscribe);
+                }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                ToastUtil.show(msg);
+            }
+
+            @Override
+            public void onError(String msg) {
+                ToastUtil.show(msg);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
     }
 
     @Override

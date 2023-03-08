@@ -770,4 +770,6 @@
     <string name="share_live_scan_tip">Scan code to register</string>
     <string name="system_share">Share OneCric.tv</string>
     <string name="copy_link">Copy Link</string>
+
+    <string name="match_search_hint">Search for tours and teams...</string>
 </resources>

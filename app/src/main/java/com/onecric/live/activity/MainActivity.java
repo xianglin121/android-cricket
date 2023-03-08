@@ -43,6 +43,7 @@ import com.onecric.live.event.ToggleTabEvent;
 import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.event.UpdateUserInfoEvent;
 import com.onecric.live.fragment.CricketFragment;
+import com.onecric.live.fragment.CricketNewFragment;
 import com.onecric.live.fragment.LiveFragment;
 import com.onecric.live.fragment.MatchFragment;
 import com.onecric.live.fragment.ThemeFragment;
@@ -409,7 +410,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         videoFragment.setLoginDialog(loginDialog);
 
         mViewList.add(themeFragment);
-        mViewList.add(new CricketFragment());
+//        mViewList.add(new CricketFragment());
+        //fixme 测试
+        mViewList.add(new CricketNewFragment());
         mViewList.add(liveFragment);
         mViewList.add(videoFragment);
         mViewPager.setScroll(false);

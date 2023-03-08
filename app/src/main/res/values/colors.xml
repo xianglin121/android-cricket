@@ -163,4 +163,10 @@
     <color name="c_A8A9AF">#A8A9AF</color>
     <color name="c_4DA74F">#4DA74F</color>
     <color name="c_ff5000">#FF5000</color>
+    <color name="c_DCDBE0">#DCDBE0</color>
+    <color name="c_80DCDBE0">#80DCDBE0</color>
+    <color name="c_111111">#111111</color>
+    <color name="c_D4D3D8">#D4D3D8</color>
+    <color name="c_212E58">#212E58</color>
+    <color name="c_70809B">#70809B</color>
 </resources>
