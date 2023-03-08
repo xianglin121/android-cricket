@@ -369,8 +369,8 @@ public class LoginDialog extends Dialog {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("mobile", prefix + "-" + etPhone.getText().toString().trim());
         jsonObject.put("code", etVerification.getText().toString().trim());
-//        jsonObject.put("pushid", MTCorePrivatesApi.getRegistrationId(mContext));
-        jsonObject.put("pushid", SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN));
+        jsonObject.put("pushid", MTCorePrivatesApi.getRegistrationId(mContext));
+//        jsonObject.put("pushid", SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN));
         jsonObject.put("device_type", "android");
         ApiClient.retrofit().create(ApiStores.class)
                 .loginByPwd(getRequestBody(jsonObject))
