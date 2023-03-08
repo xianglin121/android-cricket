@@ -24,6 +24,16 @@ public class MovingBean {
      */
 
     private int id;
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    private int uid;
     private String title;
     private String content;
     private int click;

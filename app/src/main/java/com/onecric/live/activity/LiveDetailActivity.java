@@ -936,7 +936,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             case R.id.person_head_pic:
             case R.id.iv_avatar:
                 if (mLiveRoomBean != null)
-//                    PersonalHomepageActivity.forward(LiveDetailActivity.this, mLiveRoomBean.getUserData().getUid() + "");
+                    PersonalHomepageActivity.forward(LiveDetailActivity.this, mLiveRoomBean.getUserData().getUid() + "");
                 break;
             case R.id.ll_title:
                 //展开、折叠

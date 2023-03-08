@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
+import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.activity.VideoCompletePlayActivity;
 import com.onecric.live.model.CommunityBean;
 import com.onecric.live.util.GlideUtil;
@@ -34,6 +35,12 @@ public class VideoCommentAdapter extends BaseQuickAdapter<CommunityBean, BaseVie
         helper.addOnClickListener(R.id.tv_reply);
         helper.addOnClickListener(R.id.ll_like);
         ImageView iv_avatar = helper.getView(R.id.iv_avatar);
+        iv_avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PersonalHomepageActivity.forward(mContext, item.getUid() + "");
+            }
+        });
         GlideUtil.loadUserImageDefault(mContext, item.getAvatar(), iv_avatar);
         if (!TextUtils.isEmpty(item.getUser_nickname())) {
             helper.setText(R.id.tv_name, item.getUser_nickname());

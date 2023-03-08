@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
+import com.onecric.live.activity.CommunityCommentActivity;
+import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.activity.VideoCompletePlayActivity;
 import com.onecric.live.model.MovingBean;
 import com.onecric.live.util.GlideUtil;
@@ -34,23 +36,29 @@ public class LiveMovingCommentAdapter extends BaseQuickAdapter<MovingBean, BaseV
         helper.addOnClickListener(R.id.tv_reply);
         helper.addOnClickListener(R.id.ll_like);
         ImageView iv_avatar = helper.getView(R.id.iv_avatar);
+        iv_avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PersonalHomepageActivity.forward(mContext, item.getUid() + "");
+            }
+        });
         GlideUtil.loadUserImageDefault(mContext, item.getAvatar(), iv_avatar);
         if (!TextUtils.isEmpty(item.getUser_nickname())) {
             helper.setText(R.id.tv_name, item.getUser_nickname());
-        }else {
+        } else {
             helper.setText(R.id.tv_name, "");
         }
         helper.setText(R.id.tv_like, String.valueOf(item.getLike()));
         ImageView iv_like = helper.getView(R.id.iv_like);
         if (item.getIs_likes() == 0) {
             iv_like.setSelected(false);
-        }else {
+        } else {
             iv_like.setSelected(true);
         }
         if (!TextUtils.isEmpty(item.getContent())) {
             SpannableStringBuilder msg = FaceManager.handlerEmojiText(item.getContent());
             helper.setText(R.id.tv_content, msg);
-        }else {
+        } else {
             helper.setText(R.id.tv_content, "");
         }
         ImageView iv_cover = helper.getView(R.id.iv_cover);
@@ -64,7 +72,7 @@ public class LiveMovingCommentAdapter extends BaseQuickAdapter<MovingBean, BaseV
                 rv_image.setLayoutManager(new GridLayoutManager(mContext, 3));
                 rv_image.setAdapter(new ImageAdapter(mContext, item.getImg()));
             }
-        }else {
+        } else {
             iv_cover.setVisibility(View.VISIBLE);
             iv_icon.setVisibility(View.VISIBLE);
             rv_image.setVisibility(View.GONE);
@@ -93,7 +101,7 @@ public class LiveMovingCommentAdapter extends BaseQuickAdapter<MovingBean, BaseV
             ImageView iv_like = helper.getView(R.id.iv_like);
             if (item.getIs_likes() == 0) {
                 iv_like.setSelected(false);
-            }else {
+            } else {
                 iv_like.setSelected(true);
             }
             helper.setText(R.id.tv_like, String.valueOf(item.getLike()));

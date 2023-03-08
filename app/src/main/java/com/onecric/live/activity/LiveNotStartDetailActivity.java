@@ -525,7 +525,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             case R.id.person_head_pic:
             case R.id.iv_avatar:
                 if (mLiveRoomBean != null)
-//                    PersonalHomepageActivity.forward(LiveDetailActivity.this, mLiveRoomBean.getUserData().getUid() + "");
+                    PersonalHomepageActivity.forward(LiveNotStartDetailActivity.this, mLiveRoomBean.getUserData().getUid() + "");
                 break;
             case R.id.ll_title:
                 //展开、折叠

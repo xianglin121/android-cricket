@@ -304,7 +304,7 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                 iv_avatar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        PersonalHomepageActivity.forward(CommunityCommentActivity.this, mCommunityBean.getId() + "");
+                        PersonalHomepageActivity.forward(CommunityCommentActivity.this, mCommunityBean.getUid() + "");
                     }
                 });
                 if (!TextUtils.isEmpty(bean.getUser_nickname())) {
