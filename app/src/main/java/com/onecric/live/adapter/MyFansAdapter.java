@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
+import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.custom.ButtonFollowView;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.util.GlideUtil;
@@ -28,6 +29,12 @@ public class MyFansAdapter extends BaseQuickAdapter<UserBean, BaseViewHolder> {
     @Override
     protected void convert(@NonNull BaseViewHolder helper, UserBean item) {
         ImageView iv_avatar = helper.getView(R.id.iv_avatar);
+        iv_avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PersonalHomepageActivity.forward(mContext, item.getUid() + "");
+            }
+        });
         GlideUtil.loadUserImageDefault(mContext, item.getAvatar(), iv_avatar);
         int is_anchor = item.getIs_anchor();
         if (is_anchor != 1) {

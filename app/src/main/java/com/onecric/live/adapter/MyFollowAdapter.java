@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
+import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.custom.ButtonFollowView;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.util.GlideUtil;
@@ -29,6 +30,12 @@ public class MyFollowAdapter extends BaseQuickAdapter<UserBean, BaseViewHolder> 
     protected void convert(@NonNull BaseViewHolder helper, UserBean item) {
         ImageView iv_avatar = helper.getView(R.id.iv_avatar);
         GlideUtil.loadUserImageDefault(mContext, item.getAvatar(), iv_avatar);
+        iv_avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PersonalHomepageActivity.forward(mContext, item.getFollowed_id() + "");
+            }
+        });
         int is_anchor = item.getIs_anchor();
         if (is_anchor != 1) {
             helper.getView(R.id.iv_live).setVisibility(View.GONE);
