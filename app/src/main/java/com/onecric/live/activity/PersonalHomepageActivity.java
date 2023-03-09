@@ -173,7 +173,9 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
     @Override
     public void getDataSuccess(UserBean userBean) {
         if (userBean != null) {
-            ll_follow.setVisibility(View.VISIBLE);
+            if (!id.equals(CommonAppConfig.getInstance().getUid())) {
+                ll_follow.setVisibility(View.VISIBLE);
+            }
             this.userBean = userBean;
             if (userBean.isIs_attention() == 1) {
                 ll_follow.setBackgroundColor(getResources().getColor(R.color.c_D5D5D5));
