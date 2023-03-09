@@ -173,6 +173,7 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
     @Override
     public void getDataSuccess(UserBean userBean) {
         if (userBean != null) {
+            ll_follow.setVisibility(View.VISIBLE);
             this.userBean = userBean;
             if (userBean.isIs_attention() == 1) {
                 ll_follow.setBackgroundColor(getResources().getColor(R.color.c_D5D5D5));
@@ -226,10 +227,28 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
 
     @Override
     public void doFollowSuccess(int id) {
-        ll_follow.setBackgroundColor(getResources().getColor(R.color.c_D5D5D5));
-        tv_follow.setText(getString(R.string.followed));
-        anchor_num.setText((userBean.getFollow_the_anchor() + 1) + "");
-        iv_icon.setVisibility(View.GONE);
+        if (userBean.isIs_attention() == 1) {
+            userBean.setIs_attention(0);
+        } else {
+            userBean.setIs_attention(1);
+        }
+//        ll_follow.setBackgroundColor(getResources().getColor(R.color.c_D5D5D5));
+//        tv_follow.setText(getString(R.string.followed));
+//        anchor_num.setText((userBean.getFollow_the_anchor() + 1) + "");
+//        iv_icon.setVisibility(View.GONE);
+        if (userBean.isIs_attention() == 1) {
+            ll_follow.setBackgroundColor(getResources().getColor(R.color.c_D5D5D5));
+            tv_follow.setText(getString(R.string.followed));
+            userBean.setFollow_the_anchor(userBean.getFollow_the_anchor() + 1);
+            anchor_num.setText(userBean.getFollow_the_anchor() + "");
+            iv_icon.setVisibility(View.GONE);
+        } else {
+            ll_follow.setBackgroundResource(R.mipmap.bg_live_follow);
+            tv_follow.setText(getString(R.string.follow));
+            userBean.setFollow_the_anchor(userBean.getFollow_the_anchor() - 1);
+            anchor_num.setText(userBean.getFollow_the_anchor() + "");
+            iv_icon.setVisibility(View.VISIBLE);
+        }
     }
 
     @SuppressLint("JavascriptInterface")

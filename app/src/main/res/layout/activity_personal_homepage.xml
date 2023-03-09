@@ -111,6 +111,7 @@
                     android:layout_marginRight="12dp"
                     android:background="@mipmap/bg_live_follow_two"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <ImageView
