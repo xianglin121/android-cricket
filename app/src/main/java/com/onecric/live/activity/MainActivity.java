@@ -668,7 +668,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        handleNotification(intent);
+//        handleNotification(intent); todo app处于后台 谷歌推送跳转逻辑
     }
 
     private void handleNotification(Intent pintent) {
