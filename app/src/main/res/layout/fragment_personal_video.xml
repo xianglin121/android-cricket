@@ -116,5 +116,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="32dp"
+        android:visibility="gone"
         android:background="@mipmap/icon_video_publish" />
 </RelativeLayout>

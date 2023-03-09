@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
+import com.onecric.live.activity.LiveDetailActivity;
+import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.custom.ButtonFollowView2;
 import com.onecric.live.model.ShortVideoBean;
 import com.onecric.live.util.GlideUtil;
@@ -96,6 +98,12 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
             holder.videoView.setThumbImageView(imageView);
         }
         GlideUtil.loadUserImageDefault(activity, bean.getAvatar(), holder.iv_avatar);
+        holder.iv_avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PersonalHomepageActivity.forward(activity, bean.getUid() + "");
+            }
+        });
         if (!TextUtils.isEmpty(bean.getUser_nickname())) {
             holder.tv_name.setText(bean.getUser_nickname());
         } else {
@@ -125,7 +133,7 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
         } else {
             holder.iv_like.setSelected(false);
         }
-        holder.tv_like_count.setText(bean.getLikes()>1000?String.format("%.1f",(float)bean.getLikes()/1000)+"K":bean.getLikes()+"");
+        holder.tv_like_count.setText(bean.getLikes() > 1000 ? String.format("%.1f", (float) bean.getLikes() / 1000) + "K" : bean.getLikes() + "");
         holder.tv_comment_count.setText(String.valueOf(bean.getComment_count()));
     }
 

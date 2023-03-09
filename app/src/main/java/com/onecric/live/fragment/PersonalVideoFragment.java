@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -81,8 +82,13 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
 
     @Override
     protected void initUI() {
+        id = getArguments().getString("id");
         smart_rl = findViewById(R.id.smart_rl);
         rv_video = findViewById(R.id.rv_video);
+        ImageView iv_publish = findViewById(R.id.iv_publish);
+        if (id.equals(CommonAppConfig.getInstance().getUid())) {
+            iv_publish.setVisibility(View.VISIBLE);
+        }
         ll_select = findViewById(R.id.ll_select);
         ll_select.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,7 +180,7 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
             }
         });
 
-        findViewById(R.id.iv_publish).setOnClickListener(new View.OnClickListener() {
+        iv_publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (CommonAppConfig.getInstance().getUserBean() != null) {
@@ -192,7 +198,7 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
 
     @Override
     protected void initData() {
-        id = getArguments().getString("id");
+//        id = getArguments().getString("id");
         MaterialHeader materialHeader = new MaterialHeader(getContext());
         materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
         smart_rl.setRefreshHeader(materialHeader);
@@ -213,9 +219,9 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)) {
                     ToastUtil.show(getString(R.string.please_login));
-                }else{
+                } else {
                     VideoPagerActivity.forward(getContext(), mAdapter.getData(), position, mPage);
                 }
             }
