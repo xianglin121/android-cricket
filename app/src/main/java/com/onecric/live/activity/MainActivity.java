@@ -703,7 +703,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 //        String anchorId = bundle.getString("anchorId");
 //        String type = bundle.getString("type");
 //        String matchId = bundle.getString("matchId");
-            if (bundle != null && isLive.equals("1")) {//比赛开始   进入视频直播界面
+            if (bundle != null && "1".equals(isLive)) {//比赛开始   进入视频直播界面
                 intent.setClass(this, LiveDetailActivity.class);
                 intent.putExtra("anchorId", Integer.parseInt(bundle.getString("anchorId")));
                 intent.putExtra("type", Integer.parseInt(bundle.getString("type")));
