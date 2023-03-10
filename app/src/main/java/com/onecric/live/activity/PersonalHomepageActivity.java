@@ -242,13 +242,13 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
                 }
                 break;
             case R.id.ll_post:
-                AttentionActivity.forward(this, 0, Integer.parseInt(id));
+//                AttentionActivity.forward(this, 0, Integer.parseInt(id));
                 break;
             case R.id.ll_group:
-                AttentionActivity.forward(this, 1, Integer.parseInt(id));
+//                AttentionActivity.forward(this, 1, Integer.parseInt(id));
                 break;
             case R.id.ll_following:
-                AttentionActivity.forward(this, 2, Integer.parseInt(id));
+//                AttentionActivity.forward(this, 2, Integer.parseInt(id));
                 break;
         }
     }
