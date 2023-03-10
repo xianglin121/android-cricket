@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@drawable/shape_white_25dp_half_rec"
+    android:gravity="center_vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_all_live"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="14dp"
+            android:textSize="14dp"
+            android:fontFamily="@font/noto_sans_display_semibold"
+            android:text="All matches(Non-streaming &amp; Streaming)"
+            android:textColor="@color/c_333333"/>
+
+        <ImageView
+            android:id="@+id/iv_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="14dp"
+            android:background="@drawable/selector_agree"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_author_live"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="14dp"
+            android:textSize="14dp"
+            android:textColor="@color/c_333333"
+            android:fontFamily="@font/noto_sans_display_semibold"
+            android:text="Anchor explanation"/>
+
+        <ImageView
+            android:id="@+id/iv_all_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="14dp"
+            android:fontFamily="@font/noto_sans_display_semibold"
+            android:background="@drawable/selector_agree"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_match_live"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="14dp"
+            android:textSize="14dp"
+            android:textColor="@color/c_333333"
+            android:fontFamily="@font/noto_sans_display_semibold"
+            android:text="Streaming on OneCric"/>
+
+        <ImageView
+            android:id="@+id/iv_all_match"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="14dp"
+            android:fontFamily="@font/noto_sans_display_semibold"
+            android:background="@drawable/selector_agree"/>
+
+    </LinearLayout>
+</LinearLayout>

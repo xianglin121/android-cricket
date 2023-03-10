@@ -4,8 +4,8 @@
     android:layout_width="wrap_content"
     android:layout_height="30dp"
     android:orientation="horizontal"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="8dp"
     android:gravity="center_vertical">
 
     <LinearLayout
@@ -14,8 +14,8 @@
         android:layout_height="30dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingLeft="7dp"
-        android:paddingRight="7dp"
+        android:paddingLeft="11dp"
+        android:paddingRight="11dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:background="@drawable/selector_bg_filtrate"
@@ -25,18 +25,18 @@
             android:id="@+id/iv_streaming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/ic_arrow_circle"/>
+            android:background="@drawable/selector_filtrate_head_arr"/>
 
         <TextView
             android:id="@+id/tv_streaming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:text="@string/streaming"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textColor="@drawable/selector_filtrate_color"
             android:drawablePadding="4dp"
-            android:drawableRight="@mipmap/ic_arrow_expert_down"/>
+            android:drawableRight="@drawable/selector_filtrate_head_right"/>
 
     </LinearLayout>
 

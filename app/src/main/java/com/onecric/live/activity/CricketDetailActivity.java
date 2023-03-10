@@ -1,5 +1,6 @@
 package com.onecric.live.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,8 +10,10 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +35,7 @@ import com.onecric.live.fragment.CricketLiveFragment;
 import com.onecric.live.fragment.CricketScorecardFragment;
 import com.onecric.live.fragment.CricketSquadFragment;
 import com.onecric.live.fragment.CricketUpdatesFragment;
+import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.SubscribeTypeBean;
 import com.onecric.live.model.UpdatesBean;
@@ -62,6 +66,13 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
     public static void forward(Context context, int matchId) {
         Intent intent = new Intent(context, CricketDetailActivity.class);
         intent.putExtra("matchId", matchId);
+        context.startActivity(intent);
+    }
+
+    public static void forward(Context context, int matchId,int actionType) {
+        Intent intent = new Intent(context, CricketDetailActivity.class);
+        intent.putExtra("matchId", matchId);
+        intent.putExtra("actionType", actionType);
         context.startActivity(intent);
     }
 
@@ -98,6 +109,13 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
     private CricketMatchBean mModel;
     private String tab;
     private ImageView iv_subscribe;
+
+    private int actionType = 0;
+
+    public LoginDialog loginDialog;
+    private WebView webview;
+    private WebSettings webSettings;
+
     @Override
     public boolean getStatusBarTextColor() {
         return false;
@@ -127,7 +145,10 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
             }
         }else{
             mMatchId = getIntent().getIntExtra("matchId", 0);
+            actionType = getIntent().getIntExtra("actionType",0);
         }
+
+
 
         ll_top = findViewById(R.id.ll_top);
         hor_line = findViewById(R.id.hor_line);
@@ -170,14 +191,12 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
             }
         });
         iv_subscribe = findViewById(R.id.iv_subscribe);
-        iv_subscribe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-            }
+        initWebView();
+        loginDialog = new LoginDialog(this, R.style.dialog, true, () -> {
+            loginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
         });
-
     }
 
     @Override
@@ -250,7 +269,10 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
                 return mViewList.size();
             }
         });
-        if(!TextUtils.isEmpty(tab) && tab.equals("score")){
+
+        if(actionType == 2){
+            tabLayout.getTabAt(2).select();
+        }else if(!TextUtils.isEmpty(tab) && tab.equals("score")){
             tabLayout.getTabAt(3).select();
         }
     }
@@ -264,6 +286,10 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
                 hor_line.setVisibility(View.GONE);
 //                ll_top.setVisibility(View.GONE);
 //                ll_content.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.dp2px(70)));
+            }else if(actionType == 1){
+                mFlWebview1.setVisibility(View.GONE);
+                mFlWebview2.setVisibility(View.VISIBLE);
+                ll_content.setVisibility(View.GONE);
             }
             ((CricketFantasyFragment) mViewList.get(0)).getData(mMatchId, model.getHome_name(), model.getHome_logo(), model.getAway_name(), model.getAway_logo());
             if (!TextUtils.isEmpty(model.getTournament_id())) {
@@ -342,9 +368,9 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
                     public void onClick(View v) {
                         if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                             ToastUtil.show(mActivity.getString(R.string.please_login));
-/*                            if (loginDialog != null) {
+                            if (loginDialog != null) {
                                 loginDialog.show();
-                            }*/
+                            }
                             return;
                         }
                         getSubscribeType();
@@ -534,5 +560,52 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
         if (mWvVideo != null) {
             mWvVideo.destroy();
         }
+    }
+
+    @SuppressLint("JavascriptInterface")
+    private void initWebView() {
+        webview = (WebView) findViewById(R.id.webview);
+        webSettings = webview.getSettings();
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        // 禁用缓存
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        webSettings.setDefaultTextEncodingName("utf-8");
+        webview.setBackgroundColor(0); // 设置背景色
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        // 开启js支持
+        webSettings.setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(this, "jsBridge");
+        webview.loadUrl("file:///android_asset/index.html");
+    }
+
+    @JavascriptInterface
+    public void getData(String data) {
+        webview.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                webview.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(data)) {
+                    JSONObject jsonObject = JSONObject.parseObject(data);
+                    if (jsonObject.getIntValue("ret") == 0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                dialog.show();
+                                loginDialog.show();
+                                loginDialog.passWebView();
+                            }
+                        });
+                    }
+                }
+            }
+        }, 500);
     }
 }

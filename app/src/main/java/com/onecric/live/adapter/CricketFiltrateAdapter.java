@@ -29,9 +29,9 @@ public class CricketFiltrateAdapter extends BaseQuickAdapter<CricketFiltrateBean
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, CricketFiltrateBean item) {
-        helper.getView(R.id.tv_name).setSelected(item.isCheck);
-        if (!TextUtils.isEmpty(item.name)) {
-            helper.setText(R.id.tv_name, item.name);
+        helper.getView(R.id.tv_name).setSelected(item.isCheck());
+        if (!TextUtils.isEmpty(item.getName())) {
+            helper.setText(R.id.tv_name, item.getName());
         }
         helper.addOnClickListener(R.id.tv_name);
     }
