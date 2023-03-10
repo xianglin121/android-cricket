@@ -309,7 +309,10 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
      */
     private void requestList(int type){
         if(type == 0){
-            if(!TextUtils.isEmpty(lastDay)){
+            if(mAdapter.getItemCount() <= 0){
+                mvpPresenter.getFiltrateList();
+                requestList(1);
+            }else if(!TextUtils.isEmpty(lastDay)){
                 mvpPresenter.getCricketMatchList(type,lastDay,tag,streamType,isLiveNow);//前一天
             }else{
                 smart_rl.finishRefresh();

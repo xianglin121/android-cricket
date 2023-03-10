@@ -42,7 +42,7 @@ public class CricketNewAdapter extends BaseQuickAdapter<CricketNewBean, BaseView
             lastCount = this.getItemCount();
             helper.getView(R.id.rl_time_title).setVisibility(View.VISIBLE);
             String dates[] = getDayInfo(item.date);
-//            fragment.setDayInfo(dates);
+            fragment.setDayInfo(dates);
             helper.setText(R.id.tv_date,dates[0]);
             helper.setText(R.id.tv_month,dates[1]);
             helper.setText(R.id.tv_day,dates[2]);
