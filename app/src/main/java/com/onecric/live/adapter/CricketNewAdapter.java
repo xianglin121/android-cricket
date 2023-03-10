@@ -84,4 +84,5 @@ public class CricketNewAdapter extends BaseQuickAdapter<CricketNewBean, BaseView
         rv_inner.setAdapter(innerAdapter);
 
     }
+
 }

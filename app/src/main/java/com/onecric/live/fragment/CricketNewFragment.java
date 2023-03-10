@@ -1,51 +1,30 @@
 package com.onecric.live.fragment;
 
-import static com.onecric.live.util.TimeUtil.getDayInfo;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.os.CountDownTimer;
-import android.text.Html;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
-import com.google.android.material.tabs.TabLayout;
-import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.CricketInnerActivity;
-import com.onecric.live.activity.MainActivity;
 import com.onecric.live.adapter.CricketFiltrateAdapter;
 import com.onecric.live.adapter.CricketNewAdapter;
-import com.onecric.live.event.ToggleTabEvent;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.CricketFiltrateBean;
-import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.CricketNewBean;
-import com.onecric.live.model.CricketTournamentBean;
 import com.onecric.live.model.JsonBean;
-import com.onecric.live.presenter.cricket.CricketLivePresenter;
 import com.onecric.live.presenter.cricket.CricketNewPresenter;
-import com.onecric.live.presenter.cricket.CricketPresenter;
-import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ToastUtil;
-import com.onecric.live.view.BaseFragment;
 import com.onecric.live.view.CricketNewView;
 import com.onecric.live.view.MvpFragment;
 import com.scwang.smartrefresh.header.MaterialHeader;
@@ -54,13 +33,11 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
-import org.greenrobot.eventbus.EventBus;
+import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -157,7 +134,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 }
                 tv_tours_num.setText(selectToursNum + "");
                 tv_tours_num.setVisibility(selectToursNum > 0 ? View.VISIBLE : View.GONE);
-                rv_filtrate.scrollToPosition(0);
+//                rv_filtrate.scrollToPosition(0);
                 if(filtrateCheckedList.size()>0){
                     StringBuilder tagsId = new StringBuilder();
                     for(CricketFiltrateBean bean : filtrateCheckedList){
@@ -377,12 +354,13 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 mAdapter.addData(0,list);
             }else if(type == 1){
                 mAdapter.setNewData(list);
+                recyclerView.scrollBy(0, UIUtil.dip2px(getActivity(),140));
             }else{
                 mAdapter.addData(list);
             }
         } else if(mAdapter.getItemCount() == 0){
             showEmptyView();
-        } else if(!TextUtils.isEmpty(tag)){
+        } else if(!TextUtils.isEmpty(tag) || isLiveNow || streamType != 0){
             mAdapter.setNewData(new ArrayList<>());
             showEmptyView();
             //没数据再请求之前/后的数据
