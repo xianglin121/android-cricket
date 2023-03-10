@@ -1,6 +1,7 @@
 package com.onecric.live.presenter.cricket;
 
 import com.alibaba.fastjson.JSONObject;
+import com.onecric.live.CommonAppConfig;
 import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.UpdatesBean;
 import com.onecric.live.presenter.BasePresenter;
@@ -19,7 +20,7 @@ public class CricketDetailPresenter extends BasePresenter<CricketDetailView> {
         TimeZone timeZone = TimeZone.getDefault();
         jsonObject.put("timezone", timeZone.getID());
         jsonObject.put("match_id", matchId);
-        addSubscription(apiStores.getCricketDetail(getRequestBody(jsonObject)), new ApiCallback() {
+        addSubscription(apiStores.getCricketDetail(CommonAppConfig.getInstance().getToken(),getRequestBody(jsonObject)), new ApiCallback() {
             @Override
             public void onSuccess(String data, String msg) {
                 mvpView.getDataSuccess(JSONObject.parseObject(data, CricketMatchBean.class));

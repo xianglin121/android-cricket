@@ -804,7 +804,7 @@ public interface ApiStores {
 
     //获取赛事详情
     @POST("api/Cricket/cricket_match_detail")
-    Observable<JsonObject> getCricketDetail(@Body RequestBody body);
+    Observable<JsonObject> getCricketDetail(@Header("token") String token,@Body RequestBody body);
 
     //获取赛事详情-info
     @POST("api/Cricket/cricket_match_detail_info")
