@@ -198,4 +198,6 @@ dependencies {
 
     //二维码
     implementation 'com.google.zxing:core:3.3.0'
+    //日历选择器
+    implementation 'com.github.gzu-liyujiang.AndroidPicker:CalendarPicker:4.1.11'
 }

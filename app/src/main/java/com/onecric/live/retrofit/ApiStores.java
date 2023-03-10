@@ -874,4 +874,13 @@ public interface ApiStores {
     //获取直播聊天室历史记录
     @GET("api/LivePlayBack/getSimple")
     Observable<JsonObject> getHistoryMessage(@Query("id") int id);
+
+    //获取新赛事列表
+    @GET("api/Cricketnew/Cricket_match")
+    Observable<JsonObject> getCricketNewMatchList(@Header("token") String token, @Query("timezone") String timezone,
+                                                  @Query("date") String date,@Query("tag") String tag,@Query("match_live") int match_live,@Query("live") int live);
+
+    //获取赛事标签
+    @GET("api/Cricketnew/get_cricket_tag")
+    Observable<JsonObject> getFiltrateList();
 }
