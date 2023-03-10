@@ -119,7 +119,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     private ImageView iv_silence;
     private static boolean isNewsNeedMute = true;
 
-    private LoginDialog loginDialog,constraintLoginDialog;
+    private LoginDialog loginDialog, constraintLoginDialog;
     private WebView webview;
     private WebSettings webSettings;
     private boolean isCancelLoginDialog;
@@ -133,7 +133,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
         @Override
         public void onFinish() {
-            if(loginDialog.isShowing()){
+            if (loginDialog.isShowing()) {
                 loginDialog.dismiss();
             }
             SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
@@ -180,7 +180,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 String id = uri.getQueryParameter("id");
                 mId = Integer.parseInt(id);
             }
-        }else{
+        } else {
             mId = getIntent().getIntExtra("id", 0);
         }
 
@@ -239,12 +239,12 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
         EventBus.getDefault().register(this);
 
         initWebView();
-        loginDialog =  new LoginDialog(this, R.style.dialog,true, () -> {
+        loginDialog = new LoginDialog(this, R.style.dialog, true, () -> {
             loginDialog.dismiss();
             webview.setVisibility(View.VISIBLE);
             webview.loadUrl("javascript:ab()");
         });
-        constraintLoginDialog =  new LoginDialog(this, R.style.dialog,false, () -> {
+        constraintLoginDialog = new LoginDialog(this, R.style.dialog, false, () -> {
             constraintLoginDialog.dismiss();
             webview.setVisibility(View.VISIBLE);
             webview.loadUrl("javascript:ab()");
@@ -262,10 +262,10 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     loginDialog.show();
                 }
             });
-        }else{
+        } else {
             findViewById(R.id.fl_board).setVisibility(View.GONE);
         }
-        if(mCommentAdapter == null){
+        if (mCommentAdapter == null) {
             tv_time_sort.setSelected(true);
 
             MaterialHeader materialHeader = new MaterialHeader(this);
@@ -323,7 +323,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     ToastUtil.show(getString(R.string.please_login));
                     return;
                 }
-                MySpaceActivity.forward(this, mModel.getUid());
+//                MySpaceActivity.forward(this, mModel.getUid());
+                PersonalHomepageActivity.forward(this, mModel.getUid() + "");
                 break;
             case R.id.iv_follow:
             case R.id.iv_title_follow:
@@ -501,8 +502,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 }
 
                 //图片前没有<br>的加上
-                if(!builder.substring(0, 4).contains("<br>")){
-                    builder.insert(0,"<br>");
+                if (!builder.substring(0, 4).contains("<br>")) {
+                    builder.insert(0, "<br>");
                     builder.append("<br>");
                 }
 
@@ -564,7 +565,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             }*/
 
             if (list != null) {
-                mAdapter = new ThemeHeadlineAdapter(list,mActivity);
+                mAdapter = new ThemeHeadlineAdapter(list, mActivity);
                 mAdapter.setmOnItemClickListener(new ThemeHeadlineAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position, HeadlineBean bean) {
@@ -907,17 +908,17 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if(isCancelLoginDialog){
+                                if (isCancelLoginDialog) {
                                     loginDialog.show();
                                     loginDialog.passWebView();
-                                }else{
+                                } else {
                                     constraintLoginDialog.show();
                                     constraintLoginDialog.passWebView();
                                 }
 
                             }
                         });
-                    }else if(!isCancelLoginDialog){
+                    } else if (!isCancelLoginDialog) {
                         constraintLoginDialog.show();
                     }
                 }

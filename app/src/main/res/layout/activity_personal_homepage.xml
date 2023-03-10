@@ -70,12 +70,27 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/person_head_pic"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginRight="13.5dp"
-                        android:src="@mipmap/bg_avatar_default" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="13.5dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/person_head_pic"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@mipmap/bg_avatar_default"
+                            tools:ignore="MissingConstraints" />
+
+                        <ImageView
+                            android:id="@+id/iv_live"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/selector_live_state"
+                            app:layout_constraintBottom_toBottomOf="@id/person_head_pic"
+                            app:layout_constraintLeft_toLeftOf="@id/person_head_pic"
+                            app:layout_constraintRight_toRightOf="@id/person_head_pic" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -111,8 +126,8 @@
                     android:layout_marginRight="12dp"
                     android:background="@mipmap/bg_live_follow_two"
                     android:gravity="center"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/iv_icon"

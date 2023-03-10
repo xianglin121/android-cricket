@@ -224,6 +224,17 @@ public interface ApiStores {
                                        @Query("page") int page,
                                        @Query("uid") int uid);
 
+    //获取关注列表
+    @GET("api/User/attentionList")
+    Observable<JsonObject> getAttentionList(@Header("token") String token, @Query("page") int page,
+                                            @Query("uid") int uid,
+                                            @Query("type") int type);
+
+//    //获取粉丝列表
+//    @GET("api/User/watchlistList")
+//    Observable<JsonObject> getFansList(@Query("page") int page,
+//                                       @Query("uid") int uid);
+
     //获取炫彩气泡列表
     @GET("api/Barrage/getList")
     Observable<JsonObject> getBackgroundDanmuList(@Header("token") String token);

@@ -59,6 +59,7 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="hint">hint</string>
     <string name="fans">Fans:</string>
+    <string name="fans_1">Fans</string>
     <string name="tips">Tips</string>
 
     <!--CommonRefreshView-->

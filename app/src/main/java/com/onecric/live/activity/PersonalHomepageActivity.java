@@ -3,6 +3,7 @@ package com.onecric.live.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -57,6 +58,7 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
     private WebView webview;
     private WebSettings webSettings;
     UserBean userBean;
+    private ImageView iv_live;
 
 
     public static void forward(Context context, String id) {
@@ -88,6 +90,7 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
         head_pic = findViewById(R.id.person_head_pic);
         user_name = findViewById(R.id.tv_user_name);
         user_profile = findViewById(R.id.tv_user_profile);
+        iv_live = findViewById(R.id.iv_live);
         findViewById(R.id.ll_follow).setOnClickListener(this);
         head_pic.setOnClickListener(this);
         anchor_num = findViewById(R.id.follow_the_anchor);
@@ -95,6 +98,9 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
         fans_num = findViewById(R.id.fans);
         tabLayout = findViewById(R.id.tab_layout);
         mViewPager = findViewById(R.id.view_pager);
+        findViewById(R.id.ll_post).setOnClickListener(this);
+        findViewById(R.id.ll_group).setOnClickListener(this);
+        findViewById(R.id.ll_following).setOnClickListener(this);
 //        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.post)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.videos)));
 
@@ -176,6 +182,17 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
             if (!id.equals(CommonAppConfig.getInstance().getUid())) {
                 ll_follow.setVisibility(View.VISIBLE);
             }
+            int is_anchor = userBean.getIs_anchor();
+            if (is_anchor != 1) {
+                iv_live.setVisibility(View.GONE);
+            } else {
+                iv_live.setVisibility(View.VISIBLE);
+            }
+            if (userBean.getIs_live() == 0) {
+                iv_live.setSelected(false);
+            } else {
+                iv_live.setSelected(true);
+            }
             this.userBean = userBean;
             if (userBean.isIs_attention() == 1) {
                 ll_follow.setBackgroundColor(getResources().getColor(R.color.c_D5D5D5));
@@ -223,6 +240,15 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
                 if (id.equals(CommonAppConfig.getInstance().getUid())) {
                     UserInfoActivity.forward(mActivity);
                 }
+                break;
+            case R.id.ll_post:
+                AttentionActivity.forward(this, 0, Integer.parseInt(id));
+                break;
+            case R.id.ll_group:
+                AttentionActivity.forward(this, 1, Integer.parseInt(id));
+                break;
+            case R.id.ll_following:
+                AttentionActivity.forward(this, 2, Integer.parseInt(id));
                 break;
         }
     }
