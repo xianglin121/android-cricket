@@ -42,7 +42,7 @@ public class CricketNewAdapter extends BaseQuickAdapter<CricketNewBean, BaseView
             lastCount = this.getItemCount();
             helper.getView(R.id.rl_time_title).setVisibility(View.VISIBLE);
             String dates[] = getDayInfo(item.date);
-            fragment.setDayInfo(dates);
+//            fragment.setDayInfo(dates);
             helper.setText(R.id.tv_date,dates[0]);
             helper.setText(R.id.tv_month,dates[1]);
             helper.setText(R.id.tv_day,dates[2]);
@@ -60,7 +60,7 @@ public class CricketNewAdapter extends BaseQuickAdapter<CricketNewBean, BaseView
         rv_inner.setLayoutManager(new LinearLayoutManager(mContext));
         List<CricketNewBean.CricketMatchNewBean> tempList = item.getCricketMatch();
 
-        CricketInnerNewAdapter innerAdapter = new CricketInnerNewAdapter(fragment,R.layout.item_cricket_inner_new, tempList);
+        CricketInnerNewAdapter innerAdapter = new CricketInnerNewAdapter(fragment,R.layout.item_cricket_inner_new, tempList,item);
         innerAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if(view.getId() == R.id.tv_state_live){
                 //跳转主播直播页

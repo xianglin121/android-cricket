@@ -388,7 +388,7 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
 
     private void getSubscribeType() {//订阅推送消息
         showLoadingDialog();
-        new SubscribePresenter().getSubscribeType(mModel.getId(), new ApiCallback() {
+        new SubscribePresenter().getSubscribeType(mModel.getMatch_id(), new ApiCallback() {
             @Override
             public void onSuccess(String data, String msg) {
                 dismissLoadingDialog();
@@ -398,7 +398,7 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
                     DialogUtil.showSelectSubscribeDialog(mActivity, mModel.getHome_name() + " VS " + mModel.getAway_name(), list, new DialogUtil.SelectSubscribeBack() {
                         @Override
                         public void onSelectSubscribe(String type) {
-                            doSubscribe(mModel.getId() + "", type, iv_subscribe);
+                            doSubscribe(mModel.getMatch_id() + "", type, iv_subscribe);
                         }
                     });
                 }

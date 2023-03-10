@@ -82,6 +82,8 @@ public class CricketNewPresenter extends BasePresenter<CricketNewView> {
                 List<CricketNewBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("data"), CricketNewBean.class);
                 for(CricketNewBean bean : list){
                     bean.date = finalDateStr;
+                    bean.lastDay = lastDay;
+                    bean.endDay = endDay;
                 }
                 mvpView.getDataSuccess(type,list,lastDay,endDay);
             }

@@ -7,11 +7,11 @@
     <RelativeLayout
         android:id="@+id/rl_time_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:orientation="horizontal"
-        android:layout_marginTop="25dp"
+        android:paddingTop="25dp"
         android:layout_below="@id/rv_filtrate"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/tv_day"

@@ -354,7 +354,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 mAdapter.addData(0,list);
             }else if(type == 1){
                 mAdapter.setNewData(list);
-                recyclerView.scrollBy(0, UIUtil.dip2px(getActivity(),140));
+                recyclerView.scrollBy(0, (int) (recyclerView.getY() + UIUtil.dip2px(getActivity(),60)));
             }else{
                 mAdapter.addData(list);
             }

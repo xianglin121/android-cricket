@@ -8,6 +8,8 @@ public class CricketNewBean {
     private List<CricketMatchNewBean> cricketMatch;
     private int tournamentId;
     public boolean isHasTitle;
+    public String lastDay;
+    public String endDay;
 
     public  String date;
 
