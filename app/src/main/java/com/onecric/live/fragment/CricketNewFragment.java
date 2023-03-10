@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.onecric.live.AppManager;
 import com.onecric.live.R;
 import com.onecric.live.activity.CricketInnerActivity;
 import com.onecric.live.adapter.CricketFiltrateAdapter;
@@ -78,6 +80,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
     private String lastDay="";
     private String endDay="";
     public boolean isMore;
+    private boolean isNotNetWork;
 
     @Override
     protected int getLayoutId() {
@@ -309,8 +312,10 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
      */
     private void requestList(int type){
         if(type == 0){
-            if(mAdapter.getItemCount() <= 0){
+            if(mFiltrateAdapter.getItemCount() <=1){
                 mvpPresenter.getFiltrateList();
+            }
+            if(mAdapter.getItemCount() <= 0 && isNotNetWork){
                 requestList(1);
             }else if(!TextUtils.isEmpty(lastDay)){
                 mvpPresenter.getCricketMatchList(type,lastDay,tag,streamType,isLiveNow);//前一天
@@ -390,6 +395,11 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             showEmptyView();
         } else {
             ToastUtil.show(msg);
+        }
+        if(AppManager.mContext.getString(R.string.no_internet_connection).equals(msg)){
+            isNotNetWork = true;
+        }else{
+            isNotNetWork = false;
         }
 
     }
