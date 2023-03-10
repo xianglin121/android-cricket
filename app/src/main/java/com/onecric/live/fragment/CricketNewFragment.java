@@ -100,6 +100,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
     private String tag="";
     private String lastDay="";
     private String endDay="";
+    public boolean isMore;
 
     @Override
     protected int getLayoutId() {
@@ -195,6 +196,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 //后一天
 //                afterPage++;
+                isMore = true;
                 requestList(2);
             }
         });
@@ -204,6 +206,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 //前一天
 //                beforePage++;
+                isMore = false;
                 requestList(0);
             }
         });
@@ -358,8 +361,14 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
 
     @Override
     public void getDataSuccess(int type, List<CricketNewBean> list, String lastDay, String endDay) {
-        this.lastDay = lastDay;
-        this.endDay = endDay;
+        if(type == 0 || type == 1){
+            this.lastDay = lastDay;
+        }
+
+        if(type == 2 || type == 1){
+            this.endDay = endDay;
+        }
+
         smart_rl.finishLoadMore();
         smart_rl.finishRefresh();
         if (list != null && list.size() > 0) {

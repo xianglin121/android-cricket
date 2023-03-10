@@ -37,7 +37,7 @@ public class CricketNewAdapter extends BaseQuickAdapter<CricketNewBean, BaseView
     @Override
     protected void convert(@NonNull BaseViewHolder helper, CricketNewBean item) {
         //是否是新的一天
-        if(helper.getLayoutPosition() == 0 || helper.getLayoutPosition() == lastCount || item.isHasTitle){
+        if(helper.getLayoutPosition() == 0 || item.isHasTitle || (helper.getLayoutPosition() == lastCount && fragment.isMore)){//
             item.isHasTitle = true;
             lastCount = this.getItemCount();
             helper.getView(R.id.rl_time_title).setVisibility(View.VISIBLE);

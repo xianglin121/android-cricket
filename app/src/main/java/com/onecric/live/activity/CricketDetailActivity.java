@@ -352,7 +352,6 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
                 }
             }
 
-            //fixme 设置订阅状态 缺一个登录弹窗
             if (mModel.getStatus() == 2) {//已结束
                 iv_subscribe.setVisibility(View.GONE);
             } else {
