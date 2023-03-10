@@ -363,7 +363,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             }
         } else if(mAdapter.getItemCount() == 0){
             showEmptyView();
-        } else if(!TextUtils.isEmpty(tag) || isLiveNow || streamType != 0){
+        } else if(type == 1 && (!TextUtils.isEmpty(tag) || isLiveNow || streamType != 0)){
             mAdapter.setNewData(new ArrayList<>());
             showEmptyView();
             //没数据再请求之前/后的数据
