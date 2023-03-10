@@ -86,6 +86,7 @@
                             android:id="@+id/iv_live"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             android:background="@drawable/selector_live_state"
                             app:layout_constraintBottom_toBottomOf="@id/person_head_pic"
                             app:layout_constraintLeft_toLeftOf="@id/person_head_pic"
@@ -266,6 +267,7 @@
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorHeight="2dp"
         app:tabMode="scrollable"
+        android:visibility="gone"
         app:tabSelectedTextColor="@color/c_DC3C23"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         app:tabTextColor="@color/c_333333" />
