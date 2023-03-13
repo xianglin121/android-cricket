@@ -33,16 +33,12 @@ import java.util.List;
  * 时间：2022/8/27
  */
 public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.CricketMatchNewBean, BaseViewHolder> {
-    private CricketNewFragment fragment;
-    private CricketNewBean bean;
     private Drawable drawableArrRed, drawableArrTransparent;
-    public CricketInnerNewAdapter(CricketNewFragment fragment, int layoutResId, @Nullable List<CricketNewBean.CricketMatchNewBean> data,CricketNewBean item) {
+    public CricketInnerNewAdapter(int layoutResId, @Nullable List<CricketNewBean.CricketMatchNewBean> data) {
         super(layoutResId, data);
-        this.fragment = fragment;
-        this.bean = item;
-        drawableArrRed = fragment.getActivity().getDrawable(R.mipmap.icon_arrow_left_two);
+        drawableArrRed = mContext.getDrawable(R.mipmap.icon_arrow_left_two);
         drawableArrRed.setBounds(0,0,drawableArrRed.getMinimumWidth(),drawableArrRed.getMinimumHeight());
-        drawableArrTransparent = fragment.getActivity().getDrawable(R.mipmap.img_transparent1624);
+        drawableArrTransparent = mContext.getDrawable(R.mipmap.img_transparent1624);
         drawableArrTransparent.setBounds(0,0,drawableArrTransparent.getMinimumWidth(),drawableArrTransparent.getMinimumHeight());
     }
 
@@ -52,16 +48,6 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
         helper.getView(R.id.tv_state_live).setVisibility(View.GONE);
         helper.getView(R.id.tv_state_watch_live).setVisibility(View.GONE);
         helper.getView(R.id.tv_state_score).setVisibility(View.GONE);
-        //fixme 待优化
-/*        if(!fragment.isMore && helper.getLayoutPosition() == 0){
-            //时间上一个
-            fragment.setDayInfo(getDayInfo(bean.lastDay));
-        }else if(fragment.isMore && helper.getLayoutPosition() == this.getItemCount()){
-            //时间下一个
-            fragment.setDayInfo(getDayInfo(bean.endDay));
-        }else{
-            fragment.setDayInfo(getDayInfo(bean.date));
-        }*/
         TextView tv_home_score = helper.getView(R.id.tv_home_score);
         TextView tv_away_score = helper.getView(R.id.tv_away_score);
         tv_home_score.setTextColor(mContext.getResources().getColor(R.color.c_111111));

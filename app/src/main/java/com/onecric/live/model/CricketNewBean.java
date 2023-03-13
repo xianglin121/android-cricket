@@ -7,11 +7,9 @@ public class CricketNewBean {
     private String type;
     private List<CricketMatchNewBean> cricketMatch;
     private int tournamentId;
-    public boolean isHasTitle;
+
     public String lastDay;
     public String endDay;
-
-    public  String date;
 
     public String getName() {
         return name;

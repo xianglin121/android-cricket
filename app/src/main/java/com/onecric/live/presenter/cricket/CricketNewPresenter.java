@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
+import com.onecric.live.model.CricketDayBean;
 import com.onecric.live.model.CricketFiltrateBean;
 import com.onecric.live.model.CricketNewBean;
 import com.onecric.live.model.CricketTournamentBean;
@@ -77,15 +78,17 @@ public class CricketNewPresenter extends BasePresenter<CricketNewView> {
         addSubscription(apiStores.getCricketNewMatchList(CommonAppConfig.getInstance().getToken(), TimeZone.getDefault().getID(),dateStr,tagIds,streamType,isLiveNow?1:0), new ApiCallback() {
             @Override
             public void onSuccess(String data, String msg) {
-                String endDay = JSONObject.parseObject(data).getString("end_day");
+/*                String endDay = JSONObject.parseObject(data).getString("end_day");
                 String lastDay = JSONObject.parseObject(data).getString("front_date");
                 List<CricketNewBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("data"), CricketNewBean.class);
                 for(CricketNewBean bean : list){
                     bean.date = finalDateStr;
                     bean.lastDay = lastDay;
                     bean.endDay = endDay;
-                }
-                mvpView.getDataSuccess(type,list,lastDay,endDay);
+                }*/
+                JSONObject.parseObject(data).getString("data");
+//                List<CricketDayBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("data"), CricketDayBean.class);
+                mvpView.getDataSuccess(type,null,"","");
             }
 
             @Override

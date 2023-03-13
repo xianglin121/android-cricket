@@ -1,5 +1,6 @@
 package com.onecric.live.view;
 
+import com.onecric.live.model.CricketDayBean;
 import com.onecric.live.model.CricketFiltrateBean;
 import com.onecric.live.model.CricketNewBean;
 import com.onecric.live.model.CricketTournamentBean;
@@ -14,7 +15,7 @@ import java.util.List;
 public interface CricketNewView extends BaseView<JsonBean> {
     void getDataSuccess(List<CricketFiltrateBean> list);
 
-    void getDataSuccess(int type, List<CricketNewBean> list,String lastDay,String endDay);
+    void getDataSuccess(int type, List<CricketDayBean> list, String lastDay, String endDay);
 
     void getDataFail(int type ,String msg);
 
