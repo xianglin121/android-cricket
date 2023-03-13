@@ -325,7 +325,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     return;
                 }
 //                MySpaceActivity.forward(this, mModel.getUid());
-                PersonalHomepageActivity.forward(this, mModel.getUid() + "");
+                if (!isFastDoubleClick())
+                    PersonalHomepageActivity.forward(this, mModel.getUid() + "");
                 break;
             case R.id.iv_follow:
             case R.id.iv_title_follow:
@@ -423,6 +424,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
             if (!TextUtils.isEmpty(model.getContent())) {
                 wv_content.getSettings().setJavaScriptEnabled(true);//设置JS可用
+                wv_content.addJavascriptInterface(new JsInterface_2(HeadlineDetailActivity.this), "android");
                 String htmlPart1 = "<!DOCTYPE HTML html>\n" +
                         "<head><meta charset=\"utf-8\"/>\n" +
                         "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no\"/>\n" +
@@ -622,6 +624,34 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
         builder.insert(0,imgStr);
         return builder.toString();
     }*/
+
+
+    // TODO: 2023/3/13  html 设置超链接
+    private class JsInterface_2 {
+
+        private Context mContext;
+
+        public JsInterface_2(Context context) {
+
+            this.mContext = context;
+
+        }
+
+
+        // jump() 就是Html提供的一个跳转方法
+
+        @JavascriptInterface
+
+        public void jump() {
+
+            if (!isFastDoubleClick()) {
+
+            }
+
+        }
+
+    }
+
 
     @Override
     public void getTokenSuccess(String token) {

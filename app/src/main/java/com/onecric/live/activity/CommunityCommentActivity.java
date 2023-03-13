@@ -164,7 +164,7 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
 
         EventBus.getDefault().register(this);
         initWebView();
-        loginDialog =  new LoginDialog(this, R.style.dialog,true, () -> {
+        loginDialog = new LoginDialog(this, R.style.dialog, true, () -> {
             loginDialog.dismiss();
             webview.setVisibility(View.VISIBLE);
             webview.loadUrl("javascript:ab()");
@@ -178,17 +178,17 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
             findViewById(R.id.fl_board).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(loginDialog!=null){
+                    if (loginDialog != null) {
                         loginDialog.show();
-                    }else{
+                    } else {
                         ToastUtil.show(getString(R.string.please_login));
                     }
                 }
             });
-        }else{
+        } else {
             findViewById(R.id.fl_board).setVisibility(View.GONE);
         }
-        if(mCommentAdapter == null){
+        if (mCommentAdapter == null) {
             MaterialHeader materialHeader = new MaterialHeader(this);
             materialHeader.setColorSchemeColors(getResources().getColor(R.color.c_DC3C23));
             smart_rl.setRefreshHeader(materialHeader);
@@ -304,7 +304,8 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                 iv_avatar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        PersonalHomepageActivity.forward(CommunityCommentActivity.this, mCommunityBean.getUid() + "");
+                        if (!isFastDoubleClick())
+                            PersonalHomepageActivity.forward(CommunityCommentActivity.this, mCommunityBean.getUid() + "");
                     }
                 });
                 if (!TextUtils.isEmpty(bean.getUser_nickname())) {
@@ -456,9 +457,9 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                         iv_icon.setVisibility(View.GONE);
                         mvpPresenter.doFollow(mAnchorId);
                     }
-                } else if(loginDialog!=null){
+                } else if (loginDialog != null) {
                     loginDialog.show();
-                }else{
+                } else {
                     ToastUtil.show(getString(R.string.please_login));
                 }
                 break;

@@ -19,6 +19,7 @@ import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.custom.ButtonFollowView2;
 import com.onecric.live.model.ShortVideoBean;
 import com.onecric.live.util.GlideUtil;
+import com.onecric.live.view.MvpActivity;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.tencent.qcloud.tuikit.tuichat.component.face.FaceManager;
@@ -101,7 +102,8 @@ public class VideoPagerAdapter extends RecyclerView.Adapter<VideoPagerAdapter.Vi
         holder.iv_avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PersonalHomepageActivity.forward(activity, bean.getUid() + "");
+                if (!((MvpActivity) activity).isFastDoubleClick())
+                    PersonalHomepageActivity.forward(activity, bean.getUid() + "");
             }
         });
         if (!TextUtils.isEmpty(bean.getUser_nickname())) {

@@ -143,7 +143,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
 //    private ImageView iv_silence;
 
-    public static void forward(Context context, int anchorId, int matchId,int mLiveId) {
+    public static void forward(Context context, int anchorId, int matchId, int mLiveId) {
         Intent intent = new Intent(context, LiveDetailActivity.class);
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("matchId", matchId);
@@ -152,7 +152,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         context.startActivity(intent);
     }
 
-    public static void forward(Context context, int anchorId, int matchId, String url,int mLiveId) {
+    public static void forward(Context context, int anchorId, int matchId, String url, int mLiveId) {
         Intent intent = new Intent(context, LiveDetailActivity.class);
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("matchId", matchId);
@@ -183,7 +183,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public LiveRoomBean mLiveRoomBean;
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    private LoginDialog loginDialog,constraintLoginDialog;
+    private LoginDialog loginDialog, constraintLoginDialog;
     private WebView webview;
     private WebSettings webSettings;
 
@@ -230,7 +230,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
         @Override
         public void onFinish() {
-            if(loginDialog.isShowing()){
+            if (loginDialog.isShowing()) {
                 loginDialog.dismiss();
             }
             SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
@@ -262,7 +262,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        mType =  2;
+        mType = 2;
         //scheme
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -276,16 +276,16 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 mAnchorId = Integer.parseInt(aId);
                 mMatchId = Integer.parseInt(mid);
                 mLiveId = Integer.parseInt(lid);
-                if("0".equals(isLive)){
+                if ("0".equals(isLive)) {
                     videoUrl = uri.getQueryParameter("videoUrl");
                 }
             }
-        }else{
+        } else {
             mAnchorId = getIntent().getIntExtra("anchorId", 0);
             mMatchId = getIntent().getIntExtra("matchId", 0);
             isLive = getIntent().getBooleanExtra("isLive", true);
-            mLiveId = getIntent().getIntExtra("mLiveId",0);
-            if(!isLive){
+            mLiveId = getIntent().getIntExtra("mLiveId", 0);
+            if (!isLive) {
                 videoUrl = getIntent().getStringExtra("url");
             }
         }
@@ -303,26 +303,26 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
         drawableArrUp = getResources().getDrawable(R.mipmap.icon_arrow_up_up);
         drawableArrUp.setTint(getResources().getColor(R.color.c_959697));
-        drawableArrUp.setBounds(0, 0, drawableArrUp.getMinimumWidth(),drawableArrUp.getMinimumHeight());
+        drawableArrUp.setBounds(0, 0, drawableArrUp.getMinimumWidth(), drawableArrUp.getMinimumHeight());
         drawableArrDown = getResources().getDrawable(R.mipmap.icon_arrow_down);
         drawableArrDown.setTint(getResources().getColor(R.color.c_959697));
-        drawableArrDown.setBounds(0, 0, drawableArrDown.getMinimumWidth(),drawableArrDown.getMinimumHeight());
+        drawableArrDown.setBounds(0, 0, drawableArrDown.getMinimumWidth(), drawableArrDown.getMinimumHeight());
 
         //视频尺寸
         int width = UIUtil.getScreenWidth(this);
-        if(isLive){
+        if (isLive) {
             rl_player.setVisibility(View.VISIBLE);
             rl_video.setVisibility(View.GONE);
             android.view.ViewGroup.LayoutParams pp = playerView.getLayoutParams();
-            pp.height = (int)(width * 0.5625);
+            pp.height = (int) (width * 0.5625);
             playerView.setLayoutParams(pp);
             //初始化悬浮窗跳转回界面所需参数
             playerView.setInitId(mAnchorId, mType, mMatchId);
-        }else{
+        } else {
             rl_player.setVisibility(View.GONE);
             rl_video.setVisibility(View.VISIBLE);
             android.view.ViewGroup.LayoutParams pp = history_video_view.getLayoutParams();
-            pp.height = (int)(width * 0.5625);
+            pp.height = (int) (width * 0.5625);
             history_video_view.setLayoutParams(pp);
             //播放视频统计
 //        TrackHelper.track().impression("Android content impression").piece("video").target(url).with(((AppManager) getApplication()).getTracker());
@@ -392,7 +392,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                             orientationUtils.setEnable(!lock);
                         }
                     })
-                    .setGSYVideoProgressListener((progress, secProgress, currentPosition, duration) -> {})
+                    .setGSYVideoProgressListener((progress, secProgress, currentPosition, duration) -> {
+                    })
                     .build(history_video_view);
         }
 
@@ -405,35 +406,35 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 //        objectAnimator.start();
 
         initWebView();
-        loginDialog = new LoginDialog(this, R.style.dialog,true, () -> {
+        loginDialog = new LoginDialog(this, R.style.dialog, true, () -> {
             loginDialog.dismiss();
             webview.setVisibility(View.VISIBLE);
             webview.loadUrl("javascript:ab()");
         });
 
-        constraintLoginDialog = new LoginDialog(this, R.style.dialog,false, () -> {
+        constraintLoginDialog = new LoginDialog(this, R.style.dialog, false, () -> {
             constraintLoginDialog.dismiss();
             webview.setVisibility(View.VISIBLE);
             webview.loadUrl("javascript:ab()");
         });
 
         //初始化fragment
-        liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId,mMatchId);
+        liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId, mMatchId);
         liveDetailMainFragment.setLoginDialog(loginDialog);
-        if(!isLive){
+        if (!isLive) {
             liveDetailMainFragment.isHistory = true;
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_main, liveDetailMainFragment).commitAllowingStateLoss();
 
         iv_data.setVisibility(View.GONE);
 
-        clAvatarHeight = UIUtil.dip2px(this,70);
+        clAvatarHeight = UIUtil.dip2px(this, 70);
 
         //去掉状态栏
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
-    private void init(){
+    private void init() {
         statusBar = findViewById(R.id.statusBar);
         playerView = findViewById(R.id.playerView);
         fl_main = findViewById(R.id.fl_main);
@@ -486,7 +487,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             if (mCountDownTimer != null) {
                 mCountDownTimer.cancel();
             }
-            mvpPresenter.getInfo(true,mLiveId);
+            mvpPresenter.getInfo(true, mLiveId);
         }
     }
 
@@ -527,16 +528,16 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                             @Override
                             public void run() {
 //                                dialog.show();
-                                if(isCancelLoginDialog){
+                                if (isCancelLoginDialog) {
                                     loginDialog.show();
                                     loginDialog.passWebView();
-                                }else{
+                                } else {
                                     constraintLoginDialog.show();
                                     constraintLoginDialog.passWebView();
                                 }
                             }
                         });
-                    }else if(!isCancelLoginDialog){
+                    } else if (!isCancelLoginDialog) {
                         constraintLoginDialog.show();
                     }
                 }
@@ -549,8 +550,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         //设置状态栏高度
 //        LinearLayout.LayoutParams statusBarParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.getStatusBarHeight(this));
 //        statusBar.setLayoutParams(statusBarParams);
-        mvpPresenter.getInfo(false,mLiveId);
-        if(isLive){
+        mvpPresenter.getInfo(false, mLiveId);
+        if (isLive) {
             playerView.setPlayerViewCallback(new LivePlayerView.OnSuperPlayerViewCallback() {
                 @Override
                 public void onStartFullScreenPlay() {
@@ -635,7 +636,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
                 @Override
                 public void onLoadingEnd() {
-                    if(progress_bar.getVisibility() == View.VISIBLE){
+                    if (progress_bar.getVisibility() == View.VISIBLE) {
                         progress_bar.setVisibility(View.GONE);
                     }
                 }
@@ -735,9 +736,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                     //初始化播放器控件
                     //静音
 //                    playerView.setMute(false);
-                    if(isLive){
+                    if (isLive) {
                         playerView.play(bean.getInfo().getPull());
-                    }else{
+                    } else {
                         history_video_view.startPlayLogic();
                     }
                 }
@@ -747,17 +748,17 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 tv_title.setText(bean.getUserData().getTitle());
                 iv_star.setSelected(bean.getUserData().getIs_attention() == 0 ? false : true);
                 tv_name.setText(bean.getUserData().getUser_nickname());
-                tv_desc.setText("Fans: " +bean.getUserData().getAttention());
+                tv_desc.setText("Fans: " + bean.getUserData().getAttention());
                 int heatNum = bean.getUserData().getHeat();
 
-                tv_tool_eyes.setText(heatNum>1000 ? String.format("%.1f",(float)heatNum/1000) + "K" :heatNum+"");
+                tv_tool_eyes.setText(heatNum > 1000 ? String.format("%.1f", (float) heatNum / 1000) + "K" : heatNum + "");
                 if (bean.getInfo().getIs_like() == 1) {
                     iv_tool_heart.setSelected(true);
                 } else {
                     iv_tool_heart.setSelected(false);
                 }
                 int likeNum = bean.getInfo().getLike_num();
-                tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
+                tv_tool_heart.setText(likeNum > 1000 ? String.format("%.1f", (float) likeNum / 1000) + "K" : likeNum + "");
             }
             liveDetailMainFragment.updateFollowData(mLiveRoomBean);
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
@@ -785,7 +786,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 iv_star.setSelected(false);
             }
             mLiveRoomBean.getUserData().setAttention(attention);
-            tv_desc.setText("Fans: "+attention);
+            tv_desc.setText("Fans: " + attention);
             liveDetailMainFragment.updateFollowData(mLiveRoomBean);
         }
     }
@@ -805,17 +806,17 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 tv_title.setText(bean.getUserData().getTitle());
                 iv_star.setSelected(bean.getUserData().getIs_attention() == 0 ? false : true);
                 tv_name.setText(bean.getUserData().getUser_nickname());
-                tv_desc.setText("Fans: " +bean.getUserData().getAttention());
+                tv_desc.setText("Fans: " + bean.getUserData().getAttention());
                 int heatNum = bean.getUserData().getHeat();
 
-                tv_tool_eyes.setText(heatNum>1000 ? String.format("%.1f",(float)heatNum/1000) + "K" :heatNum+"");
+                tv_tool_eyes.setText(heatNum > 1000 ? String.format("%.1f", (float) heatNum / 1000) + "K" : heatNum + "");
                 if (bean.getInfo().getIs_like() == 1) {
                     iv_tool_heart.setSelected(true);
                 } else {
                     iv_tool_heart.setSelected(false);
                 }
                 int likeNum = bean.getInfo().getLike_num();
-                tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
+                tv_tool_heart.setText(likeNum > 1000 ? String.format("%.1f", (float) likeNum / 1000) + "K" : likeNum + "");
             }
             liveDetailMainFragment.updateFollowData(mLiveRoomBean);
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
@@ -900,21 +901,22 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public void showLikeSuccess() {
         int likeNum = mLiveRoomBean.getInfo().getLike_num();
         //1喜欢 0取消
-        if(mLiveRoomBean.getInfo().getIs_like() == 1){
+        if (mLiveRoomBean.getInfo().getIs_like() == 1) {
             mLiveRoomBean.getInfo().setIs_like(0);
             iv_tool_heart.setSelected(false);
             --likeNum;
-        }else{
+        } else {
             mLiveRoomBean.getInfo().setIs_like(1);
             iv_tool_heart.setSelected(true);
             ++likeNum;
         }
-        tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
+        tv_tool_heart.setText(likeNum > 1000 ? String.format("%.1f", (float) likeNum / 1000) + "K" : likeNum + "");
         mLiveRoomBean.getInfo().setLike_num(likeNum);
     }
 
     @Override
-    public void getDataFail(String msg) {}
+    public void getDataFail(String msg) {
+    }
 
     @Override
     public void onClick(View v) {
@@ -935,20 +937,22 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 break;
             case R.id.person_head_pic:
             case R.id.iv_avatar:
-                if (mLiveRoomBean != null)
-                    PersonalHomepageActivity.forward(LiveDetailActivity.this, mLiveRoomBean.getUserData().getUid() + "");
+                if (mLiveRoomBean != null) {
+                    if (!isFastDoubleClick())
+                        PersonalHomepageActivity.forward(LiveDetailActivity.this, mLiveRoomBean.getUserData().getUid() + "");
+                }
                 break;
             case R.id.ll_title:
                 //展开、折叠
-                if(cl_avatar.getVisibility() == View.GONE){
+                if (cl_avatar.getVisibility() == View.GONE) {
                     cl_avatar.setVisibility(View.VISIBLE);
                 }
-                if(isOpenAvatar){
-                    tv_title.setCompoundDrawables(null, null, drawableArrUp,null);
-                    expandView(cl_avatar,clAvatarHeight,0);
-                }else{
-                    tv_title.setCompoundDrawables(null, null, drawableArrDown,null);
-                    collapseView(cl_avatar,0,clAvatarHeight);
+                if (isOpenAvatar) {
+                    tv_title.setCompoundDrawables(null, null, drawableArrUp, null);
+                    expandView(cl_avatar, clAvatarHeight, 0);
+                } else {
+                    tv_title.setCompoundDrawables(null, null, drawableArrDown, null);
+                    collapseView(cl_avatar, 0, clAvatarHeight);
                 }
                 isOpenAvatar = !isOpenAvatar;
                 break;
@@ -958,21 +962,21 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                     if (mLiveRoomBean.getUserData() != null && mLiveRoomBean.getUserData().getIs_attention() == 0) {
                         doFollow();
                     }
-                }else if(loginDialog!=null){
+                } else if (loginDialog != null) {
                     isCancelLoginDialog = true;
                     loginDialog.show();
-                }else{
+                } else {
                     ToastUtil.show(getString(R.string.please_login));
                 }
                 break;
             case R.id.iv_tool_heart:
             case R.id.ll_heart:
                 if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                    mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(),mLiveRoomBean.getInfo().getIs_like()==1?0:1);
-                }else if(loginDialog!=null){
+                    mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(), mLiveRoomBean.getInfo().getIs_like() == 1 ? 0 : 1);
+                } else if (loginDialog != null) {
                     isCancelLoginDialog = true;
                     loginDialog.show();
-                }else{
+                } else {
                     ToastUtil.show(getString(R.string.please_login));
                 }
                 break;
@@ -989,7 +993,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     @Override
     protected void onResume() {
         super.onResume();
-        if(isLive){
+        if (isLive) {
             if (playerView.getPlayerState() == SuperPlayerDef.PlayerState.PLAYING
                     || playerView.getPlayerState() == SuperPlayerDef.PlayerState.PAUSE) {
                 if (playerView.getPlayerMode() == SuperPlayerDef.PlayerMode.FLOAT) {
@@ -1012,7 +1016,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             if (playerView.getPlayerMode() != SuperPlayerDef.PlayerMode.FLOAT) {
                 playerView.onResume();
             }
-        }else{
+        } else {
             history_video_view.onVideoResume();
         }
     }
@@ -1023,17 +1027,17 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         if (isLive && playerView.getPlayerMode() != SuperPlayerDef.PlayerMode.FLOAT) {
             playerView.onPause();
         }
-        if(!isLive && !isFinishing()){
+        if (!isLive && !isFinishing()) {
             history_video_view.onVideoPause();
         }
-        if(shareDialog!=null && shareDialog.isShowing()){
+        if (shareDialog != null && shareDialog.isShowing()) {
             shareDialog.dismiss();
         }
     }
 
     @Override
     protected void onDestroy() {
-        if(shareDialog!=null){
+        if (shareDialog != null) {
             shareDialog = null;
         }
 
@@ -1053,11 +1057,11 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             mCountDownTimer.cancel();
         }
 
-        if(!isLive){
+        if (!isLive) {
             GSYVideoManager.releaseAllVideos();
             GSYVideoManager.instance().clearAllDefaultCache(this);
         }
-        if (orientationUtils != null){
+        if (orientationUtils != null) {
             orientationUtils.releaseListener();
         }
 
@@ -1225,7 +1229,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         customMsgBean.setType(MessageInfo.MSG_TYPE_BG_DANMU);
         customMsgBean.setNormal(msgBean);
         MessageInfo messageInfo = ChatMessageInfoUtil.buildCustomMessage(JSONObject.toJSONString(customMsgBean), "", null);
-        String touristId= CommonAppConfig.getInstance().getVisitorUserId()+"";
+        String touristId = CommonAppConfig.getInstance().getVisitorUserId() + "";
         messageInfo.setNickName(!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) ? CommonAppConfig.getInstance().getUserBean().getUser_nickname() : touristId);
         messageInfo.setStatus(MessageInfo.MSG_STATUS_SEND_SUCCESS);
         messageInfo.setSelf(true);
@@ -1255,7 +1259,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 new V2TIMSendCallback<V2TIMMessage>() {
                     @Override
                     public void onProgress(int i) {
-                        Log.d("发送弹幕","onProgress i="+i);
+                        Log.d("发送弹幕", "onProgress i=" + i);
                     }
 
                     @Override
@@ -1270,7 +1274,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
                     @Override
                     public void onError(int i, String s) {
-                        Log.d("发送弹幕","onError i="+i+"----- s="+s);
+                        Log.d("发送弹幕", "onError i=" + i + "----- s=" + s);
                     }
                 });
     }
@@ -1535,6 +1539,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         });
         animatorSet.start();
     }
+
     /***********************喇叭消息end***********************/
 
     //直播间右侧足球数据页
@@ -1553,13 +1558,13 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 //        }
     }
 
-    public void getMatchDetail(){
+    public void getMatchDetail() {
         mvpPresenter.getMatchDetail(mMatchId);
     }
 
     @Override
     public void onBackPressed() {
-        if(!isLive){
+        if (!isLive) {
             //不需要回归竖屏
             if (orientationUtils != null) {
                 orientationUtils.backToProtVideo();
@@ -1577,8 +1582,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     private LinearLayout ll_pic;
     private View view1;
     private ImageView ivScreen;
-    private void initShareScreen(){
-        view1 = mActivity.getLayoutInflater().inflate(R.layout.dialog_share_live,null);
+
+    private void initShareScreen() {
+        view1 = mActivity.getLayoutInflater().inflate(R.layout.dialog_share_live, null);
         ImageView ivCode = view1.findViewById(R.id.iv_code);
         ivScreen = view1.findViewById(R.id.iv_screen);
         ll_pic = view1.findViewById(R.id.ll_pic);
@@ -1589,7 +1595,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         //赋值封面
         android.view.ViewGroup.LayoutParams ppiv_cover = iv_c.getLayoutParams();
         int width = UIUtil.getScreenWidth(mActivity);
-        ppiv_cover.height = (int)(width * 0.5625 * 0.8);
+        ppiv_cover.height = (int) (width * 0.5625 * 0.8);
         iv_c.setLayoutParams(ppiv_cover);
         GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_c);
         //跳过内存缓存 否则得到的是失败图片
@@ -1597,8 +1603,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         GlideUtil.loadUserImageDefault(mActivity, mLiveRoomBean.getUserData().getAvatar(), head_pic);
 
         //生成二维码
-        if(shareQRCodeBitmap == null){
-            shareQRCodeBitmap = createQrCode(SHARE_LIVE_URL,UIUtil.dip2px(mActivity,35),UIUtil.dip2px(mActivity,35));
+        if (shareQRCodeBitmap == null) {
+            shareQRCodeBitmap = createQrCode(SHARE_LIVE_URL, UIUtil.dip2px(mActivity, 35), UIUtil.dip2px(mActivity, 35));
         }
         ivCode.setImageBitmap(shareQRCodeBitmap);
 
@@ -1607,15 +1613,16 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 //        ppivScreen.height = height;
 //        ivScreen.setLayoutParams(ppivScreen);
 
-        if(shareDialog==null){
+        if (shareDialog == null) {
             shareDialog = new AlertDialog.Builder(mActivity).setView(view1).create();
             shareDialog.setCancelable(true);
             shareDialog.setCanceledOnTouchOutside(true);
         }
 
     }
-    private void shareScreen(){
-        if(shareDialog == null){
+
+    private void shareScreen() {
+        if (shareDialog == null) {
             return;
         }
         //拼接截图
@@ -1636,11 +1643,11 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         Window w = shareDialog.getWindow();
         w.setLayout((int) (dm.widthPixels * 0.9), ViewGroup.LayoutParams.WRAP_CONTENT);
         w.findViewById(R.id.tv_share).setOnClickListener(v -> {
-            if(picBitmap==null){
+            if (picBitmap == null) {
                 picBitmap = convertViewToBitmap(ll_pic);
             }
             //分享到第三方
-            if(sharePictureFile(mActivity,picBitmap)){
+            if (sharePictureFile(mActivity, picBitmap)) {
                 shareDialog.dismiss();
             }
 
@@ -1648,21 +1655,21 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
         w.findViewById(R.id.tv_url).setOnClickListener(v -> {
             //分享链接
-            ShareUtil.shareText(mActivity,"",SHARE_LIVE_URL+"pages/Live/live-detail?id="+mAnchorId+"&ID="+mLiveId);
+            ShareUtil.shareText(mActivity, "", SHARE_LIVE_URL + "pages/Live/live-detail?id=" + mAnchorId + "&ID=" + mLiveId);
         });
 
 
         w.findViewById(R.id.tv_save).setOnClickListener(v -> {
-            if(picBitmap==null){
+            if (picBitmap == null) {
                 picBitmap = convertViewToBitmap(ll_pic);
             }
             //保存图片
-            if(saveBitmapFile(mActivity,picBitmap)!=null){
+            if (saveBitmapFile(mActivity, picBitmap) != null) {
                 shareDialog.dismiss();
             }
         });
 
-        w.findViewById(R.id.ll_pic).setOnClickListener(v->{
+        w.findViewById(R.id.ll_pic).setOnClickListener(v -> {
             shareDialog.dismiss();
         });
 
@@ -1677,21 +1684,21 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 for (int i = 0; i < grantResults.length; i++) {
                     if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                         boolean flag = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]);
-                        ToastUtil.show(getString(flag?R.string.start_permission_storage_setting_tip:R.string.start_permission_storage_tip));
+                        ToastUtil.show(getString(flag ? R.string.start_permission_storage_setting_tip : R.string.start_permission_storage_tip));
                         return;
                     }
                 }
-                sharePictureFile(mActivity,picBitmap);
+                sharePictureFile(mActivity, picBitmap);
                 break;
             case 10004:
                 for (int i = 0; i < grantResults.length; i++) {
                     if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                         boolean flag = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]);
-                        ToastUtil.show(getString(flag?R.string.start_permission_storage_setting_tip:R.string.start_permission_storage_tip));
+                        ToastUtil.show(getString(flag ? R.string.start_permission_storage_setting_tip : R.string.start_permission_storage_tip));
                         return;
                     }
                 }
-                saveBitmapFile(mActivity,picBitmap);
+                saveBitmapFile(mActivity, picBitmap);
                 break;
             default:
                 break;

@@ -18,6 +18,7 @@ import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.activity.VideoCompletePlayActivity;
 import com.onecric.live.model.MovingBean;
 import com.onecric.live.util.GlideUtil;
+import com.onecric.live.view.MvpActivity;
 import com.tencent.qcloud.tuikit.tuichat.component.face.FaceManager;
 
 import java.util.List;
@@ -39,7 +40,8 @@ public class LiveMovingCommentAdapter extends BaseQuickAdapter<MovingBean, BaseV
         iv_avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PersonalHomepageActivity.forward(mContext, item.getUid() + "");
+                if (!((MvpActivity) mContext).isFastDoubleClick())
+                    PersonalHomepageActivity.forward(mContext, item.getUid() + "");
             }
         });
         GlideUtil.loadUserImageDefault(mContext, item.getAvatar(), iv_avatar);
