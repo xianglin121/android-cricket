@@ -321,6 +321,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             case R.id.iv_title_avatar:
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     ToastUtil.show(getString(R.string.please_login));
+                    loginDialog.show();
                     return;
                 }
 //                MySpaceActivity.forward(this, mModel.getUid());
