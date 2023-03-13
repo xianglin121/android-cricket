@@ -14,6 +14,7 @@ import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.custom.ButtonFollowView;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.util.GlideUtil;
+import com.onecric.live.view.MvpActivity;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class MyFollowAdapter extends BaseQuickAdapter<UserBean, BaseViewHolder> 
         iv_avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!((MvpActivity) mContext).isFastDoubleClick())
                 PersonalHomepageActivity.forward(mContext, item.getFollowed_id() + "");
             }
         });

@@ -167,6 +167,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                     loginDialog.show();
                 } else {
 //                UserInfoActivity.forward(mActivity);
+                    if (!isFastDoubleClick())
                     PersonalHomepageActivity.forward(mActivity, CommonAppConfig.getInstance().getUid());
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
