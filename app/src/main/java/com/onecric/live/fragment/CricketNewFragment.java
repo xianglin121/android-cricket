@@ -24,6 +24,7 @@ import com.github.gzuliyujiang.calendarpicker.CalendarPicker;
 import com.github.gzuliyujiang.calendarpicker.core.ColorScheme;
 import com.onecric.live.AppManager;
 import com.onecric.live.R;
+import com.onecric.live.activity.SearchMatchActivity;
 import com.onecric.live.adapter.CricketDayAdapter;
 import com.onecric.live.adapter.CricketFiltrateAdapter;
 import com.onecric.live.fragment.dialog.LoginDialog;
@@ -247,7 +248,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
         switch (v.getId()){
             case R.id.tv_search:
                 //跳转搜索页面
-
+                SearchMatchActivity.forward(getContext());
                 break;
             case R.id.tv_live_now:
                 tv_live_now.setSelected(!tv_live_now.isSelected());
