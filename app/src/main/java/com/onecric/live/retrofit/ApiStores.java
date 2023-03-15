@@ -883,4 +883,9 @@ public interface ApiStores {
     //获取赛事标签
     @GET("api/Cricketnew/get_cricket_tag")
     Observable<JsonObject> getFiltrateList();
+
+
+    //新赛事搜索
+    @GET("api/Cricketnew/get_search")
+    Observable<JsonObject> searchMatchNew(@Query("timezone") String timezone,@Query("content") String content,@Query("type")String type,@Query("page")int page);
 }

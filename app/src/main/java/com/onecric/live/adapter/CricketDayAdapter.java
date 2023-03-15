@@ -42,6 +42,8 @@ public class CricketDayAdapter extends BaseQuickAdapter<CricketDayBean, BaseView
                 CricketInnerActivity.forward(mContext, mAdapter.getItem(position).getName(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getTournamentId());
             }
         });
+        View inflate = LayoutInflater.from(mContext).inflate(R.layout.layout_match_rv_empty, null, false);
+        mAdapter.setEmptyView(inflate);
         RecyclerView rv_cricket = helper.getView(R.id.rv_cricket);
         rv_cricket.setLayoutManager(new LinearLayoutManager(mContext));
         rv_cricket.setAdapter(mAdapter);

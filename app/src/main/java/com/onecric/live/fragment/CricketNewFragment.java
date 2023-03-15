@@ -119,6 +119,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
         ll_tours = findViewById(R.id.ll_tours);
         tv_live_now.setOnClickListener(this);
         tv_tours_num.setOnClickListener(this);
+        findViewById(R.id.tv_fresh).setOnClickListener(this);
         findViewById(R.id.tv_search).setOnClickListener(this);
         findViewById(R.id.tv_calendar).setOnClickListener(this);
         ll_tours.setOnClickListener(this);
@@ -326,6 +327,29 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 if(mStreamDialog != null){
                     mStreamDialog.dismiss();
                 }
+            case R.id.tv_fresh:
+                if(isLiveNow){
+                    tv_live_now.setSelected(false);
+                    isLiveNow = false;
+                    smart_rl.setEnableLoadMore(true);
+                    smart_rl.setEnableRefresh(true);
+                }
+
+                if(streamType!=0){
+                    streamType = 0;
+                    if(iv_all != null){
+                        iv_all.setSelected(true);
+                        iv_all_match.setSelected(false);
+                        iv_all_author.setSelected(false);
+                    }
+                    ll_streaming.setSelected(false);
+                    iv_streaming.setSelected(false);
+                    tv_streaming.setSelected(false);
+                }
+
+                mvpPresenter.getFiltrateList();
+                requestList(1);
+                break;
             default:break;
         }
 
@@ -362,6 +386,9 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
 
     @Override
     public void getDataSuccess(List<CricketFiltrateBean> list) {
+        filtrateCheckedList.clear();
+        selectToursNum = 0;
+        tv_tours_num.setVisibility(View.GONE);
         if(list!=null){
             mFiltrateAdapter.setNewData(list);
             ll_tours.setVisibility(View.VISIBLE);

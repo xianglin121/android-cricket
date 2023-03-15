@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -167,13 +166,40 @@
 
     </RelativeLayout>
 
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/c_80DCDBE0"
         android:layout_gravity="center_vertical" />
 
-    <include layout="@layout/layout_common_list2"/>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/smart_rl">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/layout_match_empty"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FBFBFC"/>
+
+            <ImageView
+                android:id="@+id/iv_publish"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:layout_gravity="right|bottom"
+                android:layout_marginBottom="32dp"
+                android:layout_marginRight="16dp"
+                android:background="@mipmap/icon_video_publish"/>
+
+        </FrameLayout>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>
