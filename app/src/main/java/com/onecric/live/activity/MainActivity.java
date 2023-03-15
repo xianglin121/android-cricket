@@ -168,7 +168,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 } else {
 //                UserInfoActivity.forward(mActivity);
                     if (!isFastDoubleClick())
-                    PersonalHomepageActivity.forward(mActivity, CommonAppConfig.getInstance().getUid());
+                        PersonalHomepageActivity.forward(mActivity, CommonAppConfig.getInstance().getUid());
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
@@ -716,7 +716,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             } else {//比赛已经结束 或者是延迟进入比赛详情界面
                 intent.setClass(this, CricketDetailActivity.class);
                 intent.putExtra("matchId", Integer.parseInt(bundle.getString("matchId")));
-                this.startActivity(intent);
             }
             this.startActivity(intent);
         }
