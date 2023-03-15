@@ -95,7 +95,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            String notificationBody = remoteMessage.getNotification().getBody();
+//            String notificationBody = remoteMessage.getNotification().getBody();
             if (remoteMessage.getNotification().getBody() != null) {
                 sendNotification(remoteMessage);
             }
@@ -193,7 +193,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 NotificationCompat.Builder notificationBuilder =
                         new NotificationCompat.Builder(this, channelId)
                                 .setSmallIcon(R.mipmap.ic_launcher)
-                                .setContentTitle(getString(R.string.fcm_message))
+                                .setContentTitle(remoteMessage.getNotification().getTitle())
                                 .setContentText(remoteMessage.getNotification().getBody())
                                 .setAutoCancel(true)
                                 .setSound(defaultSoundUri)
