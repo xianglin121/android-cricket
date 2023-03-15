@@ -96,7 +96,7 @@
         android:layout_marginRight="12dp"
         android:padding="12dp"
         android:orientation="vertical"
-        android:background="@drawable/shape_f1f1f1_6dp_rec">
+        android:background="@drawable/shape_f1f1f1_10dp_rec">
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"

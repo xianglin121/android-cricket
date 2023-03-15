@@ -17,6 +17,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.onecric.live.AppManager;
 import com.onecric.live.R;
 import com.onecric.live.activity.MainActivity;
 import com.onecric.live.fragment.CricketNewFragment;
@@ -33,16 +34,12 @@ import java.util.List;
  * 时间：2022/8/27
  */
 public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.CricketMatchNewBean, BaseViewHolder> {
-    private CricketNewFragment fragment;
-    private CricketNewBean bean;
     private Drawable drawableArrRed, drawableArrTransparent;
-    public CricketInnerNewAdapter(CricketNewFragment fragment, int layoutResId, @Nullable List<CricketNewBean.CricketMatchNewBean> data,CricketNewBean item) {
+    public CricketInnerNewAdapter(int layoutResId, @Nullable List<CricketNewBean.CricketMatchNewBean> data) {
         super(layoutResId, data);
-        this.fragment = fragment;
-        this.bean = item;
-        drawableArrRed = fragment.getActivity().getDrawable(R.mipmap.icon_arrow_left_two);
+        drawableArrRed = AppManager.mContext.getDrawable(R.mipmap.icon_arrow_left_two);
         drawableArrRed.setBounds(0,0,drawableArrRed.getMinimumWidth(),drawableArrRed.getMinimumHeight());
-        drawableArrTransparent = fragment.getActivity().getDrawable(R.mipmap.img_transparent1624);
+        drawableArrTransparent = AppManager.mContext.getDrawable(R.mipmap.img_transparent1624);
         drawableArrTransparent.setBounds(0,0,drawableArrTransparent.getMinimumWidth(),drawableArrTransparent.getMinimumHeight());
     }
 
@@ -75,11 +72,11 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
 
         if (item.getStatus() == 2) {//已结束
             helper.setText(R.id.tv_state_info,"Completed");
-            if (item.getHomeId() == item.getWin_id()) {//主赢
+            if (item.getHomeId() == item.getWinId()) {//主赢 右边
                 tv_home_score.setCompoundDrawables(null,null,drawableArrRed,null);
                 tv_away_score.setTextColor(mContext.getResources().getColor(R.color.c_999999));
                 helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_999999));
-            } else if(item.getAwayId() == item.getWin_id()){//客赢
+            } else if(item.getAwayId() == item.getWinId()){//客赢
                 tv_away_score.setCompoundDrawables(null,null,drawableArrRed,null);
                 tv_home_score.setTextColor(mContext.getResources().getColor(R.color.c_999999));
                 helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_999999));
@@ -88,7 +85,7 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
             //转时间戳 得到倒计时毫秒数
             long time = DateTimeUtil.getStringToDate(item.getScheduled(), "yyyy-MM-dd HH:mm:ss");
             long countTime = time - new Date().getTime();
-            if (item.getFast_status() == 1 && countTime > 0) {
+            if (item.getFastStatus() == 1 && countTime > 0) {
                 //开始倒计时
                 new CountDownTimer(countTime, 1000) {
                     public void onTick(long millisUntilFinished) {
@@ -115,13 +112,13 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
         } else {//已开始
             resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_regular));
             helper.getView(R.id.tv_state_info).setVisibility(View.GONE);
-            if(TextUtils.isEmpty(item.getMatch_live()) && item.getLiveStatus() != 1){
+            if(item.getMatchLive() != 1 && !"1".equals(item.getLiveStatus()) ){
                 helper.getView(R.id.tv_state_score).setVisibility(View.VISIBLE);
             }else {
-                if(!TextUtils.isEmpty(item.getMatch_live())){
+                if(item.getMatchLive() == 1){
                     helper.getView(R.id.tv_state_watch_live).setVisibility(View.VISIBLE);
                 }
-                if (item.getLiveStatus() == 1 && item.getLiveId() != 0) {
+                if ("1".equals(item.getLiveStatus()) && item.getLiveId() != 0) {
                     //主播直播
                     helper.getView(R.id.tv_state_live).setVisibility(View.VISIBLE);
                 }

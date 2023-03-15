@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_time_title"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:paddingTop="25dp"
+        android:layout_below="@id/rv_filtrate"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_display_semibold"
+            android:textSize="18sp"
+            android:textColor="@color/c_111111"
+            android:paddingLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/c_111111"
+            android:paddingLeft="8dp"
+            android:layout_toRightOf="@id/tv_day"
+            android:layout_alignBottom="@id/tv_day"/>
+
+        <TextView
+            android:id="@+id/tv_month"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/c_111111"
+            android:paddingLeft="8dp"
+            android:layout_toRightOf="@id/tv_date"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@id/tv_day"/>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/c_DCDBE0"
+            android:layout_below="@id/tv_date"
+            android:layout_marginTop="@dimen/dp_10"/>
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_cricket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

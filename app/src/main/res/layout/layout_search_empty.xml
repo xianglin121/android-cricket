@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_empty"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    android:paddingTop="110dp">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/img_search_empty"/>
+
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Result for 'xxx'"
+        android:textSize="18dp"
+        android:textColor="@color/c_111111"
+        android:fontFamily="@font/noto_sans_display_semibold"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please check the spelling or try\n different words"
+        android:textSize="15dp"
+        android:textColor="@color/c_111111"
+        android:letterSpacing="0.05"
+        android:fontFamily="@font/noto_sans_display_regular"
+        android:layout_marginTop="10dp"
+        android:gravity="center"/>
+</LinearLayout>

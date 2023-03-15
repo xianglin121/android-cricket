@@ -421,7 +421,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
         mViewList.add(themeFragment);
 //        mViewList.add(new CricketFragment());
-        //fixme 测试
         mViewList.add(new CricketNewFragment());
         mViewList.add(liveFragment);
         mViewList.add(videoFragment);
