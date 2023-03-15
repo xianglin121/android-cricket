@@ -75,11 +75,11 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
 
         if (item.getStatus() == 2) {//已结束
             helper.setText(R.id.tv_state_info,"Completed");
-            if (item.getHomeId() == item.getWin_id()) {//主赢 右边
+            if (item.getHomeId() == item.getWin_id()) {//主赢
                 tv_home_score.setCompoundDrawables(null,null,drawableArrRed,null);
                 tv_away_score.setTextColor(mContext.getResources().getColor(R.color.c_999999));
                 helper.setTextColor(R.id.tv_away_score2, mContext.getResources().getColor(R.color.c_999999));
-            } else {//客赢
+            } else if(item.getAwayId() == item.getWin_id()){//客赢
                 tv_away_score.setCompoundDrawables(null,null,drawableArrRed,null);
                 tv_home_score.setTextColor(mContext.getResources().getColor(R.color.c_999999));
                 helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_999999));
