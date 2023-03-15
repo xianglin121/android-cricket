@@ -880,7 +880,17 @@ public interface ApiStores {
     Observable<JsonObject> getCricketNewMatchList(@Header("token") String token, @Query("timezone") String timezone,
                                                   @Query("date") String date,@Query("tag") String tag,@Query("match_live") int match_live,@Query("live") int live);
 
+    //获取新赛事列表 3.15
+    @GET("api/Cricketnew/cricket_match_day")
+    Observable<JsonObject> getCricketDayMatchList(@Header("token") String token, @Query("timezone") String timezone,
+                                                  @Query("date") String date,@Query("tag") String tag,@Query("match_live") int match_live,@Query("live") int live);
+
     //获取赛事标签
     @GET("api/Cricketnew/get_cricket_tag")
     Observable<JsonObject> getFiltrateList();
+
+
+    //新赛事搜索
+    @GET("api/Cricketnew/get_search")
+    Observable<JsonObject> searchMatchNew(@Query("timezone") String timezone,@Query("content") String content,@Query("type")String type,@Query("page")int page);
 }

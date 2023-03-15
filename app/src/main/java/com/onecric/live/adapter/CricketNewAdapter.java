@@ -26,30 +26,12 @@ import java.util.List;
  * 时间：2022/8/27
  */
 public class CricketNewAdapter extends BaseQuickAdapter<CricketNewBean, BaseViewHolder> {
-    CricketNewFragment fragment;
-    private int lastCount = 0;
-
-    public CricketNewAdapter(CricketNewFragment fragment, int layoutResId, @Nullable List<CricketNewBean> data) {
+    public CricketNewAdapter(int layoutResId, @Nullable List<CricketNewBean> data) {
         super(layoutResId, data);
-        this.fragment = fragment;
     }
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, CricketNewBean item) {
-        //是否是新的一天
-        if(helper.getLayoutPosition() == 0 || item.isHasTitle || (helper.getLayoutPosition() == lastCount && fragment.isMore)){//
-            item.isHasTitle = true;
-            lastCount = this.getItemCount();
-            helper.getView(R.id.rl_time_title).setVisibility(View.VISIBLE);
-            String dates[] = getDayInfo(item.date);
-            fragment.setDayInfo(dates);
-            helper.setText(R.id.tv_date,dates[0]);
-            helper.setText(R.id.tv_month,dates[1]);
-            helper.setText(R.id.tv_day,dates[2]);
-        }else{
-            helper.getView(R.id.rl_time_title).setVisibility(View.GONE);
-        }
-
         helper.addOnClickListener(R.id.ll_title);
         if (!TextUtils.isEmpty(item.getName())) {
             helper.setText(R.id.tv_title, item.getName());
@@ -60,11 +42,11 @@ public class CricketNewAdapter extends BaseQuickAdapter<CricketNewBean, BaseView
         rv_inner.setLayoutManager(new LinearLayoutManager(mContext));
         List<CricketNewBean.CricketMatchNewBean> tempList = item.getCricketMatch();
 
-        CricketInnerNewAdapter innerAdapter = new CricketInnerNewAdapter(fragment,R.layout.item_cricket_inner_new, tempList,item);
+        CricketInnerNewAdapter innerAdapter = new CricketInnerNewAdapter(R.layout.item_cricket_inner_new, tempList);
         innerAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if(view.getId() == R.id.tv_state_live){
                 //跳转主播直播页
-                if(innerAdapter.getItem(position).getLiveId() != 0 && innerAdapter.getItem(position).getLiveStatus() == 1){
+                if(innerAdapter.getItem(position).getLiveId() != 0 && "1".equals(innerAdapter.getItem(position).getLiveStatus())){
                     LiveDetailActivity.forward(mContext,innerAdapter.getItem(position).getLiveId(),innerAdapter.getItem(position).getId(),innerAdapter.getItem(position).getLiveId());
                 }
             }else if(view.getId() == R.id.tv_state_watch_live){

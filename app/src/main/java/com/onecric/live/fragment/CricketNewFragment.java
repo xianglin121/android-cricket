@@ -1,29 +1,42 @@
 package com.onecric.live.fragment;
 
 
+import static com.onecric.live.util.AnimUtils.transAnim;
+import static com.onecric.live.util.TimeUtil.getDayInfo;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
+import com.ethanhua.skeleton.Skeleton;
+import com.github.gzuliyujiang.calendarpicker.CalendarPicker;
+import com.github.gzuliyujiang.calendarpicker.core.ColorScheme;
 import com.onecric.live.AppManager;
 import com.onecric.live.R;
-import com.onecric.live.activity.CricketInnerActivity;
+import com.onecric.live.activity.SearchMatchActivity;
+import com.onecric.live.adapter.CricketDayAdapter;
 import com.onecric.live.adapter.CricketFiltrateAdapter;
-import com.onecric.live.adapter.CricketNewAdapter;
 import com.onecric.live.fragment.dialog.LoginDialog;
+import com.onecric.live.model.CricketAllBean;
 import com.onecric.live.model.CricketFiltrateBean;
-import com.onecric.live.model.CricketNewBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.cricket.CricketNewPresenter;
 import com.onecric.live.util.ToastUtil;
@@ -40,6 +53,7 @@ import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -63,25 +77,30 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
     private TextView tv_streaming;
     private SmartRefreshLayout smart_rl;
     private RecyclerView recyclerView;
+    private LinearLayout ll_tours;
+    private TextView tv_to_today;
+    private TextView tv_fresh;
 
-    private CricketNewAdapter mAdapter;
+    private CricketDayAdapter mAdapter;
     private CricketFiltrateAdapter mFiltrateAdapter;
     private LoginDialog loginDialog;
 
     private boolean isLiveNow = false;
     private int streamType = 0;
     private int selectToursNum = 0;
-//    private int beforePage = 0;
-//    private int afterPage = 0;
     private Dialog mStreamDialog;
     private List<CricketFiltrateBean> filtrateCheckedList;
-    private List<CricketFiltrateBean> filtrateList;
     private String tag="";
-    private String lastDay="";
-    private String endDay="";
-    public boolean isMore;
     private boolean isNotNetWork;
 
+    private long singleTimeInMillis;
+    private CalendarPicker picker;
+    private RecyclerViewSkeletonScreen skeletonScreen,filtrateSkeletonScreen;
+
+    private String lastDay;
+    private String endDay;
+    public int todayPosition = 0;
+    private Drawable drawableTop,drawableDown;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_cricket2;
@@ -107,12 +126,22 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
         tv_tours_num = findViewById(R.id.tv_tours_num);
         smart_rl = findViewById(R.id.smart_rl);
         recyclerView = findViewById(R.id.recyclerView);
+        ll_tours = findViewById(R.id.ll_tours);
+        tv_to_today = findViewById(R.id.tv_to_today);
         tv_live_now.setOnClickListener(this);
         tv_tours_num.setOnClickListener(this);
+        tv_fresh = findViewById(R.id.tv_fresh);
+        tv_fresh.setOnClickListener(this);
         findViewById(R.id.tv_search).setOnClickListener(this);
         findViewById(R.id.tv_calendar).setOnClickListener(this);
-        findViewById(R.id.ll_tours).setOnClickListener(this);
+        findViewById(R.id.tv_to_today).setOnClickListener(this);
+        ll_tours.setOnClickListener(this);
         initStreamDialog();
+        initCalendarPicker();
+        drawableTop = getContext().getDrawable(R.mipmap.ic_go_today_up);
+        drawableTop.setBounds(0,0,drawableTop.getMinimumWidth(),drawableTop.getMinimumHeight());
+        drawableDown = getContext().getDrawable(R.mipmap.ic_go_today_up);
+        drawableDown.setBounds(0,0,drawableDown.getMinimumWidth(),drawableDown.getMinimumHeight());
     }
 
     @SuppressLint("SetTextI18n")
@@ -137,7 +166,6 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 }
                 tv_tours_num.setText(selectToursNum + "");
                 tv_tours_num.setVisibility(selectToursNum > 0 ? View.VISIBLE : View.GONE);
-//                rv_filtrate.scrollToPosition(0);
                 if(filtrateCheckedList.size()>0){
                     StringBuilder tagsId = new StringBuilder();
                     for(CricketFiltrateBean bean : filtrateCheckedList){
@@ -170,38 +198,62 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
         materialHeader.setColorSchemeColors(getResources().getColor(R.color.c_DC3C23));
         smart_rl.setRefreshHeader(materialHeader);
         smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
-        smart_rl.setEnableLoadMore(true);
-        smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {
+        smart_rl.setEnableLoadMore(false);
+/*        smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 //后一天
-//                afterPage++;
-                isMore = true;
                 requestList(2);
             }
-        });
+        });*/
 
         smart_rl.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 //前一天
-//                beforePage++;
-                isMore = false;
                 requestList(0);
             }
         });
 
-        mAdapter = new CricketNewAdapter(this,R.layout.item_cricket_new, new ArrayList<>());
-        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
-        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            if (view.getId() == R.id.ll_title) {
-                CricketInnerActivity.forward(getContext(), mAdapter.getItem(position).getName(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getTournamentId());
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    int lastVisibleItem = manager.findLastVisibleItemPosition();
+                    int totalItemCount = manager.getItemCount();
+                    if (lastVisibleItem == (totalItemCount - 1)) {
+                        requestList(2);
+                    }
+                }else if(newState == RecyclerView.SCROLL_STATE_DRAGGING){
+                    if(recyclerView.getChildAt(0) != null){
+                        int currentPosition = ((RecyclerView.LayoutParams) recyclerView.getChildAt(0).getLayoutParams()).getViewAdapterPosition();
+                        setDayInfo(getDayInfo(mAdapter.getItem(currentPosition).getDay()));
+                    }
+                }
+
             }
         });
+
+        mAdapter = new CricketDayAdapter(this,R.layout.item_cricket_day, new ArrayList<>());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(mAdapter);
+
+        filtrateSkeletonScreen = Skeleton.bind(rv_filtrate)
+                .adapter(mFiltrateAdapter)
+                .shimmer(false)
+                .count(6)
+                .load(R.layout.item_cricket_filtrate_skeleton)
+                .show();
+
+        skeletonScreen = Skeleton.bind(recyclerView)
+                .adapter(mAdapter)
+                .shimmer(false)
+                .count(2)
+                .load(R.layout.item_cricket_skeleton)
+                .show();
 
         mvpPresenter.getFiltrateList();
         requestList(1);
@@ -233,16 +285,24 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
         switch (v.getId()){
             case R.id.tv_search:
                 //跳转搜索页面
-
+                SearchMatchActivity.forward(getContext());
                 break;
             case R.id.tv_live_now:
                 tv_live_now.setSelected(!tv_live_now.isSelected());
                 isLiveNow = tv_live_now.isSelected();
+                if(isLiveNow){
+                    smart_rl.setEnableRefresh(false);
+                }else{
+                    smart_rl.setEnableRefresh(true);
+                }
                 requestList(1);
                 break;
             case R.id.tv_calendar:
                 //选择日期 时间选择器
-
+                if(picker == null){
+                    initCalendarPicker();
+                }
+                picker.show();
                 break;
             case R.id.ll_tours:
                 //展开筛选联赛弹窗
@@ -301,13 +361,77 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 if(mStreamDialog != null){
                     mStreamDialog.dismiss();
                 }
+            case R.id.tv_to_today:
+                //fixme 回到当日
+//                recyclerView.scrollToPosition(todayPosition);
+//                showTodayBtnAnim(1);
+                break;
+            case R.id.tv_fresh:
+                hideEmptyView();
+                recyclerView.setVisibility(View.VISIBLE);
+                if(isLiveNow){
+                    tv_live_now.setSelected(false);
+                    isLiveNow = false;
+                    smart_rl.setEnableRefresh(true);
+                }
+
+                if(streamType!=0){
+                    streamType = 0;
+                    if(iv_all != null){
+                        iv_all.setSelected(true);
+                        iv_all_match.setSelected(false);
+                        iv_all_author.setSelected(false);
+                    }
+                    ll_streaming.setSelected(false);
+                    iv_streaming.setSelected(false);
+                    tv_streaming.setSelected(false);
+                }
+
+                tag = "";
+
+                mvpPresenter.getFiltrateList();
+                requestList(1);
+                break;
             default:break;
         }
+    }
 
+    private void showTodayBtnAnim(int type){
+        switch (type){
+            case 0://从下往上 出现
+                transAnim(tv_to_today,0,-tv_to_today.getMeasuredHeight()- UIUtil.dip2px(getContext(),20));
+                break;
+            case 1://从上往下 退出
+                transAnim(tv_to_today,0,tv_to_today.getMeasuredHeight() + UIUtil.dip2px(getContext(),20));
+                break;
+            case 2://从左往右 宽度过渡90dp->43dp
+                ScaleAnimation animation2 = new ScaleAnimation(1,0.5f,1,1f);//设置缩小
+                animation2.setDuration(1000);
+                tv_to_today.startAnimation(animation2);
+                animation2.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        android.view.ViewGroup.LayoutParams pp = tv_to_today.getLayoutParams();
+                        pp.width = UIUtil.dip2px(getContext(),43);
+                        tv_to_today.setLayoutParams(pp);
+                        tv_to_today.setText("");
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                break;
+        }
     }
 
     /**
-     *
      * @param type 0前 1今 2后
      */
     private void requestList(int type){
@@ -323,79 +447,75 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 smart_rl.finishRefresh();
             }
         }else if(type == 1){
-//            beforePage = 0;
-//            afterPage = 0;
             lastDay = "";
             endDay = "";
-            mvpPresenter.getCricketMatchList(type,new SimpleDateFormat("yyyy-MM-dd").format(new Date()),tag,streamType,isLiveNow);//当日
+            mvpPresenter.getCricketMatchList(type,new SimpleDateFormat("yyyy-MM-dd").format(singleTimeInMillis),tag,streamType,isLiveNow);//选中日
         }else if(type == 2){
             if(!TextUtils.isEmpty(endDay)){
                 mvpPresenter.getCricketMatchList(type,endDay,tag,streamType,isLiveNow);//后一天
-            }else{
-                smart_rl.finishLoadMore();
             }
         }
     }
 
     @Override
     public void getDataSuccess(List<CricketFiltrateBean> list) {
+        filtrateCheckedList.clear();
+        selectToursNum = 0;
+        tv_tours_num.setVisibility(View.GONE);
         if(list!=null){
             mFiltrateAdapter.setNewData(list);
+//            ll_tours.setVisibility(View.VISIBLE);
+            rv_filtrate.setBackgroundColor(Color.TRANSPARENT);
+            filtrateSkeletonScreen.hide();
         }
     }
 
     @Override
-    public void getDataSuccess(int type, List<CricketNewBean> list, String lastDay, String endDay) {
-        if(type == 0 || type == 1){
-            this.lastDay = lastDay;
+    public void getDataSuccess(int type, CricketAllBean bean) {
+        if(type == 0 ){
+            smart_rl.finishRefresh();
         }
-
-        if(type == 2 || type == 1){
-            this.endDay = endDay;
-        }
-
-        smart_rl.finishLoadMore();
-        smart_rl.finishRefresh();
-        if (list != null && list.size() > 0) {
+        skeletonScreen.hide();
+        if (bean != null && bean.getItem() != null && bean.getItem().size() > 0) {
+            if(type == 0 || type == 1){
+                this.lastDay = bean.getFrontDay();
+            }
+            if(type == 2 || type == 1){
+                this.endDay = bean.getEndDay();
+            }
             hideEmptyView();
+            recyclerView.setVisibility(View.VISIBLE);
             if(type == 0){
-                mAdapter.addData(0,list);
+                mAdapter.addData(0,bean.getItem());
             }else if(type == 1){
-                mAdapter.setNewData(list);
+                setDayInfo(getDayInfo(bean.getItem().get(0).getDay()));
+                mAdapter.setNewData(bean.getItem());
                 recyclerView.scrollBy(0, (int) (recyclerView.getY() + UIUtil.dip2px(getActivity(),60)));
             }else{
-                mAdapter.addData(list);
+                mAdapter.addData(bean.getItem());
             }
         } else if(mAdapter.getItemCount() == 0){
+            recyclerView.setVisibility(View.GONE);
             showEmptyView();
         } else if(type == 1 && (!TextUtils.isEmpty(tag) || isLiveNow || streamType != 0)){
             mAdapter.setNewData(new ArrayList<>());
+            recyclerView.setVisibility(View.GONE);
             showEmptyView();
             //没数据再请求之前/后的数据
-/*            if(type == 0){
-                beforePage++;
-            }else{
-                afterPage++;
-            }
-            requestList(type);*/
         }
     }
 
     @Override
     public void getDataFail(int type, String msg) {
         smart_rl.finishRefresh();
-        smart_rl.finishLoadMore();
-/*        if(type == 0){
-            beforePage--;
-        }else if(type == 2){
-            afterPage--;
-        }*/
-
+        skeletonScreen.hide();
         if (mAdapter.getData().size() <= 0) {
+            recyclerView.setVisibility(View.GONE);
             showEmptyView();
         } else {
             ToastUtil.show(msg);
         }
+
         if(AppManager.mContext.getString(R.string.no_internet_connection).equals(msg)){
             isNotNetWork = true;
         }else{
@@ -405,9 +525,57 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
     }
 
     public void setDayInfo(String[] info){
+        singleTimeInMillis = new Date().getTime();
         tv_date.setText(info[0]);
         tv_month.setText(info[1]);
         tv_day.setText(info[2]);
+
+        //fixme tv_to_today出现和隐藏动画  今天隐藏，过去↓ 未来↑ 第一次有文字“Today ”
+/*        if(Integer.parseInt(info[3]) == 0){
+            showTodayBtnAnim(1);
+        }else if(Integer.parseInt(info[3]) < 0){
+            tv_to_today.setCompoundDrawables(null,null,drawableDown,null);
+            showTodayBtnAnim(0);
+        }else{
+            tv_to_today.setCompoundDrawables(null,null,drawableTop,null);
+            showTodayBtnAnim(0);
+        }*/
+    }
+
+    private void initCalendarPicker(){
+        picker = new CalendarPicker(getActivity());
+        picker.setColorScheme(new ColorScheme()
+                .weekTextColor(0xFFBDBFC8)
+                .daySelectBackgroundColor(0xFFDC3C23)
+                .daySelectTextColor(0xFFFFFFFF)
+                .dayStressTextColor(0xFF000000)
+                .dayNormalTextColor(0xFF000000)
+                .dayInvalidTextColor(0xFFC8C8C8));
+        //范围
+        Calendar c = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c.setTime(new Date());
+        c2.setTime(new Date());
+        c.add(Calendar.DATE, -15);
+        c2.add(Calendar.DATE, 15);
+        picker.setRangeDate(c.getTime(),c2.getTime());
+        picker.setTitle("Select Date");
+        picker.getCancelView().setVisibility(View.GONE);
+        picker.getTitleView().setTypeface(Typeface.DEFAULT_BOLD);
+        picker.getTitleView().setTextColor(0xFF000000);
+        picker.getOkView().setText("confirm");
+        if (singleTimeInMillis == 0) {
+            singleTimeInMillis = System.currentTimeMillis();
+        }
+        picker.setBackgroundDrawable(getActivity().getDrawable(R.drawable.shape_white_25dp_half_rec));
+        picker.setSelectedDate(singleTimeInMillis);
+        picker.setOnSingleDatePickListener(date -> {
+            if(singleTimeInMillis != date.getTime()){
+                singleTimeInMillis = date.getTime();
+                requestList(1);
+            }
+        });
+
     }
 
     @Override

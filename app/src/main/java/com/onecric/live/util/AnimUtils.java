@@ -127,5 +127,21 @@ public class AnimUtils {
         });
     }
 
+    public static void transAnim(View view,float start,float end) {
+        // 创建 ObjectAnimator
+        ObjectAnimator mObjectAnimator = ObjectAnimator.ofFloat(view, "translationY",start,end);
+        mObjectAnimator.setDuration(500);
+        mObjectAnimator.setInterpolator(new LinearInterpolator()); // 插值器，匀速
+        mObjectAnimator.start(); // 开始播放动画
+        mObjectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                // 获取当前动画上移的距离，即上方设置的 0-200 区间内的值
+                float num = (float) animation.getAnimatedValue();
+                Log.d("AAAAAAAAA", "num: " + num);
+            }
+        });
+    }
+
 
 }

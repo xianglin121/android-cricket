@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="12dp"
+    android:background="@color/white"
+    android:foreground="@drawable/selector_foreground_white">
+
+    <ImageView
+        android:id="@+id/iv_right"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentLeft="true"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/icon_cric2"/>
+
+    <TextView
+        android:id="@+id/tv_left"
+        android:textSize="10sp"
+        android:textColor="@color/c_666666"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/iv_right"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/iv_right"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textAllCaps="true"
+        android:letterSpacing="0.1"
+        android:fontFamily="@font/noto_sans_display_regular"
+        android:text="CRICKET-T20 · 10 MAR - 20 MAR"/>
+
+    <TextView
+        android:id="@+id/tv_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_left"
+        android:textSize="11sp"
+        android:textColor="@color/c_111111"
+        android:layout_marginTop="2dp"
+        android:layout_alignLeft="@id/tv_left"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:fontFamily="@font/noto_sans_display_semibold"
+        android:text="Legends League Cricket T20,2023"/>
+
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/tv_bottom"
+        android:layout_marginTop="12dp"
+        android:background="@color/line_color"/>
+
+</RelativeLayout>
