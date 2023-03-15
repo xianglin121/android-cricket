@@ -6,10 +6,7 @@ public class CricketNewBean {
     private String name;
     private String type;
     private List<CricketMatchNewBean> cricketMatch;
-    private int tournamentId;
-
-    public String lastDay;
-    public String endDay;
+    private String tournamentId;
 
     public String getName() {
         return name;
@@ -35,62 +32,44 @@ public class CricketNewBean {
         this.cricketMatch = cricketMatch;
     }
 
-    public int getTournamentId() {
+    public String getTournamentId() {
         return tournamentId;
     }
 
-    public void setTournamentId(int tournamentId) {
+    public void setTournamentId(String tournamentId) {
         this.tournamentId = tournamentId;
     }
 
     public static class CricketMatchNewBean {
         private String awayName;
-        private String awayLogo;
-        private String liveTime;
+        private int fastStatus;
         private String homeDisplayScore;
         private String scheduled;
         private String tournamentId;
         private int awayId;
-        private int liveId;
         private String matchNum;
         private String awayDisplayScore;
         private String homeName;
         private String matchResult;
-        private String homeLogo;
-        private int liveUid;
         private int homeId;
         private int id;
+        private String liveStatus;
+        private int islive;
+        private String awayLogo;
+        private String liveTime;
+        private String tname;
+        private String todaystart;
+        private String matchStatus;
+        private int liveId;
+        private String homeLogo;
+        private String ttype;
+        private String liveUid;
         private long liveTimeUnix;
         private int isSubscribe;
         private int status;
-        private int liveStatus;
-        private String match_live;
-        private int win_id;
-        private int fast_status;
-
-        public int getFast_status() {
-            return fast_status;
-        }
-
-        public void setFast_status(int fast_status) {
-            this.fast_status = fast_status;
-        }
-
-        public int getWin_id() {
-            return win_id;
-        }
-
-        public void setWin_id(int win_id) {
-            this.win_id = win_id;
-        }
-
-        public String getMatch_live() {
-            return match_live;
-        }
-
-        public void setMatch_live(String match_live) {
-            this.match_live = match_live;
-        }
+        private int channel;
+        private int matchLive;
+        private int winId;
 
         public String getAwayName() {
             return awayName;
@@ -100,20 +79,12 @@ public class CricketNewBean {
             this.awayName = awayName;
         }
 
-        public String getAwayLogo() {
-            return awayLogo;
+        public int getFastStatus() {
+            return fastStatus;
         }
 
-        public void setAwayLogo(String awayLogo) {
-            this.awayLogo = awayLogo;
-        }
-
-        public String getLiveTime() {
-            return liveTime;
-        }
-
-        public void setLiveTime(String liveTime) {
-            this.liveTime = liveTime;
+        public void setFastStatus(int fastStatus) {
+            this.fastStatus = fastStatus;
         }
 
         public String getHomeDisplayScore() {
@@ -148,14 +119,6 @@ public class CricketNewBean {
             this.awayId = awayId;
         }
 
-        public int getLiveId() {
-            return liveId;
-        }
-
-        public void setLiveId(int liveId) {
-            this.liveId = liveId;
-        }
-
         public String getMatchNum() {
             return matchNum;
         }
@@ -188,22 +151,6 @@ public class CricketNewBean {
             this.matchResult = matchResult;
         }
 
-        public String getHomeLogo() {
-            return homeLogo;
-        }
-
-        public void setHomeLogo(String homeLogo) {
-            this.homeLogo = homeLogo;
-        }
-
-        public int getLiveUid() {
-            return liveUid;
-        }
-
-        public void setLiveUid(int liveUid) {
-            this.liveUid = liveUid;
-        }
-
         public int getHomeId() {
             return homeId;
         }
@@ -218,6 +165,94 @@ public class CricketNewBean {
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public String getLiveStatus() {
+            return liveStatus;
+        }
+
+        public void setLiveStatus(String liveStatus) {
+            this.liveStatus = liveStatus;
+        }
+
+        public int getIslive() {
+            return islive;
+        }
+
+        public void setIslive(int islive) {
+            this.islive = islive;
+        }
+
+        public String getAwayLogo() {
+            return awayLogo;
+        }
+
+        public void setAwayLogo(String awayLogo) {
+            this.awayLogo = awayLogo;
+        }
+
+        public String getLiveTime() {
+            return liveTime;
+        }
+
+        public void setLiveTime(String liveTime) {
+            this.liveTime = liveTime;
+        }
+
+        public String getTname() {
+            return tname;
+        }
+
+        public void setTname(String tname) {
+            this.tname = tname;
+        }
+
+        public String getTodaystart() {
+            return todaystart;
+        }
+
+        public void setTodaystart(String todaystart) {
+            this.todaystart = todaystart;
+        }
+
+        public String getMatchStatus() {
+            return matchStatus;
+        }
+
+        public void setMatchStatus(String matchStatus) {
+            this.matchStatus = matchStatus;
+        }
+
+        public int getLiveId() {
+            return liveId;
+        }
+
+        public void setLiveId(int liveId) {
+            this.liveId = liveId;
+        }
+
+        public String getHomeLogo() {
+            return homeLogo;
+        }
+
+        public void setHomeLogo(String homeLogo) {
+            this.homeLogo = homeLogo;
+        }
+
+        public String getTtype() {
+            return ttype;
+        }
+
+        public void setTtype(String ttype) {
+            this.ttype = ttype;
+        }
+
+        public String getLiveUid() {
+            return liveUid;
+        }
+
+        public void setLiveUid(String liveUid) {
+            this.liveUid = liveUid;
         }
 
         public long getLiveTimeUnix() {
@@ -244,12 +279,28 @@ public class CricketNewBean {
             this.status = status;
         }
 
-        public int getLiveStatus() {
-            return liveStatus;
+        public int getChannel() {
+            return channel;
         }
 
-        public void setLiveStatus(int liveStatus) {
-            this.liveStatus = liveStatus;
+        public void setChannel(int channel) {
+            this.channel = channel;
+        }
+
+        public int getMatchLive() {
+            return matchLive;
+        }
+
+        public void setMatchLive(int matchLive) {
+            this.matchLive = matchLive;
+        }
+
+        public int getWinId() {
+            return winId;
+        }
+
+        public void setWinId(int winId) {
+            this.winId = winId;
         }
     }
 }

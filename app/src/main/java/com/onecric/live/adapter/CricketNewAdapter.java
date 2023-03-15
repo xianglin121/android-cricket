@@ -26,7 +26,6 @@ import java.util.List;
  * 时间：2022/8/27
  */
 public class CricketNewAdapter extends BaseQuickAdapter<CricketNewBean, BaseViewHolder> {
-
     public CricketNewAdapter(int layoutResId, @Nullable List<CricketNewBean> data) {
         super(layoutResId, data);
     }
@@ -47,7 +46,7 @@ public class CricketNewAdapter extends BaseQuickAdapter<CricketNewBean, BaseView
         innerAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if(view.getId() == R.id.tv_state_live){
                 //跳转主播直播页
-                if(innerAdapter.getItem(position).getLiveId() != 0 && innerAdapter.getItem(position).getLiveStatus() == 1){
+                if(innerAdapter.getItem(position).getLiveId() != 0 && "1".equals(innerAdapter.getItem(position).getLiveStatus())){
                     LiveDetailActivity.forward(mContext,innerAdapter.getItem(position).getLiveId(),innerAdapter.getItem(position).getId(),innerAdapter.getItem(position).getLiveId());
                 }
             }else if(view.getId() == R.id.tv_state_watch_live){

@@ -46,7 +46,7 @@
             android:orientation="horizontal"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
-            android:background="@color/white"/>
+            android:background="@color/white" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -175,7 +175,8 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/smart_rl">
+        android:id="@+id/smart_rl"
+        android:background="#FBFBFC">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -187,16 +188,26 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#FBFBFC"/>
+                android:overScrollMode="never"/>
 
-            <ImageView
-                android:id="@+id/iv_publish"
-                android:layout_width="47dp"
-                android:layout_height="47dp"
+<!--            从下往上出现的动画-->
+
+            <TextView
+                android:id="@+id/tv_to_today"
+                android:layout_width="wrap_content"
+                android:layout_height="43dp"
                 android:layout_gravity="right|bottom"
-                android:layout_marginBottom="32dp"
-                android:layout_marginRight="16dp"
-                android:background="@mipmap/icon_video_publish"/>
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="12dp"
+                android:drawableRight="@mipmap/ic_go_today_down"
+                android:text="Today "
+                android:paddingLeft="11dp"
+                android:paddingRight="11dp"
+                android:gravity="center"
+                android:fontFamily="@font/noto_sans_display_semibold"
+                android:textColor="@color/white"
+                android:background="@drawable/bg_search_15"
+                android:visibility="gone"/>
 
         </FrameLayout>
 

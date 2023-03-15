@@ -99,7 +99,7 @@ public class TimeUtil {
      * @return
      */
     public static String[] getDayInfo(String day){
-        String[] strings = new String[3];
+        String[] strings = new String[4];
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//要转换的时间格式
         Date date;
         Calendar cal = Calendar.getInstance();
@@ -110,6 +110,7 @@ public class TimeUtil {
             strings[0] = (cal.get(Calendar.DATE) < 9 ? "0" : "" )+(cal.get(Calendar.DATE));
             strings[1] = months[cal.get(Calendar.MONTH) < 0 ? 0 : cal.get(Calendar.MONTH)%11];
             int count = (int) (( date.getTime() - sdf.parse(sdf.format(new Date())).getTime() )) / (1000*3600*24);
+            strings[3] = count+"";
             if(count > -2 && count < 2){
                 strings[2] = (count == 0 ? "Today" : (count == -1?"Yesterday":"Tomorrow"));
             }else{
@@ -119,6 +120,7 @@ public class TimeUtil {
             strings[0] = "";
             strings[1] = "";
             strings[2] = "";
+            strings[3] = "0";
             e.printStackTrace();
         }
         return strings;
