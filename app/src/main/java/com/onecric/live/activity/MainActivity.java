@@ -707,18 +707,23 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 //        String anchorId = bundle.getString("anchorId");
 //        String type = bundle.getString("type");
 //        String matchId = bundle.getString("matchId");
-            if (bundle != null && "1".equals(isLive)) {//比赛开始   进入视频直播界面
-                intent.setClass(this, LiveDetailActivity.class);
-                intent.putExtra("anchorId", Integer.parseInt(bundle.getString("anchorId")));
-                intent.putExtra("type", Integer.parseInt(bundle.getString("type")));
-                intent.putExtra("matchId", Integer.parseInt(bundle.getString("matchId")));
-                intent.putExtra("isLive", true);
-                intent.putExtra("mLiveId", Integer.parseInt(bundle.getString("mLiveId")));
-            } else {//比赛已经结束 或者是延迟进入比赛详情界面
-                intent.setClass(this, CricketDetailActivity.class);
-                intent.putExtra("matchId", Integer.parseInt(bundle.getString("matchId")));
+            try {
+                if (bundle != null && "1".equals(isLive)) {//比赛开始   进入视频直播界面
+                    intent.setClass(this, LiveDetailActivity.class);
+                    intent.putExtra("anchorId", Integer.parseInt(bundle.getString("anchorId")));
+                    intent.putExtra("type", Integer.parseInt(bundle.getString("type")));
+                    intent.putExtra("matchId", Integer.parseInt(bundle.getString("matchId")));
+                    intent.putExtra("isLive", true);
+                    intent.putExtra("mLiveId", Integer.parseInt(bundle.getString("mLiveId")));
+                } else {//比赛已经结束 或者是延迟进入比赛详情界面
+                    intent.setClass(this, CricketDetailActivity.class);
+                    intent.putExtra("matchId", Integer.parseInt(bundle.getString("matchId")));
+                }
+                this.startActivity(intent);
+            } catch (Exception e) {
+
             }
-            this.startActivity(intent);
+
         }
     }
 
