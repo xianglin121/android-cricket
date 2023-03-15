@@ -101,6 +101,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
     private String endDay;
     public int todayPosition = 0;
     private Drawable drawableTop,drawableDown;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_cricket2;
@@ -197,7 +198,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
         MaterialHeader materialHeader = new MaterialHeader(getContext());
         materialHeader.setColorSchemeColors(getResources().getColor(R.color.c_DC3C23));
         smart_rl.setRefreshHeader(materialHeader);
-        smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
+//        smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
         smart_rl.setEnableLoadMore(false);
 /*        smart_rl.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
@@ -215,6 +216,8 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             }
         });
 
+//        recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 20);
+//        recyclerView.setItemViewCacheSize(20);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -228,14 +231,13 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 }else if(newState == RecyclerView.SCROLL_STATE_DRAGGING){
                     if(recyclerView.getChildAt(0) != null){
                         int currentPosition = ((RecyclerView.LayoutParams) recyclerView.getChildAt(0).getLayoutParams()).getViewAdapterPosition();
-                        setDayInfo(getDayInfo(mAdapter.getItem(currentPosition).getDay()));
+                        setDayInfo(getDayInfo(mAdapter.getData().get(currentPosition).getDay()));
                     }
                 }
 
             }
         });
-
-        mAdapter = new CricketDayAdapter(this,R.layout.item_cricket_day, new ArrayList<>());
+        mAdapter = new CricketDayAdapter(this,getActivity(), new ArrayList<>());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -489,16 +491,18 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 mAdapter.addData(0,bean.getItem());
             }else if(type == 1){
                 setDayInfo(getDayInfo(bean.getItem().get(0).getDay()));
-                mAdapter.setNewData(bean.getItem());
+                mAdapter.setData(bean.getItem());
                 recyclerView.scrollBy(0, (int) (recyclerView.getY() + UIUtil.dip2px(getActivity(),60)));
             }else{
-                mAdapter.addData(bean.getItem());
+                mAdapter.addData(mAdapter.getItemCount()-1,bean.getItem());
+//                mAdapter.notifyItemInserted(mAdapter.getItemCount()-1);
+//                mAdapter.notifyItemChanged();
             }
         } else if(mAdapter.getItemCount() == 0){
             recyclerView.setVisibility(View.GONE);
             showEmptyView();
         } else if(type == 1 && (!TextUtils.isEmpty(tag) || isLiveNow || streamType != 0)){
-            mAdapter.setNewData(new ArrayList<>());
+            mAdapter.setData(new ArrayList<>());
             recyclerView.setVisibility(View.GONE);
             showEmptyView();
             //没数据再请求之前/后的数据
@@ -509,7 +513,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
     public void getDataFail(int type, String msg) {
         smart_rl.finishRefresh();
         skeletonScreen.hide();
-        if (mAdapter.getData().size() <= 0) {
+        if (mAdapter.getItemCount() <= 0) {
             recyclerView.setVisibility(View.GONE);
             showEmptyView();
         } else {
