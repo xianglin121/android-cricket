@@ -164,6 +164,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                     mFiltrateAdapter.addData(mFiltrateAdapter.getItem(position));
                     mFiltrateAdapter.remove(position);
                 }
+                rv_filtrate.smoothScrollToPosition(0);
                 tv_tours_num.setText(selectToursNum + "");
                 tv_tours_num.setVisibility(selectToursNum > 0 ? View.VISIBLE : View.GONE);
                 if(filtrateCheckedList.size()>0){
