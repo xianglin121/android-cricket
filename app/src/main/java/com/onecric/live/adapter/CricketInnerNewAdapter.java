@@ -101,7 +101,7 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
             }else{
                 helper.setText(R.id.tv_state_info,"Watch Live At");
                 try{
-                    String st = stampToTime(time,"HH:mm a");
+                    String st = stampToTime(time,"hh:mm a");
                     helper.setText(R.id.tv_state_time, Html.fromHtml("<strong>"+st.substring(0,5)+"</strong> <small>"+st.substring(5)+"</small>"));
                 }catch (Exception e){
                     e.printStackTrace();
