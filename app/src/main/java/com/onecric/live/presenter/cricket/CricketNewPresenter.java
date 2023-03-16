@@ -107,15 +107,7 @@ public class CricketNewPresenter extends BasePresenter<CricketNewView> {
             return;
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String dateStr = null;
-        try {
-            dateStr = new SimpleDateFormat("yyyy-MM-dd").format(sdf.parse(data).getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        addSubscription(apiStores.getCricketDayMatchList(CommonAppConfig.getInstance().getToken(), TimeZone.getDefault().getID(),dateStr,tagIds,streamType,isLiveNow?1:0), new ApiCallback() {
+        addSubscription(apiStores.getCricketDayMatchList(CommonAppConfig.getInstance().getToken(), TimeZone.getDefault().getID(),data,tagIds,streamType,isLiveNow?1:0), new ApiCallback() {
             @Override
             public void onSuccess(String data, String msg) {
                 CricketAllBean bean;

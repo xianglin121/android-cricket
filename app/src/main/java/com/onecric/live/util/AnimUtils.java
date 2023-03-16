@@ -1,5 +1,7 @@
 package com.onecric.live.util;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -11,6 +13,8 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.Transformation;
 import android.widget.ImageView;
+import android.widget.Toast;
+import android.window.SplashScreen;
 
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 
@@ -106,7 +110,6 @@ public class AnimUtils {
     }
 
     public static void transAnim(View view) {
-
         // 创建 ObjectAnimator
         ObjectAnimator mObjectAnimator = ObjectAnimator.ofFloat(
                 view,
@@ -132,15 +135,23 @@ public class AnimUtils {
         ObjectAnimator mObjectAnimator = ObjectAnimator.ofFloat(view, "translationY",start,end);
         mObjectAnimator.setDuration(500);
         mObjectAnimator.setInterpolator(new LinearInterpolator()); // 插值器，匀速
-        mObjectAnimator.start(); // 开始播放动画
-        mObjectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+/*        mObjectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 // 获取当前动画上移的距离，即上方设置的 0-200 区间内的值
                 float num = (float) animation.getAnimatedValue();
                 Log.d("AAAAAAAAA", "num: " + num);
             }
+        });*/
+
+        mObjectAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+
+            }
         });
+        mObjectAnimator.start(); // 开始播放动画
     }
 
 
