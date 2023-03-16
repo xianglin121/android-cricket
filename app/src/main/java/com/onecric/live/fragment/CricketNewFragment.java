@@ -494,7 +494,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 mAdapter.setData(bean.getItem());
                 recyclerView.scrollBy(0, (int) (recyclerView.getY() + UIUtil.dip2px(getActivity(),60)));
             }else{
-                mAdapter.addData(mAdapter.getItemCount()-1,bean.getItem());
+                mAdapter.addData(bean.getItem());
 //                mAdapter.notifyItemInserted(mAdapter.getItemCount()-1);
 //                mAdapter.notifyItemChanged();
             }
