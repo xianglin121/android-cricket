@@ -361,6 +361,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 }
             case R.id.tv_to_today:
                 recyclerView.smoothScrollToPosition(todayPosition);
+                setDayInfo(getDayInfo(mAdapter.getItem(todayPosition).getDay()));
 //                showTodayBtnAnim(1);
                 break;
             case R.id.tv_fresh:
