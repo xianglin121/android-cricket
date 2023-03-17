@@ -14,6 +14,8 @@ import com.onecric.live.R;
 import com.onecric.live.activity.CricketDetailActivity;
 import com.onecric.live.activity.CricketInnerActivity;
 import com.onecric.live.activity.CricketTeamsActivity;
+import com.onecric.live.activity.LiveDetailActivity;
+import com.onecric.live.activity.LiveNotStartDetailActivity;
 import com.onecric.live.adapter.CricketPointsAdapter;
 import com.onecric.live.custom.ItemDecoration;
 import com.onecric.live.model.CricketInfoBean;
@@ -62,6 +64,7 @@ public class CricketInfoFragment extends MvpFragment<CricketInfoPresenter> imple
     private int mHomeId;
     private int mAwayId;
 
+    public LiveDetailMainFragment fragment;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_cricket_info;
@@ -102,7 +105,13 @@ public class CricketInfoFragment extends MvpFragment<CricketInfoPresenter> imple
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_jump_squad:
-                ((CricketDetailActivity)getContext()).mViewPager.setCurrentItem(4);
+                if(getContext() instanceof CricketDetailActivity ){
+                    int count = ((CricketDetailActivity)getContext()).mViewPager.getChildCount()-1;
+                    ((CricketDetailActivity)getContext()).mViewPager.setCurrentItem(count>0?count:0);
+                }else if(fragment != null){
+                    int count = fragment.vp_live.getChildCount()-1;
+                    fragment.vp_live.setCurrentItem(count>0?count:0);
+                }
                 break;
             case R.id.ll_home:
                 if (mModel != null) {

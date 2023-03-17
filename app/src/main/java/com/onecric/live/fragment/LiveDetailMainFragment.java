@@ -79,7 +79,7 @@ public class LiveDetailMainFragment extends Fragment {
 //    private MagicIndicator magicIndicator;
     private TabLayout tab_layout;
     private List<String> mTitles;
-    private ViewPager vp_live;
+    public ViewPager vp_live;
     private List<Fragment> mViewList;
 //    private ConstraintLayout cl_follow;
 //    private ImageView iv_icon;
@@ -366,7 +366,9 @@ public class LiveDetailMainFragment extends Fragment {
         if(mMatchId != 0 && !isNotStart){
             mViewList.add(AnimationLiveFragment.newInstance());
             mViewList.add(CricketLiveFragment.newInstance(mMatchId));
-            mViewList.add(CricketInfoFragment.newInstance(mMatchId));
+            CricketInfoFragment info = CricketInfoFragment.newInstance(mMatchId);
+            info.fragment = this;
+            mViewList.add(info);
             mViewList.add(CricketScorecardFragment.newInstance());
             mViewList.add(CricketSquadFragment.newInstance());
         }

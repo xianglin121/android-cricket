@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -30,7 +30,7 @@
             android:background="@drawable/bg_search"
             android:foreground="@drawable/selector_foreground_search"/>
 
-    </LinearLayout>
+    </FrameLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -149,8 +149,7 @@
                 android:paddingRight="5dp"
                 android:layout_marginRight="5dp"
                 android:fontFamily="@font/roboto_medium_numbers"
-                android:background="@drawable/shape_btn_red_solid_oval"
-                android:visibility="gone"/>
+                android:background="@drawable/shape_btn_red_solid_oval" />
 
             <TextView
                 android:layout_width="wrap_content"
