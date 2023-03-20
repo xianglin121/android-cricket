@@ -17,4 +17,5 @@ public interface CricketNewView extends BaseView<JsonBean> {
 
     void getDataFail(int type ,String msg);
 
+    void getRefreshSuccess(CricketAllBean bean);
 }

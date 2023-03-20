@@ -13,6 +13,7 @@ import com.onecric.live.view.CricketNewView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -127,6 +128,36 @@ public class CricketNewPresenter extends BasePresenter<CricketNewView> {
             @Override
             public void onError(String msg) {
                 mvpView.getDataFail(type,msg);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
+
+    public void getRefreshTodayData(String tagIds,int streamType,boolean isLiveNow){
+        addSubscription(apiStores.getCricketDayMatchList(CommonAppConfig.getInstance().getToken(), TimeZone.getDefault().getID(),new SimpleDateFormat("yyyy-MM-dd").format(new Date().getTime()),tagIds,streamType,isLiveNow?1:0), new ApiCallback() {
+            @Override
+            public void onSuccess(String data, String msg) {
+                CricketAllBean bean;
+                try{
+                    bean = JSONObject.parseObject(JSONObject.parseObject(data).toString(), CricketAllBean.class);
+                }catch (Exception e){
+                    bean = null;
+                }
+                mvpView.getRefreshSuccess(bean);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+            }
+
+            @Override
+            public void onError(String msg) {
+
             }
 
             @Override

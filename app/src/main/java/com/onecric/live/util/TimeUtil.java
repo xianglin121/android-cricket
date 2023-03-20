@@ -125,4 +125,16 @@ public class TimeUtil {
         }
         return strings;
     }
+
+    //将时间字符串转为时间戳字符串
+    public static Long getStringTimes(String time,String pattern) {
+        Long longTime = null;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+            longTime = sdf.parse(time).getTime() / 1000;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return longTime;
+    }
 }
