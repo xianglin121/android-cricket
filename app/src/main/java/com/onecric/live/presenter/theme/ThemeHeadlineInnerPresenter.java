@@ -19,6 +19,7 @@ public class ThemeHeadlineInnerPresenter extends BasePresenter<ThemeHeadlineInne
     }
 
     public void getList(boolean isRefresh, int id, int page) {
+//        addSubscription(apiStores.getHeadlineListNew(CommonAppConfig.getInstance().getToken(), page, id),
         addSubscription(apiStores.getHeadlineList(CommonAppConfig.getInstance().getToken(), page, id),
                 new ApiCallback() {
                     @Override

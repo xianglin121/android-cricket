@@ -349,6 +349,11 @@ public interface ApiStores {
                                            @Query("page") int page,
                                            @Query("cid") int cid);
 
+    //新获取头条列表 3.20
+    @GET("api/Headlines/getListold")
+    Observable<JsonObject> getHeadlineListNew(@Header("token") String token,
+                                           @Query("page") int page,
+                                           @Query("cid") int cid);
     //获取头条详情
     @GET("api/Headlines/getInfo")
     Observable<JsonObject> getHeadlineInfo(@Header("token") String token,

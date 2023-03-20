@@ -1,7 +1,6 @@
 package com.onecric.live.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -11,25 +10,16 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.engine.executor.GlideExecutor;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
-import com.onecric.live.activity.VideoCompletePlayActivity;
 import com.onecric.live.custom.FoldTextView;
 import com.onecric.live.model.HeadlineBean;
 import com.onecric.live.util.GlideUtil;
@@ -40,7 +30,6 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,6 +55,8 @@ public class ThemeHeadlineAdapter extends RecyclerView.Adapter {
         if (viewType == TYPE_NORMAL) {
             View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_theme_headline, parent, false);
             return new NormalViewHolder(itemView);
+//            View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_webview, parent, false);
+//            return new WebViewHolder(itemView);
         } else if (viewType == TYPE_THIRD) {
             View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_news_third, parent, false);
             return new ThirdViewHolder(itemView);
@@ -209,6 +200,34 @@ public class ThemeHeadlineAdapter extends RecyclerView.Adapter {
 
     }
 
+    private String htmlPart1 = "<!DOCTYPE HTML html>\n" +
+            "<head><meta charset=\"utf-8\"/>\n" +
+            "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no\"/>\n" +
+            "</head>\n" +
+            "<body>\n" +
+            "<style> \n" +
+//            "@font-face {\n" +
+//            "    font-family: 'serif';\n" +
+//            "    src: url('fonts/Serif.ttf');\n" +
+//            "}\n" +
+//            "\n" +
+//            "body{font-family: 'serif';margin: 0;}" +
+            "img{width:100%!important;height:auto!important;margin: 0;border-radius:0;}\n" +
+            "section{line-height:170%;font-size:100%;text-color:#333333;margin: 0px 15px 0px 15px;}\n" +
+            "p{line-height:170%;font-size:100%;text-color:#333333;margin: 20px 15px 0px 15px;}\n" +
+            "a:link{color:#1866DB;text-decoration:none;}\n" +
+            " </style>";
+    private String htmlPart2 = "</body></html>";
+    private void onWebViewNormal(HeadlineBean item, WebViewHolder mHolder, int position){
+        if (!TextUtils.isEmpty(item.getContent())) {
+            mHolder.webView.getSettings().setJavaScriptEnabled(true);//设置JS可用
+            mHolder.webView.loadDataWithBaseURL(null, htmlPart1 + item.getContent() + htmlPart2, "text/html", "UTF-8", null);
+        }
+        mHolder.itemView.setOnClickListener((v) -> {
+            mOnItemClickListener.onItemClick(v, position, mList.get(position));
+        });
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (!TextUtils.isEmpty(mList.get(position).getSource_name())){
@@ -250,6 +269,15 @@ public class ThemeHeadlineAdapter extends RecyclerView.Adapter {
             iv_cover = itemView.findViewById(R.id.iv_cover);
             iv_hot = itemView.findViewById(R.id.iv_hot);
             view_line = itemView.findViewById(R.id.view_line);
+        }
+
+    }
+
+    private class WebViewHolder extends RecyclerView.ViewHolder {
+        WebView webView;
+        private WebViewHolder(View itemView) {
+            super(itemView);
+            webView = itemView.findViewById(R.id.webView);
         }
 
     }
