@@ -3,7 +3,7 @@ package com.onecric.live.model;
 public class CricketFiltrateBean {
     private boolean isCheck;
     private String name;
-    private String id;
+    private int id;
 
     public void setCheck(boolean check) {
         isCheck = check;
@@ -21,11 +21,11 @@ public class CricketFiltrateBean {
         this.name = name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 }

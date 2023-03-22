@@ -898,4 +898,8 @@ public interface ApiStores {
     //新赛事搜索
     @GET("api/Cricketnew/get_search")
     Observable<JsonObject> searchMatchNew(@Query("timezone") String timezone,@Query("content") String content,@Query("type")String type,@Query("page")int page);
+
+    //新获取公开赛列表
+    @POST("api/Cricketnew/get_cricket_tournament")
+    Observable<JsonObject> getTournamentList(@Query("name") String name);
 }

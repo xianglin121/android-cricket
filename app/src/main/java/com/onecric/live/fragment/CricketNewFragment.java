@@ -37,6 +37,7 @@ import com.onecric.live.activity.SearchMatchActivity;
 import com.onecric.live.adapter.CricketDayAdapter;
 import com.onecric.live.adapter.CricketFiltrateAdapter;
 import com.onecric.live.fragment.dialog.LoginDialog;
+import com.onecric.live.fragment.dialog.TournamentDialog;
 import com.onecric.live.model.CricketAllBean;
 import com.onecric.live.model.CricketFiltrateBean;
 import com.onecric.live.model.JsonBean;
@@ -85,15 +86,15 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
     private TextView tv_fresh;
 
     private CricketDayAdapter mAdapter;
-    private CricketFiltrateAdapter mFiltrateAdapter;
+    public CricketFiltrateAdapter mFiltrateAdapter;
     private LoginDialog loginDialog;
 
     private boolean isLiveNow = false;
     private int streamType = 0;
     private int selectToursNum = 0;
     private Dialog mStreamDialog;
-    private List<CricketFiltrateBean> filtrateCheckedList;
-    private String tag="";
+    public List<CricketFiltrateBean> filtrateCheckedList;
+    public String tag = "";
     private boolean isNotNetWork;
 
     private long singleTimeInMillis;
@@ -106,6 +107,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
     private Drawable drawableTop,drawableDown;
     private LinearLayout skeletonLoadLayout;
     private Timer mTimer;
+    private TournamentDialog tournamentDialog;
 
     @Override
     protected int getLayoutId() {
@@ -149,6 +151,17 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
         drawableTop.setBounds(0,0,drawableTop.getMinimumWidth(),drawableTop.getMinimumHeight());
         drawableDown = getContext().getDrawable(R.mipmap.ic_go_today_down);
         drawableDown.setBounds(0,0,drawableDown.getMinimumWidth(),drawableDown.getMinimumHeight());
+        tournamentDialog = new TournamentDialog(getContext(),this,new TournamentDialog.OnSelectTourListener() {
+            @Override
+            public void selectedWord(String tourIds, int checkNum) {
+                tag = tourIds;
+                selectToursNum = checkNum;
+                tv_tours_num.setText(selectToursNum+"");
+                tv_tours_num.setVisibility(selectToursNum > 0 ? View.VISIBLE : View.GONE);
+                mFiltrateAdapter.notifyDataSetChanged();
+                requestList(1);
+            }
+        });
     }
 
     @SuppressLint("SetTextI18n")
@@ -160,21 +173,53 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
         mFiltrateAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if(view.getId() == R.id.tv_name){
                 mFiltrateAdapter.getItem(position).setCheck(!mFiltrateAdapter.getItem(position).isCheck());
-                if(mFiltrateAdapter.getItem(position).isCheck()){
+                int id = mFiltrateAdapter.getData().get(position).getId();
+                //联动top
+                List<CricketFiltrateBean> tList = new ArrayList<>();
+                tList.addAll(tournamentDialog.mAdapter.getData());
+                for(int i=0; i<tList.size();i++){
+                    if(id == tournamentDialog.mAdapter.getData().get(i).getId()){
+                        //刚刚选中的前挪
+                        tList.get(i).setCheck(mFiltrateAdapter.getItem(position).isCheck());
+                        tournamentDialog.mAdapter.addData(0,tList.get(i));
+                        tournamentDialog.mAdapter.remove(i+1);
+                        tournamentDialog.mAdapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
+
+
+                StringBuilder tagsId = new StringBuilder(tag);
+                if(mFiltrateAdapter.getData().get(position).isCheck()){
                     ++selectToursNum;
-                    filtrateCheckedList.add(mFiltrateAdapter.getItem(position));
-                    mFiltrateAdapter.addData(0,mFiltrateAdapter.getItem(position));
+                    //已选的里 没有这条就添加
+                    if(!tag.contains(","+id) && !tag.contains(id+",")){
+                        tagsId.append(id+",");
+                    }
+                    filtrateCheckedList.add(mFiltrateAdapter.getData().get(position));
+                    mFiltrateAdapter.addData(0,mFiltrateAdapter.getData().get(position));
                     mFiltrateAdapter.remove(position+1);
                 }else{
                     --selectToursNum;
-                    filtrateCheckedList.remove(mFiltrateAdapter.getItem(position));
-                    mFiltrateAdapter.addData(mFiltrateAdapter.getItem(position));
+                    //已选的里 有这条就移除
+                    if(tag.contains(id+",")){
+                        tagsId.delete(tagsId.indexOf(id+","),
+                                tagsId.indexOf(id+",")+(id+",").length());
+                    }
+                    filtrateCheckedList.remove(mFiltrateAdapter.getData().get(position));
+                    mFiltrateAdapter.addData(mFiltrateAdapter.getData().get(position));
                     mFiltrateAdapter.remove(position);
                 }
+                if(TextUtils.isEmpty(tagsId.toString())){
+                    tag = "";
+                }else{
+                    tag = tagsId.toString();
+                }
+
                 rv_filtrate.smoothScrollToPosition(0);
                 tv_tours_num.setText(selectToursNum + "");
                 tv_tours_num.setVisibility(selectToursNum > 0 ? View.VISIBLE : View.GONE);
-                if(filtrateCheckedList.size()>0){
+/*                if(filtrateCheckedList.size()>0){
                     StringBuilder tagsId = new StringBuilder();
                     for(CricketFiltrateBean bean : filtrateCheckedList){
                         tagsId.append(","+bean.getId());
@@ -182,7 +227,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                     tag = tagsId.substring(1);
                 }else{
                     tag = "";
-                }
+                }*/
                 requestList(1);
             }
         });
@@ -314,7 +359,9 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 break;
             case R.id.ll_tours:
                 //展开筛选联赛弹窗
-
+                if(tournamentDialog != null){
+                    tournamentDialog.show();
+                }
                 break;
             case R.id.tv_tours_num:
                 //数量
@@ -428,7 +475,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             if(mAdapter.getItemCount() <= 0 && isNotNetWork){
                 requestList(1);
             }else if(!TextUtils.isEmpty(lastDay)){
-                mvpPresenter.getCricketMatchList(type,lastDay,tag,streamType,isLiveNow);//前一天
+                mvpPresenter.getCricketMatchList(type,lastDay,TextUtils.isEmpty(tag)?"":tag,streamType,isLiveNow);//前一天
             }else{
                 smart_rl.finishRefresh();
             }
@@ -437,10 +484,10 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             endDay = "";
             skeletonLoadLayout.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
-            mvpPresenter.getCricketMatchList(type,new SimpleDateFormat("yyyy-MM-dd").format(singleTimeInMillis),tag,streamType,isLiveNow);//选中日
+            mvpPresenter.getCricketMatchList(type,new SimpleDateFormat("yyyy-MM-dd").format(singleTimeInMillis),TextUtils.isEmpty(tag)?"":tag,streamType,isLiveNow);//选中日
         }else if(type == 2){
             if(!TextUtils.isEmpty(endDay)){
-                mvpPresenter.getCricketMatchList(type,endDay,tag,streamType,isLiveNow);//后一天
+                mvpPresenter.getCricketMatchList(type,endDay,TextUtils.isEmpty(tag)?"":tag,streamType,isLiveNow);//后一天
             }
         }
     }
@@ -452,7 +499,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
         tv_tours_num.setVisibility(View.GONE);
         if(list!=null){
             mFiltrateAdapter.setNewData(list);
-//            ll_tours.setVisibility(View.VISIBLE);
+            ll_tours.setVisibility(View.VISIBLE);
             rv_filtrate.setBackgroundColor(Color.TRANSPARENT);
             filtrateSkeletonScreen.hide();
         }
@@ -618,6 +665,13 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
 
     @Override
     public void getRefreshSuccess(CricketAllBean bean) {
-        mAdapter.setPositionData(todayPosition,bean.getItem().get(0));
+        try{
+            if(mAdapter.getItemCount()-1 >= todayPosition){
+                mAdapter.setPositionData(todayPosition,bean.getItem().get(0));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }

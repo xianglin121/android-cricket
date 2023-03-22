@@ -67,7 +67,7 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
 
     private Dialog mDialog;
     private RecyclerView rv_tournament;
-    private SelectTournamentAdapter mTournamentAdapter;
+//    private SelectTournamentAdapter mTournamentAdapter;
     private String mTournamentId = "";
     private LinearLayout ll_streaming;
 
@@ -172,7 +172,7 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
     @Override
     public void getDataSuccess(List<CricketTournamentBean> list) {
         if (list != null && rv_tournament != null) {
-            mTournamentAdapter = new SelectTournamentAdapter(R.layout.item_select_tournament, list);
+           /* mTournamentAdapter = new SelectTournamentAdapter(R.layout.item_select_tournament, list);
             mTournamentAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -181,7 +181,7 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
                 }
             });
             rv_tournament.setLayoutManager(new LinearLayoutManager(getContext()));
-            rv_tournament.setAdapter(mTournamentAdapter);
+            rv_tournament.setAdapter(mTournamentAdapter);*/
         }
     }
 
@@ -313,15 +313,15 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
                 }
                 break;
             case R.id.tv_reset:
-                List<CricketTournamentBean> data = mTournamentAdapter.getData();
+                /*List<CricketTournamentBean> data = mTournamentAdapter.getData();
                 for (int i = 0; i < data.size(); i++) {
                     data.get(i).setCheck(false);
                 }
                 mTournamentAdapter.notifyDataSetChanged();
-                mTournamentId = "";
+                mTournamentId = "";*/
                 break;
             case R.id.tv_apply:
-                if (mDialog != null) {
+                /*if (mDialog != null) {
                     mDialog.dismiss();
                 }
                 List<CricketTournamentBean> temp = mTournamentAdapter.getData();
@@ -333,7 +333,7 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
                 if (mTournamentId.length() > 0) {
                     mTournamentId = mTournamentId.substring(0, mTournamentId.length() - 1);
                 }
-                smart_rl.autoRefresh();
+                smart_rl.autoRefresh();*/
                 break;
         }
     }

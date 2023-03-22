@@ -784,4 +784,8 @@
     <!-- [END fcm_default_icon_string] -->
     <string name="msg_subscribe_failed">Failed to subscribe to match live topic</string>
     <string name="fcm_message">FCM Message</string>
+
+
+    <string name="match_search_tour_hint">Search cricket tours...</string>
+    <string name="clear_all">CLEAR ALL</string>
 </resources>

@@ -14,11 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
 import com.onecric.live.activity.CricketInnerActivity;
-import com.onecric.live.activity.SearchMatchActivity;
 import com.onecric.live.fragment.CricketNewFragment;
 import com.onecric.live.model.CricketAllBean;
 

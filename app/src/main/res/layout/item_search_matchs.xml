@@ -27,8 +27,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:singleLine="true"
-        android:fontFamily="@font/noto_sans_display_regular"
-        android:text="SAS vs KLT"/>
+        android:fontFamily="@font/noto_sans_display_regular"/>
 
     <TextView
         android:id="@+id/tv_bottom"
@@ -42,8 +41,7 @@
         android:singleLine="true"
         android:maxLines="1"
         android:ellipsize="end"
-        android:layout_toLeftOf="@id/tv_status"
-        android:text="Navi Mumbai Premier League T20,mbai Premmbaimbaiier League T2"/>
+        android:layout_toLeftOf="@id/tv_status"/>
     
     <TextView
         android:id="@+id/tv_status"
@@ -51,7 +49,6 @@
         android:layout_height="wrap_content"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
-        android:text="UPCOMING"
         android:textColor="@color/c_999999"
         android:textSize="10sp"
         android:background="@drawable/shape_f6f7f9_6dp_rec"

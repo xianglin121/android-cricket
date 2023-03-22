@@ -16,7 +16,7 @@ public class CricketPresenter extends BasePresenter<CricketView> {
     }
 
     public void getTournamentList() {
-        addSubscription(apiStores.getTournamentList(), new ApiCallback() {
+        addSubscription(apiStores.getTournamentList(""), new ApiCallback() {
             @Override
             public void onSuccess(String data, String msg) {
                 List<CricketTournamentBean> list = JSONObject.parseArray(data, CricketTournamentBean.class);
