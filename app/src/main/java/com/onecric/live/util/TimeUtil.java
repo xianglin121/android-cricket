@@ -126,6 +126,34 @@ public class TimeUtil {
         return strings;
     }
 
+    public static String[] getDayInfo(long day){
+        String[] strings = new String[4];
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//要转换的时间格式
+        Date date;
+        Calendar cal = Calendar.getInstance();
+        try {
+            date = new Date(day);
+            sdf.format(date);
+            cal.setTime(date);
+            strings[0] = (cal.get(Calendar.DATE) < 9 ? "0" : "" )+(cal.get(Calendar.DATE));
+            strings[1] = months[cal.get(Calendar.MONTH) < 0 ? 0 : cal.get(Calendar.MONTH)%11];
+            int count = (int) (( date.getTime() - sdf.parse(sdf.format(new Date())).getTime() )) / (1000*3600*24);
+            strings[3] = count+"";
+            if(count > -2 && count < 2){
+                strings[2] = (count == 0 ? "Today" : (count == -1?"Yesterday":"Tomorrow"));
+            }else{
+                strings[2] = weekDays[cal.get(Calendar.DAY_OF_WEEK) - 1 < 0 ? 0 : cal.get(Calendar.DAY_OF_WEEK) - 1];
+            }
+        }catch (Exception e){
+            strings[0] = "";
+            strings[1] = "";
+            strings[2] = "";
+            strings[3] = "0";
+            e.printStackTrace();
+        }
+        return strings;
+    }
+
     //将时间字符串转为时间戳字符串
     public static Long getStringTimes(String time,String pattern) {
         Long longTime = null;

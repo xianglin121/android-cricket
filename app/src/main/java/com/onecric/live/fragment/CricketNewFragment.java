@@ -518,13 +518,10 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             smart_rl.finishRefresh();
         }
         skeletonLoadLayout.setVisibility(View.GONE);
-        if(bean != null && bean.getItem().size() <= 0){
-            if(type == 0 || type == 1){
-                this.lastDay2 = bean.getFrontDay();
-            }
-            if(type == 2 || type == 1){
-                this.endDay2 = bean.getFrontDay();
-            }
+
+        if(type == 1){
+            //没数据也显示日期
+            setDayInfo(getDayInfo(singleTimeInMillis));
         }
 
         if (bean != null && bean.getItem() != null && bean.getItem().size() > 0) {
@@ -553,10 +550,19 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 mAdapter.addData(bean.getItem());
             }
         } else if(mAdapter.getItemCount() == 0){
+            if(bean != null){
+                if(type == 0 || type == 1){
+                    this.lastDay2 = bean.getFrontDay();
+                }
+                if(type == 2 || type == 1){
+                    this.endDay2 = bean.getFrontDay();
+                }
+            }
             recyclerView.setVisibility(View.GONE);
             tv_to_today.setVisibility(View.GONE);
+            mAdapter.setData(new ArrayList<>());
             showEmptyView();
-        } else if(type == 1 && (!TextUtils.isEmpty(tag) || isLiveNow || streamType != 0)){
+        } else if(type == 1 && (!TextUtils.isEmpty(tag) || isLiveNow || streamType != 0)){//?
             mAdapter.setData(new ArrayList<>());
             recyclerView.setVisibility(View.GONE);
             tv_to_today.setVisibility(View.GONE);
@@ -585,7 +591,6 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
 
 
     public void setDayInfo(String[] info){
-        singleTimeInMillis = new Date().getTime();
         tv_date.setText(info[0]);
         tv_month.setText(info[1]);
         tv_day.setText(info[2]);
