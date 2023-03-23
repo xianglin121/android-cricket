@@ -66,7 +66,6 @@ import java.util.TimerTask;
  * 时间：2022/8/26
  */
 public class CricketNewFragment extends MvpFragment<CricketNewPresenter> implements CricketNewView,View.OnClickListener {
-    private TextView tv_search;
     private RecyclerView rv_filtrate;
     private TextView tv_day;
     private TextView tv_date;
@@ -125,7 +124,6 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
 
     @Override
     protected void initUI() {
-        tv_search = findViewById(R.id.tv_search);
         rv_filtrate = findViewById(R.id.rv_filtrate);
         tv_day = findViewById(R.id.tv_day);
         tv_date = findViewById(R.id.tv_date);
@@ -137,7 +135,6 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
         ll_tours = findViewById(R.id.ll_tours);
         tv_to_today = findViewById(R.id.tv_to_today);
         tv_live_now.setOnClickListener(this);
-        tv_tours_num.setOnClickListener(this);
         tv_fresh = findViewById(R.id.tv_fresh);
         skeletonLoadLayout = findViewById(R.id.ll_skeleton);
         tv_fresh.setOnClickListener(this);
@@ -176,15 +173,17 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 int id = mFiltrateAdapter.getData().get(position).getId();
                 //联动top
                 List<CricketFiltrateBean> tList = new ArrayList<>();
-                tList.addAll(tournamentDialog.mAdapter.getData());
-                for(int i=0; i<tList.size();i++){
-                    if(id == tournamentDialog.mAdapter.getData().get(i).getId()){
-                        //刚刚选中的前挪
-                        tList.get(i).setCheck(mFiltrateAdapter.getItem(position).isCheck());
-                        tournamentDialog.mAdapter.addData(0,tList.get(i));
-                        tournamentDialog.mAdapter.remove(i+1);
-                        tournamentDialog.mAdapter.notifyDataSetChanged();
-                        break;
+                if(tournamentDialog.mAdapter!=null && tournamentDialog.mAdapter.getItemCount()>0){
+                    tList.addAll(tournamentDialog.mAdapter.getData());
+                    for(int i=0; i<tList.size();i++){
+                        if(id == tournamentDialog.mAdapter.getData().get(i).getId()){
+                            //刚刚选中的前挪
+                            tList.get(i).setCheck(mFiltrateAdapter.getItem(position).isCheck());
+                            tournamentDialog.mAdapter.addData(0,tList.get(i));
+                            tournamentDialog.mAdapter.remove(i+1);
+                            tournamentDialog.mAdapter.notifyDataSetChanged();
+                            break;
+                        }
                     }
                 }
 
@@ -363,9 +362,6 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                     tournamentDialog.show();
                 }
                 break;
-            case R.id.tv_tours_num:
-                //数量
-                break;
             case R.id.ll_all_live:
                 if(streamType!=0){
                     streamType = 0;
@@ -454,6 +450,9 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
     }
 
     private void showTodayBtnAnim(int type){
+        if(!TextUtils.isEmpty(tag)){
+            return;
+        }
         switch (type){
             case 0:
                 if(tv_to_today.isSelected()){
@@ -491,6 +490,9 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             recyclerView.setVisibility(View.GONE);
             mvpPresenter.getCricketMatchList(type,new SimpleDateFormat("yyyy-MM-dd").format(singleTimeInMillis),TextUtils.isEmpty(tag)?"":tag,streamType,isLiveNow);//选中日
         }else if(type == 2){
+            if(!TextUtils.isEmpty(tag)){
+                return;
+            }
             if(mAdapter.getItemCount() <= 0 && !TextUtils.isEmpty(endDay2)){
                 mvpPresenter.getCricketMatchList(type,endDay2,TextUtils.isEmpty(tag)?"":tag,streamType,isLiveNow);//后一天
             }else if(!TextUtils.isEmpty(endDay)){
@@ -543,13 +545,20 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
 //                mAdapter.setNewData(bean.getItem());
                 mAdapter.setData(bean.getItem());
                 recyclerView.scrollBy(0, (int) (recyclerView.getY() + UIUtil.dip2px(getActivity(),60)));
-                if(mTimer == null){
+                //当前时间
+                Date now = new Date();
+                SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
+                //获取今天的日期
+                String nowDay = sf.format(now);
+                //对比的时间
+                String day = sf.format(singleTimeInMillis);
+                if(mTimer == null && day.equals(nowDay)){
                     refreshTodayData();
                 }
             }else{
                 mAdapter.addData(bean.getItem());
             }
-        } else if(mAdapter.getItemCount() == 0){
+        } else if(mAdapter.getItemCount() == 0 || type == 1){
             if(bean != null){
                 if(type == 0 || type == 1){
                     this.lastDay2 = bean.getFrontDay();
@@ -561,11 +570,6 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             recyclerView.setVisibility(View.GONE);
             tv_to_today.setVisibility(View.GONE);
             mAdapter.setData(new ArrayList<>());
-            showEmptyView();
-        } else if(type == 1 && (!TextUtils.isEmpty(tag) || isLiveNow || streamType != 0)){//?
-            mAdapter.setData(new ArrayList<>());
-            recyclerView.setVisibility(View.GONE);
-            tv_to_today.setVisibility(View.GONE);
             showEmptyView();
         }
     }
@@ -679,7 +683,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             @Override
             public void run() {
                 //每10s判断
-                //如果当前滚动到的Tpday，刷新最新数据
+                //如果当前滚动到的Today，刷新最新数据
                 if(tv_day.getText().toString().equals("Today")){
                     mvpPresenter.getRefreshTodayData(tag,streamType,isLiveNow);
                 }
