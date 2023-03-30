@@ -100,22 +100,6 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="11.5sp"
-                                android:textColor="@color/c_999999"
-                                android:fontFamily="sans-serif"
-                                android:text="By "/>
-
-                            <TextView
-                                android:id="@+id/tv_title_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="11.5sp"
-                                android:textColor="@color/c_DC3C23"
-                                android:fontFamily="sans-serif"/>
-
-                            <TextView
                                 android:id="@+id/tv_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -177,6 +161,15 @@
 
                     </FrameLayout>
 
+                    <TextView
+                        android:id="@+id/tv_copyright"
+                        android:textSize="14sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:background="@color/white"
+                        android:text="©Copyright Declaration"
+                        android:visibility="visible"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -81,6 +82,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     private TextView tv_see_more_three;
     private RecyclerView rv_match_upcoming;
     private TextView tv_upcoming;
+    private LinearLayout ll_today;
 
     //    private int mPage = 1;
     private int mTodayPage = 1;
@@ -114,6 +116,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         smart_rl = rootView.findViewById(R.id.smart_rl);
         rv_live = rootView.findViewById(R.id.rv_live);
         rv_today = rootView.findViewById(R.id.rv_today);
+        ll_today = rootView.findViewById(R.id.ll_today);
         rv_history = rootView.findViewById(R.id.rv_history);
         tv_see_more_three = rootView.findViewById(R.id.tv_see_more_three);
         int width = UIUtil.getScreenWidth(getContext());
@@ -358,12 +361,19 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         if (isRefresh) {
             smart_rl.finishRefresh();
             mTodayPage = 2;
-            if (list != null) {
+            if (list != null && list.size() > 0) {
                 mTodayAdapter.setNewData(list);
+                ll_today.setVisibility(View.VISIBLE);
+                rv_today.setVisibility(View.VISIBLE);
+            }else{
+                ll_today.setVisibility(View.GONE);
+                rv_today.setVisibility(View.GONE);
             }
         } else if (list != null && list.size() > 0) {
             mTodayPage++;
             mTodayAdapter.addData(list);
+            ll_today.setVisibility(View.VISIBLE);
+            rv_today.setVisibility(View.VISIBLE);
         }
     }
 

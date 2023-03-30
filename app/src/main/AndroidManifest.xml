@@ -492,6 +492,9 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activity.CopyrightActivity"
+            android:screenOrientation="portrait" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"
