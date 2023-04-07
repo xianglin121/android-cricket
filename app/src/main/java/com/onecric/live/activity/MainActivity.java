@@ -249,6 +249,14 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         drawerLayout.openDrawer(GravityCompat.START);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //获取默认配置
+        mvpPresenter.getConfiguration(ToolUtil.getCurrentVersionCode(this));
+    }
+
     @Override
     protected void initData() {
         checkNotifySetting();
@@ -275,8 +283,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         });
         //登录IM
         loginIM();
-        //获取默认配置
-        mvpPresenter.getConfiguration(ToolUtil.getCurrentVersionCode(this));
+//        //获取默认配置
+//        mvpPresenter.getConfiguration(ToolUtil.getCurrentVersionCode(this));
 //        //检查是否有版本更新
 //        if (CommonAppConfig.getInstance().getConfig() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAndroidVersionMumber())) {
 ////            DialogUtil.showVersionUpdateDialog(this, CommonAppConfig.getInstance().getConfig().getAndroidMandatoryUpdateSandbox() == 1 ? true : false,
