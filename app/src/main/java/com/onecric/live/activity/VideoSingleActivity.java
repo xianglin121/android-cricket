@@ -38,25 +38,8 @@ public class VideoSingleActivity extends BaseActivity {
     private String img;
     private OrientationUtils orientationUtils;
 
-    //未登录用户倒计时三分钟跳转登录页
-    private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-
-        }
-
-        @Override
-        public void onFinish() {
-            /*if(loginDialog.isShowing()){
-                loginDialog.dismiss();
-            }*/
-            SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
-            ToastUtil.show(getString(R.string.tip_login_to_live));
-            finish();
-//            LoginActivity.forward(mActivity);
-        }
-    };
     private ImageView iv_silence;
+    private CountDownTimer mCountDownTimer;
 
     public static void forward(Context context, String url, String img) {
         Intent starter = new Intent(context, VideoSingleActivity.class);
@@ -72,6 +55,28 @@ public class VideoSingleActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        int remind = SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND);
+        if(remind != 0){
+            //未登录用户倒计时N分钟跳转登录页
+            mCountDownTimer = new CountDownTimer(60000*remind, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+            /*if(loginDialog.isShowing()){
+                loginDialog.dismiss();
+            }*/
+                    SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
+                    ToastUtil.show(getString(R.string.tip_login_to_live));
+                    finish();
+//            LoginActivity.forward(mActivity);
+                }
+            };
+        }
+
 //        showSysBar();
         url = getIntent().getStringExtra("url");
         img = getIntent().getStringExtra("img");
@@ -235,7 +240,7 @@ public class VideoSingleActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && mCountDownTimer != null) {
             mCountDownTimer.start();
         }
     }

@@ -220,25 +220,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     private int mLiveId;
     private LinearLayout ll_main;
 
-
-    //未登录用户倒计时三分钟跳转登录页
-    private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-
-        }
-
-        @Override
-        public void onFinish() {
-            if (loginDialog.isShowing()) {
-                loginDialog.dismiss();
-            }
-            SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
-            ToastUtil.show(getString(R.string.tip_login_to_live));
-            isCancelLoginDialog = false;
-            constraintLoginDialog.show();
-        }
-    };
+    private CountDownTimer mCountDownTimer;
 
     @Override
     protected LiveDetailPresenter createPresenter() {
@@ -252,6 +234,28 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
     @Override
     protected void initView() {
+        int remind = SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND);
+        if(remind != 0) {
+            //未登录用户倒计时N分钟跳转登录页
+            mCountDownTimer = new CountDownTimer(60000*remind, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    if (loginDialog.isShowing()) {
+                        loginDialog.dismiss();
+                    }
+                    SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
+                    ToastUtil.show(getString(R.string.tip_login_to_live));
+                    isCancelLoginDialog = false;
+                    constraintLoginDialog.show();
+                }
+            };
+        }
+
         loadingDialog = loadingDialog(LiveDetailActivity.this);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
@@ -675,7 +679,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             }
         }
 
-        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && mCountDownTimer != null) {
             mCountDownTimer.start();
         }
     }

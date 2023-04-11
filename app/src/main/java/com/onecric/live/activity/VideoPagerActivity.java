@@ -115,24 +115,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
     private WebSettings webSettings;
     private boolean isCancelLoginDialog;
 
-    //未登录用户倒计时三分钟跳转登录页
-    private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-
-        }
-
-        @Override
-        public void onFinish() {
-            if(loginDialog.isShowing()){
-                loginDialog.dismiss();
-            }
-            SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
-            ToastUtil.show(getString(R.string.tip_login_to_live));
-            isCancelLoginDialog = false;
-            constraintLoginDialog.show();
-        }
-    };
+    private CountDownTimer mCountDownTimer;
 
     @Override
     protected void onPause() {
@@ -193,6 +176,28 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
 
     @Override
     protected void initView() {
+        int remind = SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND);
+        if(remind != 0) {
+            //未登录用户倒计时N分钟跳转登录页
+            mCountDownTimer = new CountDownTimer(60000*remind, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    if(loginDialog.isShowing()){
+                        loginDialog.dismiss();
+                    }
+                    SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
+                    ToastUtil.show(getString(R.string.tip_login_to_live));
+                    isCancelLoginDialog = false;
+                    constraintLoginDialog.show();
+                }
+            };
+        }
+
         //scheme
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -248,7 +253,7 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             mvpPresenter.getReportList();
         }
 
-        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && mCountDownTimer != null) {
             mCountDownTimer.start();
         }
     }

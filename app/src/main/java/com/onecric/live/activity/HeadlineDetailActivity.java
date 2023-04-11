@@ -116,7 +116,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     private WebSettings webSettings;
     private boolean isCancelLoginDialog;
 
-    //未登录用户倒计时三分钟跳转登录页
+    //fixme 未登录用户倒计时三分钟跳转登录页（这里接入视频新闻后要改
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
         @Override
         public void onTick(long millisUntilFinished) {

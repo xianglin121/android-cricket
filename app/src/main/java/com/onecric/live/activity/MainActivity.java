@@ -83,6 +83,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -411,6 +412,18 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 //                transferToGooglePlay();
 //            }
         }
+
+        //获取登录倒计时时长
+        if(!TextUtils.isEmpty(bean.getLogin_remind()) && !"0".equals(bean.getLogin_remind())){
+            try{
+                int time = Integer.parseInt(bean.getLogin_remind());
+                SpUtil.getInstance().setIntValue(SpUtil.LOGIN_REMIND,time);
+                return;
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        SpUtil.getInstance().setIntValue(SpUtil.LOGIN_REMIND,0);
     }
 
     @Override
