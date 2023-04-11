@@ -100,7 +100,7 @@ public class LiveHistoryFragment extends MvpFragment<LiveMorePresenter> implemen
                 if (TextUtils.isEmpty(url)) {
                     return;
                 }
-                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                     if(loginDialog!=null){
                         loginDialog.show();
                     }else{

@@ -79,7 +79,7 @@ public class FootballMatchLiveFragment extends MvpFragment<FootballMatchLivePres
         mAnchorAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
 //                    LoginActivity.forward(getContext());
                 }else{
                     LiveDetailActivity.forward(getContext(), mAnchorAdapter.getItem(position).getId(), mId,mAnchorAdapter.getItem(position).getId());
@@ -114,7 +114,7 @@ public class FootballMatchLiveFragment extends MvpFragment<FootballMatchLivePres
                     LiveNotStartDetailActivity.forward(getContext(),mLiveAdapter.getItem(position).getUid(),
                             mLiveAdapter.getItem(position).getMatch_id(),mLiveAdapter.getItem(position).getLive_id());
                 }else{
-                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
 //                        LoginActivity.forward(getContext());
                     }else{
                         LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getMatch_id(),mLiveAdapter.getItem(position).getId());

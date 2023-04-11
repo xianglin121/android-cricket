@@ -139,7 +139,7 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                     if (TextUtils.isEmpty(url)) {
                         return;
                     }
-                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                         if(loginDialog!=null){
                             loginDialog.show();
                         }else{
@@ -162,7 +162,7 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                     if(mAdapter.getItem(position).getIslive() == 0){
                         LiveNotStartDetailActivity.forward(mActivity,mAdapter.getItem(position).getUid(),
                                 mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
-                    }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                         if(loginDialog!=null){
                             loginDialog.show();
                         }else{

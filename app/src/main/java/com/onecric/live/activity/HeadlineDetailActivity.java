@@ -564,7 +564,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     mCountDownTimer.start();
                 }
-                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                     isCancelLoginDialog = true;
                     loginDialog.show();
                 }else{

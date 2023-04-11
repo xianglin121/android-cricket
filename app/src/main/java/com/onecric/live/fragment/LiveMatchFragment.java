@@ -83,13 +83,13 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
         mAnchorAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                     if(loginDialog!=null){
                         loginDialog.show();
                     }else{
                         ToastUtil.show(getString(R.string.please_login));
                     }
-                }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                     if(loginDialog!=null){
                         loginDialog.show();
                     }else{
@@ -129,7 +129,7 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
                 if(mAdapter.getItem(position).getIslive() == 0){
                     LiveNotStartDetailActivity.forward(getContext(),mAdapter.getItem(position).getUid(),
                             mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
-                }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                     if(loginDialog!=null){
                         loginDialog.show();
                     }else{

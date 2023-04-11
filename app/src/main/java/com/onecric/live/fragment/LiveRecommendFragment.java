@@ -167,7 +167,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         mTodayAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                     if(loginDialog!=null){
                         loginDialog.show();
                     }else{
@@ -213,7 +213,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             if (TextUtils.isEmpty(url)) {
                 return;
             }
-            if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+            if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                 if(loginDialog!=null){
                     loginDialog.show();
                 }else{
@@ -267,7 +267,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                     LoginActivity.forward(getContext());
                 }else{
                     LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(), mAdapter.getItem(position).getType(), mAdapter.getItem(position).getMatch_id());
@@ -283,7 +283,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         //今日直播赛事
         mTodayMatchAdapter = new LiveMatchAdapter(R.layout.item_live_today, new ArrayList<>());
         mTodayMatchAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+            if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                 if(loginDialog!=null){
                     loginDialog.show();
                 }else{
@@ -430,7 +430,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             if (position != -1) {
                 BannerBean bannerBean = list.get(position);
                 if (bannerBean.getAnchor_id() != 0) {
-                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                         if(loginDialog!=null){
                             loginDialog.show();
                         }else{

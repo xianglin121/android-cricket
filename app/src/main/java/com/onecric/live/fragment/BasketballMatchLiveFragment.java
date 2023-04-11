@@ -79,7 +79,7 @@ public class BasketballMatchLiveFragment extends MvpFragment<BasketballMatchLive
         mAnchorAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
 //                    LoginActivity.forward(getContext());
                 }else{
                     LiveDetailActivity.forward(getContext(), mAnchorAdapter.getItem(position).getId(), mId,mAnchorAdapter.getItem(position).getId());
@@ -113,7 +113,7 @@ public class BasketballMatchLiveFragment extends MvpFragment<BasketballMatchLive
                 if(mLiveAdapter.getItem(position).getIslive() == 0){
                     LiveNotStartDetailActivity.forward(getContext(),mLiveAdapter.getItem(position).getUid(),
                             mLiveAdapter.getItem(position).getMatch_id(),mLiveAdapter.getItem(position).getLive_id());
-                }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
 //                    LoginActivity.forward(getContext());
                 }else{
                     LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(), mLiveAdapter.getItem(position).getMatch_id(),mLiveAdapter.getItem(position).getId());

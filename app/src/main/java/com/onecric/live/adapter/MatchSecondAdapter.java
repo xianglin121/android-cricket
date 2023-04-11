@@ -124,7 +124,7 @@ public class MatchSecondAdapter extends BaseMultiItemQuickAdapter<MatchListBean,
                     iv_anchor.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                            if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                                 ToastUtil.show(mContext.getString(R.string.please_login));
                             }else{
                                 LiveDetailActivity.forward(mContext, item.getAnchor().getId(), item.getAnchor().getMatch_id(),item.getAnchor().getId());
