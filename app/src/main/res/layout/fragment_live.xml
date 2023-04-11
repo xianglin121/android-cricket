@@ -111,15 +111,15 @@
         <TextView
             android:id="@+id/tv_single_title"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/noto_sans_display_semibold"
+            android:gravity="center_vertical"
             android:paddingTop="35dp"
             android:text="@string/free_hd_live_broadcast"
-            android:textSize="20sp"
             android:textColor="@color/white"
-            android:gravity="center_vertical"
-            android:visibility="visible"
-            android:fontFamily="@font/noto_sans_display_semibold"/>
+            android:textSize="20sp"
+            android:visibility="visible" />
 
         <net.lucode.hackware.magicindicator.MagicIndicator
             android:id="@+id/magicIndicator"

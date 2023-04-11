@@ -478,6 +478,21 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                     }
                 });*/
 
+                wv_content.setWebViewClient(new WebViewClient() {
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        if (url.indexOf("app://player_profile") != -1) {
+                            PlayerProfileActivity.forward(mActivity, 686858);//球员 getPlayer_id() 686858  有没有根据名得到id的接口？
+                        } else if (url.indexOf("app://cricket_detail") != -1) {
+                            CricketDetailActivity.forward(mActivity, 37493661);//比赛 getMatch_id() 37493661
+                        } else if (url.indexOf("app://cricket_league") != -1) {
+                            CricketInnerActivity.forward(mActivity, "Abu Dhabi T10 League", "t10", 38573);//联赛 getTournament_name() getType() getTournament_id()
+                        } else if (url.indexOf("app://cricket_team") != -1) {
+                            CricketTeamsActivity.forward(mActivity, "", 0);//球队
+                        }
+                        return true;
+                    }
+                });
+
 
                 //去掉<img外层的section、去掉border-radius:4px
                 StringBuilder builder = new StringBuilder(model.getContent());
@@ -509,8 +524,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
             /*//fixme 放个视频，默认静音
             model.setVideo("https://vdse.bdstatic.com/9fe38fb1fa6e1204d028e1ab43fd0c85.mp4");
-            if(!TextUtils.isEmpty(model.getVideo())){
                 video_player.setVisibility(View.VISIBLE);
+            if(!TextUtils.isEmpty(model.getVideo())){
                 iv_silence.setVisibility(View.VISIBLE);
                 //是否静音
                 iv_silence.setVisibility(isNewsNeedMute?View.VISIBLE:View.GONE);

@@ -159,9 +159,10 @@ public class LoginDialog extends Dialog {
                 ToastUtil.show(mContext.getString(R.string.phone));
                 return;
             }
-            if (!mContext.isFastDoubleClick()) {
-                mWebViewListener.onShow();
-            }
+            passWebView();//去掉行为验证过程 直接获取验证码
+//            if (!mContext.isFastDoubleClick()) {
+//                mWebViewListener.onShow();
+//            }
         });
 
         btn_login.setOnClickListener(v -> {
