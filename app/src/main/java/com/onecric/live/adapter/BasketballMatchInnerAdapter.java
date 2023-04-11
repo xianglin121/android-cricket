@@ -132,7 +132,7 @@ public class BasketballMatchInnerAdapter extends BaseQuickAdapter<BasketballMatc
             iv_anchor.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
 //                        LoginActivity.forward(mContext);
                     }else{
                         LiveDetailActivity.forward(mContext, item.getAnchor().getId(), item.getAnchor().getMatch_id(),item.getAnchor().getId());

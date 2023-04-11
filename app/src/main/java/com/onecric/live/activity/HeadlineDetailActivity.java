@@ -91,18 +91,10 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     }
 
     private int mId;
-
-
     private NestedScrollView scroll_view;
     private ConstraintLayout cl_title;
     private TextView tv_title;
     private TextView tv_date;
-    //    private ImageView iv_avatar;
-//    private ButtonFollowView iv_follow;
-//    private ImageView iv_title_avatar;
-//    private ButtonFollowView iv_title_follow;
-//    private TextView tv_name;
-    private TextView tv_title_name;
     private WebView wv_content;
     private RecyclerView rv_article;
     private ThemeHeadlineAdapter mAdapter;
@@ -124,7 +116,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     private WebSettings webSettings;
     private boolean isCancelLoginDialog;
 
-    //未登录用户倒计时三分钟跳转登录页
+    //fixme 未登录用户倒计时三分钟跳转登录页（这里接入视频新闻后要改
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
         @Override
         public void onTick(long millisUntilFinished) {
@@ -199,7 +191,6 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
         tv_like = findViewById(R.id.tv_like);
         tv_title = findViewById(R.id.tv_title);
         iv_collect = findViewById(R.id.iv_collect);
-        tv_title_name = findViewById(R.id.tv_title_name);
         tv_pre = findViewById(R.id.tv_pre);
         video_player = findViewById(R.id.video_player);
         iv_silence = findViewById(R.id.iv_silence);
@@ -216,8 +207,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
         iv_collect.setOnClickListener(this);
         findViewById(R.id.ll_input).setOnClickListener(this);
         findViewById(R.id.ll_like).setOnClickListener(this);
-        tv_title_name.setOnClickListener(this);
-
+        findViewById(R.id.tv_copyright).setOnClickListener(this);
 /*        scroll_view.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -316,7 +306,6 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_title_name:
             case R.id.iv_avatar:
             case R.id.iv_title_avatar:
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
@@ -388,6 +377,9 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 tv_hot_sort.setSelected(true);
                 mvpPresenter.getInfo(true, 1, mOrder, mId);
                 break;
+            case R.id.tv_copyright:
+                CopyrightActivity.forward(this);
+                break;
         }
     }
 
@@ -415,11 +407,9 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 tv_title.setText(model.getTitle());
             }
 
-            if (!TextUtils.isEmpty(model.getUser_nickname())) {
-                tv_title_name.setText(model.getUser_nickname());
-            }
+
             if (!TextUtils.isEmpty(model.getAddtime())) {
-                tv_date.setText(" • Updated on " + model.getAddtime());
+                tv_date.setText("Updated on " + model.getAddtime());
             }
 
             if (!TextUtils.isEmpty(model.getContent())) {
@@ -574,7 +564,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     mCountDownTimer.start();
                 }
-                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                     isCancelLoginDialog = true;
                     loginDialog.show();
                 }else{

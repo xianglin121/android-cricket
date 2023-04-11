@@ -87,7 +87,7 @@ public class MySpaceVideoTwoFragment extends MvpFragment<MySpaceVideoTwoPresente
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                     ToastUtil.show(getString(R.string.please_login));
                 }else{
                     VideoPagerActivity.forward(getContext(), mAdapter.getData(), position, mPage);

@@ -20,6 +20,15 @@ public class ConfigurationBean {
     private List<CountryCodeBean> CountryCode;
     private String live_notice;
     private String domain_pc_name;
+    private String login_remind;
+
+    public String getLogin_remind() {
+        return login_remind;
+    }
+
+    public void setLogin_remind(String login_remind) {
+        this.login_remind = login_remind;
+    }
 
     public String getDomain_pc_name() {
         return domain_pc_name;

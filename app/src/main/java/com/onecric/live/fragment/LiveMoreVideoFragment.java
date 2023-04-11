@@ -66,7 +66,7 @@ public class LiveMoreVideoFragment extends MvpFragment<LiveMoreVideoPresenter> i
                 if(mAdapter.getItem(position).getIslive() == 0){
                     LiveNotStartDetailActivity.forward(getContext(),mAdapter.getItem(position).getUid(),
                             mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
-                }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                     if(loginDialog!=null){
                         loginDialog.show();
                     }else{

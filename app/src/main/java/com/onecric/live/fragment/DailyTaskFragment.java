@@ -72,7 +72,7 @@ public class DailyTaskFragment extends MvpFragment<DailyTaskPresenter> implement
                         getActivity().finish();
                     }else if ("关注主播".equals(mAdapter.getItem(position).getTask())) {
                         if (mAdapter.getItem(position).getAnchor().getUid() > 0) {
-                            if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME)){
+                            if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
 //                                LoginActivity.forward(getContext());
                             }else{
                                 LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getAnchor().getUid(), mAdapter.getItem(position).getAnchor().getMatch_id(),mAdapter.getItem(position).getAnchor().getId());

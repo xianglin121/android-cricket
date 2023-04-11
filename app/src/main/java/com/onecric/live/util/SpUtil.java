@@ -47,6 +47,7 @@ public class SpUtil {
     public static final String FIRST_ENTER = "first_enter";//是否第一次进入app
     public static final String VIDEO_OVERTIME = "video_overtime";//未登录状态下播放是否超时
     public static final String REGISTRATION_TOKEN = "registration_token";//fcm推送token
+    public static final String LOGIN_REMIND = "login_remind";//登录倒计时时间
 
     private SpUtil() {
         mSharedPreferences = AppManager.mContext.getSharedPreferences("SharedPreferences", Context.MODE_PRIVATE);
