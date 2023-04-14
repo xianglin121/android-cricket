@@ -74,7 +74,7 @@
 
     </LinearLayout>
 
-    <LinearLayout android:id="@+id/ll_verification" style="@style/LinearLayoutInputRow">
+<!--    <LinearLayout android:id="@+id/ll_verification" style="@style/LinearLayoutInputRow">
 
         <ImageView
             android:layout_width="43dp"
@@ -105,7 +105,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp" />
 
-    </LinearLayout>
+    </LinearLayout>-->
 
     <Button
         android:id="@+id/btn_log_in"

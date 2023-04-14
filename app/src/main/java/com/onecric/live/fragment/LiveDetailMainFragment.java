@@ -450,7 +450,7 @@ public class LiveDetailMainFragment extends Fragment {
                 ((CricketInfoFragment) mViewList.get(4)).getList(model.getHome_id(), model.getAway_id(), Integer.valueOf(model.getTournament_id()));
             }
             ((CricketScorecardFragment) mViewList.get(5)).getData(model);
-            ((CricketSquadFragment) mViewList.get(6)).getList(model.getMatch_id(), model.getHome_name(), model.getHome_logo(), model.getAway_name(), model.getAway_logo());
+            ((CricketSquadFragment) mViewList.get(6)).getList(model);
         }
     }
 

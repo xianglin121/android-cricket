@@ -295,7 +295,7 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
             if (!TextUtils.isEmpty(model.getTournament_id())) {
                 ((CricketInfoFragment) mViewList.get(1)).getList(model.getHome_id(), model.getAway_id(), Integer.valueOf(model.getTournament_id()));
             }
-            ((CricketSquadFragment) mViewList.get(5)).getList(mMatchId, model.getHome_name(), model.getHome_logo(), model.getAway_name(), model.getAway_logo());
+            ((CricketSquadFragment) mViewList.get(5)).getList(model);
             if (model.getStatus() == 0) {
                 cl_one.setVisibility(View.GONE);
                 cl_two.setVisibility(View.VISIBLE);

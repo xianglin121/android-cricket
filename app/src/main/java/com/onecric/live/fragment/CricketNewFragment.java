@@ -6,10 +6,12 @@ import static com.onecric.live.util.TimeUtil.getDayInfo;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
+import android.os.PowerManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -683,8 +685,11 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             @Override
             public void run() {
                 //每10s判断
-                //如果当前滚动到的Today，刷新最新数据
-                if(tv_day.getText().toString().equals("Today")){
+                //如果当前滚动到的Today，刷新最新数据(本fragment、未息屏、在前台
+                if(tv_day.getText().toString().equals("Today") &&
+                        getUserVisibleHint() &&
+                        ((PowerManager)getActivity().getSystemService(Context.POWER_SERVICE)).isScreenOn() &&
+                        getActivity().getWindow().getDecorView().getVisibility() == View.VISIBLE ){
                     mvpPresenter.getRefreshTodayData(tag,streamType,isLiveNow);
                 }
             }

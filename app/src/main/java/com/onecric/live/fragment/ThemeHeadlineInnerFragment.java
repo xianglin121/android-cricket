@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -51,6 +52,7 @@ public class ThemeHeadlineInnerFragment extends MvpFragment<ThemeHeadlineInnerPr
     private Banner mBanner;
     private RecyclerView rv_headline;
     private ThemeHeadlineAdapter mAdapter;
+    private LinearLayout skeletonLoadLayout;
 
     private int mPage = 1;
 
@@ -74,6 +76,8 @@ public class ThemeHeadlineInnerFragment extends MvpFragment<ThemeHeadlineInnerPr
         android.view.ViewGroup.LayoutParams pp = mBanner.getLayoutParams();
         pp.height = (int)((width-UIUtil.dip2px(getContext(),24)) * 0.6);
         mBanner.setLayoutParams(pp);
+        skeletonLoadLayout = findViewById(R.id.ll_skeleton);
+        skeletonLoadLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -114,6 +118,7 @@ public class ThemeHeadlineInnerFragment extends MvpFragment<ThemeHeadlineInnerPr
 
     @Override
     public void getDataSuccess(boolean isRefresh, List<HeadlineBean> list, List<HeadlineBean> banners) {
+        skeletonLoadLayout.setVisibility(View.GONE);
         if (isRefresh) {
             smart_rl.finishRefresh();
             mPage = 2;
