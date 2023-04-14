@@ -64,6 +64,7 @@ HONOR_APPID               : "220603327"
         ]
         def df = new SimpleDateFormat("MMdd")
         setProperty("archivesBaseName", "${df.format(new Date())}_v${versionName}")
+//        flavorDimensions "deault"
     }
 
     buildTypes {
@@ -75,11 +76,50 @@ HONOR_APPID               : "220603327"
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+//        applicationVariants.all { variant ->
+//            variant.outputs.all { output ->
+//                def outputFile = output.outputFile
+//                if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                    // 输出apk名称为news_v1.0_2017-01-15_wandoujia.apk
+//                    def df = new SimpleDateFormat("MMdd")
+//                    def fileName = "onecric_v${defaultConfig.versionName}_${df.format(new Date())}_${variant.productFlavors[0].name}.apk"
+//                    outputFileName = fileName
+//                }
+//            }
+//        }
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+//    //配置多渠道
+//    productFlavors {
+//        acV1H {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "7cV1H"]
+//        }
+//        dGV8K {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "dGV8K"]
+//        }
+//        DwJfo {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "DwJfo"]
+//        }
+//        Lq2A5 {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "Lq2A5"]
+//        }
+//        oWDEM {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "oWDEM"]
+//        }
+//        uGkK9K {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "uGkK9K"]
+//        }
+//        VSEmk {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "VSEmk"]
+//        }
+//    }
+
+
 }
 
 dependencies {

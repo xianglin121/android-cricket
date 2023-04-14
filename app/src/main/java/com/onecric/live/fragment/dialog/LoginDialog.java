@@ -9,7 +9,10 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -364,7 +367,27 @@ public class LoginDialog extends Dialog {
                 });
     }
 
+
+    /**
+     * 获取渠道号
+     *
+     * @param mContext
+     * @return
+     */
+    public static String getFlavor(Context mContext) {
+        PackageManager pm = mContext.getPackageManager();
+        try {
+            ApplicationInfo info = pm.getApplicationInfo(mContext.getPackageName(), PackageManager.GET_META_DATA);
+            Bundle bundle = info.metaData;
+            return bundle.getString("APP_CHANNEL");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     private void requestLogin() {
+        String key = getFlavor(mContext);
         String prefix = etArea.getText().toString().trim();
         btn_login.setEnabled(false);
         JSONObject jsonObject = new JSONObject();
@@ -373,6 +396,7 @@ public class LoginDialog extends Dialog {
 //        jsonObject.put("code", etVerification.getText().toString().trim());
 //        jsonObject.put("pushid", MTCorePrivatesApi.getRegistrationId(mContext));
         jsonObject.put("pushid", SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN));
+        jsonObject.put("key", key);
         jsonObject.put("device_type", "android");
         ApiClient.retrofit().create(ApiStores.class)
                 .loginByPwd(getRequestBody(jsonObject))
