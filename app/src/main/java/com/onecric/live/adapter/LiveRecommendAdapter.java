@@ -57,7 +57,21 @@ public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
         TextView tv_time = helper.getView(R.id.tv_time);
         ImageView iv_hot = helper.getView(R.id.iv_hot);
 
-        GlideUtil.loadLiveImageDefault(mContext, item.getThumb(), iv_cover);
+        ImageView iv_home = helper.getView(R.id.iv_home_logo);
+        ImageView iv_away = helper.getView(R.id.iv_away_logo);
+
+        if(!TextUtils.isEmpty(item.away_logo) && !TextUtils.isEmpty(item.home_logo)){
+            GlideUtil.loadLiveImageDefault(mContext, item.bottom, iv_cover);
+            iv_home.setVisibility(View.VISIBLE);
+            iv_away.setVisibility(View.VISIBLE);
+            GlideUtil.loadTeamCircleImageDefault(mContext, item.home_logo, iv_home);
+            GlideUtil.loadTeamCircleImageDefault(mContext, item.away_logo, iv_away);
+        }else{
+            iv_home.setVisibility(View.GONE);
+            iv_away.setVisibility(View.GONE);
+            GlideUtil.loadLiveImageDefault(mContext, item.getThumb(), iv_cover);
+        }
+
         GlideUtil.loadUserImageDefault(mContext, item.getAvatar(), iv_avatar);
         if (!TextUtils.isEmpty(item.getTitle())) {
             tv_title.setText(item.getTitle());

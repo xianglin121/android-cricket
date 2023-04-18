@@ -1593,6 +1593,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         ivScreen = view1.findViewById(R.id.iv_screen);
         ll_pic = view1.findViewById(R.id.ll_pic);
         ImageView iv_c = view1.findViewById(R.id.iv_c);
+        ImageView iv_home = view1.findViewById(R.id.iv_home);
+        ImageView iv_away = view1.findViewById(R.id.iv_away);
         RelativeLayout sBar = view1.findViewById(R.id.statusBar);
         CircleImageView head_pic = view1.findViewById(R.id.person_head_pic);
 
@@ -1601,9 +1603,16 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         int width = UIUtil.getScreenWidth(mActivity);
         ppiv_cover.height = (int) (width * 0.5625 * 0.8);
         iv_c.setLayoutParams(ppiv_cover);
-        GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_c);
+        if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().bottom) && !TextUtils.isEmpty(mLiveRoomBean.getInfo().getHome_logo()) && !TextUtils.isEmpty(mLiveRoomBean.getInfo().getAway_logo())){
+            Glide.with(mActivity).load(mLiveRoomBean.getInfo().bottom).skipMemoryCache(true).placeholder(R.mipmap.ball_live_bg).error(R.mipmap.ball_live_bg).into(iv_c);
+            GlideUtil.loadTeamCircleImageDefault(mActivity, mLiveRoomBean.getInfo().getHome_logo(), iv_home);
+            GlideUtil.loadTeamCircleImageDefault(mActivity, mLiveRoomBean.getInfo().getAway_logo(), iv_away);
+        }else{
+            Glide.with(mActivity).load(mLiveRoomBean.getInfo().getThumb()).skipMemoryCache(true).placeholder(R.mipmap.ball_live_bg).error(R.mipmap.ball_live_bg).into(iv_c);
+        }
+
         //跳过内存缓存 否则得到的是失败图片
-        Glide.with(mActivity).load(mLiveRoomBean.getInfo().getThumb()).skipMemoryCache(true).placeholder(R.mipmap.ball_live_bg).error(R.mipmap.ball_live_bg).into(iv_c);
+//        Glide.with(mActivity).load(mLiveRoomBean.getInfo().getThumb()).skipMemoryCache(true).placeholder(R.mipmap.ball_live_bg).error(R.mipmap.ball_live_bg).into(iv_c);
         GlideUtil.loadUserImageDefault(mActivity, mLiveRoomBean.getUserData().getAvatar(), head_pic);
 
         //生成二维码

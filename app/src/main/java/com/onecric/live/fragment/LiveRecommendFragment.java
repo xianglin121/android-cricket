@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
+import com.ethanhua.skeleton.Skeleton;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.BasketballMatchDetailActivity;
@@ -98,6 +100,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     private int rlComingHeight;
     private Drawable drawableArrUp, drawableArrDown;
     private LiveMatchAdapter mTodayMatchAdapter,mComingAdapter;
+    private LinearLayout view_loading;
 
     @Override
     protected int getLayoutId() {
@@ -119,6 +122,8 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         ll_today = rootView.findViewById(R.id.ll_today);
         rv_history = rootView.findViewById(R.id.rv_history);
         tv_see_more_three = rootView.findViewById(R.id.tv_see_more_three);
+        view_loading = rootView.findViewById(R.id.view_loading);
+
         int width = UIUtil.getScreenWidth(getContext());
         android.view.ViewGroup.LayoutParams pp = mBanner.getLayoutParams();
         pp.height = (int) ((width - UIUtil.dip2px(getContext(), 24)) * 0.6);
@@ -133,6 +138,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         drawableArrUp.setBounds(0, 0, drawableArrUp.getMinimumWidth(),drawableArrUp.getMinimumHeight());
         drawableArrDown = getResources().getDrawable(R.mipmap.icon_arrow_down_four);
         drawableArrDown.setBounds(0, 0, drawableArrDown.getMinimumWidth(),drawableArrDown.getMinimumHeight());
+
     }
 
     @Override
@@ -153,6 +159,10 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                if(mHistoryAdapter.getData().size()<=0){
+                    view_loading.setVisibility(View.VISIBLE);
+                }
+
                 mvpPresenter.getMatchList();
                 mvpPresenter.getList(true, 1);
                 mvpPresenter.getHistoryList(true, 1);
@@ -358,6 +368,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 
     @Override
     public void getDataSuccess(boolean isRefresh, List<LiveBean> list) {
+        view_loading.setVisibility(View.GONE);
         if (isRefresh) {
             smart_rl.finishRefresh();
             mTodayPage = 2;
@@ -456,6 +467,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 
     @Override
     public void getMatchSuccess(List<LiveMatchListBean.MatchItemBean> today,List<LiveMatchListBean.MatchItemBean> upcoming) {
+        view_loading.setVisibility(View.GONE);
         if (upcoming != null) {
             upcoming.add(new LiveMatchListBean.MatchItemBean());
             mComingAdapter.setNewData(upcoming);
@@ -475,6 +487,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 
     @Override
     public void getDataFail(String msg) {
+        view_loading.setVisibility(View.GONE);
         ToastUtil.show(msg);
     }
 

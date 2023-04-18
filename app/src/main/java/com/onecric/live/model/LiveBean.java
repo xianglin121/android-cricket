@@ -53,6 +53,10 @@ public class LiveBean {
     private int heat;
     private int live_id;
 
+    public String away_logo;
+    public String bottom;
+    public String home_logo;
+
     public int getLive_id() {
         return live_id;
     }

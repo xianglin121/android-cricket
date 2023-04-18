@@ -66,6 +66,7 @@ public class LiveRoomInfoBean {
     private int is_like;
     private int like_num;
     private int live_id;
+    public String bottom;
 
     public int getLive_id() {
         return live_id;

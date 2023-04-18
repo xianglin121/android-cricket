@@ -77,7 +77,6 @@ public class ThemeHeadlineInnerFragment extends MvpFragment<ThemeHeadlineInnerPr
         pp.height = (int)((width-UIUtil.dip2px(getContext(),24)) * 0.6);
         mBanner.setLayoutParams(pp);
         skeletonLoadLayout = findViewById(R.id.ll_skeleton);
-        skeletonLoadLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -94,6 +93,9 @@ public class ThemeHeadlineInnerFragment extends MvpFragment<ThemeHeadlineInnerPr
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                if(mAdapter.getItemCount()<=0){
+                    skeletonLoadLayout.setVisibility(View.VISIBLE);
+                }
                 mvpPresenter.getList(true, mId, 1);
             }
         });

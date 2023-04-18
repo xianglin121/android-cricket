@@ -9,9 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
+import com.ethanhua.skeleton.Skeleton;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
-import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.activity.VideoPagerActivity;
 import com.onecric.live.activity.VideoPublishActivity;
 import com.onecric.live.adapter.VideoAdapter;
@@ -29,7 +30,6 @@ import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -47,6 +47,8 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
 
     private int mPage = 1;
     private TextView tv_empty;
+    private RecyclerViewSkeletonScreen skeletonScreen;
+
     private LoginDialog loginDialog;
     public void setLoginDialog(LoginDialog dialog){
         this.loginDialog = dialog;
@@ -99,6 +101,17 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                if(mAdapter.getItemCount()<=0){
+                    if(skeletonScreen == null){
+                        skeletonScreen = Skeleton.bind(rv_video)
+                                .adapter(mAdapter)
+                                .shimmer(false)
+                                .count(5)
+                                .load(R.layout.item_video_skeleton).show();
+                    }else{
+                        skeletonScreen.show();
+                    }
+                }
                 mvpPresenter.getList(true, 1);
             }
         });
@@ -141,6 +154,7 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
 
     @Override
     public void getDataSuccess(boolean isRefresh, List<ShortVideoBean> list) {
+        skeletonScreen.hide();
         findViewById(R.id.ll_empty).setVisibility(View.GONE);
         if (isRefresh) {
             smart_rl.finishRefresh();
@@ -176,6 +190,7 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
 
     @Override
     public void getDataFail(String msg) {
+        skeletonScreen.hide();
         smart_rl.finishRefresh();
         smart_rl.finishLoadMore();
         //没网时空图
