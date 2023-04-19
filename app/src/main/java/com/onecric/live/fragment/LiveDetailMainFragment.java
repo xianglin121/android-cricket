@@ -7,6 +7,7 @@ import static com.google.android.material.tabs.TabLayout.TAB_LABEL_VISIBILITY_LA
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -53,6 +54,8 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.Li
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 /**
@@ -90,6 +93,9 @@ public class LiveDetailMainFragment extends Fragment {
 
     private LoginDialog loginDialog;
     private int mMatchId;
+    private Timer mTimer;
+    private CricketMatchBean mModel;
+
     public void setLoginDialog(LoginDialog dialog){
         loginDialog = dialog;
     }
@@ -443,6 +449,7 @@ public class LiveDetailMainFragment extends Fragment {
     }
 
     public void setMatchData(CricketMatchBean model){
+        mModel = model;
         if(mViewList.size()>2){
             ((AnimationLiveFragment) mViewList.get(2)).setLivePath(model.getLive_path());
             ((CricketLiveFragment) mViewList.get(3)).getData(model.getMatch_id());
@@ -452,6 +459,36 @@ public class LiveDetailMainFragment extends Fragment {
             ((CricketScorecardFragment) mViewList.get(5)).getData(model);
             ((CricketSquadFragment) mViewList.get(6)).getList(model);
         }
+        if(mModel.getStatus() != 2){
+            refreshTodayData();
+        }
     }
 
+    /**
+     * 每10s刷新
+     */
+    private void refreshTodayData(){
+        mTimer = new Timer();
+        mTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //Live页面，刷新最新数据(本fragment、未息屏、在前台
+                if(tab_layout.getSelectedTabPosition() == 3 &&
+                        mModel!=null &&
+                        getUserVisibleHint() &&
+                        ((PowerManager)getActivity().getSystemService(Context.POWER_SERVICE)).isScreenOn() &&
+                        getActivity().getWindow().getDecorView().getVisibility() == View.VISIBLE ){
+                    ((CricketLiveFragment) mViewList.get(3)).getData(mModel.getMatch_id());
+                }
+            }
+        }, 10000, 5000);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(mTimer != null){
+            mTimer.cancel();
+        }
+    }
 }
