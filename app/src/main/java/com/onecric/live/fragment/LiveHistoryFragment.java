@@ -92,7 +92,7 @@ public class LiveHistoryFragment extends MvpFragment<LiveMorePresenter> implemen
 
         recyclerview.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerview.addItemDecoration(new GridDividerItemDecoration(getContext(), 10, 2));
-        mHistoryAdapter = new LiveRecommendHistoryAdapter(R.layout.item_live_recommend, new ArrayList<>());
+        mHistoryAdapter = new LiveRecommendHistoryAdapter(R.layout.item_live_history, new ArrayList<>());
         mHistoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

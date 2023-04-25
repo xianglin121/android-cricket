@@ -131,7 +131,7 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
         recyclerview.setLayoutManager(new GridLayoutManager(mActivity, 2));
         recyclerview.addItemDecoration(new GridDividerItemDecoration(this, 10, 2));
         if(mType == 2){
-            mHistoryAdapter = new LiveRecommendHistoryAdapter(R.layout.item_live_recommend, new ArrayList<>());
+            mHistoryAdapter = new LiveRecommendHistoryAdapter(R.layout.item_live_history, new ArrayList<>());
             mHistoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

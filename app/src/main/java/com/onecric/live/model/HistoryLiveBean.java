@@ -29,6 +29,15 @@ public class HistoryLiveBean {
     private int like_num;
     private int viewers;
     private int live_id;
+    private long start_time;
+
+    public long getStart_time() {
+        return start_time;
+    }
+
+    public void setStart_time(long start_time) {
+        this.start_time = start_time;
+    }
 
     public int getLive_id() {
         return live_id;

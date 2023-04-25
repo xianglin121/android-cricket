@@ -207,7 +207,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         });
 
         //HistoryLive
-        mHistoryAdapter = new LiveRecommendHistoryAdapter(R.layout.item_live_recommend, new ArrayList<>());
+        mHistoryAdapter = new LiveRecommendHistoryAdapter(R.layout.item_live_history, new ArrayList<>());
         mHistoryAdapter.setOnItemClickListener((adapter, view, position) -> {
             String url = mHistoryAdapter.getItem(position).getMediaUrl();
             if (TextUtils.isEmpty(url)) {

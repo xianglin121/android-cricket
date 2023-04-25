@@ -12,6 +12,7 @@ import com.onecric.live.view.live.LiveMoreView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 
 public class LiveMorePresenter extends BasePresenter<LiveMoreView> {
@@ -50,7 +51,7 @@ public class LiveMorePresenter extends BasePresenter<LiveMoreView> {
     }
 
     public void getHistoryList(boolean isRefresh, int page) {
-        addSubscription(apiStores.getHistoryLiveList(CommonAppConfig.getInstance().getToken(), page,10),
+        addSubscription(apiStores.getHistoryLiveList(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(), page,10),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

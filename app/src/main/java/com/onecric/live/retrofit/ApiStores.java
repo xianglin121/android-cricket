@@ -853,11 +853,11 @@ public interface ApiStores {
 
     //获取历史直播列表
     @GET("api/LivePlayBack/list")
-    Observable<JsonObject> getHistoryLiveList(@Header("token") String token,
+    Observable<JsonObject> getHistoryLiveList(@Query("timezone") String timezone,@Header("token") String token,
                                               @Query("pageNumber") int pageNumber,
                                               @Query("pageSize") int pageSize);
 
-    //获取历史直播列表
+
     @GET("api/member/live_like")
     Observable<JsonObject> getLiveLike(@Header("token") String token, @Query("id") int id,
                                        @Query("type") int type);

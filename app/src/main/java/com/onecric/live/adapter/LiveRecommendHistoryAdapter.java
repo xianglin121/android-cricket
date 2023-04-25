@@ -1,5 +1,6 @@
 package com.onecric.live.adapter;
 
+import static com.onecric.live.util.DateUtil.getRelativeLocalDate;
 import static com.onecric.live.util.ToolUtil.getFirstBitmap;
 
 import android.graphics.Color;
@@ -31,6 +32,7 @@ import java.util.Locale;
  * 时间：2021/9/14
  */
 public class LiveRecommendHistoryAdapter extends BaseQuickAdapter<HistoryLiveBean, BaseViewHolder> {
+    private SimpleDateFormat sfdate2 = new SimpleDateFormat("hh:mm a,dd MMM", Locale.ENGLISH);
     public LiveRecommendHistoryAdapter(int layoutResId, @Nullable List<HistoryLiveBean> data) {
         super(layoutResId, data);
     }
@@ -39,11 +41,9 @@ public class LiveRecommendHistoryAdapter extends BaseQuickAdapter<HistoryLiveBea
     protected void convert(@NonNull BaseViewHolder helper, HistoryLiveBean item) {
         ImageView iv_cover = helper.getView(R.id.iv_cover);
         ImageView iv_avatar = helper.getView(R.id.iv_avatar);
-        ImageView iv_live = helper.getView(R.id.iv_history_live);
         TextView tv_title = helper.getView(R.id.tv_title);
         TextView tv_name = helper.getView(R.id.tv_name);
         TextView tv_num = helper.getView(R.id.tv_num);
-        TextView tv_time = helper.getView(R.id.tv_time);
 //        Glide.with(mContext).load(getFirstBitmap(mContext,item.getMediaUrl(),false)).into(iv_cover);
         Glide.with(mContext).load(item.getImg()).placeholder(R.mipmap.bg_team_comparison_head).into(iv_cover);
         GlideUtil.loadUserImageDefault(mContext, item.getUserHead(), iv_avatar);
@@ -59,7 +59,13 @@ public class LiveRecommendHistoryAdapter extends BaseQuickAdapter<HistoryLiveBea
         }
         tv_num.setText(item.getViewers() > 1000 ? String.format("%.1f",(float)item.getViewers()/1000) + "K" :item.getViewers()+"");
         iv_cover.setColorFilter(null);
-        iv_live.setVisibility(View.VISIBLE);
+
+        try{
+            helper.setText(R.id.tv_time,sfdate2.format(new Date(item.getStart_time()*1000))+"");
+        }catch (Exception e){
+            helper.setText(R.id.tv_time,"");
+        }
+
     }
 
 }
