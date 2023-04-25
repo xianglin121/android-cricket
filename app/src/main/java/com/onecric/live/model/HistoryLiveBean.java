@@ -39,6 +39,10 @@ public class HistoryLiveBean {
         this.start_time = start_time;
     }
 
+    public String away_logo;
+    public String bottom;
+    public String home_logo;
+
     public int getLive_id() {
         return live_id;
     }

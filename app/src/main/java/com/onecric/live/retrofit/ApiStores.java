@@ -902,4 +902,8 @@ public interface ApiStores {
     //新获取公开赛列表
     @POST("api/Cricketnew/get_cricket_tournament")
     Observable<JsonObject> getTournamentList(@Query("name") String name);
+
+    //新获取赛事详情-squad
+    @POST("api/Cricket/cricket_match_detail_squad_new")
+    Observable<JsonObject> getCricketDetailSquadNew(@Body RequestBody body);
 }

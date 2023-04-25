@@ -102,11 +102,36 @@
 
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/iv_c"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"/>
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:background="@color/c_e3e2e2"/>
+
+            <ImageView
+                android:id="@+id/iv_home"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="30dp"/>
+
+            <ImageView
+                android:id="@+id/iv_away"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:scaleType="centerCrop"
+                android:background="@color/transparent"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="30dp"/>
+
+        </FrameLayout>
+
 
         <ImageView
             android:id="@+id/iv_screen"

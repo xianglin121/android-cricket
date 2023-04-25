@@ -161,7 +161,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     private int clAvatarHeight;
 
     private Drawable drawableArrUp, drawableArrDown;
-    private ImageView iv_cover;
+    private ImageView iv_cover,iv_home_logo,iv_away_logo;
     private TextView tv_time;
     private SimpleDateFormat sfdate2 = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
     private LinearLayout ll_main;
@@ -261,6 +261,8 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         iv_tool_share = findViewById(R.id.iv_tool_share);
         tv_tool_heart = findViewById(R.id.tv_tool_heart);
         iv_cover = findViewById(R.id.iv_cover);
+        iv_home_logo = findViewById(R.id.iv_home_logo);
+        iv_away_logo = findViewById(R.id.iv_away_logo);
         tv_time = findViewById(R.id.tv_time);
         ll_main = findViewById(R.id.ll_main);
         findViewById(R.id.ll_eyes).setOnClickListener(this);
@@ -346,7 +348,14 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             initShareScreen();
             mMatchId = bean.getInfo().getMatch_id();
             tv_time.setText("Watch live at "+getRelativeLocalDate(sfdate2,bean.getInfo().getStarttime()));
-            GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_cover);
+            if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().bottom) && !TextUtils.isEmpty(mLiveRoomBean.getInfo().getHome_logo()) && !TextUtils.isEmpty(mLiveRoomBean.getInfo().getAway_logo())){
+                GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().bottom, iv_cover);
+                GlideUtil.loadTeamCircleImageDefault(mActivity, mLiveRoomBean.getInfo().getHome_logo(), iv_home_logo);
+                GlideUtil.loadTeamCircleImageDefault(mActivity, mLiveRoomBean.getInfo().getAway_logo(), iv_away_logo);
+            }else{
+                GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_cover);
+            }
+
             if (bean.getUserData() != null && !TextUtils.isEmpty(bean.getUserData().getTitle())) {
                 tv_title.setText(bean.getUserData().getTitle());
                 iv_star.setSelected(bean.getUserData().getIs_attention() == 0 ? false : true);
@@ -910,6 +919,8 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         ivScreen = view1.findViewById(R.id.iv_screen);
         ll_pic = view1.findViewById(R.id.ll_pic);
         ImageView iv_c = view1.findViewById(R.id.iv_c);
+        ImageView iv_home = view1.findViewById(R.id.iv_home);
+        ImageView iv_away = view1.findViewById(R.id.iv_away);
         RelativeLayout sBar = view1.findViewById(R.id.statusBar);
         CircleImageView head_pic = view1.findViewById(R.id.person_head_pic);
 
@@ -918,9 +929,16 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         int width = UIUtil.getScreenWidth(mActivity);
         ppiv_cover.height = (int)(width * 0.5625 * 0.8);
         iv_c.setLayoutParams(ppiv_cover);
-        GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_c);
+        if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().bottom) && !TextUtils.isEmpty(mLiveRoomBean.getInfo().getHome_logo())  && !TextUtils.isEmpty(mLiveRoomBean.getInfo().getAway_logo())){
+            Glide.with(mActivity).load(mLiveRoomBean.getInfo().bottom).skipMemoryCache(true).placeholder(R.mipmap.ball_live_bg).error(R.mipmap.ball_live_bg).into(iv_c);
+            GlideUtil.loadTeamCircleImageDefault(mActivity, mLiveRoomBean.getInfo().getHome_logo(), iv_home);
+            GlideUtil.loadTeamCircleImageDefault(mActivity, mLiveRoomBean.getInfo().getAway_logo(), iv_away);
+        }else{
+            Glide.with(mActivity).load(mLiveRoomBean.getInfo().getThumb()).skipMemoryCache(true).placeholder(R.mipmap.ball_live_bg).error(R.mipmap.ball_live_bg).into(iv_c);
+        }
+
         //跳过内存缓存 否则得到的是失败图片
-        Glide.with(mActivity).load(mLiveRoomBean.getInfo().getThumb()).skipMemoryCache(true).placeholder(R.mipmap.ball_live_bg).error(R.mipmap.ball_live_bg).into(iv_c);
+//        Glide.with(mActivity).load(mLiveRoomBean.getInfo().getThumb()).skipMemoryCache(true).placeholder(R.mipmap.ball_live_bg).error(R.mipmap.ball_live_bg).into(iv_c);
         GlideUtil.loadUserImageDefault(mActivity, mLiveRoomBean.getUserData().getAvatar(), head_pic);
 
         //生成二维码

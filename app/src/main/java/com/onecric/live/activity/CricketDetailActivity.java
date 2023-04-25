@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.PowerManager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -52,6 +53,8 @@ import com.onecric.live.view.cricket.CricketDetailView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 开发公司：东莞市梦幻科技有限公司
@@ -115,6 +118,7 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
     public LoginDialog loginDialog;
     private WebView webview;
     private WebSettings webSettings;
+    private Timer mTimer;
 
     @Override
     public boolean getStatusBarTextColor() {
@@ -295,7 +299,8 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
             if (!TextUtils.isEmpty(model.getTournament_id())) {
                 ((CricketInfoFragment) mViewList.get(1)).getList(model.getHome_id(), model.getAway_id(), Integer.valueOf(model.getTournament_id()));
             }
-            ((CricketSquadFragment) mViewList.get(5)).getList(mMatchId, model.getHome_name(), model.getHome_logo(), model.getAway_name(), model.getAway_logo());
+            ((CricketSquadFragment) mViewList.get(5)).getList(model);
+            ((CricketLiveFragment) mViewList.get(2)).getData(model.getMatch_id());
             if (model.getStatus() == 0) {
                 cl_one.setVisibility(View.GONE);
                 cl_two.setVisibility(View.VISIBLE);
@@ -383,6 +388,10 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
             initWebViewTwo(mModel.getLive_url());
             //请求记分卡数据
             ((CricketScorecardFragment) mViewList.get(3)).getData(mModel);
+
+            if(mModel.getStatus() != 2){
+                refreshTodayData();
+            }
         }
     }
 
@@ -559,6 +568,9 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
         if (mWvVideo != null) {
             mWvVideo.destroy();
         }
+        if(mTimer != null){
+            mTimer.cancel();
+        }
     }
 
     @SuppressLint("JavascriptInterface")
@@ -607,4 +619,24 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
             }
         }, 500);
     }
+
+    /**
+     * 每10s刷新
+     */
+    private void refreshTodayData(){
+        mTimer = new Timer();
+        mTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //Live页面，刷新最新数据(未息屏、在前台
+                if(tabLayout.getSelectedTabPosition() == 2 &&
+                        mModel!=null &&
+                        ((PowerManager)getSystemService(Context.POWER_SERVICE)).isScreenOn() &&
+                        getWindow().getDecorView().getVisibility() == View.VISIBLE ){
+                    ((CricketLiveFragment) mViewList.get(2)).getData(mModel.getMatch_id());
+                }
+            }
+        }, 10000, 5000);
+    }
+
 }

@@ -45,7 +45,21 @@ public class LiveRecommendHistoryAdapter extends BaseQuickAdapter<HistoryLiveBea
         TextView tv_name = helper.getView(R.id.tv_name);
         TextView tv_num = helper.getView(R.id.tv_num);
 //        Glide.with(mContext).load(getFirstBitmap(mContext,item.getMediaUrl(),false)).into(iv_cover);
-        Glide.with(mContext).load(item.getImg()).placeholder(R.mipmap.bg_team_comparison_head).into(iv_cover);
+        ImageView iv_home = helper.getView(R.id.iv_home_logo);
+        ImageView iv_away = helper.getView(R.id.iv_away_logo);
+
+        if(!TextUtils.isEmpty(item.away_logo) && !TextUtils.isEmpty(item.home_logo)){
+            GlideUtil.loadLiveImageDefault(mContext, item.bottom, iv_cover);
+            iv_home.setVisibility(View.VISIBLE);
+            iv_away.setVisibility(View.VISIBLE);
+            GlideUtil.loadTeamCircleImageDefault(mContext, item.home_logo, iv_home);
+            GlideUtil.loadTeamCircleImageDefault(mContext, item.away_logo, iv_away);
+        }else{
+            iv_home.setVisibility(View.GONE);
+            iv_away.setVisibility(View.GONE);
+            Glide.with(mContext).load(item.getImg()).placeholder(R.mipmap.bg_team_comparison_head).into(iv_cover);
+        }
+
         GlideUtil.loadUserImageDefault(mContext, item.getUserHead(), iv_avatar);
         if (!TextUtils.isEmpty(item.getName())) {
             tv_title.setText(item.getName());

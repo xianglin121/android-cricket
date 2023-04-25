@@ -9,7 +9,10 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -72,15 +75,15 @@ public class LoginDialog extends Dialog {
     private BaseActivity mContext;
     private Button btn_login;
     private TextView tvAgreement;
-    private TextView tvAuthCode;
-    private EditText etVerification;
+//    private TextView tvAuthCode;
+//    private EditText etVerification;
     private EditText etPhone;
     private CheckBox cbAgreement;
     private EditText etArea;
     private CountryCodePicker ccp;
     private ArrayList<AreasModel.CountryModel> countryList;
 
-    private Handler handler;
+//    private Handler handler;
     private static final int TOTAL = 60;
     private int count = TOTAL;
     private String getCodeString;
@@ -101,7 +104,7 @@ public class LoginDialog extends Dialog {
     }
 
     private void initData() {
-        handler = new Handler() {
+/*        handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 count--;
@@ -118,7 +121,7 @@ public class LoginDialog extends Dialog {
                     }
                 }
             }
-        };
+        };*/
     }
 
     private void initView() {
@@ -133,10 +136,10 @@ public class LoginDialog extends Dialog {
 
         getCodeString = WordUtil.getString(mContext, R.string.get_verify_code);
         tvAgreement = findViewById(R.id.tv_agreement);
-        tvAuthCode = findViewById(R.id.tv_auth_code);
+//        tvAuthCode = findViewById(R.id.tv_auth_code);
         cbAgreement = findViewById(R.id.cb_agreement);
         btn_login = findViewById(R.id.btn_log_in);
-        etVerification = findViewById(R.id.et_verification);
+//        etVerification = findViewById(R.id.et_verification);
         etPhone = findViewById(R.id.et_phone);
         cbAgreement = findViewById(R.id.cb_agreement);
         ccp = findViewById(R.id.ccp);
@@ -148,7 +151,7 @@ public class LoginDialog extends Dialog {
 
 
     private void initListener() {
-        tvAuthCode.setOnClickListener(v -> {
+/*        tvAuthCode.setOnClickListener(v -> {
             String area = etArea.getText().toString().trim();
             String phone = etPhone.getText().toString().trim();
             if (TextUtils.isEmpty(area)) {
@@ -163,7 +166,7 @@ public class LoginDialog extends Dialog {
 //            if (!mContext.isFastDoubleClick()) {
 //                mWebViewListener.onShow();
 //            }
-        });
+        });*/
 
         btn_login.setOnClickListener(v -> {
             if (!cbAgreement.isChecked()) {
@@ -181,17 +184,17 @@ public class LoginDialog extends Dialog {
                 return;
             }
 
-            if (!isSendCode) {
+/*             if (!isSendCode) {
                 ToastUtil.show(mContext.getString(R.string.send_verification_tip));
                 return;
             }
 
-            if (TextUtils.isEmpty(etVerification.getText().toString().trim())) {
+           if (TextUtils.isEmpty(etVerification.getText().toString().trim())) {
                 ToastUtil.show(mContext.getString(R.string.verification_code));
                 return;
-            }
+            }*/
 
-            hideKeyboard(etVerification);
+            hideKeyboard(etPhone);
             requestLogin();
         });
 
@@ -342,18 +345,18 @@ public class LoginDialog extends Dialog {
                     public void onSuccess(String data, String msg) {
                         isSendCode = true;
 //        if (dialog != null) {dialog.dismiss();}
-                        handler.sendEmptyMessage(0);
+//                        handler.sendEmptyMessage(0);
                     }
 
                     @Override
                     public void onFailure(String msg) {
-                        tvAuthCode.setEnabled(true);
+//                        tvAuthCode.setEnabled(true);
                         ToastUtil.show(msg);
                     }
 
                     @Override
                     public void onError(String msg) {
-                        tvAuthCode.setEnabled(true);
+//                        tvAuthCode.setEnabled(true);
                         ToastUtil.show(msg);
                     }
 
@@ -364,14 +367,36 @@ public class LoginDialog extends Dialog {
                 });
     }
 
+
+    /**
+     * 获取渠道号
+     *
+     * @param mContext
+     * @return
+     */
+    public static String getFlavor(Context mContext) {
+        PackageManager pm = mContext.getPackageManager();
+        try {
+            ApplicationInfo info = pm.getApplicationInfo(mContext.getPackageName(), PackageManager.GET_META_DATA);
+            Bundle bundle = info.metaData;
+            return bundle.getString("APP_CHANNEL");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     private void requestLogin() {
+        String key = getFlavor(mContext);
         String prefix = etArea.getText().toString().trim();
         btn_login.setEnabled(false);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("mobile", prefix + "-" + etPhone.getText().toString().trim());
-        jsonObject.put("code", etVerification.getText().toString().trim());
+        //暂时不验证验证码
+//        jsonObject.put("code", etVerification.getText().toString().trim());
 //        jsonObject.put("pushid", MTCorePrivatesApi.getRegistrationId(mContext));
         jsonObject.put("pushid", SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN));
+        jsonObject.put("key", key);
         jsonObject.put("device_type", "android");
         ApiClient.retrofit().create(ApiStores.class)
                 .loginByPwd(getRequestBody(jsonObject))
@@ -448,7 +473,7 @@ public class LoginDialog extends Dialog {
     public void passWebView() {
         String area = etArea.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
-        tvAuthCode.setEnabled(false);
+//        tvAuthCode.setEnabled(false);
         if (!TextUtils.isEmpty(area) && !TextUtils.isEmpty(phone)) {
             requestCode(area + "-" + phone);
         }

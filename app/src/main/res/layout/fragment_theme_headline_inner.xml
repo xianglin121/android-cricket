@@ -18,6 +18,9 @@
                 android:orientation="vertical"
                 android:focusable="true"
                 android:focusableInTouchMode="true">
+
+                <include layout="@layout/layout_theme_skeleton"/>
+
                 <com.youth.banner.Banner
                     android:id="@+id/banner_headline"
                     android:layout_width="match_parent"
@@ -40,7 +43,6 @@
                     android:layout_marginRight="6dp"
                     android:background="@drawable/shape_white_6dp_rec">
                     <include layout="@layout/layout_common_empty"/>
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_headline"
                         android:layout_width="match_parent"

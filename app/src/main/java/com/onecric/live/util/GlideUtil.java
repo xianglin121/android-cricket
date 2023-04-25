@@ -29,6 +29,13 @@ public class GlideUtil {
     }
 
     //设置球队头像的加载中以及加载失败图片
+    public static void loadTeamCircleImageDefault(Context mContext, String path, ImageView mImageView) {
+        Glide.with(mContext).load(path).placeholder(R.mipmap.img_team_logo_default).dontAnimate().error(R.mipmap.img_team_logo_default).circleCrop()
+                .into(mImageView);
+//        mImageView.setBackgroundResource(R.drawable.shape_80white_circle);
+    }
+
+    //设置球队头像的加载中以及加载失败图片
     public static void loadUpdatesImageDefault(Context mContext, String path, ImageView mImageView) {
         Glide.with(mContext).load(path).placeholder(R.mipmap.img_updates_default).dontAnimate().error(R.mipmap.img_updates_default)
                 .into(mImageView);
