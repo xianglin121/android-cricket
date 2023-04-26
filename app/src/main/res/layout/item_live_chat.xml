@@ -5,11 +5,38 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="8dp">
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15dp"
-        android:textColor="@color/c_333333"/>
+        android:textColor="@color/c_333333"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_system_notice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:lineSpacingExtra="-2dp"
+        android:textColor="#FC3838"
+        android:visibility="gone"
+        android:background="@drawable/bg_chat_notice_1"
+        android:padding="5dp"/>
+
+    <TextView
+        android:id="@+id/tv_office_notice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="#060137"
+        android:visibility="gone"
+        android:background="@drawable/bg_chat_notice_2"
+        android:padding="5dp"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:singleLine="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"/>
 </LinearLayout>

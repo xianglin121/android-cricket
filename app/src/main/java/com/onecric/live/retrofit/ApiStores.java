@@ -161,13 +161,18 @@ public interface ApiStores {
                                          @Query("type") int type,
                                          @Query("isweb") int isweb);
 
-    //获取正在直播列表
+    //获取正在直播列表 api/live_streaming/getLiveListold?type=1?islive=1 ishot
+    //type 1无人直播 0 主播直播     islive 1正在直播 0未开始    ishot  1热门直播
+    @GET("api/live_streaming/getLiveListold")
+    Observable<JsonObject> getLivingListFiltrate(@Header("token") String token,@Query("type") int type,@Query("ishot") int ishot);
+
+    //获取正在直播列表(pass
     @GET("api/live_streaming/getLiveListinfo")
     Observable<JsonObject> getAllLivingList(@Header("token") String token);
 
     //获取直播详情
     @GET("api/live_streaming/getRoomInfo")
-    Observable<JsonObject> getLiveDetail(@Header("token") String token,
+    Observable<JsonObject> getLiveDetail(@Query("timezone") String timezone,@Header("token") String token,
                                          @Query("id") int id);
 
     //获取礼物列表
@@ -809,7 +814,7 @@ public interface ApiStores {
 
     //获取赛事详情
     @POST("api/Cricket/cricket_match_detail")
-    Observable<JsonObject> getCricketDetail(@Header("token") String token,@Body RequestBody body);
+    Observable<JsonObject> getCricketDetail(@Query("timezone") String timezone,@Header("token") String token,@Body RequestBody body);
 
     //获取赛事详情-info
     @POST("api/Cricket/cricket_match_detail_info")

@@ -233,6 +233,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
             messageInfo.setSystemNotice(CommonAppConfig.getInstance().getConfig().getLive_notice());
             list.add(messageInfo);
         }
+
         rv_chat.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -1026,6 +1027,14 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
     public void showRedEnvelopeDialog() {
         if (mRedEnvelopeDialog != null) {
             mRedEnvelopeDialog.show();
+        }
+    }
+
+    public void showOfficeNotice(String msg) {
+        if(!TextUtils.isEmpty(msg)){
+            MessageInfo messageInfo = new MessageInfo();
+            messageInfo.setOfficeNotice(msg);
+            mChatAdapter.addData(messageInfo);
         }
     }
 

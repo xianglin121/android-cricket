@@ -129,8 +129,11 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
@@ -696,6 +699,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     @Override
     public void getDataSuccess(LiveRoomBean bean) {
         if (bean != null) {
+            if(!TextUtils.isEmpty(bean.getInfo().prompt)){
+                liveDetailMainFragment.showOfficeNotice(bean.getInfo().prompt);
+            }
             mLiveRoomBean = bean;
             mMatchId = bean.getInfo().getMatch_id();
             initShareScreen();
@@ -749,7 +755,13 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             }
             if (bean.getUserData() != null && !TextUtils.isEmpty(bean.getUserData().getTitle())) {
 //                playerView.updateTitle(bean.getUserData().getTitle());
-                tv_title.setText(bean.getUserData().getTitle());
+                SimpleDateFormat sfdate2 = new SimpleDateFormat("hh:mm a,dd MMM", Locale.ENGLISH);
+                try{
+                    tv_title.setText(bean.getUserData().getTitle()+"\n" + sfdate2.format(new Date(bean.getInfo().getStarttime()*1000)));
+                }catch (Exception e){
+                    tv_title.setText(bean.getUserData().getTitle());
+                }
+
                 iv_star.setSelected(bean.getUserData().getIs_attention() == 0 ? false : true);
                 tv_name.setText(bean.getUserData().getUser_nickname());
                 tv_desc.setText("Fans: " + bean.getUserData().getAttention());

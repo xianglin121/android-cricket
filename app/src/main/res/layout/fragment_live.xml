@@ -102,8 +102,8 @@
             android:layout_height="47dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingBottom="3dp"
-            android:paddingTop="20dp"
+            android:paddingBottom="7dp"
+            android:paddingTop="16dp"
             android:src="@mipmap/bg_avatar_default"
             android:scaleType="centerCrop"
             android:layout_gravity="bottom"/>
@@ -119,15 +119,15 @@
             android:text="@string/free_hd_live_broadcast"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <net.lucode.hackware.magicindicator.MagicIndicator
             android:id="@+id/magicIndicator"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="70dp"
-            android:paddingTop="20dp"
-            android:visibility="gone"/>
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="30dp"/>
 
         <ImageView
             android:id="@+id/iv_more2"
@@ -135,7 +135,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:src="@mipmap/icon_calendar"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="3dp"/>
     </LinearLayout>
 
 

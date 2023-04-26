@@ -42,7 +42,7 @@ public class LiveRoomInfoBean {
     private String live_duration;
     private int clicktime;
     private int match_id;
-    private int starttime;
+    private long starttime;
     private String title;
     private String stream;
     private String thumb;
@@ -67,6 +67,7 @@ public class LiveRoomInfoBean {
     private int like_num;
     private int live_id;
     public String bottom;
+    public String prompt;
 
     public int getLive_id() {
         return live_id;
@@ -148,11 +149,11 @@ public class LiveRoomInfoBean {
         this.match_id = match_id;
     }
 
-    public int getStarttime() {
+    public long getStarttime() {
         return starttime;
     }
 
-    public void setStarttime(int starttime) {
+    public void setStarttime(long starttime) {
         this.starttime = starttime;
     }
 

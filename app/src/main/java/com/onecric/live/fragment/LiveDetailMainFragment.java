@@ -448,6 +448,7 @@ public class LiveDetailMainFragment extends Fragment {
         ((LiveChatFragment)mViewList.get(1)).showRedEnvelopeDialog();
     }
 
+
     public void setMatchData(CricketMatchBean model){
         mModel = model;
         if(mViewList.size()>2){
@@ -490,5 +491,9 @@ public class LiveDetailMainFragment extends Fragment {
         if(mTimer != null){
             mTimer.cancel();
         }
+    }
+
+    public void showOfficeNotice(String msg) {
+        ((LiveChatFragment)mViewList.get(1)).showOfficeNotice(msg);
     }
 }

@@ -1,6 +1,7 @@
 package com.onecric.live.fragment;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,10 +20,12 @@ import com.onecric.live.activity.MyTaskActivity;
 import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.activity.RankingActivity;
 import com.onecric.live.activity.SearchLiveActivity;
+import com.onecric.live.adapter.ChannelPagerAdapter;
 import com.onecric.live.custom.CustomPagerTitleView;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
+import com.onecric.live.model.LiveFiltrateBean;
 import com.onecric.live.presenter.live.LivePresenter;
 import com.onecric.live.util.DpUtil;
 import com.onecric.live.util.GlideUtil;
@@ -84,11 +87,21 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
     protected void initData() {
         mTitles = new ArrayList<>();
         mViewList = new ArrayList<>();
-        mTitles.add(WordUtil.getString(getActivity(), R.string.free_hd_live_broadcast));
+//        mTitles.add(WordUtil.getString(getActivity(), R.string.free_hd_live_broadcast));
         LiveRecommendFragment liveRecommendFragment = new LiveRecommendFragment();
         liveRecommendFragment.setLoginDialog(loginDialog);
+//        mViewList.add(liveRecommendFragment);
+
+
+//        mTitles.add(WordUtil.getString(getActivity(), R.string.live_classify));
+        mTitles.add(WordUtil.getString(getActivity(), R.string.live_recommend));
+        mTitles.add(WordUtil.getString(getActivity(), R.string.cricket));
+//        mViewList.add(new LiveClassifyFragment());
         mViewList.add(liveRecommendFragment);
-        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+        mViewList.add(LiveMatchFragment.newInstance(0));
+
+
+/*        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
                 return mViewList.get(i);
@@ -98,9 +111,9 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
             public int getCount() {
                 return mViewList.size();
             }
-        });
+        });*/
         updateUserInfo();
-        mvpPresenter.getOtherList(2,1);
+        mvpPresenter.getOtherList();
     }
     @Override
     public void onClick(View v) {
@@ -197,7 +210,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
                     @Override
                     public void onClick(View v) {
                         if (mViewPager != null) {
-                            mViewPager.setCurrentItem(index);
+                            mViewPager.setCurrentItem(index,false);
                         }
                     }
                 });
@@ -234,7 +247,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
 
             }
         });
-        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+        /*mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
                 return mViewList.get(i);
@@ -244,22 +257,26 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
             public int getCount() {
                 return mViewList.size();
             }
-        });
+        });*/
+
+        //防止重新加载
+        ChannelPagerAdapter mPagerAdapter = new ChannelPagerAdapter(getChildFragmentManager(), mViewList);
+        mViewPager.setOffscreenPageLimit(mViewList.size());
+
+        mViewPager.setAdapter(mPagerAdapter);
         magicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(magicIndicator, mViewPager);
     }
 
     @Override
-    public void getOtherDataSuccess(List<LiveBean> list) {
-        if (list != null && list.size() > 0) {
+    public void getOtherDataSuccess(List<LiveFiltrateBean> list) {
+        if (list != null && list.size() > 0) {//没有系统直播就不显示Other
             mTitles.add(WordUtil.getString(getActivity(), R.string.live_other));
-            LiveMatchFragment liveMatchFragment = LiveMatchFragment.newInstance(2);
+            LiveMatchFragment liveMatchFragment = LiveMatchFragment.newInstance(1);
             liveMatchFragment.setLoginDialog(loginDialog);
-            mViewList.add(LiveMatchFragment.newInstance(2));
-            magicIndicator.setVisibility(View.VISIBLE);
-            tvSingleTitle.setVisibility(View.GONE);
-            initViewPager();
+            mViewList.add(liveMatchFragment);
         }
+        initViewPager();
     }
 
     public void updateUserInfo() {

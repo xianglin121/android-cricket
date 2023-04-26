@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -17,11 +18,13 @@ import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.activity.LiveNotStartDetailActivity;
 import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.adapter.LiveAnchorAdapter;
+import com.onecric.live.adapter.LiveFiltrateAdapter;
 import com.onecric.live.adapter.LiveRecommendAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
+import com.onecric.live.model.LiveFiltrateBean;
 import com.onecric.live.presenter.live.LiveMatchPresenter;
 import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
@@ -32,6 +35,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
@@ -46,14 +50,15 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
         return fragment;
     }
 
-    private int mMatchType;
+    private int mMatchType;//1系统直播 0主播直播
     private RecyclerView rv_anchor;
     private LiveAnchorAdapter mAnchorAdapter;
     private SmartRefreshLayout smart_rl;
     private RecyclerView rv_live;
-    private LiveRecommendAdapter mAdapter;
+    private LiveFiltrateAdapter mAdapter;
+    private LinearLayout ll_hot;
 
-    private int mPage = 1;
+//    private int mPage = 1;
     private LoginDialog loginDialog;
     public void setLoginDialog(LoginDialog dialog){
         this.loginDialog = dialog;
@@ -75,6 +80,7 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
         rv_anchor = rootView.findViewById(R.id.rv_anchor);
         smart_rl = rootView.findViewById(R.id.smart_rl);
         rv_live = rootView.findViewById(R.id.rv_live);
+        ll_hot = rootView.findViewById(R.id.ll_hot);
     }
 
     @Override
@@ -97,7 +103,7 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
                     }
                 }else{
                     LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(),
-                            mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
+                            mAdapter.getItem(position).getMatchId(),mAdapter.getItem(position).getLiveId());
                 }
             }
         });
@@ -110,25 +116,22 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
         MaterialHeader materialHeader = new MaterialHeader(getContext());
         materialHeader.setColorSchemeColors(getContext().getResources().getColor(R.color.c_DC3C23));
         smart_rl.setRefreshHeader(materialHeader);
-        smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
-        smart_rl.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getList(false, mMatchType, mPage);
-            }
-
+        smart_rl.setEnableLoadMore(false);
+//        smart_rl.setRefreshFooter(new ClassicsFooter(getContext()));
+        smart_rl.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getList(true, mMatchType, 1);
+                mvpPresenter.getList(mMatchType, true);
+                mvpPresenter.getList(mMatchType, false);
             }
         });
-        mAdapter = new LiveRecommendAdapter(R.layout.item_live_recommend, new ArrayList<>());
+        mAdapter = new LiveFiltrateAdapter(R.layout.item_live_recommend, new ArrayList<>());
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if(mAdapter.getItem(position).getIslive() == 0){
                     LiveNotStartDetailActivity.forward(getContext(),mAdapter.getItem(position).getUid(),
-                            mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
+                            mAdapter.getItem(position).getMatchId(),mAdapter.getItem(position).getLiveId());
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                     if(loginDialog!=null){
                         loginDialog.show();
@@ -137,7 +140,7 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
                     }
                 }else{
                     LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(),
-                            mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
+                            mAdapter.getItem(position).getMatchId(),mAdapter.getItem(position).getLiveId());
                 }
             }
         });
@@ -162,8 +165,20 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
     }
 
     @Override
-    public void getDataSuccess(boolean isRefresh, List<LiveBean> list) {
-        if (isRefresh) {
+    public void getDataSuccess(boolean isHot, List<LiveFiltrateBean> list) {
+        smart_rl.finishRefresh();
+        if (isHot) {
+            if (list != null && list.size()>0) {
+                ll_hot.setVisibility(View.VISIBLE);
+                mAnchorAdapter.setNewData(list);
+            }else{
+                ll_hot.setVisibility(View.GONE);
+            }
+        } else if (list != null) {
+            mAdapter.setNewData(list);
+        }
+
+/*        if (isRefresh) {
             smart_rl.finishRefresh();
             mPage = 2;
             if (list != null) {
@@ -178,7 +193,7 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
             } else {
                 smart_rl.finishLoadMoreWithNoMoreData();
             }
-        }
+        }*/
     }
 
     @Override
@@ -189,6 +204,5 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
     @Override
     public void getDataFail(String msg) {
         smart_rl.finishRefresh();
-        smart_rl.finishLoadMore();
     }
 }

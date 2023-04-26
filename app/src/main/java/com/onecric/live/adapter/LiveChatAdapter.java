@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.text.style.DynamicDrawableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
+import android.util.TypedValue;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,8 +20,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
 import com.onecric.live.model.CustomMsgBean;
+import com.onecric.live.util.UiUtils;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
 import com.tencent.qcloud.tuikit.tuichat.component.face.FaceManager;
+
+import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 import java.util.List;
 
@@ -35,11 +40,26 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
     @Override
     protected void convert(@NonNull BaseViewHolder helper, MessageInfo item) {
         TextView tv_content = helper.getView(R.id.tv_content);
+        TextView tv_system_notice = helper.getView(R.id.tv_system_notice);
+        TextView tv_office_notice = helper.getView(R.id.tv_office_notice);
+        tv_content.setVisibility(View.GONE);
+        tv_system_notice.setVisibility(View.GONE);
+        tv_office_notice.setVisibility(View.GONE);
         if (!TextUtils.isEmpty(item.getSystemNotice())) {
-            SpannableStringBuilder stringBuilder = new SpannableStringBuilder(item.getSystemNotice());
-            stringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#FC3838")), 0, item.getSystemNotice().length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-            tv_content.setText(stringBuilder);
+            tv_content.setVisibility(View.GONE);
+            tv_system_notice.setVisibility(View.VISIBLE);
+            tv_system_notice.setText(item.getSystemNotice());
+        }else if(!TextUtils.isEmpty(item.getOfficeNotice())){
+            //官方发言 走马灯
+            tv_office_notice.setText(item.getOfficeNotice());
+            tv_office_notice.setVisibility(View.VISIBLE);
+//            tv_office_notice.requestFocus();
+            tv_office_notice.setFocusable(true);
+            tv_office_notice.setFocusableInTouchMode(true);
+            tv_office_notice.setSelected(true);
+            tv_office_notice.requestFocusFromTouch();
         }else {
+            tv_content.setVisibility(View.VISIBLE);
             String str = "";
             boolean isAnchor = false;//是否是主播
             Bitmap nobleBitmap = null;//贵族图标

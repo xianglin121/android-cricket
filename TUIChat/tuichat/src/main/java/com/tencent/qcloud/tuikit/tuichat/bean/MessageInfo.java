@@ -649,4 +649,14 @@ public class MessageInfo implements Serializable {
     public void setSystemNotice(String systemNotice) {
         this.systemNotice = systemNotice;
     }
+
+    private String officeNotice;
+
+    public String getOfficeNotice() {
+        return officeNotice;
+    }
+
+    public void setOfficeNotice(String officeNotice) {
+        this.officeNotice = officeNotice;
+    }
 }

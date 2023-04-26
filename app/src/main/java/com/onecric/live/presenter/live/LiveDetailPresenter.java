@@ -34,7 +34,7 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
     }
 
     public void getInfo(boolean isLoginUpdate,int mLiveId) {
-        addSubscription(apiStores.getLiveDetail(CommonAppConfig.getInstance().getToken(), mLiveId),
+        addSubscription(apiStores.getLiveDetail(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(), mLiveId),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
@@ -219,7 +219,7 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
         TimeZone timeZone = TimeZone.getDefault();
         jsonObject.put("timezone", timeZone.getID());
         jsonObject.put("match_id", matchId);
-        addSubscription(apiStores.getCricketDetail(CommonAppConfig.getInstance().getToken(),getRequestBody(jsonObject)), new ApiCallback() {
+        addSubscription(apiStores.getCricketDetail(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(),getRequestBody(jsonObject)), new ApiCallback() {
             @Override
             public void onSuccess(String data, String msg) {
                 mvpView.getMatchDataSuccess(JSONObject.parseObject(data, CricketMatchBean.class));

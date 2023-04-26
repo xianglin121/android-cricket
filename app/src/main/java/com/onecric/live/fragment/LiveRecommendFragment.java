@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
 import com.ethanhua.skeleton.Skeleton;
@@ -123,6 +124,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         rv_history = rootView.findViewById(R.id.rv_history);
         tv_see_more_three = rootView.findViewById(R.id.tv_see_more_three);
         view_loading = rootView.findViewById(R.id.view_loading);
+        view_loading.setVisibility(View.VISIBLE);
 
         int width = UIUtil.getScreenWidth(getContext());
         android.view.ViewGroup.LayoutParams pp = mBanner.getLayoutParams();
@@ -159,16 +161,14 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                if(mHistoryAdapter.getData().size()<=0){
+                if(mHistoryAdapter.getData().size()<=0 && mTodayAdapter.getData().size()<=0){
                     view_loading.setVisibility(View.VISIBLE);
                 }
 
                 mvpPresenter.getMatchList();
                 mvpPresenter.getList(true, 1);
                 mvpPresenter.getHistoryList(true, 1);
-                if(bannerAdapter == null){
-                    mvpPresenter.getBannerList(-1);
-                }
+                mvpPresenter.getBannerList(-1);
             }
         });
 
@@ -416,14 +416,14 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
     }
 
     @Override
-    public void getBannerSuccess(List<BannerBean> list, int position) {
+    public void getBannerSuccess(List<BannerBean> list, int index) {
         if (list != null && list.size() > 0) {
             mBanner.setIndicator(new RectangleIndicator(getContext()));
             bannerAdapter = new BannerRoundImageAdapter(list) {
                 @Override
                 public void onBindView(Object holder, Object data, int position, int size) {
                     BannerBean bannerBean = (BannerBean) data;
-                    Glide.with(getContext()).load(bannerBean.getImg()).into(((BannerRoundImageHolder) holder).imageView);
+                    Glide.with(getContext()).load(bannerBean.getImg()).priority(Priority.HIGH).into(((BannerRoundImageHolder) holder).imageView);
                 }
             };
             bannerAdapter.setOnBannerListener(new OnBannerListener() {
@@ -438,8 +438,8 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
 //                    }
                 }
             });
-            if (position != -1) {
-                BannerBean bannerBean = list.get(position);
+            if (index != -1) {
+                BannerBean bannerBean = list.get(index);
                 if (bannerBean.getAnchor_id() != 0) {
                     if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                         if(loginDialog!=null){

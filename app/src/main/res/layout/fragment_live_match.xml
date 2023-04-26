@@ -16,9 +16,10 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <LinearLayout
+                    android:id="@+id/ll_hot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_margin="6dp"
                     android:background="@drawable/shape_white_6dp_rec"
                     android:orientation="vertical">
                     <LinearLayout
