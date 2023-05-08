@@ -1,6 +1,8 @@
 package com.onecric.live.presenter.login;
 
 import com.alibaba.fastjson.JSONObject;
+import com.onecric.live.CommonAppConfig;
+import com.onecric.live.model.ConfigurationBean;
 import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.view.login.ForgetPwdView;
@@ -65,6 +67,30 @@ public class ForgetPwdPresenter extends BasePresenter<ForgetPwdView> {
                     @Override
                     public void onError(String msg) {
                         mvpView.forgetPwdFail(msg);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
+
+    public void getConfiguration(String currentVersionNumber) {
+        addSubscription(apiStores.getDefaultConfiguration(currentVersionNumber),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        CommonAppConfig.getInstance().saveConfig(JSONObject.parseObject(data, ConfigurationBean.class));
+                        mvpView.showCountryList();
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                    }
+
+                    @Override
+                    public void onError(String msg) {
                     }
 
                     @Override

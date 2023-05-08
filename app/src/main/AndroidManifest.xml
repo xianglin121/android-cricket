@@ -93,93 +93,71 @@
         <activity
             android:name="com.onecric.live.activity.PreViewActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.WebViewActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.WebViewNewActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.UsageViewActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.FootballMatchDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.FootballMatchSettingActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.BasketballMatchSettingActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.SettingActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.UserInfoActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.RangqiuIndexDetailActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.HistoryIndexDetailActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.FootballHistoryIndexDetailActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.BasketballMatchDetailActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.MatchFilterActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.ChargeActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.WithdrawActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.MyFollowActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.MyReserveActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.MyLevelActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.MyMessageActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.ActivityCenterActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.SpeakerHistoryActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.LiveDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -199,44 +177,34 @@
                     android:scheme="onematch" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.onecric.live.activity.LiveMovingCommentActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.OpenNobleActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.ModifyNickNameActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.ModifyIntroductionActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.ChangePhoneActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.PayPwdSettingActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.BindAccountActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.AccountInfoActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.VideoCompletePlayActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.HeadlineDetailActivity"
             android:exported="true"
@@ -253,39 +221,30 @@
                     android:scheme="onematch" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.onecric.live.activity.CommunityCommentActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.CommunityDetailActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.RankingActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.CommunityPublishActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.GroupSelectActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.ThemeCollectionActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.VideoPublishActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.CreatorApplyActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.VideoPagerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
@@ -303,66 +262,51 @@
                     android:scheme="onematch" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.onecric.live.activity.SearchMatchActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.CommonProblemActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.LiveMoreFunctionActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.onecric.live.activity.AttentionActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.AboutUsActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.ChangePwdActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.MyWalletActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.SearchLiveActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.SearchLiveDetailActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.MySpaceActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.MyTaskActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.LogoutActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.DefaultAvatarActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.BasketballMatchDataActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.FootballMatchDataActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.CricketInnerActivity"
             android:exported="true"
@@ -379,7 +323,6 @@
                     android:scheme="onematch" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.onecric.live.activity.CricketDetailActivity"
             android:exported="true"
@@ -396,11 +339,9 @@
                     android:scheme="onematch" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.onecric.live.activity.CricketStatsActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.onecric.live.activity.LoginNewActivity"
             android:screenOrientation="portrait" />
@@ -495,6 +436,38 @@
         <activity
             android:name=".activity.CopyrightActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.onecric.live.activity.LoginAccessActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.onecric.live.activity.OneLogInActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.onecric.live.activity.OneSignUpActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
+
+        <activity
+            android:name="com.onecric.live.activity.OneVerificationActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
+
+        <activity
+            android:name="com.onecric.live.activity.OneForgetPwdActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
+
+        <activity
+            android:name="com.onecric.live.activity.OneSetPwdActivity"
+            android:screenOrientation="portrait"/>
+
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"

@@ -20,7 +20,6 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.onecric.live.AppManager;
 import com.onecric.live.R;
 import com.onecric.live.retrofit.ApiClient;
 import com.onecric.live.retrofit.ApiStores;
@@ -39,10 +38,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-//import pro.piwik.sdk.Tracker;
-//import pro.piwik.sdk.extra.TrackHelper;
-//import pro.piwik.sdk.Tracker;
-//import pro.piwik.sdk.extra.TrackHelper;
 import retrofit2.Call;
 
 /**
@@ -198,7 +193,8 @@ public abstract class BaseActivity extends AppCompatActivity {
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             }
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(0);
+//            window.setStatusBarColor(0);
+            window.setStatusBarColor(this.getResources().getColor(R.color.c_1D2550));
         }
     }
 

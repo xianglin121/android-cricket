@@ -243,4 +243,8 @@ dependencies {
     //骨架图
     implementation 'com.ethanhua:skeleton:1.1.2'
     implementation 'io.supercharge:shimmerlayout:2.1.0'
+
+    //验证码输入框 没生效
+    implementation 'com.github.gjygit:editext:3.0'
+
 }

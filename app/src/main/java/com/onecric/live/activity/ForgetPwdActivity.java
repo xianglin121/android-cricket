@@ -218,6 +218,11 @@ public class ForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implement
     }
 
     @Override
+    public void showCountryList() {
+
+    }
+
+    @Override
     public void onClick(View v) {
         String phone = etPhone.getText().toString().trim();
         String prefix = etArea.getText().toString().trim();

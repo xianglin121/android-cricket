@@ -58,4 +58,9 @@ public class RegisterNewActivity extends MvpActivity<RegisterPresenter> implemen
     public void registerFail(String msg) {
 
     }
+
+    @Override
+    public void showCountryList() {
+
+    }
 }

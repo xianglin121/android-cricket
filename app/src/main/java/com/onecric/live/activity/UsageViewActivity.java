@@ -68,7 +68,8 @@ public class UsageViewActivity extends BaseActivity {
                             if (!SpUtil.getInstance().getBooleanValue(SpUtil.HIDE_USAGE)) {
                                 SpUtil.getInstance().setBooleanValue(SpUtil.HIDE_USAGE, true);
                             }
-                            MainActivity.forward(UsageViewActivity.this);
+
+                            LoginAccessActivity.forward(UsageViewActivity.this);
                             finish();
                         }
                     },3000);
