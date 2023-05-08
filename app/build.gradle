@@ -135,6 +135,9 @@ HONOR_APPID               : "220603327"
         WnCdO {
             manifestPlaceholders = [APP_CHANNEL_VALUE: "WnCdO"]
         }
+        A3Bqd {
+            manifestPlaceholders = [APP_CHANNEL_VALUE: "A3Bqd"]
+        }
     }
 
 
