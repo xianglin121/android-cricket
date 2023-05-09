@@ -1,5 +1,8 @@
 package com.onecric.live.presenter.login;
 
+import static com.onecric.live.AppManager.mContext;
+import static com.onecric.live.fragment.dialog.LoginDialog.getFlavor;
+
 import com.alibaba.fastjson.JSONObject;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.model.ConfigurationBean;
@@ -16,7 +19,8 @@ public class RegisterPresenter extends BasePresenter<RegisterView> {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("mobile", phone);
         jsonObject.put("type", 1);
-        addSubscription(apiStores.getCode(getRequestBody(jsonObject)),
+//        addSubscription(apiStores.getCode(getRequestBody(jsonObject)),
+        addSubscription(apiStores.oneSendCode(getRequestBody(jsonObject)),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
@@ -70,13 +74,13 @@ public class RegisterPresenter extends BasePresenter<RegisterView> {
                 });
     }
 
-    public void oneRegister(String phone, String code, String password) {
+    public void oneRegister(String phone, String password) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("mobile", phone);
         jsonObject.put("password", password);
-        jsonObject.put("code", code);
+        jsonObject.put("code", getFlavor(mContext));
         jsonObject.put("channel", 2);
-        addSubscription(apiStores.register(getRequestBody(jsonObject)),
+        addSubscription(apiStores.oneRegister(getRequestBody(jsonObject)),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

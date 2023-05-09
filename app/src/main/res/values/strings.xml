@@ -789,4 +789,11 @@
     <string name="match_search_tour_hint">Search cricket tours...</string>
     <string name="clear_all">CLEAR ALL</string>
     <string name="copyright_detail">OneCric respects copyright law. If you believe that a post infringes your copyrights, you may submit to us a notification pursuant to applicable law so that we can solve it as soon as possible. Do not use this procedure for matters unrelated to copyright infringement.\n\nYour notification of claimed infringement must include the following information: (1) an electronic or physical signature of the owner or of the person authorized to act on behalf of the owner of the copyright interest; (2) identification of the copyrighted work (or works) that you claim has (or have) been infringed; (3) a description of the material that you claim is infringing, and the location where the original or an authorized copy of the copyrighted work exists (for example, the URL of the page of the website where it is lawfully found; the name, edition and pages of a book from which an excerpt was copied, etc.); (4) a clear description of where the infringing material is located, including as applicable its URL, so that we can locate the material; (5) your name, address, telephone number, and e-mail address; (6) a statement that you have a good-faith belief that the disputed use is not authorized by the copyright owner, its agent, or the law; and (7) a statement by you, made under penalty of perjury,that the above information in your notice is accurate and that you are the copyright owner or authorized to act on the copyright owner’s behalf.\n\nYou can report alleged copyright infringement by emailing the above information to our email (OneCric@outlook.com)</string>
+
+    <string name="facebook_app_id">606811134721321</string>
+    <string name="fb_login_protocol_scheme">fb606811134721321</string>
+<!--    <string name="facebook_client_token">9NKYVikgIxsCXvPqwHYKRthNEVA=</string>-->
+    <string name="facebook_client_token">2jmj7l5rSw0yVb/vlWAYkK/YBwk=</string>
+<!--    <string name="server_client_id">677879628176-ro39soe5ajl22m9e7uu5d5fmjsm9b7v4.apps.googleusercontent.com</string>-->
+    <string name="server_client_id">677879628176-goald2ictv7mjep0tl4c6b6vjgi1634l.apps.googleusercontent.com</string>
 </resources>

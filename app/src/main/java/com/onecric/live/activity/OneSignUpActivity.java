@@ -73,14 +73,15 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
 
                 hideKeyboard(etPhone);
                 //发验证码
+                showLoadingDialog();
                 mvpPresenter.getCode(area + "-" + phone);
                 break;
             case R.id.tv_sign_facebook:
-                //fixme 脸书
+                // 脸书
 
                 break;
             case R.id.tv_sign_google:
-                //fixme 谷歌邮箱
+                // 谷歌邮箱
 
                 break;
             default:;
@@ -144,7 +145,7 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
                 ds.setColor(getResources().getColor(R.color.c_4E4E4E));
                 ds.setUnderlineText(true);
             }
-        }, 34, 47, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }, 34, 48, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         tvAgreement.setMovementMethod(LinkMovementMethod.getInstance());
         tvAgreement.setHighlightColor(Color.TRANSPARENT);
@@ -211,11 +212,13 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
 
     @Override
     public void getDataSuccess(JsonBean model) {
+        dismissLoadingDialog();
         OneVerificationActivity.forward(OneSignUpActivity.this,etArea.getText().toString().trim() + "-" + etPhone.getText().toString().trim(),FROM_SIGN_UP);
     }
 
     @Override
     public void getDataFail(String msg) {
+        dismissLoadingDialog();
         ToastUtil.show(msg);
     }
 

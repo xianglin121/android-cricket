@@ -1,14 +1,9 @@
 package com.onecric.live.fragment;
 
-import static com.onecric.live.util.UiUtils.collapseView;
-import static com.onecric.live.util.UiUtils.expandView;
-
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,26 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
-import com.ethanhua.skeleton.Skeleton;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
-import com.onecric.live.activity.BasketballMatchDetailActivity;
 import com.onecric.live.activity.CricketDetailActivity;
-import com.onecric.live.activity.FootballMatchDetailActivity;
 import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.activity.LiveMoreActivity;
 import com.onecric.live.activity.LiveNotStartDetailActivity;
-import com.onecric.live.activity.VideoPagerActivity;
-import com.onecric.live.activity.VideoSingleActivity;
+import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.adapter.BannerRoundImageAdapter;
 import com.onecric.live.adapter.LiveMatchAdapter;
 import com.onecric.live.adapter.LiveRecommendAdapter;
 import com.onecric.live.adapter.LiveRecommendHistoryAdapter;
 import com.onecric.live.adapter.LiveRecommendMatchAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
-import com.onecric.live.custom.ItemDecoration;
-import com.onecric.live.event.ToggleTabEvent;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.BannerBean;
 import com.onecric.live.model.HistoryLiveBean;
@@ -48,7 +36,6 @@ import com.onecric.live.model.LiveBean;
 import com.onecric.live.model.LiveMatchBean;
 import com.onecric.live.model.LiveMatchListBean;
 import com.onecric.live.presenter.live.LiveRecommendPresenter;
-import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
@@ -56,16 +43,12 @@ import com.onecric.live.view.live.LiveRecommendView;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.youth.banner.Banner;
 import com.youth.banner.indicator.RectangleIndicator;
 import com.youth.banner.listener.OnBannerListener;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -178,11 +161,12 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
-                    if(loginDialog!=null){
+                    /*if(loginDialog!=null){
                         loginDialog.show();
                     }else{
                         ToastUtil.show(getString(R.string.please_login));
-                    }
+                    }*/
+                    OneLogInActivity.forward(getContext());
                 }else if (mTodayAdapter.getItem(position).getIslive() == 0) {
                     LiveNotStartDetailActivity.forward(getContext(),mTodayAdapter.getItem(position).getUid(),
                             mTodayAdapter.getItem(position).getMatch_id(),mTodayAdapter.getItem(position).getLive_id());
@@ -224,11 +208,12 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                 return;
             }
             if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
-                if(loginDialog!=null){
+                /*if(loginDialog!=null){
                     loginDialog.show();
                 }else{
                     ToastUtil.show(getString(R.string.please_login));
-                }
+                }*/
+                OneLogInActivity.forward(getContext());
             }else{
 //                VideoSingleActivity.forward(getContext(), mHistoryAdapter.getItem(position).getMediaUrl(), null);
                 LiveDetailActivity.forward(getContext(),Integer.parseInt(mHistoryAdapter.getItem(position).getUid()),mHistoryAdapter.getItem(position).getMatchId(),
@@ -294,11 +279,12 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
         mTodayMatchAdapter = new LiveMatchAdapter(R.layout.item_live_today, new ArrayList<>());
         mTodayMatchAdapter.setOnItemClickListener((adapter, view, position) -> {
             if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
-                if(loginDialog!=null){
+                /*if(loginDialog!=null){
                     loginDialog.show();
                 }else{
                     ToastUtil.show(getString(R.string.please_login));
-                }
+                }*/
+                OneLogInActivity.forward(getContext());
             }else{
                 if (mTodayMatchAdapter.getItem(position).getIslive() == 0) {
                     LiveNotStartDetailActivity.forward(getContext(),mTodayMatchAdapter.getItem(position).getUid(),
@@ -442,11 +428,12 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                 BannerBean bannerBean = list.get(index);
                 if (bannerBean.getAnchor_id() != 0) {
                     if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
-                        if(loginDialog!=null){
+                        /*if(loginDialog!=null){
                             loginDialog.show();
                         }else{
                             ToastUtil.show(getString(R.string.please_login));
-                        }
+                        }*/
+                        OneLogInActivity.forward(getContext());
                     }else{
                         LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(),
                                 bannerBean.getParam_id(),bannerBean.getLive_id());

@@ -1,5 +1,6 @@
 package com.onecric.live.activity;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
@@ -25,15 +26,13 @@ public class SplashActivity extends BaseActivity {
             if (!SpUtil.getInstance().getBooleanValue(SpUtil.HIDE_USAGE)) {
                 UsageViewActivity.forward(mActivity);
             } else {
-                //fixme 测试
-                LoginAccessActivity.forward(SplashActivity.this);
-/*                if (getIntent().getExtras() == null) {
+                if (getIntent().getExtras() == null) {
                     MainActivity.forward(mActivity);
                 } else {
                     Intent intent = getIntent();
                     intent.setClass(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
-                }*/
+                }
             }
             finish();
         }

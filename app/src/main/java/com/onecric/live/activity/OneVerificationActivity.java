@@ -11,15 +11,16 @@ import android.widget.TextView;
 
 import com.example.gjylibrary.GjySerialnumberLayout;
 import com.onecric.live.R;
+import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.login.VerificationPresenter;
 import com.onecric.live.util.ToastUtil;
-import com.onecric.live.view.BaseView;
 import com.onecric.live.view.MvpActivity;
+import com.onecric.live.view.login.VerificationView;
 
 /**
  * 验证码
  */
-public class OneVerificationActivity extends MvpActivity<VerificationPresenter> implements BaseView {
+public class OneVerificationActivity extends MvpActivity<VerificationPresenter> implements VerificationView {
     private final int FROM_FORGET_PASSWORD = 2201;
     private final int FROM_SIGN_UP = 2202;
     private final int FROM_SET_PASSWORD = 2203;
@@ -39,7 +40,8 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
     private Handler handler;
     private final int TOTAL = 120;
     private int count = TOTAL;
-    private String vCode;
+    private String vCode,account;
+    private int fromType;
 
 
     @Override
@@ -49,9 +51,9 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
 
     @Override
     protected void initView() {
-        String account = getIntent().getStringExtra("account");
+        account = getIntent().getStringExtra("account");
         boolean isEmail = (TextUtils.isEmpty(account) || (account.indexOf('@') == -1) ? false : true) ;
-        int fromType = getIntent().getIntExtra("fromType",0);
+        fromType = getIntent().getIntExtra("fromType",0);
         if(TextUtils.isEmpty(account)){
             finish();
         }
@@ -61,7 +63,6 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
         tv_countdown = findViewById(R.id.tv_countdown);
         tv_send_code = findViewById(R.id.tv_send_code);
         tv_verify = findViewById(R.id.tv_verify);
-//        et_verification = findViewById(R.id.et_verification);
         verification_code = findViewById(R.id.verification_code);
         ll_title = findViewById(R.id.ll_title);
         tv_title = findViewById(R.id.tv_title);
@@ -80,6 +81,7 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
         tv_send_code.setEnabled(false);
         tv_send_code.setOnClickListener(v -> {
             tv_send_code.setEnabled(false);
+            showLoadingDialog();
             switch (fromType){
                 case FROM_FORGET_PASSWORD:
                     mvpPresenter.getCode(account,2);
@@ -105,22 +107,16 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
                 ToastUtil.show("Verify");
                 return;
             }
-
-            // 校验验证码？？还是下一步校验
-            // 下一步校验
+            showLoadingDialog();
             switch (fromType){
                 case FROM_FORGET_PASSWORD:
-                    Intent intent = new Intent();
-                    intent.putExtra("vCode",vCode);
-                    setResult(1002);
-                    finish();
+                    mvpPresenter.getCode(account,2);
+                    mvpPresenter.verifyCode(account,vCode,2);
                     break;
                 case FROM_SIGN_UP:
                 case FROM_SET_PASSWORD:
-                    OneSetPwdActivity.forward(this,account,vCode);
-                    finish();
+                    mvpPresenter.verifyCode(account,vCode,1);
                     break;
-                default:;
             }
         });
     }
@@ -157,14 +153,51 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
         return new VerificationPresenter(this);
     }
 
+
     @Override
-    public void getDataSuccess(Object model) {
+    public void getDataSuccess(JsonBean model) {
+    }
+
+    @Override
+    public void getDataFail(String msg) {
+
+    }
+
+    @Override
+    public void sendSuccess() {
+        dismissLoadingDialog();
         tv_send_code.setVisibility(View.GONE);
         handler.sendEmptyMessage(0);
     }
 
     @Override
-    public void getDataFail(String msg) {
+    public void sendFail(String msg) {
+        dismissLoadingDialog();
         tv_send_code.setEnabled(true);
+    }
+
+    @Override
+    public void verifySuccess() {
+        tv_send_code.setEnabled(true);
+        dismissLoadingDialog();
+        switch (fromType){
+            case FROM_FORGET_PASSWORD:
+                setResult(1002);
+                finish();
+                break;
+            case FROM_SIGN_UP:
+            case FROM_SET_PASSWORD:
+                OneSetPwdActivity.forward(this,account);
+                finish();
+                break;
+            default:;
+        }
+    }
+
+    @Override
+    public void verifyFail(String msg) {
+        tv_send_code.setEnabled(true);
+        dismissLoadingDialog();
+        ToastUtil.show(msg);
     }
 }

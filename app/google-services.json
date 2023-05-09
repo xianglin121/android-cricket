@@ -35,5 +35,13 @@
       }
     }
   ],
-  "configuration_version": "1"
+  "configuration_version": "1",
+
+  "installed":{
+    "client_id":"677879628176-ro39soe5ajl22m9e7uu5d5fmjsm9b7v4.apps.googleusercontent.com",
+    "project_id":"onecric",
+    "auth_uri":"https://accounts.google.com/o/oauth2/auth",
+    "token_uri":"https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs"
+  }
 }

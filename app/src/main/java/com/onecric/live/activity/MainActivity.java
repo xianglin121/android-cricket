@@ -4,15 +4,6 @@ package com.onecric.live.activity;
 import static com.onecric.live.HttpConstant.SHARE_LIVE_URL;
 import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.NotificationChannel;
@@ -35,6 +26,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.engine.executor.GlideExecutor;
@@ -54,7 +54,6 @@ import com.onecric.live.event.UpdateUserInfoEvent;
 import com.onecric.live.fragment.CricketFragment;
 import com.onecric.live.fragment.CricketNewFragment;
 import com.onecric.live.fragment.LiveFragment;
-import com.onecric.live.fragment.MatchFragment;
 import com.onecric.live.fragment.ThemeFragment;
 import com.onecric.live.fragment.VideoFragment;
 import com.onecric.live.fragment.dialog.LoginDialog;
@@ -83,7 +82,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -165,7 +163,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     ToastUtil.show(getString(R.string.please_login));
-                    loginDialog.show();
+                    OneLogInActivity.forward(mActivity);
+//                    loginDialog.show();
                 } else {
 //                UserInfoActivity.forward(mActivity);
                     if (!isFastDoubleClick())
@@ -189,7 +188,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                     case R.id.menu_my_concerns:
                         if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                             ToastUtil.show(getString(R.string.please_login));
-                            loginDialog.show();
+                            OneLogInActivity.forward(mActivity);
+//                            loginDialog.show();
                         } else {
                             MyFollowActivity.forward(mActivity);
                         }
@@ -197,7 +197,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                     case R.id.menu_my_message:
                         if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                             ToastUtil.show(getString(R.string.please_login));
-                            loginDialog.show();
+                            OneLogInActivity.forward(mActivity);
+//                            loginDialog.show();
                         } else {
                             MyMessageActivity.forward(mActivity);
                         }
@@ -219,7 +220,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 });
             } else {
                 //登录
-                loginDialog.show();
+                OneLogInActivity.forward(mActivity);
+//                loginDialog.show();
             }
             drawerLayout.closeDrawer(GravityCompat.START);
         });
@@ -623,8 +625,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                             @Override
                             public void run() {
 //                                dialog.show();
-                                loginDialog.show();
-                                loginDialog.passWebView();
+                                OneLogInActivity.forward(mActivity);
+//                                loginDialog.show();
+//                                loginDialog.passWebView();
                             }
                         });
                     }
@@ -644,7 +647,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         ((ThemeFragment) mViewList.get(0)).setLoginDialog(loginDialog);
         ((LiveFragment) mViewList.get(2)).setLoginDialog(loginDialog);
         ((VideoFragment) mViewList.get(3)).setLoginDialog(loginDialog);
-        loginDialog.show();
+//        loginDialog.show();
+        OneLogInActivity.forward(mActivity);
     }
 
     private void checkNotifySetting() {

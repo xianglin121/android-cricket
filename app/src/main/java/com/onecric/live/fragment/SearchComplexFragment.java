@@ -18,7 +18,7 @@ import com.onecric.live.activity.FootballMatchDetailActivity;
 import com.onecric.live.activity.HeadlineDetailActivity;
 import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.activity.LiveNotStartDetailActivity;
-import com.onecric.live.activity.LoginActivity;
+import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.activity.SearchLiveDetailActivity;
 import com.onecric.live.adapter.LiveClassifyAdapter;
 import com.onecric.live.adapter.LiveRecommendAdapter;
@@ -34,7 +34,6 @@ import com.onecric.live.model.MatchListBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.live.SearchComplexPresenter;
 import com.onecric.live.util.SpUtil;
-import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.SearchComplexView;
 
@@ -122,7 +121,8 @@ public class SearchComplexFragment extends MvpFragment<SearchComplexPresenter> i
                     LiveNotStartDetailActivity.forward(getContext(),mLiveAdapter.getItem(position).getUid(),
                             mLiveAdapter.getItem(position).getMatch_id(),mLiveAdapter.getItem(position).getLive_id());
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
-                    ((SearchLiveDetailActivity)getActivity()).loginDialog.show();
+//                    ((SearchLiveDetailActivity)getActivity()).loginDialog.show();
+                    OneLogInActivity.forward(getContext());
                 }else{
                     LiveDetailActivity.forward(getContext(), mLiveAdapter.getItem(position).getUid(),  mLiveAdapter.getItem(position).getMatch_id(),mLiveAdapter.getItem(position).getLive_id());
                 }

@@ -19,7 +19,8 @@ public class ForgetPwdPresenter extends BasePresenter<ForgetPwdView> {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("mobile", phone);
         jsonObject.put("type", 2);
-        apiStores.getCode(getRequestBody(jsonObject))
+//        apiStores.getCode(getRequestBody(jsonObject))
+        apiStores.oneSendCode(getRequestBody(jsonObject))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new ApiCallback() {
@@ -99,4 +100,35 @@ public class ForgetPwdPresenter extends BasePresenter<ForgetPwdView> {
                     }
                 });
     }
+
+    public void oneChangePwd(String phone, String password) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("mobile", phone);
+        jsonObject.put("password", password);
+        apiStores.oneChangePwd(getRequestBody(jsonObject))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        mvpView.forgetPwdSuccess(msg);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        mvpView.forgetPwdFail(msg);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        mvpView.forgetPwdFail(msg);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
+
 }

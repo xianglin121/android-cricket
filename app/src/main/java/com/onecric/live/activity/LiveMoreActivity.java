@@ -30,14 +30,12 @@ import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.presenter.live.LiveMorePresenter;
 import com.onecric.live.util.SpUtil;
-import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.live.LiveMoreView;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -140,11 +138,12 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                         return;
                     }
                     if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
-                        if(loginDialog!=null){
+/*                        if(loginDialog!=null){
                             loginDialog.show();
                         }else{
                             ToastUtil.show(getString(R.string.please_login));
-                        }
+                        }*/
+                        OneLogInActivity.forward(mActivity);
                     }else{
 //                        VideoSingleActivity.forward(mActivity, mHistoryAdapter.getItem(position).getMediaUrl(), null);
                         LiveDetailActivity.forward(mActivity,Integer.parseInt(mHistoryAdapter.getItem(position).getUid()),mHistoryAdapter.getItem(position).getMatchId(),
@@ -163,11 +162,12 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                         LiveNotStartDetailActivity.forward(mActivity,mAdapter.getItem(position).getUid(),
                                 mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
                     }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
-                        if(loginDialog!=null){
+/*                        if(loginDialog!=null){
                             loginDialog.show();
                         }else{
                             ToastUtil.show(getString(R.string.please_login));
-                        }
+                        }*/
+                        OneLogInActivity.forward(mActivity);
                     }else{
                         LiveDetailActivity.forward(mActivity, mAdapter.getItem(position).getUid(),
                                 mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
@@ -283,8 +283,9 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                loginDialog.show();
-                                loginDialog.passWebView();
+/*                                loginDialog.show();
+                                loginDialog.passWebView();*/
+                                OneLogInActivity.forward(mActivity);
                             }
                         });
                     }

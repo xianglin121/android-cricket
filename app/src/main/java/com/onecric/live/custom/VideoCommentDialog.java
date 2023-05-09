@@ -21,6 +21,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.Constant;
 import com.onecric.live.R;
+import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.activity.VideoPagerActivity;
 import com.onecric.live.adapter.AnchorMovingReplyAdapter;
 import com.onecric.live.adapter.VideoCommentAdapter;
@@ -31,12 +32,10 @@ import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.retrofit.ApiClient;
 import com.onecric.live.retrofit.ApiStores;
 import com.onecric.live.util.GlideUtil;
-import com.onecric.live.util.ToastUtil;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.tencent.qcloud.tuikit.tuichat.component.face.FaceManager;
 
@@ -247,11 +246,12 @@ public class VideoCommentDialog extends Dialog implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.ll_reply_input:
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-                    if(loginDialog!=null){
+/*                    if(loginDialog!=null){
                         loginDialog.show();
                     }else{
                         ToastUtil.show(getContext().getString(R.string.please_login));
-                    }
+                    }*/
+                    OneLogInActivity.forward(getContext());
                     return;
                 }
                 if (scanForActivity(getContext()) instanceof VideoPagerActivity) {

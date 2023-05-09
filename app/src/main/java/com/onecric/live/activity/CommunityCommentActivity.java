@@ -50,7 +50,6 @@ import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.tencent.qcloud.tuikit.tuichat.component.face.FaceManager;
 import com.zhihu.matisse.Matisse;
@@ -178,11 +177,12 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
             findViewById(R.id.fl_board).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (loginDialog != null) {
+/*                    if (loginDialog != null) {
                         loginDialog.show();
                     } else {
                         ToastUtil.show(getString(R.string.please_login));
-                    }
+                    }*/
+                    OneLogInActivity.forward(CommunityCommentActivity.this);
                 }
             });
         } else {
@@ -457,11 +457,16 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                         iv_icon.setVisibility(View.GONE);
                         mvpPresenter.doFollow(mAnchorId);
                     }
-                } else if (loginDialog != null) {
+                } else {
+                    OneLogInActivity.forward(CommunityCommentActivity.this);
+                }
+
+/*                    if (loginDialog != null) {
                     loginDialog.show();
                 } else {
                     ToastUtil.show(getString(R.string.please_login));
-                }
+                }*/
+
                 break;
         }
     }
@@ -596,8 +601,9 @@ public class CommunityCommentActivity extends MvpActivity<CommunityCommentPresen
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                loginDialog.show();
-                                loginDialog.passWebView();
+/*                                loginDialog.show();
+                                loginDialog.passWebView();*/
+                                OneLogInActivity.forward(CommunityCommentActivity.this);
                             }
                         });
                     }

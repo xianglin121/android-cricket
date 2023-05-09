@@ -12,15 +12,13 @@ import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.activity.LiveNotStartDetailActivity;
-import com.onecric.live.activity.LoginActivity;
+import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.adapter.LiveMoreVideoAdapter;
-import com.onecric.live.adapter.LiveRecommendAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.presenter.live.LiveMoreVideoPresenter;
 import com.onecric.live.util.SpUtil;
-import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.LiveMoreVideoView;
 
@@ -67,11 +65,12 @@ public class LiveMoreVideoFragment extends MvpFragment<LiveMoreVideoPresenter> i
                     LiveNotStartDetailActivity.forward(getContext(),mAdapter.getItem(position).getUid(),
                             mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
-                    if(loginDialog!=null){
+                    /*if(loginDialog!=null){
                         loginDialog.show();
                     }else{
                         ToastUtil.show(getString(R.string.please_login));
-                    }
+                    }*/
+                    OneLogInActivity.forward(getContext());
                 }else{
                     LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(),
                             mAdapter.getItem(position).getMatch_id(),mAdapter.getItem(position).getLive_id());

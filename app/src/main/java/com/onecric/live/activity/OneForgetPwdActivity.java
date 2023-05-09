@@ -43,7 +43,7 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
         }
         context.startActivity(intent);
     }
-
+    private final int FROM_FORGET_PASSWORD = 2201;
     private EditText et_password,et_password2,etArea,etPhone;
     private ImageView iv_eye_password,iv_eye_password2;
     private LinearLayout ll_account,ll_pwd,ll_pwd2,ll_title;
@@ -54,7 +54,7 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
     private CountryCodePicker ccp;
     private ArrayList<AreasModel.CountryModel> countryList;
     private boolean isSame;
-    private String vCode,account;
+    private String account;
 
     @Override
     public int getLayoutId() {
@@ -75,6 +75,7 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
         ll_title = findViewById(R.id.ll_title);
         etArea = findViewById(R.id.et_area);
         etPhone = findViewById(R.id.et_phone);
+        ccp = findViewById(R.id.ccp);
         iv_eye_password.setOnClickListener(this);
         tv_send.setOnClickListener(this);
         iv_eye_password.setOnClickListener(this);
@@ -185,10 +186,6 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
                 break;
             case R.id.tv_send:
                 if(isVisitablePass){
-                    if(TextUtils.isEmpty(vCode)){
-                        ToastUtil.show("The verification code is empty");
-                        return;
-                    }
 
                     String pwd = et_password.getText().toString().trim();
                     String pwd2 = et_password2.getText().toString().trim();
@@ -206,7 +203,7 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
                     //正则 6-12位数字和小写字母组合
                     String regexST = "^(?![0-9]+$)(?![a-z]+$)[0-9a-z]{6,12}$";
                     if(!pwd.matches(regexST)){
-                        ToastUtil.show("The password is invalid");
+                        ToastUtil.show("Please enter a password with a combination of 6-12 digits and lowercase letters.");
                         return;
                     }
 
@@ -215,7 +212,8 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
                         return;
                     }
                     tv_send.setEnabled(false);
-                    mvpPresenter.changePwd(account,vCode, pwd);
+                    showLoadingDialog();
+                    mvpPresenter.oneChangePwd(account, pwd);
                 }else{
                     String area = etArea.getText().toString().trim();
                     if (TextUtils.isEmpty(area)) {
@@ -229,6 +227,7 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
                     }
                     tv_send.setEnabled(false);
                     account = area + "-" + phone;
+                    showLoadingDialog();
                     mvpPresenter.getCode(account);
                 }
                 break;
@@ -250,7 +249,6 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
             ll_pwd.setVisibility(View.VISIBLE);
             ll_pwd2.setVisibility(View.VISIBLE);
             tv_send.setText("Update");
-            vCode = data.getStringExtra("vCode");
         }
     }
 
@@ -264,15 +262,17 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
     @Override
     public void getDataSuccess(JsonBean model) {
         tv_send.setEnabled(true);
+        dismissLoadingDialog();
         Intent intent = new Intent(this, OneVerificationActivity.class);
         intent.putExtra("account",etArea.getText().toString().trim() + "-" + etPhone.getText().toString().trim());
-        intent.putExtra("isForgetPassword",true);
+        intent.putExtra("fromType",FROM_FORGET_PASSWORD);
         startActivityForResult(intent,1001);
     }
 
     @Override
     public void getDataFail(String msg) {
         tv_send.setEnabled(true);
+        dismissLoadingDialog();
     }
 
     @Override
@@ -283,6 +283,7 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
     @Override
     public void forgetPwdSuccess(String msg) {
         tv_send.setEnabled(true);
+        dismissLoadingDialog();
         ToastUtil.show(getString(R.string.tip_change_pwd_success));
         finish();
     }
@@ -290,6 +291,7 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
     @Override
     public void forgetPwdFail(String msg) {
         tv_send.setEnabled(true);
+        dismissLoadingDialog();
         ToastUtil.show(msg);
     }
 }

@@ -1,15 +1,12 @@
 package com.onecric.live.fragment;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.onecric.live.CommonAppConfig;
@@ -17,14 +14,13 @@ import com.onecric.live.R;
 import com.onecric.live.activity.LiveMoreFunctionActivity;
 import com.onecric.live.activity.MainActivity;
 import com.onecric.live.activity.MyTaskActivity;
-import com.onecric.live.activity.PersonalHomepageActivity;
+import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.activity.RankingActivity;
 import com.onecric.live.activity.SearchLiveActivity;
 import com.onecric.live.adapter.ChannelPagerAdapter;
 import com.onecric.live.custom.CustomPagerTitleView;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
-import com.onecric.live.model.LiveBean;
 import com.onecric.live.model.LiveFiltrateBean;
 import com.onecric.live.presenter.live.LivePresenter;
 import com.onecric.live.util.DpUtil;
@@ -124,12 +120,13 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
                     LiveMoreFunctionActivity.forward(getContext());
                     return;
                 }
-                if(loginDialog!=null){
+/*                if(loginDialog!=null){
                     loginDialog.show();
                 }else{
                     ((MainActivity)getActivity()).newLoginDialog();
 //                    ToastUtil.show(getString(R.string.please_login));
-                }
+                }*/
+                OneLogInActivity.forward(getContext());
                 break;
             case R.id.cl_search:
                 SearchLiveActivity.forward(getContext());

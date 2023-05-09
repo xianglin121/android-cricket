@@ -11,19 +11,17 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
-import com.onecric.live.activity.MainActivity;
+import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.activity.ThemeCollectionActivity;
 import com.onecric.live.adapter.ChannelPagerAdapter;
 import com.onecric.live.custom.CustomPagerInnerTitleView;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.ThemeClassifyBean;
 import com.onecric.live.presenter.theme.ThemeHeadlinePresenter;
-import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.theme.ThemeHeadlineView;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -81,11 +79,12 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-                    if(loginDialog!=null){
+                    /*if(loginDialog!=null){
                         loginDialog.show();
                     }else{
                         ((MainActivity)getActivity()).newLoginDialog();
-                    }
+                    }*/
+                    OneLogInActivity.forward(getContext());
                     return;
                 }
                 ThemeCollectionActivity.forward(getContext(), 0);

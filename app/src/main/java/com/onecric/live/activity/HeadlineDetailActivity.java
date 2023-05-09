@@ -5,12 +5,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -27,7 +24,6 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.AppManager;
 import com.onecric.live.CommonAppConfig;
@@ -55,7 +51,6 @@ import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
@@ -74,7 +69,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-//import pro.piwik.sdk.extra.TrackHelper;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -131,7 +125,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
             isCancelLoginDialog = false;
-            constraintLoginDialog.show();
+//            constraintLoginDialog.show();
+            OneLogInActivity.forward(mActivity);
         }
     };
 
@@ -249,7 +244,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 @Override
                 public void onClick(View v) {
                     isCancelLoginDialog = true;
-                    loginDialog.show();
+//                    loginDialog.show();
+                    OneLogInActivity.forward(mActivity);
                 }
             });
         } else {
@@ -310,7 +306,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             case R.id.iv_title_avatar:
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     ToastUtil.show(getString(R.string.please_login));
-                    loginDialog.show();
+//                    loginDialog.show();
+                    OneLogInActivity.forward(mActivity);
                     return;
                 }
 //                MySpaceActivity.forward(this, mModel.getUid());
@@ -566,7 +563,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 }
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                     isCancelLoginDialog = true;
-                    loginDialog.show();
+                    OneLogInActivity.forward(mActivity);
                 }else{
 
                 }
@@ -944,18 +941,19 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (isCancelLoginDialog) {
+/*                                if (isCancelLoginDialog) {
                                     loginDialog.show();
                                     loginDialog.passWebView();
                                 } else {
                                     constraintLoginDialog.show();
                                     constraintLoginDialog.passWebView();
-                                }
-
+                                }*/
+                                OneLogInActivity.forward(mActivity);
                             }
                         });
                     } else if (!isCancelLoginDialog) {
-                        constraintLoginDialog.show();
+//                        constraintLoginDialog.show();
+                        OneLogInActivity.forward(mActivity);
                     }
                 }
             }

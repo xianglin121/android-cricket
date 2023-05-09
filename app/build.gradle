@@ -27,8 +27,8 @@ android {
         applicationId "com.onecric.live"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 59
-        versionName "1.6.2"
+        versionCode 60
+        versionName "1.6.3"
         multiDexEnabled true// dex突破65535的限制
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
@@ -64,7 +64,8 @@ HONOR_APPID               : "220603327"
         ]
         def df = new SimpleDateFormat("MMdd")
         setProperty("archivesBaseName", "${df.format(new Date())}_v${versionName}")
-        flavorDimensions "deault"
+        //配置多渠道
+//        flavorDimensions "deault"
     }
 
     buildTypes {
@@ -76,6 +77,7 @@ HONOR_APPID               : "220603327"
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        /* //配置多渠道
         applicationVariants.all { variant ->
             variant.outputs.all { output ->
                 def outputFile = output.outputFile
@@ -86,7 +88,7 @@ HONOR_APPID               : "220603327"
                     outputFileName = fileName
                 }
             }
-        }
+        }*/
 
     }
     compileOptions {
@@ -95,50 +97,50 @@ HONOR_APPID               : "220603327"
     }
 
     //配置多渠道
-    productFlavors {
-        acV1H {
-            manifestPlaceholders = [APP_CHANNEL_VALUE: "7cV1H"]
-        }
-        dGV8K {
-            manifestPlaceholders = [APP_CHANNEL_VALUE: "dGV8K"]
-        }
-        DwJfo {
-            manifestPlaceholders = [APP_CHANNEL_VALUE: "DwJfo"]
-        }
-        Lq2A5 {
-            manifestPlaceholders = [APP_CHANNEL_VALUE: "Lq2A5"]
-        }
-        oWDEM {
-            manifestPlaceholders = [APP_CHANNEL_VALUE: "oWDEM"]
-        }
-        uGkK9K {
-            manifestPlaceholders = [APP_CHANNEL_VALUE: "uGkK9K"]
-        }
-        VSEmk {
-            manifestPlaceholders = [APP_CHANNEL_VALUE: "VSEmk"]
-        }
-        iIfQn {
-            manifestPlaceholders = [APP_CHANNEL_VALUE: "iIfQn"]
-        }
-        _22NzW {
-            manifestPlaceholders = [APP_CHANNEL_VALUE: "22NzW"]
-        }
-        I2GoC {
-            manifestPlaceholders = [APP_CHANNEL_VALUE: "I2GoC"]
-        }
-        ah0yx {
-            manifestPlaceholders = [APP_CHANNEL_VALUE: "ah0yx"]
-        }
-        TMe1a {
-            manifestPlaceholders = [APP_CHANNEL_VALUE: "TMe1a"]
-        }
-        WnCdO {
-            manifestPlaceholders = [APP_CHANNEL_VALUE: "WnCdO"]
-        }
-        A3Bqd {
-            manifestPlaceholders = [APP_CHANNEL_VALUE: "A3Bqd"]
-        }
-    }
+//    productFlavors {
+//        acV1H {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "7cV1H"]
+//        }
+//        dGV8K {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "dGV8K"]
+//        }
+//        DwJfo {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "DwJfo"]
+//        }
+//        Lq2A5 {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "Lq2A5"]
+//        }
+//        oWDEM {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "oWDEM"]
+//        }
+//        uGkK9K {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "uGkK9K"]
+//        }
+//        VSEmk {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "VSEmk"]
+//        }
+//        iIfQn {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "iIfQn"]
+//        }
+//        _22NzW {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "22NzW"]
+//        }
+//        I2GoC {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "I2GoC"]
+//        }
+//        ah0yx {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "ah0yx"]
+//        }
+//        TMe1a {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "TMe1a"]
+//        }
+//        WnCdO {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "WnCdO"]
+//        }
+//        A3Bqd {
+//            manifestPlaceholders = [APP_CHANNEL_VALUE: "A3Bqd"]
+//        }
+//    }
 
 
 }
@@ -265,7 +267,10 @@ dependencies {
     implementation 'com.ethanhua:skeleton:1.1.2'
     implementation 'io.supercharge:shimmerlayout:2.1.0'
 
-    //验证码输入框 没生效
+    //验证码输入框
     implementation 'com.github.gjygit:editext:3.0'
-
+    //facebook
+    implementation 'com.facebook.android:facebook-login:[8,9)'
+    //Google Play 服务声明
+    implementation 'com.google.android.gms:play-services-auth:20.2.0'
 }

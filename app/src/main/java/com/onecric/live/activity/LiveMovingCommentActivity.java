@@ -50,7 +50,6 @@ import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.tencent.qcloud.tuikit.tuichat.component.face.FaceManager;
 import com.zhihu.matisse.Matisse;
@@ -162,11 +161,12 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
             findViewById(R.id.fl_board).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(loginDialog!=null){
+/*                    if(loginDialog!=null){
                         loginDialog.show();
                     }else{
                         ToastUtil.show(getString(R.string.please_login));
-                    }
+                    }*/
+                    OneLogInActivity.forward(mActivity);
                 }
             });
         }else{
@@ -533,8 +533,9 @@ public class LiveMovingCommentActivity extends MvpActivity<LiveMovingCommentPres
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                loginDialog.show();
-                                loginDialog.passWebView();
+/*                                loginDialog.show();
+                                loginDialog.passWebView();*/
+                                OneLogInActivity.forward(mActivity);
                             }
                         });
                     }

@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -44,7 +43,6 @@ import com.onecric.live.presenter.cricket.CricketDetailPresenter;
 import com.onecric.live.presenter.match.SubscribePresenter;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.util.DialogUtil;
-import com.onecric.live.util.DpUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ShareUtil;
 import com.onecric.live.util.ToastUtil;
@@ -372,9 +370,10 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
                     public void onClick(View v) {
                         if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                             ToastUtil.show(mActivity.getString(R.string.please_login));
-                            if (loginDialog != null) {
+/*                            if (loginDialog != null) {
                                 loginDialog.show();
-                            }
+                            }*/
+                            OneLogInActivity.forward(mActivity);
                             return;
                         }
                         getSubscribeType();
@@ -610,8 +609,9 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
                             @Override
                             public void run() {
 //                                dialog.show();
-                                loginDialog.show();
-                                loginDialog.passWebView();
+/*                                loginDialog.show();
+                                loginDialog.passWebView();*/
+                                OneLogInActivity.forward(mActivity);
                             }
                         });
                     }

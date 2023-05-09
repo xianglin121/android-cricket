@@ -29,13 +29,10 @@ import com.onecric.live.view.login.RegisterView;
 public class OneSetPwdActivity extends MvpActivity<RegisterPresenter> implements RegisterView, View.OnClickListener {
     private final int FROM_SIGN_UP = 2202;
 
-    public static void forward(Context context, String account,String verify) {
+    public static void forward(Context context, String account) {
         Intent intent = new Intent(context, OneSetPwdActivity.class);
         if(!TextUtils.isEmpty(account)){
             intent.putExtra("account",account);
-        }
-        if(!TextUtils.isEmpty(verify)){
-            intent.putExtra("verify",verify);
         }
         context.startActivity(intent);
     }
@@ -44,7 +41,7 @@ public class OneSetPwdActivity extends MvpActivity<RegisterPresenter> implements
     private CheckBox cb_agreement,cb_show_password;
     private TextView tv_account,tvAgreement,tv_sign_up,tv_login,tv_title;
     private LinearLayout ll_title;
-    private String account,vCode;
+    private String account;
 
     @Override
     public int getLayoutId() {
@@ -66,8 +63,7 @@ public class OneSetPwdActivity extends MvpActivity<RegisterPresenter> implements
         tv_login.setOnClickListener(this);
         findViewById(R.id.iv_back).setOnClickListener(this);
         account = getIntent().getStringExtra("account");
-        vCode = getIntent().getStringExtra("verify");
-        if(TextUtils.isEmpty(account) || TextUtils.isEmpty(vCode)){
+        if(TextUtils.isEmpty(account)){
             finish();
         }
         tv_account.setText(account);
@@ -139,7 +135,8 @@ public class OneSetPwdActivity extends MvpActivity<RegisterPresenter> implements
                     return;
                 }
                 tv_sign_up.setEnabled(false);
-                mvpPresenter.oneRegister(account,vCode,et_password.getText().toString().trim());
+                showLoadingDialog();
+                mvpPresenter.oneRegister(account,et_password.getText().toString().trim());
                 break;
             case R.id.tv_login:
                 OneLogInActivity.forward(this);
@@ -168,6 +165,7 @@ public class OneSetPwdActivity extends MvpActivity<RegisterPresenter> implements
     @Override
     public void registerSuccess(String msg) {
         tv_sign_up.setEnabled(true);
+        dismissLoadingDialog();
         ToastUtil.show(msg);
         LoginAccessActivity.forward(this);
     }
@@ -175,6 +173,7 @@ public class OneSetPwdActivity extends MvpActivity<RegisterPresenter> implements
     @Override
     public void registerFail(String msg) {
         tv_sign_up.setEnabled(true);
+        dismissLoadingDialog();
         ToastUtil.show(msg);
     }
 
