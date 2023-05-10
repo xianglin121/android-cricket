@@ -87,7 +87,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     private int mId;
     private NestedScrollView scroll_view;
     private ConstraintLayout cl_title;
-    private TextView tv_title;
+    private TextView tv_title,tv_news_title;
     private TextView tv_date;
     private WebView wv_content;
     private RecyclerView rv_article;
@@ -185,6 +185,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
         iv_like = findViewById(R.id.iv_like);
         tv_like = findViewById(R.id.tv_like);
         tv_title = findViewById(R.id.tv_title);
+        tv_news_title = findViewById(R.id.tv_news_title);
         iv_collect = findViewById(R.id.iv_collect);
         tv_pre = findViewById(R.id.tv_pre);
         video_player = findViewById(R.id.video_player);
@@ -233,6 +234,12 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             constraintLoginDialog.dismiss();
             webview.setVisibility(View.VISIBLE);
             webview.loadUrl("javascript:ab()");
+        });
+
+        findViewById(R.id.ll_title).setVisibility(View.VISIBLE);
+        ((TextView)findViewById(R.id.tv_title)).setText("News");
+        findViewById(R.id.iv_back).setOnClickListener(v -> {
+            finish();
         });
     }
 
@@ -401,7 +408,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             }
             */
             if (!TextUtils.isEmpty(model.getTitle())) {
-                tv_title.setText(model.getTitle());
+                tv_news_title.setText(model.getTitle());
             }
 
 

@@ -19,7 +19,6 @@ import com.onecric.live.activity.VideoPublishActivity;
 import com.onecric.live.adapter.VideoAdapter;
 import com.onecric.live.adapter.decoration.StaggeredDividerItemDecoration;
 import com.onecric.live.event.UpdateVideoLikeEvent;
-import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.ShortVideoBean;
 import com.onecric.live.presenter.video.VideoPresenter;
@@ -50,10 +49,10 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
     private TextView tv_empty;
     private RecyclerViewSkeletonScreen skeletonScreen;
 
-    private LoginDialog loginDialog;
+/*    private LoginDialog loginDialog;
     public void setLoginDialog(LoginDialog dialog){
         this.loginDialog = dialog;
-    }
+    }*/
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_video;

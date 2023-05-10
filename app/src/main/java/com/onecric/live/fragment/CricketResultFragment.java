@@ -9,7 +9,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -21,7 +20,6 @@ import com.onecric.live.R;
 import com.onecric.live.activity.CricketInnerActivity;
 import com.onecric.live.activity.MainActivity;
 import com.onecric.live.adapter.CricketAdapter;
-import com.onecric.live.adapter.SelectTournamentAdapter;
 import com.onecric.live.custom.ItemDecoration;
 import com.onecric.live.event.ToggleTabEvent;
 import com.onecric.live.model.CricketMatchBean;
@@ -215,7 +213,7 @@ public class CricketResultFragment extends MvpFragment<CricketPresenter> impleme
                 } else {
                     showEmptyView();
                     if (mStreaming == 1) {
-                        EventBus.getDefault().post(new ToggleTabEvent(2));
+                        EventBus.getDefault().post(new ToggleTabEvent(0));
                         mStreaming = 0;
                         ll_streaming.setSelected(false);
                         iv_streaming.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.c_CCCCCC));

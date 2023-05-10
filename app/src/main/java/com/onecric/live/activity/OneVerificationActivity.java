@@ -119,6 +119,10 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
                     break;
             }
         });
+
+        findViewById(R.id.iv_back).setOnClickListener(v -> {
+            finish();
+        });
     }
 
     @Override

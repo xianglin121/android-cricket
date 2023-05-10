@@ -118,6 +118,10 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
     private WebSettings webSettings;
     private Timer mTimer;
 
+    private ImageView iv_avatar;
+    private LinearLayout ll_title;
+    private TextView tv_title;
+
     @Override
     public boolean getStatusBarTextColor() {
         return false;
@@ -179,11 +183,22 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
         mFlWebview2 = findViewById(R.id.fl_webview2);
         mWvAnimation = findViewById(R.id.wv_animation);
         mWvVideo = findViewById(R.id.wv_video);
+        iv_avatar = findViewById(R.id.iv_avatar);
+        ll_title = findViewById(R.id.ll_title);
+        tv_title = findViewById(R.id.tv_title);
+        ll_title.setVisibility(View.VISIBLE);
+        tv_title.setText("Live Matches");
+        if (CommonAppConfig.getInstance().getUserBean() != null) {
+            GlideUtil.loadUserImageDefault(this, CommonAppConfig.getInstance().getUserBean().getAvatar(), iv_avatar);
+        } else {
+            iv_avatar.setImageResource(R.mipmap.bg_avatar_default);
+        }
 
         findViewById(R.id.tv_animation).setOnClickListener(this);
         findViewById(R.id.tv_video).setOnClickListener(this);
         findViewById(R.id.iv_back_three).setOnClickListener(this);
         findViewById(R.id.iv_back_four).setOnClickListener(this);
+        findViewById(R.id.iv_back).setOnClickListener(this);
 
         ((ImageView) findViewById(R.id.iv_right)).setBackgroundResource(R.mipmap.icon_share2);
         ((ImageView) findViewById(R.id.iv_right)).setOnClickListener(new View.OnClickListener() {
@@ -554,6 +569,9 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
                 mFlWebview1.setVisibility(View.GONE);
                 mFlWebview2.setVisibility(View.GONE);
                 ll_content.setVisibility(View.VISIBLE);
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
         }
     }

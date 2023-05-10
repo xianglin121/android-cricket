@@ -12,14 +12,13 @@ import androidx.viewpager.widget.ViewPager;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.LiveMoreFunctionActivity;
-import com.onecric.live.activity.MainActivity;
 import com.onecric.live.activity.MyTaskActivity;
 import com.onecric.live.activity.OneLogInActivity;
+import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.activity.RankingActivity;
 import com.onecric.live.activity.SearchLiveActivity;
 import com.onecric.live.adapter.ChannelPagerAdapter;
 import com.onecric.live.custom.CustomPagerTitleView;
-import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveFiltrateBean;
 import com.onecric.live.presenter.live.LivePresenter;
@@ -49,10 +48,10 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
     private List<Fragment> mViewList;
     private TextView tvSingleTitle;
     private ImageView iv_avatar;
-    private LoginDialog loginDialog;
+/*  private LoginDialog loginDialog;
     public void setLoginDialog(LoginDialog dialog){
         this.loginDialog = dialog;
-    }
+    }*/
 
     @Override
     protected int getLayoutId() {
@@ -85,7 +84,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
         mViewList = new ArrayList<>();
 //        mTitles.add(WordUtil.getString(getActivity(), R.string.free_hd_live_broadcast));
         LiveRecommendFragment liveRecommendFragment = new LiveRecommendFragment();
-        liveRecommendFragment.setLoginDialog(loginDialog);
+//        liveRecommendFragment.setLoginDialog(loginDialog);
 //        mViewList.add(liveRecommendFragment);
 
 
@@ -142,7 +141,13 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
                 MyTaskActivity.forward(getContext());
                 break;
             case R.id.iv_avatar:
-                ((MainActivity)getActivity()).openDrawer();
+//                ((MainActivity)getActivity()).openDrawer();
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                    ToastUtil.show(getString(R.string.please_login));
+                    OneLogInActivity.forward(getContext());
+                } else{
+                    PersonalHomepageActivity.forward(getContext(), CommonAppConfig.getInstance().getUid());
+                }
                 break;
         }
     }
@@ -270,7 +275,7 @@ public class LiveFragment extends MvpFragment<LivePresenter> implements LiveView
         if (list != null && list.size() > 0) {//没有系统直播就不显示Other
             mTitles.add(WordUtil.getString(getActivity(), R.string.live_other));
             LiveMatchFragment liveMatchFragment = LiveMatchFragment.newInstance(1);
-            liveMatchFragment.setLoginDialog(loginDialog);
+//            liveMatchFragment.setLoginDialog(loginDialog);
             mViewList.add(liveMatchFragment);
         }
         initViewPager();

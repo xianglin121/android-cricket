@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="94dp"
+        android:paddingTop="30dp"
+        android:background="@color/c_1D2550"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+        <ImageView
+            android:layout_width="98dp"
+            android:layout_height="24dp"
+            android:src="@mipmap/img_logo_top"
+            android:layout_gravity="center_vertical|left"/>
+
+        <ImageView
+            android:id="@+id/iv_subscribe"
+            android:layout_width="30dp"
+            android:layout_height="26dp"
+            android:layout_marginRight="30dp"
+            android:src="@mipmap/unsubscribe"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical|right"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@mipmap/bg_avatar_default"
+            android:scaleType="centerCrop"
+            android:padding="1dp"
+            android:background="@drawable/shape_head_circle_bor"
+            android:layout_gravity="center_vertical|right"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/c_262E4A"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_arrow_left_white"
+            android:padding="11dp"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+</LinearLayout>

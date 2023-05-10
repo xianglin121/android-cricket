@@ -14,17 +14,12 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
-import com.onecric.live.activity.MainActivity;
-import com.onecric.live.event.ToggleTabEvent;
+import com.onecric.live.activity.OneLogInActivity;
+import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.util.GlideUtil;
-import com.onecric.live.util.UiUtils;
+import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.BaseFragment;
-
-import net.lucode.hackware.magicindicator.buildins.UIUtil;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +55,13 @@ public class CricketFragment extends BaseFragment {
         findViewById(R.id.iv_avatar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).openDrawer();
+//                ((MainActivity) getActivity()).openDrawer();
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                    ToastUtil.show(getString(R.string.please_login));
+                    OneLogInActivity.forward(getContext());
+                } else{
+                    PersonalHomepageActivity.forward(getContext(), CommonAppConfig.getInstance().getUid());
+                }
             }
         });
     }

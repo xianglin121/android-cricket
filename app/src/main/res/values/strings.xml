@@ -215,7 +215,7 @@
 
     <string name="user_info_title">Personal Information</string>
     <string name="update_avatar">Modify Avatar</string>
-    <string name="nickname">nickname</string>
+    <string name="nickname">Nickname</string>
     <string name="personal_introduction">Personal Introduction</string>
     <string name="change_phone_number">Change phone number</string>
 

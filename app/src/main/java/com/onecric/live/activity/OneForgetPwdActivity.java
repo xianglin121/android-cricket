@@ -48,6 +48,7 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
     private ImageView iv_eye_password,iv_eye_password2;
     private LinearLayout ll_account,ll_pwd,ll_pwd2,ll_title;
     private TextView tv_send,tv_title;
+    private View view_line2;
     private boolean isPwVisitable = false;
     private boolean isPwConfirmVisitable = false;
     private boolean isVisitablePass = false;
@@ -76,6 +77,7 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
         etArea = findViewById(R.id.et_area);
         etPhone = findViewById(R.id.et_phone);
         ccp = findViewById(R.id.ccp);
+        view_line2 = findViewById(R.id.view_line2);
         iv_eye_password.setOnClickListener(this);
         tv_send.setOnClickListener(this);
         iv_eye_password.setOnClickListener(this);
@@ -248,6 +250,7 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
             ll_account.setVisibility(View.GONE);
             ll_pwd.setVisibility(View.VISIBLE);
             ll_pwd2.setVisibility(View.VISIBLE);
+            view_line2.setVisibility(View.VISIBLE);
             tv_send.setText("Update");
         }
     }

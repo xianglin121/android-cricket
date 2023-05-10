@@ -467,6 +467,9 @@
             android:name="com.onecric.live.activity.OneSetPwdActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name="com.onecric.live.activity.NewsActivity"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

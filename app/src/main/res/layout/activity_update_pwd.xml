@@ -156,6 +156,14 @@
             android:paddingLeft="@dimen/dp_10"/>
 
     </LinearLayout>
+    <View
+        android:id="@+id/view_line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/c_959595"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:visibility="gone"/>
 
     <View
         android:layout_width="match_parent"

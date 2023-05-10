@@ -20,7 +20,6 @@ import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.adapter.LiveAnchorAdapter;
 import com.onecric.live.adapter.LiveFiltrateAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
-import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveFiltrateBean;
 import com.onecric.live.presenter.live.LiveMatchPresenter;
@@ -53,10 +52,10 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
     private LinearLayout ll_hot;
 
 //    private int mPage = 1;
-    private LoginDialog loginDialog;
+/*    private LoginDialog loginDialog;
     public void setLoginDialog(LoginDialog dialog){
         this.loginDialog = dialog;
-    }
+    }*/
 
     @Override
     protected int getLayoutId() {
