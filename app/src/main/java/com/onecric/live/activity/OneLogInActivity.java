@@ -1,6 +1,5 @@
 package com.onecric.live.activity;
 
-import static android.provider.Telephony.Carriers.AUTH_TYPE;
 import static com.onecric.live.AppManager.mContext;
 import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
 import static com.onecric.live.util.UiUtils.getJsonData;
@@ -33,11 +32,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.engagelab.privates.core.api.MTCorePrivatesApi;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -62,7 +56,6 @@ import com.onecric.live.view.login.LoginView;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class OneLogInActivity extends MvpActivity<LoginPresenter> implements LoginView, View.OnClickListener{
 
@@ -85,7 +78,7 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
 
     //facebook
     private static final int RC_FACEBOOK_SIGN_IN = 1101;
-    private CallbackManager callbackManager;
+//    private CallbackManager callbackManager;
 
     // Google
     private GoogleSignInClient mGoogleSignInClient;
@@ -176,7 +169,7 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
     }
 
     private void initOther(){
-        callbackManager = CallbackManager.Factory.create();
+/*        callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().setAuthType(AUTH_TYPE);
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
@@ -198,7 +191,7 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
                     public void onError(FacebookException exception) {
                         // App code
                     }
-                });
+                });*/
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestId()
@@ -226,7 +219,7 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
     private void signFacebook(){
         //fixme 脸书登录
         //loading
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+//        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
     }
     @Override
     protected void initData() {
@@ -369,7 +362,7 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == RC_FACEBOOK_SIGN_IN){
             //将登录结果传递到 LoginManager
-            callbackManager.onActivityResult(requestCode, resultCode, data);
+//            callbackManager.onActivityResult(requestCode, resultCode, data);
         } else if (requestCode == RC_GOOGLE_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach a listener.
             Task<GoogleSignInAccount> completedTask = GoogleSignIn.getSignedInAccountFromIntent(data);

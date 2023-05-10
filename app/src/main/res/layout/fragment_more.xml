@@ -33,8 +33,6 @@
             android:layout_marginTop="33dp"
             android:layout_marginBottom="33dp"
             android:src="@mipmap/bg_avatar_default"
-            android:padding="1dp"
-            android:background="@drawable/shape_head_circle_bor"
             android:scaleType="centerCrop"/>
 
         <TextView

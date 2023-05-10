@@ -38,14 +38,17 @@ public class LoginAccessActivity extends BaseActivity{
         EventBus.getDefault().register(this);
         findViewById(R.id.btn_sign_up).setOnClickListener(v -> {
             OneSignUpActivity.forward(this);
+            finish();
         });
 
         findViewById(R.id.btn_log_in).setOnClickListener(v -> {
             OneLogInActivity.forward(this);
+            finish();
         });
 
         findViewById(R.id.tv_later).setOnClickListener(v -> {
             MainActivity.forward(this);
+            finish();
         });
     }
 
