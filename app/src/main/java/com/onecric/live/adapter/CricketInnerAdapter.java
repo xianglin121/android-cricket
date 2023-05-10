@@ -1,6 +1,5 @@
 package com.onecric.live.adapter;
 
-import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,10 +15,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
-import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.activity.MainActivity;
-import com.onecric.live.fragment.dialog.LoginDialog;
-import com.onecric.live.model.BannerBean;
+import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.SubscribeTypeBean;
 import com.onecric.live.presenter.match.SubscribePresenter;
@@ -28,7 +25,6 @@ import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.TimeUtil;
 import com.onecric.live.util.ToastUtil;
-import com.onecric.live.util.ToolUtil;
 import com.tencent.qcloud.tuicore.util.DateTimeUtil;
 
 import java.util.Date;
@@ -81,11 +77,12 @@ public class CricketInnerAdapter extends BaseQuickAdapter<CricketMatchBean, Base
                 public void onClick(View v) {
                     if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                         ToastUtil.show(mContext.getString(R.string.please_login));
-                        if (mainActivity.loginDialog != null) {
+/*                        if (mainActivity.loginDialog != null) {
                             mainActivity.loginDialog.show();
                         } else {
                             mainActivity.newLoginDialog();
-                        }
+                        }*/
+                        OneLogInActivity.forward(mContext);
                         return;
                     }
                     getSubscribeType(item, subscribeIv);

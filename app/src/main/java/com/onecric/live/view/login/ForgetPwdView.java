@@ -7,4 +7,6 @@ public interface ForgetPwdView extends BaseView<JsonBean> {
     void forgetPwdSuccess(String msg);
 
     void forgetPwdFail(String msg);
+
+    void showCountryList();
 }

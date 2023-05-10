@@ -16,27 +16,20 @@ import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.activity.LiveNotStartDetailActivity;
-import com.onecric.live.activity.LoginActivity;
+import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.adapter.LiveAnchorAdapter;
 import com.onecric.live.adapter.LiveFiltrateAdapter;
-import com.onecric.live.adapter.LiveRecommendAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
-import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
-import com.onecric.live.model.LiveBean;
 import com.onecric.live.model.LiveFiltrateBean;
 import com.onecric.live.presenter.live.LiveMatchPresenter;
 import com.onecric.live.util.SpUtil;
-import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.LiveMatchView;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,10 +52,10 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
     private LinearLayout ll_hot;
 
 //    private int mPage = 1;
-    private LoginDialog loginDialog;
+/*    private LoginDialog loginDialog;
     public void setLoginDialog(LoginDialog dialog){
         this.loginDialog = dialog;
-    }
+    }*/
 
     @Override
     protected int getLayoutId() {
@@ -90,17 +83,19 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
-                    if(loginDialog!=null){
+                    /*if(loginDialog!=null){
                         loginDialog.show();
                     }else{
                         ToastUtil.show(getString(R.string.please_login));
-                    }
+                    }*/
+                    OneLogInActivity.forward(getContext());
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
-                    if(loginDialog!=null){
+                    /*if(loginDialog!=null){
                         loginDialog.show();
                     }else{
                         ToastUtil.show(getString(R.string.please_login));
-                    }
+                    }*/
+                    OneLogInActivity.forward(getContext());
                 }else{
                     LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(),
                             mAdapter.getItem(position).getMatchId(),mAdapter.getItem(position).getLiveId());
@@ -133,11 +128,12 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
                     LiveNotStartDetailActivity.forward(getContext(),mAdapter.getItem(position).getUid(),
                             mAdapter.getItem(position).getMatchId(),mAdapter.getItem(position).getLiveId());
                 }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
-                    if(loginDialog!=null){
+                    /*if(loginDialog!=null){
                         loginDialog.show();
                     }else{
                         ToastUtil.show(getString(R.string.please_login));
-                    }
+                    }*/
+                    OneLogInActivity.forward(getContext());
                 }else{
                     LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(),
                             mAdapter.getItem(position).getMatchId(),mAdapter.getItem(position).getLiveId());

@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.onecric.live.R;
-import com.onecric.live.activity.MainActivity;
+import com.onecric.live.activity.LoginAccessActivity;
 import com.onecric.live.activity.PreViewActivity;
 import com.onecric.live.util.SpUtil;
 
@@ -63,7 +63,7 @@ public class UsagePreViewContentFragment extends Fragment {
                     if (!SpUtil.getInstance().getBooleanValue(SpUtil.HIDE_USAGE)) {
                         SpUtil.getInstance().setBooleanValue(SpUtil.HIDE_USAGE, true);
                     }
-                    MainActivity.forward(getContext());
+                    LoginAccessActivity.forward(getContext());
                 });
                 break;
         }

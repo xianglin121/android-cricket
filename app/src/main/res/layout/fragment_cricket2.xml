@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/c_1D2550"
-        android:paddingTop="45dp">
+        android:background="@color/c_1D2550">
 
         <TextView
             android:id="@+id/tv_search"

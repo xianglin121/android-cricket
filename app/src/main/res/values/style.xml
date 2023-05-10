@@ -68,7 +68,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:textColorHint">@color/c_999999</item>
+        <item name="android:textColorHint">@color/c_4E4E4E</item>
         <item name="android:textCursorDrawable">@drawable/shape_edit_cursor</item>
         <item name="android:textSize">15sp</item>
         <item name="android:background">@null</item>
@@ -95,5 +95,27 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="LinearLayoutInputRowNew">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
 
+    <style name="EditTextSingleNew">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/c_4E4E4E</item>
+        <item name="android:textCursorDrawable">@drawable/shape_edit_cursor</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@null</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">12dp</item>
+    </style>
 </resources>

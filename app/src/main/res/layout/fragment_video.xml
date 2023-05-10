@@ -8,21 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:background="@color/c_1D2550">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginLeft="10dp"
-                android:text="@string/short_videos"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:fontFamily="@font/noto_sans_display_semibold"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="40dp"
+            android:background="@color/c_262E4A"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:paddingLeft="16dp"
+            android:textSize="16sp"
+            android:text="Videos"/>
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/smart_rl"

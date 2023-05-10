@@ -1,6 +1,11 @@
 package com.onecric.live.presenter.login;
 
+import static com.onecric.live.AppManager.mContext;
+import static com.onecric.live.fragment.dialog.LoginDialog.getFlavor;
+
 import com.alibaba.fastjson.JSONObject;
+import com.onecric.live.CommonAppConfig;
+import com.onecric.live.model.ConfigurationBean;
 import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.view.login.RegisterView;
@@ -14,7 +19,8 @@ public class RegisterPresenter extends BasePresenter<RegisterView> {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("mobile", phone);
         jsonObject.put("type", 1);
-        addSubscription(apiStores.getCode(getRequestBody(jsonObject)),
+//        addSubscription(apiStores.getCode(getRequestBody(jsonObject)),
+        addSubscription(apiStores.oneSendCode(getRequestBody(jsonObject)),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
@@ -59,6 +65,60 @@ public class RegisterPresenter extends BasePresenter<RegisterView> {
                     @Override
                     public void onError(String msg) {
                         mvpView.registerFail(msg);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
+
+    public void oneRegister(String phone, String password) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("mobile", phone);
+        jsonObject.put("password", password);
+        jsonObject.put("code", getFlavor(mContext));
+        jsonObject.put("channel", 2);
+        addSubscription(apiStores.oneRegister(getRequestBody(jsonObject)),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        mvpView.registerSuccess(msg);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        mvpView.registerFail(msg);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        mvpView.registerFail(msg);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
+
+    public void getConfiguration(String currentVersionNumber) {
+        addSubscription(apiStores.getDefaultConfiguration(currentVersionNumber),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        CommonAppConfig.getInstance().saveConfig(JSONObject.parseObject(data, ConfigurationBean.class));
+                        mvpView.showCountryList();
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                    }
+
+                    @Override
+                    public void onError(String msg) {
                     }
 
                     @Override

@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.onecric.live.AppManager;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.HttpConstant;
 import com.onecric.live.R;
@@ -48,8 +47,6 @@ import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.video.VideoPagerView;
-//import com.pili.pldroid.player.PLOnPreparedListener;
-//import com.pili.pldroid.player.widget.PLVideoView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -57,7 +54,6 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
-import com.shuyu.gsyvideoplayer.video.base.GSYVideoViewBridge;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -193,7 +189,8 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                     SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
                     ToastUtil.show(getString(R.string.tip_login_to_live));
                     isCancelLoginDialog = false;
-                    constraintLoginDialog.show();
+//                    constraintLoginDialog.show();
+                    OneLogInActivity.forward(mActivity);
                 }
             };
         }
@@ -638,7 +635,8 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
                     isCancelLoginDialog = true;
-                    loginDialog.show();
+//                    loginDialog.show();
+                    OneLogInActivity.forward(mActivity);
                     return;
                 }
                 if (bean.getUid() != Integer.parseInt(CommonAppConfig.getInstance().getUid())) {
@@ -654,7 +652,8 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
                     isCancelLoginDialog = true;
-                    loginDialog.show();
+//                    loginDialog.show();
+                    OneLogInActivity.forward(mActivity);
                     return;
                 }
                 int likeCount = bean.getLikes();
@@ -686,7 +685,8 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
                     isCancelLoginDialog = true;
-                    loginDialog.show();
+//                    loginDialog.show();
+                    OneLogInActivity.forward(mActivity);
                     return;
                 }
                 DialogUtil.showVideoMoreDialog(mActivity, new DialogUtil.SelectMoreCallback() {
@@ -824,18 +824,20 @@ public class VideoPagerActivity extends MvpActivity<VideoPagerPresenter> impleme
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if(isCancelLoginDialog){
+/*                                if(isCancelLoginDialog){
                                     loginDialog.show();
                                     loginDialog.passWebView();
                                 }else{
                                     constraintLoginDialog.show();
                                     constraintLoginDialog.passWebView();
-                                }
+                                }*/
+                                OneLogInActivity.forward(mActivity);
 
                             }
                         });
                     }else if(!isCancelLoginDialog){
-                        constraintLoginDialog.show();
+//                        constraintLoginDialog.show();
+                        OneLogInActivity.forward(mActivity);
                     }
                 }
             }

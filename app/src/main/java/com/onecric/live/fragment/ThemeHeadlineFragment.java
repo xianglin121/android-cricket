@@ -11,19 +11,17 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
-import com.onecric.live.activity.MainActivity;
+import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.activity.ThemeCollectionActivity;
 import com.onecric.live.adapter.ChannelPagerAdapter;
-import com.onecric.live.custom.CustomPagerInnerTitleView;
+import com.onecric.live.custom.CustomPagerTitleView;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.ThemeClassifyBean;
 import com.onecric.live.presenter.theme.ThemeHeadlinePresenter;
-import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.theme.ThemeHeadlineView;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -81,11 +79,12 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getUid())) {
-                    if(loginDialog!=null){
+                    /*if(loginDialog!=null){
                         loginDialog.show();
                     }else{
                         ((MainActivity)getActivity()).newLoginDialog();
-                    }
+                    }*/
+                    OneLogInActivity.forward(getContext());
                     return;
                 }
                 ThemeCollectionActivity.forward(getContext(), 0);
@@ -116,12 +115,15 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
 
             @Override
             public IPagerTitleView getTitleView(Context context, int index) {
-                CustomPagerInnerTitleView titleView = new CustomPagerInnerTitleView(context);
+                CustomPagerTitleView titleView = new CustomPagerTitleView(context);
 //                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //                layoutParams.rightMargin = DpUtil.dp2px(12);
 //                titleView.setContentView(R.layout.item_ym_indicator);
 //                titleView.setLayoutParams(layoutParams);
 //                SuperTextView tv_name = titleView.findViewById(R.id.tv_name);
+                titleView.setNormalColor(getResources().getColor(R.color.black));
+                titleView.setSelectedColor(getResources().getColor(R.color.c_DC3C23));
+                titleView.setTextSize(14);
                 titleView.setText(mTitles.get(index));
                 titleView.setOnClickListener(new View.OnClickListener() {
                     @Override

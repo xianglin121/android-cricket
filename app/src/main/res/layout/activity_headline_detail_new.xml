@@ -10,50 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="78dp"
-            android:paddingTop="24dp"
-            android:background="@color/white">
-            <LinearLayout
-                android:id="@+id/btn_left"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginLeft="7dp"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="11dp"
-                    android:layout_height="18dp"
-                    android:background="@mipmap/icon_arrow_left_black"/>
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/btn_left"
-                app:layout_constraintBottom_toBottomOf="@id/btn_left"
-                app:layout_constraintLeft_toRightOf="@id/btn_left"
-                android:layout_marginLeft="8dp"
-                android:textSize="14dp"
-                android:textColor="@color/black"
-                android:visibility="gone"/>
-
-            <ImageView
-                android:id="@+id/iv_report"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/btn_left"
-                app:layout_constraintBottom_toBottomOf="@id/btn_left"
-                android:layout_marginRight="10dp"
-                android:background="@mipmap/icon_headline_report"
-                android:visibility="gone"
-                tools:ignore="MissingConstraints" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <include layout="@layout/layout_top_logo"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -75,7 +32,7 @@
                         android:paddingBottom="2dp"
                         android:background="@color/white">
                         <TextView
-                            android:id="@+id/tv_title"
+                            android:id="@+id/tv_news_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:layout_constraintTop_toTopOf="parent"
@@ -94,8 +51,8 @@
                             android:id="@+id/ll_author"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:layout_constraintTop_toBottomOf="@id/tv_title"
-                            app:layout_constraintLeft_toLeftOf="@id/tv_title"
+                            app:layout_constraintTop_toBottomOf="@id/tv_news_title"
+                            app:layout_constraintLeft_toLeftOf="@id/tv_news_title"
                             android:layout_marginTop="15dp"
                             android:orientation="horizontal">
 

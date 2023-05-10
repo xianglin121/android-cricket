@@ -911,4 +911,20 @@ public interface ApiStores {
     //新获取赛事详情-squad
     @POST("api/Cricket/cricket_match_detail_squad_new")
     Observable<JsonObject> getCricketDetailSquadNew(@Body RequestBody body);
+
+    //One密码登录
+    @POST("api/v1/login")
+    Observable<JsonObject> oneLoginByPwd(@Body RequestBody body);
+
+    @POST("api/v1/registered")
+    Observable<JsonObject> oneRegister(@Body RequestBody body);
+
+    @POST("api/v1/verify_code")
+    Observable<JsonObject> oneVerifyCode(@Body RequestBody body);
+
+    @POST("api/v1/getcode")
+    Observable<JsonObject> oneSendCode(@Body RequestBody body);
+
+    @POST("api/v1/forgotPassword")
+    Observable<JsonObject> oneChangePwd(@Body RequestBody body);
 }

@@ -1,7 +1,5 @@
 package com.onecric.live.activity;
 
-import static android.view.MotionEvent.ACTION_DOWN;
-import static android.view.MotionEvent.ACTION_UP;
 import static com.onecric.live.HttpConstant.SHARE_LIVE_URL;
 import static com.onecric.live.util.DialogUtil.loadingDialog;
 import static com.onecric.live.util.UiUtils.collapseView;
@@ -10,7 +8,6 @@ import static com.onecric.live.util.UiUtils.createQrCode;
 import static com.onecric.live.util.UiUtils.expandView;
 import static com.onecric.live.util.UiUtils.saveBitmapFile;
 import static com.onecric.live.util.UiUtils.sharePictureFile;
-import static com.tencent.imsdk.base.ThreadUtils.runOnUiThread;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -20,10 +17,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -35,7 +30,6 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -60,23 +54,13 @@ import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.SeekParameters;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.onecric.live.CommonAppConfig;
-import com.onecric.live.HttpConstant;
 import com.onecric.live.R;
-import com.onecric.live.custom.AnchorMovingReplyDialog;
 import com.onecric.live.custom.gift.AnimMessage;
 import com.onecric.live.custom.gift.LPAnimationManager;
 import com.onecric.live.custom.noble.LPNobleView;
 import com.onecric.live.event.UpdateAnchorFollowEvent;
 import com.onecric.live.event.UpdateLoginTokenEvent;
-import com.onecric.live.fragment.CricketInfoFragment;
-import com.onecric.live.fragment.CricketScorecardFragment;
-import com.onecric.live.fragment.CricketSquadFragment;
-import com.onecric.live.fragment.CricketUpdatesFragment;
-import com.onecric.live.fragment.LiveDetailBasketballFragment;
-import com.onecric.live.fragment.LiveDetailFootballFragment;
 import com.onecric.live.fragment.LiveDetailMainFragment;
-import com.onecric.live.fragment.PopularRankingInnerFragment;
-import com.onecric.live.fragment.ThemeFragment;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.BasketballDetailBean;
 import com.onecric.live.model.BroadcastMsgBean;
@@ -98,18 +82,11 @@ import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.live.LiveDetailView;
-//import com.opensource.svgaplayer.SVGADrawable;
-//import com.opensource.svgaplayer.SVGAImageView;
-//import com.opensource.svgaplayer.SVGAParser;
-//import com.opensource.svgaplayer.SVGAVideoEntity;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.cache.CacheFactory;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
-import com.shuyu.gsyvideoplayer.listener.GSYVideoProgressListener;
-import com.shuyu.gsyvideoplayer.listener.LockClickListener;
 import com.shuyu.gsyvideoplayer.player.PlayerFactory;
-import com.shuyu.gsyvideoplayer.utils.Debuger;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.tencent.imsdk.v2.V2TIMManager;
@@ -254,7 +231,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                     SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
                     ToastUtil.show(getString(R.string.tip_login_to_live));
                     isCancelLoginDialog = false;
-                    constraintLoginDialog.show();
+//                    constraintLoginDialog.show();
+                    OneLogInActivity.forward(mActivity);
                 }
             };
         }
@@ -535,17 +513,19 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                             @Override
                             public void run() {
 //                                dialog.show();
-                                if (isCancelLoginDialog) {
+/*                                if (isCancelLoginDialog) {
                                     loginDialog.show();
                                     loginDialog.passWebView();
                                 } else {
                                     constraintLoginDialog.show();
                                     constraintLoginDialog.passWebView();
-                                }
+                                }*/
+                                OneLogInActivity.forward(mActivity);
                             }
                         });
                     } else if (!isCancelLoginDialog) {
-                        constraintLoginDialog.show();
+//                        constraintLoginDialog.show();
+                        OneLogInActivity.forward(mActivity);
                     }
                 }
             }
@@ -728,7 +708,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                                     }
                                 } else {
                                     isCancelLoginDialog = true;
-                                    loginDialog.show();
+//                                    loginDialog.show();
+                                    OneLogInActivity.forward(mActivity);
                                 }
                             }
                         });
@@ -980,7 +961,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                     }
                 } else if (loginDialog != null) {
                     isCancelLoginDialog = true;
-                    loginDialog.show();
+//                    loginDialog.show();
+                    OneLogInActivity.forward(mActivity);
                 } else {
                     ToastUtil.show(getString(R.string.please_login));
                 }
@@ -991,7 +973,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                     mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(), mLiveRoomBean.getInfo().getIs_like() == 1 ? 0 : 1);
                 } else if (loginDialog != null) {
                     isCancelLoginDialog = true;
-                    loginDialog.show();
+//                    loginDialog.show();
+                    OneLogInActivity.forward(mActivity);
                 } else {
                     ToastUtil.show(getString(R.string.please_login));
                 }

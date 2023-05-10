@@ -192,6 +192,11 @@ public class RegisterOldActivity extends MvpActivity<RegisterPresenter> implemen
     }
 
     @Override
+    public void showCountryList() {
+
+    }
+
+    @Override
     public void onClick(View v) {
         String phone = et_phone.getText().toString();
         String prefix= tv_phone_prefix.getText().toString();

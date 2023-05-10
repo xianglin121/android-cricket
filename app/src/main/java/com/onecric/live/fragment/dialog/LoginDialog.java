@@ -3,7 +3,6 @@ package com.onecric.live.fragment.dialog;
 import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
 import static com.onecric.live.util.UiUtils.getJsonData;
 import static com.onecric.live.util.UiUtils.hideKeyboard;
-import static com.tencent.imsdk.base.ThreadUtils.runOnUiThread;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -13,8 +12,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -26,14 +23,9 @@ import android.text.style.ClickableSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,8 +37,6 @@ import com.google.gson.Gson;
 import com.hbb20.CountryCodePicker;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
-import com.onecric.live.activity.LoginActivity;
-import com.onecric.live.activity.MainActivity;
 import com.onecric.live.activity.WebViewNewActivity;
 import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.model.AreasModel;
@@ -65,7 +55,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-//import cn.jpush.android.api.JPushInterface;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
@@ -141,7 +130,6 @@ public class LoginDialog extends Dialog {
         btn_login = findViewById(R.id.btn_log_in);
 //        etVerification = findViewById(R.id.et_verification);
         etPhone = findViewById(R.id.et_phone);
-        cbAgreement = findViewById(R.id.cb_agreement);
         ccp = findViewById(R.id.ccp);
         etArea = findViewById(R.id.et_area);
         etPhone.requestFocus();

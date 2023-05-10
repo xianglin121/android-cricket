@@ -37,7 +37,7 @@ public class UsageViewActivity extends BaseActivity {
     private MagicIndicator indicator;
     private Handler handler = new Handler();
     private List<UsagePreViewContentFragment> list;
-
+    private Timer timer;
     @Override
     public int getLayoutId() {
         return R.layout.activity_usage_view;
@@ -51,6 +51,7 @@ public class UsageViewActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        timer = new Timer();
         list = new ArrayList<>();
         list.add(UsagePreViewContentFragment.newInstant(1));
         list.add(UsagePreViewContentFragment.newInstant(2));
@@ -60,15 +61,16 @@ public class UsageViewActivity extends BaseActivity {
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-                if(i+1 == list.size()){
+                if(i+1 == list.size() && timer != null){
                     //计时三秒到主页
-                    new Timer().schedule(new TimerTask() {
+                    timer.schedule(new TimerTask() {
                         @Override
                         public void run() {
                             if (!SpUtil.getInstance().getBooleanValue(SpUtil.HIDE_USAGE)) {
                                 SpUtil.getInstance().setBooleanValue(SpUtil.HIDE_USAGE, true);
                             }
-                            MainActivity.forward(UsageViewActivity.this);
+
+                            LoginAccessActivity.forward(UsageViewActivity.this);
                             finish();
                         }
                     },3000);
@@ -127,4 +129,9 @@ public class UsageViewActivity extends BaseActivity {
         }, 3000);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        timer.cancel();
+    }
 }

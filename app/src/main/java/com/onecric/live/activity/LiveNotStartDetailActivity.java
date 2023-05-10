@@ -14,37 +14,26 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -52,10 +41,6 @@ import androidx.core.app.ActivityCompat;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
-import com.coorchice.library.SuperTextView;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.custom.gift.AnimMessage;
@@ -77,26 +62,15 @@ import com.onecric.live.model.NormalMsgBean;
 import com.onecric.live.model.UpdatesBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.live.LiveDetailPresenter;
-import com.onecric.live.util.DialogUtil;
-import com.onecric.live.util.DownloadUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ScreenUtils;
 import com.onecric.live.util.ShareUtil;
-import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.live.LiveDetailView;
-import com.shuyu.gsyvideoplayer.GSYVideoManager;
-import com.shuyu.gsyvideoplayer.cache.CacheFactory;
-import com.shuyu.gsyvideoplayer.player.PlayerFactory;
-import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
-import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.tencent.imsdk.v2.V2TIMManager;
 import com.tencent.imsdk.v2.V2TIMMessage;
 import com.tencent.imsdk.v2.V2TIMSendCallback;
-import com.tencent.imsdk.v2.V2TIMValueCallback;
-import com.tencent.liteav.demo.superplayer.LivePlayerView;
-import com.tencent.liteav.demo.superplayer.SuperPlayerDef;
 import com.tencent.liteav.demo.superplayer.model.event.OpenNobleSuccessEvent;
 import com.tencent.liteav.demo.superplayer.model.event.SendDanmuEvent;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
@@ -108,15 +82,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
-import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager;
 
 /**
  * LIVE直播详情
@@ -321,8 +292,9 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                               loginDialog.show();
-                               loginDialog.passWebView();
+/*                               loginDialog.show();
+                               loginDialog.passWebView();*/
+                                OneLogInActivity.forward(mActivity);
                             }
                         });
                     }
@@ -561,21 +533,28 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                     if (mLiveRoomBean.getUserData() != null && mLiveRoomBean.getUserData().getIs_attention() == 0) {
                         doFollow();
                     }
-                }else if(loginDialog!=null){
+                }else {
+                    OneLogInActivity.forward(mActivity);
+                }
+
+/*                    if(loginDialog!=null){
                     loginDialog.show();
                 }else{
                     ToastUtil.show(getString(R.string.please_login));
-                }
+                }*/
                 break;
             case R.id.iv_tool_heart:
             case R.id.ll_heart:
                 if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(),mLiveRoomBean.getInfo().getIs_like()==1?0:1);
-                }else if(loginDialog!=null){
+                }else {
+                    OneLogInActivity.forward(mActivity);
+                }
+/*                    if(loginDialog!=null){
                     loginDialog.show();
                 }else{
                     ToastUtil.show(getString(R.string.please_login));
-                }
+                }*/
                 break;
             case R.id.iv_tool_share:
                 shareScreen();

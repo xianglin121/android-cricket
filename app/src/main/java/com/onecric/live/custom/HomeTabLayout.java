@@ -58,7 +58,7 @@ public class HomeTabLayout extends LinearLayout implements View.OnClickListener 
         findViewById(R.id.btn_live).setOnClickListener(this);
         findViewById(R.id.btn_video).setOnClickListener(this);
 
-        iv_live.setSelected(true);
+        iv_theme.setSelected(true);
     }
 
     @Override
@@ -106,31 +106,31 @@ public class HomeTabLayout extends LinearLayout implements View.OnClickListener 
     public void toggleBtn(int position) {
         if (position == 0) {
             iv_theme.setSelected(true);
-            tv_theme.setTextColor(getResources().getColor(R.color.c_DC3C23));
+            tv_theme.setTextColor(getResources().getColor(R.color.c_1444F5));
         }else {
             iv_theme.setSelected(false);
-            tv_theme.setTextColor(getResources().getColor(R.color.c_959DB0));
+            tv_theme.setTextColor(getResources().getColor(R.color.c_4E4E4E));
         }
         if (position == 1) {
             iv_match.setSelected(true);
-            tv_match.setTextColor(getResources().getColor(R.color.c_DC3C23));
+            tv_match.setTextColor(getResources().getColor(R.color.c_1444F5));
         }else {
             iv_match.setSelected(false);
-            tv_match.setTextColor(getResources().getColor(R.color.c_959DB0));
+            tv_match.setTextColor(getResources().getColor(R.color.c_4E4E4E));
         }
         if (position == 2) {
             iv_live.setSelected(true);
-            tv_live.setTextColor(getResources().getColor(R.color.c_DC3C23));
+            tv_live.setTextColor(getResources().getColor(R.color.c_1444F5));
         }else {
             iv_live.setSelected(false);
-            tv_live.setTextColor(getResources().getColor(R.color.c_959DB0));
+            tv_live.setTextColor(getResources().getColor(R.color.c_4E4E4E));
         }
         if (position == 3) {
             iv_video.setSelected(true);
-            tv_video.setTextColor(getResources().getColor(R.color.c_DC3C23));
+            tv_video.setTextColor(getResources().getColor(R.color.c_1444F5));
         }else {
             iv_video.setSelected(false);
-            tv_video.setTextColor(getResources().getColor(R.color.c_959DB0));
+            tv_video.setTextColor(getResources().getColor(R.color.c_4E4E4E));
         }
     }
 

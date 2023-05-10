@@ -23,7 +23,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.onecric.live.R;
 import com.onecric.live.custom.CustomPagerTitleView;
-import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.fragment.SearchAnchorFragment;
 import com.onecric.live.fragment.SearchCommunityFragment;
 import com.onecric.live.fragment.SearchComplexFragment;
@@ -46,10 +45,6 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNav
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -332,9 +327,9 @@ public class SearchLiveDetailActivity extends MvpActivity<SearchLiveDetailPresen
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                loginDialog.show();
-                                loginDialog.passWebView();
-
+//                                loginDialog.show();
+//                                loginDialog.passWebView();
+                                OneLogInActivity.forward(mActivity);
                             }
                         });
                     }

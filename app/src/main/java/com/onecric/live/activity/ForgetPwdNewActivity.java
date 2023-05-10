@@ -58,4 +58,9 @@ public class ForgetPwdNewActivity extends MvpActivity<ForgetPwdPresenter> implem
     public void forgetPwdFail(String msg) {
 
     }
+
+    @Override
+    public void showCountryList() {
+
+    }
 }

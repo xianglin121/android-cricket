@@ -1,20 +1,8 @@
 package com.onecric.live.activity;
 
 
-import static com.onecric.live.HttpConstant.SHARE_LIVE_URL;
 import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
-import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -24,23 +12,22 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.engine.executor.GlideExecutor;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.onecric.live.BuildConfig;
 import com.onecric.live.CommonAppConfig;
@@ -54,10 +41,8 @@ import com.onecric.live.event.UpdateUserInfoEvent;
 import com.onecric.live.fragment.CricketFragment;
 import com.onecric.live.fragment.CricketNewFragment;
 import com.onecric.live.fragment.LiveFragment;
-import com.onecric.live.fragment.MatchFragment;
-import com.onecric.live.fragment.ThemeFragment;
+import com.onecric.live.fragment.MoreFragment;
 import com.onecric.live.fragment.VideoFragment;
-import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.ConfigurationBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.UserBean;
@@ -65,11 +50,9 @@ import com.onecric.live.presenter.login.MainPresenter;
 import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.MPermissionUtils;
-import com.onecric.live.util.ShareUtil;
 import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.ToolUtil;
-import com.onecric.live.util.WordUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.login.MainView;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
@@ -83,7 +66,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,29 +82,25 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         context.startActivity(intent);
     }
 
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
     private ImageView iv_avatar_nav;
-    private TextView tv_name_nav;
-    private TextView tv_sign_out;
-    private LinearLayout llNav;
-
     private NoScrollViewPager mViewPager;
     private List<Fragment> mViewList;
-
     private HomeTabLayout mTabLayout;
-
-    public int mPosition = 2;
-
+    public int mPosition = 0;
     private long exit_time;
 
-    public LoginDialog loginDialog;
-    private WebView webview;
-    private WebSettings webSettings;
+//    public LoginDialog loginDialog;
+//    private WebView webview;
+//    private WebSettings webSettings;
+//    private DrawerLayout drawerLayout;
+//    private NavigationView navigationView;
+//    private TextView tv_name_nav;
+//    private TextView tv_sign_out;
+//    private LinearLayout llNav;
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_main2;
     }
 
     @Override
@@ -135,121 +113,35 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
         mViewList = new ArrayList<>();
 
-        drawerLayout = findViewById(R.id.drawerLayout);
-        navigationView = findViewById(R.id.navigationView);
-        llNav = findViewById(R.id.ll_nav);
         mViewPager = findViewById(R.id.viewpager);
         mTabLayout = findViewById(R.id.tabLayout);
+        iv_avatar_nav = findViewById(R.id.iv_avatar);
 
-        initWebView();
-        loginDialog = new LoginDialog(this, R.style.dialog, true, () -> {
-            loginDialog.dismiss();
-            webview.setVisibility(View.VISIBLE);
-            webview.loadUrl("javascript:ab()");
-        });
-
-        initNavigationView();
-        initFragment();
-        getFCMToken();
-    }
-
-    private void initNavigationView() {
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);//禁止侧边滑动
-        navigationView.setItemIconTintList(null);
-        iv_avatar_nav = navigationView.getHeaderView(0).findViewById(R.id.iv_avatar_nav);
-        tv_name_nav = navigationView.getHeaderView(0).findViewById(R.id.tv_name_nav);
-
-        tv_sign_out = findViewById(R.id.tv_sign_out);
         iv_avatar_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     ToastUtil.show(getString(R.string.please_login));
-                    loginDialog.show();
+                    OneLogInActivity.forward(mActivity);
+//                    loginDialog.show();
                 } else {
 //                UserInfoActivity.forward(mActivity);
                     if (!isFastDoubleClick())
                         PersonalHomepageActivity.forward(mActivity, CommonAppConfig.getInstance().getUid());
                 }
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }
-        });
-        updateNavigationInfo();
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
-                switch (id) {
-                    case R.id.menu_system_settings:
-                        SettingActivity.forward(mActivity);
-                        break;
-                    case R.id.menu_system_share:
-                        ShareUtil.shareText(mActivity, "Share OneCric.tv", SHARE_LIVE_URL);
-                        break;
-                    case R.id.menu_my_concerns:
-                        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                            ToastUtil.show(getString(R.string.please_login));
-                            loginDialog.show();
-                        } else {
-                            MyFollowActivity.forward(mActivity);
-                        }
-                        break;
-                    case R.id.menu_my_message:
-                        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                            ToastUtil.show(getString(R.string.please_login));
-                            loginDialog.show();
-                        } else {
-                            MyMessageActivity.forward(mActivity);
-                        }
-                        break;
-                }
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+//                drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
 
-        tv_sign_out.setOnClickListener(v -> {
-            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                //退出登录
-                DialogUtil.showSimpleDialog(mActivity, getString(R.string.tips), WordUtil.getString(mActivity, R.string.confirm_sign_out_tip), true, new DialogUtil.SimpleCallback() {
-                    @Override
-                    public void onConfirmClick(Dialog dialog, String content) {
-                        mvpPresenter.signOut(mActivity);
-                    }
-                });
-            } else {
-                //登录
-                loginDialog.show();
-            }
-            drawerLayout.closeDrawer(GravityCompat.START);
-        });
-
-        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-            tv_sign_out.setText(getString(R.string.setting_sign_out));
-        } else {
-            tv_sign_out.setText(getString(R.string.setting_sign_in));
-        }
-
-    }
-
-    public void updateNavigationInfo() {
+//        initNavigationView();
+        initFragment();
+        getFCMToken();
         if (CommonAppConfig.getInstance().getUserBean() != null) {
             GlideUtil.loadUserImageDefault(this, CommonAppConfig.getInstance().getUserBean().getAvatar(), iv_avatar_nav);
-            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getUser_nickname())) {
-                tv_name_nav.setText(CommonAppConfig.getInstance().getUserBean().getUser_nickname());
-            }
-            tv_sign_out.setText(getString(R.string.setting_sign_out));
         } else {
             iv_avatar_nav.setImageResource(R.mipmap.bg_avatar_default);
-            tv_name_nav.setText("");
-            tv_sign_out.setText(getString(R.string.setting_sign_in));
         }
     }
-
-    public void openDrawer() {
-        drawerLayout.openDrawer(GravityCompat.START);
-    }
-
 
     @Override
     protected void onResume() {
@@ -388,13 +280,10 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         if (userBean != null) {
             CommonAppConfig.getInstance().saveUserInfo(JSONObject.toJSONString(userBean));
             GlideUtil.loadUserImageDefault(this, userBean.getAvatar(), iv_avatar_nav);
-            if (!TextUtils.isEmpty(userBean.getUser_nickname())) {
-                tv_name_nav.setText(userBean.getUser_nickname());
-            } else {
-                tv_name_nav.setText("");
-            }
-            ((ThemeFragment) mViewList.get(0)).updateUserInfo();
-            ((LiveFragment) mViewList.get(2)).updateUserInfo();
+
+//            ((ThemeFragment) mViewList.get(0)).updateUserInfo();
+            ((LiveFragment) mViewList.get(0)).updateUserInfo();
+            ((MoreFragment) mViewList.get(3)).updateUserInfo();
         }
     }
 
@@ -433,18 +322,18 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
     private void initFragment() {
         //给有登录需求的页面加loginDialog
-        ThemeFragment themeFragment = new ThemeFragment();
+//        ThemeFragment themeFragment = new ThemeFragment();
         LiveFragment liveFragment = new LiveFragment();
         VideoFragment videoFragment = new VideoFragment();
-        themeFragment.setLoginDialog(loginDialog);
-        liveFragment.setLoginDialog(loginDialog);
-        videoFragment.setLoginDialog(loginDialog);
+//        themeFragment.setLoginDialog(loginDialog);
+//        liveFragment.setLoginDialog(loginDialog);
+//        videoFragment.setLoginDialog(loginDialog);
 
-        mViewList.add(themeFragment);
-//        mViewList.add(new CricketFragment());
-        mViewList.add(new CricketNewFragment());
         mViewList.add(liveFragment);
         mViewList.add(videoFragment);
+        mViewList.add(new CricketNewFragment());
+        mViewList.add(new MoreFragment());
+
         mViewPager.setScroll(false);
         mViewPager.setOffscreenPageLimit(mViewList.size());
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -474,7 +363,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
             }
         });
-        mViewPager.setCurrentItem(2);
+        mViewPager.setCurrentItem(0);
     }
 
 
@@ -521,9 +410,16 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
             loginIM();
-            updateNavigationInfo();
-            ((ThemeFragment) mViewList.get(0)).updateUserInfo();
-            ((LiveFragment) mViewList.get(2)).updateUserInfo();
+//            updateNavigationInfo();
+            if (CommonAppConfig.getInstance().getUserBean() != null) {
+                GlideUtil.loadUserImageDefault(this, CommonAppConfig.getInstance().getUserBean().getAvatar(), iv_avatar_nav);
+            } else {
+                iv_avatar_nav.setImageResource(R.mipmap.bg_avatar_default);
+            }
+
+//            ((ThemeFragment) mViewList.get(0)).updateUserInfo();
+            ((LiveFragment) mViewList.get(0)).updateUserInfo();
+            ((MoreFragment) mViewList.get(3)).updateUserInfo();
         }
     }
 
@@ -534,9 +430,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         }
         if (mTabLayout != null && mViewPager != null) {
             if (event.position == 12) {
-                mTabLayout.toggleBtn(1);
-                mViewPager.setCurrentItem(1);
-                ((CricketFragment) mViewList.get(1)).toTabPosition(2);
+                mTabLayout.toggleBtn(2);
+                mViewPager.setCurrentItem(2);
+                ((CricketFragment) mViewList.get(2)).toTabPosition(2);
             } else {
                 mTabLayout.toggleBtn(event.position);
                 mViewPager.setCurrentItem(event.position);
@@ -555,9 +451,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+/*        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
+        }*/
         long l = System.currentTimeMillis();
         if (exit_time == 0 || l - exit_time > 3000) {
             ToastUtil.show(getString(R.string.tip_exit_app));
@@ -586,66 +482,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 //        }
 //    }
 
-    @SuppressLint("JavascriptInterface")
-    private void initWebView() {
-        webview = (WebView) findViewById(R.id.webview);
-        webSettings = webview.getSettings();
-        webSettings.setUseWideViewPort(true);
-        webSettings.setLoadWithOverviewMode(true);
-        // 禁用缓存
-        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
-        webSettings.setDefaultTextEncodingName("utf-8");
-        webview.setBackgroundColor(0); // 设置背景色
-        webview.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-        });
-        // 开启js支持
-        webSettings.setJavaScriptEnabled(true);
-        webview.addJavascriptInterface(this, "jsBridge");
-        webview.loadUrl("file:///android_asset/index.html");
-    }
-
-    @JavascriptInterface
-    public void getData(String data) {
-        webview.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                webview.setVisibility(View.GONE);
-                if (!TextUtils.isEmpty(data)) {
-                    JSONObject jsonObject = JSONObject.parseObject(data);
-                    if (jsonObject.getIntValue("ret") == 0) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-//                                dialog.show();
-                                loginDialog.show();
-                                loginDialog.passWebView();
-                            }
-                        });
-                    }
-                }
-            }
-        }, 500);
-    }
-
-    public void newLoginDialog() {
-        if (loginDialog == null) {
-            loginDialog = new LoginDialog(this, R.style.dialog, true, () -> {
-                loginDialog.dismiss();
-                webview.setVisibility(View.VISIBLE);
-                webview.loadUrl("javascript:ab()");
-            });
-        }
-        ((ThemeFragment) mViewList.get(0)).setLoginDialog(loginDialog);
-        ((LiveFragment) mViewList.get(2)).setLoginDialog(loginDialog);
-        ((VideoFragment) mViewList.get(3)).setLoginDialog(loginDialog);
-        loginDialog.show();
-    }
 
     private void checkNotifySetting() {
         NotificationManagerCompat manager = NotificationManagerCompat.from(this);
@@ -747,4 +584,176 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         }
     }
 
+/*    @SuppressLint("JavascriptInterface")
+    private void initWebView() {
+        webview = (WebView) findViewById(R.id.webview);
+        webSettings = webview.getSettings();
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        // 禁用缓存
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        webSettings.setDefaultTextEncodingName("utf-8");
+        webview.setBackgroundColor(0); // 设置背景色
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        // 开启js支持
+        webSettings.setJavaScriptEnabled(true);
+        webview.addJavascriptInterface(this, "jsBridge");
+        webview.loadUrl("file:///android_asset/index.html");
+    }
+
+    @JavascriptInterface
+    public void getData(String data) {
+        webview.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                webview.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(data)) {
+                    JSONObject jsonObject = JSONObject.parseObject(data);
+                    if (jsonObject.getIntValue("ret") == 0) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                dialog.show();
+                                OneLogInActivity.forward(mActivity);
+//                                loginDialog.show();
+//                                loginDialog.passWebView();
+                            }
+                        });
+                    }
+                }
+            }
+        }, 500);
+    }
+
+    public void newLoginDialog() {
+        if (loginDialog == null) {
+            loginDialog = new LoginDialog(this, R.style.dialog, true, () -> {
+                loginDialog.dismiss();
+                webview.setVisibility(View.VISIBLE);
+                webview.loadUrl("javascript:ab()");
+            });
+        }
+        ((ThemeFragment) mViewList.get(0)).setLoginDialog(loginDialog);
+        ((LiveFragment) mViewList.get(2)).setLoginDialog(loginDialog);
+        ((VideoFragment) mViewList.get(3)).setLoginDialog(loginDialog);
+//        loginDialog.show();
+        OneLogInActivity.forward(mActivity);
+    }
+
+    private void initNavigationView() {
+        drawerLayout = findViewById(R.id.drawerLayout);
+        navigationView = findViewById(R.id.navigationView);
+        llNav = findViewById(R.id.ll_nav);
+        initWebView();
+        loginDialog = new LoginDialog(this, R.style.dialog, true, () -> {
+            loginDialog.dismiss();
+            webview.setVisibility(View.VISIBLE);
+            webview.loadUrl("javascript:ab()");
+        });
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);//禁止侧边滑动
+        navigationView.setItemIconTintList(null);
+        iv_avatar_nav = navigationView.getHeaderView(0).findViewById(R.id.iv_avatar);
+        tv_name_nav = navigationView.getHeaderView(0).findViewById(R.id.tv_name_nav);
+
+        tv_sign_out = findViewById(R.id.tv_sign_out);
+        iv_avatar_nav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                    ToastUtil.show(getString(R.string.please_login));
+                    OneLogInActivity.forward(mActivity);
+//                    loginDialog.show();
+                } else {
+//                UserInfoActivity.forward(mActivity);
+                    if (!isFastDoubleClick())
+                        PersonalHomepageActivity.forward(mActivity, CommonAppConfig.getInstance().getUid());
+                }
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
+        updateNavigationInfo();
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                switch (id) {
+                    case R.id.menu_system_settings:
+                        SettingActivity.forward(mActivity);
+                        break;
+                    case R.id.menu_system_share:
+                        ShareUtil.shareText(mActivity, "Share OneCric.tv", SHARE_LIVE_URL);
+                        break;
+                    case R.id.menu_my_concerns:
+                        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                            ToastUtil.show(getString(R.string.please_login));
+                            OneLogInActivity.forward(mActivity);
+//                            loginDialog.show();
+                        } else {
+                            MyFollowActivity.forward(mActivity);
+                        }
+                        break;
+                    case R.id.menu_my_message:
+                        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                            ToastUtil.show(getString(R.string.please_login));
+                            OneLogInActivity.forward(mActivity);
+//                            loginDialog.show();
+                        } else {
+                            MyMessageActivity.forward(mActivity);
+                        }
+                        break;
+                }
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+
+        tv_sign_out.setOnClickListener(v -> {
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                //退出登录
+                DialogUtil.showSimpleDialog(mActivity, getString(R.string.tips), WordUtil.getString(mActivity, R.string.confirm_sign_out_tip), true, new DialogUtil.SimpleCallback() {
+                    @Override
+                    public void onConfirmClick(Dialog dialog, String content) {
+                        mvpPresenter.signOut(mActivity);
+                    }
+                });
+            } else {
+                //登录
+                OneLogInActivity.forward(mActivity);
+//                loginDialog.show();
+            }
+            drawerLayout.closeDrawer(GravityCompat.START);
+        });
+
+        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+            tv_sign_out.setText(getString(R.string.setting_sign_out));
+        } else {
+            tv_sign_out.setText(getString(R.string.setting_sign_in));
+        }
+
+    }
+
+    public void updateNavigationInfo() {
+        if (CommonAppConfig.getInstance().getUserBean() != null) {
+            GlideUtil.loadUserImageDefault(this, CommonAppConfig.getInstance().getUserBean().getAvatar(), iv_avatar_nav);
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getUser_nickname())) {
+                tv_name_nav.setText(CommonAppConfig.getInstance().getUserBean().getUser_nickname());
+            }
+            tv_sign_out.setText(getString(R.string.setting_sign_out));
+        } else {
+            iv_avatar_nav.setImageResource(R.mipmap.bg_avatar_default);
+            tv_name_nav.setText("");
+            tv_sign_out.setText(getString(R.string.setting_sign_in));
+        }
+    }
+
+    public void openDrawer() {
+        drawerLayout.openDrawer(GravityCompat.START);
+    }*/
 }

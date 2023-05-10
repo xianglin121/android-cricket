@@ -5,12 +5,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -27,7 +24,6 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.AppManager;
 import com.onecric.live.CommonAppConfig;
@@ -55,7 +51,6 @@ import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
@@ -74,7 +69,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-//import pro.piwik.sdk.extra.TrackHelper;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -93,7 +87,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     private int mId;
     private NestedScrollView scroll_view;
     private ConstraintLayout cl_title;
-    private TextView tv_title;
+    private TextView tv_title,tv_news_title;
     private TextView tv_date;
     private WebView wv_content;
     private RecyclerView rv_article;
@@ -131,7 +125,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
             ToastUtil.show(getString(R.string.tip_login_to_live));
             isCancelLoginDialog = false;
-            constraintLoginDialog.show();
+//            constraintLoginDialog.show();
+            OneLogInActivity.forward(mActivity);
         }
     };
 
@@ -190,6 +185,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
         iv_like = findViewById(R.id.iv_like);
         tv_like = findViewById(R.id.tv_like);
         tv_title = findViewById(R.id.tv_title);
+        tv_news_title = findViewById(R.id.tv_news_title);
         iv_collect = findViewById(R.id.iv_collect);
         tv_pre = findViewById(R.id.tv_pre);
         video_player = findViewById(R.id.video_player);
@@ -239,6 +235,12 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             webview.setVisibility(View.VISIBLE);
             webview.loadUrl("javascript:ab()");
         });
+
+        findViewById(R.id.ll_title).setVisibility(View.VISIBLE);
+        ((TextView)findViewById(R.id.tv_title)).setText("News");
+        findViewById(R.id.iv_back).setOnClickListener(v -> {
+            finish();
+        });
     }
 
     @Override
@@ -249,7 +251,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 @Override
                 public void onClick(View v) {
                     isCancelLoginDialog = true;
-                    loginDialog.show();
+//                    loginDialog.show();
+                    OneLogInActivity.forward(mActivity);
                 }
             });
         } else {
@@ -310,7 +313,8 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             case R.id.iv_title_avatar:
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     ToastUtil.show(getString(R.string.please_login));
-                    loginDialog.show();
+//                    loginDialog.show();
+                    OneLogInActivity.forward(mActivity);
                     return;
                 }
 //                MySpaceActivity.forward(this, mModel.getUid());
@@ -404,7 +408,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
             }
             */
             if (!TextUtils.isEmpty(model.getTitle())) {
-                tv_title.setText(model.getTitle());
+                tv_news_title.setText(model.getTitle());
             }
 
 
@@ -566,7 +570,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 }
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                     isCancelLoginDialog = true;
-                    loginDialog.show();
+                    OneLogInActivity.forward(mActivity);
                 }else{
 
                 }
@@ -944,18 +948,19 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (isCancelLoginDialog) {
+/*                                if (isCancelLoginDialog) {
                                     loginDialog.show();
                                     loginDialog.passWebView();
                                 } else {
                                     constraintLoginDialog.show();
                                     constraintLoginDialog.passWebView();
-                                }
-
+                                }*/
+                                OneLogInActivity.forward(mActivity);
                             }
                         });
                     } else if (!isCancelLoginDialog) {
-                        constraintLoginDialog.show();
+//                        constraintLoginDialog.show();
+                        OneLogInActivity.forward(mActivity);
                     }
                 }
             }

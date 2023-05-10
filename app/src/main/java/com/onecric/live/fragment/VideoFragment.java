@@ -13,12 +13,12 @@ import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
 import com.ethanhua.skeleton.Skeleton;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
+import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.activity.VideoPagerActivity;
 import com.onecric.live.activity.VideoPublishActivity;
 import com.onecric.live.adapter.VideoAdapter;
 import com.onecric.live.adapter.decoration.StaggeredDividerItemDecoration;
 import com.onecric.live.event.UpdateVideoLikeEvent;
-import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.ShortVideoBean;
 import com.onecric.live.presenter.video.VideoPresenter;
@@ -49,10 +49,10 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
     private TextView tv_empty;
     private RecyclerViewSkeletonScreen skeletonScreen;
 
-    private LoginDialog loginDialog;
+/*    private LoginDialog loginDialog;
     public void setLoginDialog(LoginDialog dialog){
         this.loginDialog = dialog;
-    }
+    }*/
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_video;
@@ -77,11 +77,14 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
                     } else {
                         ToastUtil.show(getActivity().getString(R.string.please_join_writer));
                     }
-                } else if(loginDialog!=null){
+                } else {
+                    OneLogInActivity.forward(getContext());
+                }
+/*                if(loginDialog!=null){
                     loginDialog.show();
                 }else{
                     ToastUtil.show(getString(R.string.please_login));
-                }
+                }*/
             }
         });
         tv_empty.setText(R.string.pull_refresh);
@@ -121,11 +124,12 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
-                    if(loginDialog!=null){
+/*                    if(loginDialog!=null){
                         loginDialog.show();
                     }else{
                         ToastUtil.show(getString(R.string.please_login));
-                    }
+                    }*/
+                    OneLogInActivity.forward(getContext());
                 }else{
                     VideoPagerActivity.forward(getContext(), mAdapter.getData(), position, mPage);
                 }

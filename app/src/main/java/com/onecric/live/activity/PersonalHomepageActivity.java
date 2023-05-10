@@ -3,7 +3,6 @@ package com.onecric.live.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -21,11 +20,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.tabs.TabLayout;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
-import com.onecric.live.fragment.LiveFragment;
 import com.onecric.live.fragment.PersonalVideoFragment;
-import com.onecric.live.fragment.PersonalPostFragment;
-import com.onecric.live.fragment.ThemeFragment;
-import com.onecric.live.fragment.VideoFragment;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.user.PersonalHomepagePresenter;
@@ -231,7 +226,8 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
             case R.id.ll_follow:
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     ToastUtil.show(getString(R.string.please_login));
-                    loginDialog.show();
+//                    loginDialog.show();
+                    OneLogInActivity.forward(mActivity);
                     return;
                 }
                 mvpPresenter.doFollow(Integer.parseInt(id));
@@ -316,8 +312,9 @@ public class PersonalHomepageActivity extends MvpActivity<PersonalHomepagePresen
                             @Override
                             public void run() {
 //                                dialog.show();
-                                loginDialog.show();
-                                loginDialog.passWebView();
+//                                loginDialog.show();
+//                                loginDialog.passWebView();
+                                OneLogInActivity.forward(mActivity);
                             }
                         });
                     }

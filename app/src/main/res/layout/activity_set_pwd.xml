@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include layout="@layout/layout_top_logo"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:paddingLeft="16dp"
+            android:textColor="@color/c_4E4E4E"/>
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/LinearLayoutInputRowNew" android:id="@+id/ll_pwd2">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@mipmap/ic_password"/>
+
+        <EditText
+            android:id="@+id/et_password"
+            style="@style/EditTextSingleNew"
+            android:hint="Password (Case Sensitive)"
+            android:inputType="textPassword" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/c_959595"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="14dp">
+
+        <CheckBox
+            android:id="@+id/cb_show_password"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:button="@null"
+            android:background="@drawable/selector_cb_2"
+            android:layout_marginRight="12dp"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/c_4E4E4E"
+            android:textSize="12sp"
+            android:lineSpacingExtra="2dp"
+            android:text="Show Password"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/c_4E4E4E"
+        android:padding="5dp"
+        android:textSize="12sp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="Please enter a password with a combination of 6-12 digits and lowercase letters."/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp">
+
+        <CheckBox
+            android:id="@+id/cb_agreement"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:button="@null"
+            android:background="@drawable/selector_cb_2"
+            android:layout_marginRight="13.5dp"
+            android:checked="true"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/tv_agreement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/c_4E4E4E"
+            android:fontFamily="@font/noto_sans_display_semibold"
+            android:textSize="12sp"
+            android:lineSpacingExtra="2dp"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"/>
+
+    <TextView
+        android:id="@+id/tv_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_above="@id/btn_log_in"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/shape_btn_grad_red"
+        android:gravity="center"
+        android:text="@string/sign_up"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_14"
+            android:text="Already have an account? "
+            android:gravity="center_horizontal"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/tv_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_14"
+            android:text="Log In"
+            android:textColor="@color/c_DC3C23"
+            android:gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"/>
+
+</LinearLayout>
