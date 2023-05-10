@@ -138,6 +138,9 @@ HONOR_APPID               : "220603327"
         A3Bqd {
             manifestPlaceholders = [APP_CHANNEL_VALUE: "A3Bqd"]
         }
+        blgvc {
+            manifestPlaceholders = [APP_CHANNEL_VALUE: "blgvc"]
+        }
     }
 
 
