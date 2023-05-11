@@ -84,12 +84,12 @@ HONOR_APPID               : "220603327"
                 if (outputFile != null && outputFile.name.endsWith('.apk')) {
                     // 输出apk名称为news_v1.0_2017-01-15_wandoujia.apk
                     def df = new SimpleDateFormat("MMdd")
-                    def fileName = "onecric_v${defaultConfig.versionName}_${df.format(new Date())}_${variant.productFlavors[0].name}.apk"
+//                    def fileName = "onecric_${variant.productFlavors[0].name}_v${defaultConfig.versionName}_${df.format(new Date())}.apk"
+                    def fileName = "${variant.productFlavors[0].name}.apk"
                     outputFileName = fileName
                 }
             }
         }
-
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
