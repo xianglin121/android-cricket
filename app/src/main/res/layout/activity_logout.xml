@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:layout_marginLeft="12dp"
-                android:text="Special instructions on account cancellation:"
+                android:text="@string/special_info"
                 android:textSize="14dp"
                 android:textColor="@color/c_999999"/>
 
@@ -100,7 +100,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:text="(1) Once the account is canceled, you will not be able to log in and use the account, which means that you will no longer be able to log in/use/continue to use OneCric's related products and services with this account;\n(2) Once the account is canceled, all content, information, data, and records under the products and services that you have logged in and used through the account will be deleted or anonymized, and you will no longer be able to retrieve, access, obtain, or continue to use and retrieve it, and have no right to ask us to retrieve it (except as otherwise provided by laws and regulations or as otherwise required by regulatory authorities), including: personal data (such as avatar, nickname) and binding information (such as mobile phone number) under the account account number, email address); your personal information under this account; all content published by this account (for example: pictures, photos, comments, interactions, likes); all other content, information, data, records."
+                android:text="@string/log_out_info"
                 android:textSize="14dp"
                 android:textColor="@color/c_999999"/>
         </LinearLayout>

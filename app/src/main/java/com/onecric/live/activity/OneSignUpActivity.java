@@ -1,5 +1,6 @@
 package com.onecric.live.activity;
 
+import static com.onecric.live.AppManager.mContext;
 import static com.onecric.live.util.UiUtils.getJsonData;
 import static com.onecric.live.util.UiUtils.hideKeyboard;
 
@@ -21,10 +22,21 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
+import com.engagelab.privates.core.api.MTCorePrivatesApi;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.hbb20.CountryCodePicker;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
+import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.model.AreasModel;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.login.RegisterPresenter;
@@ -32,6 +44,8 @@ import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.ToolUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.login.RegisterView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -44,12 +58,17 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
 
     private final int FROM_SIGN_UP = 2202;
     private TextView tvAgreement;
+    private TextView tv_sign_in;
     private CheckBox cbAgreement;
     private EditText etArea;
     private EditText etPhone;
     private CountryCodePicker ccp;
     private ArrayList<AreasModel.CountryModel> countryList;
     private boolean isSame;
+
+    // Google
+    private GoogleSignInClient mGoogleSignInClient;
+    private static final int RC_GOOGLE_SIGN_IN = 1102;
 
     @Override
     public void onClick(View v) {
@@ -67,22 +86,23 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
                 }
                 String phone = etPhone.getText().toString().trim();
                 if (TextUtils.isEmpty(phone)) {
-                    ToastUtil.show("Mobile Number");
+                    ToastUtil.show(getString(R.string.mobile_number));
                     return;
                 }
 
                 hideKeyboard(etPhone);
+
                 //发验证码
                 showLoadingDialog();
                 mvpPresenter.getCode(area + "-" + phone);
                 break;
             case R.id.tv_sign_facebook:
-                // 脸书
 
                 break;
             case R.id.tv_sign_google:
                 // 谷歌邮箱
-
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN);
                 break;
             default:;
         }
@@ -100,11 +120,22 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
         ccp = findViewById(R.id.ccp);
         etArea = findViewById(R.id.et_area);
         etPhone = findViewById(R.id.et_phone);
-        findViewById(R.id.tv_sign_in).setOnClickListener(this);
+        tv_sign_in = findViewById(R.id.tv_sign_in);
+        tv_sign_in.setOnClickListener(this);
         findViewById(R.id.tv_sign_google).setOnClickListener(this);
         findViewById(R.id.tv_sign_facebook).setOnClickListener(this);
         setAgreementSpannable();
         etPhone.requestFocus();
+        initOther();
+    }
+
+    private void initOther(){
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestId()
+                .requestEmail()
+                .requestIdToken(mContext.getString(R.string.server_client_id))
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
     @Override
@@ -229,12 +260,10 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
 
     @Override
     public void registerSuccess(String msg) {
-
     }
 
     @Override
     public void registerFail(String msg) {
-
     }
 
     @Override
@@ -244,4 +273,35 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
         }
     }
 
+    @Override
+    public void loginIsSuccess(boolean isSuccess) {
+        dismissLoadingDialog();
+        if(isSuccess){
+            mvpPresenter.updateJgId(MTCorePrivatesApi.getRegistrationId(mContext));
+            ToastUtil.show(mContext.getString(R.string.login_success));
+            EventBus.getDefault().post(new UpdateLoginTokenEvent());
+            finish();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_GOOGLE_SIGN_IN) {
+            showLoadingDialog();
+            Task<GoogleSignInAccount> completedTask = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+                mvpPresenter.oneLoginGmail(account.getId(),account.getDisplayName(),account.getPhotoUrl().toString(),account.getIdToken(),account.getEmail());
+            } catch (ApiException e) {
+                dismissLoadingDialog();
+                if(e.getStatusCode() == 12500){
+                    ToastUtil.show(getString(R.string.please_install_google));
+                }else{
+                    ToastUtil.show(GoogleSignInStatusCodes.getStatusCodeString(e.getStatusCode()));
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

@@ -17,7 +17,7 @@
         android:id="@+id/tv_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No search results for this filter"
+        android:text="@string/no_search_results_filter"
         android:textSize="16dp"
         android:textColor="@color/c_801D2550"/>
 
@@ -29,7 +29,7 @@
         android:paddingBottom="@dimen/dp_10"
         android:paddingLeft="@dimen/dp_10"
         android:paddingRight="@dimen/dp_10"
-        android:text="RESET FILTERS"
+        android:text="@string/reset_filters"
         android:background="@drawable/shape_dc3c23_6dp_stroke_rec"
         android:textColor="@color/c_DC3C23"
         android:fontFamily="@font/noto_sans_display_semibold"

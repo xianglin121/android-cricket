@@ -20,6 +20,7 @@ public interface ApiStores {
     //baseUrl
 //    String API_SERVER_URL = "http://banqiu.mhuan.shop/";//正式
     String API_SERVER_URL = "https://api.onecric.tv/";//正式
+//    String API_SERVER_URL = "https://demoapi.onecric.tv/";//测试
 
 
     //获取验证码
@@ -225,13 +226,13 @@ public interface ApiStores {
 
     //获取我的粉丝列表
     @GET("api/User/watchlistList")
-    Observable<JsonObject> getFansList(@Header("token") String token,
+    Observable<JsonObject> getFansList(@Query("timezone") String timezone,@Header("token") String token,
                                        @Query("page") int page,
                                        @Query("uid") int uid);
 
     //获取关注列表
     @GET("api/User/attentionList")
-    Observable<JsonObject> getAttentionList(@Header("token") String token, @Query("page") int page,
+    Observable<JsonObject> getAttentionList(@Query("timezone") String timezone,@Header("token") String token, @Query("page") int page,
                                             @Query("uid") int uid,
                                             @Query("type") int type);
 
@@ -346,11 +347,11 @@ public interface ApiStores {
 
     //获取头条分类
     @GET("api/Headlines/classification")
-    Observable<JsonObject> getHeadlineClassify(@Header("token") String token);
+    Observable<JsonObject> getHeadlineClassify(@Query("timezone") String timezone,@Header("token") String token);
 
     //获取头条列表
     @GET("api/Headlines/getList")
-    Observable<JsonObject> getHeadlineList(@Header("token") String token,
+    Observable<JsonObject> getHeadlineList(@Query("timezone") String timezone,@Header("token") String token,
                                            @Query("page") int page,
                                            @Query("cid") int cid);
 
@@ -361,7 +362,7 @@ public interface ApiStores {
                                            @Query("cid") int cid);
     //获取头条详情
     @GET("api/Headlines/getInfo")
-    Observable<JsonObject> getHeadlineInfo(@Header("token") String token,
+    Observable<JsonObject> getHeadlineInfo(@Query("timezone") String timezone,@Header("token") String token,
                                            @Query("page") int page,
                                            @Query("order") int order,
                                            @Query("id") int id);
@@ -496,7 +497,7 @@ public interface ApiStores {
 
     //获取比赛筛选列表
     @GET("api/Football/match_filter")
-    Observable<JsonObject> getMatchFilterList(@Query("type") int match_filter,
+    Observable<JsonObject> getMatchFilterList(@Query("timezone") String timezone,@Query("type") int match_filter,
                                               @Query("ball") int ball);
 
     //发布视频
@@ -542,7 +543,7 @@ public interface ApiStores {
 
     //获取这场比赛正在直播的主播列表
     @GET("api/Live_streaming/getMatchLiveList")
-    Observable<JsonObject> getMatchAnchorList(@Header("token") String token,
+    Observable<JsonObject> getMatchAnchorList(@Query("timezone") String timezone,@Header("token") String token,
                                               @Query("id") int id);
 
     //获取常见问题列表
@@ -552,7 +553,7 @@ public interface ApiStores {
 
     //获取首页直播的分类列表
     @GET("api/hot_match/schedule")
-    Observable<JsonObject> getLiveMatchList(@Header("token") String token,
+    Observable<JsonObject> getLiveMatchList(@Query("timezone") String timezone,@Header("token") String token,
                                             @Query("page") int page,
                                             @Query("date") String date,
                                             @Query("match_type") int match_type);
@@ -585,7 +586,7 @@ public interface ApiStores {
 
     //搜索-直播
     @GET("api/Search/live")
-    Observable<JsonObject> searchLive(@Header("token") String token,
+    Observable<JsonObject> searchLive(@Query("timezone") String timezone,@Header("token") String token,
                                       @Query("name") String name);
 
     //搜索-头条
@@ -715,7 +716,7 @@ public interface ApiStores {
     @GET("api/Basketball_database/getCategory")
     Observable<JsonObject> getMatchDataClassify();
 
-    //获取国家
+    //fixme 获取国家
     @GET("api/Basketball_database/getCountry")
     Observable<JsonObject> getMatchDataCountry(@Query("id") int id);
 
@@ -864,13 +865,13 @@ public interface ApiStores {
 
 
     @GET("api/member/live_like")
-    Observable<JsonObject> getLiveLike(@Header("token") String token, @Query("id") int id,
+    Observable<JsonObject> getLiveLike(@Query("timezone") String timezone,@Header("token") String token, @Query("id") int id,
                                        @Query("type") int type);
 
 
     //订阅赛事消息推送   todo 完成
     @POST("api/Cricket/subscribe_add")
-    Observable<JsonObject> doSubscribe(@Header("token") String token, @Body RequestBody body);
+    Observable<JsonObject> doSubscribe(@Query("timezone") String timezone,@Header("token") String token, @Body RequestBody body);
 
     //获取live页的赛事
     @GET("api/live_streaming/getLiveListNew")
@@ -883,7 +884,7 @@ public interface ApiStores {
 
     //获取直播聊天室历史记录
     @GET("api/LivePlayBack/getSimple")
-    Observable<JsonObject> getHistoryMessage(@Query("id") int id);
+    Observable<JsonObject> getHistoryMessage(@Query("timezone") String timezone,@Query("id") int id);
 
     //获取新赛事列表
     @GET("api/Cricketnew/Cricket_match")
@@ -897,7 +898,7 @@ public interface ApiStores {
 
     //获取赛事标签
     @GET("api/Cricketnew/get_cricket_tag")
-    Observable<JsonObject> getFiltrateList();
+    Observable<JsonObject> getFiltrateList(@Query("timezone") String timezone);
 
 
     //新赛事搜索
@@ -906,7 +907,7 @@ public interface ApiStores {
 
     //新获取公开赛列表
     @POST("api/Cricketnew/get_cricket_tournament")
-    Observable<JsonObject> getTournamentList(@Query("name") String name);
+    Observable<JsonObject> getTournamentList(@Query("timezone") String timezone,@Query("name") String name);
 
     //新获取赛事详情-squad
     @POST("api/Cricket/cricket_match_detail_squad_new")
@@ -915,6 +916,10 @@ public interface ApiStores {
     //One密码登录
     @POST("api/v1/login")
     Observable<JsonObject> oneLoginByPwd(@Body RequestBody body);
+
+    //google
+    @POST("api/v1/google_login")
+    Observable<JsonObject> oneLoginGmail(@Body RequestBody body);
 
     @POST("api/v1/registered")
     Observable<JsonObject> oneRegister(@Body RequestBody body);
@@ -927,4 +932,35 @@ public interface ApiStores {
 
     @POST("api/v1/forgotPassword")
     Observable<JsonObject> oneChangePwd(@Body RequestBody body);
+
+
+    @GET("api/live_streaming/getTournamentLive")
+    Observable<JsonObject> getOneLiveTournament(@Query("timezone") String timezone);
+
+    @GET("api/live_streaming/getPlayingCards")
+    Observable<JsonObject> getPlayingCards(@Query("timezone") String timezone);
+
+    @GET("api/live_streaming/getTournamentList")
+    Observable<JsonObject> getTournament(@Query("timezone") String timezone,@Query("name") String name);
+
+    @GET("api/Video/getTournamentVideo")
+    Observable<JsonObject> getTournamentVideo(@Query("timezone") String timezone,@Query("id") int id);
+
+    @GET("api/Video/getCategory")
+    Observable<JsonObject> getCategory(@Query("timezone") String timezone);
+
+    @GET("api/Video/getTournamentVideoList")
+    Observable<JsonObject> getTournamentVideoList(@Query("timezone") String timezone,@Query("name") String name,@Query("page") int page);
+
+    @GET("api/Video/getTournamentVideoInfo")
+    Observable<JsonObject> getTournamentVideoInfo(@Query("timezone") String timezone,@Query("tournament") String tournament,@Query("id") int id);
+
+    @GET("api/live_streaming/get_history_live")
+    Observable<JsonObject> getHistoryLive(@Query("timezone") String timezone,@Query("page") int page);
+
+    @GET("api/v1/set_language")
+    Observable<JsonObject> setLanguage(@Query("language") String language,@Query("device_id") String device_id);
+
+
+
 }

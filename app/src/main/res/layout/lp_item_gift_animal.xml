@@ -51,7 +51,7 @@
                 android:layout_marginTop="2dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Send out to"
+                android:text="@string/send_out_to"
                 android:textColor="@android:color/white"
                 android:textSize="11sp"
                 tools:ignore="SmallSp" />

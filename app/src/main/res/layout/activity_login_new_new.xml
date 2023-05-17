@@ -240,7 +240,7 @@
         android:src="@mipmap/ic_arrow_left_white"
         android:padding="16dp"/>
 
-    <WebView
+    <com.onecric.live.view.LanguagesWebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

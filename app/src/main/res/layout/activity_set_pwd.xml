@@ -35,7 +35,7 @@
         <EditText
             android:id="@+id/et_password"
             style="@style/EditTextSingleNew"
-            android:hint="Password (Case Sensitive)"
+            android:hint="@string/pwd_hint"
             android:inputType="textPassword" />
 
     </LinearLayout>

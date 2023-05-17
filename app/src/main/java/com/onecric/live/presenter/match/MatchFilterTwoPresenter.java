@@ -7,6 +7,7 @@ import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.view.match.MatchFilterTwoView;
 
 import java.util.List;
+import java.util.TimeZone;
 
 public class MatchFilterTwoPresenter extends BasePresenter<MatchFilterTwoView> {
     public MatchFilterTwoPresenter(MatchFilterTwoView view) {
@@ -14,7 +15,7 @@ public class MatchFilterTwoPresenter extends BasePresenter<MatchFilterTwoView> {
     }
 
     public void getList(int filter, int type) {
-        addSubscription(apiStores.getMatchFilterList(filter, type),
+        addSubscription(apiStores.getMatchFilterList(TimeZone.getDefault().getID(),filter, type),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

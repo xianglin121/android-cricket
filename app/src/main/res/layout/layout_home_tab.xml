@@ -26,42 +26,17 @@
                 android:id="@+id/iv_theme"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="3dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/selector_theme_tab"/>
+                android:src="@drawable/selector_live_tab"/>
 
             <TextView
                 android:id="@+id/tv_theme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Live"
+                android:text="@string/main_tab_live"
                 android:textColor="@color/c_1444F5"
-                android:textSize="10sp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/btn_match"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:background="?attr/selectableItemBackgroundBorderless">
-            <ImageView
-                android:id="@+id/iv_match"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginBottom="4dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/selector_live_tab"/>
-
-            <TextView
-                android:id="@+id/tv_match"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Video"
-                android:textColor="@color/c_4E4E4E"
-                android:textSize="10sp"/>
+                android:textSize="11sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -76,7 +51,7 @@
                 android:id="@+id/iv_live"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="3dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/selector_match_tab"/>
 
@@ -84,11 +59,35 @@
                 android:id="@+id/tv_live"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/main_tab_match"
+                android:text="@string/main_tab_schedule"
                 android:textColor="@color/c_4E4E4E"
-                android:textSize="10sp"/>
+                android:textSize="11sp"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/btn_match"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="?attr/selectableItemBackgroundBorderless">
+            <ImageView
+                android:id="@+id/iv_match"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginBottom="3dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/selector_theme_tab"/>
+
+            <TextView
+                android:id="@+id/tv_match"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/video2"
+                android:textColor="@color/c_4E4E4E"
+                android:textSize="11sp"/>
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/btn_video"
             android:layout_width="0dp"
@@ -101,7 +100,7 @@
                 android:id="@+id/iv_video"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="3dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/selector_video_tab"/>
 
@@ -109,9 +108,9 @@
                 android:id="@+id/tv_video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="More"
+                android:text="@string/more2"
                 android:textColor="@color/c_4E4E4E"
-                android:textSize="10sp"/>
+                android:textSize="11sp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

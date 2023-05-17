@@ -33,6 +33,11 @@ public class BannerBean {
     private int param_id;
     private int param_type;
     private int live_id;
+    public String profile;
+    public String match_status;
+    public String match;
+    public String battle;
+    public String tournament;
 
     public int getLive_id() {
         return live_id;

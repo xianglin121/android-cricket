@@ -92,7 +92,7 @@
         <EditText
             android:id="@+id/et_phone"
             style="@style/EditTextSingleNew"
-            android:hint="Mobile Number"
+            android:hint="@string/mobile_number"
             android:inputType="phone"
             android:paddingLeft="4dp"/>
 
@@ -110,7 +110,7 @@
         <EditText
             android:id="@+id/et_password"
             style="@style/EditTextSingleNew"
-            android:hint="Enter password"
+            android:hint="@string/enter_pwd"
             android:inputType="textPassword"
             />
 
@@ -143,7 +143,7 @@
         <EditText
             android:id="@+id/et_password2"
             style="@style/EditTextSingleNew"
-            android:hint="Re-enter new password"
+            android:hint="@string/re_enter_pwd"
             android:inputType="textPassword" />
 
         <ImageView

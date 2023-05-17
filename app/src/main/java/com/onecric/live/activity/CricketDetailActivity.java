@@ -186,8 +186,9 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
         iv_avatar = findViewById(R.id.iv_avatar);
         ll_title = findViewById(R.id.ll_title);
         tv_title = findViewById(R.id.tv_title);
+
         ll_title.setVisibility(View.VISIBLE);
-        tv_title.setText("Live Matches");
+
         if (CommonAppConfig.getInstance().getUserBean() != null) {
             GlideUtil.loadUserImageDefault(this, CommonAppConfig.getInstance().getUserBean().getAvatar(), iv_avatar);
         } else {
@@ -298,6 +299,9 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
     public void getDataSuccess(CricketMatchBean model) {
         if (model != null) {
             mModel = model;
+            if(!TextUtils.isEmpty(model.tournamentName)){
+                tv_title.setText(model.tournamentName);
+            }
             if (mModel.getStatus() != 1) {
                 tv_video.setVisibility(View.GONE);
                 hor_line.setVisibility(View.GONE);

@@ -23,7 +23,7 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="N Ellis"
+                android:text="@string/n_ellis"
                 android:textColor="@color/c_333333"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -32,7 +32,7 @@
                 android:id="@+id/role"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bowler"
+                android:text="@string/bowler"
                 android:textColor="@color/c_666666"
                 android:textSize="12dp" />
         </LinearLayout>

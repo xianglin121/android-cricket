@@ -10,6 +10,7 @@ import com.onecric.live.view.cricket.CricketSquadView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 public class CricketSquadPresenter extends BasePresenter<CricketSquadView> {
     public CricketSquadPresenter(CricketSquadView view) {
@@ -23,6 +24,7 @@ public class CricketSquadPresenter extends BasePresenter<CricketSquadView> {
         jsonObject.put("tournament_id", tournament_id);
         jsonObject.put("home_id", home_id);
         jsonObject.put("away_id", away_id);
+        jsonObject.put("timezone", TimeZone.getDefault().getID());
         addSubscription(apiStores.getCricketDetailSquadNew(getRequestBody(jsonObject)), new ApiCallback() {
             @Override
             public void onSuccess(String data, String msg) {

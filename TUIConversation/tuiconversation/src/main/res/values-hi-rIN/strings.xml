@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="date_yesterday">कल</string>
+    <string name="date_tommorow">कल</string>
+    <string name="date_year">वर्ष</string>
+    <string name="date_month">माह</string>
+    <string name="date_day">दिन</string>
+    <string name="date_hour">घंटा</string>
+    <string name="date_minute">मिनट</string>
+    <string name="date_second">सेकंड</string>
+
+    <string name="date_year_short">वर्ष</string>
+    <string name="date_month_short">माह</string>
+    <string name="date_day_short">दिन</string>
+    <string name="date_hour_short">घंटा</string>
+    <string name="date_minute_short">मिनट</string>
+    <string name="date_second_short">सेकंड</string>
+
+    <string name="load_msg_error">संदेश लोड करने में त्रुटि</string>
+    <string name="conversation_title">Tencent·तत्काल संदेश वाणिज्यिक</string>
+
+    // यूनिवर्सल कम्यूनिकेशन
+    <string name="chat_top">ऊपर टिपण्णी</string>
+    <string name="chat_delete">चैट हटाएं</string>
+    <string name="quit_chat_top">ऊपर से हटाएं</string>
+    <string name="clear_conversation_message">संदेश साफ़ करें</string>
+
+    <string name="forward_select_new_chat">नया चैट बनाएं</string>
+    <string name="forward_select_from_contact">संपर्क से चुनें</string>
+    <string name="titlebar_cancle">रद्द करें</string>
+    <string name="titlebar_close">बंद करें</string>
+    <string name="forward_alert_title">क्या आप संदेश को आगे भेजना सुनिश्चित करना चाहते हैं?</string>
+
+    <string name="forward_list_label">हाल के बातचीत</string>
+
+    <string name="forward_extra">[चैट रिकॉर्ड]</string>
+    <string name="revoke_tips_you">आपने एक संदेश वापस बुलाया है।</string>
+    <string name="revoke_tips">ने एक संदेश वापस बुलाया है।</string>
+    <string name="revoke_tips_other">दूसरे उपयोगकर्ता ने एक संदेश वापस बुलाया है।</string>
+
+    <string name="cancel">रद्द करें</string>
+    <string name="sure">ठीक है</string>
+
+    <string name="ui_at_all">[@सभी]</string>
+    <string name="ui_at_me">[आपको उल्लेख किया गया]</string>
+    <string name="ui_at_all_me">[@सभी][आपको उल्लेख किया गया]</string>
+    <string name="drafts">[ड्राफ्ट]</string>
+    <string name="custom_msg">[कस्टम संदेश]</string>
+    <string name="custom_emoji">[कस्टम स्टिकर]</string>
+    <string name="picture_extra">[छवि]</string>
+    <string name="video_extra">[वीडियो]</string>
+    <string name="audio_extra">[आवाज़]</string>
+    <string name="file_extra">[फ़ाइल]</string>
+
+    <string name="add_friend">संपर्कों में जोड़ें</string>
+    <string name="add_group">समूह चैट में जोड़ें</string>
+    <string name="start_conversation">नई चैट</string>
+    <string name="create_group_chat">समूह चैट बनाएं</string>
+    <string name="create_chat_room">चैट रूम बनाएं</string>
+    <string name="create_private_group">विचार-विमर्श समूह बनाएं</string>
+    <string name="hint_add_user_id">आईडी दर्ज करें</string>
+    <string name="hint_add_wording">सत्यापन संदेश दर्ज करें</string>
+    <string name="contact_add">जोड़ें</string>
+    <string name="user_id">आईडी</string>
+    <string name="add_wording">सत्यापन संदेश</string>
+
+    <string name="create_group">समूह बनाएं</string>
+    <string name="etc">, आदि</string>
+    <string name="join_group">समूह में शामिल हों</string>
+    <string name="invite_joined_group">समूह में आमंत्रित किया गया है।</string>
+    <string name="quit_group">समूह छोड़ें</string>
+    <string name="kick_group_tip">समूह से हटाए गए हैं।</string>
+    <string name="be_group_manager">प्रशासक के रूप में सेट किया गया है।</string>
+    <string name="cancle_group_manager">के प्रशासक पद से अवमानित कर दिया गया है।</string>
+    <string name="modify_group_name_is">समूह का नाम बदलें</string>
+    <string name="modify_notice">समूह की सूचना बदलें</string>
+    <string name="modify_shut_up_all">सभी समूह सदस्यों को चुप रखें</string>
+    <string name="modify_cancel_shut_up_all">सभी समूह सदस्यों को चुप करने से छूट दें</string>
+    <string name="move_owner">समूह की स्वामित्वता को स्थानांतरित करें</string>
+    <string name="modify_group_avatar">समूह प्रोफ़ाइल फ़ोटो बदल दी गई है।</string>
+    <string name="banned">समूह में सत्रविधियों के लिए अवरोधित किया गया है।</string>
+    <string name="cancle_banned">अवरोध हटा दिया गया है और अब सत्रविधियों को पोस्ट कर सकते हैं।</string>
+
+    <string name="titlebar_mutiselect">बहुचयन</string>
+    <string name="group_apply_click_handle">संसाधन करने के लिए टैप करें</string>
+
+    <string name="search">खोजें</string>
+
+    <string name="live">का लाइव स्ट्रीम</string>
+
+    <string name="start_group_call">समूह कॉल शुरू करें</string>
+    <string name="start_call">कॉल शुरू करें</string>
+    <string name="cancle_group_call">समूह कॉल रद्द करें</string>
+    <string name="cancle_call">कॉल रद्द करें</string>
+    <string name="other_line_busy">लाइन व्यस्त है</string>
+
+    <string name="no_response_call">कोई जवाब नहीं</string>
+    <string name="accept_call">स्वीकार किया गया</string>
+    <string name="line_busy">लाइन व्यस्त है</string>
+    <string name="reject_call">अस्वीकार करें</string>
+    <string name="invalid_command">अमान्य कमांड</string>
+    <string name="stop_group_call">समूह कॉल समाप्त करें</string>
+    <string name="stop_call_tip">कॉल समाप्त हुई। अवधि:</string>
+    <string name="reject_calls">कॉल को अस्वीकार करें</string>
+
+   </resources>

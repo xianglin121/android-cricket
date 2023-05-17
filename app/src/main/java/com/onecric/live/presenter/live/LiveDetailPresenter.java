@@ -7,7 +7,6 @@ import com.onecric.live.CommonAppConfig;
 import com.onecric.live.model.BasketballDetailBean;
 import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.FootballDetailBean;
-import com.onecric.live.model.HistoryLiveBean;
 import com.onecric.live.model.LiveRoomBean;
 import com.onecric.live.model.UpdatesBean;
 import com.onecric.live.model.UserBean;
@@ -16,8 +15,6 @@ import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.view.live.LiveDetailView;
 import com.tencent.qcloud.tuikit.tuichat.interfaces.GroupChatEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.TimeZone;
 
 
@@ -270,7 +267,7 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
     }
 
     public void goLike(int id, int isLike) {
-        addSubscription(apiStores.getLiveLike(CommonAppConfig.getInstance().getToken(),id, isLike),
+        addSubscription(apiStores.getLiveLike(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(),id, isLike),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

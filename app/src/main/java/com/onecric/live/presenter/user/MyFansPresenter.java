@@ -8,6 +8,7 @@ import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.view.user.MyFansView;
 
 import java.util.List;
+import java.util.TimeZone;
 
 public class MyFansPresenter extends BasePresenter<MyFansView> {
     public MyFansPresenter(MyFansView view) {
@@ -15,7 +16,7 @@ public class MyFansPresenter extends BasePresenter<MyFansView> {
     }
 
     public void getList(boolean isRefresh, int page) {
-        addSubscription(apiStores.getFansList(CommonAppConfig.getInstance().getToken(), page, Integer.parseInt(CommonAppConfig.getInstance().getUid())),
+        addSubscription(apiStores.getFansList(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(), page, Integer.parseInt(CommonAppConfig.getInstance().getUid())),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

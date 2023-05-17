@@ -20,7 +20,10 @@ import com.onecric.live.adapter.VideoAdapter;
 import com.onecric.live.adapter.decoration.StaggeredDividerItemDecoration;
 import com.onecric.live.event.UpdateVideoLikeEvent;
 import com.onecric.live.model.JsonBean;
+import com.onecric.live.model.OneVideoBean;
 import com.onecric.live.model.ShortVideoBean;
+import com.onecric.live.model.VideoCategoryBean;
+import com.onecric.live.model.VideoShowBean;
 import com.onecric.live.presenter.video.VideoPresenter;
 import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
@@ -185,6 +188,16 @@ public class VideoFragment extends MvpFragment<VideoPresenter> implements VideoV
                 smart_rl.finishLoadMoreWithNoMoreData();
             }
         }
+    }
+
+    @Override
+    public void getCategorySuccess(List<VideoCategoryBean> list) {
+
+    }
+
+    @Override
+    public void getInnerDataSuccess(List<OneVideoBean.FirstCategoryBean> tList, List<OneVideoBean.SecondCategoryBean> othersList, List<VideoShowBean> showsList, OneVideoBean.BannerBean bean) {
+
     }
 
     @Override

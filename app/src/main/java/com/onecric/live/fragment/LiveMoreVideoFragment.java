@@ -15,7 +15,6 @@ import com.onecric.live.activity.LiveNotStartDetailActivity;
 import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.adapter.LiveMoreVideoAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
-import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.presenter.live.LiveMoreVideoPresenter;
 import com.onecric.live.util.SpUtil;
@@ -35,10 +34,6 @@ public class LiveMoreVideoFragment extends MvpFragment<LiveMoreVideoPresenter> i
 
     private RecyclerView rv_live;
     private LiveMoreVideoAdapter mAdapter;
-    private LoginDialog loginDialog;
-    public void setLoginDialog(LoginDialog dialog){
-        loginDialog = dialog;
-    }
 
     @Override
     protected int getLayoutId() {

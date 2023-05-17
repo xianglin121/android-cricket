@@ -118,7 +118,7 @@
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
-            android:text="Info not available"
+            android:text="@string/info_not_available"
             android:textSize="14dp"
             android:textColor="@color/c_333333"/>
     </LinearLayout>

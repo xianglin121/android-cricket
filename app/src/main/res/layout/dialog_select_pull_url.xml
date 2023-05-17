@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="Please select the live source line"
+        android:text="@string/please_select_live_source"
         android:textSize="16dp"
         android:textColor="@color/black"/>
 
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="HD live streaming"
+        android:text="@string/hd_live"
         android:textSize="16dp"
         android:textColor="@color/black"/>
 
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="SD-SDI live streaming"
+        android:text="@string/sd_live"
         android:textSize="16dp"
         android:textColor="@color/black"/>
 

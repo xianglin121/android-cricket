@@ -92,7 +92,6 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/tv_title"
         android:layout_alignParentRight="true"
-        android:text="直播中"
         android:textSize="12dp"
         android:textColor="@color/c_333333"
         android:visibility="gone"/>

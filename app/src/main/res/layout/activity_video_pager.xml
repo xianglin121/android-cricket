@@ -15,7 +15,7 @@
             android:background="@color/black"
             android:gravity="center"
             android:paddingTop="25dp"
-            android:text="At the top"
+            android:text="@string/at_the_top"
             android:textColor="@color/c_8691AA"
             android:textSize="15sp" />
 
@@ -54,7 +54,7 @@
         android:progressDrawable="@drawable/short_video_progress_bar"
         android:thumb="@null"/>
 
-    <WebView
+    <com.onecric.live.view.LanguagesWebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,50 +1,30 @@
 package com.onecric.live.fragment;
 
-import static android.view.ViewGroup.LAYOUT_MODE_OPTICAL_BOUNDS;
-
-import static com.google.android.material.tabs.TabLayout.TAB_LABEL_VISIBILITY_LABELED;
-
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.tabs.TabLayout;
-import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.LiveDetailActivity;
-import com.onecric.live.activity.LoginActivity;
-import com.onecric.live.adapter.LiveIndicatorAdapter;
 import com.onecric.live.custom.CustomPagerTitleView;
-import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.CricketMatchBean;
-import com.onecric.live.model.IndicatorBean;
 import com.onecric.live.model.LiveRoomBean;
 import com.onecric.live.model.LiveUserBean;
-import com.onecric.live.model.UpdatesBean;
 import com.onecric.live.util.DpUtil;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
 
-import net.lucode.hackware.magicindicator.MagicIndicator;
-import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
@@ -56,7 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.UUID;
 
 /**
  * 开发公司：东莞市梦幻科技有限公司
@@ -91,14 +70,11 @@ public class LiveDetailMainFragment extends Fragment {
 
     public LiveUserBean mUserBean;
 
-    private LoginDialog loginDialog;
     private int mMatchId;
     private Timer mTimer;
     private CricketMatchBean mModel;
 
-    public void setLoginDialog(LoginDialog dialog){
-        loginDialog = dialog;
-    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -225,10 +201,8 @@ public class LiveDetailMainFragment extends Fragment {
 //        mTitles.add(getActivity().getString(R.string.live_ranking));
 
         LiveChatFragment chatFragment = LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId"));
-        chatFragment.setLoginDialog(loginDialog);
         chatFragment.mainFragment = this;
         LiveMoreVideoFragment moreVideoFragment = LiveMoreVideoFragment.newInstance();
-        moreVideoFragment.setLoginDialog(loginDialog);
         mViewList.add(moreVideoFragment);
         mViewList.add(chatFragment);
         mViewList.add(CricketLiveFragment.newInstance(mMatchId));
@@ -349,7 +323,7 @@ public class LiveDetailMainFragment extends Fragment {
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.list)));
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.live_chat)));
         if(mMatchId != 0 && !isNotStart){
-            tab_layout.addTab(tab_layout.newTab().setText("Animation"));
+            tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.animation)));
             tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.live)));
             tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.info)));
             tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.scorecard)));
@@ -357,14 +331,11 @@ public class LiveDetailMainFragment extends Fragment {
         }
 
         LiveChatFragment chatFragment = LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId"));
-        chatFragment.setLoginDialog(loginDialog);
         if(isHistory){
             LiveHistoryFragment historyFragment = LiveHistoryFragment.newInstance();
-            historyFragment.setLoginDialog(loginDialog);
             mViewList.add(historyFragment);
         }else{
             LiveMoreVideoFragment moreVideoFragment = LiveMoreVideoFragment.newInstance();
-            moreVideoFragment.setLoginDialog(loginDialog);
             mViewList.add(moreVideoFragment);
         }
 
@@ -441,6 +412,9 @@ public class LiveDetailMainFragment extends Fragment {
 
     public void sendMessage(String nobleIcon, String expIcon, MessageInfo messageInfo) {
 //        ((LiveChatFragment)mViewList.get(0)).updateAdapter(nobleIcon, expIcon, messageInfo);
+        ((LiveChatFragment) mViewList.get(1)).updateAdapter(messageInfo);
+    }
+    public void sendMessage(MessageInfo messageInfo) {
         ((LiveChatFragment)mViewList.get(1)).updateAdapter(messageInfo);
     }
 
@@ -474,7 +448,7 @@ public class LiveDetailMainFragment extends Fragment {
             @Override
             public void run() {
                 //Live页面，刷新最新数据(本fragment、未息屏、在前台
-                if(tab_layout.getSelectedTabPosition() == 3 &&
+                if(getActivity()!=null && tab_layout.getSelectedTabPosition() == 3 &&
                         mModel!=null &&
                         getUserVisibleHint() &&
                         ((PowerManager)getActivity().getSystemService(Context.POWER_SERVICE)).isScreenOn() &&

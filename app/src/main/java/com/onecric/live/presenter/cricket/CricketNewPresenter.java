@@ -8,7 +8,6 @@ import com.onecric.live.model.CricketAllBean;
 import com.onecric.live.model.CricketFiltrateBean;
 import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
-import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.CricketNewView;
 
 import java.text.ParseException;
@@ -23,7 +22,7 @@ public class CricketNewPresenter extends BasePresenter<CricketNewView> {
     }
 
     public void getFiltrateList() {
-        addSubscription(apiStores.getFiltrateList(), new ApiCallback() {
+        addSubscription(apiStores.getFiltrateList(TimeZone.getDefault().getID()), new ApiCallback() {
             @Override
             public void onSuccess(String data, String msg) {
                 List<CricketFiltrateBean> list = JSONObject.parseArray(data, CricketFiltrateBean.class);
@@ -56,7 +55,7 @@ public class CricketNewPresenter extends BasePresenter<CricketNewView> {
         String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());*/
 
         if(TextUtils.isEmpty(data)){
-            ToastUtil.show("No data yet");
+//            ToastUtil.show("No data yet");
             return;
         }
 
@@ -104,7 +103,6 @@ public class CricketNewPresenter extends BasePresenter<CricketNewView> {
 
     public void getCricketMatchList(int type,String data,String tagIds,int streamType,boolean isLiveNow) {
         if(TextUtils.isEmpty(data)){
-            ToastUtil.show("No data yet");
             return;
         }
 

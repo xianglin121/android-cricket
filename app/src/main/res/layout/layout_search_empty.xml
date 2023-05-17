@@ -24,7 +24,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please check the spelling or try\n different words"
+        android:text="@string/please_check_words"
         android:textSize="15dp"
         android:textColor="@color/c_111111"
         android:letterSpacing="0.05"

@@ -42,12 +42,12 @@ public class CricketDayAdapter extends RecyclerView.Adapter<CricketDayAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull CricketDayAdapter.ViewHolder helper, int position) {
-        String dates[] = getDayInfo(bean.get(position).getDay());
+        String dates[] = getDayInfo(bean.get(position).getDay(),context);
 //        fragment.setDayInfo(dates,new Date().getTime());
         helper.tv_date.setText(dates[0]);
         helper.tv_month.setText(dates[1]);
         helper.tv_day.setText(dates[2]);
-        if(dates[0].equals("Today")){
+        if(dates[0].equals(context.getString(R.string.today))){
             fragment.todayPosition = helper.getLayoutPosition();
         }
 

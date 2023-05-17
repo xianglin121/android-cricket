@@ -21,7 +21,7 @@ public class NewsActivity extends BaseActivity {
     @Override
     protected void initView() {
         findViewById(R.id.ll_title).setVisibility(View.VISIBLE);
-        ((TextView)findViewById(R.id.tv_title)).setText("More");
+        ((TextView)findViewById(R.id.tv_title)).setText(getString(R.string.more2));
         findViewById(R.id.iv_back).setOnClickListener(v -> {
             finish();
         });

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_top_head"/>
+    <include layout="@layout/layout_live_loading2"/>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/smart_rl"
@@ -15,85 +16,63 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:fillViewport="true"
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <include layout="@layout/layout_live_loading"/>
-
                 <com.youth.banner.Banner
                     android:id="@+id/banner_live"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:banner_indicator_height="9dp"
-                    app:banner_indicator_normal_color="@color/white"
                     app:banner_indicator_normal_width="9dp"
-                    app:banner_indicator_selected_color="@color/c_D52B01"
-                    app:banner_indicator_selected_width="9dp"/>
+                    app:banner_indicator_selected_width="9dp"
+                    app:banner_indicator_gravity="right"
+                    app:banner_indicator_marginRight="16dp"
+                    app:banner_indicator_marginBottom="39dp"
+                    app:banner_indicator_space="8dp" />
 
                 <TextView
                     android:id="@+id/tv_view_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="View All"
+                    android:text="@string/view_all"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:drawableRight="@mipmap/ic_arr_black_bold"
                     android:drawableTint="@color/c_CC2900"
                     android:drawablePadding="8dp"
                     android:paddingTop="16dp"
-                    android:paddingLeft="16dp"/>
+                    android:paddingLeft="16dp"
+                    android:visibility="gone"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_match"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="@dimen/dp_10"/>
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:overScrollMode="never"
+                    android:paddingRight="16dp"
+                    android:visibility="gone"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_author_live"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="26dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:id="@+id/tv_recommend_name"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="T20s"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/tv_see_all"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="See All"
-                        android:textColor="@color/c_4E4E4E"
-                        android:textSize="14sp"
-                        android:paddingRight="16dp"/>
-
-                </LinearLayout>
+                    android:layout_marginTop="10dp"
+                    android:overScrollMode="never"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_recommend_match"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp" />
+                    android:layout_marginTop="12dp"
+                    android:overScrollMode="never"/>
 
             </LinearLayout>
 

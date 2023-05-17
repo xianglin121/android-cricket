@@ -1,13 +1,19 @@
 package com.onecric.live;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.os.Build;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 
 import androidx.multidex.MultiDexApplication;
 
 import com.engagelab.privates.common.global.MTGlobal;
 import com.engagelab.privates.core.api.MTCorePrivatesApi;
 import com.engagelab.privates.push.api.MTPushPrivatesApi;
+import com.hjq.language.MultiLanguages;
 import com.onecric.live.util.LogUtil;
+import com.onecric.live.util.SpUtil;
 import com.qiniu.android.common.FixedZone;
 import com.qiniu.android.storage.Configuration;
 import com.qiniu.android.storage.UploadManager;
@@ -17,6 +23,8 @@ import com.tencent.imsdk.v2.V2TIMSDKListener;
 import com.tencent.imsdk.v2.V2TIMUserFullInfo;
 import com.tencent.qcloud.tim.uikit.TUIKit;
 import com.tencent.rtmp.TXLiveBase;
+
+import java.util.Locale;
 
 
 //import cn.jpush.android.api.JPushInterface;
@@ -41,6 +49,11 @@ public class AppManager extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         mContext = this;
+
+//        setLan();
+        // 初始化语种切换框架
+        MultiLanguages.init(this);
+
         initTX();
         /**
          * TUIKit的初始化函数
@@ -93,6 +106,45 @@ public class AppManager extends MultiDexApplication {
         }
     }
 
+    private void setLan(){
+        if(SpUtil.getInstance().getIntValue(SpUtil.APP_LANGUAGE) == 0){
+            return;
+        }
+        Resources resources = getResources();
+        // 获得屏幕参数,主要是用来下面的切换
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        // 获得配置对象
+        android.content.res.Configuration config = resources.getConfiguration();
+        switch (SpUtil.getInstance().getIntValue(SpUtil.APP_LANGUAGE)) {
+            case 1:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    config.setLocale(Locale.ENGLISH);
+                } else {
+                    config.locale = Locale.ENGLISH;
+                }
+                break;
+            case 2:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    config.setLocale(new Locale("hi","rIN"));
+                } else {
+                    config.locale = new Locale("hi","rIN");
+                }
+                break;
+        }
+        resources.updateConfiguration(config, metrics);
+    }
+
+/*    @Override
+    public void onConfigurationChanged(@NonNull android.content.res.Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setLan();
+    }*/
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        // 绑定语种
+        super.attachBaseContext(MultiLanguages.attach(base));
+    }
 
     public UploadManager getUpLoadManager() {
         return uploadManager;

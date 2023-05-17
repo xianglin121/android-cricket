@@ -237,7 +237,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
         });
 
         findViewById(R.id.ll_title).setVisibility(View.VISIBLE);
-        ((TextView)findViewById(R.id.tv_title)).setText("News");
+        ((TextView)findViewById(R.id.tv_title)).setText(getString(R.string.news));
         findViewById(R.id.iv_back).setOnClickListener(v -> {
             finish();
         });

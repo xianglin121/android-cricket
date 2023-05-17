@@ -74,7 +74,7 @@
                         android:id="@+id/tv_popular_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="popularity"
+                        android:text="@string/popularity"
                         android:textSize="10dp"
                         android:textColor="@color/c_87390E"/>
                 </LinearLayout>
@@ -155,7 +155,7 @@
                         android:id="@+id/tv_popular_one"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="popularity"
+                        android:text="@string/popularity"
                         android:textSize="10dp"
                         android:textColor="@color/c_87390E"/>
                 </LinearLayout>
@@ -236,7 +236,7 @@
                         android:id="@+id/tv_popular_three"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="popularity"
+                        android:text="@string/popularity"
                         android:textSize="10dp"
                         android:textColor="@color/c_87390E"/>
                 </LinearLayout>

@@ -30,7 +30,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="We will send on otp to your Email ID / Mobile number"
+            android:text="@string/log_in_info"
             android:textSize="14sp"
             android:paddingLeft="16dp"
             android:textColor="@color/c_4E4E4E"/>
@@ -82,7 +82,7 @@
         <EditText
             android:id="@+id/et_phone"
             style="@style/EditTextSingleNew"
-            android:hint="Mobile Number"
+            android:hint="@string/mobile_number"
             android:inputType="phone"
             android:paddingLeft="4dp"/>
 
@@ -106,7 +106,7 @@
         <EditText
             android:id="@+id/et_password"
             style="@style/EditTextSingleNew"
-            android:hint="Enter password"
+            android:hint="@string/enter_pwd"
             android:inputType="textPassword"
             />
 
@@ -133,69 +133,12 @@
         android:id="@+id/tv_forget_pwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Forget Password?"
+        android:text="@string/forget_password"
         android:textSize="12sp"
         android:textColor="@color/c_E02D01"
         android:layout_gravity="right"
         android:layout_marginRight="16dp"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:visibility="invisible">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/c_DDDDDD"
-            android:layout_gravity="center"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="@dimen/dp_40"
-            android:textSize="@dimen/sp_14"
-            android:text="Or"
-            android:gravity="center_horizontal"
-            android:textColor="@color/c_4E4E4E"
-            android:background="@color/white"
-            android:layout_gravity="center"/>
-
-    </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-    <FrameLayout
-        android:id="@+id/tv_sign_google"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:background="@drawable/shape_btn_f1f6f7"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_above="@id/btn_log_in"
-        android:visibility="invisible">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:drawableLeft="@mipmap/icon_google"
-            android:drawablePadding="6dp"
-            android:textColor="@color/black"
-            android:text="Sign Up With Google"
-            android:textSize="16sp"
-            android:layout_gravity="center"/>
-    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/tv_sign_facebook"
@@ -206,7 +149,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_above="@id/btn_log_in"
-        android:visibility="invisible">
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -215,16 +158,11 @@
             android:drawableLeft="@mipmap/icon_facebook"
             android:drawablePadding="6dp"
             android:textColor="@color/white"
-            android:text="Sign Up With Facebook"
+            android:text="@string/log_in_facebook"
             android:textSize="16sp"
             android:layout_gravity="center"/>
 
     </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -268,6 +206,59 @@
         android:layout_above="@id/btn_log_in"
         android:gravity="center"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:visibility="visible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/c_DDDDDD"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="@dimen/dp_40"
+            android:textSize="@dimen/sp_14"
+            android:text="@string/or"
+            android:gravity="center_horizontal"
+            android:textColor="@color/c_4E4E4E"
+            android:background="@color/white"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/tv_sign_google"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@drawable/shape_btn_f1f6f7"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_above="@id/btn_log_in"
+        android:layout_marginTop="20dp"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:drawableLeft="@mipmap/icon_google"
+            android:drawablePadding="6dp"
+            android:textColor="@color/black"
+            android:text="@string/log_in_google"
+            android:textSize="16sp"
+            android:layout_gravity="center"/>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -281,7 +272,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/sp_14"
-            android:text="New User? "
+            android:text="@string/new_user"
             android:gravity="center_horizontal"
             android:textColor="@color/black"/>
 
@@ -290,7 +281,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/sp_14"
-            android:text="Create Account"
+            android:text="@string/create_account"
             android:textColor="@color/c_DC3C23"
             android:gravity="center_horizontal"/>
 
@@ -299,6 +290,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"/>
+        android:layout_weight="3"/>
 
 </LinearLayout>

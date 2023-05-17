@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,22 +21,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.coorchice.library.SuperTextView;
 import com.onecric.live.R;
-import com.onecric.live.adapter.CricketFiltrateAdapter;
 import com.onecric.live.adapter.SelectTournamentAdapter;
 import com.onecric.live.fragment.CricketNewFragment;
 import com.onecric.live.model.CricketFiltrateBean;
-import com.onecric.live.model.CricketTournamentBean;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.retrofit.ApiClient;
 import com.onecric.live.retrofit.ApiStores;
 import com.onecric.live.util.ToastUtil;
 
-import net.lucode.hackware.magicindicator.buildins.UIUtil;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -214,7 +209,7 @@ public class TournamentDialog extends Dialog implements View.OnClickListener {
     @SuppressLint("CheckResult")
     private void getTourList() {
         ApiClient.retrofit().create(ApiStores.class)
-                .getTournamentList(et_search.getText().toString())
+                .getTournamentList(TimeZone.getDefault().getID(),et_search.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new ApiCallback() {

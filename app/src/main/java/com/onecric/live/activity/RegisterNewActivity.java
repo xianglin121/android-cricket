@@ -63,4 +63,9 @@ public class RegisterNewActivity extends MvpActivity<RegisterPresenter> implemen
     public void showCountryList() {
 
     }
+
+    @Override
+    public void loginIsSuccess(boolean isSuccess) {
+
+    }
 }

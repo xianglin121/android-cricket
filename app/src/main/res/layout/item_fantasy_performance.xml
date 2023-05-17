@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:text="Stadium"
+            android:text="@string/stadium"
             android:textSize="14dp"
             android:textColor="@color/c_666666"/>
 

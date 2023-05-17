@@ -21,4 +21,5 @@ public class Constant {
 
     //MatchSecondFragment
     public static final String DATA_CHANNEL = "dataChannel";
+
 }

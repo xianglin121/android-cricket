@@ -28,7 +28,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 31
         versionCode 60
-        versionName "1.6.3"
+        versionName "1.6.5"
         multiDexEnabled true// dex突破65535的限制
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
@@ -273,4 +273,5 @@ dependencies {
 //    implementation 'com.facebook.android:facebook-login:[8,9)'
     //Google Play 服务声明
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
+    implementation "com.github.getActivity:MultiLanguages:6.6"
 }

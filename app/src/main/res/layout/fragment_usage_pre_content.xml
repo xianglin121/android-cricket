@@ -19,7 +19,7 @@
         android:layout_height="48dp"
         android:textSize="18sp"
         android:background="@drawable/shape_dc3c23_50dp_stroke_rec"
-        android:text="Startup OneCric"
+        android:text="@string/startup_onecric"
         android:textColor="@color/colorAccent"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"

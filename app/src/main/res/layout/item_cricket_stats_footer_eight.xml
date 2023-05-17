@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="18dp"
-        android:text="Updated 2 mins ago"
+        android:text="@string/updated_minutes_ago"
         android:textSize="14dp"
         android:textColor="@color/c_999999"
         android:visibility="gone"/>

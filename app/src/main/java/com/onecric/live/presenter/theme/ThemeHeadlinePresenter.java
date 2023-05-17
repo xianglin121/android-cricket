@@ -8,6 +8,7 @@ import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.view.theme.ThemeHeadlineView;
 
 import java.util.List;
+import java.util.TimeZone;
 
 
 public class ThemeHeadlinePresenter extends BasePresenter<ThemeHeadlineView> {
@@ -16,7 +17,7 @@ public class ThemeHeadlinePresenter extends BasePresenter<ThemeHeadlineView> {
     }
 
     public void getClassify() {
-        addSubscription(apiStores.getHeadlineClassify(CommonAppConfig.getInstance().getToken()),
+        addSubscription(apiStores.getHeadlineClassify(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken()),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

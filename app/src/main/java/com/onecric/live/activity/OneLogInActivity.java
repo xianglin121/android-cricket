@@ -20,13 +20,11 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +34,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -83,7 +82,6 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
     // Google
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_GOOGLE_SIGN_IN = 1102;
-    private static final String serverClientId = mContext.getString(R.string.server_client_id);
 
 
     @Override
@@ -102,7 +100,7 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
                 }
                 String phone = etPhone.getText().toString().trim();
                 if (TextUtils.isEmpty(phone)) {
-                    ToastUtil.show("Mobile Number");
+                    ToastUtil.show(getString(R.string.mobile_number));
                     return;
                 }
 
@@ -137,7 +135,8 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
 //                signFacebook();
                 break;
             case R.id.tv_sign_google:
-//                signGoogle();
+                tv_login.setEnabled(false);
+                signGoogle();
                 break;
         }
     }
@@ -178,7 +177,6 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
                         // App code
                         //登录成功，LoginResult 参数获得新的 AccessTokenn给服务端，服务端调Facebook的token验证接口验证token是否有效
                         Log.e("facebook","loginResult:-> "+loginResult.toString());
-                        //fixme 同步登录状态，存下数据
 
                     }
 
@@ -196,13 +194,12 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestId()
                 .requestEmail()
-                .requestIdToken(serverClientId)
+                .requestIdToken(mContext.getString(R.string.server_client_id))
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
     private void signGoogle(){
-        //fixme 谷歌邮箱
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN);
     }
@@ -211,13 +208,12 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
         mGoogleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(getApplicationContext(), "signOut Complete!", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "signOut Complete!", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void signFacebook(){
-        //fixme 脸书登录
         //loading
 //        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
     }
@@ -364,22 +360,20 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
             //将登录结果传递到 LoginManager
 //            callbackManager.onActivityResult(requestCode, resultCode, data);
         } else if (requestCode == RC_GOOGLE_SIGN_IN) {
+            showLoadingDialog();
             // The Task returned from this call is always completed, no need to attach a listener.
             Task<GoogleSignInAccount> completedTask = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-                // Signed in successfully
-                String result = "id = " + account.getId() + "\n" + "token = " + account.getIdToken()
-                        + "\n" + "name = " + account.getDisplayName() + "\n" + "photo = " + account.getPhotoUrl();
-                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-                Log.e("goolge","success:" + result);
-                // fixme 用户google账号的信息调用自己业务的login
-                // login(ggOrFbUserInfo);
-
+                mvpPresenter.oneLoginGmail(account.getId(),account.getDisplayName(),account.getPhotoUrl().toString(),account.getIdToken(),account.getEmail());
             } catch (ApiException e) {
-                String result = "signInResult:failed code=" + e.getStatusCode();
-                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-                Log.e("goolge","fail:" + result);
+                dismissLoadingDialog();
+                tv_login.setEnabled(true);
+                if(e.getStatusCode() == 12500){
+                    ToastUtil.show(getString(R.string.please_install_google));
+                }else{
+                    ToastUtil.show(GoogleSignInStatusCodes.getStatusCodeString(e.getStatusCode()));
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

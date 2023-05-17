@@ -1,8 +1,6 @@
 package com.onecric.live.model;
 
 public class HistoryLiveBean {
-
-
     private String mediaUrl;
     private String img;
     private String userName;

@@ -61,7 +61,6 @@ import com.onecric.live.custom.noble.LPNobleView;
 import com.onecric.live.event.UpdateAnchorFollowEvent;
 import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.fragment.LiveDetailMainFragment;
-import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.BasketballDetailBean;
 import com.onecric.live.model.BroadcastMsgBean;
 import com.onecric.live.model.ColorMsgBean;
@@ -163,7 +162,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public LiveRoomBean mLiveRoomBean;
     private FirebaseAnalytics mFirebaseAnalytics;
 
-    private LoginDialog loginDialog, constraintLoginDialog;
+//    private LoginDialog loginDialog, constraintLoginDialog;
     private WebView webview;
     private WebSettings webSettings;
 
@@ -201,7 +200,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     private LinearLayout ll_main;
 
     private CountDownTimer mCountDownTimer;
-
+    private SimpleDateFormat sfdate2;
     @Override
     protected LiveDetailPresenter createPresenter() {
         return new LiveDetailPresenter(this);
@@ -225,9 +224,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 
                 @Override
                 public void onFinish() {
-                    if (loginDialog.isShowing()) {
+/*                    if (loginDialog.isShowing()) {
                         loginDialog.dismiss();
-                    }
+                    }*/
                     SpUtil.getInstance().setBooleanValue(SpUtil.VIDEO_OVERTIME, true);
                     ToastUtil.show(getString(R.string.tip_login_to_live));
                     isCancelLoginDialog = false;
@@ -391,21 +390,20 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 //        objectAnimator.start();
 
         initWebView();
-        loginDialog = new LoginDialog(this, R.style.dialog, true, () -> {
-            loginDialog.dismiss();
-            webview.setVisibility(View.VISIBLE);
-            webview.loadUrl("javascript:ab()");
-        });
-
-        constraintLoginDialog = new LoginDialog(this, R.style.dialog, false, () -> {
-            constraintLoginDialog.dismiss();
-            webview.setVisibility(View.VISIBLE);
-            webview.loadUrl("javascript:ab()");
-        });
+//        loginDialog = new LoginDialog(this, R.style.dialog, true, () -> {
+//            loginDialog.dismiss();
+//            webview.setVisibility(View.VISIBLE);
+//            webview.loadUrl("javascript:ab()");
+//        });
+//
+//        constraintLoginDialog = new LoginDialog(this, R.style.dialog, false, () -> {
+//            constraintLoginDialog.dismiss();
+//            webview.setVisibility(View.VISIBLE);
+//            webview.loadUrl("javascript:ab()");
+//        });
 
         //初始化fragment
         liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId, mMatchId);
-        liveDetailMainFragment.setLoginDialog(loginDialog);
         if (!isLive) {
             liveDetailMainFragment.isHistory = true;
         }
@@ -537,6 +535,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         //设置状态栏高度
 //        LinearLayout.LayoutParams statusBarParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.getStatusBarHeight(this));
 //        statusBar.setLayoutParams(statusBarParams);
+        sfdate2 = new SimpleDateFormat("hh:mm a,dd MMM", Locale.ENGLISH);
         mvpPresenter.getInfo(false, mLiveId);
         if (isLive) {
             playerView.setPlayerViewCallback(new LivePlayerView.OnSuperPlayerViewCallback() {
@@ -736,16 +735,15 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             }
             if (bean.getUserData() != null && !TextUtils.isEmpty(bean.getUserData().getTitle())) {
 //                playerView.updateTitle(bean.getUserData().getTitle());
-                SimpleDateFormat sfdate2 = new SimpleDateFormat("hh:mm a,dd MMM", Locale.ENGLISH);
                 try{
-                    tv_title.setText(bean.getUserData().getTitle()+"\n" + sfdate2.format(new Date(bean.getInfo().getStarttime()*1000)));
+                    tv_title.setText(bean.getUserData().getTitle()+"\n" + bean.getInfo().tournament+"｜"+sfdate2.format(new Date(bean.getInfo().timezone_starttime*1000)));
                 }catch (Exception e){
-                    tv_title.setText(bean.getUserData().getTitle());
+                    tv_title.setText(bean.getUserData().getTitle()+"\n" + bean.getInfo().tournament);
                 }
 
                 iv_star.setSelected(bean.getUserData().getIs_attention() == 0 ? false : true);
                 tv_name.setText(bean.getUserData().getUser_nickname());
-                tv_desc.setText("Fans: " + bean.getUserData().getAttention());
+                tv_desc.setText(getString(R.string.fans) + bean.getUserData().getAttention());
                 int heatNum = bean.getUserData().getHeat();
 
                 tv_tool_eyes.setText(heatNum > 1000 ? String.format("%.1f", (float) heatNum / 1000) + "K" : heatNum + "");
@@ -783,7 +781,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 iv_star.setSelected(false);
             }
             mLiveRoomBean.getUserData().setAttention(attention);
-            tv_desc.setText("Fans: " + attention);
+            tv_desc.setText(getString(R.string.fans) + attention);
             liveDetailMainFragment.updateFollowData(mLiveRoomBean);
         }
     }
@@ -800,10 +798,14 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         if (bean != null) {
             mLiveRoomBean = bean;
             if (bean.getUserData() != null && !TextUtils.isEmpty(bean.getUserData().getTitle())) {
-                tv_title.setText(bean.getUserData().getTitle());
+                try{
+                    tv_title.setText(bean.getUserData().getTitle()+"\n" + bean.getInfo().tournament+"｜"+sfdate2.format(new Date(bean.getInfo().timezone_starttime*1000)));
+                }catch (Exception e){
+                    tv_title.setText(bean.getUserData().getTitle()+"\n" + bean.getInfo().tournament);
+                }
                 iv_star.setSelected(bean.getUserData().getIs_attention() == 0 ? false : true);
                 tv_name.setText(bean.getUserData().getUser_nickname());
-                tv_desc.setText("Fans: " + bean.getUserData().getAttention());
+                tv_desc.setText(getString(R.string.fans) + bean.getUserData().getAttention());
                 int heatNum = bean.getUserData().getHeat();
 
                 tv_tool_eyes.setText(heatNum > 1000 ? String.format("%.1f", (float) heatNum / 1000) + "K" : heatNum + "");
@@ -839,9 +841,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getExp_icon())) {
             msgBean.setExp_icon(CommonAppConfig.getInstance().getUserBean().getExp_icon());
         }
-        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
+/*        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
             msgBean.setGuard_icon(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon());
-        }
+        }*/
         CustomMsgBean customMsgBean = new CustomMsgBean();
         customMsgBean.setType(MessageInfo.MSG_TYPE_BG_DANMU);
         customMsgBean.setNormal(msgBean);
@@ -863,7 +865,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                             playerView.addDanmu(msgBean.getText(), msgBean.getXcBarrageType(), messageInfo.isSelf());
                         }
                         if (liveDetailMainFragment != null) {
-                            liveDetailMainFragment.sendMessage(msgBean.getGuard_icon(), msgBean.getExp_icon(), messageInfo);
+                            liveDetailMainFragment.sendMessage(messageInfo);
                         }
                     }
 
@@ -959,24 +961,18 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                     if (mLiveRoomBean.getUserData() != null && mLiveRoomBean.getUserData().getIs_attention() == 0) {
                         doFollow();
                     }
-                } else if (loginDialog != null) {
-                    isCancelLoginDialog = true;
-//                    loginDialog.show();
-                    OneLogInActivity.forward(mActivity);
-                } else {
+                } else{
                     ToastUtil.show(getString(R.string.please_login));
+                    OneLogInActivity.forward(mActivity);
                 }
                 break;
             case R.id.iv_tool_heart:
             case R.id.ll_heart:
                 if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(), mLiveRoomBean.getInfo().getIs_like() == 1 ? 0 : 1);
-                } else if (loginDialog != null) {
-                    isCancelLoginDialog = true;
-//                    loginDialog.show();
-                    OneLogInActivity.forward(mActivity);
-                } else {
+                } else{
                     ToastUtil.show(getString(R.string.please_login));
+                    OneLogInActivity.forward(mActivity);
                 }
                 break;
             case R.id.iv_tool_share:
@@ -1218,9 +1214,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getExp_icon())) {
                 msgBean.setExp_icon(CommonAppConfig.getInstance().getUserBean().getExp_icon());
             }
-            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
+/*            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
                 msgBean.setGuard_icon(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon());
-            }
+            }*/
         }
 
 
@@ -1267,7 +1263,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                             playerView.addDanmu(content, "", messageInfo.isSelf());
                         }
                         if (liveDetailMainFragment != null) {
-                            liveDetailMainFragment.sendMessage(msgBean.getGuard_icon(), msgBean.getExp_icon(), messageInfo);
+                            liveDetailMainFragment.sendMessage(messageInfo);
                         }
                     }
 
@@ -1315,7 +1311,8 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                     @Override
                     public void onSuccess(V2TIMMessage v2TIMMessage) {
                         if (liveDetailMainFragment != null) {
-                            liveDetailMainFragment.sendMessage(giftMsgBean.getGuard_icon(), giftMsgBean.getExp_icon(), messageInfo);
+//                            liveDetailMainFragment.sendMessage(messageInfo);
+                            liveDetailMainFragment.sendMessage(messageInfo);
                         }
                     }
 
@@ -1337,9 +1334,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getExp_icon())) {
             msgBean.setExp_icon(CommonAppConfig.getInstance().getUserBean().getExp_icon());
         }
-        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
+/*        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
             msgBean.setGuard_icon(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon());
-        }
+        }*/
         CustomMsgBean customMsgBean = new CustomMsgBean();
         customMsgBean.setType(MessageInfo.MSG_TYPE_COLOR_DANMU);
         customMsgBean.setColor(msgBean);
@@ -1361,7 +1358,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                             playerView.addDanmu(msgBean.getText(), msgBean.getColor(), messageInfo.isSelf());
                         }
                         if (liveDetailMainFragment != null) {
-                            liveDetailMainFragment.sendMessage(msgBean.getGuard_icon(), msgBean.getExp_icon(), messageInfo);
+                            liveDetailMainFragment.sendMessage(messageInfo);
                         }
                     }
 

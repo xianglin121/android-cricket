@@ -1,5 +1,9 @@
 package com.onecric.live.activity;
 
+import static com.qiniu.pili.droid.shortvideo.PLErrorCode.ERROR_LOW_MEMORY;
+import static com.qiniu.pili.droid.shortvideo.PLErrorCode.ERROR_NO_VIDEO_TRACK;
+import static com.qiniu.pili.droid.shortvideo.PLErrorCode.ERROR_SRC_DST_SAME_FILE_PATH;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -50,10 +54,6 @@ import java.util.List;
 
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
-
-import static com.qiniu.pili.droid.shortvideo.PLErrorCode.ERROR_LOW_MEMORY;
-import static com.qiniu.pili.droid.shortvideo.PLErrorCode.ERROR_NO_VIDEO_TRACK;
-import static com.qiniu.pili.droid.shortvideo.PLErrorCode.ERROR_SRC_DST_SAME_FILE_PATH;
 
 public class VideoPublishActivity extends MvpActivity<VideoPublishPresenter> implements VideoPublishView, View.OnClickListener {
 
@@ -473,7 +473,7 @@ public class VideoPublishActivity extends MvpActivity<VideoPublishPresenter> imp
                                 ToastUtil.show(getString(R.string.publish_upload_file_fail_three));
                                 break;
                             default:
-                                ToastUtil.show("transcode failed: " + i);
+                                ToastUtil.show(getString(R.string.transcode_failed) + i);
                         }
                     }
                 });

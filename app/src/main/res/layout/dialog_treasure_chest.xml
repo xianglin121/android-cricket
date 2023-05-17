@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="12dp"
-        android:text="Treasure chest every day"
+        android:text="@string/Treasure_chest_every_day"
         android:textSize="14dp"
         android:textColor="@color/c_333333"/>
 

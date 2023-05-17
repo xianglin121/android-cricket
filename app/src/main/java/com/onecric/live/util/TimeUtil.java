@@ -1,13 +1,13 @@
 package com.onecric.live.util;
 
+import android.content.Context;
+
 import com.onecric.live.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class TimeUtil {
@@ -67,6 +67,61 @@ public class TimeUtil {
         return hour !=0 ? ((hour + "hr ")+(minutes != 0 ? (minutes + "m ") : "")) : ((minutes != 0 ? (minutes + "m ") : "")+(sencond + "s"));
     }
 
+    public static String timeConversion2(long time) {
+        long day = 0;
+        long hour = 0;
+        long minutes = 0;
+        long sencond = 0;
+        long dayTimp = time % (3600 * 24);
+        long hourTimp = time % 3600;
+
+        if (time >= 86400) {
+            day = time / (3600 * 24);
+            if (dayTimp != 0) {
+                time = time - (day * 24 * 60 * 60);
+                if (time >= 3600 && time < 86400) {
+                    hour = time / 3600;
+                    if (hourTimp != 0) {
+                        if (hourTimp >= 60) {
+                            minutes = hourTimp / 60;
+                            if (hourTimp % 60 != 0) {
+                                sencond = hourTimp % 60;
+                            }
+                        } else if (hourTimp < 60) {
+                            sencond = hourTimp;
+                        }
+                    }
+                } else if (time < 3600) {
+                    minutes = time / 60;
+                    if (time % 60 != 0) {
+                        sencond = time % 60;
+                    }
+                }
+            }
+        } else if (time >= 3600 && time < 86400) {
+            hour = time / 3600;
+            if (hourTimp != 0) {
+                if (hourTimp >= 60) {
+                    minutes = hourTimp / 60;
+                    if (hourTimp % 60 != 0) {
+                        sencond = hourTimp % 60;
+                    }
+                } else if (hourTimp < 60) {
+                    sencond = hourTimp;
+                }
+            }
+        } else if (time < 3600) {
+            minutes = time / 60;
+            if (time % 60 != 0) {
+                sencond = time % 60;
+            }
+        }
+//        return ((hour != 0 ? ((hour + "h ")): "")) + (minutes < 10 ? ("0" + minutes) : minutes) + "m " + (sencond < 10 ? ("0" + sencond) : sencond) + "s";
+//        return (hour != 0 ? ((hour + "h ")) : "") + (minutes != 0 ? (minutes + "m ") : "") + (sencond + "s");
+
+        return hour !=0 ? ((hour + " hrs : ")+(minutes != 0 ? (minutes + " min") : "")) : ((minutes != 0 ? (minutes + " min : ") : "")+(sencond + " sec"));
+    }
+
     //将时间字符串转为时间戳字符串
     public static Long getStringTimestamp(String time) {
         Long longTime = null;
@@ -90,7 +145,7 @@ public class TimeUtil {
 
     }
 
-    public static String[] weekDays = {"Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    public static String[] weekDays = null;
     public static String[] months = {"Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul","Aug","Sept","Oct","Nov","Dec"};
 
     /**
@@ -98,7 +153,12 @@ public class TimeUtil {
      * @param day yyyy-MM-dd
      * @return
      */
-    public static String[] getDayInfo(String day){
+    public static String[] getDayInfo(String day, Context context){
+        if(weekDays == null){
+            weekDays = new String[]{context.getString(R.string.d_sunday), context.getString(R.string.d_monday), context.getString(R.string.d_tuesday),
+                    context.getString(R.string.d_wednesday), context.getString(R.string.d_thursday), context.getString(R.string.d_friday),
+                    context.getString(R.string.d_saturday)};
+        }
         String[] strings = new String[4];
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//要转换的时间格式
         Date date;
@@ -112,7 +172,7 @@ public class TimeUtil {
             int count = (int) (( date.getTime() - sdf.parse(sdf.format(new Date())).getTime() )) / (1000*3600*24);
             strings[3] = count+"";
             if(count > -2 && count < 2){
-                strings[2] = (count == 0 ? "Today" : (count == -1?"Yesterday":"Tomorrow"));
+                strings[2] = (count == 0 ? context.getString(R.string.today) : (count == -1?context.getString(R.string.yesterday):context.getString(R.string.tomorrow)));
             }else{
                 strings[2] = weekDays[cal.get(Calendar.DAY_OF_WEEK) - 1 < 0 ? 0 : cal.get(Calendar.DAY_OF_WEEK) - 1];
             }
@@ -126,7 +186,12 @@ public class TimeUtil {
         return strings;
     }
 
-    public static String[] getDayInfo(long day){
+    public static String[] getDayInfo(long day,Context context){
+        if(weekDays == null){
+            weekDays = new String[]{context.getString(R.string.d_sunday), context.getString(R.string.d_monday), context.getString(R.string.d_tuesday),
+                    context.getString(R.string.d_wednesday), context.getString(R.string.d_thursday), context.getString(R.string.d_friday),
+                    context.getString(R.string.d_saturday)};
+        }
         String[] strings = new String[4];
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//要转换的时间格式
         Date date;
@@ -140,7 +205,7 @@ public class TimeUtil {
             int count = (int) (( date.getTime() - sdf.parse(sdf.format(new Date())).getTime() )) / (1000*3600*24);
             strings[3] = count+"";
             if(count > -2 && count < 2){
-                strings[2] = (count == 0 ? "Today" : (count == -1?"Yesterday":"Tomorrow"));
+                strings[2] = (count == 0 ? context.getString(R.string.today) : (count == -1?context.getString(R.string.yesterday):context.getString(R.string.tomorrow)));
             }else{
                 strings[2] = weekDays[cal.get(Calendar.DAY_OF_WEEK) - 1 < 0 ? 0 : cal.get(Calendar.DAY_OF_WEEK) - 1];
             }

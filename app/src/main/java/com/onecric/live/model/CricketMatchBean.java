@@ -31,6 +31,7 @@ public class CricketMatchBean implements Serializable {
     private String opponent_name;
     private int live_id;//直播id
     private int live_uid;//主播id
+    public String tournamentName;
 
     public int getLive_uid() {
         return live_uid;

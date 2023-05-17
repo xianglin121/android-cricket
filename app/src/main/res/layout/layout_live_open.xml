@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_open_live"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/shape_dc3c23_10dp_stroke_rec"
+    android:padding="4dp"
+    android:foreground="@drawable/selector_foreground_white"
+    android:visibility="gone">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_live_thumb"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="@dimen/dp_10"/>
+
+    <ImageView
+        android:layout_width="51dp"
+        android:layout_height="13dp"
+        android:src="@mipmap/img_logo_top"
+        android:layout_alignTop="@id/iv_live_thumb"
+        android:layout_alignLeft="@id/iv_live_thumb"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="8dp"/>
+
+    <TextView
+        android:id="@+id/tv_views_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        android:background="@drawable/shape_80black_14dp_rec"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:drawableLeft="@mipmap/icon_live_people_count"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:layout_alignTop="@id/iv_live_thumb"
+        android:layout_alignRight="@id/iv_live_thumb"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="8dp"/>
+
+<!--    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_countdown"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="10dp"
+        android:src="@color/c_801B1843"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_countdown_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/match_starts_in2"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@id/iv_live_thumb"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_alignBottom="@id/iv_live_thumb"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="07 hrs : 59 min"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:fontFamily="@font/noto_sans_display_bold"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@id/iv_live_thumb"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_alignBottom="@id/iv_live_thumb"
+        android:visibility="gone"/>-->
+
+    <TextView
+        android:id="@+id/tv_live_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/noto_sans_display_semibold"
+        android:textColor="@color/black_font_color"
+        android:textSize="13sp"
+        android:layout_below="@id/iv_live_thumb"
+        android:drawableRight="@mipmap/ic_arr_right_red"
+        android:drawablePadding="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
+
+    <LinearLayout
+        android:id="@+id/ll_live_left"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toLeftOf="@id/fl_status"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="12dp"
+        android:paddingBottom="10dp"
+        android:layout_below="@+id/tv_live_title">
+
+        <LinearLayout
+            android:id="@+id/ll_live_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingRight="5dp">
+
+            <ImageView
+                android:id="@+id/iv_home_logo"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/img_team_logo_default" />
+
+            <TextView
+                android:id="@+id/tv_home_name"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:fontFamily="@font/noto_sans_display_semibold"
+                android:textColor="@color/black_font_color"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/tv_home_score2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/c_999999"/>
+
+            <TextView
+                android:id="@+id/tv_home_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans_display_semibold"
+                android:textColor="@color/c_111111"
+                android:textSize="11sp"
+                android:drawablePadding="2dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_live_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingRight="5dp">
+
+            <ImageView
+                android:id="@+id/iv_away_logo"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/img_team_logo_default" />
+
+            <TextView
+                android:id="@+id/tv_away_name"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/black_font_color"
+                android:textSize="11sp"
+                android:fontFamily="@font/noto_sans_display_semibold"/>
+
+            <TextView
+                android:id="@+id/tv_away_score2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textSize="11sp"
+                android:textColor="@color/c_999999"/>
+
+            <TextView
+                android:id="@+id/tv_away_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans_display_semibold"
+                android:textSize="11sp"
+                android:textColor="@color/c_111111"
+                android:drawablePadding="2dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_gradient_dcdbe0_line"
+        android:layout_alignBottom="@id/ll_live_left"
+        android:layout_alignTop="@id/ll_live_left"
+        android:layout_alignRight="@id/ll_live_left"/>
+
+    <LinearLayout
+        android:id="@+id/fl_status"
+        android:layout_width="63dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/ll_live_left"
+        android:layout_alignTop="@+id/ll_live_left"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_state_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/c_666666"
+            android:textSize="8sp"
+            android:gravity="center"
+            android:text="@string/watch_live_at"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_state_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/c_111111"
+            android:fontFamily="@font/noto_sans_display_semibold"
+            android:textSize="10dp"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/iv_state_live"
+            android:layout_width="40dp"
+            android:layout_height="16dp"
+            android:src="@mipmap/img_live_states2"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

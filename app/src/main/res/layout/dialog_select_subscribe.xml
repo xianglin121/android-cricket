@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Get Alerts For This Match"
+                android:text="@string/get_alerts_for_this_match"
                 android:textColor="@color/c_333333"
                 android:textSize="11sp"
                 android:textStyle="bold" />
@@ -74,7 +74,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Match Started"
+                android:text="@string/match_started2"
                 android:textColor="@color/black"
                 android:textSize="11sp"
                 android:textStyle="normal" />
@@ -96,7 +96,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Toss and Line-ups Out"
+                android:text="@string/toss_and_line_ups_out"
                 android:textColor="@color/black"
                 android:textSize="11sp"
                 android:textStyle="normal" />
@@ -118,7 +118,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Wickets"
+                android:text="@string/wickets2"
                 android:textColor="@color/black"
                 android:textSize="11sp"
                 android:textStyle="normal" />
@@ -140,7 +140,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Milestones"
+                android:text="@string/milestones"
                 android:textColor="@color/black"
                 android:textSize="11sp"
                 android:textStyle="normal" />
@@ -162,7 +162,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Delay and Breaks"
+                android:text="@string/delay_and_breaks"
                 android:textColor="@color/black"
                 android:textSize="11sp"
                 android:textStyle="normal" />
@@ -184,7 +184,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Result"
+                android:text="@string/result"
                 android:textColor="@color/black"
                 android:textSize="11sp"
                 android:textStyle="normal" />
@@ -205,7 +205,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_c_e05526_10dp_rec"
         android:gravity="center"
-        android:text="SAVE PREFERENCES"
+        android:text="@string/save_preferences"
         android:textColor="@color/white"
         android:textSize="13sp"
         android:textStyle="bold" />

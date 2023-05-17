@@ -9,4 +9,6 @@ public interface RegisterView extends BaseView<JsonBean> {
     void registerFail(String msg);
 
     void showCountryList();
+
+    void loginIsSuccess(boolean isSuccess);
 }

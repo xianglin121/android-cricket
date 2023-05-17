@@ -2,18 +2,13 @@ package com.onecric.live.adapter;
 
 import static com.onecric.live.util.DateUtil.getRelativeLocalDate;
 
-import android.content.Context;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -21,10 +16,7 @@ import com.onecric.live.R;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.util.GlideUtil;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -68,7 +60,7 @@ public class LiveMoreVideoAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
             iv_live.setVisibility(View.GONE);
             tv_time.setVisibility(View.VISIBLE);
 //            iv_cover.setColorFilter(Color.parseColor("#40000000"));
-            tv_time.setText("Watch live at "+getRelativeLocalDate(sfdate2,item.getStarttime()));
+            tv_time.setText(mContext.getString(R.string.watch_live_at)+" "+getRelativeLocalDate(sfdate2,item.getStarttime()));
             iv_hot.setVisibility(View.GONE);
             tv_num.setVisibility(View.GONE);
         }else{

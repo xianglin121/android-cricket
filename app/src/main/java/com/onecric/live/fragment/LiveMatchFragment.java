@@ -89,16 +89,9 @@ public class LiveMatchFragment extends MvpFragment<LiveMatchPresenter> implement
                         ToastUtil.show(getString(R.string.please_login));
                     }*/
                     OneLogInActivity.forward(getContext());
-                }else if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
-                    /*if(loginDialog!=null){
-                        loginDialog.show();
-                    }else{
-                        ToastUtil.show(getString(R.string.please_login));
-                    }*/
-                    OneLogInActivity.forward(getContext());
                 }else{
-                    LiveDetailActivity.forward(getContext(), mAdapter.getItem(position).getUid(),
-                            mAdapter.getItem(position).getMatchId(),mAdapter.getItem(position).getLiveId());
+                    LiveDetailActivity.forward(getContext(), mAnchorAdapter.getItem(position).getUid(),
+                            mAnchorAdapter.getItem(position).getMatchId(),mAnchorAdapter.getItem(position).getLiveId());
                 }
             }
         });

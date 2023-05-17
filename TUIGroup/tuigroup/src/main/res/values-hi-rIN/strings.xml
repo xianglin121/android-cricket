@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="group_id">ग्रुप आईडी</string>
+    <string name="group_name">ग्रुप चैट नाम</string>
+    <string name="group_icon">ग्रुप प्रोफ़ाइल फ़ोटो बदलें</string>
+    <string name="group_notice">ग्रुप नोटिस</string>
+    <string name="group_members">ग्रुप सदस्य</string>
+    <string name="group_type">ग्रुप प्रकार</string>
+    <string name="add_group_member">सदस्य जोड़ें</string>
+    <string name="remove_group_member">सदस्य हटाएं</string>
+    <string name="join_group_type">ग्रुप में शामिल होने का तरीका</string>
+    <string name="in_group_nick_name">मेरा उपनाम ग्रुप में</string>
+    <string name="dissolve">ग्रुप बंद करें</string>
+    <string name="modify_group_notice">ग्रुप नोटिस संपादित करें</string>
+    <string name="modify_nick_name_in_goup">ग्रुप में मेरा उपनाम संपादित करें</string>
+    <string name="group_detail">ग्रुप चैट विवरण</string>
+
+    <string name="group_apply_members">ग्रुप में शामिल होने के लिए अनुरोध करें</string>
+
+    <string name="group_remove_member">हटाएं</string>
+    <string name="modify_group_name_success">संपादित किया गया</string>
+    <string name="modify_group_notice_success">संपादित किया गया</string>
+    <string name="exit_group">छोड़ें</string>
+    <string name="modify_nickname_success">संपादित किया गया</string>
+
+    <string name="search_call_hint">ग्रुप सदस्य का नाम दर्ज करें</string>
+
+    <string name="modify_icon_fail">संपादन विफल</string>
+    <string name="modify_icon_suc">संपादित किया गया</string>
+    <string name="chat_room">चैटरूम</string>
+    <string name="chat_room_tip">चैटरूम में शामिल होने का अनुरोध स्वचालित रूप से समीक्षित किया जाता है। इसे संशोधित नहीं किया जा सकता।</string>
+    <string name="dismiss_group_tip">क्या आप ग्रुप बंद करना चाहते हैं?</string>
+    <string name="quit_group_tip">क्या आप ग्रुप छोड़ना चाहते हैं?</string>
+    <string name="private_group">चर्चा समूह</string>
+    <string name="public_group">सार्वजनिक समूह</string>
+    <string name="request_wait">आमंत्रण भेजा गया है। प्रतिक्रिया की प्रतीक्षा में।</string>
+    <string name="remove">हटाएं</string>
+    <string name="remove_member">सदस्य हटाएं</string>
+    <string name="remove_tip_suc">हटाया गया</string>
+    <string name="remove_tip_fail">हटाने में विफल: </string>
+    <string name="invite_suc">सदस्य आमंत्रित किया गया</string>
+    <string name="invite_fail">आमंत्रण विफल:</string>
+    <string name="remove_fail_tip">हटाने में विफल</string>
+    <string name="manager">प्रबंधित करें</string>
+
+    <string name="forbid_join">शामिल होने से वंचित</string>
+    <string name="manager_judge">व्यवस्थापक स्वीकृति</string>
+    <string name="auto_judge">स्वचालित स्वीकृति...</string>
+
+    <string name="modify_group_name">ग्रुप नाम संपादित करें</string>
+    <string name="group_join_type">ग्रुप में शामिल होने का तरीका</string>
+
+    <string name="sure">ठीक है</string>
+    <string name="cancel">रद्द करें</string>
+
+    <string name="accept">स्वीकार करें</string>
+    <string name="refuse">मना करें</string>
+    <string name="accepted">स्वीकृत</string>
+    <string name="refused">मना किया गया</string>
+
+    <string name="input_tip">कोई उपनाम नहीं दर्ज किया गया, कृपया फिर से भरें</string>
+
+    <string name="chat_to_top">शीर्ष पर स्थानांतरित करें</string>
+    <string name="profile_msgrev_opt">संदेश चिंता मुक्त</string>
+
+    <string name="join_group_tip">आपको इस ग्रुप में आमंत्रित किया गया है: </string>
+    <string name="joined_tip">आपने इस ग्रुप में शामिल किया है: </string>
+    <string name="reject_join_tip">आपको इस ग्रुप में शामिल होने से मना कर दिया गया है: </string>
+    <string name="kick_group">आपको इस ग्रुप से निकाल दिया गया है: </string>
+    <string name="dismiss_tip_before">आपका ग्रुप</string>
+    <string name="dismiss_tip_after">बंद कर दिया गया है।</string>
+    <string name="get_system_notice">कस्टम सिस्टम अधिसूचना प्राप्त की गई है: </string>
+
+</resources>

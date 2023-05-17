@@ -18,12 +18,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -44,8 +41,6 @@ import com.onecric.live.HttpConstant;
 import com.onecric.live.R;
 import com.onecric.live.activity.ChargeActivity;
 import com.onecric.live.activity.LiveDetailActivity;
-import com.onecric.live.activity.LiveNotStartDetailActivity;
-import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.activity.OpenNobleActivity;
 import com.onecric.live.activity.WebViewActivity;
 import com.onecric.live.adapter.GiftViewPagerRecyclerAdapter;
@@ -55,7 +50,6 @@ import com.onecric.live.adapter.layoutmanager.OnViewPagerListener;
 import com.onecric.live.adapter.layoutmanager.ViewPagerLayoutManager;
 import com.onecric.live.custom.TreasureChestDialog;
 import com.onecric.live.fragment.dialog.InputChatMsgDialogFragment;
-import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.BlockFunctionBean;
 import com.onecric.live.model.BoxBean;
 import com.onecric.live.model.CustomMsgBean;
@@ -77,7 +71,6 @@ import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMManager;
@@ -88,7 +81,6 @@ import com.tencent.imsdk.v2.V2TIMValueCallback;
 import com.tencent.qcloud.tuicore.component.interfaces.IUIKitCallback;
 import com.tencent.qcloud.tuikit.tuichat.TUIChatConstants;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
-import com.tencent.qcloud.tuikit.tuichat.ui.view.message.MessageRecyclerView;
 import com.tencent.qcloud.tuikit.tuichat.util.ChatMessageInfoUtil;
 import com.tencent.qcloud.tuikit.tuichat.util.TUIChatLog;
 import com.tencent.qcloud.tuikit.tuichat.util.TUIChatUtils;
@@ -158,10 +150,6 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
 
     private android.widget.ProgressBar progressBar;
 
-    private LoginDialog loginDialog;
-    public void setLoginDialog(LoginDialog dialog){
-        loginDialog = dialog;
-    }
     public LiveDetailMainFragment mainFragment;
     @Override
     protected int getLayoutId() {
@@ -948,13 +936,13 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
             public void onClick(View v) {
                 if (iv_indicator_gift.getVisibility() == View.VISIBLE) {
                     if (giftAdapter.getSelectBean() == null) {
-                        ToastUtil.show("Please choose a gift");
+                        ToastUtil.show(getString(R.string.please_choose_a_gift));
                         return;
                     }
                     mvpPresenter.sendGift(giftAdapter.getSelectBean(), mAnchorId, 0);
                 } else {
                     if (backpackAdapter.getSelectBean() == null) {
-                        ToastUtil.show("Please choose a gift");
+                        ToastUtil.show(getString(R.string.please_choose_a_gift));
                         return;
                     }
                     mvpPresenter.sendGift(backpackAdapter.getSelectBean(), mAnchorId, 1);

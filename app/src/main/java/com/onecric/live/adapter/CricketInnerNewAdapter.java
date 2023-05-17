@@ -1,6 +1,5 @@
 package com.onecric.live.adapter;
 
-import static com.onecric.live.util.TimeUtil.getDayInfo;
 import static com.onecric.live.util.TimeUtil.stampToTime;
 
 import android.graphics.drawable.Drawable;
@@ -19,8 +18,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.AppManager;
 import com.onecric.live.R;
-import com.onecric.live.activity.MainActivity;
-import com.onecric.live.fragment.CricketNewFragment;
 import com.onecric.live.model.CricketNewBean;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.TimeUtil;
@@ -53,15 +50,13 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
         TextView tv_away_score = helper.getView(R.id.tv_away_score);
         tv_home_score.setTextColor(mContext.getResources().getColor(R.color.c_111111));
         tv_away_score.setTextColor(mContext.getResources().getColor(R.color.c_111111));
-        helper.setTextColor(R.id.tv_home_name, mContext.getResources().getColor(R.color.c_111111));
-        helper.setTextColor(R.id.tv_away_score, mContext.getResources().getColor(R.color.c_111111));
         TextView resultTv = helper.getView(R.id.tv_result);
         resultTv.setTypeface(ResourcesCompat.getFont(mContext, R.font.noto_sans_display_semibold));
         tv_home_score.setCompoundDrawables(null,null,drawableArrTransparent,null);
         tv_away_score.setCompoundDrawables(null,null,drawableArrTransparent,null);
 
         if (item.getStatus() == 2) {//已结束
-            helper.setText(R.id.tv_state_info,"Completed");
+            helper.setText(R.id.tv_state_info,mContext.getString(R.string.completed));
             if (item.getHomeId() == item.getWinId()) {//主赢 右边
                 tv_home_score.setCompoundDrawables(null,null,drawableArrRed,null);
                 tv_away_score.setTextColor(mContext.getResources().getColor(R.color.c_999999));
@@ -79,7 +74,7 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
                 //开始倒计时
                 new CountDownTimer(countTime, 1000) {
                     public void onTick(long millisUntilFinished) {
-                        helper.setText(R.id.tv_state_info,"Watch Live In");
+                        helper.setText(R.id.tv_state_info,mContext.getString(R.string.watch_live_at));
                         helper.setText(R.id.tv_state_time, Html.fromHtml("<strong>" + TimeUtil.timeConversion(millisUntilFinished / 1000) + "</strong>"));
                     }
 
@@ -89,7 +84,7 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
                     }
                 }.start();
             }else{
-                helper.setText(R.id.tv_state_info,"Watch Live At");
+                helper.setText(R.id.tv_state_info,mContext.getString(R.string.watch_live_at));
                 try{
                     String st = stampToTime(time,"hh:mm a");
                     helper.setText(R.id.tv_state_time, Html.fromHtml("<strong>"+st.substring(0,5)+"</strong> <small>"+st.substring(5)+"</small>"));
@@ -144,7 +139,7 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
         if (!TextUtils.isEmpty(item.getHomeDisplayScore())) {
             if(item.getHomeDisplayScore().contains("0/0")){
                 helper.setText(R.id.tv_home_score, "");
-                helper.setText(R.id.tv_home_score2, "Yet To Bat");
+                helper.setText(R.id.tv_home_score2, mContext.getString(R.string.yet_to_bat));
             }else if (item.getHomeDisplayScore().contains(" ")) {
                 String[] split = item.getHomeDisplayScore().split(" ");
                 helper.setText(R.id.tv_home_score, " "+split[0]);
@@ -160,7 +155,7 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
         if (!TextUtils.isEmpty(item.getAwayDisplayScore())) {
             if(item.getAwayDisplayScore().contains("0/0")){
                 helper.setText(R.id.tv_away_score, "");
-                helper.setText(R.id.tv_away_score2, "Yet To Bat");
+                helper.setText(R.id.tv_away_score2, mContext.getString(R.string.yet_to_bat));
             }else if (item.getAwayDisplayScore().contains(" ")) {
                 String[] split = item.getAwayDisplayScore().split(" ");
                 helper.setText(R.id.tv_away_score, " "+split[0]);

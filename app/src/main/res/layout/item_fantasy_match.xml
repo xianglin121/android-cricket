@@ -13,14 +13,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MNR vs TRT"
             android:textSize="14dp"
             android:textColor="@color/c_666666"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="06/08/22"
             android:textSize="12dp"
             android:textColor="@color/c_999999"/>
     </LinearLayout>
@@ -30,7 +28,6 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center_vertical"
-        android:text="8.5"
         android:textSize="12dp"
         android:textColor="@color/c_999999"/>
 
@@ -39,7 +36,6 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center_vertical"
-        android:text="64"
         android:textSize="12dp"
         android:textColor="@color/c_999999"/>
 
@@ -51,7 +47,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="7.5"
             android:textSize="14dp"
             android:textColor="@color/c_333333"
             android:fontFamily="@font/noto_sans_display_semibold"

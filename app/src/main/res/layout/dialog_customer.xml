@@ -12,7 +12,6 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:gravity="center"
-        android:text="呼叫客服热线：xxx"
         android:textSize="14sp"
         android:textColor="@color/c_00abf0"
         app:stv_corner="10dp"
