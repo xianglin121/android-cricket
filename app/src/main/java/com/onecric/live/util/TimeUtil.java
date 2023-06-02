@@ -119,7 +119,7 @@ public class TimeUtil {
 //        return ((hour != 0 ? ((hour + "h ")): "")) + (minutes < 10 ? ("0" + minutes) : minutes) + "m " + (sencond < 10 ? ("0" + sencond) : sencond) + "s";
 //        return (hour != 0 ? ((hour + "h ")) : "") + (minutes != 0 ? (minutes + "m ") : "") + (sencond + "s");
 
-        return hour !=0 ? ((hour + " hrs : ")+(minutes != 0 ? (minutes + " min") : "")) : ((minutes != 0 ? (minutes + " min : ") : "")+(sencond + " sec"));
+        return hour !=0 ? ((hour + " hrs ")+(minutes != 0 ? (": "+minutes + " min") : "")) : ((minutes != 0 ? (minutes + " min : ") : "")+(sencond + " sec"));
     }
 
     //将时间字符串转为时间戳字符串
