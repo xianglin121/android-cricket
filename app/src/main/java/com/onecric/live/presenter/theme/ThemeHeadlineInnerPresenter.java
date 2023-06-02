@@ -11,6 +11,7 @@ import com.onecric.live.view.theme.ThemeHeadlineInnerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 
 public class ThemeHeadlineInnerPresenter extends BasePresenter<ThemeHeadlineInnerView> {
@@ -20,7 +21,7 @@ public class ThemeHeadlineInnerPresenter extends BasePresenter<ThemeHeadlineInne
 
     public void getList(boolean isRefresh, int id, int page) {
 //        addSubscription(apiStores.getHeadlineListNew(CommonAppConfig.getInstance().getToken(), page, id),
-        addSubscription(apiStores.getHeadlineList(CommonAppConfig.getInstance().getToken(), page, id),
+        addSubscription(apiStores.getHeadlineList(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(), page, id),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

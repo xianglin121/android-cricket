@@ -11,6 +11,7 @@ import com.onecric.live.view.live.SearchLiveSecondView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 
 public class SearchLiveSecondPresenter extends BasePresenter<SearchLiveSecondView> {
@@ -19,7 +20,7 @@ public class SearchLiveSecondPresenter extends BasePresenter<SearchLiveSecondVie
     }
 
     public void getList(String content) {
-        addSubscription(apiStores.searchLive(CommonAppConfig.getInstance().getToken(), content),
+        addSubscription(apiStores.searchLive(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(), content),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

@@ -13,7 +13,7 @@
         android:layout_marginBottom="15dp"
         android:layout_marginTop="15dp"
         android:gravity="center_horizontal"
-        android:text="用户协议及隐私政策"
+        android:text="User Agreement and Privacy Policy"
         android:textColor="@color/black"
         android:textSize="18dp"
         android:textStyle="bold"
@@ -46,7 +46,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="不同意并退出"
+            android:text="Disagree and quit"
             android:textColor="@color/c_333333"
             android:textSize="14sp"
             />
@@ -63,7 +63,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="同意"
+            android:text="Agree"
             android:textColor="@color/c_E3AC72"
             android:textSize="14sp"
             />

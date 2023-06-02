@@ -1,0 +1,46 @@
+<resources>
+    <string name="trtccalling_inviting_tag">वे भी</string>
+    <string name="trtccalling_call_time_default">"00:01"</string>
+    <string name="trtccalling_contact_default_name">परीक्षण 123</string>
+    <string name="trtccalling_invite_video_call">आपको एक वीडियो कॉल के लिए आमंत्रित करता है...</string>
+    <string name="trtccalling_start_call">कॉल</string>
+    <string name="trtccalling_search">खोजें</string>
+    <string name="trtccalling_toast_search_fail">खोज विफल हुई:%1$s.</string>
+    <string name="trtccalling_toast_call_error_msg">त्रुटि [%1$d]:%2$s.</string>
+    <string name="trtccalling_toast_user_reject_call">%1$s ने कॉल को अस्वीकार कर दिया।</string>
+    <string name="trtccalling_toast_user_not_response">%1$s ने उत्तर नहीं दिया।</string>
+    <string name="trtccalling_toast_user_busy">%1$s व्यस्त है।</string>
+    <string name="trtccalling_toast_user_cancel_call">%1$s ने कॉल रद्द कर दी है।</string>
+    <string name="trtccalling_toast_user_timeout" >%1$s समय समाप्त हो गया है।</string>
+    <string name="trtccalling_toast_enable_mute">म्यूट किया गया</string>
+    <string name="trtccalling_toast_disable_mute">म्यूट बंद किया गया</string>
+    <string name="trtccalling_toast_use_speaker">स्पीकर</string>
+    <string name="trtccalling_toast_use_handset">ईयरपीस</string>
+    <string name="trtccalling_called_time_format">%02d:%02d</string>
+    <string name="trtccalling_self_phone">आपका मोबाइल नंबर:</string>
+    <string name="trtccalling_toast_user_end">%s ने कॉल समाप्त की है।</string>
+    <string name="trtccalling_title_have_a_call_invitation">आपके पास एक कॉल निमंत्रण है।</string>
+    <string name="trtccalling_other_party_network_low_quality">दूसरी पक्ष का नेटवर्क कनेक्शन खराब है</string>
+    <string name="trtccalling_self_network_low_quality">आपका नेटवर्क कनेक्शन खराब है</string>
+    <string name="trtccalling_toast_switch_camera">कैमरा बदलें</string>
+    <string name="trtccalling_toast_enable_camera">कैमरा चालू</string>
+    <string name="trtccalling_toast_disable_camera">कैमरा बंद</string>
+    <string name="trtccalling_waiting_be_accepted">उपयोगकर्ता को स्वीकार करने की प्रतीक्षा कर रहा है...</string>
+    <string name="trtccalling_invite_audio_call">आपको ऑडियो कॉल के लिए आमंत्रित करता है...</string>
+    <string name="trtccalling_text_microphone">माइक्रोफ़ोन</string>
+    <string name="trtccalling_text_hangup">समाप्त</string>
+    <string name="trtccalling_text_reject">अस्वीकार करें</string>
+    <string name="trtccalling_text_speaker">स्पीकर</string>
+    <string name="trtccalling_text_dialing">उत्तर</string>
+    <string name="trtccalling_text_camera">कैमरा</string>
+    <string name="trtccalling_switch_camera_hint">सबसे पहले अपना कैमरा चालू करें</string>
+    <string name="trtccalling_switch_audio_call">ऑडियो कॉल में स्विच करें</string>
+    <string name="trtccalling_btn_cancel">रद्द करें</string>
+    <string name="trtccalling_tips_start_camera_audio">कृपया पहले कैमरा और माइक्रोफ़ोन अनुमतियाँ चालू करें</string>
+    <string name="trtccalling_tips_start_audio">कृपया पहले माइक्रोफ़ोन अनुमतियाँ चालू करें</string>
+    <string name="trtccalling_video_call">वीडियो कॉल</string>
+    <string name="trtccalling_audio_call">ऑडियो कॉल</string>
+    <string name="trtccalling_user_kicked_offline">आपको ऑफ़लाइन निकाल दिया गया है। कृपया फिर से लॉग इन करें!</string>
+    <string name="trtccalling_user_sig_expired">आपकी उपयोगकर्ता हस्ताक्षर जानकारी समाप्त हो गई है</string>
+
+</resources>

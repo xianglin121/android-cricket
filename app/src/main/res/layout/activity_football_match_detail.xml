@@ -335,7 +335,7 @@
             android:layout_width="match_parent"
             android:layout_height="240dp"
             android:visibility="gone">
-            <WebView
+            <com.onecric.live.view.LanguagesWebView
                 android:id="@+id/webView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

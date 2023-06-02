@@ -45,7 +45,7 @@
                 android:id="@+id/tv_player"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="球员"
+                android:text="player"
                 android:textSize="17dp"
                 android:textColor="@color/c_666666"/>
 
@@ -88,7 +88,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="排名"
+                    android:text="rank"
                     android:textSize="12dp"
                     android:textColor="@color/c_333333"/>
 
@@ -98,7 +98,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="4"
                     android:gravity="center_vertical|left"
-                    android:text="球队"
+                    android:text="team"
                     android:textSize="12dp"
                     android:textColor="@color/c_333333"/>
 
@@ -107,7 +107,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="总数"
+                    android:text="sum"
                     android:textSize="12dp"
                     android:textColor="@color/c_333333"/>
             </LinearLayout>

@@ -1,9 +1,6 @@
 package com.onecric.live.adapter;
 
-import static com.onecric.live.util.TimeUtil.getDayInfo;
-
 import android.text.TextUtils;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,10 +12,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
 import com.onecric.live.activity.CricketDetailActivity;
 import com.onecric.live.activity.LiveDetailActivity;
-import com.onecric.live.activity.MainActivity;
-import com.onecric.live.fragment.CricketNewFragment;
 import com.onecric.live.model.CricketNewBean;
-import java.util.ArrayList;
+
 import java.util.List;
 
 /**

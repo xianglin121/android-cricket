@@ -59,7 +59,6 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginTop="19dp"
                     android:layout_marginLeft="12dp"
-                    android:text="Manchester Originals"
                     android:textSize="12dp"
                     android:textColor="@color/c_666666"/>
 
@@ -71,7 +70,6 @@
                     app:layout_constraintBottom_toBottomOf="@id/tv_home_name"
                     app:layout_constraintRight_toRightOf="parent"
                     android:layout_marginRight="12dp"
-                    android:text="Northern Superchargers"
                     android:textSize="12dp"
                     android:textColor="@color/c_666666"/>
 
@@ -449,7 +447,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="(ALL)"
+                        android:text="@string/all3"
                         android:textSize="12dp"
                         android:textColor="@color/c_666666"/>
 
@@ -484,7 +482,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="(ALL)"
+                        android:text="@string/all3"
                         android:textSize="12dp"
                         android:textColor="@color/c_666666"/>
 
@@ -519,7 +517,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="(ALL)"
+                        android:text="@string/all3"
                         android:textSize="12dp"
                         android:textColor="@color/c_666666"/>
 

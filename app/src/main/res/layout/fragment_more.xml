@@ -14,14 +14,13 @@
         android:textColor="@color/white"
         android:paddingLeft="16dp"
         android:textSize="16sp"
-        android:text="More"/>
+        android:text="@string/more2"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/c_F9F9F9"
         android:layout_marginTop="26dp"
-        android:layout_marginBottom="52dp"
         android:paddingRight="16sp">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -72,14 +71,17 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="@color/black"
-            android:text="Log In"
+            android:text="@string/log_in"
             android:layout_toRightOf="@id/iv_avatar_nav"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:layout_marginLeft="19dp"/>
 
     </RelativeLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
     <TextView
         android:id="@+id/tv_list_1"
         android:layout_width="match_parent"
@@ -88,7 +90,7 @@
         android:drawableLeft="@mipmap/ic_more_1"
         android:drawablePadding="12dp"
         android:textColor="@color/black"
-        android:text="Live Score"
+        android:text="@string/live_score"
         android:gravity="center_vertical"
         android:layout_marginBottom="6dp"
         android:paddingLeft="16dp"
@@ -103,7 +105,7 @@
         android:drawableLeft="@mipmap/ic_more_2"
         android:drawablePadding="12dp"
         android:textColor="@color/black"
-        android:text="News"
+        android:text="@string/main_tab_theme"
         android:gravity="center_vertical"
         android:layout_marginBottom="6dp"
         android:paddingLeft="16dp"
@@ -118,7 +120,7 @@
         android:drawableLeft="@mipmap/ic_more_2"
         android:drawablePadding="12dp"
         android:textColor="@color/black"
-        android:text="My Concerns"
+        android:text="@string/my_concerns2"
         android:gravity="center_vertical"
         android:layout_marginBottom="6dp"
         android:paddingLeft="16dp"
@@ -133,7 +135,7 @@
         android:drawableLeft="@mipmap/ic_more_2"
         android:drawablePadding="12dp"
         android:textColor="@color/black"
-        android:text="Setting"
+        android:text="@string/setting"
         android:gravity="center_vertical"
         android:layout_marginBottom="6dp"
         android:paddingLeft="16dp"
@@ -148,16 +150,27 @@
         android:drawableLeft="@mipmap/ic_more_2"
         android:drawablePadding="12dp"
         android:textColor="@color/black"
-        android:text="Share OneCric"
+        android:text="@string/system_share2"
         android:gravity="center_vertical"
         android:layout_marginBottom="6dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:background="@color/c_F9F9F9"/>
 
-    <View android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"/>
+    <TextView
+        android:id="@+id/tv_list_6"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:drawableRight="@mipmap/ic_arr_black_bold"
+        android:drawableLeft="@mipmap/ic_more_2"
+        android:drawablePadding="12dp"
+        android:textColor="@color/black"
+        android:text="@string/language2"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="6dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:background="@color/c_F9F9F9"/>
 
     <TextView
         android:id="@+id/tv_sign_out"
@@ -169,13 +182,15 @@
         android:layout_marginRight="16dp"
         android:background="@drawable/shape_btn_grad_red"
         android:gravity="center"
-        android:text="Log Out"
+        android:text="@string/log_out2"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/dp_40"/>
 
-    <View android:layout_width="match_parent"
+    <View
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="3"/>
 
 </LinearLayout>

@@ -8,6 +8,7 @@ import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.view.user.MyFollowInnerView;
 
 import java.util.List;
+import java.util.TimeZone;
 
 public class FollowInnerPresenter extends BasePresenter<MyFollowInnerView> {
     public FollowInnerPresenter(MyFollowInnerView view) {
@@ -15,7 +16,7 @@ public class FollowInnerPresenter extends BasePresenter<MyFollowInnerView> {
     }
 
     public void getList(boolean isRefresh, int uid, int type, int page) {
-        addSubscription(apiStores.getAttentionList(CommonAppConfig.getInstance().getToken(), page, uid, type),
+        addSubscription(apiStores.getAttentionList(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(), page, uid, type),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

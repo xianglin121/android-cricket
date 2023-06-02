@@ -24,7 +24,6 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:maxLines="1"
-        android:text="11111111111111"
         android:gravity="center_horizontal"
         android:textColor="@color/c_666666"/>
 </LinearLayout>

@@ -471,7 +471,7 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
                 break;
             case NO_NETWORK:
                 mLayoutEnd.setVisibility(View.VISIBLE);
-                mTvEndInfo.setText("Please check your network connection and try again");
+                mTvEndInfo.setText(R.string.check_network);
                 toggleView(mLayoutReplay, false);
                 break;
         }

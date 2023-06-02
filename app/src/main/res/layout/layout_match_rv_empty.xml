@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="A rare day off! "
+        android:text="@string/a_rare_day_off"
         android:textSize="14dp"
         android:fontFamily="@font/noto_sans_display_semibold"
         android:textColor="@color/c_1D2550"
@@ -19,7 +19,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No matches on this date"
+        android:text="@string/no_matches_on_this_date"
         android:textSize="14dp"
         android:layout_marginTop="5dp"
         android:textColor="@color/c_1D2550"/>

@@ -1,6 +1,7 @@
 package com.onecric.live.fragment;
 
 import static com.onecric.live.HttpConstant.SHARE_LIVE_URL;
+import static com.onecric.live.util.SpUtil.GMAIL_ACCOUNT;
 
 import android.app.Dialog;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
+import com.onecric.live.activity.LanguageActivity;
 import com.onecric.live.activity.MyFollowActivity;
 import com.onecric.live.activity.NewsActivity;
 import com.onecric.live.activity.OneLogInActivity;
@@ -23,6 +25,7 @@ import com.onecric.live.presenter.login.MainPresenter;
 import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ShareUtil;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.WordUtil;
 import com.onecric.live.view.MvpFragment;
@@ -59,6 +62,7 @@ public class MoreFragment extends MvpFragment<MainPresenter> implements MainView
         findViewById(R.id.tv_list_3).setOnClickListener(this);
         findViewById(R.id.tv_list_4).setOnClickListener(this);
         findViewById(R.id.tv_list_5).setOnClickListener(this);
+        findViewById(R.id.tv_list_6).setOnClickListener(this);
         updateUserInfo();
     }
 
@@ -77,6 +81,9 @@ public class MoreFragment extends MvpFragment<MainPresenter> implements MainView
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getMobile())) {
                 tv_account.setVisibility(View.VISIBLE);
                 tv_account.setText(CommonAppConfig.getInstance().getUserBean().getMobile());
+            }else if(!TextUtils.isEmpty(SpUtil.getInstance().getStringValue(GMAIL_ACCOUNT))){
+                tv_account.setVisibility(View.VISIBLE);
+                tv_account.setText(SpUtil.getInstance().getStringValue(GMAIL_ACCOUNT));
             }
         } else {
             //未登录
@@ -104,7 +111,7 @@ public class MoreFragment extends MvpFragment<MainPresenter> implements MainView
                     DialogUtil.showSimpleDialog(getContext(), getString(R.string.tips), WordUtil.getString(getContext(), R.string.confirm_sign_out_tip), true, new DialogUtil.SimpleCallback() {
                         @Override
                         public void onConfirmClick(Dialog dialog, String content) {
-                            mvpPresenter.signOut(getContext());
+                            mvpPresenter.signOut(getActivity());
                         }
                     });
                 }
@@ -136,8 +143,10 @@ public class MoreFragment extends MvpFragment<MainPresenter> implements MainView
                 SettingActivity.forward(getContext());
                 break;
             case R.id.tv_list_5:
-                ShareUtil.shareText(getContext(), "Share OneCric.tv", SHARE_LIVE_URL);
+                ShareUtil.shareText(getContext(), getString(R.string.system_share), SHARE_LIVE_URL);
                 break;
+            case R.id.tv_list_6:
+                LanguageActivity.forward(getContext());
             default:break;
         }
     }

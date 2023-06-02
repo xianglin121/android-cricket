@@ -1,7 +1,6 @@
 package com.onecric.live.activity;
 
 import static com.onecric.live.HttpConstant.SHARE_LIVE_URL;
-import static com.onecric.live.util.DateUtil.getRelativeLocalDate;
 import static com.onecric.live.util.UiUtils.collapseView;
 import static com.onecric.live.util.UiUtils.convertViewToBitmap;
 import static com.onecric.live.util.UiUtils.createQrCode;
@@ -20,16 +19,13 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -49,7 +45,6 @@ import com.onecric.live.custom.noble.LPNobleView;
 import com.onecric.live.event.UpdateAnchorFollowEvent;
 import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.fragment.LiveDetailMainFragment;
-import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.BasketballDetailBean;
 import com.onecric.live.model.BroadcastMsgBean;
 import com.onecric.live.model.ColorMsgBean;
@@ -65,7 +60,9 @@ import com.onecric.live.presenter.live.LiveDetailPresenter;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ScreenUtils;
 import com.onecric.live.util.ShareUtil;
+import com.onecric.live.util.TimeUtil;
 import com.onecric.live.util.ToastUtil;
+import com.onecric.live.view.BlurTransformation;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.live.LiveDetailView;
 import com.tencent.imsdk.v2.V2TIMManager;
@@ -84,13 +81,14 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * LIVE直播详情
+ * LIVEf直播详情
  */
 public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter> implements LiveDetailView, View.OnClickListener {
 
@@ -110,9 +108,9 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
 
     public LiveRoomBean mLiveRoomBean;
 
-    private LoginDialog loginDialog,constraintLoginDialog;
-    private WebView webview;
-    private WebSettings webSettings;
+//    private LoginDialog loginDialog,constraintLoginDialog;
+//    private WebView webview;
+//    private WebSettings webSettings;
 
     private TextView tv_title;
     private ImageView iv_back;
@@ -132,10 +130,12 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     private int clAvatarHeight;
 
     private Drawable drawableArrUp, drawableArrDown;
-    private ImageView iv_cover,iv_home_logo,iv_away_logo;
-    private TextView tv_time;
+    private ImageView iv_cover,iv_home_logo,iv_away_logo,iv_countdown;
+    private TextView tv_countdown_info,tv_countdown;
     private SimpleDateFormat sfdate2 = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
+    private SimpleDateFormat sfdate1 = new SimpleDateFormat("hh:mm a,dd MMM", Locale.ENGLISH);
     private LinearLayout ll_main;
+
     @Override
     protected LiveDetailPresenter createPresenter() {
         return new LiveDetailPresenter(this);
@@ -191,8 +191,8 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
 //        ViewGroup.LayoutParams pp = playerView.getLayoutParams();
 //        pp.height = (int)(width * 0.5625);
 
-        initWebView();
-        loginDialog = new LoginDialog(this, R.style.dialog,true, () -> {
+//        initWebView();
+/*        loginDialog = new LoginDialog(this, R.style.dialog,true, () -> {
             loginDialog.dismiss();
             webview.setVisibility(View.VISIBLE);
             webview.loadUrl("javascript:ab()");
@@ -202,15 +202,17 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             constraintLoginDialog.dismiss();
             webview.setVisibility(View.VISIBLE);
             webview.loadUrl("javascript:ab()");
-        });
+        });*/
 
         //初始化fragment
         liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId,mMatchId);
         liveDetailMainFragment.isNotStart = true;
-        liveDetailMainFragment.setLoginDialog(loginDialog);
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_main, liveDetailMainFragment).commitAllowingStateLoss();
 
         clAvatarHeight = UIUtil.dip2px(this,70);
+        iv_countdown = findViewById(R.id.iv_countdown);
+        tv_countdown_info = findViewById(R.id.tv_countdown_info);
+        tv_countdown = findViewById(R.id.tv_countdown);
 
     }
 
@@ -234,7 +236,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         iv_cover = findViewById(R.id.iv_cover);
         iv_home_logo = findViewById(R.id.iv_home_logo);
         iv_away_logo = findViewById(R.id.iv_away_logo);
-        tv_time = findViewById(R.id.tv_time);
+//        tv_time = findViewById(R.id.tv_time);
         ll_main = findViewById(R.id.ll_main);
         findViewById(R.id.ll_eyes).setOnClickListener(this);
         findViewById(R.id.ll_heart).setOnClickListener(this);
@@ -256,7 +258,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         }
     }
 
-    @SuppressLint("JavascriptInterface")
+/*    @SuppressLint("JavascriptInterface")
     private void initWebView() {
         webview = (WebView) findViewById(R.id.webview);
         webSettings = webview.getSettings();
@@ -292,8 +294,8 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-/*                               loginDialog.show();
-                               loginDialog.passWebView();*/
+*//*                               loginDialog.show();
+                               loginDialog.passWebView();*//*
                                 OneLogInActivity.forward(mActivity);
                             }
                         });
@@ -301,7 +303,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 }
             }
         }, 500);
-    }
+    }*/
 
     @Override
     protected void initData() {
@@ -322,20 +324,46 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             mLiveRoomBean = bean;
             initShareScreen();
             mMatchId = bean.getInfo().getMatch_id();
-            tv_time.setText("Watch live at "+getRelativeLocalDate(sfdate2,bean.getInfo().getStarttime()));
-            if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().bottom) && !TextUtils.isEmpty(mLiveRoomBean.getInfo().getHome_logo()) && !TextUtils.isEmpty(mLiveRoomBean.getInfo().getAway_logo())){
+//            tv_time.setText(getString(R.string.watch_live_at)+" "+sfdate2.format(new Date(bean.getInfo().timezone_starttime*1000)));
+
+            //转时间戳 得到倒计时毫秒数
+            long time = bean.getInfo().timezone_starttime*1000;
+            long countTime = time - new Date().getTime();
+
+            if (countTime > 0) {
+                tv_countdown.setVisibility(View.VISIBLE);
+                iv_countdown.setVisibility(View.VISIBLE);
+                tv_countdown_info.setVisibility(View.VISIBLE);
+                new CountDownTimer(countTime, 1000) {
+                    public void onTick(long millisUntilFinished) {
+                        tv_countdown.setText(TimeUtil.timeConversion2(countTime/1000));
+                    }
+
+                    public void onFinish() {
+                        LiveNotStartDetailActivity.forward(LiveNotStartDetailActivity.this,mAnchorId,mMatchId,mLiveId);
+                        finish();
+                    }
+                }.start();
+            }
+
+/*            if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().bottom) && !TextUtils.isEmpty(mLiveRoomBean.getInfo().getHome_logo()) && !TextUtils.isEmpty(mLiveRoomBean.getInfo().getAway_logo())){
                 GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().bottom, iv_cover);
                 GlideUtil.loadTeamCircleImageDefault(mActivity, mLiveRoomBean.getInfo().getHome_logo(), iv_home_logo);
                 GlideUtil.loadTeamCircleImageDefault(mActivity, mLiveRoomBean.getInfo().getAway_logo(), iv_away_logo);
             }else{
                 GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().getThumb(), iv_cover);
-            }
+            }*/
+            Glide.with(mActivity).load(mLiveRoomBean.getInfo().getThumb()).placeholder(R.mipmap.ball_live_bg).transform(new BlurTransformation(mActivity, 15)).dontAnimate().error(R.mipmap.ball_live_bg).into(iv_cover);
 
             if (bean.getUserData() != null && !TextUtils.isEmpty(bean.getUserData().getTitle())) {
-                tv_title.setText(bean.getUserData().getTitle());
+                try{
+                    tv_title.setText(bean.getUserData().getTitle()+"\n" + bean.getInfo().tournament+"｜"+sfdate1.format(new Date(bean.getInfo().timezone_starttime*1000)));
+                }catch (Exception e){
+                    tv_title.setText(bean.getUserData().getTitle()+"\n" + bean.getInfo().tournament);
+                }
                 iv_star.setSelected(bean.getUserData().getIs_attention() == 0 ? false : true);
                 tv_name.setText(bean.getUserData().getUser_nickname());
-                tv_desc.setText("Fans: " +bean.getUserData().getAttention());
+                tv_desc.setText(getString(R.string.fans) +bean.getUserData().getAttention());
                 int heatNum = bean.getUserData().getHeat();
 
                 tv_tool_eyes.setText(heatNum>1000 ? String.format("%.1f",(float)heatNum/1000) + "K" :heatNum+"");
@@ -372,7 +400,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 iv_star.setSelected(false);
             }
             mLiveRoomBean.getUserData().setAttention(attention);
-            tv_desc.setText("Fans: "+attention);
+            tv_desc.setText(getString(R.string.fans)+attention);
             liveDetailMainFragment.updateFollowData(mLiveRoomBean);
         }
     }
@@ -389,10 +417,14 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         if (bean != null) {
             mLiveRoomBean = bean;
             if (bean.getUserData() != null && !TextUtils.isEmpty(bean.getUserData().getTitle())) {
-                tv_title.setText(bean.getUserData().getTitle());
+                try{
+                    tv_title.setText(bean.getUserData().getTitle()+"\n" + bean.getInfo().tournament+"｜"+sfdate1.format(new Date(bean.getInfo().timezone_starttime*1000)));
+                }catch (Exception e){
+                    tv_title.setText(bean.getUserData().getTitle()+"\n" + bean.getInfo().tournament);
+                }
                 iv_star.setSelected(bean.getUserData().getIs_attention() == 0 ? false : true);
                 tv_name.setText(bean.getUserData().getUser_nickname());
-                tv_desc.setText("Fans: " +bean.getUserData().getAttention());
+                tv_desc.setText(getString(R.string.fans) +bean.getUserData().getAttention());
                 int heatNum = bean.getUserData().getHeat();
 
                 tv_tool_eyes.setText(heatNum>1000 ? String.format("%.1f",(float)heatNum/1000) + "K" :heatNum+"");
@@ -449,7 +481,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                     @Override
                     public void onSuccess(V2TIMMessage v2TIMMessage) {
                         if (liveDetailMainFragment != null) {
-                            liveDetailMainFragment.sendMessage(msgBean.getGuard_icon(), msgBean.getExp_icon(), messageInfo);
+                            liveDetailMainFragment.sendMessage(messageInfo);
                         }
                     }
 
@@ -500,6 +532,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     @Override
     public void getDataFail(String msg) {}
 
+    @SuppressLint("SuspiciousIndentation")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -509,7 +542,6 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             case R.id.person_head_pic:
             case R.id.iv_avatar:
                 if (mLiveRoomBean != null) {
-                    if (!isFastDoubleClick())
                     PersonalHomepageActivity.forward(LiveNotStartDetailActivity.this, mLiveRoomBean.getUserData().getUid() + "");
                 }
                 break;
@@ -663,7 +695,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                     @Override
                     public void onSuccess(V2TIMMessage v2TIMMessage) {
                         if (liveDetailMainFragment != null) {
-                            liveDetailMainFragment.sendMessage(msgBean.getGuard_icon(), msgBean.getExp_icon(), messageInfo);
+                            liveDetailMainFragment.sendMessage(messageInfo);
                         }
                     }
 
@@ -706,7 +738,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                     @Override
                     public void onSuccess(V2TIMMessage v2TIMMessage) {
                         if (liveDetailMainFragment != null) {
-                            liveDetailMainFragment.sendMessage(msgBean.getGuard_icon(), msgBean.getExp_icon(), messageInfo);
+                            liveDetailMainFragment.sendMessage(messageInfo);
                         }
                     }
 

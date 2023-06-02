@@ -69,7 +69,7 @@ public class OneSetPwdActivity extends MvpActivity<RegisterPresenter> implements
         tv_account.setText(account);
 
         ll_title.setVisibility(View.VISIBLE);
-        tv_title.setText("Sign Up");
+        tv_title.setText(getString(R.string.sign_up));
 
         setAgreementSpannable();
         cb_show_password.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -131,7 +131,7 @@ public class OneSetPwdActivity extends MvpActivity<RegisterPresenter> implements
                 //正则 6-12位数字和小写字母组合
                 String regexST = "^(?![0-9]+$)(?![a-z]+$)[0-9a-z]{6,12}$";
                 if(!pwd.matches(regexST)){
-                    ToastUtil.show("The password is invalid");
+                    ToastUtil.show(getString(R.string.password_invalid));
                     return;
                 }
                 tv_sign_up.setEnabled(false);
@@ -179,6 +179,11 @@ public class OneSetPwdActivity extends MvpActivity<RegisterPresenter> implements
 
     @Override
     public void showCountryList() {
+
+    }
+
+    @Override
+    public void loginIsSuccess(boolean isSuccess) {
 
     }
 }

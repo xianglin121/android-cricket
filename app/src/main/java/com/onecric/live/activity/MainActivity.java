@@ -38,11 +38,10 @@ import com.onecric.live.custom.NoScrollViewPager;
 import com.onecric.live.event.ToggleTabEvent;
 import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.event.UpdateUserInfoEvent;
-import com.onecric.live.fragment.CricketFragment;
 import com.onecric.live.fragment.CricketNewFragment;
-import com.onecric.live.fragment.LiveFragment;
 import com.onecric.live.fragment.MoreFragment;
-import com.onecric.live.fragment.VideoFragment;
+import com.onecric.live.fragment.OneLiveFragment;
+import com.onecric.live.fragment.OneVideoFragment;
 import com.onecric.live.model.ConfigurationBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.UserBean;
@@ -282,7 +281,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             GlideUtil.loadUserImageDefault(this, userBean.getAvatar(), iv_avatar_nav);
 
 //            ((ThemeFragment) mViewList.get(0)).updateUserInfo();
-            ((LiveFragment) mViewList.get(0)).updateUserInfo();
+//            ((OneLiveFragment) mViewList.get(0)).updateUserInfo();
             ((MoreFragment) mViewList.get(3)).updateUserInfo();
         }
     }
@@ -323,8 +322,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     private void initFragment() {
         //给有登录需求的页面加loginDialog
 //        ThemeFragment themeFragment = new ThemeFragment();
-        LiveFragment liveFragment = new LiveFragment();
-        VideoFragment videoFragment = new VideoFragment();
+        OneLiveFragment liveFragment = new OneLiveFragment();
+        OneVideoFragment videoFragment = new OneVideoFragment();
 //        themeFragment.setLoginDialog(loginDialog);
 //        liveFragment.setLoginDialog(loginDialog);
 //        videoFragment.setLoginDialog(loginDialog);
@@ -418,7 +417,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             }
 
 //            ((ThemeFragment) mViewList.get(0)).updateUserInfo();
-            ((LiveFragment) mViewList.get(0)).updateUserInfo();
+//            ((OneLiveFragment) mViewList.get(0)).updateUserInfo();
             ((MoreFragment) mViewList.get(3)).updateUserInfo();
         }
     }
@@ -429,11 +428,11 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             return;
         }
         if (mTabLayout != null && mViewPager != null) {
-            if (event.position == 12) {
+            if(event.position == 21){
                 mTabLayout.toggleBtn(2);
                 mViewPager.setCurrentItem(2);
-                ((CricketFragment) mViewList.get(2)).toTabPosition(2);
-            } else {
+                ((CricketNewFragment) mViewList.get(2)).filtrateData(1);
+            }else{
                 mTabLayout.toggleBtn(event.position);
                 mViewPager.setCurrentItem(event.position);
             }

@@ -3,7 +3,6 @@ package com.onecric.live.presenter.live;
 import com.alibaba.fastjson.JSONObject;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.model.BoxBean;
-import com.onecric.live.model.CricketTournamentBean;
 import com.onecric.live.model.GiftBean;
 import com.onecric.live.model.HistoryMsgBean;
 import com.onecric.live.model.NobelBean;
@@ -12,13 +11,13 @@ import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.live.LiveChatView;
-import com.tencent.mm.opensdk.utils.Log;
 import com.tencent.qcloud.tuikit.tuichat.TUIChatService;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
 import com.tencent.qcloud.tuikit.tuichat.interfaces.GroupChatEventListener;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.TimeZone;
 
 import io.reactivex.observers.DisposableObserver;
 
@@ -368,7 +367,7 @@ public class LiveChatPresenter extends BasePresenter<LiveChatView> {
     }
 
     public void getHistoryMessage(int id) {
-        addSubscription(apiStores.getHistoryMessage(id),
+        addSubscription(apiStores.getHistoryMessage(TimeZone.getDefault().getID(),id),
                 new DisposableObserver() {
                     @Override
                     public void onNext(Object o) {

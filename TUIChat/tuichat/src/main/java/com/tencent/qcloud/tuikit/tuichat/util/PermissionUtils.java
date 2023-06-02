@@ -61,7 +61,7 @@ public class PermissionUtils {
 
     public static void showNotifiPermissionDialog(final Context context) {
         AlertDialog permissionDialog = new AlertDialog.Builder(context)
-                .setMessage("The application does not open the notification permission to authorize the open notification permission")
+                .setMessage(context.getString(R.string.permission_tip))
                 .setPositiveButton(TUIChatService.getAppContext().getString(R.string.setting), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

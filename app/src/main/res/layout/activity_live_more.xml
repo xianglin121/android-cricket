@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/common_title_bar_two"/>
+        <include layout="@layout/layout_top_head"/>
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/smart_rl"
@@ -18,16 +18,13 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginTop="8dp"/>
+                android:layout_height="match_parent"/>
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     </LinearLayout>
 
-    <WebView
+    <com.onecric.live.view.LanguagesWebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

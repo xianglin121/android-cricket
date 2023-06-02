@@ -66,16 +66,16 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
         verification_code = findViewById(R.id.verification_code);
         ll_title = findViewById(R.id.ll_title);
         tv_title = findViewById(R.id.tv_title);
-        tv_account.setText("OTP Sent To " + account);
+        tv_account.setText(getString(R.string.send_to_otp) + account);
         if(isEmail){
-            tv_info.setText("In Case You Don't Find It, Check Your Spam Folder.");
+            tv_info.setText(getString(R.string.verify_into));
         }else{
-            tv_info.setText("In Case You Don't Find It, Check Your Junk Information.");
+            tv_info.setText(getString(R.string.verify_into2));
         }
 
         if(fromType == FROM_FORGET_PASSWORD){
             ll_title.setVisibility(View.VISIBLE);
-            tv_title.setText("Forget Password?");
+            tv_title.setText(getString(R.string.forget_password));
         }
 
         tv_send_code.setEnabled(false);
@@ -101,10 +101,9 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
         });
 //        verification_code.getChildAt(0).setBackground(getResources().getDrawable(R.drawable.shape_border_bottom));
 //        verification_code.getChildAt(0).setOnFocusChangeListener(null);
-        //fixme 修改验证码框样式
         tv_verify.setOnClickListener(v -> {
             if(TextUtils.isEmpty(vCode) || vCode.length()<6){
-                ToastUtil.show("Verify");
+                ToastUtil.show(getString(R.string.verify));
                 return;
             }
             showLoadingDialog();
@@ -139,7 +138,7 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
                     if(tv_countdown.getVisibility() == View.GONE){
                         tv_countdown.setVisibility(View.VISIBLE);
                     }
-                    tv_countdown.setText("Resend OTP IN  "+(count > 60 ? ("01:"+(count-60)) :(count+"s")));
+                    tv_countdown.setText(getString(R.string.resend_otp_in)+(count > 60 ? ("01:"+(count-60)) :(count+"s")));
                     handler.sendEmptyMessageDelayed(0, 1000);
                 }else{
                     tv_countdown.setVisibility(View.GONE);

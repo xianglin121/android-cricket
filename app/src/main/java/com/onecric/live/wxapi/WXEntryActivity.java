@@ -7,6 +7,9 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.onecric.live.R;
+import com.onecric.live.event.WXLoginEvent;
+import com.onecric.live.util.ToastUtil;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -14,8 +17,6 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.onecric.live.event.WXLoginEvent;
-import com.onecric.live.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
@@ -62,7 +63,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                         wxLoginEvent.setLoginInfo(resp.code);
                         EventBus.getDefault().post(wxLoginEvent);
                     } else {
-                        ToastUtil.show("Logon failed");
+                        ToastUtil.show(getString(R.string.login_failed));
                     }
                     finish();
                 }else {

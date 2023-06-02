@@ -179,7 +179,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="N Ellis"
+                            android:text="@string/n_ellis"
                             android:textColor="@color/c_333333"
                             android:textSize="16dp"
                             android:fontFamily="@font/noto_sans_display_semibold" />
@@ -187,7 +187,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Bowler"
+                            android:text="@string/bowler"
                             android:textColor="@color/c_666666"
                             android:textSize="12dp" />
                     </LinearLayout>
@@ -246,7 +246,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="N Ellis"
+                            android:text="@string/n_ellis"
                             android:textColor="@color/c_333333"
                             android:textSize="16dp"
                             android:fontFamily="@font/noto_sans_display_semibold" />
@@ -254,7 +254,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Bowler"
+                            android:text="@string/bowler"
                             android:textColor="@color/c_666666"
                             android:textSize="12dp" />
                     </LinearLayout>
@@ -313,7 +313,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="N Ellis"
+                            android:text="@string/n_ellis"
                             android:textColor="@color/c_333333"
                             android:textSize="16dp"
                             android:fontFamily="@font/noto_sans_display_semibold" />
@@ -321,7 +321,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Bowler"
+                            android:text="@string/bowler"
                             android:textColor="@color/c_666666"
                             android:textSize="12dp" />
                     </LinearLayout>
@@ -501,7 +501,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:paddingLeft="12dp"
-                        android:text="Mega League Teams"
+                        android:text="@string/mega_league_teams"
                         android:textColor="@color/c_333333"
                         android:textSize="14dp"
                         android:fontFamily="@font/noto_sans_display_semibold" />
@@ -533,7 +533,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:paddingLeft="12dp"
-                        android:text="Mega League Teams"
+                        android:text="@string/mega_league_teams"
                         android:textColor="@color/c_333333"
                         android:textSize="14dp"
                         android:fontFamily="@font/noto_sans_display_semibold" />
@@ -565,7 +565,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:paddingLeft="12dp"
-                        android:text="Mega League Teams"
+                        android:text="@string/mega_league_teams"
                         android:textColor="@color/c_333333"
                         android:textSize="14dp"
                         android:fontFamily="@font/noto_sans_display_semibold" />
@@ -694,7 +694,7 @@
                         android:id="@+id/tv_leeds"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Headingley"
+                        android:text="@string/headingley"
                         android:textColor="@color/c_333333"
                         android:textSize="16dp"
                         app:layout_constraintLeft_toLeftOf="@id/tv_leeds_title"
@@ -716,7 +716,7 @@
                         android:id="@+id/tv_pitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Balanced"
+                        android:text="@string/balanced"
                         android:textColor="@color/c_333333"
                         android:textSize="16dp"
                         app:layout_constraintLeft_toLeftOf="@id/tv_pitch_title"
@@ -760,7 +760,7 @@
                         android:id="@+id/tv_weather"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Clear sky"
+                        android:text="@string/clear_sky"
                         android:textColor="@color/c_333333"
                         android:textSize="16dp"
                         app:layout_constraintLeft_toLeftOf="@id/tv_weather_title"

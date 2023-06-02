@@ -12,6 +12,7 @@ import com.onecric.live.view.match.BasketballMatchLiveView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 public class BasketballMatchLivePresenter extends BasePresenter<BasketballMatchLiveView> {
     public BasketballMatchLivePresenter(BasketballMatchLiveView view) {
@@ -19,7 +20,7 @@ public class BasketballMatchLivePresenter extends BasePresenter<BasketballMatchL
     }
 
     public void getAnchorList(int id) {
-        addSubscription(apiStores.getMatchAnchorList(CommonAppConfig.getInstance().getToken(), id),
+        addSubscription(apiStores.getMatchAnchorList(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(), id),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

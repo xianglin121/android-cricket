@@ -30,4 +30,5 @@
     <string name="definition">Definition</string>
     <string name="the_anchor_has_not_yet_broadcast">The anchor has not yet broadcast</string>
     <string name="let_me_also_say">Let me also say…</string>
+    <string name="check_network">Please check your network connection and try again</string>
 </resources>

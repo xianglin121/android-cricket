@@ -3,6 +3,7 @@ package com.onecric.live.view;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,6 +21,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.hjq.language.MultiLanguages;
 import com.onecric.live.R;
 import com.onecric.live.retrofit.ApiClient;
 import com.onecric.live.retrofit.ApiStores;
@@ -344,4 +346,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         return false;
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(newBase);
+        super.attachBaseContext(MultiLanguages.attach(newBase));
+    }
+
+/*    @Override
+    public Resources getResources() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && Build.VERSION.SDK_INT < Build.VERSION_CODES.O){
+            Context cc = LocaleUtils.changeLang(getApplicationContext());
+            return cc.getResources();
+        }else {
+            return super.getResources();
+        }
+    }*/
 }

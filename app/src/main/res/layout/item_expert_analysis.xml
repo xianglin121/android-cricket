@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="Expert Performance"
+                android:text="@string/expert_performance"
                 android:textSize="12dp"
                 android:textColor="@color/c_666666"/>
 

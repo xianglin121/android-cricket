@@ -310,7 +310,7 @@
                 android:layout_height="350dp"
                 android:visibility="gone">
 
-                <WebView
+                <com.onecric.live.view.LanguagesWebView
                     android:id="@+id/wv_animation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -335,7 +335,7 @@
                 android:layout_height="203dp"
                 android:visibility="gone">
 
-                <WebView
+                <com.onecric.live.view.LanguagesWebView
                     android:id="@+id/wv_video"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -374,7 +374,7 @@
 
     </LinearLayout>
 
-    <WebView
+    <com.onecric.live.view.LanguagesWebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

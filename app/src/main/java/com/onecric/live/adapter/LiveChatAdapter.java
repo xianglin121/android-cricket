@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.text.style.DynamicDrawableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,11 +19,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
 import com.onecric.live.model.CustomMsgBean;
-import com.onecric.live.util.UiUtils;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
 import com.tencent.qcloud.tuikit.tuichat.component.face.FaceManager;
-
-import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 import java.util.List;
 
@@ -96,7 +92,7 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
                         }
                         isEnterInfo = true;
                         //进入房间的消息不需要发言人
-                        content = TextUtils.isEmpty(item.getNickName()) ? item.getFromUser() : item.getNickName() + " " + mContext.getString(R.string.enter_the_chat_room);
+                        content = (TextUtils.isEmpty(item.getNickName()) ? item.getFromUser() : item.getNickName()) + " " + mContext.getString(R.string.enter_the_chat_room);
                         contentColor = Color.parseColor("#EEA831");
                     }else if (customMsgBean.getType() == MessageInfo.MSG_TYPE_GIFT) {
                         isAnchor = customMsgBean.getGift().getIs_room() == 1?true:false;

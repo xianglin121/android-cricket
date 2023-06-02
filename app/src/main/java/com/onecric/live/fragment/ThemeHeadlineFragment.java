@@ -1,34 +1,28 @@
 package com.onecric.live.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.activity.ThemeCollectionActivity;
 import com.onecric.live.adapter.ChannelPagerAdapter;
-import com.onecric.live.custom.CustomPagerTitleView;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.ThemeClassifyBean;
 import com.onecric.live.presenter.theme.ThemeHeadlinePresenter;
+import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.theme.ThemeHeadlineView;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-
-import net.lucode.hackware.magicindicator.MagicIndicator;
-import net.lucode.hackware.magicindicator.ViewPagerHelper;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,14 +36,15 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
         return fragment;
     }
 
-    private MagicIndicator mIndicator;
-    private CommonNavigatorAdapter mIndicatorAdapter;
-    private List<String> mTitles;
+//    private MagicIndicator mIndicator;
+//    private CommonNavigatorAdapter mIndicatorAdapter;
+//    private List<String> mTitles;
     private ViewPager mViewPager;
     private ChannelPagerAdapter mPagerAdapter;
     private List<Fragment> mViewList;
     private SmartRefreshLayout smart_no_network;
     private TextView tv_empty;
+    private TabLayout tabLayout;
 
     private LoginDialog loginDialog;
     public void setLoginDialog(LoginDialog dialog){
@@ -68,10 +63,10 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
 
     @Override
     protected void initUI() {
-        mTitles = new ArrayList<>();
+//        mTitles = new ArrayList<>();
         mViewList = new ArrayList<>();
 
-        mIndicator = rootView.findViewById(R.id.indicator);
+        tabLayout = rootView.findViewById(R.id.tab_layout);
         mViewPager = rootView.findViewById(R.id.view_pager);
         tv_empty = rootView.findViewById(R.id.tv_empty);
         smart_no_network = rootView.findViewById(R.id.smart_no_network);
@@ -106,7 +101,7 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
     }
 
     private void initViewPager() {
-        CommonNavigator commonNavigator = new CommonNavigator(getContext());
+/*        CommonNavigator commonNavigator = new CommonNavigator(getContext());
         mIndicatorAdapter = new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -144,7 +139,53 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
         mPagerAdapter = new ChannelPagerAdapter(getChildFragmentManager(), mViewList);
         mViewPager.setOffscreenPageLimit(mViewList.size());
         mViewPager.setAdapter(mPagerAdapter);
-        ViewPagerHelper.bind(mIndicator, mViewPager);
+        ViewPagerHelper.bind(mIndicator, mViewPager);*/
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        //初始化viewpager
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                tabLayout.getTabAt(i).select();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+        mViewPager.setOffscreenPageLimit(mViewList.size());
+        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+            @Override
+            public Fragment getItem(int i) {
+                return mViewList.get(i);
+            }
+
+            @Override
+            public int getCount() {
+                return mViewList.size();
+            }
+        });
     }
 
     @Override
@@ -163,7 +204,7 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
         smart_no_network.setVisibility(View.GONE);
         mViewPager.setVisibility(View.VISIBLE);
         if (list != null && list.size() > 0) {
-            mTitles.clear();
+/*            mTitles.clear();
             mViewList.clear();
             mTitles.add(getString(R.string.theme_hot));
             mViewList.add(ThemeHeadlineInnerFragment.newInstance(0));
@@ -171,6 +212,18 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
                 ThemeClassifyBean bean = list.get(i);
                 if (!TextUtils.isEmpty(bean.getName())) {
                     mTitles.add(bean.getName());
+                    mViewList.add(ThemeHeadlineInnerFragment.newInstance(bean.getId()));
+                }
+            }*/
+
+            tabLayout.removeAllTabs();
+            mViewList.clear();
+            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.theme_hot)));
+            mViewList.add(ThemeHeadlineInnerFragment.newInstance(0));
+            for (int i = 0; i < list.size(); i++) {
+                ThemeClassifyBean bean = list.get(i);
+                if (!TextUtils.isEmpty(bean.getName())) {
+                    tabLayout.addTab(tabLayout.newTab().setText(bean.getName()));
                     mViewList.add(ThemeHeadlineInnerFragment.newInstance(bean.getId()));
                 }
             }
@@ -181,14 +234,12 @@ public class ThemeHeadlineFragment extends MvpFragment<ThemeHeadlinePresenter> i
     @Override
     public void getDataFail(String msg) {
         //没网时空图
+        ToastUtil.show(msg);
         smart_no_network.finishRefresh();
-//        if (msg.equals(getString(R.string.no_internet_connection)) && (mIndicatorAdapter == null)) {
-//            smart_no_network.setVisibility(View.VISIBLE);
-//            mViewPager.setVisibility(View.GONE);
-//        }
-        if ((mIndicatorAdapter == null)) {
+        if (msg.equals(getString(R.string.no_internet_connection)) && tabLayout.getTabCount()<=0) {
             smart_no_network.setVisibility(View.VISIBLE);
             mViewPager.setVisibility(View.GONE);
         }
+
     }
 }

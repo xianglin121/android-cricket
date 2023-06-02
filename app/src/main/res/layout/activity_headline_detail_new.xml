@@ -109,7 +109,7 @@
                         android:background="@color/white"
                         tools:ignore="WebViewLayout">
 
-                        <WebView
+                        <com.onecric.live.view.LanguagesWebView
                             android:id="@+id/wv_content"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:padding="15dp"
                         android:background="@color/white"
-                        android:text="©Copyright Declaration"
+                        android:text="@string/copyright_declaration"
                         android:visibility="visible"/>
 
                     <LinearLayout
@@ -311,7 +311,7 @@
 
     </LinearLayout>
 
-    <WebView
+    <com.onecric.live.view.LanguagesWebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

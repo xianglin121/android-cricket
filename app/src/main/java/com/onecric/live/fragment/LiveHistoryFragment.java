@@ -20,6 +20,8 @@ import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.HistoryLiveBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
+import com.onecric.live.model.LiveVideoBean;
+import com.onecric.live.model.ViewMoreBean;
 import com.onecric.live.presenter.live.LiveMorePresenter;
 import com.onecric.live.util.SpUtil;
 import com.onecric.live.view.MvpFragment;
@@ -168,4 +170,20 @@ public class LiveHistoryFragment extends MvpFragment<LiveMorePresenter> implemen
             }
         }
     }
+
+    @Override
+    public void getMatchVideoSuccess(List<HistoryLiveBean> list) {
+
+    }
+
+    @Override
+    public void getTournamentSuccess(List<LiveVideoBean.LBean> list) {
+
+    }
+
+    @Override
+    public void getVideoSuccess(boolean isRefresh, List<ViewMoreBean> list) {
+
+    }
+
 }

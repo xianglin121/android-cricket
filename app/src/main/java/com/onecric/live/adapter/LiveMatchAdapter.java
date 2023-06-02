@@ -6,9 +6,6 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -39,7 +36,7 @@ public class LiveMatchAdapter extends BaseQuickAdapter<LiveMatchListBean.MatchIt
             ImageView ivFooter = helper.getView(R.id.iv_footer);
             ivFooter.setVisibility(View.VISIBLE);
             ivFooter.setOnClickListener(v -> {
-                EventBus.getDefault().post(new ToggleTabEvent(12));
+                EventBus.getDefault().post(new ToggleTabEvent(2));
             });
             return;
         }

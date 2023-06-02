@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="pic">तस्वीरें</string>
+    <string name="photo">तस्वीर खींचें</string>
+    <string name="video">वीडियो रिकॉर्ड करें</string>
+    <string name="file">फ़ाइलें</string>
+
+    <string name="release_end">भेजने के लिए छोड़ें</string>
+    <string name="hold_say">बोलने के लिए धारण करें</string>
+
+    <string name="copy_action">कॉपी करें</string>
+    <string name="delete_action">हटाएं</string>
+    <string name="revoke_action">पुनः बुलाएं</string>
+    <string name="resend_action">पुनः भेजें</string>
+
+    <!-- बुद्धि अग्रेषित करें -->
+
+    <string name="titlebar_back">वापस</string>
+    <string name="forward_tip">कृपया संदेश का चयन करें!</string>
+    <string name="forward_mode_onebyone">एक-एक के रूप में अग्रेषित करें</string>
+    <string name="forward_mode_merge">संयोजित करें और अग्रेषित करें</string>
+    <string name="forward_button">अग्रेषित करें</string>
+    <string name="delete_button">हटाएं</string>
+    <string name="forward_chats">समूह चैट इतिहास</string>
+    <string name="and_text">और</string>
+    <string name="forward_chats_c2c">चैट इतिहास</string>
+    <string name="forward_compatible_text">मैसेजों का मिश्रण और अग्रेषित करने का समर्थन नहीं है, कृपया नए संस्करण पर अपग्रेड करें।</string>
+
+    <string name="forward_failed_tip">भेजने में विफलता के संदेश का समर्थन नहीं है।</string>
+    <string name="forward_oneByOne_limit_number_tip">अधिक संदेश अग्रेषित किए जा रहे हैं, एक-एक अग्रेषण वर्तमान में समर्थित नहीं है</string>
+
+    <string name="and_and"> </string>
+    <string name="be_friend">अब आपका दोस्त है।</string>
+
+    <string name="join_group_tip">आपको समूह में आमंत्रित किया गया है: </string>
+    <string name="joined_tip">आपने समूह में शामिल हो गए हैं: </string>
+    <string name="reject_join_tip">आपको समूह में शामिल होने से इंकार कर दिया गया है: </string>
+    <string name="kick_group">आपको समूह से निकाल दिया गया है: </string>
+
+
+    <string name="send_two_mins">संदेश 2 मिनट से अधिक पहले भेजा गया</string>
+    <string name="revoke_fail">पुनः बुलाने में विफलता हुई</string>
+
+    <string name="wait_tip">कृपया बाद में पुनः प्रयास करें</string>
+    <string name="group_apply_tips">%1$d समूह में शामिल होने का अनुरोध</string>
+
+    <string name="dismiss_tip_before">आपका समूह</string>
+    <string name="dismiss_tip_after">विघटित हो गया है।</string>
+    <string name="get_system_notice">कस्टम सिस्टम अधिसूचना प्राप्त की गई है: </string>
+
+    <string name="down_cancle_send">ऊपर स्लाइड करें ताकि रद्द करें</string>
+    <string name="say_time_short">संदेश बहुत छोटा है</string>
+    <string name="record_fail">रिकॉर्डिंग विफल</string>
+    <string name="up_cancle_send">रिलीज़ करें ताकि रद्द करें</string>
+
+    <string name="send">भेजें</string>
+
+    <string name="custom_msg">[कस्टम संदेश]</string>
+    <string name="custom_emoji">[कस्टम स्टिकर]</string>
+    <string name="picture_extra">[छवि]</string>
+    <string name="video_extra">[वीडियो]</string>
+    <string name="audio_extra">[आवाज़]</string>
+    <string name="file_extra">[फ़ाइल]</string>
+
+    <string name="forward_extra">[चैट रिकॉर्ड]</string>
+    <string name="revoke_tips_you">आपने एक संदेश को वापस बुलाया।</string>
+    <string name="revoke_tips">एक संदेश को वापस बुलाया।</string>
+    <string name="revoke_tips_other">दूसरे उपयोगकर्ता ने एक संदेश को वापस बुलाया।</string>
+
+    <string name="create_group">समूह बनाएँ</string>
+    <string name="etc">, आदि।</string>
+    <string name="join_group">समूह में शामिल हों</string>
+    <string name="invite_joined_group">समूह में आमंत्रित किया गया है।</string>
+    <string name="quit_group">समूह छोड़ें</string>
+    <string name="kick_group_tip">समूह से निकाल दिया गया है।</string>
+    <string name="be_group_manager">प्रशासक के रूप में निर्धारित किया गया है।</string>
+    <string name="cancle_group_manager">के प्रशासक पद समाप्त कर दिया गया है।</string>
+    <string name="modify_group_name_is">समूह का नाम बदलें</string>
+    <string name="modify_notice">समूह सूचना बदलें</string>
+    <string name="modify_shut_up_all">समूह के सभी सदस्यों को चुप कर दें</string>
+    <string name="modify_cancel_shut_up_all">समूह के सभी सदस्यों के बोलने के लिए रोक रद्द करें</string>
+    <string name="move_owner">समूह के मालिकत्व को स्थानांतरित करें</string>
+    <string name="modify_group_avatar">ने समूह प्रोफ़ाइल फ़ोटो बदल दी है।</string>
+    <string name="banned">से पोस्ट करने पर अवरोधित है</string>
+    <string name="cancle_banned">अवरोध रद्द किया गया है और अब पोस्ट कर सकते हैं</string>
+
+    <string name="typing">टाइप कर रहे हैं...</string>
+    <string name="cancel">रद्द करें</string>
+    <string name="titlebar_mutiselect">मल्टीसेलेक्ट</string>
+    <string name="audio_permission_error">ऑडियो अनुमति आवश्यक है</string>
+    <string name="record_occupied">रिकॉर्ड ओक्यूपाइड है</string>
+    <string name="record_null">रिकॉर्ड खाली है</string>
+    <string name="record_limit_tips">अधिकतम वॉयस लंबाई प्राप्त हो गई है</string>
+    <string name="play_error_tip">वॉयस फ़ाइल क्षतिग्रस्त है या मौजूद नहीं है</string>
+    <string name="input_tip">कोई उपनाम नहीं दर्ज किया गया है, कृपया फिर से भरें</string>
+
+    <string name="has_read">पढ़ा</string>
+    <string name="unread">अपठित</string>
+
+    <string name="date_yesterday">कल</string>
+    <string name="date_tommorow">कल</string>
+    <string name="date_year">वर्षवारी</string>
+    <string name="date_month">माह</string>
+    <string name="date_day">दिन</string>
+    <string name="date_hour">घंटा</string>
+    <string name="date_minute">मिनट</string>
+    <string name="date_second">सेकंड</string>
+
+    <string name="date_year_short">वर्ष</string>
+    <string name="date_month_short">माह</string>
+    <string name="date_day_short">दिन</string>
+    <string name="date_hour_short">घंटा</string>
+    <string name="date_minute_short">मिनट</string>
+    <string name="date_second_short">सेकंड</string>
+
+    <string name="no_support_custom_msg">[असमर्थित कस्टम संदेश]</string>
+
+    <string name="un_download">डाउनलोड नहीं हुआ</string>
+    <string name="downloaded">डाउनलोड हुआ</string>
+    <string name="downloading">डाउनलोड हो रहा है</string>
+    <string name="send_failed">भेजने में विफल</string>
+    <string name="sended">भेजा गया</string>
+    <string name="sending">भेजा जा रहा है...</string>
+    <string name="open_file_tips">इस फ़ाइल को खोलने के लिए ऐप चुनें</string>
+    <string name="download_file_error">वीडियो डाउनलोड करने में विफल:</string>
+    <string name="voice_play_tip">वॉयस फ़ाइल डाउनलोड नहीं हुई है।</string>
+
+    <string name="device_info">डिवाइस जानकारी:</string>
+    <string name="system_version">\n सिस्टम संस्करण:</string>
+    <string name="sdk_version">\n SDK संस्करण:</string>
+
+    <string name="permission_content">इस सुविधा का उपयोग करने के लिए, आपको अनुमति प्रदान करनी होगी। यदि आपने संबंधित अनुमति अक्षम कर दी है, तो कृपया मैन्युअल रूप से अनुमति को सक्षम करें।</string>
+    <string name="setting">सेटिंग्स</string>
+    <string name="sure">ठीक है</string>
+
+    <string name="no_event_cancle_tip">ब्राउज़र पर कोई इवेंट रद्द नहीं है</string>
+    <string name="no_event_confirm_tip">ब्राउज़र पर कोई इवेंट पुष्टि नहीं है</string>
+
+    <string name="record_time_tip">रिकॉर्ड समय बहुत कम है</string>
+    <string name="tap_tips">फ़ोटो के लिए टैप करें, रिकॉर्ड के लिए होल्ड करें</string>
+    <string name="tap_capture">फ़ोटो लेने के लिए टैप करें</string>
+    <string name="tap_video">वीडियो रिकॉर्ड करने के लिए होल्ड करें</string>
+
+    <string name="completed">पूरा हुआ</string>
+    <string name="view_original_image">पूरी तस्वीर देखें</string>
+
+    <string name="ui_at_all">[@सभी]</string>
+    <string name="ui_at_me">[आपको उल्लेख किया गया]</string>
+    <string name="ui_at_all_me">[@सभी][आपको उल्लेख किया गया]</string>
+    <string name="drafts">[ड्राफ़्ट्स]</string>
+
+    <string name="group_apply_click_handle">प्रसंस्करण करने के लिए टैप करें</string>
+    <string name="no_support_msg">असमर्थित कस्टम संदेश</string>
+
+    <string name="live"> का लाइव स्ट्रीम</string>
+    <string name="live_group_live_streaming">लाइव स्ट्रीमिंग</string>
+    <string name="live_group_live_end">लाइव समाप्त</string>
+    <string name="live_group_user_live">%s का लाइव</string>
+    <string name="live_group_live">लाइव समूह</string>
+
+
+    <string name="start_group_call">समूह कॉल शुरू करें</string>
+    <string name="start_call">कॉल शुरू करें</string>
+    <string name="cancle_group_call">समूह कॉल रद्द करें</string>
+    <string name="cancle_call">कॉल रद्द करें</string>
+    <string name="other_line_busy">लाइन व्यस्त है</string>
+    <string name="reject_group_calls">समूह कॉल को अस्वीकार करें</string>
+    <string name="no_response_call">कोई जवाब नहीं</string>
+
+
+    <string name="accept_call">स्वीकार किया गया</string>
+    <string name="line_busy">लाइन व्यस्त है</string>
+    <string name="reject_call">अस्वीकार करें</string>
+    <string name="invalid_command">अमान्य कमांड</string>
+    <string name="stop_group_call">समूह कॉल समाप्त करें</string>
+    <string name="stop_call_tip">कॉल समाप्त हुई। अवधि:</string>
+    <string name="reject_calls">कॉल को अस्वीकार करें</string>
+
+    <string name="test_custom_message">विवरण देखें>></string>
+
+    <string name="test_custom_action">कस्टम संदेश</string>
+    <string name="welcome_tip">इंस्टेंट मैसेजिंग में शामिल होने के लिए धन्यवाद!</string>
+    <string name="permission_tip">एप्लिकेशन अधिसूचना अनुमति खोलने के लिए अधिसूचना अनुमति को स्वीकृति देने नहीं खोलता है</string>
+
+
+</resources>

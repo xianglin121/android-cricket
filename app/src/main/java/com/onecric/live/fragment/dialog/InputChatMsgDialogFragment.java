@@ -391,7 +391,7 @@ public class InputChatMsgDialogFragment extends DialogFragment implements View.O
                     ToastUtil.show(getActivity().getString(R.string.tip_input_chat_msg_empty));
                     return;
                 }
-                if (mDanmuType == 0) {//普通弹幕
+                if (mDanmuType == 0 || mDanmuType == 3) {//普通弹幕
                     if (getActivity() instanceof LiveDetailActivity) {
                         ((LiveDetailActivity)getActivity()).sendMessage(et_input.getText().toString());
                         et_input.setText("");
@@ -410,7 +410,7 @@ public class InputChatMsgDialogFragment extends DialogFragment implements View.O
                         ((LiveDetailActivity)getActivity()).sendBroadcast(et_input.getText().toString());
                         et_input.setText("");
                     }
-                }else if (mDanmuType == 3) {//炫彩弹幕
+                }else if (mDanmuType == 22) {
                     if (mSelectBgDanmu == null) {
                         return;
                     }

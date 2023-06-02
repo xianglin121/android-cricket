@@ -20,7 +20,7 @@
             android:layout_marginLeft="14dp"
             android:textSize="14dp"
             android:fontFamily="@font/noto_sans_display_semibold"
-            android:text="All matches(Non-streaming &amp; Streaming)"
+            android:text="@string/all_matches_info"
             android:textColor="@color/c_333333"/>
 
         <ImageView
@@ -48,7 +48,7 @@
             android:textSize="14dp"
             android:textColor="@color/c_333333"
             android:fontFamily="@font/noto_sans_display_semibold"
-            android:text="Anchor explanation"/>
+            android:text="@string/anchor_explanation"/>
 
         <ImageView
             android:id="@+id/iv_all_author"
@@ -76,7 +76,7 @@
             android:textSize="14dp"
             android:textColor="@color/c_333333"
             android:fontFamily="@font/noto_sans_display_semibold"
-            android:text="Streaming on OneCric"/>
+            android:text="@string/streaming_on_onecric"/>
 
         <ImageView
             android:id="@+id/iv_all_match"

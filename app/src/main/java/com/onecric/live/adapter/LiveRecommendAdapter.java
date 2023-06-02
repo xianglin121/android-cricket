@@ -2,7 +2,6 @@ package com.onecric.live.adapter;
 
 import static com.onecric.live.util.DateUtil.getRelativeLocalDate;
 
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,29 +9,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.ColorUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.util.GlideUtil;
-import com.tencent.qcloud.tuicore.util.DateTimeUtil;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 开发公司：东莞市梦幻科技有限公司
@@ -89,7 +75,7 @@ public class LiveRecommendAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
             iv_live.setVisibility(View.GONE);
             tv_time.setVisibility(View.VISIBLE);
 //            iv_cover.setColorFilter(Color.parseColor("#40000000"));
-            tv_time.setText("Watch live at "+getRelativeLocalDate(sfdate2,item.getStarttime()));
+            tv_time.setText(mContext.getString(R.string.watch_live_at)+" "+getRelativeLocalDate(sfdate2,item.getStarttime()));
             iv_hot.setVisibility(View.GONE);
             tv_num.setVisibility(View.GONE);
         }else{

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="open_file_tips">इस फ़ाइल को खोलने के लिए ऐप चुनें</string>
+
+    <string name="date_yesterday">कल</string>
+    <string name="date_year_short">YYYY</string>
+    <string name="date_month_short">MM</string>
+    <string name="date_day_short">DD</string>
+    <string name="date_hour_short">HH</string>
+    <string name="date_minute_short">MM</string>
+    <string name="date_second_short">SS</string>
+
+    <string name="cancel">रद्द करें</string>
+    <string name="sure">ठीक है</string>
+
+    <string name="group_apply_click_handle">संसाधन करने के लिए टैप करें</string>
+
+</resources>

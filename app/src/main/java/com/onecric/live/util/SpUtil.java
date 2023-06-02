@@ -48,6 +48,10 @@ public class SpUtil {
     public static final String VIDEO_OVERTIME = "video_overtime";//未登录状态下播放是否超时
     public static final String REGISTRATION_TOKEN = "registration_token";//fcm推送token
     public static final String LOGIN_REMIND = "login_remind";//登录倒计时时间
+    public static final String GMAIL_INFO = "gmailInfo";
+    public static final String GMAIL_ACCOUNT = "gmailAccount";
+    public static final String APP_LANGUAGE = "appLanguage";//语言
+    public static final String MY_UUID = "myUuid";//唯一id
 
     private SpUtil() {
         mSharedPreferences = AppManager.mContext.getSharedPreferences("SharedPreferences", Context.MODE_PRIVATE);

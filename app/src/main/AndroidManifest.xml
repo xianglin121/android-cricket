@@ -47,6 +47,8 @@
     <uses-permission
         android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"
         tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.CHANGE_CONFIGURATION" />
     <!--    <uses-permission android:name="android.permission.RECEIVE_SMS" />
         <uses-permission android:name="android.permission.READ_SMS" />-->
 
@@ -470,6 +472,21 @@
         <activity
             android:name="com.onecric.live.activity.NewsActivity"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name="com.onecric.live.activity.LanguageActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name="com.onecric.live.activity.VideoMoreActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.OneVideoDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

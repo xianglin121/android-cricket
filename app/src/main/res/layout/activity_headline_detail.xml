@@ -155,7 +155,7 @@
                     android:paddingRight="12dp"
                     android:background="@color/white"
                     tools:ignore="WebViewLayout">
-                    <WebView
+                    <com.onecric.live.view.LanguagesWebView
                         android:id="@+id/wv_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

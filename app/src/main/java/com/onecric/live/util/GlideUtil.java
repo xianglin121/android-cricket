@@ -1,17 +1,12 @@
 package com.onecric.live.util;
 
 import android.content.Context;
-import android.view.RoundedCorner;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.onecric.live.R;
 import com.onecric.live.common.GlideRoundTransform;
-
-import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 /**
  * Glide 工具类
@@ -40,7 +35,7 @@ public class GlideUtil {
 //        mImageView.setBackgroundResource(R.drawable.shape_80white_circle);
     }
 
-    //设置球队头像的加载中以及加载失败图片
+    //设置大图的加载中以及加载失败图片
     public static void loadUpdatesImageDefault(Context mContext, String path, ImageView mImageView) {
         Glide.with(mContext).load(path).placeholder(R.mipmap.img_updates_default).dontAnimate().error(R.mipmap.img_updates_default)
                 .into(mImageView);
@@ -65,7 +60,8 @@ public class GlideUtil {
 
     //设置图像的加载中以及加载失败图片
     public static void loadLiveImageDefault(Context mContext, String path, ImageView mImageView) {
-        Glide.with(mContext).load(path).placeholder(R.mipmap.ball_live_bg).error(R.mipmap.ball_live_bg).dontAnimate().into(mImageView);
+        Glide.with(mContext).load(path).placeholder(R.mipmap.ball_live_bg).dontAnimate().error(R.mipmap.ball_live_bg).dontAnimate().into(mImageView);
     }
+
 
 }

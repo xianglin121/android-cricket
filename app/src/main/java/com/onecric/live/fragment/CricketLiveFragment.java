@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.onecric.live.R;
 import com.onecric.live.adapter.CricketNewLiveAdapter;
 import com.onecric.live.model.CricketLiveBean;
-import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.presenter.cricket.CricketLivePresenter;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.cricket.CricketLiveView;
@@ -19,7 +18,6 @@ import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
@@ -148,4 +146,5 @@ public class CricketLiveFragment extends MvpFragment<CricketLivePresenter> imple
         mMatchId = mId;
         mvpPresenter.getList(mId, mPage, mLimit, TYPE_REFRESH);
     }
+
 }

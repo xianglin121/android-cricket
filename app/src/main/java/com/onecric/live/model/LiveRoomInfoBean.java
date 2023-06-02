@@ -33,6 +33,7 @@ public class LiveRoomInfoBean {
      * home_logo : https://cdn.sportnanoapi.com/basketball/team/821d1370da9d6010113bb0834aee2d6e.png
      * home_name : 桑德林女篮
      * name : 澳南部女联
+     * tournament
      */
 
     private int uid;
@@ -68,6 +69,8 @@ public class LiveRoomInfoBean {
     private int live_id;
     public String bottom;
     public String prompt;
+    public long timezone_starttime;
+    public String tournament;
 
     public int getLive_id() {
         return live_id;

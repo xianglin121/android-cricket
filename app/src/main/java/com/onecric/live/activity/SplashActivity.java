@@ -3,6 +3,7 @@ package com.onecric.live.activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
@@ -15,6 +16,9 @@ import com.onecric.live.retrofit.ApiStores;
 import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToolUtil;
 import com.onecric.live.view.BaseActivity;
+
+import java.math.BigInteger;
+import java.util.UUID;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -51,6 +55,7 @@ public class SplashActivity extends BaseActivity {
     protected void initData() {
         //获取默认配置
 //        getConfiguration();
+        setLanguage();
         mHandler.sendEmptyMessageDelayed(0, 1500);
     }
 
@@ -90,6 +95,56 @@ public class SplashActivity extends BaseActivity {
                     @Override
                     public void onError(String msg) {
                         Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                    }
+                });
+    }
+
+    private void setLanguage() {
+        String lan = "english";
+        switch (SpUtil.getInstance().getIntValue(SpUtil.APP_LANGUAGE)) {
+            case 1:
+                lan = "english";
+                break;
+            case 2:
+                lan = "hindi";
+                break;
+            case 0:
+                String localLan = getResources().getConfiguration().locale.getLanguage();
+                if(localLan.equals("hi")){
+                    lan = "hindi";
+                }else{
+                    lan = "english";
+                }
+        }
+
+        String myUuid = SpUtil.getInstance().getStringValue(SpUtil.MY_UUID);
+        if(TextUtils.isEmpty(myUuid)){
+            String[] uuidSplit = UUID.randomUUID().toString().split("-");
+            myUuid = new BigInteger(uuidSplit[uuidSplit.length-1],16).toString();
+            SpUtil.getInstance().setStringValue(SpUtil.MY_UUID,myUuid);
+        }
+
+        ApiClient.retrofit().create(ApiStores.class)
+                .setLanguage(lan,myUuid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+
                     }
 
                     @Override

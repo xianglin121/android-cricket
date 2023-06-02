@@ -18,16 +18,17 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
-import com.onecric.live.activity.LoginActivity;
 import com.onecric.live.activity.VideoPagerActivity;
 import com.onecric.live.activity.VideoPublishActivity;
 import com.onecric.live.adapter.VideoAdapter;
 import com.onecric.live.adapter.decoration.StaggeredDividerItemDecoration;
 import com.onecric.live.event.UpdateVideoLikeEvent;
 import com.onecric.live.model.JsonBean;
+import com.onecric.live.model.OneVideoBean;
 import com.onecric.live.model.ShortVideoBean;
+import com.onecric.live.model.VideoCategoryBean;
+import com.onecric.live.model.VideoShowBean;
 import com.onecric.live.presenter.user.PersonalVideosPresenter;
-import com.onecric.live.presenter.video.VideoPresenter;
 import com.onecric.live.util.DpUtil;
 import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
@@ -37,7 +38,6 @@ import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -46,7 +46,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> implements VideoView {
 
@@ -276,6 +275,16 @@ public class PersonalVideoFragment extends MvpFragment<PersonalVideosPresenter> 
                 smart_rl.finishLoadMoreWithNoMoreData();
             }
         }
+    }
+
+    @Override
+    public void getCategorySuccess(List<VideoCategoryBean> list) {
+
+    }
+
+    @Override
+    public void getInnerDataSuccess(List<OneVideoBean.FirstCategoryBean> tList, List<OneVideoBean.SecondCategoryBean> othersList, List<VideoShowBean> showsList,OneVideoBean.BannerBean bean) {
+
     }
 
     @Override

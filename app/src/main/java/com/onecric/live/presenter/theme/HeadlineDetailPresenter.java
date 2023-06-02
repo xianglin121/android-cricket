@@ -11,6 +11,7 @@ import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.view.theme.HeadlineDetailView;
 
 import java.util.List;
+import java.util.TimeZone;
 
 
 public class HeadlineDetailPresenter extends BasePresenter<HeadlineDetailView> {
@@ -19,7 +20,7 @@ public class HeadlineDetailPresenter extends BasePresenter<HeadlineDetailView> {
     }
 
     public void getInfo(boolean isRefresh, int page, int order, int id) {
-        addSubscription(apiStores.getHeadlineInfo(CommonAppConfig.getInstance().getToken(), page, order, id),
+        addSubscription(apiStores.getHeadlineInfo(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(), page, order, id),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

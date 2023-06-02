@@ -3,9 +3,10 @@ package com.onecric.live.presenter.match;
 import com.alibaba.fastjson.JSONObject;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.presenter.BasePresenter;
-import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.retrofit.ApiClient;
 import com.onecric.live.retrofit.ApiStores;
+
+import java.util.TimeZone;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
@@ -18,7 +19,7 @@ public class SubscribePresenter extends BasePresenter {
         jsonObject.put("mid", mid);
         jsonObject.put("type", type);
         ApiClient.retrofit().create(ApiStores.class)
-                .doSubscribe(CommonAppConfig.getInstance().getToken(), getRequestBody(jsonObject))
+                .doSubscribe(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(), getRequestBody(jsonObject))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer);

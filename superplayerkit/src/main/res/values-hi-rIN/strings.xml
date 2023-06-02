@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="superplayer_hardware_Acceleration">硬件加速</string>
+    <string name="superplayer_mirror">镜像</string>
+    <string name="superplayer_multi_speed_playback">多倍速播放</string>
+    <string name="superplayer_brightness">亮度</string>
+    <string name="superplayer_sound">声音</string>
+    <string name="superplayer_sharpness">清晰度</string>
+    <string name="superplayer_back_live">返回直播</string>
+    <string name="superplayer_small_video_special_effects_editing"></string>
+    <string name="superplayer_original_picture">原画</string>
+    <string name="superplayer_test_video">测试视频</string>
+    <string name="superplayer_screenshot_fail">截图失败</string>
+    <string name="superplayer_float_play_fail">悬浮播放失败</string>
+    <string name="superplayer_enter_setting_fail">进入设置页面失败,请手动开启悬浮窗权限</string>
+    <string name="superplayer_vipwatch_endwatch_tip">试看结束，VIP会员可观看完整视频</string>
+    <string name="superplayer_vipwatch_open_vip_tip">开通VIP会员</string>
+    <string name="superplayer_vipwatch_retry_tip">重新试看</string>
+
+    <!--    superplayer-->
+    <string name="bullet_screen_font">बुलेट स्क्रीन फ़ॉन्ट:</string>
+    <string name="bullet_screen_site">बुलेट स्क्रीन साइट:</string>
+    <string name="opacity">अपारदता:</string>
+    <string name="small">छोटा</string>
+    <string name="middle">मध्यम</string>
+    <string name="Large">बड़ा</string>
+    <string name="HDR">एचडीआर</string>
+    <string name="HD">एचडी</string>
+    <string name="SD">एसडी</string>
+    <string name="fluent">फ़्लूएंट</string>
+    <string name="definition">परिभाषा</string>
+    <string name="the_anchor_has_not_yet_broadcast">यात्री अभी तक प्रसारण नहीं कर चुके हैं</string>
+    <string name="let_me_also_say">मुझे भी कहने दो...</string>
+    <string name="check_network">कृपया अपने नेटवर्क कनेक्शन की जांच करें और पुन: प्रयास करें</string>
+</resources>

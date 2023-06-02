@@ -307,7 +307,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="The proportion of revenue deducted by the platform is"
+                            android:text="@string/wi_proportion_info"
                             android:textSize="12dp"
                             android:textColor="@color/c_999999"/>
 
@@ -367,7 +367,7 @@
                 android:layout_marginBottom="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:text="The amount of cash received according to the ratio of platform deduction income"
+                android:text="@string/wi_amount_info"
                 android:textSize="14dp"
                 android:textColor="@color/c_666666"/>
         </LinearLayout>

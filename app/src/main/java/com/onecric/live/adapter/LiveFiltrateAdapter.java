@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
-import com.onecric.live.model.LiveBean;
 import com.onecric.live.model.LiveFiltrateBean;
 import com.onecric.live.util.GlideUtil;
 
@@ -71,7 +70,7 @@ public class LiveFiltrateAdapter extends BaseQuickAdapter<LiveFiltrateBean, Base
             iv_live.setVisibility(View.GONE);
             tv_time.setVisibility(View.VISIBLE);
 //            iv_cover.setColorFilter(Color.parseColor("#40000000"));
-            tv_time.setText("Watch live at "+getRelativeLocalDate(sfdate2,item.getStarttime()));
+            tv_time.setText(mContext.getString(R.string.watch_live_at)+" "+getRelativeLocalDate(sfdate2,item.getStarttime()));
             iv_hot.setVisibility(View.GONE);
             tv_num.setVisibility(View.GONE);
         }else{

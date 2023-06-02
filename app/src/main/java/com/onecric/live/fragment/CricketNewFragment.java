@@ -10,16 +10,12 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.CountDownTimer;
 import android.os.PowerManager;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,7 +24,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alibaba.fastjson.JSONObject;
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
 import com.ethanhua.skeleton.Skeleton;
 import com.github.gzuliyujiang.calendarpicker.CalendarPicker;
@@ -44,7 +39,6 @@ import com.onecric.live.model.CricketAllBean;
 import com.onecric.live.model.CricketFiltrateBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.cricket.CricketNewPresenter;
-import com.onecric.live.util.TimeUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.CricketNewView;
 import com.onecric.live.view.MvpFragment;
@@ -292,7 +286,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                     if(recyclerView.getChildAt(0) != null){
                         int currentPosition = ((RecyclerView.LayoutParams) recyclerView.getChildAt(0).getLayoutParams()).getViewAdapterPosition();
                         if(currentPosition != -1 && !TextUtils.isEmpty(mAdapter.getData().get(currentPosition).getDay())){
-                            setDayInfo(getDayInfo(mAdapter.getData().get(currentPosition).getDay()));
+                            setDayInfo(getDayInfo(mAdapter.getData().get(currentPosition).getDay(),getContext()));
                         }
                     }
                 }
@@ -332,6 +326,23 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
         mStreamDialog.findViewById(R.id.ll_all_live).setOnClickListener(this);
         mStreamDialog.findViewById(R.id.ll_author_live).setOnClickListener(this);
         mStreamDialog.findViewById(R.id.ll_match_live).setOnClickListener(this);
+    }
+
+    public void filtrateData(int type){
+        if(type == 1 && mStreamDialog != null){
+            if(streamType!=2){
+                streamType = 2;
+                if(iv_all != null){
+                    iv_all_match.setSelected(false);
+                    iv_all.setSelected(false);
+                    iv_all_author.setSelected(true);
+                }
+                ll_streaming.setSelected(true);
+                iv_streaming.setSelected(true);
+                tv_streaming.setSelected(true);
+                requestList(1);
+            }
+        }
     }
 
     @Override
@@ -417,7 +428,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             case R.id.tv_to_today:
                 if(todayPosition<mAdapter.getData().size()){
                     recyclerView.smoothScrollToPosition(todayPosition);
-                    setDayInfo(getDayInfo(mAdapter.getData().get(todayPosition).getDay()));
+                    setDayInfo(getDayInfo(mAdapter.getData().get(todayPosition).getDay(),getContext()));
                 }
                 break;
             case R.id.tv_fresh:
@@ -525,7 +536,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
 
         if(type == 1){
             //没数据也显示日期
-            setDayInfo(getDayInfo(singleTimeInMillis));
+            setDayInfo(getDayInfo(singleTimeInMillis,getContext()));
         }
 
         if (bean != null && bean.getItem() != null && bean.getItem().size() > 0) {
@@ -543,7 +554,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 mAdapter.addData(0,bean.getItem());
             }else if(type == 1){
                 todayPosition = 0;
-                setDayInfo(getDayInfo(bean.getItem().get(0).getDay()));
+                setDayInfo(getDayInfo(bean.getItem().get(0).getDay(),getContext()));
 //                mAdapter.setNewData(bean.getItem());
                 mAdapter.setData(bean.getItem());
                 recyclerView.scrollBy(0, (int) (recyclerView.getY() + UIUtil.dip2px(getActivity(),60)));
@@ -686,7 +697,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             public void run() {
                 //每10s判断
                 //如果当前滚动到的Today，刷新最新数据(本fragment、未息屏、在前台
-                if(tv_day.getText().toString().equals("Today") &&
+                if(getActivity()!=null && tv_day.getText().toString().equals("Today") &&
                         getUserVisibleHint() &&
                         ((PowerManager)getActivity().getSystemService(Context.POWER_SERVICE)).isScreenOn() &&
                         getActivity().getWindow().getDecorView().getVisibility() == View.VISIBLE ){

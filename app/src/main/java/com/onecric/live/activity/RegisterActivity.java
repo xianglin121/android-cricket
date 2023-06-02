@@ -217,6 +217,11 @@ public class RegisterActivity extends MvpActivity<RegisterPresenter> implements 
     }
 
     @Override
+    public void loginIsSuccess(boolean isSuccess) {
+
+    }
+
+    @Override
     public void onClick(View v) {
         String area = etArea.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();

@@ -11,7 +11,7 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Follow the game"
+        android:text="@string/follow_the_game"
         android:textColor="@color/c_333333"
         android:textSize="16dp"
         />
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-        android:text="Long press after drag sort"
+        android:text="@string/long_press_after_drag_sort"
         android:textColor="@color/c_999999"
         android:textSize="12dp"
         />

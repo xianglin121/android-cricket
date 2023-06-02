@@ -85,7 +85,7 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
         findViewById(R.id.iv_back).setOnClickListener(this);
 
         ll_title.setVisibility(View.VISIBLE);
-        tv_title.setText("Log In");
+        tv_title.setText(getString(R.string.log_in));
 
         String json = getJsonData(this, "area.json");
         AreasModel areasModel = new Gson().fromJson(json, AreasModel.class);
@@ -205,7 +205,7 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
                     //正则 6-12位数字和小写字母组合
                     String regexST = "^(?![0-9]+$)(?![a-z]+$)[0-9a-z]{6,12}$";
                     if(!pwd.matches(regexST)){
-                        ToastUtil.show("Please enter a password with a combination of 6-12 digits and lowercase letters.");
+                        ToastUtil.show(getString(R.string.pwd_into));
                         return;
                     }
 
@@ -224,7 +224,7 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
                     }
                     String phone = etPhone.getText().toString().trim();
                     if (TextUtils.isEmpty(phone)) {
-                        ToastUtil.show("Mobile Number");
+                        ToastUtil.show(getString(R.string.mobile_number));
                         return;
                     }
                     tv_send.setEnabled(false);
@@ -251,7 +251,7 @@ public class OneForgetPwdActivity extends MvpActivity<ForgetPwdPresenter> implem
             ll_pwd.setVisibility(View.VISIBLE);
             ll_pwd2.setVisibility(View.VISIBLE);
             view_line2.setVisibility(View.VISIBLE);
-            tv_send.setText("Update");
+            tv_send.setText(getString(R.string.update));
         }
     }
 

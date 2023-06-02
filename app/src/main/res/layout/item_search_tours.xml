@@ -27,8 +27,7 @@
         android:maxLines="2"
         android:textAllCaps="true"
         android:letterSpacing="0.1"
-        android:fontFamily="@font/noto_sans_display_regular"
-        android:text="CRICKET-T20 · 10 MAR - 20 MAR"/>
+        android:fontFamily="@font/noto_sans_display_regular" />
 
     <TextView
         android:id="@+id/tv_bottom"
@@ -42,8 +41,7 @@
         android:singleLine="true"
         android:maxLines="1"
         android:ellipsize="end"
-        android:fontFamily="@font/noto_sans_display_semibold"
-        android:text="Legends League Cricket T20,2023"/>
+        android:fontFamily="@font/noto_sans_display_semibold"/>
 
 
     <View
