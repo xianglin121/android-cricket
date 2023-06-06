@@ -3,6 +3,7 @@ package com.onecric.live.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +76,7 @@ public class OneVideoDetailActivity extends MvpActivity<VideoDetailPresenter> im
     private RecyclerViewSkeletonScreen skeletonScreen;
     private VideoAllAdapter mRecommendAdapter;
     private StandardGSYVideoPlayer video_view;
-    private ImageView iv_video_mute;
+    private ImageView iv_video_mute,iv_video_screen;
     private TextView tv_video_title,tv_video_time;
     private OrientationUtils orientationUtils;
     private CountDownTimer mCountDownTimer;
@@ -122,6 +123,7 @@ public class OneVideoDetailActivity extends MvpActivity<VideoDetailPresenter> im
 
         video_view = findViewById(R.id.video_view);
         iv_video_mute = findViewById(R.id.iv_video_mute);
+        iv_video_screen = findViewById(R.id.iv_video_screen);
         tv_video_title = findViewById(R.id.tv_video_title);
         tv_video_time = findViewById(R.id.tv_video_time);
 
@@ -169,6 +171,10 @@ public class OneVideoDetailActivity extends MvpActivity<VideoDetailPresenter> im
         iv_video_mute.setOnClickListener(v -> {
             iv_video_mute.setSelected(!iv_video_mute.isSelected());
             GSYVideoManager.instance().setNeedMute(iv_video_mute.isSelected());
+        });
+        iv_video_screen.setOnClickListener(v -> {
+            Intent intent = new Intent(Settings.ACTION_CAST_SETTINGS);
+            startActivity(intent);
         });
         GSYVideoManager.instance().setNeedMute(false);
     }
