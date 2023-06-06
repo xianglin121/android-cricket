@@ -205,7 +205,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
                 mvpPresenter.getAllData();
                 mvpPresenter.getPlayingCards();
                 mvpPresenter.getBannerList();
-                mvpPresenter.getHistoryList(2);
+                mvpPresenter.getHistoryList(1);
             }
         });
 

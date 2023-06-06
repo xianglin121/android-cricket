@@ -43,7 +43,7 @@ public class LiveRecommendHistoryAdapter extends BaseQuickAdapter<HistoryLiveBea
             GlideUtil.loadLiveImageDefault(mContext, item.bottom, iv_cover);
             iv_home.setVisibility(View.VISIBLE);
             iv_away.setVisibility(View.VISIBLE);
-            GlideUtil.loadTeamCircleImageDefault(mContext, item.away_logo, iv_home);
+            GlideUtil.loadTeamCircleImageDefault(mContext, item.home_logo, iv_home);
             GlideUtil.loadTeamCircleImageDefault(mContext, item.away_logo, iv_away);
         }else{
             iv_home.setVisibility(View.GONE);

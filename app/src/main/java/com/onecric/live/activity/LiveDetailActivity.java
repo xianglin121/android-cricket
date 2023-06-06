@@ -183,7 +183,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     private RelativeLayout rl_video;
     public RelativeLayout rl_player;
     private ProgressBar progress_bar;
-    private ImageView iv_video_mute;
+    private ImageView iv_video_mute,iv_video_screen;
 
     private boolean isOpenAvatar = false;
     private int clAvatarHeight;
@@ -433,6 +433,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         iv_back = findViewById(R.id.iv_back);
         history_video_view = findViewById(R.id.history_video_view);
         iv_video_mute = findViewById(R.id.iv_video_mute);
+        iv_video_screen = findViewById(R.id.iv_video_screen);
         rl_video = findViewById(R.id.rl_video);
         rl_player = findViewById(R.id.rl_player);
         progress_bar = findViewById(R.id.progress_bar);
@@ -460,6 +461,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         iv_tool_heart.setOnClickListener(this);
         iv_tool_share.setOnClickListener(this);
         iv_video_mute.setOnClickListener(this);
+        iv_video_screen.setOnClickListener(this);
     }
 
 
@@ -981,6 +983,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             case R.id.iv_video_mute:
                 iv_video_mute.setSelected(!iv_video_mute.isSelected());
                 GSYVideoManager.instance().setNeedMute(iv_video_mute.isSelected());
+                break;
+            case R.id.iv_video_screen:
+                Intent intent = new Intent(Settings.ACTION_CAST_SETTINGS);
+                startActivity(intent);
                 break;
         }
     }
