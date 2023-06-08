@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "693237540813",
-    "project_id": "onecric-a9f78",
-    "storage_bucket": "onecric-a9f78.appspot.com"
+    "project_number": "677879628176",
+    "project_id": "onecric",
+    "storage_bucket": "onecric.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:693237540813:android:df8df557ca37405bd00684",
+        "mobilesdk_app_id": "1:677879628176:android:ebedb2aa0e08cee8913315",
         "android_client_info": {
           "package_name": "com.onecric.live"
         }
       },
       "oauth_client": [
         {
-          "client_id": "693237540813-4th8a1pvhiqds7bfe485e3bgcvi97cbp.apps.googleusercontent.com",
+          "client_id": "677879628176-ro39soe5ajl22m9e7uu5d5fmjsm9b7v4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.onecric.live",
+            "certificate_hash": "56ba35d7764b69617f189806efa01163adca1420"
+          }
+        },
+        {
+          "client_id": "677879628176-goald2ictv7mjep0tl4c6b6vjgi1634l.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBmch6TvKNPi_EPoAncswa5ihrM1nzlRoE"
+          "current_key": "AIzaSyBVFZpS8IyTqu4SNQEVBMqDCWl541MxIcU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "693237540813-4th8a1pvhiqds7bfe485e3bgcvi97cbp.apps.googleusercontent.com",
+              "client_id": "677879628176-goald2ictv7mjep0tl4c6b6vjgi1634l.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -35,13 +43,5 @@
       }
     }
   ],
-  "configuration_version": "1",
-
-  "installed":{
-    "client_id":"677879628176-ro39soe5ajl22m9e7uu5d5fmjsm9b7v4.apps.googleusercontent.com",
-    "project_id":"onecric",
-    "auth_uri":"https://accounts.google.com/o/oauth2/auth",
-    "token_uri":"https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs"
-  }
+  "configuration_version": "1"
 }

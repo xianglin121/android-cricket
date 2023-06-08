@@ -460,9 +460,9 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getExp_icon())) {
             msgBean.setExp_icon(CommonAppConfig.getInstance().getUserBean().getExp_icon());
         }
-        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
-            msgBean.setGuard_icon(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon());
-        }
+//        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
+//            msgBean.setGuard_icon(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon());
+//        }
         CustomMsgBean customMsgBean = new CustomMsgBean();
         customMsgBean.setType(MessageInfo.MSG_TYPE_BG_DANMU);
         customMsgBean.setNormal(msgBean);
@@ -649,9 +649,9 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getExp_icon())) {
                 msgBean.setExp_icon(CommonAppConfig.getInstance().getUserBean().getExp_icon());
             }
-            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
-                msgBean.setGuard_icon(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon());
-            }
+//            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
+//                msgBean.setGuard_icon(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon());
+//            }
         }
 
 
@@ -717,9 +717,9 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getExp_icon())) {
             msgBean.setExp_icon(CommonAppConfig.getInstance().getUserBean().getExp_icon());
         }
-        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
+/*        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
             msgBean.setGuard_icon(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon());
-        }
+        }*/
         CustomMsgBean customMsgBean = new CustomMsgBean();
         customMsgBean.setType(MessageInfo.MSG_TYPE_COLOR_DANMU);
         customMsgBean.setColor(msgBean);

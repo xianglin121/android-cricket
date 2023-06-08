@@ -1,5 +1,6 @@
 package com.onecric.live.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.onecric.live.R;
 import com.onecric.live.fragment.UsagePreViewContentFragment;
 import com.onecric.live.util.SpUtil;
@@ -38,11 +40,14 @@ public class UsageViewActivity extends BaseActivity {
     private Handler handler = new Handler();
     private List<UsagePreViewContentFragment> list;
     private Timer timer;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_usage_view;
     }
 
+    @SuppressLint("InvalidAnalyticsName")
     @Override
     protected void initView() {
         mPager = findViewById(R.id.view_pager);

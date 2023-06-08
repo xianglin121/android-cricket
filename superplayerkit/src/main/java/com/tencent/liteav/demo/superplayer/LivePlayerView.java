@@ -14,7 +14,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -41,13 +40,10 @@ import com.tencent.liteav.demo.superplayer.model.entity.VideoQuality;
 import com.tencent.liteav.demo.superplayer.model.net.LogReport;
 import com.tencent.liteav.demo.superplayer.model.utils.NetWatcher;
 import com.tencent.liteav.demo.superplayer.ui.player.FloatPlayer;
-import com.tencent.liteav.demo.superplayer.ui.player.FullScreenPlayer;
 import com.tencent.liteav.demo.superplayer.ui.player.LiveFullScreenPlayer;
 import com.tencent.liteav.demo.superplayer.ui.player.LiveWindowPlayer;
 import com.tencent.liteav.demo.superplayer.ui.player.Player;
-import com.tencent.liteav.demo.superplayer.ui.player.WindowPlayer;
 import com.tencent.liteav.demo.superplayer.ui.view.DanmuView;
-import com.tencent.qcloud.tuicore.util.ScreenUtil;
 import com.tencent.rtmp.TXLivePlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
@@ -707,6 +703,12 @@ public class LivePlayerView extends RelativeLayout {
         @Override
         public void onClickMute(boolean isMute) {
             setMute(isMute);
+        }
+
+        @Override
+        public void onProjectedScreen() {
+            Intent intent = new Intent(Settings.ACTION_CAST_SETTINGS);
+            getContext().startActivity(intent);
         }
     };
 

@@ -579,9 +579,9 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getExp_icon())) {
                 nobelMsgBean.setExp_icon(CommonAppConfig.getInstance().getUserBean().getExp_icon());
             }
-            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
+/*            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
                 nobelMsgBean.setGuard_icon(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon());
-            }
+            }*/
             customMsgBean.setNobel(nobelMsgBean);
             messageInfo = ChatMessageInfoUtil.buildCustomMessage(JSONObject.toJSONString(customMsgBean), "", null);
             messageInfo.setNickName(CommonAppConfig.getInstance().getUserBean().getUser_nickname());
