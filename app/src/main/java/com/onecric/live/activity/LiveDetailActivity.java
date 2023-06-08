@@ -1298,9 +1298,9 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getExp_icon())) {
             giftMsgBean.setExp_icon(CommonAppConfig.getInstance().getUserBean().getExp_icon());
         }
-        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
+/*        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon())) {
             giftMsgBean.setGuard_icon(CommonAppConfig.getInstance().getUserBean().getGuard().getIcon());
-        }
+        }*/
         customMsgBean.setGift(giftMsgBean);
         MessageInfo messageInfo = ChatMessageInfoUtil.buildCustomMessage(JSONObject.toJSONString(customMsgBean), "", null);
         messageInfo.setNickName(CommonAppConfig.getInstance().getUserBean().getUser_nickname());

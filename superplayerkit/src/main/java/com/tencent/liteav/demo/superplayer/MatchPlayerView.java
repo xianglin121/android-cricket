@@ -694,6 +694,12 @@ public class MatchPlayerView extends RelativeLayout {
         @Override
         public void onClickMute(boolean isMute) {
         }
+
+        @Override
+        public void onProjectedScreen() {
+            Intent intent = new Intent(Settings.ACTION_CAST_SETTINGS);
+            getContext().startActivity(intent);
+        }
     };
 
     /**

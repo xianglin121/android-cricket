@@ -2,7 +2,6 @@ package com.tencent.liteav.demo.superplayer.ui.player;
 
 
 import android.graphics.Bitmap;
-import android.view.View;
 
 import com.tencent.liteav.demo.superplayer.SuperPlayerDef;
 import com.tencent.liteav.demo.superplayer.model.entity.PlayImageSpriteInfo;
@@ -301,5 +300,9 @@ public interface Player {
          */
         void onClickMute(boolean isMute);
 
+        /**
+         * 投屏
+         */
+        void onProjectedScreen();
     }
 }

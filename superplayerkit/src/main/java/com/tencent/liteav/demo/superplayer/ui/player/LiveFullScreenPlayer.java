@@ -1,10 +1,8 @@
 package com.tencent.liteav.demo.superplayer.ui.player;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -37,7 +35,6 @@ import com.tencent.liteav.demo.superplayer.ui.view.VodMoreView;
 import com.tencent.liteav.demo.superplayer.ui.view.VodQualityFullScreenView;
 import com.tencent.liteav.demo.superplayer.ui.view.VodQualityView;
 import com.tencent.liteav.demo.superplayer.ui.view.VolumeBrightnessProgressLayout;
-import com.tencent.liteav.demo.superplayer.ui.view.WindowDanmuSettingView;
 import com.tencent.rtmp.TXImageSprite;
 
 import java.lang.ref.WeakReference;
@@ -329,6 +326,7 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
         findViewById(R.id.iv_danmu_emoji).setOnClickListener(this);
         findViewById(R.id.iv_refresh).setOnClickListener(this);
         findViewById(R.id.iv_red_envelope_close).setOnClickListener(this);
+        findViewById(R.id.iv_video_screen).setOnClickListener(this);
 
         if (mDefaultVideoQuality != null) {
             mTvQuality.setText(mDefaultVideoQuality.title);
@@ -746,6 +744,8 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
             mQualityView.setVisibility(View.VISIBLE);
         } else if (i == R.id.iv_red_envelope_close) {
             findViewById(R.id.ll_red_envelope).setVisibility(View.GONE);
+        } else if(i == R.id.iv_video_screen){
+            mControllerCallback.onProjectedScreen();
         }
     }
 

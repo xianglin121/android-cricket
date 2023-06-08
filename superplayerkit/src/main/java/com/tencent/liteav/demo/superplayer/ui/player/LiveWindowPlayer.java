@@ -296,6 +296,7 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
 
         mIvMute.setOnClickListener(this);
         mIvMute.setSelected(false);
+        findViewById(R.id.iv_video_screen).setOnClickListener(this);
         if (mControllerCallback != null) {
             mControllerCallback.onClickMute(false);
         }
@@ -730,6 +731,8 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
         }else if(id == R.id.superplayer_iv_mute){
             mIvMute.setSelected(!mIvMute.isSelected());
             mControllerCallback.onClickMute(mIvMute.isSelected());
+        }else if(id== R.id.iv_video_screen){
+            mControllerCallback.onProjectedScreen();
         }
     }
 

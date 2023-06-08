@@ -13,8 +13,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.AttributeSet;
@@ -648,6 +646,12 @@ public class SuperPlayerView extends RelativeLayout {
         @Override
         public void onClickMute(boolean isMute) {
             onClickMute(isMute);
+        }
+
+        @Override
+        public void onProjectedScreen() {
+            Intent intent = new Intent(Settings.ACTION_CAST_SETTINGS);
+            getContext().startActivity(intent);
         }
     };
 

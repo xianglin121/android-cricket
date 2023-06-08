@@ -32,4 +32,9 @@
     <string name="the_anchor_has_not_yet_broadcast">यात्री अभी तक प्रसारण नहीं कर चुके हैं</string>
     <string name="let_me_also_say">मुझे भी कहने दो...</string>
     <string name="check_network">कृपया अपने नेटवर्क कनेक्शन की जांच करें और पुन: प्रयास करें</string>
+
+    <string name="extras">अतिरिक्त</string>
+    <string name="did_not_bat">बल्लेबाजी नहीं की</string>
+    <string name="score_uppercase">स्कोर</string>
+    <string name="over_uppercase">ओवर</string>
 </resources>
