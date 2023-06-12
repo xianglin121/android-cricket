@@ -43,7 +43,6 @@ public class LoginAccessActivity extends BaseActivity{
 
         findViewById(R.id.btn_log_in).setOnClickListener(v -> {
             OneLogInActivity.forward(this);
-            finish();
         });
 
         findViewById(R.id.tv_later).setOnClickListener(v -> {
@@ -61,6 +60,7 @@ public class LoginAccessActivity extends BaseActivity{
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
             MainActivity.loginForward(this);
+            finish();
         }
     }
 
