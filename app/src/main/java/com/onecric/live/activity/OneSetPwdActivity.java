@@ -3,6 +3,7 @@ package com.onecric.live.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.model.JsonBean;
@@ -42,6 +44,7 @@ public class OneSetPwdActivity extends MvpActivity<RegisterPresenter> implements
     private TextView tv_account,tvAgreement,tv_sign_up,tv_login,tv_title;
     private LinearLayout ll_title;
     private String account;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public int getLayoutId() {
@@ -67,6 +70,7 @@ public class OneSetPwdActivity extends MvpActivity<RegisterPresenter> implements
             finish();
         }
         tv_account.setText(account);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         ll_title.setVisibility(View.VISIBLE);
         tv_title.setText(getString(R.string.sign_up));
@@ -167,6 +171,9 @@ public class OneSetPwdActivity extends MvpActivity<RegisterPresenter> implements
         tv_sign_up.setEnabled(true);
         dismissLoadingDialog();
         ToastUtil.show(msg);
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.METHOD, "sign_up");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
         LoginAccessActivity.forward(this);
     }
 
