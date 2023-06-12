@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -32,6 +33,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.hbb20.CountryCodePicker;
 import com.onecric.live.CommonAppConfig;
@@ -69,6 +71,7 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
     // Google
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_GOOGLE_SIGN_IN = 1102;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onClick(View v) {
@@ -124,6 +127,7 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
         tv_sign_in.setOnClickListener(this);
         findViewById(R.id.tv_sign_google).setOnClickListener(this);
         findViewById(R.id.tv_sign_facebook).setOnClickListener(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         setAgreementSpannable();
         etPhone.requestFocus();
         initOther();
@@ -277,6 +281,9 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
     public void loginIsSuccess(boolean isSuccess) {
         dismissLoadingDialog();
         if(isSuccess){
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.METHOD, "login");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
             mvpPresenter.updateJgId(MTCorePrivatesApi.getRegistrationId(mContext));
             ToastUtil.show(mContext.getString(R.string.login_success));
             EventBus.getDefault().post(new UpdateLoginTokenEvent());

@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -38,6 +39,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.hbb20.CountryCodePicker;
 import com.onecric.live.CommonAppConfig;
@@ -74,6 +76,7 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
     private CountryCodePicker ccp;
     private ArrayList<AreasModel.CountryModel> countryList;
     private boolean isSame;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     //facebook
     private static final int RC_FACEBOOK_SIGN_IN = 1101;
@@ -163,6 +166,7 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
         tv_sign_up.setOnClickListener(this);
         ivEyePassword.setOnClickListener(this);
         findViewById(R.id.tv_forget_pwd).setOnClickListener(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         setAgreementSpannable();
         initOther();
     }
@@ -340,6 +344,9 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
         tv_login.setEnabled(true);
         dismissLoadingDialog();
         if(isSuccess){
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.METHOD, "login");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
             mvpPresenter.updateJgId(MTCorePrivatesApi.getRegistrationId(mContext));
             ToastUtil.show(mContext.getString(R.string.login_success));
             EventBus.getDefault().post(new UpdateLoginTokenEvent());

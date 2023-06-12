@@ -64,6 +64,7 @@ public class UsagePreViewContentFragment extends Fragment {
                         SpUtil.getInstance().setBooleanValue(SpUtil.HIDE_USAGE, true);
                     }
                     LoginAccessActivity.forward(getContext());
+                    getActivity().finish();
                 });
                 break;
         }
