@@ -118,6 +118,7 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
     private boolean                        mFirstShowQuality;                      // 是都是首次显示画质信息
     private InputDanmuDialogFragment inputDanmuDialogFragment;
     private TextView mTvCountdown;                           // 红包倒计时
+//    private ImageView mIvRank;
 
 
     public LiveFullScreenPlayer(Context context) {
@@ -336,6 +337,12 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
         mIvWatermark = (ImageView) findViewById(R.id.superplayer_large_iv_water_mark);
         mVipWatchView = findViewById(R.id.superplayer_vip_watch_view);
         mVipWatchView.setVipWatchViewClickListener(this);
+
+        //fixme 有无绑定赛事信息
+/*        mIvRank = (ImageView) findViewById(R.id.superplayer_iv_open_match);
+        mIvRank.setVisibility(VISIBLE);
+
+        mIvRank.setOnClickListener(this);*/
     }
 
     public void setCountdownVisible(int visibility) {
@@ -747,6 +754,9 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
         } else if(i == R.id.iv_video_screen){
             mControllerCallback.onProjectedScreen();
         }
+/*        else if(i == R.id.superplayer_iv_open_match){
+            showRankView();
+        }*/
     }
 
     private void showInputTextMsgDialog(int state) {
@@ -1116,4 +1126,14 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
             }
         }
     }
+
+/*    *//**
+     * 显示赛程信息弹窗
+     *//*
+    private void showRankView() {
+        mIvRank.setVisibility(View.GONE);
+        //从右向左划出
+
+        mVodQualityView.setVideoQualityList(mVideoQualityList);
+    }*/
 }

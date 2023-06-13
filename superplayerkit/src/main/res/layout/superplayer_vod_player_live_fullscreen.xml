@@ -278,6 +278,16 @@
         android:layout_marginLeft="30dp"
         android:src="@drawable/superplayer_ic_player_unlock" />
 
+    <ImageView
+        android:id="@+id/superplayer_iv_open_match"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+       android:layout_marginRight="10dp"
+        android:src="@drawable/icon_live_ranking"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:id="@+id/superplayer_ll_replay"
         android:layout_width="wrap_content"
@@ -339,7 +349,7 @@
     <com.tencent.liteav.demo.superplayer.ui.view.VipWatchView
         android:id="@+id/superplayer_vip_watch_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:id="@+id/ll_red_envelope"
