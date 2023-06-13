@@ -4,6 +4,7 @@ import static com.onecric.live.util.TimeUtil.stampToTime;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.text.Html;
@@ -63,6 +64,7 @@ import net.lucode.hackware.magicindicator.buildins.UIUtil;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -91,6 +93,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
     private List<PlayCardsBean> todayList;
     private boolean isOpenMatch = false;
     private Drawable drawableArrUp,drawableArrDown,drawableArrRed,drawableArrTransparent;
+    private CountDownTimer timer;
 
     @Override
     public void onClick(View v) {
@@ -322,9 +325,45 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
             }
             tv_state_time.setVisibility(View.VISIBLE);
             tv_state_info.setVisibility(View.VISIBLE);
+            try{
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(selectLiveBean.scheduled.substring(11,13)));
+                cal.set(Calendar.SECOND, Integer.parseInt(selectLiveBean.scheduled.substring(14,16)));
+                cal.set(Calendar.MINUTE, Integer.parseInt(selectLiveBean.scheduled.substring(17)));
+                tv_state_info.setText(getString(R.string.watch_live_at));
+                if(!isSame){
+                    timer.cancel();
+                    timer = null;
+                }
+                if((cal.getTimeInMillis() - new Date().getTime())/1000<3600){
+                    if(timer == null){
+                        timer = new CountDownTimer((cal.getTimeInMillis() - new Date().getTime()), 1000) {
+                            public void onTick(long millisUntilFinished) {
+                                tv_state_time.setText(Html.fromHtml("<strong>" + TimeUtil.timeConversion(millisUntilFinished/1000) + "</strong>"));
+                            }
 
+                            public void onFinish() {
+                                selectLiveBean.status = 1;
+                                tv_state_time.setVisibility(View.GONE);
+                                tv_state_info.setVisibility(View.GONE);
+                                iv_state_live.setVisibility(View.VISIBLE);
+                            }
+                        }.start();
+                    }
+                }else{
+                    tv_state_time.setText(Html.fromHtml("<strong>" + TimeUtil.timeConversion((cal.getTimeInMillis() - new Date().getTime())/1000) + "</strong>"));
+                }
+            }catch (Exception e){
+                try {
+                    long time = DateTimeUtil.getStringToDate(selectLiveBean.scheduled, "yyyy-MM-dd HH:mm:ss");
+                    String st = stampToTime(time,"hh:mm a");
+                    tv_state_time.setText(Html.fromHtml("<strong>"+st.substring(0,5)+"</strong> <small>"+st.substring(5)+"</small>"));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
             //转时间戳 得到倒计时毫秒数
-            long time = DateTimeUtil.getStringToDate(selectLiveBean.scheduled, "yyyy-MM-dd HH:mm:ss");
+/*            long time = DateTimeUtil.getStringToDate(selectLiveBean.scheduled, "yyyy-MM-dd HH:mm:ss");
             long countTime = time - new Date().getTime();
             if (countTime > 0) {
                 tv_state_info.setText(getString(R.string.watch_live_at));
@@ -337,8 +376,10 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-            }
+            }*/
         } else {//已开始
+            tv_state_time.setVisibility(View.GONE);
+            tv_state_info.setVisibility(View.GONE);
             iv_state_live.setVisibility(View.VISIBLE);
         }
 

@@ -21,6 +21,7 @@ import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.TimeUtil;
 import com.tencent.qcloud.tuicore.util.DateTimeUtil;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -73,7 +74,46 @@ public class LiveViewNowAdapter extends BaseMultiItemQuickAdapter<PlayCardsBean,
             }
             helper.setGone(R.id.tv_state_time,true);
             helper.setGone(R.id.tv_state_info,true);
-            //转时间戳 得到倒计时毫秒数
+            try{
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(item.scheduled.substring(11,13)));
+                cal.set(Calendar.SECOND, Integer.parseInt(item.scheduled.substring(14,16)));
+                cal.set(Calendar.MINUTE, Integer.parseInt(item.scheduled.substring(17)));
+                if((cal.getTimeInMillis() - new Date().getTime())/1000<3600){
+                    helper.setText(R.id.tv_state_info,mContext.getString(R.string.watch_live_at));
+                    if(item.countDownTimer == null){
+                        TextView stateTime = helper.getView(R.id.tv_state_time);
+                        item.countDownTimer = new CountDownTimer((cal.getTimeInMillis() - new Date().getTime()), 1000) {
+                            public void onTick(long millisUntilFinished) {
+                                stateTime.setText(Html.fromHtml("<strong>" + TimeUtil.timeConversion(millisUntilFinished / 1000) + "</strong>"));
+                            }
+
+                            public void onFinish() {
+                                item.status = 1;
+                                helper.setGone(R.id.tv_state_info,false);
+                                helper.setGone(R.id.tv_state_time,false);
+                                helper.setGone(R.id.iv_state_live,true);
+                                notifyItemChanged(helper.getLayoutPosition());
+                            }
+                        }.start();
+                    }
+                }else{
+                    helper.setText(R.id.tv_state_info,mContext.getString(R.string.watch_live_at));
+                    helper.setText(R.id.tv_state_time, Html.fromHtml("<strong>" + TimeUtil.timeConversion((cal.getTimeInMillis() - new Date().getTime()) / 1000) + "</strong>"));
+                }
+            }catch (Exception e){
+                helper.setText(R.id.tv_state_info,mContext.getString(R.string.watch_live_at));
+                long time = DateTimeUtil.getStringToDate(item.scheduled, "yyyy-MM-dd HH:mm:ss");
+                try {
+                    String st = stampToTime(time,"hh:mm a");
+                    helper.setText(R.id.tv_state_time, Html.fromHtml("<strong>"+st.substring(0,5)+"</strong> <small>"+st.substring(5)+"</small>"));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+
+/*            //转时间戳 得到倒计时毫秒数
             long time = DateTimeUtil.getStringToDate(item.scheduled, "yyyy-MM-dd HH:mm:ss");
             long countTime = time - new Date().getTime();
             if (countTime > 0) {
@@ -100,8 +140,10 @@ public class LiveViewNowAdapter extends BaseMultiItemQuickAdapter<PlayCardsBean,
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-            }
+            }*/
         } else {//已开始
+            helper.setGone(R.id.tv_state_info,false);
+            helper.setGone(R.id.tv_state_time,false);
             helper.setGone(R.id.iv_state_live,true);
         }
         ImageView iv_home_logo = helper.getView(R.id.iv_home_logo);

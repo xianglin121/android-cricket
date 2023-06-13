@@ -1,5 +1,7 @@
 package com.onecric.live.model;
 
+import android.os.CountDownTimer;
+
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 public class PlayCardsBean implements MultiItemEntity {
@@ -45,6 +47,7 @@ public class PlayCardsBean implements MultiItemEntity {
     public int fastStatus;
     public String thumb;
 
+    public CountDownTimer countDownTimer;
     @Override
     public int getItemType() {
         return type;

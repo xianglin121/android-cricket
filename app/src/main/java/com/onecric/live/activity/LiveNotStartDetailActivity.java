@@ -81,6 +81,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -326,10 +327,11 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             mMatchId = bean.getInfo().getMatch_id();
 //            tv_time.setText(getString(R.string.watch_live_at)+" "+sfdate2.format(new Date(bean.getInfo().timezone_starttime*1000)));
 
-            //转时间戳 得到倒计时毫秒数
+
+
+/*            //转时间戳 得到倒计时毫秒数
             long time = bean.getInfo().timezone_starttime*1000;
             long countTime = time - new Date().getTime();
-
             if (countTime > 0) {
                 tv_countdown.setVisibility(View.VISIBLE);
                 iv_countdown.setVisibility(View.VISIBLE);
@@ -344,6 +346,29 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                         finish();
                     }
                 }.start();
+            }*/
+
+            tv_countdown.setVisibility(View.VISIBLE);
+            iv_countdown.setVisibility(View.VISIBLE);
+            tv_countdown_info.setVisibility(View.VISIBLE);
+            try{
+                Calendar cal = Calendar.getInstance();
+                Date date = new Date();
+                date.setTime(bean.getInfo().timezone_starttime * 1000);
+                cal.set(Calendar.HOUR_OF_DAY, date.getHours() );
+                cal.set(Calendar.SECOND, date.getSeconds());
+                cal.set(Calendar.MINUTE, date.getMinutes());
+                new CountDownTimer((cal.getTimeInMillis() - new Date().getTime()), 1000) {
+                    public void onTick(long millisUntilFinished) {
+                        tv_countdown.setText(TimeUtil.timeConversion2(millisUntilFinished/1000));
+                    }
+
+                    public void onFinish() {
+                        LiveNotStartDetailActivity.forward(LiveNotStartDetailActivity.this,mAnchorId,mMatchId,mLiveId);
+                        finish();
+                    }
+                }.start();
+            }catch (Exception e){
             }
 
 /*            if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().bottom) && !TextUtils.isEmpty(mLiveRoomBean.getInfo().getHome_logo()) && !TextUtils.isEmpty(mLiveRoomBean.getInfo().getAway_logo())){
