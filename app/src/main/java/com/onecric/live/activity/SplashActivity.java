@@ -1,5 +1,7 @@
 package com.onecric.live.activity;
 
+import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
+
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -61,7 +63,7 @@ public class SplashActivity extends BaseActivity {
 
     private void getConfiguration() {
         ApiClient.retrofit().create(ApiStores.class)
-                .getDefaultConfiguration(ToolUtil.getCurrentVersionCode(this))
+                .getDefaultConfiguration(ToolUtil.getCurrentVersionCode(this),SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new ApiCallback() {

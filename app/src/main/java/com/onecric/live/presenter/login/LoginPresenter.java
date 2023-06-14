@@ -4,6 +4,7 @@ import static com.onecric.live.AppManager.mContext;
 import static com.onecric.live.fragment.dialog.LoginDialog.getFlavor;
 import static com.onecric.live.util.SpUtil.GMAIL_ACCOUNT;
 import static com.onecric.live.util.SpUtil.GMAIL_INFO;
+import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
 
 import android.text.TextUtils;
 
@@ -145,7 +146,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void getConfiguration(String currentVersionNumber) {
-        addSubscription(apiStores.getDefaultConfiguration(currentVersionNumber),
+        addSubscription(apiStores.getDefaultConfiguration(currentVersionNumber,SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN)),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

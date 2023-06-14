@@ -1,10 +1,13 @@
 package com.onecric.live.presenter.login;
 
+import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
+
 import com.alibaba.fastjson.JSONObject;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.model.ConfigurationBean;
 import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.view.login.ForgetPwdView;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -78,7 +81,7 @@ public class ForgetPwdPresenter extends BasePresenter<ForgetPwdView> {
     }
 
     public void getConfiguration(String currentVersionNumber) {
-        addSubscription(apiStores.getDefaultConfiguration(currentVersionNumber),
+        addSubscription(apiStores.getDefaultConfiguration(currentVersionNumber,SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN)),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

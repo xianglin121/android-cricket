@@ -1,5 +1,7 @@
 package com.onecric.live.activity;
 
+import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
+
 import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
@@ -12,6 +14,7 @@ import com.onecric.live.model.ConfigurationBean;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.retrofit.ApiClient;
 import com.onecric.live.retrofit.ApiStores;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToolUtil;
 import com.onecric.live.view.BaseActivity;
 
@@ -74,7 +77,7 @@ public class LoginAccessActivity extends BaseActivity{
 
     private void getConfiguration() {
         ApiClient.retrofit().create(ApiStores.class)
-                .getDefaultConfiguration(ToolUtil.getCurrentVersionCode(this))
+                .getDefaultConfiguration(ToolUtil.getCurrentVersionCode(this), SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new ApiCallback() {
