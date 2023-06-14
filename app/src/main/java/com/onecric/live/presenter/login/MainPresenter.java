@@ -1,6 +1,7 @@
 package com.onecric.live.presenter.login;
 
 import static com.onecric.live.AppManager.mContext;
+import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
 
 import android.app.Activity;
 import android.text.TextUtils;
@@ -29,7 +30,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     public void getConfiguration(String versionNumber) {
-        addSubscription(apiStores.getDefaultConfiguration(versionNumber),
+        addSubscription(apiStores.getDefaultConfiguration(versionNumber,SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN)),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {

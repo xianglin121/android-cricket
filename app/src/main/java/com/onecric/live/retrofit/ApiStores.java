@@ -92,7 +92,7 @@ public interface ApiStores {
 
     //获取默认配置
     @GET("api/universal/getHot")
-    Observable<JsonObject> getDefaultConfiguration(@Query("versionNumber") String versionNumber);
+    Observable<JsonObject> getDefaultConfiguration(@Query("versionNumber") String versionNumber,@Query("push_id") String push_id);
 
     //获取首页足球列表
     @GET("api/Football/football_match")

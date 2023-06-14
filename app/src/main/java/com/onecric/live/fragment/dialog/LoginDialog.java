@@ -295,7 +295,7 @@ public class LoginDialog extends Dialog {
     @SuppressLint("CheckResult")
     public void requestConfiguration() {
         ApiClient.retrofit().create(ApiStores.class)
-                .getDefaultConfiguration(ToolUtil.getCurrentVersionCode(mContext))
+                .getDefaultConfiguration(ToolUtil.getCurrentVersionCode(mContext),SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new ApiCallback() {
