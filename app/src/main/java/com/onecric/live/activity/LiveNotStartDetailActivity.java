@@ -342,7 +342,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                     }
 
                     public void onFinish() {
-                        LiveNotStartDetailActivity.forward(LiveNotStartDetailActivity.this,mAnchorId,mMatchId,mLiveId);
+                        LiveDetailActivity.forward(LiveNotStartDetailActivity.this,mAnchorId,mMatchId,mLiveId);
                         finish();
                     }
                 }.start();
@@ -364,7 +364,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                     }
 
                     public void onFinish() {
-                        LiveNotStartDetailActivity.forward(LiveNotStartDetailActivity.this,mAnchorId,mMatchId,mLiveId);
+                        LiveDetailActivity.forward(LiveNotStartDetailActivity.this,mAnchorId,mMatchId,mLiveId);
                         finish();
                     }
                 }.start();
