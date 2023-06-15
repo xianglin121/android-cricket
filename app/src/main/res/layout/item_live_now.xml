@@ -103,13 +103,13 @@
                 android:maxLines="1"
                 android:fontFamily="@font/noto_sans_display_semibold"
                 android:textColor="@color/black_font_color"
-                android:textSize="11sp" />
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/tv_home_score2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:textColor="@color/c_999999"/>
 
             <TextView
@@ -117,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/noto_sans_display_semibold"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:drawablePadding="2dp"/>
 
         </LinearLayout>
@@ -147,7 +147,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/black_font_color"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:fontFamily="@font/noto_sans_display_semibold"/>
 
             <TextView
@@ -155,7 +155,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:textColor="@color/c_999999"/>
 
             <TextView
@@ -163,7 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/noto_sans_display_semibold"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:drawablePadding="2dp"/>
 
         </LinearLayout>

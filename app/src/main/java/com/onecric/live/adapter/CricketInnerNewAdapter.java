@@ -2,10 +2,14 @@ package com.onecric.live.adapter;
 
 import static com.onecric.live.util.TimeUtil.stampToTime;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -140,12 +144,21 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
             if(item.getHomeDisplayScore().contains("0/0")){
                 helper.setText(R.id.tv_home_score, "");
                 helper.setText(R.id.tv_home_score2, mContext.getString(R.string.yet_to_bat));
-            }else if (item.getHomeDisplayScore().contains(" ")) {
-                String[] split = item.getHomeDisplayScore().split(" ");
-                helper.setText(R.id.tv_home_score, " "+split[0]);
-                helper.setText(R.id.tv_home_score2, split[1]);
-            } else {
-                helper.setText(R.id.tv_home_score, item.getHomeDisplayScore());
+            }else{
+                //                String scoreStr = "11/11&22/22 (33)";
+                String scoreStr = item.getHomeDisplayScore();
+                if (scoreStr.contains(" ")){
+                    String[] split = scoreStr.split(" ");
+                    helper.setText(R.id.tv_home_score2, split[1]);
+                    scoreStr = split[0];
+                }
+                if(scoreStr.contains("&")){
+                    SpannableStringBuilder builder = new SpannableStringBuilder(scoreStr);
+                    builder.setSpan(new ForegroundColorSpan(Color.parseColor("#99111111")), 0, scoreStr.indexOf("&"), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    helper.setText(R.id.tv_home_score, builder);
+                }else{
+                    helper.setText(R.id.tv_home_score, scoreStr);
+                }
             }
         } else {
             helper.setText(R.id.tv_home_score, "");
@@ -156,12 +169,20 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
             if(item.getAwayDisplayScore().contains("0/0")){
                 helper.setText(R.id.tv_away_score, "");
                 helper.setText(R.id.tv_away_score2, mContext.getString(R.string.yet_to_bat));
-            }else if (item.getAwayDisplayScore().contains(" ")) {
-                String[] split = item.getAwayDisplayScore().split(" ");
-                helper.setText(R.id.tv_away_score, " "+split[0]);
-                helper.setText(R.id.tv_away_score2, split[1]);
-            } else {
-                helper.setText(R.id.tv_away_score, item.getAwayDisplayScore());
+            }else {
+                String scoreStr = item.getAwayDisplayScore();
+                if (scoreStr.contains(" ")){
+                    String[] split = scoreStr.split(" ");
+                    helper.setText(R.id.tv_away_score2, split[1]);
+                    scoreStr = split[0];
+                }
+                if(scoreStr.contains("&")){
+                    SpannableStringBuilder builder = new SpannableStringBuilder(scoreStr);
+                    builder.setSpan(new ForegroundColorSpan(Color.parseColor("#99111111")), 0, scoreStr.indexOf("&"), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    helper.setText(R.id.tv_away_score, builder);
+                }else{
+                    helper.setText(R.id.tv_away_score, scoreStr);
+                }
             }
         } else {
             helper.setText(R.id.tv_away_score, "");

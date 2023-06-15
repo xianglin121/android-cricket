@@ -24,6 +24,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.engine.executor.GlideExecutor;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -755,4 +756,20 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     public void openDrawer() {
         drawerLayout.openDrawer(GravityCompat.START);
     }*/
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        Glide.get(this).clearMemory();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        if (level == TRIM_MEMORY_UI_HIDDEN) {
+            Glide.get(this).clearMemory();
+        }
+        Glide.get(this).trimMemory(level);
+
+    }
 }

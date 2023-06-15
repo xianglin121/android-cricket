@@ -409,7 +409,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                 @Override
                 public void onBindView(Object holder, Object data, int position, int size) {
                     BannerBean bannerBean = (BannerBean) data;
-                    Glide.with(getContext()).load(bannerBean.getImg()).priority(Priority.HIGH).into(((BannerRoundImageHolder) holder).imageView);
+                    Glide.with(getContext()).load(bannerBean.getImg()).into(((BannerRoundImageHolder) holder).imageView);
                 }
             };
             bannerAdapter.setOnBannerListener(new OnBannerListener() {

@@ -52,4 +52,5 @@ public class CricketScorecardPresenter extends BasePresenter<CricketScorecardVie
             }
         });
     }
+
 }

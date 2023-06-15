@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
@@ -174,7 +173,7 @@ public class OneVideoInnerFragment extends MvpFragment<VideoPresenter> implement
         findViewById(R.id.view_loading).setVisibility(View.GONE);
         //有无置顶banner
         if(banner != null && banner.flie.size()>0){
-            Glide.with(getContext()).load(banner.flie.get(0).img).priority(Priority.HIGH).into(iv_bg);
+            Glide.with(getContext()).load(banner.flie.get(0).img).into(iv_bg);
             cl_top.setVisibility(View.VISIBLE);
             cl_top.setOnClickListener(v -> {
                 OneVideoDetailActivity.forward(getContext(),"",banner.id);

@@ -14,10 +14,11 @@ import com.onecric.live.common.GlideRoundTransform;
 
 public class GlideUtil {
 
+
     //设置用户图像的加载中以及加载失败图片
     public static void loadUserImageDefault(Context mContext, String path, ImageView mImageView) {
         if (mContext != null) {
-            Glide.with(mContext).load(path).placeholder(R.mipmap.bg_avatar_default).dontAnimate().error(R.mipmap.bg_avatar_default)
+            Glide.with(mContext.getApplicationContext()).load(path).skipMemoryCache(true).placeholder(R.mipmap.bg_avatar_default).dontAnimate().error(R.mipmap.bg_avatar_default).circleCrop()
                     .into(mImageView);
         }
     }
@@ -37,9 +38,14 @@ public class GlideUtil {
 
     //设置大图的加载中以及加载失败图片
     public static void loadUpdatesImageDefault(Context mContext, String path, ImageView mImageView) {
-        Glide.with(mContext).load(path).placeholder(R.mipmap.img_updates_default).dontAnimate().error(R.mipmap.img_updates_default)
-                .into(mImageView);
+        Glide.with(mContext.getApplicationContext()).load(path)
+                .placeholder(R.mipmap.img_updates_default).error(R.mipmap.img_updates_default).dontAnimate().into(mImageView);
     }
+
+    public static void loadUpdatesImageDefault10(Context mContext, String path, ImageView mImageView) {
+        Glide.with(mContext.getApplicationContext()).load(path).skipMemoryCache(true).placeholder(R.mipmap.img_updates_default).error(R.mipmap.img_updates_default).transform(new CenterCrop(), new GlideRoundTransform(DpUtil.dp2px(4))).into(mImageView);
+    }
+
 
 
     //设置图像的加载中以及加载失败图片
