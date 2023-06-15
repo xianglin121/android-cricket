@@ -28,7 +28,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 31
         versionCode 63
-        versionName "1.6.8"
+        versionName "1.6.9"
         multiDexEnabled true// dex突破65535的限制
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"

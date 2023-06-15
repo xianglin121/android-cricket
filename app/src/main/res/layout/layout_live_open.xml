@@ -9,12 +9,11 @@
     android:foreground="@drawable/selector_foreground_white"
     android:visibility="gone">
 
-    <com.makeramen.roundedimageview.RoundedImageView
+    <ImageView
         android:id="@+id/iv_live_thumb"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:scaleType="centerCrop"
-        app:riv_corner_radius="@dimen/dp_10"/>
+        android:scaleType="centerCrop"/>
 
     <ImageView
         android:layout_width="51dp"

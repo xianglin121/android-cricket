@@ -3,10 +3,13 @@ package com.onecric.live.adapter;
 import static com.onecric.live.util.TimeUtil.stampToTime;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.CountDownTimer;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,11 +21,8 @@ import com.onecric.live.AppManager;
 import com.onecric.live.R;
 import com.onecric.live.model.PlayCardsBean;
 import com.onecric.live.util.GlideUtil;
-import com.onecric.live.util.TimeUtil;
 import com.tencent.qcloud.tuicore.util.DateTimeUtil;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class LiveViewNowAdapter extends BaseMultiItemQuickAdapter<PlayCardsBean, BaseViewHolder> {
@@ -74,7 +74,15 @@ public class LiveViewNowAdapter extends BaseMultiItemQuickAdapter<PlayCardsBean,
             }
             helper.setGone(R.id.tv_state_time,true);
             helper.setGone(R.id.tv_state_info,true);
-            try{
+            helper.setText(R.id.tv_state_info,mContext.getString(R.string.watch_live_at));
+            long time = DateTimeUtil.getStringToDate(item.scheduled, "yyyy-MM-dd HH:mm:ss");
+            try {
+                String st = stampToTime(time,"hh:mm a");
+                helper.setText(R.id.tv_state_time, Html.fromHtml("<strong>"+st.substring(0,5)+"</strong> <small>"+st.substring(5)+"</small>"));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+/*            try{
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(item.scheduled.substring(11,13)));
                 cal.set(Calendar.SECOND, Integer.parseInt(item.scheduled.substring(14,16)));
@@ -111,7 +119,7 @@ public class LiveViewNowAdapter extends BaseMultiItemQuickAdapter<PlayCardsBean,
                     ex.printStackTrace();
                 }
 
-            }
+            }*/
 
 /*            //转时间戳 得到倒计时毫秒数
             long time = DateTimeUtil.getStringToDate(item.scheduled, "yyyy-MM-dd HH:mm:ss");
@@ -157,12 +165,20 @@ public class LiveViewNowAdapter extends BaseMultiItemQuickAdapter<PlayCardsBean,
             if(item.homeDisplayScore.contains("0/0")){
                 tv_home_score.setText("");
                 helper.setText(R.id.tv_home_score2,mContext.getString(R.string.yet_to_bat));
-            }else if (item.homeDisplayScore.contains(" ")) {
-                String[] split = item.homeDisplayScore.split(" ");
-                tv_home_score.setText(" "+split[0]);
-                helper.setText(R.id.tv_home_score2,split[1]);
-            } else {
-                tv_home_score.setText(item.homeDisplayScore);
+            }else {
+                String scoreStr = item.homeDisplayScore;
+                if (scoreStr.contains(" ")){
+                    String[] split = scoreStr.split(" ");
+                    helper.setText(R.id.tv_home_score2, split[1]);
+                    scoreStr = split[0];
+                }
+                if(scoreStr.contains("&")){
+                    SpannableStringBuilder builder = new SpannableStringBuilder(scoreStr);
+                    builder.setSpan(new ForegroundColorSpan(Color.parseColor("#99999999")), 0, scoreStr.indexOf("&"), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    helper.setText(R.id.tv_home_score, builder);
+                }else{
+                    helper.setText(R.id.tv_home_score, scoreStr);
+                }
             }
         } else {
             tv_home_score.setText("");
@@ -174,12 +190,20 @@ public class LiveViewNowAdapter extends BaseMultiItemQuickAdapter<PlayCardsBean,
                 tv_away_score.setText("");
                 helper.setText(R.id.tv_away_score2,mContext.getString(R.string.yet_to_bat));
 
-            }else if (item.awayDisplayScore.contains(" ")) {
-                String[] split = item.awayDisplayScore.split(" ");
-                tv_away_score.setText(" "+split[0]);
-                helper.setText(R.id.tv_away_score2,split[1]);
-            } else {
-                tv_away_score.setText(item.awayDisplayScore);
+            }else {
+                String scoreStr = item.awayDisplayScore;
+                if (scoreStr.contains(" ")){
+                    String[] split = scoreStr.split(" ");
+                    helper.setText(R.id.tv_away_score2, split[1]);
+                    scoreStr = split[0];
+                }
+                if(scoreStr.contains("&")){
+                    SpannableStringBuilder builder = new SpannableStringBuilder(scoreStr);
+                    builder.setSpan(new ForegroundColorSpan(Color.parseColor("#99999999")), 0, scoreStr.indexOf("&"), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    helper.setText(R.id.tv_away_score, builder);
+                }else{
+                    helper.setText(R.id.tv_away_score, scoreStr);
+                }
             }
         } else {
             tv_away_score.setText("");

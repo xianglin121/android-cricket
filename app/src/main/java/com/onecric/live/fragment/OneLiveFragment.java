@@ -3,12 +3,16 @@ package com.onecric.live.fragment;
 import static com.onecric.live.util.TimeUtil.stampToTime;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -47,7 +51,6 @@ import com.onecric.live.model.PlayCardsBean;
 import com.onecric.live.presenter.live.OneLivePresenter;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.SpUtil;
-import com.onecric.live.util.TimeUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.OneLiveView;
@@ -64,8 +67,6 @@ import net.lucode.hackware.magicindicator.buildins.UIUtil;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -290,7 +291,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
         }
 //       GlideUtil.loadUpdatesImageDefault(getContext(), selectLiveBean.thumb, iv_live_thumb);
         if(!isSame){
-            GlideUtil.loadUpdatesImageDefault(getContext(),selectLiveBean.thumb,iv_live_thumb);
+            GlideUtil.loadUpdatesImageDefault10(getContext(),selectLiveBean.thumb,iv_live_thumb);
             tv_live_title.setText(selectLiveBean.tournament);
             GlideUtil.loadTeamImageDefault(getContext(), selectLiveBean.homeLogo, iv_home_logo);
             tv_home_name.setText(TextUtils.isEmpty(selectLiveBean.homeName)?"":selectLiveBean.homeName);
@@ -325,7 +326,16 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
             }
             tv_state_time.setVisibility(View.VISIBLE);
             tv_state_info.setVisibility(View.VISIBLE);
-            try{
+
+            try {
+                long time = DateTimeUtil.getStringToDate(selectLiveBean.scheduled, "yyyy-MM-dd HH:mm:ss");
+                String st = stampToTime(time,"hh:mm a");
+                tv_state_time.setText(Html.fromHtml("<strong>"+st.substring(0,5)+"</strong> <small>"+st.substring(5)+"</small>"));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+/*            try{
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(selectLiveBean.scheduled.substring(11,13)));
                 cal.set(Calendar.SECOND, Integer.parseInt(selectLiveBean.scheduled.substring(14,16)));
@@ -361,7 +371,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            }
+            }*/
             //转时间戳 得到倒计时毫秒数
 /*            long time = DateTimeUtil.getStringToDate(selectLiveBean.scheduled, "yyyy-MM-dd HH:mm:ss");
             long countTime = time - new Date().getTime();
@@ -387,14 +397,22 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
             if(selectLiveBean.homeDisplayOvers.contains("0/0")){
                 tv_home_score.setText("");
                 tv_home_score2.setText(getString(R.string.yet_to_bat));
-            }else if (selectLiveBean.homeDisplayOvers.contains(" ")) {
-                String[] split = selectLiveBean.homeDisplayOvers.split(" ");
-                tv_home_score.setText(" "+split[0]);
-                tv_home_score2.setText(split[1]);
-            } else if(selectLiveBean.homeDisplayOvers.equals("0")){
+            }else if(selectLiveBean.homeDisplayOvers.equals("0")){
                 tv_home_score.setText("");
             }else{
-                tv_home_score.setText(selectLiveBean.homeDisplayOvers);
+                String scoreStr = selectLiveBean.homeDisplayOvers;
+                if (scoreStr.contains(" ")){
+                    String[] split = scoreStr.split(" ");
+                    tv_home_score2.setText(split[1]);
+                    scoreStr = split[0];
+                }
+                if(scoreStr.contains("&")){
+                    SpannableStringBuilder builder = new SpannableStringBuilder(scoreStr);
+                    builder.setSpan(new ForegroundColorSpan(Color.parseColor("#99111111")), 0, scoreStr.indexOf("&"), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    tv_home_score.setText(builder);
+                }else{
+                    tv_home_score.setText(scoreStr);
+                }
             }
         } else {
             tv_home_score.setText("");
@@ -405,14 +423,22 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
             if(selectLiveBean.awayDisplayOvers.contains("0/0")){
                 tv_away_score.setText("");
                 tv_away_score2.setText(getString(R.string.yet_to_bat));
-            }else if (selectLiveBean.awayDisplayOvers.contains(" ")) {
-                String[] split = selectLiveBean.awayDisplayOvers.split(" ");
-                tv_away_score.setText(" "+split[0]);
-                tv_away_score2.setText(split[1]);
-            } else if(selectLiveBean.awayDisplayOvers.equals("0")){
+            }else if(selectLiveBean.awayDisplayOvers.equals("0")){
                 tv_away_score.setText("");
             }else{
-                tv_away_score.setText(selectLiveBean.awayDisplayOvers);
+                String scoreStr = selectLiveBean.awayDisplayOvers;
+                if (scoreStr.contains(" ")){
+                    String[] split = scoreStr.split(" ");
+                    tv_away_score2.setText(split[1]);
+                    scoreStr = split[0];
+                }
+                if(scoreStr.contains("&")){
+                    SpannableStringBuilder builder = new SpannableStringBuilder(scoreStr);
+                    builder.setSpan(new ForegroundColorSpan(Color.parseColor("#99111111")), 0, scoreStr.indexOf("&"), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    tv_away_score.setText(builder);
+                }else{
+                    tv_away_score.setText(scoreStr);
+                }
             }
         } else {
             tv_away_score.setText("");
