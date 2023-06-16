@@ -18,7 +18,7 @@ public class GlideUtil {
     //设置用户图像的加载中以及加载失败图片
     public static void loadUserImageDefault(Context mContext, String path, ImageView mImageView) {
         if (mContext != null) {
-            Glide.with(mContext.getApplicationContext()).load(path).skipMemoryCache(true).placeholder(R.mipmap.bg_avatar_default).dontAnimate().error(R.mipmap.bg_avatar_default).circleCrop()
+            Glide.with(mContext.getApplicationContext()).load(path).placeholder(R.mipmap.bg_avatar_default).error(R.mipmap.bg_avatar_default).circleCrop()
                     .into(mImageView);
         }
     }

@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.ScorecardBatterBean;
@@ -52,10 +51,23 @@ public class CricketScorecardAdapter extends BaseQuickAdapter<CricketMatchBean.C
             helper.setText(R.id.tv_home_name,item.name);
         }
         if (!TextUtils.isEmpty(item.score)) {
-            helper.setText(R.id.tv_home_score,item.score);
+            if(item.score.contains(")")){
+                helper.setText(R.id.tv_home_round,item.score.substring(0,item.score.indexOf(")")+1));
+                helper.setText(R.id.tv_home_score,item.score.substring(item.score.indexOf(")")+1));
+            }else{
+                helper.setText(R.id.tv_home_round,"");
+                helper.setText(R.id.tv_home_score,item.score);
+            }
         }
         if (!TextUtils.isEmpty(item.order)) {
-            helper.setText(R.id.tv_home_round,item.order);
+            helper.setText(R.id.tv_home_part,item.order);
+
+        }
+
+        if(getData().size()-1 == helper.getPosition()){
+            ll_home.setSelected(true);
+            sv_home.setVisibility(View.VISIBLE);
+            iv_arrow_one.setBackgroundResource(R.mipmap.icon_arrow_up_two);
         }
 
         helper.setOnClickListener(R.id.ll_home, new View.OnClickListener() {
@@ -78,7 +90,7 @@ public class CricketScorecardAdapter extends BaseQuickAdapter<CricketMatchBean.C
             jsonObject.put("id", match_id);
             jsonObject.put("team_id", item.id);
             ApiClient.retrofit().create(ApiStores.class)
-                    .getHeadlineReplyList(CommonAppConfig.getInstance().getToken(), getRequestBody(jsonObject))
+                    .getMatchScorecard(getRequestBody(jsonObject))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(new ApiCallback() {

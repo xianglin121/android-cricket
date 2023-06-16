@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/ll_home"
         android:layout_width="match_parent"
@@ -21,21 +21,29 @@
             android:textSize="17sp" />
 
         <TextView
-            android:id="@+id/tv_home_round"
+            android:id="@+id/tv_home_part"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textColor="@color/c_666666"
+            android:layout_marginLeft="10dp"
             android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_home_round"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/c_666666"
+            android:textSize="14sp"
+            android:layout_marginRight="4dp"/>
 
         <TextView
             android:id="@+id/tv_home_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/noto_sans_display_bold"
+            android:fontFamily="@font/noto_sans_display_semibold"
             android:textColor="@color/c_333333"
-            android:textSize="17sp" />
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/iv_arrow_one"
@@ -51,8 +59,7 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/sv_home"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:visibility="gone">
 
         <LinearLayout

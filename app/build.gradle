@@ -27,8 +27,8 @@ android {
         applicationId "com.onecric.live"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 63
-        versionName "1.6.9"
+        versionCode 64
+        versionName "1.7.0"
         multiDexEnabled true// dex突破65535的限制
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
@@ -65,7 +65,7 @@ HONOR_APPID               : "220603327"
         def df = new SimpleDateFormat("MMdd")
         setProperty("archivesBaseName", "${df.format(new Date())}_v${versionName}")
         //配置多渠道
-        flavorDimensions "deault"
+//        flavorDimensions "deault"
     }
 
     buildTypes {
@@ -78,7 +78,7 @@ HONOR_APPID               : "220603327"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         //配置多渠道
-        applicationVariants.all { variant ->
+/*        applicationVariants.all { variant ->
             variant.outputs.all { output ->
                 def outputFile = output.outputFile
                 if (outputFile != null && outputFile.name.endsWith('.apk')) {
@@ -89,7 +89,7 @@ HONOR_APPID               : "220603327"
                     outputFileName = fileName
                 }
             }
-        }
+        }*/
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -97,7 +97,7 @@ HONOR_APPID               : "220603327"
     }
 
     //配置多渠道
-    productFlavors {
+    /*productFlavors {
         _7cV1H {
             manifestPlaceholders = [APP_CHANNEL_VALUE: "7cV1H"]
         }
@@ -143,7 +143,7 @@ HONOR_APPID               : "220603327"
         blgvc {
             manifestPlaceholders = [APP_CHANNEL_VALUE: "blgvc"]
         }
-    }
+    }*/
 
 
 }

@@ -207,7 +207,7 @@ public class LiveDetailMainFragment extends Fragment {
         mViewList.add(chatFragment);
         mViewList.add(CricketLiveFragment.newInstance(mMatchId));
         mViewList.add(CricketInfoFragment.newInstance(mMatchId));
-        mViewList.add(CricketScorecardFragment.newInstance());
+        mViewList.add(CricketScorecardFragment2.newInstance());
         mViewList.add(CricketSquadFragment.newInstance());
 
 //        LiveAnchorFragment anchorFragment = LiveAnchorFragment.newInstance(getArguments().getInt("anchorId"));
@@ -346,7 +346,7 @@ public class LiveDetailMainFragment extends Fragment {
             CricketInfoFragment info = CricketInfoFragment.newInstance(mMatchId);
             info.fragment = this;
             mViewList.add(info);
-            mViewList.add(CricketScorecardFragment.newInstance());
+            mViewList.add(CricketScorecardFragment2.newInstance());
             mViewList.add(CricketSquadFragment.newInstance());
         }
 
@@ -431,7 +431,7 @@ public class LiveDetailMainFragment extends Fragment {
             if (!TextUtils.isEmpty(model.getTournament_id())) {
                 ((CricketInfoFragment) mViewList.get(4)).getList(model.getHome_id(), model.getAway_id(), Integer.valueOf(model.getTournament_id()));
             }
-            ((CricketScorecardFragment) mViewList.get(5)).getData(model);
+            ((CricketScorecardFragment2) mViewList.get(5)).getData(model);
             ((CricketSquadFragment) mViewList.get(6)).getList(model);
         }
         if(mModel.getStatus() != 2){

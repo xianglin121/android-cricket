@@ -32,7 +32,7 @@ import com.onecric.live.R;
 import com.onecric.live.fragment.CricketFantasyFragment;
 import com.onecric.live.fragment.CricketInfoFragment;
 import com.onecric.live.fragment.CricketLiveFragment;
-import com.onecric.live.fragment.CricketScorecardFragment;
+import com.onecric.live.fragment.CricketScorecardFragment2;
 import com.onecric.live.fragment.CricketSquadFragment;
 import com.onecric.live.fragment.CricketUpdatesFragment;
 import com.onecric.live.fragment.dialog.LoginDialog;
@@ -231,7 +231,7 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
         mViewList.add(CricketFantasyFragment.newInstance());
         mViewList.add(CricketInfoFragment.newInstance(mMatchId));
         mViewList.add(CricketLiveFragment.newInstance(mMatchId));
-        mViewList.add(CricketScorecardFragment.newInstance());
+        mViewList.add(CricketScorecardFragment2.newInstance());
 //        mViewList.add(CricketFantasyFragment.newInstance());
         mViewList.add(CricketUpdatesFragment.newInstance());
         mViewList.add(CricketSquadFragment.newInstance());
@@ -405,7 +405,7 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
             //初始化视频直播地址
             initWebViewTwo(mModel.getLive_url());
             //请求记分卡数据
-            ((CricketScorecardFragment) mViewList.get(3)).getData(mModel);
+            ((CricketScorecardFragment2) mViewList.get(3)).getData(mModel);
 
             if(mModel.getStatus() != 2){
                 refreshTodayData();
