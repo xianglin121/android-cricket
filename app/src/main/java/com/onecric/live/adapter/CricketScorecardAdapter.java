@@ -22,7 +22,6 @@ import com.onecric.live.model.ScorecardWicketBean;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.retrofit.ApiClient;
 import com.onecric.live.retrofit.ApiStores;
-import com.onecric.live.util.GlideUtil;
 
 import java.util.List;
 
@@ -144,9 +143,6 @@ public class CricketScorecardAdapter extends BaseQuickAdapter<CricketMatchBean.C
                         }
                     });
         }else{
-             ImageView iv_home_logo = helper.getView(R.id.iv_home_logo);
-            GlideUtil.loadUserImageDefault(mContext, "", iv_home_logo);
-
             ScorecardBatterAdapter mHomeBatterAdapter;
             ScorecardBowlerAdapter mHomeBowlerAdapter;
             ScorecardWicketAdapter mHomeWicketAdapter;
