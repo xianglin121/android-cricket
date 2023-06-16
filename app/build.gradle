@@ -98,7 +98,7 @@ HONOR_APPID               : "220603327"
 
     //配置多渠道
     productFlavors {
-        acV1H {
+        _7cV1H {
             manifestPlaceholders = [APP_CHANNEL_VALUE: "7cV1H"]
         }
         dGV8K {
