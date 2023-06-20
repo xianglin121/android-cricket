@@ -92,7 +92,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -265,8 +264,8 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         rv_chat.setAdapter(mChatAdapter);
 
         //获取贵族信息
-        mvpPresenter.getNobelData();
-
+//        mvpPresenter.getNobelData();
+        smart_rl.autoRefresh();
         //初始化屏蔽特效弹窗
         initPopup();
         popup.findViewById(R.id.ll_envelope).setOnClickListener(this);
@@ -648,14 +647,14 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                         mvpPresenter.initListener();
 //                        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {}
 //                        ((LiveDetailActivity) getActivity()).setPeopleCount();
-                        loadHistoryMsg(true);
+//                        loadHistoryMsg(true);
                     }
 
                     @Override
                     public void onError(int i, String s) {
                         Log.e("Chat","code:"+i+" info:"+s);
                         mvpPresenter.initListener();
-                        loadHistoryMsg(true);
+//                        loadHistoryMsg(true);
                     }
                 });
             }
@@ -1262,6 +1261,11 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
 
     @Override
     public void getHistoryMsgListSuccess(List<HistoryMsgBean.RspMsgListDTO> list) {
+        smart_rl.finishRefresh();
+        if(progressBar.getVisibility() == View.VISIBLE){
+            progressBar.setVisibility(View.GONE);
+        }
+
         if(list != null && list.size()>0){
             List<MessageInfo> msgInfo = new ArrayList<>();
             MessageInfo bean;
@@ -1281,6 +1285,9 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                 }
             }
             mChatAdapter.addData(msgInfo);
+            mChatAdapter.notifyDataSetChanged();
+            rv_chat.smoothScrollToPosition(mChatAdapter.getItemCount() - 1);
+            sendEnterMessage();
         }
         //获取贵族信息
         mvpPresenter.getNobelData();
@@ -1501,7 +1508,8 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
     }
 
     private void loadHistoryMsg(boolean isFirst){
-        loadHistoryMessageList(20,firstMessageInfo,TUIChatConstants.GET_MESSAGE_FORWARD,new IUIKitCallback<List<MessageInfo>>(){
+        mvpPresenter.getHistoryMessage(Integer.parseInt(mGroupId));
+        /*loadHistoryMessageList(20,firstMessageInfo,TUIChatConstants.GET_MESSAGE_FORWARD,new IUIKitCallback<List<MessageInfo>>(){
             @Override
             public void onSuccess(List<MessageInfo> data) {
                 smart_rl.finishRefresh();
@@ -1533,8 +1541,10 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                     loadedMessageInfoList.addAll(0,list);
                     mChatAdapter.notifyDataSetChanged();
                 }
-                if(isFirst){
+                if(progressBar.getVisibility() == View.VISIBLE){
                     progressBar.setVisibility(View.GONE);
+                }
+                if(isFirst){
                     rv_chat.smoothScrollToPosition(mChatAdapter.getItemCount() - 1);
                     sendEnterMessage();
                 }
@@ -1542,10 +1552,13 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
 
             @Override
             public void onError(String module, int errCode, String errMsg) {
+                if(progressBar.getVisibility() == View.VISIBLE){
+                    progressBar.setVisibility(View.GONE);
+                }
                 smart_rl.finishRefresh();
                 Log.e("Chat","getHistoryMessageList Error: module-"+module+" errCode-"+errCode+" errMsg"+errMsg);
             }
-        });
+        });*/
     }
 
 }
