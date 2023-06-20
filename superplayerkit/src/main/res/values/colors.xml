@@ -27,4 +27,10 @@
     <color name="superplayer_default_progress_color">#FF4081</color>
     <color name="superplayer_default_progress_background_color">#BBBBBB</color>
     <color name="superplayer_vipwatch_yellow_color">#F4E096</color>
+
+    <color name="c_0081ff">#0081ff</color>
+    <color name="c_999999">#999999</color>
+    <color name="c_333333">#333333</color>
+    <color name="c_666666">#666666</color>
+    <color name="c_219430">#219430</color>
 </resources>

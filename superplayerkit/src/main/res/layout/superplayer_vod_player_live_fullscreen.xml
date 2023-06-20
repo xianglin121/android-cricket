@@ -270,6 +270,13 @@
         android:layout_alignParentRight="true"
         android:visibility="gone" />
 
+    <com.tencent.liteav.demo.superplayer.ui.view.VodMatchFullScreenView
+        android:id="@+id/vod_match_rank"
+        android:layout_width="350dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:visibility="gone" />
+
     <ImageView
         android:id="@+id/superplayer_iv_lock"
         android:layout_width="35dp"
@@ -286,7 +293,7 @@
         android:layout_alignParentRight="true"
        android:layout_marginRight="10dp"
         android:src="@drawable/icon_live_ranking"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <LinearLayout
         android:id="@+id/superplayer_ll_replay"

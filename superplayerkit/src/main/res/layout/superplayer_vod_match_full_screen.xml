@@ -6,8 +6,8 @@
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/bg_match_top"
+        android:layout_height="30dp"
+        android:background="#66333333"
         android:layout_marginBottom="4dp">
         <TextView
             android:id="@+id/tv_tab_scorecard"
@@ -52,10 +52,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="11dp"
-        android:layout_marginBottom="17dp"
-        android:background="@drawable/bg_match_main_white"
-        android:visibility="gone">
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="13dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/tv_scorecard_home"
@@ -63,10 +64,9 @@
             android:layout_weight="1"
             android:layout_height="31dp"
             android:gravity="center"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="12sp"
-            tools:text="SAR (10) 75/5"
-            android:background="@color/transparent"/>
+            android:background="@drawable/selector_match_team_left"/>
 
         <TextView
             android:id="@+id/tv_scorecard_away"
@@ -76,8 +76,7 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="12sp"
-            tools:text="CHA (7) 78/1"
-            android:background="@drawable/bg_match_right"/>
+            android:background="@drawable/selector_match_team_right"/>
 
     </LinearLayout>
 
@@ -87,7 +86,10 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@drawable/bg_match_main_black"
-        android:visibility="gone">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,10 +100,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:background="@drawable/bg_match_40d9d9d9"
+                android:background="@drawable/bg_match_990"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
@@ -110,7 +111,8 @@
                     android:paddingLeft="12dp"
                     android:text="BATTER"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="11dp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -118,7 +120,8 @@
                     android:layout_weight="1"
                     android:text="R"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="11dp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -126,7 +129,8 @@
                     android:layout_weight="1"
                     android:text="B"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="11dp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -134,7 +138,8 @@
                     android:layout_weight="1"
                     android:text="4s"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="11dp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -142,7 +147,8 @@
                     android:layout_weight="1"
                     android:text="6s"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="11dp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -152,14 +158,14 @@
                     android:paddingRight="12dp"
                     android:text="S/R"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="11dp"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/bg_match_40d9d9d9">
+                android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_home_batter"
@@ -179,7 +185,8 @@
                         android:layout_weight="1"
                         android:text="@string/extras"
                         android:textColor="@color/white"
-                        android:textSize="12dp" />
+                        android:textStyle="bold"
+                        android:textSize="11dp" />
 
                     <TextView
                         android:id="@+id/tv_home_extras"
@@ -187,7 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="12dp"
                         android:textColor="@color/white"
-                        android:textSize="12dp" />
+                        android:textSize="11dp" />
                 </LinearLayout>
 
                 <View
@@ -207,7 +214,8 @@
                         android:layout_marginLeft="12dp"
                         android:text="@string/did_not_bat"
                         android:textColor="@color/white"
-                        android:textSize="12dp" />
+                        android:textSize="11dp"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_home_no_bat"
@@ -215,7 +223,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:textColor="@color/white"
-                        android:textSize="12dp" />
+                        android:textSize="11dp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -224,10 +232,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_marginTop="18dp"
-                android:background="@drawable/bg_match_40d9d9d9"
+                android:background="@drawable/bg_match_990"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
@@ -236,7 +243,8 @@
                     android:paddingLeft="12dp"
                     android:text="BOWLER"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="11dp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -244,7 +252,8 @@
                     android:layout_weight="1"
                     android:text="O"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="11dp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -252,7 +261,8 @@
                     android:layout_weight="1"
                     android:text="R"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="11dp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -260,21 +270,20 @@
                     android:layout_weight="1"
                     android:text="W"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="11dp"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_home_bowler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_match_40d9d9d9"/>
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/bg_match_40d9d9d9"
+                android:background="@drawable/bg_match_990"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -285,7 +294,8 @@
                     android:paddingLeft="12dp"
                     android:text="FALL OF WICKETS"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="11dp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -293,7 +303,8 @@
                     android:layout_weight="1.5"
                     android:text="@string/score_uppercase"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="11dp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -301,14 +312,14 @@
                     android:layout_weight="1.5"
                     android:text="@string/over_uppercase"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="11dp"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_home_wicket"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_match_40d9d9d9"/>
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -319,7 +330,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:overScrollMode="never"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@drawable/bg_match_main_white"/>
 
 </LinearLayout>

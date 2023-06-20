@@ -36,4 +36,7 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.0.0'
 
     api project(':tuichat')
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    //RecyclerViewBaseAdapter
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.49'
 }

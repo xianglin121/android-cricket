@@ -31,6 +31,7 @@ import com.tencent.liteav.demo.superplayer.ui.view.InputDanmuDialogFragment;
 import com.tencent.liteav.demo.superplayer.ui.view.PointSeekBar;
 import com.tencent.liteav.demo.superplayer.ui.view.VideoProgressLayout;
 import com.tencent.liteav.demo.superplayer.ui.view.VipWatchView;
+import com.tencent.liteav.demo.superplayer.ui.view.VodMatchFullScreenView;
 import com.tencent.liteav.demo.superplayer.ui.view.VodMoreView;
 import com.tencent.liteav.demo.superplayer.ui.view.VodQualityFullScreenView;
 import com.tencent.liteav.demo.superplayer.ui.view.VodQualityView;
@@ -118,7 +119,8 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
     private boolean                        mFirstShowQuality;                      // 是都是首次显示画质信息
     private InputDanmuDialogFragment inputDanmuDialogFragment;
     private TextView mTvCountdown;                           // 红包倒计时
-//    private ImageView mIvRank;
+    private ImageView mIvRank;
+    private VodMatchFullScreenView mMatchFullView;
 
 
     public LiveFullScreenPlayer(Context context) {
@@ -339,10 +341,19 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
         mVipWatchView.setVipWatchViewClickListener(this);
 
         //fixme 有无绑定赛事信息
-/*        mIvRank = (ImageView) findViewById(R.id.superplayer_iv_open_match);
+        mIvRank = (ImageView) findViewById(R.id.superplayer_iv_open_match);
         mIvRank.setVisibility(VISIBLE);
-
-        mIvRank.setOnClickListener(this);*/
+        mIvRank.setOnClickListener(this);
+        mMatchFullView = (VodMatchFullScreenView) findViewById(R.id.vod_match_rank);
+        mMatchFullView.setCallBack(new VodMatchFullScreenView.CallBack() {
+            @Override
+            public void onQualityChange(int type) {
+                mMatchFullView.setVisibility(GONE);
+                if (mControllerCallback != null) {
+                    mControllerCallback.onQualityChange(type);
+                }
+            }
+        });
     }
 
     public void setCountdownVisible(int visibility) {
@@ -754,9 +765,9 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
         } else if(i == R.id.iv_video_screen){
             mControllerCallback.onProjectedScreen();
         }
-/*        else if(i == R.id.superplayer_iv_open_match){
+        else if(i == R.id.superplayer_iv_open_match){
             showRankView();
-        }*/
+        }
     }
 
     private void showInputTextMsgDialog(int state) {
@@ -1127,13 +1138,10 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
         }
     }
 
-/*    *//**
-     * 显示赛程信息弹窗
-     *//*
+    //显示赛程信息弹窗
     private void showRankView() {
         mIvRank.setVisibility(View.GONE);
         //从右向左划出
-
         mVodQualityView.setVideoQualityList(mVideoQualityList);
-    }*/
+    }
 }
