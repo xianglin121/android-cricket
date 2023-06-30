@@ -700,6 +700,16 @@ public class MatchPlayerView extends RelativeLayout {
             Intent intent = new Intent(Settings.ACTION_CAST_SETTINGS);
             getContext().startActivity(intent);
         }
+
+        @Override
+        public void onGetScorecardData(int index, int teamId) {
+
+        }
+
+        @Override
+        public void onForwardPlayerProfile(int id) {
+
+        }
     };
 
     /**

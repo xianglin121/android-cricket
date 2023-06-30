@@ -186,6 +186,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         findViewById(R.id.iv_lottery).setOnClickListener(this);
         findViewById(R.id.iv_box_close).setOnClickListener(this);
 //        findViewById(R.id.iv_red_envelope).setOnClickListener(this);
+
     }
 
     @Override
@@ -258,7 +259,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         });
 
         loadedMessageInfoList.addAll(list);
-        mChatAdapter = new LiveChatAdapter(R.layout.item_live_chat, loadedMessageInfoList);
+        mChatAdapter = new LiveChatAdapter(R.layout.item_live_chat, loadedMessageInfoList,this);
         mChatLayoutManager = new LinearLayoutManager(getContext());
         rv_chat.setLayoutManager(mChatLayoutManager);
         rv_chat.setAdapter(mChatAdapter);

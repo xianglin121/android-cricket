@@ -68,6 +68,7 @@ import com.onecric.live.view.live.LiveDetailView;
 import com.tencent.imsdk.v2.V2TIMManager;
 import com.tencent.imsdk.v2.V2TIMMessage;
 import com.tencent.imsdk.v2.V2TIMSendCallback;
+import com.tencent.liteav.demo.superplayer.model.SquadDataBean;
 import com.tencent.liteav.demo.superplayer.model.event.OpenNobleSuccessEvent;
 import com.tencent.liteav.demo.superplayer.model.event.SendDanmuEvent;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
@@ -319,8 +320,8 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     @Override
     public void getDataSuccess(LiveRoomBean bean) {
         if (bean != null) {
-            if(!TextUtils.isEmpty(bean.getInfo().prompt)){//
-                liveDetailMainFragment.showOfficeNotice(bean.getInfo().prompt);
+            if(!TextUtils.isEmpty(bean.getInfo().prompt)){//FIXME
+                liveDetailMainFragment.showOfficeNotice(bean.getInfo().prompt,1);
             }
             mLiveRoomBean = bean;
             initShareScreen();
@@ -551,6 +552,12 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
         mLiveRoomBean.getInfo().setLike_num(likeNum);
     }
+
+    @Override
+    public void getSquadData(List<SquadDataBean> beanList) {
+
+    }
+
 
     @Override
     public void getDataFail(String msg) {}

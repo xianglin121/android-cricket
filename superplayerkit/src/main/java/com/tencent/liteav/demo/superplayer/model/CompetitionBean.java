@@ -14,13 +14,14 @@ public class CompetitionBean {
     public String name;
     public String order;
     public ListDataBean bean;
+    public boolean isSelected;
 
     public static class ListDataBean{
-        private List<ScorecardBatterBean> batterList;
-        private List<ScorecardBowlerBean> bowlerList;
-        private List<ScorecardWicketBean> wicketList;
-        private String extras;
-        private String noBattingName;
+        public List<ScorecardBatterBean> batterList;
+        public List<ScorecardBowlerBean> bowlerList;
+        public List<ScorecardWicketBean> wicketList;
+        public String extras;
+        public String noBattingName;
 
         public ListDataBean(List<ScorecardBatterBean> batterList, List<ScorecardBowlerBean> bowlerList, List<ScorecardWicketBean> wicketList, String extras, String noBattingName) {
             this.batterList = batterList;

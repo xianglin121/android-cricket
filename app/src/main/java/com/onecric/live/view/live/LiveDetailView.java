@@ -7,6 +7,7 @@ import com.onecric.live.model.LiveRoomBean;
 import com.onecric.live.model.UpdatesBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.view.BaseView;
+import com.tencent.liteav.demo.superplayer.model.SquadDataBean;
 
 import java.util.List;
 
@@ -30,4 +31,6 @@ public interface LiveDetailView extends BaseView<LiveRoomBean> {
     void getUpdatesDataSuccess(List<UpdatesBean> list);
 
     void showLikeSuccess();
+
+    void getSquadData(List<SquadDataBean> beanList);
 }

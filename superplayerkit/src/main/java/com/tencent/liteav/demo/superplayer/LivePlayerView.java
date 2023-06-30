@@ -30,6 +30,9 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.tencent.liteav.basic.log.TXCLog;
+import com.tencent.liteav.demo.superplayer.model.CompetitionBean;
+import com.tencent.liteav.demo.superplayer.model.DanmuBean;
+import com.tencent.liteav.demo.superplayer.model.SquadDataBean;
 import com.tencent.liteav.demo.superplayer.model.SuperPlayer;
 import com.tencent.liteav.demo.superplayer.model.SuperPlayerImpl;
 import com.tencent.liteav.demo.superplayer.model.SuperPlayerObserver;
@@ -710,6 +713,19 @@ public class LivePlayerView extends RelativeLayout {
             Intent intent = new Intent(Settings.ACTION_CAST_SETTINGS);
             getContext().startActivity(intent);
         }
+        @Override
+        public void onGetScorecardData(int index, int teamId){
+            if (mPlayerViewCallback != null) {
+                mPlayerViewCallback.onGetScorecardData(index,teamId);
+            }
+        }
+
+        @Override
+        public void onForwardPlayerProfile(int id) {
+            if (mPlayerViewCallback != null) {
+                mPlayerViewCallback.onForwardPlayerProfile(id);
+            }
+        }
     };
 
     /**
@@ -827,6 +843,10 @@ public class LivePlayerView extends RelativeLayout {
          * 加载完全
          */
         void onLoadingEnd();
+
+        void onGetScorecardData(int index, int teamId);
+
+        void onForwardPlayerProfile(int id);
 
     }
 
@@ -1087,4 +1107,31 @@ public class LivePlayerView extends RelativeLayout {
             mWindowPlayer.hideBackKey();
         }
     }
+
+    public void setTeamData(int mId,List<CompetitionBean> list,String url) {
+        if(mFullScreenPlayer != null){
+            mFullScreenPlayer.setTeamData(mId,list,url);
+        }
+    }
+
+    public void setScorecardData(int index,CompetitionBean.ListDataBean bean) {
+        if(mFullScreenPlayer != null){
+            mFullScreenPlayer.setScorecardData(index,bean);
+        }
+    }
+
+    public void setNoticeDanmu(String notice){
+        mFullScreenPlayer.setNoticeDanmu(notice);
+    }
+
+    public void addFullScrollDanmu(DanmuBean msg){
+        mFullScreenPlayer.addFullScrollDanmu(msg);
+    }
+
+    public void setSquadData(List<SquadDataBean> list){
+        if(mFullScreenPlayer != null){
+            mFullScreenPlayer.setSquadData(list);
+        }
+    }
+
 }

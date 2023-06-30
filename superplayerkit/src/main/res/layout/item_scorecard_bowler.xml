@@ -1,42 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="6"
+            android:layout_weight="5"
+            android:minHeight="35dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/c_0081ff"
             android:textSize="11dp"
-            android:textStyle="bold"
-            android:minHeight="@dimen/dp_40"
-            android:textColor="@color/c_219430"/>
+            android:gravity="center_vertical"
+            android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/tv_score"
+            android:id="@+id/tv_o"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/white"
             android:textSize="11dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/tv_over"
+            android:id="@+id/tv_r"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/white"
             android:textSize="11dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tv_w"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="11dp"
+            android:textStyle="bold"/>
     </LinearLayout>
 
     <View
@@ -44,5 +56,5 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginTop="5dp"
-        android:background="@color/c_666666"/>
+        android:background="@color/c_666666" />
 </LinearLayout>

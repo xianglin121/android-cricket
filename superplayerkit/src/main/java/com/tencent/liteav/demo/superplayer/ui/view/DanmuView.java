@@ -1,43 +1,31 @@
 package com.tencent.liteav.demo.superplayer.ui.view;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
-import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tencent.liteav.basic.log.TXCLog;
 import com.tencent.liteav.demo.superplayer.R;
-import com.tencent.qcloud.tuikit.tuichat.component.face.FaceManager;
 
 import java.util.HashMap;
 import java.util.Random;
 
 import master.flame.danmaku.controller.DrawHandler;
-import master.flame.danmaku.danmaku.model.AlphaValue;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
-import master.flame.danmaku.danmaku.model.Duration;
-import master.flame.danmaku.danmaku.model.FBDanmaku;
-import master.flame.danmaku.danmaku.model.FTDanmaku;
 import master.flame.danmaku.danmaku.model.IDanmakus;
 import master.flame.danmaku.danmaku.model.android.AndroidDisplayer;
 import master.flame.danmaku.danmaku.model.android.DanmakuContext;
 import master.flame.danmaku.danmaku.model.android.Danmakus;
-import master.flame.danmaku.danmaku.model.android.SpannedCacheStuffer;
 import master.flame.danmaku.danmaku.model.android.ViewCacheStuffer;
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 import master.flame.danmaku.ui.widget.DanmakuView;
@@ -124,7 +112,8 @@ public class DanmuView extends DanmakuView {
 
         @Override
         public void onBindViewHolder(int viewType, MyViewHolder viewHolder, BaseDanmaku danmaku, AndroidDisplayer.DisplayerConfig displayerConfig, TextPaint paint) {
-            SpannableStringBuilder msg = FaceManager.handlerEmojiText(danmaku.text.toString());
+            //滚动的弹幕
+/*            SpannableStringBuilder msg = FaceManager.handlerEmojiText(danmaku.text.toString());
             viewHolder.mText.setText(msg);
             viewHolder.mText.setTextColor(danmaku.textColor);
             viewHolder.mText.setTextSize(TypedValue.COMPLEX_UNIT_PX, danmaku.textSize);
@@ -145,7 +134,7 @@ public class DanmuView extends DanmakuView {
                 }
             }else {
                 viewHolder.mBgDanmu.setVisibility(View.GONE);
-            }
+            }*/
         }
     };
 

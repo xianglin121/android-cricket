@@ -3,8 +3,6 @@ package com.tencent.liteav.demo.superplayer.ui.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -15,13 +13,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -33,9 +29,6 @@ import com.tencent.qcloud.tuikit.tuichat.component.face.FaceManager;
 import com.tencent.qcloud.tuikit.tuichat.ui.view.input.face.FaceFragment;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 开发公司：东莞市梦幻科技有限公司
@@ -146,6 +139,12 @@ public class InputDanmuDialogFragment extends DialogFragment implements View.OnC
 //            ((LiveDetailActivity)getActivity()).sendMessage(et_input.getText().toString());
             EventBus.getDefault().post(new SendDanmuEvent(et_input.getText().toString()));
             et_input.setText("");
+
+            InputMethodManager manager = ((InputMethodManager) et_input.getContext()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE));
+            if (manager != null) {
+                manager.hideSoftInputFromWindow(et_input.getWindowToken(), 0);
+            }
         }
     }
 

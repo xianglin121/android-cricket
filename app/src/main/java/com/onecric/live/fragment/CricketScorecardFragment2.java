@@ -65,6 +65,7 @@ public class CricketScorecardFragment2 extends MvpFragment<CricketScorecardPrese
     }
 
     public void getData(CricketMatchBean model) {
+
         if(model.competition_list != null && model.competition_list.size()>0){
             mAdapter.match_id = model.getMatch_id();
             mAdapter.setNewData(model.competition_list);

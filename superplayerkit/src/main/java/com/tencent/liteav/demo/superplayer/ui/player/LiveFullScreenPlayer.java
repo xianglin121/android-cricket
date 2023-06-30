@@ -1,5 +1,6 @@
 package com.tencent.liteav.demo.superplayer.ui.player;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -17,9 +19,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.tencent.liteav.demo.superplayer.R;
 import com.tencent.liteav.demo.superplayer.SuperPlayerDef;
+import com.tencent.liteav.demo.superplayer.adapter.DanmuAdapter;
+import com.tencent.liteav.demo.superplayer.model.CompetitionBean;
+import com.tencent.liteav.demo.superplayer.model.DanmuBean;
+import com.tencent.liteav.demo.superplayer.model.SquadDataBean;
 import com.tencent.liteav.demo.superplayer.model.entity.PlayImageSpriteInfo;
 import com.tencent.liteav.demo.superplayer.model.entity.PlayKeyFrameDescInfo;
 import com.tencent.liteav.demo.superplayer.model.entity.VideoQuality;
@@ -121,7 +129,9 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
     private TextView mTvCountdown;                           // 红包倒计时
     private ImageView mIvRank;
     private VodMatchFullScreenView mMatchFullView;
-
+    private int matchId;
+    private RecyclerView mDanmuRV;
+    private DanmuAdapter danmuAdapter;
 
     public LiveFullScreenPlayer(Context context) {
         super(context);
@@ -267,6 +277,12 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
         mTvCurrent = (TextView) findViewById(R.id.superplayer_tv_current);
         mTvDuration = (TextView) findViewById(R.id.superplayer_tv_duration);
         mTvCountdown = (TextView) findViewById(R.id.tv_countdown);
+        mDanmuRV = (RecyclerView) findViewById(R.id.rv_danmu);
+
+        int height = (int) (context.getResources().getDisplayMetrics().widthPixels);
+        android.view.ViewGroup.LayoutParams pp = mDanmuRV.getLayoutParams();
+        pp.height = (int) ((height-(getContext().getResources().getDisplayMetrics().density * 44 + 0.5f))/2);
+        mDanmuRV.setLayoutParams(pp);
 
         mSeekBarProgress = (PointSeekBar) findViewById(R.id.superplayer_seekbar_progress);
         mSeekBarProgress.setProgress(0);
@@ -340,7 +356,6 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
         mVipWatchView = findViewById(R.id.superplayer_vip_watch_view);
         mVipWatchView.setVipWatchViewClickListener(this);
 
-        //fixme 有无绑定赛事信息
         mIvRank = (ImageView) findViewById(R.id.superplayer_iv_open_match);
         mIvRank.setVisibility(VISIBLE);
         mIvRank.setOnClickListener(this);
@@ -349,11 +364,27 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
             @Override
             public void onQualityChange(int type) {
                 mMatchFullView.setVisibility(GONE);
-                if (mControllerCallback != null) {
-                    mControllerCallback.onQualityChange(type);
+            }
+
+            @Override
+            public void onGetScorecardData(int index, int teamId) {
+                if(mControllerCallback != null){
+                    mControllerCallback.onGetScorecardData(index,teamId);
+                }
+            }
+
+            @Override
+            public void onForwardPlayerProfile(int id) {
+                if(mControllerCallback != null){
+                    mControllerCallback.onForwardPlayerProfile(id);
                 }
             }
         });
+
+        danmuAdapter = new DanmuAdapter(R.layout.item_danmu,new ArrayList<DanmuBean>());
+        LinearLayoutManager layout = new LinearLayoutManager(getContext());
+        mDanmuRV.setLayoutManager(layout);
+        mDanmuRV.setAdapter(danmuAdapter);
     }
 
     public void setCountdownVisible(int visibility) {
@@ -430,6 +461,9 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
         if (mQualityView.getVisibility() == VISIBLE) {
             mQualityView.setVisibility(GONE);
         }
+        if (mMatchFullView.getVisibility() == VISIBLE) {
+            mMatchFullView.setVisibility(GONE);
+        }
     }
 
     /**
@@ -469,6 +503,18 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
                 pointParams.add(new PointSeekBar.PointParams(progress, Color.WHITE));
             }
         mSeekBarProgress.setPointList(pointParams);
+        if(matchId!=0){
+            mIvRank.setVisibility(VISIBLE);
+        }
+
+        if (mBarragePosition == DanmuView.TYPE_OFF){
+            mDanmuRV.setVisibility(GONE);
+        }else{
+            mDanmuRV.setVisibility(VISIBLE);
+        }
+        if(!TextUtils.isEmpty(mTvTitle.getText())){
+            mTvTitle.setVisibility(VISIBLE);
+        }
     }
 
     /**
@@ -485,6 +531,9 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
         if (mPlayType == SuperPlayerDef.PlayerType.LIVE_SHIFT) {
             mTvBackToLive.setVisibility(View.GONE);
         }
+        mIvRank.setVisibility(GONE);
+        mDanmuRV.setVisibility(GONE);
+        mTvTitle.setVisibility(GONE);
     }
 
     /**
@@ -538,7 +587,7 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
      */
     @Override
     public void updateTitle(String title) {
-        mTvTitle.setText(title);
+//        mTvTitle.setText(title);
     }
 
     /**
@@ -766,11 +815,14 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
             mControllerCallback.onProjectedScreen();
         }
         else if(i == R.id.superplayer_iv_open_match){
+            hide();
             showRankView();
         }
     }
 
     private void showInputTextMsgDialog(int state) {
+        mMatchFullView.setVisibility(GONE);
+        mDanmuRV.setVisibility(GONE);
         inputDanmuDialogFragment = new InputDanmuDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("state", state);
@@ -793,6 +845,8 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
             mIvDanmu.setImageResource(R.drawable.icon_live_barrage_half);
         }else if (mBarragePosition == DanmuView.TYPE_OFF) {
             mIvDanmu.setImageResource(R.drawable.icon_live_barrage_off);
+            //关掉
+            mDanmuRV.setVisibility(GONE);
         }
         if (mControllerCallback != null) {
             mControllerCallback.onDanmuToggle(mBarragePosition);
@@ -1140,8 +1194,63 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
 
     //显示赛程信息弹窗
     private void showRankView() {
-        mIvRank.setVisibility(View.GONE);
-        //从右向左划出
-        mVodQualityView.setVideoQualityList(mVideoQualityList);
+        if(matchId != 0){
+            mMatchFullView.setVisibility(VISIBLE);
+//            expandView(mMatchFullView, 0,(int) (getContext().getResources().getDisplayMetrics().density * 350 + 0.5f));
+//            getContext().getResources().getDisplayMetrics().widthPixels
+//            mMatchFullView.scrollBy(-mMatchFullView.getWidth(),mMatchFullView.getScrollY());
+            mIvRank.setVisibility(GONE);
+        };
     }
+
+    public void setTeamData(int mId,List<CompetitionBean> list,String url) {
+        matchId = mId;
+        mMatchFullView.setVisibility(GONE);
+        if(mId == 0){
+            mIvRank.setVisibility(GONE);
+        }else{
+            mIvRank.setVisibility(VISIBLE);
+        }
+        if(mMatchFullView != null){
+            mMatchFullView.setTeamData(mId,list,url);
+        }
+    }
+
+    public void setScorecardData(int index,CompetitionBean.ListDataBean bean) {
+        if(mMatchFullView != null){
+            mMatchFullView.setScorecardData(index,bean);
+        }
+    }
+
+    public void setNoticeDanmu(String notice){
+        mTvTitle.setText(notice);
+        mTvTitle.setVisibility(VISIBLE);
+    }
+
+    public void addFullScrollDanmu(DanmuBean msg){
+        danmuAdapter.addData(msg);
+    }
+
+    public void setSquadData(List<SquadDataBean> list){
+        if(mMatchFullView != null){
+            mMatchFullView.setSquadData(list);
+        }
+    }
+
+    //从右向左
+    public void expandView(final View v, int duration, int targetWidth) {
+        int prevWidth  = v.getWidth();
+        ValueAnimator valueAnimator = ValueAnimator.ofInt(prevWidth, targetWidth);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                v.getLayoutParams().width = (int) animation.getAnimatedValue();
+                v.requestLayout();
+            }
+        });
+        valueAnimator.setInterpolator(new DecelerateInterpolator());
+        valueAnimator.setDuration(duration);
+        valueAnimator.start();
+    }
+
 }

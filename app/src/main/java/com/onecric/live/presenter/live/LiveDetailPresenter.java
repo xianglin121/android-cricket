@@ -13,8 +13,10 @@ import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.BasePresenter;
 import com.onecric.live.retrofit.ApiCallback;
 import com.onecric.live.view.live.LiveDetailView;
+import com.tencent.liteav.demo.superplayer.model.SquadDataBean;
 import com.tencent.qcloud.tuikit.tuichat.interfaces.GroupChatEventListener;
 
+import java.util.List;
 import java.util.TimeZone;
 
 
@@ -282,6 +284,34 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
                     @Override
                     public void onError(String msg) {
                         mvpView.getDataFail(msg);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
+
+
+    public void getSquadData(int match_id, int tournament_id, int home_id, int away_id) {
+        //match_id=38440529&tournament_id=15574&home_id=195284&away_id=195246
+        addSubscription(apiStores.getSquadData(match_id, tournament_id, home_id,away_id),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        List<SquadDataBean> beanList = JSONObject.parseArray(data, SquadDataBean.class);
+                        mvpView.getSquadData(beanList);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        mvpView.getSquadData(null);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        mvpView.getSquadData(null);
                     }
 
                     @Override

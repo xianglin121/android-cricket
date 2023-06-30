@@ -104,7 +104,7 @@ public class CricketScorecardAdapter extends BaseQuickAdapter<CricketMatchBean.C
                             ScorecardBowlerAdapter mHomeBowlerAdapter;
                             ScorecardWicketAdapter mHomeWicketAdapter;
                             if (battingList != null && battingList.size() > 0) {
-                                mHomeBatterAdapter = new ScorecardBatterAdapter(R.layout.item_cricket_scorecard_batter, battingList);
+                                mHomeBatterAdapter = new ScorecardBatterAdapter(R.layout.item_scorecard_batter, battingList);
                                 rv_home_batter.setLayoutManager(new LinearLayoutManager(mContext));
                                 rv_home_batter.setAdapter(mHomeBatterAdapter);
                             }
@@ -115,12 +115,12 @@ public class CricketScorecardAdapter extends BaseQuickAdapter<CricketMatchBean.C
                                 helper.setText(R.id.tv_home_no_bat,item.bean.getNoBattingName());
                             }
                             if (bowlList != null && bowlList.size() > 0) {
-                                mHomeBowlerAdapter = new ScorecardBowlerAdapter(R.layout.item_cricket_scorecard_bowler, bowlList);
+                                mHomeBowlerAdapter = new ScorecardBowlerAdapter(R.layout.item_scorecard_bowler, bowlList);
                                 rv_home_bowler.setLayoutManager(new LinearLayoutManager(mContext));
                                 rv_home_bowler.setAdapter(mHomeBowlerAdapter);
                             }
                             if (wicketList != null && wicketList.size() > 0) {
-                                mHomeWicketAdapter = new ScorecardWicketAdapter(R.layout.item_cricket_scorecard_wicket, wicketList);
+                                mHomeWicketAdapter = new ScorecardWicketAdapter(R.layout.item_scorecard_wicket, wicketList);
                                 rv_home_wicket.setLayoutManager(new LinearLayoutManager(mContext));
                                 rv_home_wicket.setAdapter(mHomeWicketAdapter);
                             }
@@ -147,7 +147,7 @@ public class CricketScorecardAdapter extends BaseQuickAdapter<CricketMatchBean.C
             ScorecardBowlerAdapter mHomeBowlerAdapter;
             ScorecardWicketAdapter mHomeWicketAdapter;
             if (item.bean.getBatterList() != null && item.bean.getBatterList().size() > 0) {
-                mHomeBatterAdapter = new ScorecardBatterAdapter(R.layout.item_cricket_scorecard_batter, item.bean.getBatterList());
+                mHomeBatterAdapter = new ScorecardBatterAdapter(R.layout.item_scorecard_batter, item.bean.getBatterList());
                 rv_home_batter.setLayoutManager(new LinearLayoutManager(mContext));
                 rv_home_batter.setAdapter(mHomeBatterAdapter);
             }
@@ -158,12 +158,12 @@ public class CricketScorecardAdapter extends BaseQuickAdapter<CricketMatchBean.C
                 helper.setText(R.id.tv_home_no_bat,item.bean.getNoBattingName());
             }
             if (item.bean.getBowlerList() != null && item.bean.getBowlerList().size() > 0) {
-                mHomeBowlerAdapter = new ScorecardBowlerAdapter(R.layout.item_cricket_scorecard_bowler, item.bean.getBowlerList());
+                mHomeBowlerAdapter = new ScorecardBowlerAdapter(R.layout.item_scorecard_bowler, item.bean.getBowlerList());
                 rv_home_bowler.setLayoutManager(new LinearLayoutManager(mContext));
                 rv_home_bowler.setAdapter(mHomeBowlerAdapter);
             }
             if (item.bean.getWicketList() != null && item.bean.getWicketList().size() > 0) {
-                mHomeWicketAdapter = new ScorecardWicketAdapter(R.layout.item_cricket_scorecard_wicket, item.bean.getWicketList());
+                mHomeWicketAdapter = new ScorecardWicketAdapter(R.layout.item_scorecard_wicket, item.bean.getWicketList());
                 rv_home_wicket.setLayoutManager(new LinearLayoutManager(mContext));
                 rv_home_wicket.setAdapter(mHomeWicketAdapter);
             }

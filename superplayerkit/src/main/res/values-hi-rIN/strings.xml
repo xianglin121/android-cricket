@@ -37,4 +37,6 @@
     <string name="did_not_bat">बल्लेबाजी नहीं की</string>
     <string name="score_uppercase">स्कोर</string>
     <string name="over_uppercase">ओवर</string>
+
+    <string name="empty_common">अभी तक कोई डेटा नहीं</string>
 </resources>

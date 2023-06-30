@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
+import com.onecric.live.fragment.LiveChatFragment;
 import com.onecric.live.model.CustomMsgBean;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
 import com.tencent.qcloud.tuikit.tuichat.component.face.FaceManager;
@@ -29,8 +30,10 @@ import java.util.List;
  * 时间：2021/10/23
  */
 public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolder> {
-    public LiveChatAdapter(int layoutResId, @Nullable List<MessageInfo> data) {
+    private LiveChatFragment mFragment;
+    public LiveChatAdapter(int layoutResId, @Nullable List<MessageInfo> data, LiveChatFragment fragment) {
         super(layoutResId, data);
+        mFragment = fragment;
     }
 
     @Override

@@ -73,6 +73,9 @@ import com.onecric.live.model.NormalMsgBean;
 import com.onecric.live.model.UpdatesBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.live.LiveDetailPresenter;
+import com.onecric.live.retrofit.ApiCallback;
+import com.onecric.live.retrofit.ApiClient;
+import com.onecric.live.retrofit.ApiStores;
 import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ScreenUtils;
@@ -94,6 +97,9 @@ import com.tencent.imsdk.v2.V2TIMSendCallback;
 import com.tencent.imsdk.v2.V2TIMValueCallback;
 import com.tencent.liteav.demo.superplayer.LivePlayerView;
 import com.tencent.liteav.demo.superplayer.SuperPlayerDef;
+import com.tencent.liteav.demo.superplayer.model.CompetitionBean;
+import com.tencent.liteav.demo.superplayer.model.DanmuBean;
+import com.tencent.liteav.demo.superplayer.model.SquadDataBean;
 import com.tencent.liteav.demo.superplayer.model.event.OpenNobleSuccessEvent;
 import com.tencent.liteav.demo.superplayer.model.event.SendDanmuEvent;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
@@ -112,6 +118,10 @@ import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
 import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager;
 
@@ -628,6 +638,48 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                         progress_bar.setVisibility(View.GONE);
                     }
                 }
+
+                @Override
+                public void onGetScorecardData(int index, int teamId) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("id", mMatchId);
+                    jsonObject.put("team_id", teamId);
+                    ApiClient.retrofit().create(ApiStores.class)
+                            .getMatchScorecard(getRequestBody(jsonObject))
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeWith(new ApiCallback() {
+                                @Override
+                                public void onSuccess(String data, String msg) {
+                                    List<com.tencent.liteav.demo.superplayer.model.ScorecardBatterBean> battingList = JSONObject.parseArray(JSONObject.parseObject(data).getString("batting_info"), com.tencent.liteav.demo.superplayer.model.ScorecardBatterBean.class);
+                                    List<com.tencent.liteav.demo.superplayer.model.ScorecardBowlerBean> bowlList = JSONObject.parseArray(JSONObject.parseObject(data).getString("bowling_info"), com.tencent.liteav.demo.superplayer.model.ScorecardBowlerBean.class);
+                                    List<com.tencent.liteav.demo.superplayer.model.ScorecardWicketBean> wicketList = JSONObject.parseArray(JSONObject.parseObject(data).getString("partnerships"), com.tencent.liteav.demo.superplayer.model.ScorecardWicketBean.class);
+                                    playerView.setScorecardData(index, new CompetitionBean.ListDataBean(battingList, bowlList, wicketList,
+                                                    JSONObject.parseObject(data).getString("extras"),
+                                                    JSONObject.parseObject(data).getString("no_batting_name")));
+                                }
+
+                                @Override
+                                public void onFailure(String msg) {
+
+                                }
+
+                                @Override
+                                public void onError(String msg) {
+
+                                }
+
+                                @Override
+                                public void onFinish() {
+
+                                }
+                            });
+                }
+
+                @Override
+                public void onForwardPlayerProfile(int id) {
+                    PlayerProfileActivity.forward(mActivity,id);
+                }
             });
             playerView.hideBackKey();
 
@@ -681,7 +733,10 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public void getDataSuccess(LiveRoomBean bean) {
         if (bean != null) {
             if(!TextUtils.isEmpty(bean.getInfo().prompt)){
-                liveDetailMainFragment.showOfficeNotice(bean.getInfo().prompt);
+                liveDetailMainFragment.showOfficeNotice(bean.getInfo().prompt,1);
+            }
+            if(!TextUtils.isEmpty(bean.getUserData().getTitle())){
+                liveDetailMainFragment.showOfficeNotice(bean.getUserData().getTitle(),1);
             }
             mLiveRoomBean = bean;
             mMatchId = bean.getInfo().getMatch_id();
@@ -890,6 +945,14 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     public void getMatchDataSuccess(CricketMatchBean model) {
         if (model != null) {
             liveDetailMainFragment.setMatchData(model);
+            mvpPresenter.getSquadData(model.getMatch_id(),Integer.parseInt(model.getTournament_id()),model.getHome_id(),model.getAway_id());
+            List<CompetitionBean> superList = new ArrayList<>();
+            if (playerView != null && model.competition_list != null && model.competition_list.size()>0) {
+                for(int i =0 ;i<model.competition_list.size();i++){
+                    superList.add(new CompetitionBean(model.competition_list.get(i).id,model.competition_list.get(i).score,model.competition_list.get(i).name,model.competition_list.get(i).order));
+                }
+            }
+            playerView.setTeamData(mMatchId,superList,model.getLive_path());
         }
     }
 
@@ -913,6 +976,11 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         }
         tv_tool_heart.setText(likeNum > 1000 ? String.format("%.1f", (float) likeNum / 1000) + "K" : likeNum + "");
         mLiveRoomBean.getInfo().setLike_num(likeNum);
+    }
+
+    @Override
+    public void getSquadData(List<SquadDataBean> beanList) {
+        playerView.setSquadData(beanList);
     }
 
     @Override
@@ -1564,6 +1632,11 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         mvpPresenter.getMatchDetail(mMatchId);
     }
 
+    public void notBoundMatch(){
+
+        playerView.setTeamData(0,null,null);
+    }
+
     @Override
     public void onBackPressed() {
         if (!isLive) {
@@ -1629,6 +1702,15 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
             shareDialog.setCancelable(true);
             shareDialog.setCanceledOnTouchOutside(true);
         }
+
+        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getAnnouncement())) {
+            setNoticeDanmu(CommonAppConfig.getInstance().getConfig().getAnnouncement());
+        }
+
+        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getConfig().getLive_notice())) {
+            liveDetailMainFragment.showOfficeNotice(CommonAppConfig.getInstance().getConfig().getLive_notice(),2);
+        }
+
 
     }
 
@@ -1715,6 +1797,21 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 break;
         }
     }
+
+    private RequestBody getRequestBody(JSONObject jsonObject) {
+        MediaType CONTENT_TYPE = MediaType.parse("application/json");
+        RequestBody requestBody = RequestBody.create(CONTENT_TYPE, jsonObject.toString());
+        return requestBody;
+    }
+
+    public void setNoticeDanmu(String notice){
+        playerView.setNoticeDanmu(notice);
+    }
+
+    public void addFullScrollDanmu(DanmuBean msg){
+        playerView.addFullScrollDanmu(msg);
+    }
+
 
 
 }

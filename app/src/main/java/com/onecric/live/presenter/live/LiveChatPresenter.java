@@ -390,12 +390,12 @@ public class LiveChatPresenter extends BasePresenter<LiveChatView> {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        mvpView.getHistoryMsgListSuccess(null);
                     }
 
                     @Override
                     public void onComplete() {
-
+                        mvpView.getHistoryMsgListSuccess(null);
                     }
                 });
     }

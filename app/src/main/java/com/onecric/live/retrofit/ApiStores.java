@@ -716,7 +716,7 @@ public interface ApiStores {
     @GET("api/Basketball_database/getCategory")
     Observable<JsonObject> getMatchDataClassify();
 
-    //fixme 获取国家
+    //获取国家
     @GET("api/Basketball_database/getCountry")
     Observable<JsonObject> getMatchDataCountry(@Query("id") int id);
 
@@ -961,6 +961,11 @@ public interface ApiStores {
     @GET("api/v1/set_language")
     Observable<JsonObject> setLanguage(@Query("language") String language,@Query("device_id") String device_id);
 
-
+    //match_id=38440529&tournament_id=15574&home_id=195284&away_id=195246
+    @GET("api/Cricket/cricket_match_detail_squad_info")
+    Observable<JsonObject> getSquadData(@Query("match_id") int match_id,
+                                       @Query("tournament_id") int tournament_id,
+                                       @Query("home_id") int home_id,
+                                        @Query("away_id") int away_id);
 
 }
