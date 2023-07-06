@@ -247,7 +247,7 @@ public class CricketScorecardFragment extends MvpFragment<CricketScorecardPresen
     @Override
     public void getHomeDataSuccess(List<ScorecardBatterBean> batterList, List<ScorecardBowlerBean> bowlerList, List<ScorecardWicketBean> wicketList, String extras, String noBattingName) {
         if (batterList != null && batterList.size() > 0) {
-            mHomeBatterAdapter = new ScorecardBatterAdapter(R.layout.item_scorecard_batter, batterList);
+            mHomeBatterAdapter = new ScorecardBatterAdapter(R.layout.item_score_batter, batterList);
             rv_home_batter.setLayoutManager(new LinearLayoutManager(getContext()));
             rv_home_batter.setAdapter(mHomeBatterAdapter);
         }
@@ -258,12 +258,12 @@ public class CricketScorecardFragment extends MvpFragment<CricketScorecardPresen
             tv_home_no_bat.setText(noBattingName);
         }
         if (bowlerList != null && bowlerList.size() > 0) {
-            mHomeBowlerAdapter = new ScorecardBowlerAdapter(R.layout.item_scorecard_bowler, bowlerList);
+            mHomeBowlerAdapter = new ScorecardBowlerAdapter(R.layout.item_score_bowler, bowlerList);
             rv_home_bowler.setLayoutManager(new LinearLayoutManager(getContext()));
             rv_home_bowler.setAdapter(mHomeBowlerAdapter);
         }
         if (wicketList != null && wicketList.size() > 0) {
-            mHomeWicketAdapter = new ScorecardWicketAdapter(R.layout.item_scorecard_wicket, wicketList);
+            mHomeWicketAdapter = new ScorecardWicketAdapter(R.layout.item_score_wicket, wicketList);
             rv_home_wicket.setLayoutManager(new LinearLayoutManager(getContext()));
             rv_home_wicket.setAdapter(mHomeWicketAdapter);
         }
@@ -272,7 +272,7 @@ public class CricketScorecardFragment extends MvpFragment<CricketScorecardPresen
     @Override
     public void getAwayDataSuccess(List<ScorecardBatterBean> batterList, List<ScorecardBowlerBean> bowlerList, List<ScorecardWicketBean> wicketList, String extras, String noBattingName) {
         if (batterList != null && batterList.size() > 0) {
-            mAwayBatterAdapter = new ScorecardBatterAdapter(R.layout.item_scorecard_batter, batterList);
+            mAwayBatterAdapter = new ScorecardBatterAdapter(R.layout.item_score_batter, batterList);
             rv_away_batter.setLayoutManager(new LinearLayoutManager(getContext()));
             rv_away_batter.setAdapter(mAwayBatterAdapter);
         }
@@ -283,12 +283,12 @@ public class CricketScorecardFragment extends MvpFragment<CricketScorecardPresen
             tv_away_no_bat.setText(noBattingName);
         }
         if (bowlerList != null && bowlerList.size() > 0) {
-            mAwayBowlerAdapter = new ScorecardBowlerAdapter(R.layout.item_scorecard_bowler, bowlerList);
+            mAwayBowlerAdapter = new ScorecardBowlerAdapter(R.layout.item_score_bowler, bowlerList);
             rv_away_bowler.setLayoutManager(new LinearLayoutManager(getContext()));
             rv_away_bowler.setAdapter(mAwayBowlerAdapter);
         }
         if (wicketList != null && wicketList.size() > 0) {
-            mAwayWicketAdapter = new ScorecardWicketAdapter(R.layout.item_scorecard_wicket, wicketList);
+            mAwayWicketAdapter = new ScorecardWicketAdapter(R.layout.item_score_wicket, wicketList);
             rv_away_wicket.setLayoutManager(new LinearLayoutManager(getContext()));
             rv_away_wicket.setAdapter(mAwayWicketAdapter);
         }

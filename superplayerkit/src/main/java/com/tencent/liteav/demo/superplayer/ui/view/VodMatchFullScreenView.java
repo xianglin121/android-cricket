@@ -126,13 +126,13 @@ public class VodMatchFullScreenView extends RelativeLayout implements View.OnCli
         });
         rv_team.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         rv_team.setAdapter(scorecardAdapter);
-        mHomeBatterAdapter = new ScorecardBatterAdapter(R.layout.item_scorecard_batter, new ArrayList<ScorecardBatterBean>());
+        mHomeBatterAdapter = new ScorecardBatterAdapter(R.layout.item_score_batter, new ArrayList<ScorecardBatterBean>());
         rv_home_batter.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_home_batter.setAdapter(mHomeBatterAdapter);
-        mHomeBowlerAdapter = new ScorecardBowlerAdapter(R.layout.item_scorecard_bowler, new ArrayList<ScorecardBowlerBean>());
+        mHomeBowlerAdapter = new ScorecardBowlerAdapter(R.layout.item_score_bowler, new ArrayList<ScorecardBowlerBean>());
         rv_home_bowler.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_home_bowler.setAdapter(mHomeBowlerAdapter);
-        mHomeWicketAdapter = new ScorecardWicketAdapter(R.layout.item_scorecard_wicket, new ArrayList<ScorecardWicketBean>());
+        mHomeWicketAdapter = new ScorecardWicketAdapter(R.layout.item_score_wicket, new ArrayList<ScorecardWicketBean>());
         rv_home_wicket.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_home_wicket.setAdapter(mHomeWicketAdapter);
 
