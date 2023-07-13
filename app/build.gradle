@@ -277,4 +277,5 @@ dependencies {
     //Google Play 服务声明
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
     implementation "com.github.getActivity:MultiLanguages:6.6"
+    implementation 'com.airbnb.android:lottie:3.4.0'
 }

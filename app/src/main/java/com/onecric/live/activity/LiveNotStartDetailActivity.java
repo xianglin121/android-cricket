@@ -558,6 +558,11 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
 
     }
 
+    @Override
+    public void getShareSuccess() {
+
+    }
+
 
     @Override
     public void getDataFail(String msg) {}
@@ -1031,12 +1036,14 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             //分享到第三方
             if(sharePictureFile(mActivity,picBitmap)){
                 shareDialog.dismiss();
+                mvpPresenter.addShareNum();
             }
         });
 
         w.findViewById(R.id.tv_url).setOnClickListener(v -> {
             //分享链接
             ShareUtil.shareText(mActivity,"",SHARE_LIVE_URL+"pages/Live/live-detail?id="+mAnchorId+"&ID="+mLiveId);
+            mvpPresenter.addShareNum();
         });
 
         w.findViewById(R.id.tv_save).setOnClickListener(v -> {
@@ -1046,6 +1053,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             //保存图片
             if(saveBitmapFile(mActivity,picBitmap)!=null){
                 shareDialog.dismiss();
+                mvpPresenter.addShareNum();
             }
         });
 

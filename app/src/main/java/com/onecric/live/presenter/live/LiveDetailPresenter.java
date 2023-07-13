@@ -320,4 +320,10 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
                     }
                 });
     }
+
+    //fixme 增加分享次数
+    public void addShareNum() {
+
+        mvpView.getShareSuccess();
+    }
 }

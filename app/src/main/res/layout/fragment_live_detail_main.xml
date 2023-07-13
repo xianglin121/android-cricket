@@ -25,9 +25,8 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/shape_input_bg"
+            android:layout_height="40dp"
+            android:background="@color/white"
             android:foreground="@drawable/selector_foreground_white"
             app:tabIndicatorColor="@color/c_DC3C23"
             app:tabIndicatorFullWidth="false"

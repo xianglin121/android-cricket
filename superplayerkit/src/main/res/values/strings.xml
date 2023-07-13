@@ -37,4 +37,8 @@
     <string name="score_uppercase">SCORE</string>
     <string name="over_uppercase">OVER</string>
     <string name="empty_common">No data yet</string>
+
+    <string name="follow">Follow</string>
+    <string name="followed">Unfollowed</string>
+    <string name="fans">Fans:</string>
 </resources>

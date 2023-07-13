@@ -968,4 +968,6 @@ public interface ApiStores {
                                        @Query("home_id") int home_id,
                                         @Query("away_id") int away_id);
 
+    //增加分享次数
+
 }

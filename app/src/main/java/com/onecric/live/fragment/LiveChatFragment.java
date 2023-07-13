@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -50,6 +51,7 @@ import com.onecric.live.adapter.layoutmanager.OnViewPagerListener;
 import com.onecric.live.adapter.layoutmanager.ViewPagerLayoutManager;
 import com.onecric.live.custom.TreasureChestDialog;
 import com.onecric.live.fragment.dialog.InputChatMsgDialogFragment;
+import com.onecric.live.model.BannerBean;
 import com.onecric.live.model.BlockFunctionBean;
 import com.onecric.live.model.BoxBean;
 import com.onecric.live.model.CustomMsgBean;
@@ -150,6 +152,8 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
     private android.widget.ProgressBar progressBar;
 
     public LiveDetailMainFragment mainFragment;
+
+    public LottieAnimationView lottieView;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_live_chat;
@@ -176,6 +180,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         iv_block = findViewById(R.id.iv_block);
         smart_rl = findViewById(R.id.smart_rl);
         progressBar = findViewById(R.id.ProgressBar);
+        lottieView = findViewById(R.id.lottieView);
 
         findViewById(R.id.tv_input).setOnClickListener(this);
         findViewById(R.id.iv_emoji).setOnClickListener(this);
@@ -187,6 +192,8 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         findViewById(R.id.iv_box_close).setOnClickListener(this);
 //        findViewById(R.id.iv_red_envelope).setOnClickListener(this);
 
+        findViewById(R.id.iv_likeing).setOnClickListener(this);
+        findViewById(R.id.iv_hearting).setOnClickListener(this);
     }
 
     @Override
@@ -551,6 +558,14 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                 if (mRedEnvelopeDialog != null) {
                     mRedEnvelopeDialog.show();
                 }
+                break;
+            case R.id.iv_likeing:
+                lottieView.setAnimation("like-emoji.json");
+                lottieView.playAnimation();
+                break;
+            case R.id.iv_hearting:
+                lottieView.setAnimation("heart-emoji.json");
+                lottieView.playAnimation();
                 break;
         }
     }
@@ -1560,6 +1575,11 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                 Log.e("Chat","getHistoryMessageList Error: module-"+module+" errCode-"+errCode+" errMsg"+errMsg);
             }
         });*/
+    }
+
+    public void setChatAdvertList(List<BannerBean> list){
+        //fixme 设置广告banner
+
     }
 
 }

@@ -20,6 +20,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.onecric.live.R;
 import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.custom.CustomPagerTitleView;
+import com.onecric.live.model.BannerBean;
 import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.CustomMsgBean;
 import com.onecric.live.model.LiveRoomBean;
@@ -247,7 +248,7 @@ public class LiveDetailMainFragment extends Fragment {
                 titleView.setNormalColor(getResources().getColor(R.color.c_333333));
                 titleView.setSelectedColor(getResources().getColor(R.color.c_DC3C23));
                 titleView.setText(mTitles.get(index));
-                titleView.setTextSize(13);
+                titleView.setTextSize(15);
 //                titleView.getPaint().setFakeBoldText(true);
                 titleView.setOnPagerTitleChangeListener(new CustomPagerTitleView.OnPagerTitleChangeListener() {
                     @Override
@@ -502,5 +503,9 @@ public class LiveDetailMainFragment extends Fragment {
         if(getActivity() instanceof LiveDetailActivity){
             ((LiveDetailActivity)getActivity()).addFullScrollDanmu(new DanmuBean(msg,type));
         }
+    }
+
+    public void setChatAdvertList(List<BannerBean> list){
+        ((LiveChatFragment)mViewList.get(1)).setChatAdvertList(list);
     }
 }

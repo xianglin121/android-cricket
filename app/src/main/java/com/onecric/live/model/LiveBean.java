@@ -57,6 +57,18 @@ public class LiveBean {
     public String bottom;
     public String home_logo;
 
+
+    public String awayName;
+    public String homeDisplayScore;
+    public String scheduled;
+    public String tournament;
+    public Integer awayId;
+    public String awayDisplayScore;
+    public String homeName;
+    public Integer homeId;
+    public int status;
+    public int winId;
+
     public int getLive_id() {
         return live_id;
     }

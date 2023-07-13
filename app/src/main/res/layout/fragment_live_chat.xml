@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp">
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/shape_input_bg">
+        android:background="@color/c_F1F1F1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,15 +17,19 @@
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="26dp"
+                android:layout_height="30dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:background="@color/c_F4E8D3">
+                android:background="@drawable/shape_white_4dp_rec"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:background="@mipmap/icon_live_notice"/>
+                    android:layout_marginLeft="10dp"
+                    android:background="@mipmap/icon_black_notice"/>
 
                 <TextView
                     android:id="@+id/tv_notice"
@@ -35,13 +38,19 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:textSize="12dp"
-                    android:textColor="@color/c_87390E"
+                    android:textColor="@color/black"
                     android:singleLine="true"
                     android:ellipsize="marquee"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:marqueeRepeatLimit="marquee_forever"/>
             </LinearLayout>
+
+            <com.youth.banner.Banner
+                android:id="@+id/banner_chat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -120,6 +129,15 @@
             </RelativeLayout>
         </LinearLayout>
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieView"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            app:lottie_fileName="heart-emoji.json"
+            app:lottie_loop="false"
+            app:lottie_imageAssetsFolder="images"
+            app:lottie_autoPlay="false"
+            android:layout_gravity="bottom|right"/>
     </FrameLayout>
 
     <FrameLayout
@@ -142,36 +160,61 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="36dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
                 <ImageView
                     android:id="@+id/iv_block"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/icon_live_block"/>
-
-                <TextView
-                    android:id="@+id/tv_input"
+                    android:background="@mipmap/icon_live_block"
+                    android:visibility="gone"/>
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
                     android:layout_weight="1"
-                    android:layout_marginLeft="6dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="6dp"
-                    android:layout_marginRight="6dp"
-                    android:text="@string/live_talk_some_hint"
-                    android:textSize="14dp"
-                    android:textColor="@color/c_999999"
-                    android:background="@drawable/shape_input_bg"/>
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="14dp"
+                    android:paddingRight="7dp"
+                    android:background="@drawable/shape_cccccc_5dp_rec">
+
+                    <TextView
+                        android:id="@+id/tv_input"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="6dp"
+                        android:text="@string/live_talk_some_hint"
+                        android:textSize="14dp"
+                        android:textColor="@color/c_999999"/>
+
+                    <ImageView
+                        android:id="@+id/iv_emoji"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/icon_chat_face_grey"/>
+
+                </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/iv_emoji"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/icon_emoji"/>
+                    android:id="@+id/iv_likeing"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="7.5dp"
+                    android:layout_marginRight="7.5dp"
+                    android:src="@mipmap/icon_chat_like"/>
+
+                <ImageView
+                    android:id="@+id/iv_hearting"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/icon_chat_collect"/>
+
             </LinearLayout>
 
             <ImageView

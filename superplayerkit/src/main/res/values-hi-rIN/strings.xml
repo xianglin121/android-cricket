@@ -39,4 +39,8 @@
     <string name="over_uppercase">ओवर</string>
 
     <string name="empty_common">अभी तक कोई डेटा नहीं</string>
+
+    <string name="follow">फ़ॉलो</string>
+    <string name="followed">अनफ़ॉलो</string>
+    <string name="fans">प्रशंसक:</string>
 </resources>

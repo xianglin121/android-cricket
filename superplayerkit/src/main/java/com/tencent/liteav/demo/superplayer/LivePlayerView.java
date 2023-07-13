@@ -121,6 +121,10 @@ public class LivePlayerView extends RelativeLayout {
         mMatchId = matchId;
     }
 
+    public void setInitInfo(int aIsAttention,String aName,int fansNum,int likeNum,int shareNum,String aHead) {
+        mWindowPlayer.setInitInfo(aIsAttention,aName,fansNum,likeNum,shareNum,aHead);
+    }
+
     /**
      * 初始化view
      */
@@ -848,6 +852,12 @@ public class LivePlayerView extends RelativeLayout {
 
         void onForwardPlayerProfile(int id);
 
+        void onAddHeart();
+
+        void onAddShare();
+
+        void onChangeFollowState();
+
     }
 
     public void release() {
@@ -1132,6 +1142,18 @@ public class LivePlayerView extends RelativeLayout {
         if(mFullScreenPlayer != null){
             mFullScreenPlayer.setSquadData(list);
         }
+    }
+
+    public void addHeartSuccess(){
+        mWindowPlayer.addHeartSuccess();
+    }
+
+    public void addShareSuccess(){
+        mWindowPlayer.addShareSuccess();
+    }
+
+    public void changeFollowState(){
+        mWindowPlayer.changeFollowState();
     }
 
 }

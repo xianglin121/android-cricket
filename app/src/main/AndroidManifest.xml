@@ -180,6 +180,25 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.onecric.live.activity.LiveDetailActivity2"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
+            <!-- scheme设置 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="live_detail"
+                    android:scheme="onematch" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="com.onecric.live.activity.LiveMovingCommentActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />

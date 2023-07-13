@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -14,7 +14,6 @@ import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.activity.LiveNotStartDetailActivity;
 import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.adapter.LiveMoreVideoAdapter;
-import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.presenter.live.LiveMoreVideoPresenter;
 import com.onecric.live.util.SpUtil;
@@ -52,7 +51,11 @@ public class LiveMoreVideoFragment extends MvpFragment<LiveMoreVideoPresenter> i
 
     @Override
     protected void initData() {
-        mAdapter = new LiveMoreVideoAdapter(R.layout.item_live_more_video, new ArrayList<>());
+//        mAdapter = new LiveMoreVideoAdapter(R.layout.item_live_more_video, new ArrayList<>());
+//        rv_live.setLayoutManager(new GridLayoutManager(getContext(), 2));
+//        rv_live.addItemDecoration(new GridDividerItemDecoration(getContext(), 10, 2));
+
+        mAdapter = new LiveMoreVideoAdapter(R.layout.item_live_now, new ArrayList<>());
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -73,10 +76,8 @@ public class LiveMoreVideoFragment extends MvpFragment<LiveMoreVideoPresenter> i
                 }
             }
         });
-        rv_live.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        rv_live.addItemDecoration(new GridDividerItemDecoration(getContext(), 10, 2));
+        rv_live.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_live.setAdapter(mAdapter);
-
         mvpPresenter.getList();
     }
 

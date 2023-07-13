@@ -14,8 +14,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.tencent.liteav.demo.superplayer.R;
 import com.tencent.liteav.demo.superplayer.SuperPlayerDef;
 import com.tencent.liteav.demo.superplayer.model.utils.VideoGestureDetector;
@@ -87,6 +89,19 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
     private TextView mTvPeopleCount;                           // 观看人数
     private TextView mTvCountdown;                           // 红包倒计时
     private ImageView mIvMute;                                // 是否静音
+
+    private ImageView iv_avatar;
+    private TextView tv_star;
+    private TextView tv_name;
+    private TextView tv_desc;
+    private TextView tv_tool_share;
+    private TextView tv_tool_heart;
+
+    private int mIsAttention;
+    private int mLikeNum;
+    private int mShareNum;
+    private int mFansNum;
+    private RelativeLayout rl_info;
 
     public LiveWindowPlayer(Context context) {
         super(context);
@@ -300,6 +315,17 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
         if (mControllerCallback != null) {
             mControllerCallback.onClickMute(false);
         }
+
+        iv_avatar = findViewById(R.id.iv_avatar);
+        tv_star = findViewById(R.id.tv_star);
+        tv_tool_share = findViewById(R.id.tv_tool_share);
+        tv_tool_heart = findViewById(R.id.tv_tool_heart);
+        tv_name = findViewById(R.id.tv_name);
+        tv_desc = findViewById(R.id.tv_desc);
+        rl_info = findViewById(R.id.rl_info);
+        iv_avatar.setOnClickListener(this);
+        tv_star.setOnClickListener(this);
+        tv_tool_share.setOnClickListener(this);
     }
 
     public void setPeopleCount(String count) {
@@ -426,6 +452,7 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
         if (mPlayType == SuperPlayerDef.PlayerType.LIVE_SHIFT) {
             mTvBackToLive.setVisibility(View.VISIBLE);
         }
+        rl_info.setVisibility(VISIBLE);
     }
 
     /**
@@ -440,6 +467,7 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
         if (mPlayType == SuperPlayerDef.PlayerType.LIVE_SHIFT) {
             mTvBackToLive.setVisibility(View.GONE);
         }
+        rl_info.setVisibility(GONE);
     }
 
     @Override
@@ -913,5 +941,43 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
     //隐藏返回键
     public void hideBackKey(){
         mIvBack.setVisibility(GONE);
+    }
+
+    public void setInitInfo(int aIsAttention,String aName,int fansNum,int likeNum,int shareNum,String aHead) {
+        tv_star.setText(aIsAttention == 0 ? R.string.follow : R.string.followed);
+        tv_name.setText(aName);
+        tv_desc.setText(R.string.fans + fansNum);
+        mIsAttention = aIsAttention;
+        mLikeNum = likeNum;
+        mFansNum = fansNum;
+        mShareNum = shareNum;
+        tv_tool_heart.setText(likeNum > 1000 ? String.format("%.1f", (float) likeNum / 1000) + "K" : likeNum + "");
+        tv_tool_share.setText(shareNum > 1000 ? String.format("%.1f", (float) shareNum / 1000) + "K" : shareNum + "");
+        Glide.with(getContext().getApplicationContext()).load(aHead).placeholder(R.mipmap.bg_avatar_default).error(R.mipmap.bg_avatar_default).circleCrop()
+                .into(iv_avatar);
+    }
+
+    //关注、点赞、转发
+    public void addHeartSuccess(){
+        ++mLikeNum;
+        tv_tool_heart.setText(mLikeNum > 1000 ? String.format("%.1f", (float) mLikeNum / 1000) + "K" : mLikeNum + "");
+    }
+
+    public void addShareSuccess(){
+        ++mShareNum;
+        tv_tool_share.setText(mShareNum > 1000 ? String.format("%.1f", (float) mShareNum / 1000) + "K" : mShareNum + "");
+    }
+
+    public void changeFollowState(){
+        if (mIsAttention == 0) {
+            mIsAttention = 1;
+            mFansNum++;
+            tv_star.setText(R.string.followed);
+        } else {
+            mIsAttention = 0;
+            mFansNum--;
+            tv_star.setText(R.string.follow);
+        }
+        tv_desc.setText(getContext().getResources().getString(R.string.fans) + mFansNum);
     }
 }

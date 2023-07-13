@@ -71,6 +71,7 @@ public class LiveRoomInfoBean {
     public String prompt;
     public long timezone_starttime;
     public String tournament;
+    public int share_num;
 
     public int getLive_id() {
         return live_id;

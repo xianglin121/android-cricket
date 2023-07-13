@@ -20,6 +20,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
 import com.onecric.live.fragment.LiveChatFragment;
 import com.onecric.live.model.CustomMsgBean;
+import com.onecric.live.util.GlideUtil;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
 import com.tencent.qcloud.tuikit.tuichat.component.face.FaceManager;
 
@@ -39,13 +40,14 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
     @Override
     protected void convert(@NonNull BaseViewHolder helper, MessageInfo item) {
         TextView tv_content = helper.getView(R.id.tv_content);
+        TextView tv_user_content = helper.getView(R.id.tv_user_content);
         TextView tv_system_notice = helper.getView(R.id.tv_system_notice);
         TextView tv_office_notice = helper.getView(R.id.tv_office_notice);
-        tv_content.setVisibility(View.GONE);
+        helper.setGone(R.id.rl_default,false);
         tv_system_notice.setVisibility(View.GONE);
+        tv_content.setVisibility(View.GONE);
         tv_office_notice.setVisibility(View.GONE);
         if (!TextUtils.isEmpty(item.getSystemNotice())) {
-            tv_content.setVisibility(View.GONE);
             tv_system_notice.setVisibility(View.VISIBLE);
             tv_system_notice.setText(item.getSystemNotice());
         }else if(!TextUtils.isEmpty(item.getOfficeNotice())){
@@ -58,19 +60,12 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
             tv_office_notice.setSelected(true);
             tv_office_notice.requestFocusFromTouch();
         }else {
-            tv_content.setVisibility(View.VISIBLE);
             String str = "";
             boolean isAnchor = false;//是否是主播
             Bitmap nobleBitmap = null;//贵族图标
             Bitmap expBitmap = null;//等级图标
             String nickName = "";
-            if (!TextUtils.isEmpty(item.getNickName())) {
-                nickName = item.getNickName() + "：";
-                str = nickName;
-            }else if(!TextUtils.isEmpty(item.getFromUser())){
-                nickName = item.getFromUser() + "：";
-                str = nickName;
-            }
+
             String content = "";
             int contentColor =  0;
             boolean isEnterInfo = false;
@@ -94,6 +89,13 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
                             isAnchor = customMsgBean.getNobel().getIs_room() == 1?true:false;
                         }
                         isEnterInfo = true;
+                        if (!TextUtils.isEmpty(item.getNickName())) {
+                            nickName = item.getNickName() + "：";
+                            str = nickName;
+                        }else if(!TextUtils.isEmpty(item.getFromUser())){
+                            nickName = item.getFromUser() + "：";
+                            str = nickName;
+                        }
                         //进入房间的消息不需要发言人
                         content = (TextUtils.isEmpty(item.getNickName()) ? item.getFromUser() : item.getNickName()) + " " + mContext.getString(R.string.enter_the_chat_room);
                         contentColor = Color.parseColor("#EEA831");
@@ -134,10 +136,6 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
                 expLength = "2";
             }
 
-            /*if(isEnterInfo){
-                contentColor = Color.parseColor("#EEA831");
-            }*/
-
             if (isAnchor) {
                 //进入房间的消息不需要发言人
                 str = "  " + (isEnterInfo?"":str) + content;
@@ -150,7 +148,9 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
                 }
                 ImageSpan imageSpan = new ImageSpan(mContext, R.mipmap.icon_anchor_label, DynamicDrawableSpan.ALIGN_CENTER);
                 msg.setSpan(imageSpan, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                tv_content.setText(msg);
+
+                tv_user_content.setText(msg);
+
             }else {
                 str = nobleLength + expLength +  (isEnterInfo?"":str) + content;
                 SpannableStringBuilder msg = FaceManager.handlerEmojiText(str);
@@ -161,7 +161,19 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
                     ForegroundColorSpan contentSpan = new ForegroundColorSpan(contentColor);
                     msg.setSpan(contentSpan, len, str.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 }
-                tv_content.setText(msg);
+
+                if(isEnterInfo){
+                    tv_content.setVisibility(View.VISIBLE);
+                    tv_content.setText(msg);
+                }else{
+                    helper.setGone(R.id.rl_default,true);
+                    helper.setText(R.id.tv_user_name,(!TextUtils.isEmpty(item.getNickName()))?item.getNickName():item.getFromUser());
+                    GlideUtil.loadUserImageDefault(mContext, item.getFaceUrl(),helper.getView(R.id.iv_avatar));
+                    tv_user_content.setText(msg);
+                }
+
+
+
 //                if (nobleBitmap != null) {
 //                    ImageSpan imageSpan = new ImageSpan(mContext, nobleBitmap);
 //                    msg.setSpan(imageSpan, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
