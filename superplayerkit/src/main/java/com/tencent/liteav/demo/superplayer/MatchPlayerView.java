@@ -710,6 +710,16 @@ public class MatchPlayerView extends RelativeLayout {
         public void onForwardPlayerProfile(int id) {
 
         }
+
+        @Override
+        public void onChangeFollowState() {
+
+        }
+
+        @Override
+        public void onShareLive() {
+
+        }
     };
 
     /**

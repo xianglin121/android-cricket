@@ -54,7 +54,25 @@ public class LiveMoreVideoAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
         tv_home_score.setCompoundDrawables(null,null,drawableArrTransparent,null);
         tv_away_score.setCompoundDrawables(null,null,drawableArrTransparent,null);
 
-        if (item.status == 2) {//已结束
+        if(item.getIslive() == 0){
+            //未开始
+            helper.setGone(R.id.tv_state_time,true);
+            helper.setGone(R.id.tv_state_info,true);
+            helper.setText(R.id.tv_state_info,mContext.getString(R.string.watch_live_at));
+            try {
+                String st = getRelativeLocalDate(sfdate2,item.getStarttime());
+                helper.setText(R.id.tv_state_time, Html.fromHtml("<strong>"+st.substring(0,5)+"</strong> <small>"+st.substring(5)+"</small>"));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }else{
+            //已开始
+            helper.setGone(R.id.tv_state_info,false);
+            helper.setGone(R.id.tv_state_time,false);
+            helper.setGone(R.id.iv_state_live,true);
+        }
+
+/*        if (item.status == 2) {//已结束
             helper.setGone(R.id.tv_state_info,true);
             helper.setText(R.id.tv_state_info,mContext.getString(R.string.completed));
             if (item.homeId == item.winId) {//主赢 右边
@@ -66,28 +84,14 @@ public class LiveMoreVideoAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
                 tv_home_score.setTextColor(mContext.getResources().getColor(R.color.c_999999));
                 helper.setTextColor(R.id.tv_home_score2, mContext.getResources().getColor(R.color.c_999999));
             }
-        } else if (item.status == 0) {//未开始
-            helper.setGone(R.id.tv_state_time,true);
-            helper.setGone(R.id.tv_state_info,true);
-            helper.setText(R.id.tv_state_info,mContext.getString(R.string.watch_live_at));
-            try {
-                String st = getRelativeLocalDate(sfdate2,item.getStarttime());
-                helper.setText(R.id.tv_state_time, Html.fromHtml("<strong>"+st.substring(0,5)+"</strong> <small>"+st.substring(5)+"</small>"));
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        } else {//已开始
-            helper.setGone(R.id.tv_state_info,false);
-            helper.setGone(R.id.tv_state_time,false);
-            helper.setGone(R.id.iv_state_live,true);
-        }
+        }*/
         ImageView iv_home_logo = helper.getView(R.id.iv_home_logo);
         ImageView iv_away_logo = helper.getView(R.id.iv_away_logo);
         GlideUtil.loadTeamImageDefault(mContext, item.home_logo,iv_home_logo);
         helper.setText(R.id.tv_home_name,TextUtils.isEmpty(item.homeName)?"":item.homeName);
         GlideUtil.loadTeamImageDefault(mContext, item.away_logo, iv_away_logo);
         helper.setText(R.id.tv_away_name,TextUtils.isEmpty(item.homeName)?"":item.awayName);
-
+        helper.setText(R.id.tv_home_score2,"");
         if (!TextUtils.isEmpty(item.homeDisplayScore)) {
             if(item.homeDisplayScore.contains("0/0")){
                 tv_home_score.setText("");
@@ -109,9 +113,8 @@ public class LiveMoreVideoAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
             }
         } else {
             tv_home_score.setText("");
-            helper.setText(R.id.tv_home_score2,"");
         }
-
+        helper.setText(R.id.tv_away_score2,"");
         if (!TextUtils.isEmpty(item.awayDisplayScore)) {
             if(item.awayDisplayScore.contains("0/0")){
                 tv_away_score.setText("");
@@ -134,7 +137,6 @@ public class LiveMoreVideoAdapter extends BaseQuickAdapter<LiveBean, BaseViewHol
             }
         } else {
             tv_away_score.setText("");
-            helper.setText(R.id.tv_away_score2,"");
         }
 
 

@@ -160,7 +160,7 @@ public class LiveViewNowAdapter extends BaseMultiItemQuickAdapter<PlayCardsBean,
         helper.setText(R.id.tv_home_name,TextUtils.isEmpty(item.homeName)?"":item.homeName);
         GlideUtil.loadTeamImageDefault(mContext, item.awayLogo, iv_away_logo);
         helper.setText(R.id.tv_away_name,TextUtils.isEmpty(item.awayName)?"":item.awayName);
-
+        helper.setText(R.id.tv_home_score2,"");
         if (!TextUtils.isEmpty(item.homeDisplayScore)) {
             if(item.homeDisplayScore.contains("0/0")){
                 tv_home_score.setText("");
@@ -182,9 +182,8 @@ public class LiveViewNowAdapter extends BaseMultiItemQuickAdapter<PlayCardsBean,
             }
         } else {
             tv_home_score.setText("");
-            helper.setText(R.id.tv_home_score2,"");
         }
-
+        helper.setText(R.id.tv_away_score2,"");
         if (!TextUtils.isEmpty(item.awayDisplayScore)) {
             if(item.awayDisplayScore.contains("0/0")){
                 tv_away_score.setText("");
@@ -207,7 +206,6 @@ public class LiveViewNowAdapter extends BaseMultiItemQuickAdapter<PlayCardsBean,
             }
         } else {
             tv_away_score.setText("");
-            helper.setText(R.id.tv_away_score2,"");
         }
 
     }

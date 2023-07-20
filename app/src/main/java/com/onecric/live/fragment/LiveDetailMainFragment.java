@@ -18,9 +18,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.tabs.TabLayout;
 import com.onecric.live.R;
-import com.onecric.live.activity.LiveDetailActivity;
+import com.onecric.live.activity.LiveDetailActivity2;
 import com.onecric.live.custom.CustomPagerTitleView;
-import com.onecric.live.model.BannerBean;
 import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.CustomMsgBean;
 import com.onecric.live.model.LiveRoomBean;
@@ -102,9 +101,9 @@ public class LiveDetailMainFragment extends Fragment {
         }
 
         if(mMatchId!=0){
-            ((LiveDetailActivity)getActivity()).getMatchDetail();
+            ((LiveDetailActivity2)getActivity()).getMatchDetail();
         }else{
-            ((LiveDetailActivity)getActivity()).notBoundMatch();
+            ((LiveDetailActivity2)getActivity()).notBoundMatch();
         }
     }
 
@@ -201,7 +200,7 @@ public class LiveDetailMainFragment extends Fragment {
     }
 
     public void setNoticeDanmu(String notice){
-        ((LiveDetailActivity)getActivity()).setNoticeDanmu(notice);
+        ((LiveDetailActivity2)getActivity()).setNoticeDanmu(notice);
     }
 
 
@@ -347,6 +346,7 @@ public class LiveDetailMainFragment extends Fragment {
         }
 
         LiveChatFragment chatFragment = LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId"));
+        chatFragment.mainFragment = this;
         if(isHistory){
             LiveHistoryFragment historyFragment = LiveHistoryFragment.newInstance();
             mViewList.add(historyFragment);
@@ -433,15 +433,15 @@ public class LiveDetailMainFragment extends Fragment {
     public void sendMessage(MessageInfo messageInfo) {
         ((LiveChatFragment)mViewList.get(1)).updateAdapter(messageInfo);
         //发送弹幕
-        if(getActivity() instanceof LiveDetailActivity){
+        if(getActivity() instanceof LiveDetailActivity2){
             if(!TextUtils.isEmpty(messageInfo.getOfficeNotice())){
-                ((LiveDetailActivity)getActivity()).addFullScrollDanmu(new DanmuBean(messageInfo.getOfficeNotice(),1));
+                ((LiveDetailActivity2)getActivity()).addFullScrollDanmu(new DanmuBean(messageInfo.getOfficeNotice(),1));
             }else if(!TextUtils.isEmpty(messageInfo.getSystemNotice())){
-                ((LiveDetailActivity)getActivity()).addFullScrollDanmu(new DanmuBean(messageInfo.getSystemNotice(),2));
+                ((LiveDetailActivity2)getActivity()).addFullScrollDanmu(new DanmuBean(messageInfo.getSystemNotice(),2));
             }else{
                 String name = (TextUtils.isEmpty(messageInfo.getNickName()) ? messageInfo.getFromUser() : messageInfo.getNickName()) + ":";
                 CustomMsgBean bean = JSONObject.parseObject(messageInfo.getExtra().toString(), CustomMsgBean.class);
-                ((LiveDetailActivity)getActivity()).addFullScrollDanmu(new DanmuBean(name + bean.getNormal().getText(),0));
+                ((LiveDetailActivity2)getActivity()).addFullScrollDanmu(new DanmuBean(name + bean.getNormal().getText(),0));
             }
         }
 
@@ -500,12 +500,12 @@ public class LiveDetailMainFragment extends Fragment {
         if(type == 1){
             ((LiveChatFragment)mViewList.get(1)).showOfficeNotice(msg);
         }
-        if(getActivity() instanceof LiveDetailActivity){
-            ((LiveDetailActivity)getActivity()).addFullScrollDanmu(new DanmuBean(msg,type));
+        if(getActivity() instanceof LiveDetailActivity2){
+            ((LiveDetailActivity2)getActivity()).addFullScrollDanmu(new DanmuBean(msg,type));
         }
     }
 
-    public void setChatAdvertList(List<BannerBean> list){
-        ((LiveChatFragment)mViewList.get(1)).setChatAdvertList(list);
+    public void setChatAdvertList(String img,String url){
+        ((LiveChatFragment)mViewList.get(1)).setChatAdvertList(img,url);
     }
 }

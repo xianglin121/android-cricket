@@ -730,6 +730,20 @@ public class LivePlayerView extends RelativeLayout {
                 mPlayerViewCallback.onForwardPlayerProfile(id);
             }
         }
+
+        @Override
+        public void onChangeFollowState() {
+            if (mPlayerViewCallback != null) {
+                mPlayerViewCallback.onChangeFollowState();
+            }
+        }
+
+        @Override
+        public void onShareLive() {
+            if (mPlayerViewCallback != null) {
+                mPlayerViewCallback.onAddShare();
+            }
+        }
     };
 
     /**
@@ -1144,8 +1158,8 @@ public class LivePlayerView extends RelativeLayout {
         }
     }
 
-    public void addHeartSuccess(){
-        mWindowPlayer.addHeartSuccess();
+    public void addHeartSuccess(int num){
+        mWindowPlayer.addHeartSuccess(num);
     }
 
     public void addShareSuccess(){

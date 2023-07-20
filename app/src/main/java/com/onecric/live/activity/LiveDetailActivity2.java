@@ -53,14 +53,12 @@ import com.google.android.exoplayer2.SeekParameters;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
-import com.onecric.live.adapter.BannerRoundImageAdapter;
 import com.onecric.live.custom.gift.AnimMessage;
 import com.onecric.live.custom.gift.LPAnimationManager;
 import com.onecric.live.custom.noble.LPNobleView;
 import com.onecric.live.event.UpdateAnchorFollowEvent;
 import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.fragment.LiveDetailMainFragment;
-import com.onecric.live.model.BannerBean;
 import com.onecric.live.model.BasketballDetailBean;
 import com.onecric.live.model.BroadcastMsgBean;
 import com.onecric.live.model.ColorMsgBean;
@@ -104,9 +102,6 @@ import com.tencent.liteav.demo.superplayer.model.event.OpenNobleSuccessEvent;
 import com.tencent.liteav.demo.superplayer.model.event.SendDanmuEvent;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
 import com.tencent.qcloud.tuikit.tuichat.util.ChatMessageInfoUtil;
-import com.youth.banner.Banner;
-import com.youth.banner.indicator.RectangleIndicator;
-import com.youth.banner.listener.OnBannerListener;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
@@ -177,8 +172,6 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
 
     private TextView tv_title;
     private ImageView iv_back;
-    //pass
-    private CircleImageView person_head_pic;
 
     private ConstraintLayout cl_avatar;
     private TextView tv_tool_eyes;
@@ -204,8 +197,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
 
     private CountDownTimer mCountDownTimer;
     private SimpleDateFormat sfdate2;
-    private Banner mBanner;
-    private BannerRoundImageAdapter bannerAdapter;
+    private ImageView iv_advert;
 
     @Override
     protected LiveDetailPresenter createPresenter() {
@@ -302,9 +294,9 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
             pp.height = (int) (width * 0.5625);
             playerView.setLayoutParams(pp);
 
-            android.view.ViewGroup.LayoutParams pp2 = mBanner.getLayoutParams();
-            pp2.height = UIUtil.getScreenWidth(mActivity)/8;//8:1
-            mBanner.setLayoutParams(pp2);
+            android.view.ViewGroup.LayoutParams pp2 = iv_advert.getLayoutParams();
+            pp2.height = (int) (UIUtil.getScreenWidth(mActivity)/8);//8:1
+            iv_advert.setLayoutParams(pp2);
 
             //初始化悬浮窗跳转回界面所需参数
             playerView.setInitId(mAnchorId, mType, mMatchId);
@@ -424,16 +416,24 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
         rl_video = findViewById(R.id.rl_video);
         rl_player = findViewById(R.id.rl_player);
         progress_bar = findViewById(R.id.progress_bar);
-        person_head_pic = findViewById(R.id.person_head_pic);
         cl_avatar = findViewById(R.id.cl_avatar);
         tv_tool_eyes = findViewById(R.id.tv_tool_eyes);
         ll_main = findViewById(R.id.ll_main);
-        mBanner = findViewById(R.id.banner_advert);
+        iv_advert = findViewById(R.id.iv_advert);
         iv_data.setOnClickListener(this);
         iv_back.setOnClickListener(this);
-        person_head_pic.setOnClickListener(this);
         iv_video_mute.setOnClickListener(this);
         iv_video_screen.setOnClickListener(this);
+        iv_advert.setOnClickListener(v -> {
+            if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_url_one)){
+//                WebViewActivity.forward(mActivity,  mLiveRoomBean.getInfo().adver_url_one);
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse(mLiveRoomBean.getInfo().adver_url_one);
+                intent.setData(content_url);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -636,13 +636,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
 
                 @Override
                 public void onAddHeart() {
-                    if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-//                        mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(), mLiveRoomBean.getInfo().getIs_like() == 1 ? 0 : 1);
-                        mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(), 1);
-                    } else{
-                        ToastUtil.show(getString(R.string.please_login));
-                        OneLogInActivity.forward(mActivity);
-                    }
+//                    addHeart();
                 }
 
                 @Override
@@ -656,7 +650,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
                         if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid()) && CommonAppConfig.getInstance().getUid().equals(String.valueOf(mAnchorId))) {
                             return;
                         }
-                        if (mLiveRoomBean.getUserData() != null && mLiveRoomBean.getUserData().getIs_attention() == 0) {
+                        if (mLiveRoomBean.getUserData() != null) {
                             doFollow();
                         }
                     } else{
@@ -726,40 +720,13 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
             mMatchId = bean.getInfo().getMatch_id();
 
             if(isLive){
-                //fixme 有无广告
-                List<BannerBean> list = null;
-                if (list != null && list.size() > 0) {
-                    mBanner.setVisibility(View.GONE);
-                }else{
-                    mBanner.setVisibility(View.VISIBLE);
-                    mBanner.setIndicator(new RectangleIndicator(mActivity));
-                    bannerAdapter = new BannerRoundImageAdapter(list) {
-                        @Override
-                        public void onBindView(Object holder, Object data, int position, int size) {
-                            BannerBean bannerBean = (BannerBean) data;
-                            Glide.with(mActivity).load(bannerBean.getImg()).into(((BannerRoundImageHolder) holder).imageView);
-                        }
-                    };
-                    bannerAdapter.setOnBannerListener(new OnBannerListener() {
-                        @Override
-                        public void OnBannerClick(Object data, int position) {
-                            //fixme 跳转链接
-                            WebViewActivity.forward(mActivity,  ((BannerBean) data).battle);
-                        }
-                    });
-                    if (mBanner.getAdapter() == null) {
-                        mBanner.setAdapter(bannerAdapter);
-                        mBanner.addBannerLifecycleObserver(this);
-                    } else {
-                        mBanner.getAdapter().notifyDataSetChanged();
-                    }
+                if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_img_one)){
+                    iv_advert.setVisibility(View.VISIBLE);
+                    Glide.with(mActivity).load(mLiveRoomBean.getInfo().adver_img_one).dontAnimate().into(iv_advert);
                 }
-
-                List<BannerBean> chatList = null;
-                if (chatList != null && chatList.size() > 0){
-                    liveDetailMainFragment.setChatAdvertList(chatList);
+                if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_img_two)){
+                    liveDetailMainFragment.setChatAdvertList(mLiveRoomBean.getInfo().adver_img_two,mLiveRoomBean.getInfo().adver_url_two);
                 }
-
             }
 
             initShareScreen();
@@ -781,9 +748,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
                             @Override
                             public void onConfirmClick(Dialog dialog, String content) {
                                 if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                                    if (mLiveRoomBean.getUserData().getIs_attention() == 0) {
-                                        doFollow();
-                                    }
+                                    doFollow();
                                 } else {
                                     isCancelLoginDialog = true;
 //                                    loginDialog.show();
@@ -815,6 +780,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
             if (bean.getUserData() != null && !TextUtils.isEmpty(bean.getUserData().getTitle())) {
 //                playerView.updateTitle(bean.getUserData().getTitle());
                 try{
+
                     tv_title.setText(bean.getUserData().getTitle()+"\n" + bean.getInfo().tournament+"｜"+sfdate2.format(new Date(bean.getInfo().timezone_starttime*1000)));
                 }catch (Exception e){
                     tv_title.setText(bean.getUserData().getTitle()+"\n" + bean.getInfo().tournament);
@@ -828,13 +794,14 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
                 } else {
                     iv_tool_heart.setSelected(false);
                 }*/
-                int likeNum = bean.getInfo().getLike_num();
+
+                int likeNum = bean.getInfo().getLike_num() + bean.getInfo().praise_num;
+                mLiveRoomBean.getInfo().setLike_num(likeNum);
                 int shareNum = bean.getInfo().share_num;
 
                 playerView.setInitInfo(bean.getUserData().getIs_attention(),bean.getUserData().getUser_nickname(),bean.getUserData().getAttention(),likeNum,shareNum,bean.getUserData().getAvatar());
             }
             liveDetailMainFragment.updateFollowData(mLiveRoomBean);
-            GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
         } else {
             finish();
         }
@@ -883,13 +850,13 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
                 } else {
                     iv_tool_heart.setSelected(false);
                 }*/
-                int likeNum = bean.getInfo().getLike_num();
+                int likeNum = bean.getInfo().getLike_num() + bean.getInfo().praise_num;
+                mLiveRoomBean.getInfo().setLike_num(likeNum);
                 int shareNum = bean.getInfo().share_num;
                 playerView.setInitInfo(bean.getUserData().getIs_attention(),bean.getUserData().getUser_nickname(),bean.getUserData().getAttention(),likeNum,shareNum,bean.getUserData().getAvatar());
 
             }
             liveDetailMainFragment.updateFollowData(mLiveRoomBean);
-            GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
         }
     }
 
@@ -973,10 +940,10 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
 
     @Override
     public void showLikeSuccess() {
-        int likeNum = mLiveRoomBean.getInfo().getLike_num();
+/*        int likeNum = mLiveRoomBean.getInfo().getLike_num();
         mLiveRoomBean.getInfo().setIs_like(1);
         mLiveRoomBean.getInfo().setLike_num(++likeNum);
-        playerView.addHeartSuccess();
+        playerView.addHeartSuccess(1);*/
     }
 
     @Override
@@ -986,11 +953,12 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
 
     @Override
     public void getShareSuccess() {
-
+        playerView.addShareSuccess();
     }
 
     @Override
     public void getDataFail(String msg) {
+        ToastUtil.show(msg);
     }
 
     @Override
@@ -1010,7 +978,6 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
 //                playerView.setMute(false);
 //                iv_silence.setVisibility(View.GONE);
                 break;
-            case R.id.person_head_pic:
             case R.id.iv_avatar:
                 if (mLiveRoomBean != null) {
                     if (!isFastDoubleClick())
@@ -1636,7 +1603,6 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
         ImageView iv_c = view1.findViewById(R.id.iv_c);
         ImageView iv_home = view1.findViewById(R.id.iv_home);
         ImageView iv_away = view1.findViewById(R.id.iv_away);
-        LinearLayout sBar = view1.findViewById(R.id.statusBar);
         CircleImageView head_pic = view1.findViewById(R.id.person_head_pic);
 
         //赋值封面
@@ -1713,13 +1679,13 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
             if (sharePictureFile(mActivity, picBitmap)) {
                 shareDialog.dismiss();
             }
-            mvpPresenter.addShareNum();
+            mvpPresenter.addShareNum(mLiveRoomBean.getInfo().getId());
         });
 
         w.findViewById(R.id.tv_url).setOnClickListener(v -> {
             //分享链接
             ShareUtil.shareText(mActivity, "", SHARE_LIVE_URL + "pages/Live/live-detail?id=" + mAnchorId + "&ID=" + mLiveId);
-            mvpPresenter.addShareNum();
+            mvpPresenter.addShareNum(mLiveRoomBean.getInfo().getId());
         });
 
 
@@ -1729,9 +1695,9 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
             }
             //保存图片
             if (saveBitmapFile(mActivity, picBitmap) != null) {
-                shareDialog.dismiss();
                 mLiveRoomBean.getInfo().share_num += 1;
-                mvpPresenter.addShareNum();
+                mvpPresenter.addShareNum(mLiveRoomBean.getInfo().getId());
+                shareDialog.dismiss();
             }
         });
 
@@ -1786,5 +1752,18 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
     }
 
 
+    public void addHeart(boolean isLike) {
+        if(isLike){
+            mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(), 1);
+        }else{
+            mvpPresenter.addPraiseNum(mLiveRoomBean.getInfo().getId());
+        }
+    }
+
+    public void addHeartNum(int num) {
+        int likeNum = mLiveRoomBean.getInfo().getLike_num()+num;
+        mLiveRoomBean.getInfo().setLike_num(likeNum);
+        playerView.addHeartSuccess(num);
+    }
 
 }

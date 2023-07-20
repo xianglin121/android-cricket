@@ -140,6 +140,7 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
             helper.setText(R.id.tv_away_name, "");
         }
 
+        helper.setText(R.id.tv_home_score2, " ");
         if (!TextUtils.isEmpty(item.getHomeDisplayScore())) {
             if(item.getHomeDisplayScore().contains("0/0")){
                 helper.setText(R.id.tv_home_score, "");
@@ -162,9 +163,9 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
             }
         } else {
             helper.setText(R.id.tv_home_score, "");
-            helper.setText(R.id.tv_home_score2, " ");
         }
 
+        helper.setText(R.id.tv_away_score2, "");
         if (!TextUtils.isEmpty(item.getAwayDisplayScore())) {
             if(item.getAwayDisplayScore().contains("0/0")){
                 helper.setText(R.id.tv_away_score, "");
@@ -186,7 +187,6 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
             }
         } else {
             helper.setText(R.id.tv_away_score, "");
-            helper.setText(R.id.tv_away_score2, "");
         }
     }
 }

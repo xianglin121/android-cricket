@@ -1,28 +1,20 @@
 package com.onecric.live.util;
 
-import static com.tencent.liteav.base.ContextUtils.getApplicationContext;
-
 import android.Manifest;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -34,21 +26,15 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.onecric.live.R;
-import com.tencent.qcloud.tuikit.tuichat.util.PermissionUtils;
-
-import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class UiUtils {
 
@@ -160,7 +146,7 @@ public class UiUtils {
     /**
      * 保存图片到本地
      */
-    public static File saveBitmapFile(Activity activity,Bitmap bit) {
+    public static String saveBitmapFile(Activity activity,Bitmap bit) {
         //先判断权限
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
@@ -183,6 +169,7 @@ public class UiUtils {
             Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(result));
             activity.sendBroadcast(scannerIntent);
             ToastUtil.show(activity.getString(R.string.save_success));
+            return "true";
         }catch (Exception e) {
             Log.e("Exception", "ltt saveBitmapFile0 Exception:" + e.getMessage().toString());
             e.printStackTrace();
@@ -242,7 +229,7 @@ public class UiUtils {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 //        Bitmap bitmap = Bitmap.createBitmap(((BitmapDrawable) context.getDrawable(R.mipmap.xxx)).getBitmap());
 
-        String imgpath = saveTitmapToCache(getApplicationContext(), bitmap);
+        String imgpath = saveTitmapToCache(activity, bitmap);
         if(!TextUtils.isEmpty(imgpath)){
             Uri uri = FileProvider.getUriForFile(activity, activity.getPackageName() + ".fileProvider", new File(imgpath));
             intent.setDataAndType(uri, "image/*");

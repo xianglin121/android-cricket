@@ -19,7 +19,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:src="@drawable/superplayer_btn_back_play" />
 
@@ -28,7 +27,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="10dp"
             android:text="@string/superplayer_small_video_special_effects_editing"
             android:textColor="@android:color/white"
             android:textSize="11dp" />
@@ -44,8 +42,7 @@
             android:layout_height="22dp"
             android:src="@mipmap/icon_projection_screen"
             android:layout_marginRight="12dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="10dp"/>
+            android:layout_gravity="center_vertical"/>
 
         <TextView
             android:id="@+id/tv_quality"
@@ -53,7 +50,6 @@
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
             android:gravity="center"
-            android:layout_marginTop="10dp"
             android:layout_marginRight="12dp"
             android:text="@string/HDR"
             android:textSize="12dp"
@@ -324,7 +320,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="15dp"
-        android:layout_marginRight="16dp"/>
+        android:layout_marginRight="16dp"
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:id="@+id/rl_info"
@@ -340,7 +337,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="25dp"
             android:layout_marginLeft="32dp"
-            android:layout_marginTop="21dp">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/tv_name"
@@ -388,10 +385,11 @@
 
         <TextView
             android:id="@+id/tv_tool_heart"
-            android:layout_width="@dimen/dp_40"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="35dp"
             android:textColor="@color/white"
-            android:textSize="13sp"
+            android:textSize="10sp"
             android:drawablePadding="4dp"
             android:drawableTop="@mipmap/icon_heart_white2"
             tools:text="7.9K"
@@ -401,19 +399,19 @@
 
         <TextView
             android:id="@+id/tv_tool_share"
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:textSize="13sp"
-            android:drawablePadding="4dp"
+            android:textSize="10sp"
+            android:minWidth="35dp"
+            android:drawablePadding="2dp"
             android:drawableTop="@mipmap/icon_share_white"
             tools:text="200"
             android:gravity="center"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="@dimen/dp_10"
-            android:layout_marginRight="12dp"/>
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="2dp"/>
     </RelativeLayout>
 
 </RelativeLayout>

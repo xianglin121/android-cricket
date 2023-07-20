@@ -308,5 +308,9 @@ public interface Player {
         void onGetScorecardData(int index, int teamId);
 
         void onForwardPlayerProfile(int id);
+
+        void onChangeFollowState();
+
+        void onShareLive();
     }
 }

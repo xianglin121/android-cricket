@@ -48,5 +48,5 @@ public interface LiveChatView extends BaseView<JsonBean> {
 
     void getHistoryMsgListSuccess(List<HistoryMsgBean.RspMsgListDTO> list);
 
-
+    void refreshHeartNum(boolean isLike,int num);
 }

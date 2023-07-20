@@ -29,7 +29,7 @@ public class LiveHistoryAdapter extends BaseQuickAdapter<OneHistoryLiveBean, Bas
         GlideUtil.loadTeamImageDefault(mContext,item.homeLogo,helper.getView(R.id.iv_home_logo));
         GlideUtil.loadTeamImageDefault(mContext,item.awayLogo,helper.getView(R.id.iv_away_logo));
         helper.setText(R.id.tv_view_number,item.viewers>1000 ? String.format("%.1f",(float)item.viewers/1000) + "K" :item.viewers+"");
-
+        helper.setText(R.id.tv_home_score2, " ");
         if (!TextUtils.isEmpty(item.homeDisplayScore)) {
             if(item.homeDisplayScore.contains("0/0")){
                 helper.setText(R.id.tv_home_score, "");
@@ -43,9 +43,8 @@ public class LiveHistoryAdapter extends BaseQuickAdapter<OneHistoryLiveBean, Bas
             }
         } else {
             helper.setText(R.id.tv_home_score, "");
-            helper.setText(R.id.tv_home_score2, " ");
         }
-
+        helper.setText(R.id.tv_away_score2, "");
         if (!TextUtils.isEmpty(item.awayDisplayScore)) {
             if(item.awayDisplayScore.contains("0/0")){
                 helper.setText(R.id.tv_away_score, "");
@@ -59,7 +58,6 @@ public class LiveHistoryAdapter extends BaseQuickAdapter<OneHistoryLiveBean, Bas
             }
         } else {
             helper.setText(R.id.tv_away_score, "");
-            helper.setText(R.id.tv_away_score2, "");
         }
 
     }

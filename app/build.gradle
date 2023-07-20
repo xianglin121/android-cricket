@@ -27,8 +27,8 @@ android {
         applicationId "com.onecric.live"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 66
-        versionName "1.7.2"
+        versionCode 67
+        versionName "1.7.3"
         multiDexEnabled true// dex突破65535的限制
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
@@ -95,6 +95,12 @@ HONOR_APPID               : "220603327"
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+//    去掉重复的库
+/*    packagingOptions {
+        exclude 'lib/arm64-v8a/libsoundtouch.so'
+        exclude 'lib/armeabi-v7a/libsoundtouch.so'
+    }*/
 
     //配置多渠道
     /*productFlavors {
@@ -205,8 +211,8 @@ dependencies {
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
     //腾讯IM
     implementation project(':tuikit')
-    //腾讯超级播放器
     implementation project(':superplayerkit')
+    //腾讯超级播放器
 
     //七牛云视频播放 v2版本
     implementation("com.qiniu:qplayer2-core:1.1.2")
@@ -278,4 +284,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
     implementation "com.github.getActivity:MultiLanguages:6.6"
     implementation 'com.airbnb.android:lottie:3.4.0'
+    implementation 'com.github.kaisengao:KsgLikeView:1.2.2'
 }

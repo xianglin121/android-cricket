@@ -269,7 +269,8 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
     }
 
     public void goLike(int id, int isLike) {
-        addSubscription(apiStores.getLiveLike(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(),id, isLike),
+//        addSubscription(apiStores.getLiveLike(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(),id, isLike),
+        addSubscription(apiStores.addLikeNum(id),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
@@ -321,9 +322,56 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
                 });
     }
 
-    //fixme 增加分享次数
-    public void addShareNum() {
+    public void addShareNum(int id) {
+        addSubscription(apiStores.addShareNum(id),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        mvpView.getShareSuccess();
+                    }
 
-        mvpView.getShareSuccess();
+                    @Override
+                    public void onFailure(String msg) {
+                        mvpView.getDataFail(msg);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        mvpView.getDataFail(msg);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+
+
     }
+
+    public void addPraiseNum(int id) {
+        addSubscription(apiStores.addPraiseNum(id),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        mvpView.showLikeSuccess();
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        mvpView.getDataFail(msg);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        mvpView.getDataFail(msg);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
+
 }

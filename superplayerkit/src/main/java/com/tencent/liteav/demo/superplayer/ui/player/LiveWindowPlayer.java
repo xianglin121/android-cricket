@@ -487,7 +487,7 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
                 toggleView(mLayoutReplay, false);
                 break;
             case PAUSE:
-                mLayoutEnd.setVisibility(View.VISIBLE);
+                mLayoutEnd.setVisibility(View.GONE);
                 mIvPause.setImageResource(R.drawable.superplayer_ic_vod_play_normal);
                 toggleView(mPbLiveLoading, false);
                 toggleView(mLayoutReplay, false);
@@ -761,6 +761,10 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
             mControllerCallback.onClickMute(mIvMute.isSelected());
         }else if(id== R.id.iv_video_screen){
             mControllerCallback.onProjectedScreen();
+        }else if(id== R.id.tv_star){
+            mControllerCallback.onChangeFollowState();
+        }else if(id== R.id.tv_tool_share){
+            mControllerCallback.onShareLive();
         }
     }
 
@@ -946,7 +950,7 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
     public void setInitInfo(int aIsAttention,String aName,int fansNum,int likeNum,int shareNum,String aHead) {
         tv_star.setText(aIsAttention == 0 ? R.string.follow : R.string.followed);
         tv_name.setText(aName);
-        tv_desc.setText(R.string.fans + fansNum);
+        tv_desc.setText(getResources().getString(R.string.fans) + fansNum);
         mIsAttention = aIsAttention;
         mLikeNum = likeNum;
         mFansNum = fansNum;
@@ -958,8 +962,8 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
     }
 
     //关注、点赞、转发
-    public void addHeartSuccess(){
-        ++mLikeNum;
+    public void addHeartSuccess(int num){
+        mLikeNum += num;
         tv_tool_heart.setText(mLikeNum > 1000 ? String.format("%.1f", (float) mLikeNum / 1000) + "K" : mLikeNum + "");
     }
 

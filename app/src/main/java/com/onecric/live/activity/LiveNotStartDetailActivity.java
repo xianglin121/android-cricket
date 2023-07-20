@@ -116,16 +116,12 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
 
     private TextView tv_title;
     private ImageView iv_back;
-    private CircleImageView person_head_pic;
 
     private ConstraintLayout cl_avatar;
     private CircleImageView iv_avatar;
     private TextView tv_name;
     private TextView tv_desc;
-    private ImageView iv_star;
     private TextView tv_tool_eyes;
-    private ImageView iv_tool_heart;
-    private ImageView iv_tool_share;
     private TextView tv_tool_heart;
 
     private boolean isOpenAvatar = false;
@@ -137,6 +133,8 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     private SimpleDateFormat sfdate2 = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
     private SimpleDateFormat sfdate1 = new SimpleDateFormat("hh:mm a,dd MMM", Locale.ENGLISH);
     private LinearLayout ll_main;
+    private TextView tv_star,tv_tool_share;
+    private ImageView iv_advert;
 
     @Override
     protected LiveDetailPresenter createPresenter() {
@@ -145,7 +143,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_live_detail_not_start;
+        return R.layout.activity_live_detail_not_start2;
     }
 
     @Override
@@ -225,30 +223,37 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         tv_content = findViewById(R.id.tv_content);
         tv_title = findViewById(R.id.tv_title);
         iv_back = findViewById(R.id.iv_back);
-        person_head_pic = findViewById(R.id.person_head_pic);
         cl_avatar = findViewById(R.id.cl_avatar);
         iv_avatar = findViewById(R.id.iv_avatar);
         tv_name = findViewById(R.id.tv_name);
         tv_desc = findViewById(R.id.tv_desc);
-        iv_star = findViewById(R.id.iv_star);
         tv_tool_eyes = findViewById(R.id.tv_tool_eyes);
-        iv_tool_heart = findViewById(R.id.iv_tool_heart);
-        iv_tool_share = findViewById(R.id.iv_tool_share);
         tv_tool_heart = findViewById(R.id.tv_tool_heart);
         iv_cover = findViewById(R.id.iv_cover);
         iv_home_logo = findViewById(R.id.iv_home_logo);
         iv_away_logo = findViewById(R.id.iv_away_logo);
-//        tv_time = findViewById(R.id.tv_time);
         ll_main = findViewById(R.id.ll_main);
-        findViewById(R.id.ll_eyes).setOnClickListener(this);
-        findViewById(R.id.ll_heart).setOnClickListener(this);
-        findViewById(R.id.ll_title).setOnClickListener(this);
+        tv_star = findViewById(R.id.tv_star);
+        tv_tool_share = findViewById(R.id.tv_tool_share);
         iv_back.setOnClickListener(this);
-        person_head_pic.setOnClickListener(this);
         iv_avatar.setOnClickListener(this);
-        iv_star.setOnClickListener(this);
-        iv_tool_heart.setOnClickListener(this);
-        iv_tool_share.setOnClickListener(this);
+        tv_star.setOnClickListener(this);
+        tv_tool_share.setOnClickListener(this);
+
+        iv_advert = findViewById(R.id.iv_advert);
+        android.view.ViewGroup.LayoutParams pp2 = iv_advert.getLayoutParams();
+        pp2.height = (int) (UIUtil.getScreenWidth(mActivity)/8);//8:1
+        iv_advert.setLayoutParams(pp2);
+        iv_advert.setOnClickListener(v -> {
+            if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_url_one)){
+//                WebViewActivity.forward(mActivity,  mLiveRoomBean.getInfo().adver_url_one);
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse(mLiveRoomBean.getInfo().adver_url_one);
+                intent.setData(content_url);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -328,6 +333,14 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             mMatchId = bean.getInfo().getMatch_id();
 //            tv_time.setText(getString(R.string.watch_live_at)+" "+sfdate2.format(new Date(bean.getInfo().timezone_starttime*1000)));
 
+            if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_img_one)){
+                iv_advert.setVisibility(View.VISIBLE);
+                Glide.with(mActivity).load(mLiveRoomBean.getInfo().adver_img_one).dontAnimate().into(iv_advert);
+            }
+            if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_img_two)){
+                liveDetailMainFragment.setChatAdvertList(mLiveRoomBean.getInfo().adver_img_two,mLiveRoomBean.getInfo().adver_url_two);
+            }
+
             //转时间戳 得到倒计时毫秒数
             long time = bean.getInfo().timezone_starttime*1000;
             long countTime = time - new Date().getTime();
@@ -368,8 +381,6 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 }
             }
 
-
-
 /*            if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().bottom) && !TextUtils.isEmpty(mLiveRoomBean.getInfo().getHome_logo()) && !TextUtils.isEmpty(mLiveRoomBean.getInfo().getAway_logo())){
                 GlideUtil.loadLiveImageDefault(mActivity, mLiveRoomBean.getInfo().bottom, iv_cover);
                 GlideUtil.loadTeamCircleImageDefault(mActivity, mLiveRoomBean.getInfo().getHome_logo(), iv_home_logo);
@@ -385,26 +396,19 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 }catch (Exception e){
                     tv_title.setText(bean.getUserData().getTitle()+"\n" + bean.getInfo().tournament);
                 }
-                iv_star.setSelected(bean.getUserData().getIs_attention() == 0 ? false : true);
                 tv_name.setText(bean.getUserData().getUser_nickname());
                 tv_desc.setText(getString(R.string.fans) +bean.getUserData().getAttention());
                 int heatNum = bean.getUserData().getHeat();
-
+                tv_star.setText(mLiveRoomBean.getUserData().getIs_attention() == 0 ? R.string.follow : R.string.followed);
                 tv_tool_eyes.setText(heatNum>1000 ? String.format("%.1f",(float)heatNum/1000) + "K" :heatNum+"");
-                if (bean.getInfo().getIs_like() == 1) {
-                    iv_tool_heart.setSelected(true);
-                } else {
-                    iv_tool_heart.setSelected(false);
-                }
-                int likeNum = bean.getInfo().getLike_num();
+                int likeNum = bean.getInfo().getLike_num() + bean.getInfo().praise_num;
+                mLiveRoomBean.getInfo().setLike_num(likeNum);
+                int shareNum = bean.getInfo().share_num;
                 tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
+                tv_tool_share.setText(shareNum > 1000 ? String.format("%.1f", (float) shareNum / 1000) + "K" : shareNum + "");
             }
             liveDetailMainFragment.updateFollowData(bean);
-            GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), iv_avatar);
-            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid()) && CommonAppConfig.getInstance().getUid().equals(String.valueOf(mAnchorId))) {
-                iv_star.setVisibility(View.GONE);
-            }
         } else {
             finish();
         }
@@ -417,15 +421,14 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             if (mLiveRoomBean.getUserData().getIs_attention() == 0) {
                 mLiveRoomBean.getUserData().setIs_attention(1);
                 attention++;
-                iv_star.setSelected(true);
+                tv_star.setText(R.string.followed);;
             } else {
                 mLiveRoomBean.getUserData().setIs_attention(0);
                 attention--;
-                iv_star.setSelected(false);
+                tv_star.setText(R.string.follow);
             }
             mLiveRoomBean.getUserData().setAttention(attention);
             tv_desc.setText(getString(R.string.fans)+attention);
-            liveDetailMainFragment.updateFollowData(mLiveRoomBean);
         }
     }
 
@@ -446,26 +449,20 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 }catch (Exception e){
                     tv_title.setText(bean.getUserData().getTitle()+"\n" + bean.getInfo().tournament);
                 }
-                iv_star.setSelected(bean.getUserData().getIs_attention() == 0 ? false : true);
                 tv_name.setText(bean.getUserData().getUser_nickname());
                 tv_desc.setText(getString(R.string.fans) +bean.getUserData().getAttention());
                 int heatNum = bean.getUserData().getHeat();
 
                 tv_tool_eyes.setText(heatNum>1000 ? String.format("%.1f",(float)heatNum/1000) + "K" :heatNum+"");
-                if (bean.getInfo().getIs_like() == 1) {
-                    iv_tool_heart.setSelected(true);
-                } else {
-                    iv_tool_heart.setSelected(false);
-                }
-                int likeNum = bean.getInfo().getLike_num();
+                tv_star.setText(mLiveRoomBean.getUserData().getIs_attention() == 0 ? R.string.follow : R.string.followed);
+                int likeNum = bean.getInfo().getLike_num() + bean.getInfo().praise_num;
+                mLiveRoomBean.getInfo().setLike_num(likeNum);
+                int shareNum = bean.getInfo().share_num;
                 tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
+                tv_tool_share.setText(shareNum > 1000 ? String.format("%.1f", (float) shareNum / 1000) + "K" : shareNum + "");
             }
             liveDetailMainFragment.updateFollowData(mLiveRoomBean);
-            GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), person_head_pic);
             GlideUtil.loadUserImageDefault(mActivity, bean.getUserData().getAvatar(), iv_avatar);
-            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUid()) && CommonAppConfig.getInstance().getUid().equals(String.valueOf(mAnchorId))) {
-                iv_star.setVisibility(View.GONE);
-            }
         }
     }
 
@@ -538,19 +535,10 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
 
     @Override
     public void showLikeSuccess() {
-        int likeNum = mLiveRoomBean.getInfo().getLike_num();
-        //1喜欢 0取消
-        if(mLiveRoomBean.getInfo().getIs_like() == 1){
-            mLiveRoomBean.getInfo().setIs_like(0);
-            iv_tool_heart.setSelected(false);
-            --likeNum;
-        }else{
-            mLiveRoomBean.getInfo().setIs_like(1);
-            iv_tool_heart.setSelected(true);
-            ++likeNum;
-        }
-        tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");
-        mLiveRoomBean.getInfo().setLike_num(likeNum);
+/*        int likeNum = mLiveRoomBean.getInfo().getLike_num();
+        mLiveRoomBean.getInfo().setIs_like(1);
+        mLiveRoomBean.getInfo().setLike_num(++likeNum);
+        tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");*/
     }
 
     @Override
@@ -560,7 +548,8 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
 
     @Override
     public void getShareSuccess() {
-
+        mLiveRoomBean.getInfo().share_num += 1;
+        tv_tool_share.setText(mLiveRoomBean.getInfo().share_num > 1000 ? String.format("%.1f", (float) mLiveRoomBean.getInfo().share_num / 1000) + "K" : mLiveRoomBean.getInfo().share_num + "");
     }
 
 
@@ -574,7 +563,6 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.person_head_pic:
             case R.id.iv_avatar:
                 if (mLiveRoomBean != null) {
                     PersonalHomepageActivity.forward(LiveNotStartDetailActivity.this, mLiveRoomBean.getUserData().getUid() + "");
@@ -594,23 +582,6 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 }
                 isOpenAvatar = !isOpenAvatar;
                 break;
-            case R.id.iv_star:
-                //关注作者
-                if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                    if (mLiveRoomBean.getUserData() != null && mLiveRoomBean.getUserData().getIs_attention() == 0) {
-                        doFollow();
-                    }
-                }else {
-                    OneLogInActivity.forward(mActivity);
-                }
-
-/*                    if(loginDialog!=null){
-                    loginDialog.show();
-                }else{
-                    ToastUtil.show(getString(R.string.please_login));
-                }*/
-                break;
-            case R.id.iv_tool_heart:
             case R.id.ll_heart:
                 if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(),mLiveRoomBean.getInfo().getIs_like()==1?0:1);
@@ -623,8 +594,17 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                     ToastUtil.show(getString(R.string.please_login));
                 }*/
                 break;
-            case R.id.iv_tool_share:
+            case R.id.tv_tool_share:
                 shareScreen();
+                break;
+            case R.id.tv_star:
+                if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
+                    if (mLiveRoomBean.getUserData() != null) {
+                        doFollow();
+                    }
+                }else {
+                    OneLogInActivity.forward(mActivity);
+                }
                 break;
         }
     }
@@ -662,8 +642,13 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 if (mLiveRoomBean.getUserData().getIs_attention() == 0) {
                     mLiveRoomBean.getUserData().setIs_attention(1);
                     attention++;
+                    tv_star.setText(R.string.followed);
+                }else{
+                    attention--;
+                    tv_star.setText(R.string.follow);
                 }
                 mLiveRoomBean.getUserData().setAttention(attention);
+                tv_desc.setText(getString(R.string.fans)+attention);
                 liveDetailMainFragment.updateFollowData(mLiveRoomBean);
             }
         }
@@ -1036,14 +1021,14 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             //分享到第三方
             if(sharePictureFile(mActivity,picBitmap)){
                 shareDialog.dismiss();
-                mvpPresenter.addShareNum();
+                mvpPresenter.addShareNum(mLiveRoomBean.getInfo().getId());
             }
         });
 
         w.findViewById(R.id.tv_url).setOnClickListener(v -> {
             //分享链接
             ShareUtil.shareText(mActivity,"",SHARE_LIVE_URL+"pages/Live/live-detail?id="+mAnchorId+"&ID="+mLiveId);
-            mvpPresenter.addShareNum();
+            mvpPresenter.addShareNum(mLiveRoomBean.getInfo().getId());
         });
 
         w.findViewById(R.id.tv_save).setOnClickListener(v -> {
@@ -1052,8 +1037,8 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             }
             //保存图片
             if(saveBitmapFile(mActivity,picBitmap)!=null){
+                mvpPresenter.addShareNum(mLiveRoomBean.getInfo().getId());
                 shareDialog.dismiss();
-                mvpPresenter.addShareNum();
             }
         });
 
@@ -1099,5 +1084,15 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         if(shareDialog!=null && shareDialog.isShowing()){
             shareDialog.dismiss();
         }
+    }
+
+    public void addHeart() {
+        mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(), 1);
+    }
+
+    public void addHeartNum(int num) {
+        int likeNum = mLiveRoomBean.getInfo().getLike_num()+num;
+        mLiveRoomBean.getInfo().setLike_num(likeNum);
+        tv_tool_heart.setText(likeNum > 1000 ? String.format("%.1f", (float) likeNum / 1000) + "K" : likeNum + "");
     }
 }

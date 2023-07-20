@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.tencent.liteav.basic.log.TXCLog;
 import com.tencent.liteav.demo.superplayer.SuperPlayerCode;
@@ -24,7 +23,6 @@ import com.tencent.liteav.demo.superplayer.model.protocol.PlayInfoParams;
 import com.tencent.liteav.demo.superplayer.model.protocol.PlayInfoProtocolV2;
 import com.tencent.liteav.demo.superplayer.model.protocol.PlayInfoProtocolV4;
 import com.tencent.liteav.demo.superplayer.model.utils.VideoQualityUtils;
-import com.tencent.qcloud.tuicore.util.ToastUtil;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.ITXVodPlayListener;
 import com.tencent.rtmp.TXBitrateItem;
@@ -97,7 +95,7 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
             case TXLiveConstants.PLAY_ERR_NET_DISCONNECT:
             case TXLiveConstants.PLAY_EVT_PLAY_END:
                 if (mCurrentPlayType == SuperPlayerDef.PlayerType.LIVE_SHIFT) {  // 直播时移失败，返回直播
-                    mLivePlayer.resumeLive();
+                    mLivePlayer.resume();
                     updatePlayerType(SuperPlayerDef.PlayerType.LIVE);
                     onError(SuperPlayerCode.LIVE_SHIFT_FAIL, "Time shift failed. Return to live stream");
                     updatePlayerState(SuperPlayerDef.PlayerState.PLAYING);
@@ -524,7 +522,7 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
             e.printStackTrace();
             TXCLog.e(TAG, "playTimeShiftLiveURL: bizidNum error = " + bizid);
         }
-        mLivePlayer.prepareLiveSeek(domian, bizidNum);
+//        mLivePlayer.prepareLiveSeek(domian, bizidNum);
     }
 
     /**
@@ -762,7 +760,7 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
     @Override
     public void resumeLive() {
         if (mCurrentPlayType == SuperPlayerDef.PlayerType.LIVE_SHIFT) {
-            mLivePlayer.resumeLive();
+            mLivePlayer.resume();
         }
         updatePlayerType(SuperPlayerDef.PlayerType.LIVE);
     }
@@ -840,7 +838,7 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
             updatePlayerType(SuperPlayerDef.PlayerType.LIVE_SHIFT);
             LogReport.getInstance().uploadLogs(LogReport.ELK_ACTION_TIMESHIFT, 0, 0);
             if (mLivePlayer != null) {
-                mLivePlayer.seek(position);
+//                mLivePlayer.seek(position);
             }
         }
         if (mObserver != null) {
@@ -939,7 +937,7 @@ public class SuperPlayerImpl implements SuperPlayer, ITXVodPlayListener, ITXLive
     public void setMute(boolean isSilence) {
         if (mVodPlayer != null) {
             mVodPlayer.setMute(isSilence);
-            mLivePlayer.resumeLive();
+            mLivePlayer.resume();
         }
     }
 }

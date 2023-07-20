@@ -399,4 +399,54 @@ public class LiveChatPresenter extends BasePresenter<LiveChatView> {
                     }
                 });
     }
+
+    public void getAddedPraise(int id) {
+        addSubscription(apiStores.getAddedPraise(id),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        mvpView.refreshHeartNum(false,Integer.parseInt(data));
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
+
+    public void getAddedLike(int id) {
+        addSubscription(apiStores.getAddedLike(id),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        mvpView.refreshHeartNum(true,Integer.parseInt(data));
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
 }

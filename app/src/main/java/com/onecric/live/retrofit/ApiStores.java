@@ -968,6 +968,19 @@ public interface ApiStores {
                                        @Query("home_id") int home_id,
                                         @Query("away_id") int away_id);
 
-    //增加分享次数
 
+    @GET("api/Member/live_share")
+    Observable<JsonObject> addShareNum(@Query("id") int id);
+
+    @GET("api/Member/live_praise")
+    Observable<JsonObject> addPraiseNum(@Query("id") int id);
+
+    @GET("api/Member/live_like")
+    Observable<JsonObject> addLikeNum(@Query("id") int id);
+
+    @GET("api/Member/get_praise_change")
+    Observable<JsonObject> getAddedPraise(@Query("id") int id);
+
+    @GET("api/Member/get_like_change")
+    Observable<JsonObject> getAddedLike(@Query("id") int id);
 }

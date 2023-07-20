@@ -42,7 +42,9 @@ public class GlideUtil {
                 .placeholder(R.mipmap.img_updates_default).error(R.mipmap.img_updates_default).dontAnimate().into(mImageView);
     }
 
-    public static void loadUpdatesImageDefault10(Context mContext, String path, ImageView mImageView) {
+    public static void
+
+    loadUpdatesImageDefault10(Context mContext, String path, ImageView mImageView) {
         Glide.with(mContext.getApplicationContext()).load(path).skipMemoryCache(true).placeholder(R.mipmap.img_updates_default).error(R.mipmap.img_updates_default).transform(new CenterCrop(), new GlideRoundTransform(DpUtil.dp2px(4))).into(mImageView);
     }
 

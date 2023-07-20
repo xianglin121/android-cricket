@@ -3,13 +3,17 @@ package com.onecric.live.fragment;
 import static com.tencent.qcloud.tuikit.tuichat.util.ChatMessageInfoUtil.buildRequestMessage;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.PowerManager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -17,6 +21,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,18 +35,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.kaisengao.likeview.like.KsgLikeView;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.Constant;
 import com.onecric.live.HttpConstant;
 import com.onecric.live.R;
 import com.onecric.live.activity.ChargeActivity;
-import com.onecric.live.activity.LiveDetailActivity;
+import com.onecric.live.activity.LiveDetailActivity2;
+import com.onecric.live.activity.LiveNotStartDetailActivity;
 import com.onecric.live.activity.OpenNobleActivity;
 import com.onecric.live.activity.WebViewActivity;
 import com.onecric.live.adapter.GiftViewPagerRecyclerAdapter;
@@ -51,7 +57,6 @@ import com.onecric.live.adapter.layoutmanager.OnViewPagerListener;
 import com.onecric.live.adapter.layoutmanager.ViewPagerLayoutManager;
 import com.onecric.live.custom.TreasureChestDialog;
 import com.onecric.live.fragment.dialog.InputChatMsgDialogFragment;
-import com.onecric.live.model.BannerBean;
 import com.onecric.live.model.BlockFunctionBean;
 import com.onecric.live.model.BoxBean;
 import com.onecric.live.model.CustomMsgBean;
@@ -90,12 +95,16 @@ import com.zyyoona7.popup.EasyPopup;
 import com.zyyoona7.popup.XGravity;
 import com.zyyoona7.popup.YGravity;
 
+import net.lucode.hackware.magicindicator.buildins.UIUtil;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements LiveChatView, View.OnClickListener {
     public static LiveChatFragment newInstance(String groupId, int anchorId) {
@@ -153,7 +162,12 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
 
     public LiveDetailMainFragment mainFragment;
 
-    public LottieAnimationView lottieView;
+//    public LottieAnimationView lottieView;
+    public KsgLikeView live_view,live_view_heart;
+    private ImageView iv_advert;
+    private String advertUrl;
+    private Timer mTimer;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_live_chat;
@@ -180,7 +194,11 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         iv_block = findViewById(R.id.iv_block);
         smart_rl = findViewById(R.id.smart_rl);
         progressBar = findViewById(R.id.ProgressBar);
-        lottieView = findViewById(R.id.lottieView);
+/*        lottieView = findViewById(R.id.lottieView);
+
+        ViewGroup.LayoutParams pp = lottieView.getLayoutParams();
+        pp.height = (int) (getActivity().getResources().getDisplayMetrics().heightPixels /2);
+        lottieView.setLayoutParams(pp);*/
 
         findViewById(R.id.tv_input).setOnClickListener(this);
         findViewById(R.id.iv_emoji).setOnClickListener(this);
@@ -194,6 +212,33 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
 
         findViewById(R.id.iv_likeing).setOnClickListener(this);
         findViewById(R.id.iv_hearting).setOnClickListener(this);
+
+        live_view = findViewById(R.id.live_view);
+        live_view.addLikeImage(R.drawable.icon_chat_like);
+        ViewGroup.LayoutParams pp2 = live_view.getLayoutParams();
+        pp2.height = (int) (getActivity().getResources().getDisplayMetrics().heightPixels /2);
+        live_view.setLayoutParams(pp2);
+
+        live_view_heart = findViewById(R.id.live_view_heart);
+        live_view_heart.addLikeImage(R.drawable.icon_chat_collect);
+        ViewGroup.LayoutParams pp3 = live_view_heart.getLayoutParams();
+        pp3.height = pp2.height;
+        live_view_heart.setLayoutParams(pp3);
+
+        iv_advert = findViewById(R.id.iv_advert);
+        android.view.ViewGroup.LayoutParams pp4 = iv_advert.getLayoutParams();
+        pp4.height = (int) (UIUtil.getScreenWidth(getContext())/8);//8:1
+        iv_advert.setLayoutParams(pp4);
+        iv_advert.setOnClickListener(v -> {
+            if(!TextUtils.isEmpty(advertUrl)){
+//                WebViewActivity.forward(getActivity(),  advertUrl);
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse(advertUrl);
+                intent.setData(content_url);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -213,6 +258,9 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
             spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.c_E3AC72)), 0, 6, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tv_input.setText(spannable);
         }*/
+
+        getHeartNum();
+
         //游客可发言
         tv_input.setText(R.string.live_talk_some_hint);
         findViewById(R.id.fl_board).setVisibility(View.GONE);
@@ -354,25 +402,25 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                                 ll_has_red_envelope.setVisibility(View.GONE);
                                 ll_countdown.setVisibility(View.VISIBLE);
                                 iv_grab.setVisibility(View.GONE);
-                                if (getContext() instanceof LiveDetailActivity) {
-                                    if (((LiveDetailActivity) getContext()).playerView != null) {
-                                        ((LiveDetailActivity) getContext()).playerView.setCountdownVisible(View.GONE);
+                                if (getContext() instanceof LiveDetailActivity2) {
+                                    if (((LiveDetailActivity2) getContext()).playerView != null) {
+                                        ((LiveDetailActivity2) getContext()).playerView.setCountdownVisible(View.GONE);
                                     }
                                 }
                             }
                         }
                         if (mAdapter.getData().size() > 0) {
                             if (mAdapter.getData().get(0).getCountdown_time() > 0) {
-                                if (getContext() instanceof LiveDetailActivity) {
-                                    if (((LiveDetailActivity) getContext()).playerView != null) {
-                                        ((LiveDetailActivity) getContext()).playerView.setCountdownText(StringUtil.getDurationText(mAdapter.getData().get(0).getCountdown_time() * 1000) + getContext().getString(R.string.second));
+                                if (getContext() instanceof LiveDetailActivity2) {
+                                    if (((LiveDetailActivity2) getContext()).playerView != null) {
+                                        ((LiveDetailActivity2) getContext()).playerView.setCountdownText(StringUtil.getDurationText(mAdapter.getData().get(0).getCountdown_time() * 1000) + getContext().getString(R.string.second));
                                     }
                                 }
                                 tv_countdown.setText(StringUtil.getDurationText(mAdapter.getData().get(0).getCountdown_time() * 1000) + getContext().getString(R.string.second));
                             } else {
-                                if (getContext() instanceof LiveDetailActivity) {
-                                    if (((LiveDetailActivity) getContext()).playerView != null) {
-                                        ((LiveDetailActivity) getContext()).playerView.setCountdownText(getContext().getString(R.string.text_open_red_envelope));
+                                if (getContext() instanceof LiveDetailActivity2) {
+                                    if (((LiveDetailActivity2) getContext()).playerView != null) {
+                                        ((LiveDetailActivity2) getContext()).playerView.setCountdownText(getContext().getString(R.string.text_open_red_envelope));
                                     }
                                 }
                                 ll_countdown.setVisibility(View.GONE);
@@ -381,9 +429,9 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                         } else {
                             ll_no_red_envelope.setVisibility(View.VISIBLE);
                             ll_has_red_envelope.setVisibility(View.GONE);
-                            if (getContext() instanceof LiveDetailActivity) {
-                                if (((LiveDetailActivity) getContext()).playerView != null) {
-                                    ((LiveDetailActivity) getContext()).playerView.setCountdownVisible(View.GONE);
+                            if (getContext() instanceof LiveDetailActivity2) {
+                                if (((LiveDetailActivity2) getContext()).playerView != null) {
+                                    ((LiveDetailActivity2) getContext()).playerView.setCountdownVisible(View.GONE);
                                 }
                             }
                         }
@@ -468,15 +516,16 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         BlockFunctionBean blockFunctionInfo = CommonAppConfig.getInstance().getBlockFunctionInfo();
         switch (v.getId()) {
             case R.id.tv_input:
+            case R.id.iv_emoji:
                 if (mNobelBean != null) {
                     showInputTextMsgDialog(InputChatMsgDialogFragment.STATE_SOFT_INPUT);
                 }
                 break;
-            case R.id.iv_emoji:
+/*            case R.id.iv_emoji:
                 if (mNobelBean != null) {
                     showInputTextMsgDialog(InputChatMsgDialogFragment.STATE_FACE_INPUT);
                 }
-                break;
+                break;*/
             case R.id.iv_gift:
                 showGiftDialog();
                 break;
@@ -560,12 +609,22 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                 }
                 break;
             case R.id.iv_likeing:
-                lottieView.setAnimation("like-emoji.json");
-                lottieView.playAnimation();
+//                lottieView.setAnimation("like-emoji.json");
+//                lottieView.playAnimation();
+                live_view.addFavor();
+                if(getActivity() instanceof LiveDetailActivity2){
+                    ((LiveDetailActivity2)mainFragment.getActivity()).addHeart(false);
+                }else if(getActivity() instanceof LiveNotStartDetailActivity){
+                    ((LiveNotStartDetailActivity)mainFragment.getActivity()).addHeart();
+                }
                 break;
             case R.id.iv_hearting:
-                lottieView.setAnimation("heart-emoji.json");
-                lottieView.playAnimation();
+                live_view_heart.addFavor();
+                if(getActivity() instanceof LiveDetailActivity2){
+                    ((LiveDetailActivity2)mainFragment.getActivity()).addHeart(true);
+                }else if(getActivity() instanceof LiveNotStartDetailActivity){
+                    ((LiveNotStartDetailActivity)mainFragment.getActivity()).addHeart();
+                }
                 break;
         }
     }
@@ -744,8 +803,8 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
 //        if (giftBean != null) {
 //            ((LiveDetailActivity) getActivity()).startGif(giftBean, CommonAppConfig.getInstance().getUserBean().getUser_nickname(), CommonAppConfig.getInstance().getUserBean().getAvatar());
 //        }
-        if (getContext() instanceof LiveDetailActivity) {
-            ((LiveDetailActivity) getActivity()).sendGiftMessage(giftBean);
+        if (getContext() instanceof LiveDetailActivity2) {
+            ((LiveDetailActivity2) getActivity()).sendGiftMessage(giftBean);
         }
     }
 
@@ -1245,15 +1304,15 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         if (list != null && list.size() > 0) {
             ll_no_red_envelope.setVisibility(View.GONE);
             ll_has_red_envelope.setVisibility(View.VISIBLE);
-            if (getContext() instanceof LiveDetailActivity) {
-                ((LiveDetailActivity) getContext()).playerView.setCountdownVisible(View.VISIBLE);
+            if (getContext() instanceof LiveDetailActivity2) {
+                ((LiveDetailActivity2) getContext()).playerView.setCountdownVisible(View.VISIBLE);
             }
             mAdapter.setNewData(list);
         } else {
             ll_no_red_envelope.setVisibility(View.VISIBLE);
             ll_has_red_envelope.setVisibility(View.GONE);
-            if (getContext() instanceof LiveDetailActivity) {
-                ((LiveDetailActivity) getContext()).playerView.setCountdownVisible(View.GONE);
+            if (getContext() instanceof LiveDetailActivity2) {
+                ((LiveDetailActivity2) getContext()).playerView.setCountdownVisible(View.GONE);
             }
         }
     }
@@ -1268,8 +1327,8 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
     @Override
     public void addRedEnvelopeSuccess() {
         mLoadingDialog.dismiss();
-        if (getActivity() instanceof LiveDetailActivity) {
-            ((LiveDetailActivity)getActivity()).refreshUserInfo();
+        if (getActivity() instanceof LiveDetailActivity2) {
+            ((LiveDetailActivity2)getActivity()).refreshUserInfo();
         }
         toggleType(TYPE_NORMAL);
         mvpPresenter.getRedEnvelopeList(mAnchorId);
@@ -1309,6 +1368,28 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         mvpPresenter.getNobelData();
     }
 
+    @Override
+    public void refreshHeartNum(boolean isLike, int num) {
+        if(num <= 0){
+            return;
+        }
+        if(isLike){
+            for(int i=0;i<num;i++){
+                live_view_heart.addFavor();
+            }
+        }else{
+            for(int i=0;i<num;i++){
+                live_view.addFavor();
+            }
+        }
+
+        if(getActivity() instanceof LiveDetailActivity2){
+            ((LiveDetailActivity2)mainFragment.getActivity()).addHeartNum(num);
+        }else if(getActivity() instanceof LiveNotStartDetailActivity){
+            ((LiveNotStartDetailActivity)mainFragment.getActivity()).addHeartNum(num);
+        }
+    }
+
     /***********************红包相关***********************/
 
     @Override
@@ -1322,6 +1403,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         SpUtil.getInstance().setStringValue(SpUtil.BOX_TIME, String.valueOf(mTime));
         //销毁聊天信息接收监听
         mvpPresenter.destroyListener();
+//        lottieView.destroyDrawingCache();
         super.onDestroy();
     }
 
@@ -1364,13 +1446,13 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                 } else if (messageInfo.getMsgType() == MessageInfo.MSG_TYPE_COLOR_DANMU) {
 //                    updateAdapter(customMsgBean.getColor().getGuard_icon(), customMsgBean.getColor().getExp_icon(), messageInfo);
                     updateAdapter(messageInfo);
-                    if (getActivity() instanceof LiveDetailActivity) {
-                        ((LiveDetailActivity) getActivity()).addDanmu(messageInfo);
+                    if (getActivity() instanceof LiveDetailActivity2) {
+                        ((LiveDetailActivity2) getActivity()).addDanmu(messageInfo);
                     }
                 } else if (messageInfo.getMsgType() == MessageInfo.MSG_TYPE_NOBEL_ENTER) {
                     if (customMsgBean.getNobel() != null && customMsgBean.getNobel().getIs_guard() == 1) {
-                        if (getActivity() instanceof LiveDetailActivity) {
-                            ((LiveDetailActivity) getActivity()).showNobleAnim(messageInfo.getNickName(), customMsgBean.getNobel().getGuard_name(), customMsgBean.getNobel().getGuard_swf());
+                        if (getActivity() instanceof LiveDetailActivity2) {
+                            ((LiveDetailActivity2) getActivity()).showNobleAnim(messageInfo.getNickName(), customMsgBean.getNobel().getGuard_name(), customMsgBean.getNobel().getGuard_swf());
                         }
                     }
                     if (CommonAppConfig.getInstance().getBlockFunctionInfo() != null) {
@@ -1379,15 +1461,15 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                             updateAdapter(messageInfo);
                         }
                     }
-                    if (getActivity() instanceof LiveDetailActivity) {
-                        ((LiveDetailActivity) getActivity()).setPeopleCount();
+                    if (getActivity() instanceof LiveDetailActivity2) {
+                        ((LiveDetailActivity2) getActivity()).setPeopleCount();
                     }
 
                 } else if (messageInfo.getMsgType() == MessageInfo.MSG_TYPE_BG_DANMU) {
 //                    updateAdapter(customMsgBean.getNormal().getGuard_icon(), customMsgBean.getNormal().getExp_icon(), messageInfo);
                     updateAdapter(messageInfo);
-                    if (getActivity() instanceof LiveDetailActivity) {
-                        ((LiveDetailActivity) getActivity()).addDanmu(messageInfo);
+                    if (getActivity() instanceof LiveDetailActivity2) {
+                        ((LiveDetailActivity2) getActivity()).addDanmu(messageInfo);
                     }
                 } else if (messageInfo.getMsgType() == MessageInfo.MSG_TYPE_RED_ENVELOPE) {
 //                    updateAdapter(customMsgBean.getNormal().getGuard_icon(), customMsgBean.getNormal().getExp_icon(), messageInfo);
@@ -1396,8 +1478,8 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                         mvpPresenter.getRedEnvelopeList(mAnchorId);
                     }
                 } else if (messageInfo.getMsgType() == MessageInfo.MSG_TYPE_BROADCAST) {
-                    if (getActivity() instanceof LiveDetailActivity) {
-                        ((LiveDetailActivity) getActivity()).receiveBroadcast(customMsgBean.getInfo());
+                    if (getActivity() instanceof LiveDetailActivity2) {
+                        ((LiveDetailActivity2) getActivity()).receiveBroadcast(customMsgBean.getInfo());
                     }
                 }
             }
@@ -1577,9 +1659,44 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         });*/
     }
 
-    public void setChatAdvertList(List<BannerBean> list){
-        //fixme 设置广告banner
-
+    public void setChatAdvertList(String img,String url){
+        if(!TextUtils.isEmpty(img)){
+            iv_advert.setVisibility(View.VISIBLE);
+            Glide.with(getActivity()).load(img).dontAnimate().into(iv_advert);
+        }
+        if(!TextUtils.isEmpty(url)){
+            advertUrl = url;
+        }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+//        lottieView.clearAnimation();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(mTimer != null){
+            mTimer.cancel();
+        }
+    }
+
+    /**
+     * 每3s刷新
+     */
+    private void getHeartNum(){
+        mTimer = new Timer();
+        mTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if(((PowerManager)getActivity().getSystemService(Context.POWER_SERVICE)).isScreenOn() &&
+                        getActivity().getWindow().getDecorView().getVisibility() == View.VISIBLE ){
+                    mvpPresenter.getAddedPraise(Integer.parseInt(mGroupId));
+                    mvpPresenter.getAddedLike(Integer.parseInt(mGroupId));
+                }
+            }
+        }, 10000, 3000);
+    }
 }

@@ -32,6 +32,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.LiveDetailActivity;
+import com.onecric.live.activity.LiveDetailActivity2;
 import com.onecric.live.activity.LiveNotStartDetailActivity;
 import com.onecric.live.activity.OpenNobleActivity;
 import com.onecric.live.adapter.ColorDanmuAdapter;
@@ -392,8 +393,8 @@ public class InputChatMsgDialogFragment extends DialogFragment implements View.O
                     return;
                 }
                 if (mDanmuType == 0 || mDanmuType == 3) {//普通弹幕
-                    if (getActivity() instanceof LiveDetailActivity) {
-                        ((LiveDetailActivity)getActivity()).sendMessage(et_input.getText().toString());
+                    if (getActivity() instanceof LiveDetailActivity2) {
+                        ((LiveDetailActivity2)getActivity()).sendMessage(et_input.getText().toString());
                         et_input.setText("");
                     }else if(getActivity() instanceof LiveNotStartDetailActivity){
                         ((LiveNotStartDetailActivity)getActivity()).sendMessage(et_input.getText().toString());
@@ -406,7 +407,7 @@ public class InputChatMsgDialogFragment extends DialogFragment implements View.O
                         et_input.setText("");
                     }
                 }else if (mDanmuType == 2) {//喇叭消息
-                    if (getActivity() instanceof LiveDetailActivity) {
+                    if (getActivity() instanceof LiveDetailActivity2) {
                         ((LiveDetailActivity)getActivity()).sendBroadcast(et_input.getText().toString());
                         et_input.setText("");
                     }

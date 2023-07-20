@@ -277,7 +277,6 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
         rv_history.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
         rv_history.setAdapter(mHistoryAdapter);
 
-
     }
 
     @Override
@@ -393,6 +392,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
             iv_state_live.setVisibility(View.VISIBLE);
         }
 
+        tv_home_score2.setText("");
         if (!TextUtils.isEmpty(selectLiveBean.homeDisplayOvers)) {
             if(selectLiveBean.homeDisplayOvers.contains("0/0")){
                 tv_home_score.setText("");
@@ -416,9 +416,9 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
             }
         } else {
             tv_home_score.setText("");
-            tv_home_score2.setText(" ");
         }
 
+        tv_away_score2.setText("");
         if (!TextUtils.isEmpty(selectLiveBean.awayDisplayOvers)) {
             if(selectLiveBean.awayDisplayOvers.contains("0/0")){
                 tv_away_score.setText("");
@@ -442,7 +442,6 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
             }
         } else {
             tv_away_score.setText("");
-            tv_away_score2.setText("");
         }
 
     }
