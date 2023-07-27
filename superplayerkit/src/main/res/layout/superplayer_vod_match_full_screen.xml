@@ -32,7 +32,8 @@
             android:textSize="12sp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:background="@drawable/selector_match_top"/>
+            android:background="@drawable/selector_match_top"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_tab_squad"

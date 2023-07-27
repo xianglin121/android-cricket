@@ -121,8 +121,8 @@ public class LivePlayerView extends RelativeLayout {
         mMatchId = matchId;
     }
 
-    public void setInitInfo(int aIsAttention,String aName,int fansNum,int likeNum,int shareNum,String aHead) {
-        mWindowPlayer.setInitInfo(aIsAttention,aName,fansNum,likeNum,shareNum,aHead);
+    public void setInitInfo(int aIsAttention,String aName,int fansNum,int likeNum,int shareNum,String aHead,boolean isLikeed) {
+        mWindowPlayer.setInitInfo(aIsAttention,aName,fansNum,likeNum,shareNum,aHead,isLikeed);
     }
 
     /**
@@ -744,6 +744,13 @@ public class LivePlayerView extends RelativeLayout {
                 mPlayerViewCallback.onAddShare();
             }
         }
+
+        @Override
+        public void onChangeHeart(boolean isLike) {
+            if (mPlayerViewCallback != null) {
+                mPlayerViewCallback.onAddHeart(isLike);
+            }
+        }
     };
 
     /**
@@ -866,7 +873,7 @@ public class LivePlayerView extends RelativeLayout {
 
         void onForwardPlayerProfile(int id);
 
-        void onAddHeart();
+        void onAddHeart(boolean isAdd);
 
         void onAddShare();
 

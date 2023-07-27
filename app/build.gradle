@@ -49,6 +49,7 @@ XIAOMI_APPKEY             : "MI-5511990317247",
 // mi global client 配置，需要与小米控制台上的一样，还需要在AURORA控制台配置 server 配置
 XIAOMI_GLOBAL_APPID       : "MI-2882303761520426107",
 XIAOMI_GLOBAL_APPKEY      : "MI-5152042627107",
+
 // mz client 配置，需要与魅族控制台上的一样，还需要在AURORA控制台配置 server 配置
 MEIZU_APPID               : "MZ-150925",
 MEIZU_APPKEY              : "MZ-82c354d6c4944cd896beeb01f3fb94fa",

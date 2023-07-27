@@ -139,7 +139,7 @@ public class VodMatchFullScreenView extends RelativeLayout implements View.OnCli
         squadAdapter = new SquadAdapter(this,R.layout.item_match_squad, new ArrayList<SquadBean>());
         rv_squad.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_squad.setAdapter(squadAdapter);
-        initWebViewOne();
+//        initWebViewOne();
 
         tv_tab_home.setOnClickListener(this);
         tv_tab_away.setOnClickListener(this);

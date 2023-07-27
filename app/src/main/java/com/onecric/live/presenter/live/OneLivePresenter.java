@@ -23,14 +23,18 @@ public class OneLivePresenter extends BasePresenter<OneLiveView> {
         attachView(view);
     }
 
-    public void getBannerList() {
-        addSubscription(apiStores.getBannerList(1),
+    public void getBannerList(int type) {
+        addSubscription(apiStores.getBannerList(type ),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
                         if (!TextUtils.isEmpty(data) && !data.equals("[]")) {
                             List<BannerBean> list = JSONObject.parseArray(data, BannerBean.class);
-                            mvpView.getBannerSuccess(list);
+                            if(type == 1){
+                                mvpView.getBannerSuccess(list);
+                            }else if(list != null && list.size()>0){
+                                mvpView.getAdvertSuccess(list.get(0).getImg(),list.get(0).getUrl());
+                            }
                         }
                     }
 

@@ -30,7 +30,7 @@ public interface LiveDetailView extends BaseView<LiveRoomBean> {
 
     void getUpdatesDataSuccess(List<UpdatesBean> list);
 
-    void showLikeSuccess();
+    void showLikeSuccess(boolean isAdd);
 
     void getSquadData(List<SquadDataBean> beanList);
 

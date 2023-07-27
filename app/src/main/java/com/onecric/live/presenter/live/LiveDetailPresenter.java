@@ -268,13 +268,12 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
         });
     }
 
-    public void goLike(int id, int isLike) {
-//        addSubscription(apiStores.getLiveLike(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(),id, isLike),
-        addSubscription(apiStores.addLikeNum(id),
+    public void goLike(int id,int isLike) {
+        addSubscription(apiStores.getLiveLike(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(),id, isLike),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
-                        mvpView.showLikeSuccess();
+                        mvpView.showLikeSuccess(isLike == 1);
                     }
 
                     @Override
@@ -292,6 +291,7 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
 
                     }
                 });
+
     }
 
 
@@ -354,7 +354,7 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
-                        mvpView.showLikeSuccess();
+
                     }
 
                     @Override
@@ -372,6 +372,33 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
 
                     }
                 });
+    }
+
+
+    public void addHeartNum(int id) {
+        addSubscription(apiStores.addLikeNum(id),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        mvpView.getDataFail(msg);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        mvpView.getDataFail(msg);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+
     }
 
 }

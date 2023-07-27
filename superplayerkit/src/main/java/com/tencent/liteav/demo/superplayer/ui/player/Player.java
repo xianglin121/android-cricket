@@ -312,5 +312,6 @@ public interface Player {
         void onChangeFollowState();
 
         void onShareLive();
+        void onChangeHeart(boolean isLike);
     }
 }

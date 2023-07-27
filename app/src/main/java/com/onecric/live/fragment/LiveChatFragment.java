@@ -615,7 +615,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                 if(getActivity() instanceof LiveDetailActivity2){
                     ((LiveDetailActivity2)mainFragment.getActivity()).addHeart(false);
                 }else if(getActivity() instanceof LiveNotStartDetailActivity){
-                    ((LiveNotStartDetailActivity)mainFragment.getActivity()).addHeart();
+                    ((LiveNotStartDetailActivity)mainFragment.getActivity()).addHeart(false);
                 }
                 break;
             case R.id.iv_hearting:
@@ -623,7 +623,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                 if(getActivity() instanceof LiveDetailActivity2){
                     ((LiveDetailActivity2)mainFragment.getActivity()).addHeart(true);
                 }else if(getActivity() instanceof LiveNotStartDetailActivity){
-                    ((LiveNotStartDetailActivity)mainFragment.getActivity()).addHeart();
+                    ((LiveNotStartDetailActivity)mainFragment.getActivity()).addHeart(true);
                 }
                 break;
         }
@@ -1698,5 +1698,9 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                 }
             }
         }, 10000, 3000);
+    }
+
+    public void setChatAddHeart(){
+        live_view_heart.addFavor();
     }
 }

@@ -96,7 +96,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="20dp"/>
 
-    <LinearLayout style="@style/LinearLayoutInputRowNew">
+    <LinearLayout style="@style/LinearLayoutInputRowNew" android:visibility="gone">
 
         <ImageView
             android:layout_width="16dp"
@@ -127,7 +127,8 @@
         android:background="@color/c_959595"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_forget_pwd"
@@ -137,7 +138,8 @@
         android:textSize="12sp"
         android:textColor="@color/c_E02D01"
         android:layout_gravity="right"
-        android:layout_marginRight="16dp"/>
+        android:layout_marginRight="16dp"
+        android:visibility="gone"/>
 
 
     <FrameLayout

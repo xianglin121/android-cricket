@@ -135,6 +135,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     private LinearLayout ll_main;
     private TextView tv_star,tv_tool_share;
     private ImageView iv_advert;
+    private Drawable drawableHeartRed,drawableHeartWhite;
 
     @Override
     protected LiveDetailPresenter createPresenter() {
@@ -185,7 +186,10 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         drawableArrDown = getResources().getDrawable(R.mipmap.icon_arrow_down);
         drawableArrDown.setTint(getResources().getColor(R.color.c_959697));
         drawableArrDown.setBounds(0, 0, drawableArrDown.getMinimumWidth(),drawableArrDown.getMinimumHeight());
-
+        drawableHeartRed = getResources().getDrawable(com.tencent.liteav.demo.superplayer.R.mipmap.icon_heart_red);
+        drawableHeartRed.setBounds(0, 0, drawableHeartRed.getMinimumWidth(),drawableHeartRed.getMinimumHeight());
+        drawableHeartWhite = getResources().getDrawable(R.mipmap.icon_heart_white2);
+        drawableHeartWhite.setBounds(0, 0, drawableHeartWhite.getMinimumWidth(),drawableHeartWhite.getMinimumHeight());
         //视频尺寸
 //        int width = UIUtil.getScreenWidth(this);
 //        ViewGroup.LayoutParams pp = playerView.getLayoutParams();
@@ -239,6 +243,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         iv_avatar.setOnClickListener(this);
         tv_star.setOnClickListener(this);
         tv_tool_share.setOnClickListener(this);
+        tv_tool_heart.setOnClickListener(this);
 
         iv_advert = findViewById(R.id.iv_advert);
         android.view.ViewGroup.LayoutParams pp2 = iv_advert.getLayoutParams();
@@ -329,6 +334,11 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 liveDetailMainFragment.showOfficeNotice(bean.getInfo().prompt,1);
             }
             mLiveRoomBean = bean;
+            if (bean.getInfo().getIs_like() == 1) {
+                tv_tool_heart.setCompoundDrawables(null, drawableHeartRed, null,null);
+            } else {
+                tv_tool_heart.setCompoundDrawables(null, drawableHeartWhite, null,null);
+            }
             initShareScreen();
             mMatchId = bean.getInfo().getMatch_id();
 //            tv_time.setText(getString(R.string.watch_live_at)+" "+sfdate2.format(new Date(bean.getInfo().timezone_starttime*1000)));
@@ -534,15 +544,20 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     }
 
     @Override
-    public void showLikeSuccess() {
-/*        int likeNum = mLiveRoomBean.getInfo().getLike_num();
-        mLiveRoomBean.getInfo().setIs_like(1);
-        mLiveRoomBean.getInfo().setLike_num(++likeNum);
-        tv_tool_heart.setText(likeNum>1000 ? String.format("%.1f",(float)likeNum/1000) + "K" :likeNum+"");*/
+    public void showLikeSuccess(boolean isAdd) {
+        if(isAdd){
+            liveDetailMainFragment.setChatAddHeart();
+            mLiveRoomBean.getInfo().setIs_like(1);
+            tv_tool_heart.setCompoundDrawables(null, drawableHeartRed, null,null);
+        }else{
+            mLiveRoomBean.getInfo().setIs_like(0);
+            tv_tool_heart.setCompoundDrawables(null, drawableHeartWhite, null,null);
+        }
     }
 
     @Override
     public void getSquadData(List<SquadDataBean> beanList) {
+
 
     }
 
@@ -582,18 +597,6 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 }
                 isOpenAvatar = !isOpenAvatar;
                 break;
-            case R.id.ll_heart:
-                if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
-                    mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(),mLiveRoomBean.getInfo().getIs_like()==1?0:1);
-                }else {
-                    OneLogInActivity.forward(mActivity);
-                }
-/*                    if(loginDialog!=null){
-                    loginDialog.show();
-                }else{
-                    ToastUtil.show(getString(R.string.please_login));
-                }*/
-                break;
             case R.id.tv_tool_share:
                 shareScreen();
                 break;
@@ -605,6 +608,9 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 }else {
                     OneLogInActivity.forward(mActivity);
                 }
+                break;
+            case R.id.tv_tool_heart:
+                mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(), mLiveRoomBean.getInfo().getIs_like()==1?0:1);
                 break;
         }
     }
@@ -1086,8 +1092,12 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         }
     }
 
-    public void addHeart() {
-        mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(), 1);
+    public void addHeart(boolean isLike) {
+        if(isLike){
+            mvpPresenter.addHeartNum(mLiveRoomBean.getInfo().getId());
+        }else{
+            mvpPresenter.addPraiseNum(mLiveRoomBean.getInfo().getId());
+        }
     }
 
     public void addHeartNum(int num) {
@@ -1095,4 +1105,5 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         mLiveRoomBean.getInfo().setLike_num(likeNum);
         tv_tool_heart.setText(likeNum > 1000 ? String.format("%.1f", (float) likeNum / 1000) + "K" : likeNum + "");
     }
+
 }

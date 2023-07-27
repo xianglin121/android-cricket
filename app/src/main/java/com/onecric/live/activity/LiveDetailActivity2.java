@@ -635,8 +635,8 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
                 }
 
                 @Override
-                public void onAddHeart() {
-//                    addHeart();
+                public void onAddHeart(boolean isAdd) {
+                    mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(), isAdd?1:0);
                 }
 
                 @Override
@@ -789,17 +789,12 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
                 int heatNum = bean.getUserData().getHeat();
 
                 tv_tool_eyes.setText(heatNum > 1000 ? String.format("%.1f", (float) heatNum / 1000) + "K" : heatNum + "");
-/*                if (bean.getInfo().getIs_like() == 1) {
-                    iv_tool_heart.setSelected(true);
-                } else {
-                    iv_tool_heart.setSelected(false);
-                }*/
 
                 int likeNum = bean.getInfo().getLike_num() + bean.getInfo().praise_num;
                 mLiveRoomBean.getInfo().setLike_num(likeNum);
                 int shareNum = bean.getInfo().share_num;
 
-                playerView.setInitInfo(bean.getUserData().getIs_attention(),bean.getUserData().getUser_nickname(),bean.getUserData().getAttention(),likeNum,shareNum,bean.getUserData().getAvatar());
+                playerView.setInitInfo(bean.getUserData().getIs_attention(),bean.getUserData().getUser_nickname(),bean.getUserData().getAttention(),likeNum,shareNum,bean.getUserData().getAvatar(),bean.getInfo().getIs_like() == 1  );
             }
             liveDetailMainFragment.updateFollowData(mLiveRoomBean);
         } else {
@@ -853,7 +848,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
                 int likeNum = bean.getInfo().getLike_num() + bean.getInfo().praise_num;
                 mLiveRoomBean.getInfo().setLike_num(likeNum);
                 int shareNum = bean.getInfo().share_num;
-                playerView.setInitInfo(bean.getUserData().getIs_attention(),bean.getUserData().getUser_nickname(),bean.getUserData().getAttention(),likeNum,shareNum,bean.getUserData().getAvatar());
+                playerView.setInitInfo(bean.getUserData().getIs_attention(),bean.getUserData().getUser_nickname(),bean.getUserData().getAttention(),likeNum,shareNum,bean.getUserData().getAvatar(),bean.getInfo().getIs_like() == 1);
 
             }
             liveDetailMainFragment.updateFollowData(mLiveRoomBean);
@@ -939,11 +934,15 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
     }
 
     @Override
-    public void showLikeSuccess() {
-/*        int likeNum = mLiveRoomBean.getInfo().getLike_num();
-        mLiveRoomBean.getInfo().setIs_like(1);
-        mLiveRoomBean.getInfo().setLike_num(++likeNum);
-        playerView.addHeartSuccess(1);*/
+    public void showLikeSuccess(boolean isAdd) {
+       if(isAdd){
+           liveDetailMainFragment.setChatAddHeart();
+           mLiveRoomBean.getInfo().setIs_like(1);
+           playerView.addHeartSuccess(1);
+       }else{
+           mLiveRoomBean.getInfo().setIs_like(0);
+           playerView.addHeartSuccess(-1);
+       }
     }
 
     @Override
@@ -1754,7 +1753,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
 
     public void addHeart(boolean isLike) {
         if(isLike){
-            mvpPresenter.goLike(mLiveRoomBean.getInfo().getId(), 1);
+            mvpPresenter.addHeartNum(mLiveRoomBean.getInfo().getId());
         }else{
             mvpPresenter.addPraiseNum(mLiveRoomBean.getInfo().getId());
         }

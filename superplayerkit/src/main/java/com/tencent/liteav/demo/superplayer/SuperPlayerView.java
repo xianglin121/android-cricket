@@ -673,6 +673,11 @@ public class SuperPlayerView extends RelativeLayout {
         public void onShareLive() {
 
         }
+
+        @Override
+        public void onChangeHeart(boolean isLike) {
+
+        }
     };
 
     /**

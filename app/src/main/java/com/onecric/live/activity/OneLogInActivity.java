@@ -1,7 +1,6 @@
 package com.onecric.live.activity;
 
 import static com.onecric.live.AppManager.mContext;
-import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
 import static com.onecric.live.util.UiUtils.getJsonData;
 import static com.onecric.live.util.UiUtils.hideKeyboard;
 
@@ -48,7 +47,6 @@ import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.model.AreasModel;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.login.LoginPresenter;
-import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.util.ToolUtil;
 import com.onecric.live.view.MvpActivity;
@@ -85,7 +83,7 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
     // Google
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_GOOGLE_SIGN_IN = 1102;
-
+    private final int FROM_LOGIN_IN = 2204;
 
     @Override
     public void onClick(View v) {
@@ -107,15 +105,17 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
                     return;
                 }
 
-                if (TextUtils.isEmpty(et_password.getText().toString().trim())) {
+                /*if (TextUtils.isEmpty(et_password.getText().toString().trim())) {
                     ToastUtil.show(getString(R.string.password));
                     return;
-                }
+                }*/
 
-                hideKeyboard(et_password);
+                hideKeyboard(etPhone);
                 tv_login.setEnabled(false);
-                showLoadingDialog();
-                mvpPresenter.oneLoginByPwd(area + "-" + phone,et_password.getText().toString().trim(), SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN));
+//                mvpPresenter.oneLoginByPwd(area + "-" + phone,et_password.getText().toString().trim(), SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN));
+                mvpPresenter.getCode(area + "-" + phone);
+                finish();
+                OneVerificationActivity.forward(OneLogInActivity.this,area + "-" + phone,FROM_LOGIN_IN);
                 break;
             case R.id.tv_sign_up:
                 OneSignUpActivity.forward(OneLogInActivity.this);

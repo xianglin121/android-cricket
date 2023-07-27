@@ -682,7 +682,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 }
 
                 @Override
-                public void onAddHeart() {
+                public void onAddHeart(boolean i) {
 
                 }
 
@@ -977,7 +977,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     }
 
     @Override
-    public void showLikeSuccess() {
+    public void showLikeSuccess(boolean isAdd) {
         int likeNum = mLiveRoomBean.getInfo().getLike_num();
         //1喜欢 0取消
         if (mLiveRoomBean.getInfo().getIs_like() == 1) {
@@ -992,6 +992,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
         tv_tool_heart.setText(likeNum > 1000 ? String.format("%.1f", (float) likeNum / 1000) + "K" : likeNum + "");
         mLiveRoomBean.getInfo().setLike_num(likeNum);
     }
+
 
     @Override
     public void getSquadData(List<SquadDataBean> beanList) {

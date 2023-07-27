@@ -720,6 +720,11 @@ public class MatchPlayerView extends RelativeLayout {
         public void onShareLive() {
 
         }
+
+        @Override
+        public void onChangeHeart(boolean isLike) {
+
+        }
     };
 
     /**

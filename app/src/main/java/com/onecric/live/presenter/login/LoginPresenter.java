@@ -172,7 +172,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     public void oneLoginByPwd(String mobile, String password, String pushid) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("mobile", mobile);
-        jsonObject.put("password", password);
+//        jsonObject.put("password", password);
         jsonObject.put("pushid", pushid);
         jsonObject.put("device_type", "android");
 

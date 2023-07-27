@@ -1,7 +1,11 @@
 package com.onecric.live.activity;
 
+import static com.onecric.live.AppManager.mContext;
+import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
+
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -9,13 +13,19 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.engagelab.privates.core.api.MTCorePrivatesApi;
 import com.example.gjylibrary.GjySerialnumberLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.onecric.live.R;
+import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.presenter.login.VerificationPresenter;
+import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.login.VerificationView;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * 验证码
@@ -24,6 +34,8 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
     private final int FROM_FORGET_PASSWORD = 2201;
     private final int FROM_SIGN_UP = 2202;
     private final int FROM_SET_PASSWORD = 2203;
+    private final int FROM_LOGIN_IN = 2204;
+
     public static void forward(Context context,String account,int fromType) {
         Intent intent = new Intent(context, OneVerificationActivity.class);
         if(!TextUtils.isEmpty(account)){
@@ -42,7 +54,7 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
     private int count = TOTAL;
     private String vCode,account;
     private int fromType;
-
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public int getLayoutId() {
@@ -57,6 +69,7 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
         if(TextUtils.isEmpty(account)){
             finish();
         }
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         tv_account = findViewById(R.id.tv_account);
         tv_info = findViewById(R.id.tv_info);
@@ -90,6 +103,9 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
                 case FROM_SET_PASSWORD:
                     mvpPresenter.getCode(account,1);//注册
                     break;
+                case FROM_LOGIN_IN:
+                    mvpPresenter.getCode(account,3);
+                    break;
             }
         });
 
@@ -115,6 +131,9 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
                 case FROM_SIGN_UP:
                 case FROM_SET_PASSWORD:
                     mvpPresenter.verifyCode(account,vCode,1);
+                    break;
+                case FROM_LOGIN_IN:
+                    mvpPresenter.oneLoginByPwd(account,SpUtil.getInstance().getStringValue(REGISTRATION_TOKEN),vCode);
                     break;
             }
         });
@@ -190,7 +209,21 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
                 break;
             case FROM_SIGN_UP:
             case FROM_SET_PASSWORD:
-                OneSetPwdActivity.forward(this,account);
+//                OneSetPwdActivity.forward(this,account);
+                ToastUtil.show(getResources().getString(R.string.success));
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.METHOD, "sign_up");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
+                LoginAccessActivity.forward(this);
+                finish();
+                break;
+            case FROM_LOGIN_IN:
+                Bundle bundle2 = new Bundle();
+                bundle2.putString(FirebaseAnalytics.Param.METHOD, "login");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle2);
+                mvpPresenter.updateJgId(MTCorePrivatesApi.getRegistrationId(mContext));
+                ToastUtil.show(mContext.getString(R.string.login_success));
+                EventBus.getDefault().post(new UpdateLoginTokenEvent());
                 finish();
                 break;
             default:;

@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -102,6 +103,8 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
     private int mShareNum;
     private int mFansNum;
     private RelativeLayout rl_info;
+    private Drawable drawableHeartRed,drawableHeartWhite;
+    private boolean mIsLike;
 
     public LiveWindowPlayer(Context context) {
         super(context);
@@ -326,6 +329,12 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
         iv_avatar.setOnClickListener(this);
         tv_star.setOnClickListener(this);
         tv_tool_share.setOnClickListener(this);
+        tv_tool_heart.setOnClickListener(this);
+
+        drawableHeartRed = getResources().getDrawable(R.mipmap.icon_heart_red);
+        drawableHeartRed.setBounds(0, 0, drawableHeartRed.getMinimumWidth(),drawableHeartRed.getMinimumHeight());
+        drawableHeartWhite = getResources().getDrawable(R.mipmap.icon_heart_white2);
+        drawableHeartWhite.setBounds(0, 0, drawableHeartWhite.getMinimumWidth(),drawableHeartWhite.getMinimumHeight());
     }
 
     public void setPeopleCount(String count) {
@@ -765,6 +774,8 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
             mControllerCallback.onChangeFollowState();
         }else if(id== R.id.tv_tool_share){
             mControllerCallback.onShareLive();
+        }else if(id== R.id.tv_tool_heart){
+            mControllerCallback.onChangeHeart(!mIsLike);
         }
     }
 
@@ -947,7 +958,7 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
         mIvBack.setVisibility(GONE);
     }
 
-    public void setInitInfo(int aIsAttention,String aName,int fansNum,int likeNum,int shareNum,String aHead) {
+    public void setInitInfo(int aIsAttention,String aName,int fansNum,int likeNum,int shareNum,String aHead,boolean isLiked) {
         tv_star.setText(aIsAttention == 0 ? R.string.follow : R.string.followed);
         tv_name.setText(aName);
         tv_desc.setText(getResources().getString(R.string.fans) + fansNum);
@@ -959,12 +970,24 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
         tv_tool_share.setText(shareNum > 1000 ? String.format("%.1f", (float) shareNum / 1000) + "K" : shareNum + "");
         Glide.with(getContext().getApplicationContext()).load(aHead).placeholder(R.mipmap.bg_avatar_default).error(R.mipmap.bg_avatar_default).circleCrop()
                 .into(iv_avatar);
+        mIsLike = isLiked;
+        if (mIsLike) {
+            tv_tool_heart.setCompoundDrawables(null, drawableHeartRed, null,null);
+        } else {
+            tv_tool_heart.setCompoundDrawables(null, drawableHeartWhite, null,null);
+        }
     }
 
     //关注、点赞、转发
     public void addHeartSuccess(int num){
         mLikeNum += num;
         tv_tool_heart.setText(mLikeNum > 1000 ? String.format("%.1f", (float) mLikeNum / 1000) + "K" : mLikeNum + "");
+        mIsLike = !mIsLike;
+        if(num == -1){
+            tv_tool_heart.setCompoundDrawables(null, drawableHeartWhite, null,null);
+        }else{
+            tv_tool_heart.setCompoundDrawables(null, drawableHeartRed, null,null);
+        }
     }
 
     public void addShareSuccess(){

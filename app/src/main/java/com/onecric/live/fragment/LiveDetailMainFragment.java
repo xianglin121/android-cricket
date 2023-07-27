@@ -314,7 +314,7 @@ public class LiveDetailMainFragment extends Fragment {
 
             }
         });
-        vp_live.setOffscreenPageLimit( (mMatchId!=0 && !isNotStart) ?7:2);
+        vp_live.setOffscreenPageLimit( (mMatchId!=0 && !isNotStart) ?6:2);
         vp_live.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
@@ -338,7 +338,7 @@ public class LiveDetailMainFragment extends Fragment {
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.list)));
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.live_chat)));
         if(mMatchId != 0 && !isNotStart){
-            tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.animation)));
+//            tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.animation)));
             tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.live)));
             tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.info)));
             tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.scorecard)));
@@ -357,7 +357,7 @@ public class LiveDetailMainFragment extends Fragment {
 
         mViewList.add(chatFragment);
         if(mMatchId != 0 && !isNotStart){
-            mViewList.add(AnimationLiveFragment.newInstance());
+//            mViewList.add(AnimationLiveFragment.newInstance());
             mViewList.add(CricketLiveFragment.newInstance(mMatchId));
             CricketInfoFragment info = CricketInfoFragment.newInstance(mMatchId);
             info.fragment = this;
@@ -455,13 +455,13 @@ public class LiveDetailMainFragment extends Fragment {
     public void setMatchData(CricketMatchBean model){
         mModel = model;
         if(mViewList.size()>2){
-            ((AnimationLiveFragment) mViewList.get(2)).setLivePath(model.getLive_path());
-            ((CricketLiveFragment) mViewList.get(3)).getData(model.getMatch_id());
+//            ((AnimationLiveFragment) mViewList.get(2)).setLivePath(model.getLive_path());
+            ((CricketLiveFragment) mViewList.get(2)).getData(model.getMatch_id());
             if (!TextUtils.isEmpty(model.getTournament_id())) {
-                ((CricketInfoFragment) mViewList.get(4)).getList(model.getHome_id(), model.getAway_id(), Integer.valueOf(model.getTournament_id()));
+                ((CricketInfoFragment) mViewList.get(3)).getList(model.getHome_id(), model.getAway_id(), Integer.valueOf(model.getTournament_id()));
             }
-            ((CricketScorecardFragment2) mViewList.get(5)).getData(model);
-            ((CricketSquadFragment) mViewList.get(6)).getList(model);
+            ((CricketScorecardFragment2) mViewList.get(4)).getData(model);
+            ((CricketSquadFragment) mViewList.get(5)).getList(model);
         }
         if(mModel.getStatus() != 2){
             refreshTodayData();
@@ -482,7 +482,7 @@ public class LiveDetailMainFragment extends Fragment {
                         getUserVisibleHint() &&
                         ((PowerManager)getActivity().getSystemService(Context.POWER_SERVICE)).isScreenOn() &&
                         getActivity().getWindow().getDecorView().getVisibility() == View.VISIBLE ){
-                    ((CricketLiveFragment) mViewList.get(3)).getData(mModel.getMatch_id());
+                    ((CricketLiveFragment) mViewList.get(2)).getData(mModel.getMatch_id());
                 }
             }
         }, 10000, 5000);
@@ -507,5 +507,9 @@ public class LiveDetailMainFragment extends Fragment {
 
     public void setChatAdvertList(String img,String url){
         ((LiveChatFragment)mViewList.get(1)).setChatAdvertList(img,url);
+    }
+
+    public void setChatAddHeart(){
+        ((LiveChatFragment)mViewList.get(1)).setChatAddHeart();
     }
 }

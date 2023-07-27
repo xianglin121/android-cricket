@@ -3,8 +3,10 @@ package com.onecric.live.fragment;
 import static com.onecric.live.util.TimeUtil.stampToTime;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -95,6 +97,8 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
     private boolean isOpenMatch = false;
     private Drawable drawableArrUp,drawableArrDown,drawableArrRed,drawableArrTransparent;
     private CountDownTimer timer;
+    private ImageView iv_advert;
+    private String advertUrl;
 
     @Override
     public void onClick(View v) {
@@ -177,6 +181,19 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
         tv_state_time = findViewById(R.id.tv_state_time);
         iv_state_live = findViewById(R.id.iv_state_live);
 
+        iv_advert = findViewById(R.id.iv_advert);
+        android.view.ViewGroup.LayoutParams pp4 = iv_advert.getLayoutParams();
+        pp4.height = (int) (UIUtil.getScreenWidth(getContext())/8);//8:1
+        iv_advert.setLayoutParams(pp4);
+        iv_advert.setOnClickListener(v -> {
+            if(!TextUtils.isEmpty(advertUrl)){
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse(advertUrl);
+                intent.setData(content_url);
+                startActivity(intent);
+            }
+        });
 
         rl_open_live.setOnClickListener(this);
         tv_view_all_upcoming.setOnClickListener(this);
@@ -205,10 +222,11 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
         smart_rl.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mvpPresenter.getBannerList(1);
+                mvpPresenter.getBannerList(2);
                 mvpPresenter.getUpComingList();
                 mvpPresenter.getAllData();
                 mvpPresenter.getPlayingCards();
-                mvpPresenter.getBannerList();
                 mvpPresenter.getHistoryList(1);
             }
         });
@@ -524,6 +542,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
 
                     if(!TextUtils.isEmpty(bannerBean.battle) ){
                         ((BannerRoundLiveImageHolder)holder).tv_banner_title.setText(bannerBean.battle);
+
                     }*/
                 }
             };
@@ -532,9 +551,6 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
                 @Override
                 public void OnBannerClick(Object data, int position) {
                     BannerBean bannerBean = (BannerBean) data;
-                    if(TextUtils.isEmpty(bannerBean.match_status)){
-                        return;
-                    }
                     if("live".equals(bannerBean.match_status) && bannerBean.getAnchor_id() != 0 && !TextUtils.isEmpty(bannerBean.match) && bannerBean.getLive_id() != 0){
                         if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                             OneLogInActivity.forward(getContext());
@@ -543,8 +559,12 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
                         }
                     }else if(!TextUtils.isEmpty(bannerBean.match) && Integer.parseInt(bannerBean.match)!=0){
                         CricketDetailActivity.forward(getActivity(), Integer.parseInt(bannerBean.match));
-                    }else{
-                        //跳转链接，先不做处理
+                    }else if(!TextUtils.isEmpty(bannerBean.getUrl())){
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.VIEW");
+                        Uri content_url = Uri.parse(bannerBean.getUrl());
+                        intent.setData(content_url);
+                        startActivity(intent);
                     }
 
                 }
@@ -715,5 +735,15 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
             }
         };
         mTimer.schedule(doAsynchronousTask, 500, 10000);
+    }
+
+    public void getAdvertSuccess(String img,String url){
+        if(!TextUtils.isEmpty(img)){
+            iv_advert.setVisibility(View.VISIBLE);
+            Glide.with(getActivity()).load(img).dontAnimate().into(iv_advert);
+        }
+        if(!TextUtils.isEmpty(url)){
+            advertUrl = url;
+        }
     }
 }
