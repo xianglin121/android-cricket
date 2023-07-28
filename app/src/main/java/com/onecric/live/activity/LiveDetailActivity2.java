@@ -658,6 +658,17 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
                         OneLogInActivity.forward(mActivity);
                     }
                 }
+
+                @Override
+                public boolean goLogin() {
+                    if(TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())){
+                        ToastUtil.show(getString(R.string.please_login));
+                        OneLogInActivity.forward(mActivity);
+                        return false;
+                    }else{
+                        return true;
+                    }
+                }
             });
             playerView.hideBackKey();
 

@@ -313,5 +313,6 @@ public interface Player {
 
         void onShareLive();
         void onChangeHeart(boolean isLike);
+        boolean goLogin();
     }
 }

@@ -598,7 +598,12 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 isOpenAvatar = !isOpenAvatar;
                 break;
             case R.id.tv_tool_share:
-                shareScreen();
+                if(TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())){
+                    ToastUtil.show(getString(R.string.please_login));
+                    OneLogInActivity.forward(mActivity);
+                }else{
+                    shareScreen();
+                }
                 break;
             case R.id.tv_star:
                 if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {

@@ -751,6 +751,14 @@ public class LivePlayerView extends RelativeLayout {
                 mPlayerViewCallback.onAddHeart(isLike);
             }
         }
+
+        @Override
+        public boolean goLogin() {
+            if (mPlayerViewCallback != null) {
+               return mPlayerViewCallback.goLogin();
+            }
+            return false;
+        }
     };
 
     /**
@@ -879,6 +887,7 @@ public class LivePlayerView extends RelativeLayout {
 
         void onChangeFollowState();
 
+        boolean goLogin();
     }
 
     public void release() {
@@ -1176,5 +1185,6 @@ public class LivePlayerView extends RelativeLayout {
     public void changeFollowState(){
         mWindowPlayer.changeFollowState();
     }
+
 
 }

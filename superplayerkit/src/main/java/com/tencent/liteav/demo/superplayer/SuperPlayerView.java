@@ -678,6 +678,11 @@ public class SuperPlayerView extends RelativeLayout {
         public void onChangeHeart(boolean isLike) {
 
         }
+
+        @Override
+        public boolean goLogin() {
+            return false;
+        }
     };
 
     /**

@@ -737,7 +737,7 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
         } else if (id == R.id.superplayer_iv_pause) { //暂停\播放按钮
             togglePlayState();
         } else if (id == R.id.superplayer_iv_fullscreen) { //全屏按钮
-            if (mControllerCallback != null) {
+            if (mControllerCallback != null &&  mControllerCallback.goLogin()) {
                 mControllerCallback.onSwitchPlayMode(SuperPlayerDef.PlayerMode.FULLSCREEN);
             }
         } else if (id == R.id.superplayer_ll_replay) { //重播按钮
@@ -758,7 +758,9 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
             }
         } else if (id == R.id.tv_quality) {
             hide();
-            mVodQualityView.setVisibility(View.VISIBLE);
+            if (mControllerCallback != null &&  mControllerCallback.goLogin()) {
+                mVodQualityView.setVisibility(View.VISIBLE);
+            }
         } else if (id == R.id.tv_countdown) {
             if (mControllerCallback != null) {
                 mControllerCallback.onClickRedEnvelope();
@@ -773,7 +775,9 @@ public class LiveWindowPlayer extends AbsPlayer implements View.OnClickListener,
         }else if(id== R.id.tv_star){
             mControllerCallback.onChangeFollowState();
         }else if(id== R.id.tv_tool_share){
-            mControllerCallback.onShareLive();
+            if (mControllerCallback != null &&  mControllerCallback.goLogin()) {
+                mControllerCallback.onShareLive();
+            }
         }else if(id== R.id.tv_tool_heart){
             mControllerCallback.onChangeHeart(!mIsLike);
         }

@@ -695,6 +695,11 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
                 public void onChangeFollowState() {
 
                 }
+
+                @Override
+                public boolean goLogin() {
+                    return false;
+                }
             });
             playerView.hideBackKey();
 
