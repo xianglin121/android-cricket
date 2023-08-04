@@ -42,6 +42,7 @@ import com.onecric.live.R;
 import com.onecric.live.custom.gift.AnimMessage;
 import com.onecric.live.custom.gift.LPAnimationManager;
 import com.onecric.live.custom.noble.LPNobleView;
+import com.onecric.live.event.Check403Event;
 import com.onecric.live.event.UpdateAnchorFollowEvent;
 import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.fragment.LiveDetailMainFragment;
@@ -57,6 +58,7 @@ import com.onecric.live.model.NormalMsgBean;
 import com.onecric.live.model.UpdatesBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.live.LiveDetailPresenter;
+import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.ScreenUtils;
 import com.onecric.live.util.ShareUtil;
@@ -247,7 +249,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
 
         iv_advert = findViewById(R.id.iv_advert);
         android.view.ViewGroup.LayoutParams pp2 = iv_advert.getLayoutParams();
-        pp2.height = (int) (UIUtil.getScreenWidth(mActivity)/8);//8:1
+        pp2.height = (int) (UIUtil.getScreenWidth(mActivity)/3);//3:1
         iv_advert.setLayoutParams(pp2);
         iv_advert.setOnClickListener(v -> {
             if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_url_one)){
@@ -599,8 +601,8 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 break;
             case R.id.tv_tool_share:
                 if(TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())){
-                    ToastUtil.show(getString(R.string.please_login));
-                    OneLogInActivity.forward(mActivity);
+                    DialogUtil.showSimpleTransDialog(mActivity,getString(R.string.not_login_tip),false,true);
+//                    OneLogInActivity.forward(mActivity);
                 }else{
                     shareScreen();
                 }
@@ -1111,4 +1113,8 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         tv_tool_heart.setText(likeNum > 1000 ? String.format("%.1f", (float) likeNum / 1000) + "K" : likeNum + "");
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCheck403Event(Check403Event event) {
+        DialogUtil.showSimpleTransDialog(mActivity,getString(R.string.not_provide_any_service),true,false);
+    }
 }

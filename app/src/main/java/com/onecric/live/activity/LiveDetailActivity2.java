@@ -56,6 +56,7 @@ import com.onecric.live.R;
 import com.onecric.live.custom.gift.AnimMessage;
 import com.onecric.live.custom.gift.LPAnimationManager;
 import com.onecric.live.custom.noble.LPNobleView;
+import com.onecric.live.event.Check403Event;
 import com.onecric.live.event.UpdateAnchorFollowEvent;
 import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.fragment.LiveDetailMainFragment;
@@ -295,8 +296,9 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
             playerView.setLayoutParams(pp);
 
             android.view.ViewGroup.LayoutParams pp2 = iv_advert.getLayoutParams();
-            pp2.height = (int) (UIUtil.getScreenWidth(mActivity)/8);//8:1
+            pp2.height = (int) (UIUtil.getScreenWidth(mActivity)/3);//3:1
             iv_advert.setLayoutParams(pp2);
+
 
             //初始化悬浮窗跳转回界面所需参数
             playerView.setInitId(mAnchorId, mType, mMatchId);
@@ -662,8 +664,8 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
                 @Override
                 public boolean goLogin() {
                     if(TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())){
-                        ToastUtil.show(getString(R.string.please_login));
-                        OneLogInActivity.forward(mActivity);
+                        DialogUtil.showSimpleTransDialog(mActivity,getString(R.string.not_login_tip),false,true);
+//                        OneLogInActivity.forward(mActivity);
                         return false;
                     }else{
                         return true;
@@ -1776,4 +1778,8 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
         playerView.addHeartSuccess(num);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCheck403Event(Check403Event event) {
+        DialogUtil.showSimpleTransDialog(mActivity,getString(R.string.not_provide_any_service),true,false);
+    }
 }

@@ -919,6 +919,9 @@
     <string name="please_install_google">कृपया एप्लिकेशन की Google श्रृंखला इंस्टॉल करें और पहले नेटवर्क की जांच करें</string>
     <string name="match_starts_in2">में मैच शुरू</string>
 
+    <string name="not_provide_any_service">हम वर्तमान क्षेत्र में कोई सेवाएँ प्रदान नहीं करते हैं!</string>
+    <string name="not_login_tip">एचडी वीडियो, चैटिंग रूम, मिनी-गेम और बहुत कुछ का अनुभव करें! इन रोमांचक सुविधाओं को अनलॉक करने के लिए अभी लॉग इन करें!</string>
+
     <!--    无需翻译-->
     <string name="lan_en">English</string>
     <string name="lan_hd">हिंदी</string>

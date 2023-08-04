@@ -47,6 +47,7 @@
 
     <color name="black">#FF000000</color>
     <color name="c_80000000">#80000000</color>
+    <color name="c_80ffffff">#80ffffff</color>
     <color name="c_999999">#999999</color>
     <color name="c_4D999999">#4D999999</color>
     <color name="c_D9D9D9">#D9D9D9</color>

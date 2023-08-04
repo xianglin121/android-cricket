@@ -921,6 +921,9 @@
     <string name="please_install_google">Please install the Google series of applications and check the network first</string>
     <string name="match_starts_in2">Match starts in</string>
 
+    <string name="not_provide_any_service">We do not provide any services in the current area!</string>
+    <string name="not_login_tip">Experience HD video, chatting room ,mini-games, and much more! Log in now to unlock these exciting features!</string>
+
 <!--    无需翻译-->
     <string name="lan_en">English</string>
     <string name="lan_hd">हिंदी</string>

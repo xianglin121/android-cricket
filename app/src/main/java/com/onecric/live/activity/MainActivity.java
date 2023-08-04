@@ -36,6 +36,7 @@ import com.onecric.live.R;
 import com.onecric.live.common.TRANSTYPE;
 import com.onecric.live.custom.HomeTabLayout;
 import com.onecric.live.custom.NoScrollViewPager;
+import com.onecric.live.event.Check403Event;
 import com.onecric.live.event.ToggleTabEvent;
 import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.event.UpdateUserInfoEvent;
@@ -278,12 +279,11 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     @Override
     public void getDataSuccess(UserBean userBean) {
         if (userBean != null) {
+            ((MoreFragment) mViewList.get(3)).updateUserInfo();
             CommonAppConfig.getInstance().saveUserInfo(JSONObject.toJSONString(userBean));
             GlideUtil.loadUserImageDefault(this, userBean.getAvatar(), iv_avatar_nav);
-
 //            ((ThemeFragment) mViewList.get(0)).updateUserInfo();
 //            ((OneLiveFragment) mViewList.get(0)).updateUserInfo();
-            ((MoreFragment) mViewList.get(3)).updateUserInfo();
         }
     }
 
@@ -409,6 +409,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
+            ((MoreFragment) mViewList.get(3)).updateUserInfo();
             loginIM();
 //            updateNavigationInfo();
             if (CommonAppConfig.getInstance().getUserBean() != null) {
@@ -416,10 +417,8 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             } else {
                 iv_avatar_nav.setImageResource(R.mipmap.bg_avatar_default);
             }
-
 //            ((ThemeFragment) mViewList.get(0)).updateUserInfo();
 //            ((OneLiveFragment) mViewList.get(0)).updateUserInfo();
-            ((MoreFragment) mViewList.get(3)).updateUserInfo();
         }
     }
 
@@ -771,5 +770,10 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         }
         Glide.get(this).trimMemory(level);
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCheck403Event(Check403Event event) {
+        DialogUtil.showSimpleTransDialog(mActivity,getString(R.string.not_provide_any_service),true,false);
     }
 }

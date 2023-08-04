@@ -3,6 +3,7 @@ package com.onecric.live.util;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -41,6 +42,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.onecric.live.BuildConfig;
 import com.onecric.live.R;
+import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.activity.SettingActivity;
 import com.onecric.live.activity.WebViewActivity;
 import com.onecric.live.adapter.SubscribeTypeAdapter;
@@ -64,6 +66,9 @@ public class DialogUtil {
     public static final int INPUT_TYPE_NUMBER_PASSWORD = 2;
     public static final int INPUT_TYPE_TEXT_PASSWORD = 3;
 
+    public static final int TRANS_TYPE_TEXT = 4;
+    public static final int TRANS_TYPE_TEXT_BTN = 5;
+    public static Dialog tansDialog;
     /**
      * 用于网络请求等耗时操作的LoadingDialog
      */
@@ -946,6 +951,54 @@ public class DialogUtil {
             return dialog;
         }
 
+        public Dialog buildTrans() {
+            final Dialog dialog = new Dialog(mContext, R.style.dialog);
+            dialog.setContentView(R.layout.dialog_trans_simple);
+            dialog.setCancelable(mCancelable);
+            dialog.setCanceledOnTouchOutside(mCancelable);
+
+            final TextView content = (TextView) dialog.findViewById(R.id.content);
+            final LinearLayout ll_btn = (LinearLayout) dialog.findViewById(R.id.ll_btn);
+            final TextView btn_confirm = (TextView) dialog.findViewById(R.id.btn_confirm);
+            final TextView btn_cancel = (TextView) dialog.findViewById(R.id.btn_cancel);
+            if (!TextUtils.isEmpty(mHint)) {
+                content.setHint(mHint);
+            }
+            if (!TextUtils.isEmpty(mContent)) {
+                content.setText(mContent);
+            }
+            if (mInputType == TRANS_TYPE_TEXT) {
+                ll_btn.setVisibility(View.GONE);
+            } else if (mInputType == TRANS_TYPE_TEXT_BTN) {
+                ll_btn.setVisibility(View.VISIBLE);
+            }
+            View.OnClickListener listener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (v.getId() == R.id.btn_confirm) {
+                        if (mContext != null) {
+                            dialog.dismiss();
+
+//                            mClickCallback.onConfirmClick(dialog, "");
+                            OneLogInActivity.forward(mContext);
+                        } else {
+                            dialog.dismiss();
+                        }
+                    } else {
+                        dialog.dismiss();
+                    }
+                }
+            };
+            btn_confirm.setOnClickListener(listener);
+            btn_cancel.setOnClickListener(listener);
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    tansDialog = null;
+                }
+            });
+            return dialog;
+        }
     }
 
     public interface DataPickerCallback {
@@ -1014,5 +1067,17 @@ public class DialogUtil {
         picker.setSelectedItem(province, city, district);
         picker.setOnAddressPickListener(listener);
         picker.show();
+    }
+
+    public static void showSimpleTransDialog(Context context, String content, boolean cancelable, boolean hasBtn) {
+        if(tansDialog != null && tansDialog.isShowing()){
+            return;
+        }
+        tansDialog = new Builder(context)
+                .setContent(content)
+                .setCancelable(cancelable)
+                .setInputType(hasBtn?TRANS_TYPE_TEXT_BTN:TRANS_TYPE_TEXT)
+                .buildTrans();
+        tansDialog.show();
     }
 }

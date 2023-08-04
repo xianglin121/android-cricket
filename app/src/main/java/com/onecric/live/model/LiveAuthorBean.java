@@ -48,7 +48,7 @@ public class LiveAuthorBean {
     public int winnerId;
     public String scheduled;
     public int status;
-
+    public int tournament_id;
     public static class ClarityDTO {
         public String sd;
         public String hd;

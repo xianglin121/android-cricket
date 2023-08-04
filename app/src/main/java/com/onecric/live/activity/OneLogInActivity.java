@@ -344,12 +344,12 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
         tv_login.setEnabled(true);
         dismissLoadingDialog();
         if(isSuccess){
+            EventBus.getDefault().post(new UpdateLoginTokenEvent());
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.METHOD, "login");
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
             mvpPresenter.updateJgId(MTCorePrivatesApi.getRegistrationId(mContext));
             ToastUtil.show(mContext.getString(R.string.login_success));
-            EventBus.getDefault().post(new UpdateLoginTokenEvent());
             finish();
         }
     }

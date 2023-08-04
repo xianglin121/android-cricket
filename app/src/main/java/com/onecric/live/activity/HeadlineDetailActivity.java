@@ -34,11 +34,13 @@ import com.onecric.live.adapter.ThemeHeadlineAdapter;
 import com.onecric.live.custom.Glide4Engine;
 import com.onecric.live.custom.HeadlineCommentReplyDialog;
 import com.onecric.live.custom.InputCommentMsgDialogFragment;
+import com.onecric.live.event.Check403Event;
 import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.HeadlineBean;
 import com.onecric.live.model.MovingBean;
 import com.onecric.live.presenter.theme.HeadlineDetailPresenter;
+import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.DpUtil;
 import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
@@ -143,7 +145,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
 
     @Override
     public boolean getStatusBarTextColor() {
-        return true;
+        return false;
     }
 
     @Override
@@ -965,5 +967,10 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 }
             }
         }, 500);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCheck403Event(Check403Event event) {
+        DialogUtil.showSimpleTransDialog(mActivity,getString(R.string.not_provide_any_service),true,false);
     }
 }

@@ -48,7 +48,6 @@ import com.onecric.live.R;
 import com.onecric.live.activity.ChargeActivity;
 import com.onecric.live.activity.LiveDetailActivity2;
 import com.onecric.live.activity.LiveNotStartDetailActivity;
-import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.activity.OpenNobleActivity;
 import com.onecric.live.activity.WebViewActivity;
 import com.onecric.live.adapter.GiftViewPagerRecyclerAdapter;
@@ -228,7 +227,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
 
         iv_advert = findViewById(R.id.iv_advert);
         android.view.ViewGroup.LayoutParams pp4 = iv_advert.getLayoutParams();
-        pp4.height = (int) (UIUtil.getScreenWidth(getContext())/8);//8:1
+        pp4.height = (int) (UIUtil.getScreenWidth(getContext())/3);//3:1
         iv_advert.setLayoutParams(pp4);
         iv_advert.setOnClickListener(v -> {
             if(!TextUtils.isEmpty(advertUrl)){
@@ -519,8 +518,8 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
             case R.id.tv_input:
             case R.id.iv_emoji:
                 if(TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())){
-                    ToastUtil.show(getString(R.string.please_login));
-                    OneLogInActivity.forward(getActivity());
+                    DialogUtil.showSimpleTransDialog(getActivity(),getString(R.string.not_login_tip),false,true);
+//                    OneLogInActivity.forward(getActivity());
                 }else if (mNobelBean != null) {
                     showInputTextMsgDialog(InputChatMsgDialogFragment.STATE_SOFT_INPUT);
                 }

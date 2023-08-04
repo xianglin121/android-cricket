@@ -7,7 +7,10 @@
     <LinearLayout
         android:id="@+id/ll_title"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="wrap_content"
+        android:minHeight="36dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         android:background="@mipmap/bg_cricket_tours"
         android:orientation="horizontal"
         android:gravity="center_vertical"
@@ -28,7 +31,7 @@
         <View
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"/>
+            android:layout_height="1dp"/>
 
     </LinearLayout>
 

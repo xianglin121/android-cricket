@@ -218,12 +218,12 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
                 finish();
                 break;
             case FROM_LOGIN_IN:
+                EventBus.getDefault().post(new UpdateLoginTokenEvent());
                 Bundle bundle2 = new Bundle();
                 bundle2.putString(FirebaseAnalytics.Param.METHOD, "login");
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle2);
                 mvpPresenter.updateJgId(MTCorePrivatesApi.getRegistrationId(mContext));
                 ToastUtil.show(mContext.getString(R.string.login_success));
-                EventBus.getDefault().post(new UpdateLoginTokenEvent());
                 finish();
                 break;
             default:;

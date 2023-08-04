@@ -83,4 +83,20 @@ public class ApiClient {
         return mRetrofit;
     }
 
+    public static Retrofit retrofit2() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+        builder.addInterceptor(new LogInterceptor());
+        OkHttpClient okHttpClient = builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)//设置连接超时时间
+                .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)//设置读取超时时间
+                .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)//设置写的超时时间
+                .build();
+        return new Retrofit.Builder()
+                .baseUrl(ApiStores.API_SERVER_LUMEN_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(okHttpClient)
+                .build();
+    }
+
 }

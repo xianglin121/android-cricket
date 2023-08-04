@@ -22,11 +22,13 @@ import com.google.android.exoplayer2.SeekParameters;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.adapter.VideoAllAdapter;
+import com.onecric.live.event.Check403Event;
 import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.VideoDetailBean;
 import com.onecric.live.model.ViewMoreBean;
 import com.onecric.live.presenter.video.VideoDetailPresenter;
+import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.SpUtil;
 import com.onecric.live.util.ToastUtil;
@@ -384,5 +386,10 @@ public class OneVideoDetailActivity extends MvpActivity<VideoDetailPresenter> im
     protected void onResume() {
         super.onResume();
         video_view.onVideoResume();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCheck403Event(Check403Event event) {
+        DialogUtil.showSimpleTransDialog(mActivity,getString(R.string.not_provide_any_service),true,false);
     }
 }

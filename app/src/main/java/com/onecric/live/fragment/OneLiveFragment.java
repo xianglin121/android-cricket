@@ -1,5 +1,6 @@
 package com.onecric.live.fragment;
 
+import static com.onecric.live.util.NetworkUtils.getIPAddress;
 import static com.onecric.live.util.TimeUtil.stampToTime;
 
 import android.content.Context;
@@ -33,6 +34,7 @@ import com.onecric.live.AppManager;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.activity.CricketDetailActivity;
+import com.onecric.live.activity.CricketInnerActivity;
 import com.onecric.live.activity.LiveDetailActivity;
 import com.onecric.live.activity.LiveMoreActivity;
 import com.onecric.live.activity.LiveNotStartDetailActivity;
@@ -51,9 +53,12 @@ import com.onecric.live.model.LiveMatchListBean;
 import com.onecric.live.model.OneHistoryLiveBean;
 import com.onecric.live.model.PlayCardsBean;
 import com.onecric.live.presenter.live.OneLivePresenter;
+import com.onecric.live.retrofit.ApiCallback;
+import com.onecric.live.retrofit.ApiClient;
+import com.onecric.live.retrofit.ApiStores;
+import com.onecric.live.util.DialogUtil;
 import com.onecric.live.util.GlideUtil;
 import com.onecric.live.util.SpUtil;
-import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.live.OneLiveView;
 import com.scwang.smartrefresh.header.MaterialHeader;
@@ -72,6 +77,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements OneLiveView, View.OnClickListener{
     private Banner mBanner;
@@ -139,6 +147,12 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
                 //历史播放列表
                 LiveMoreActivity.forward(getContext(), 2);
                 break;
+            case R.id.tv_live_title:
+                //跳转联赛
+                if(selectLiveBean.tournament_id != 0 ){
+                    CricketInnerActivity.forward(getActivity(),selectLiveBean.tournament,"",selectLiveBean.tournament_id);
+                }
+                break;
         }
     }
 
@@ -199,6 +213,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
         tv_view_all_upcoming.setOnClickListener(this);
         tv_view_all_history.setOnClickListener(this);
         tv_view_all_live.setOnClickListener(this);
+        tv_live_title.setOnClickListener(this);
 
         int width = UIUtil.getScreenWidth(getContext());
         android.view.ViewGroup.LayoutParams pp = mBanner.getLayoutParams();
@@ -222,6 +237,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
         smart_rl.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+//                checkIp();
                 mvpPresenter.getBannerList(1);
                 mvpPresenter.getBannerList(2);
                 mvpPresenter.getUpComingList();
@@ -662,7 +678,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
     @Override
     public void getDataFail(String msg) {
         smart_rl.finishRefresh();
-        ToastUtil.show(msg);
+//        ToastUtil.show(msg);
     }
 
     @Override
@@ -745,5 +761,37 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
         if(!TextUtils.isEmpty(url)){
             advertUrl = url;
         }
+    }
+    private void checkIp(){
+        String ip = getIPAddress(getContext());
+        if(TextUtils.isEmpty(ip)){
+            return;
+        }
+        ApiClient.retrofit2().create(ApiStores.class)
+                .checkRuleOutIp(ip)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if(!TextUtils.isEmpty(msg) && msg.contains("403")){
+                            DialogUtil.showSimpleTransDialog(getActivity(),getString(R.string.not_provide_any_service),true,false);
+                        }
+                    }
+
+                    @Override
+                    public void onFinish() {
+                    }
+                });
     }
 }
