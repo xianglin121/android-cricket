@@ -42,6 +42,7 @@ import com.onecric.live.event.UpdateLoginTokenEvent;
 import com.onecric.live.event.UpdateUserInfoEvent;
 import com.onecric.live.fragment.CricketNewFragment;
 import com.onecric.live.fragment.MoreFragment;
+import com.onecric.live.fragment.OneGameFragment;
 import com.onecric.live.fragment.OneLiveFragment;
 import com.onecric.live.fragment.OneVideoFragment;
 import com.onecric.live.model.ConfigurationBean;
@@ -279,7 +280,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     @Override
     public void getDataSuccess(UserBean userBean) {
         if (userBean != null) {
-            ((MoreFragment) mViewList.get(3)).updateUserInfo();
+            ((MoreFragment) mViewList.get(4)).updateUserInfo();
             CommonAppConfig.getInstance().saveUserInfo(JSONObject.toJSONString(userBean));
             GlideUtil.loadUserImageDefault(this, userBean.getAvatar(), iv_avatar_nav);
 //            ((ThemeFragment) mViewList.get(0)).updateUserInfo();
@@ -330,6 +331,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 //        videoFragment.setLoginDialog(loginDialog);
 
         mViewList.add(liveFragment);
+        mViewList.add(new OneGameFragment());
         mViewList.add(videoFragment);
         mViewList.add(new CricketNewFragment());
         mViewList.add(new MoreFragment());
@@ -373,13 +375,16 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 mViewPager.setCurrentItem(0, false);
                 break;
             case MATCH:
-                mViewPager.setCurrentItem(1, false);
-                break;
-            case LIVE:
                 mViewPager.setCurrentItem(2, false);
                 break;
-            case VIDEO:
+            case LIVE:
                 mViewPager.setCurrentItem(3, false);
+                break;
+            case VIDEO:
+                mViewPager.setCurrentItem(4, false);
+                break;
+            case GAME:
+                mViewPager.setCurrentItem(1, false);
                 break;
         }
     }
@@ -409,7 +414,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
-            ((MoreFragment) mViewList.get(3)).updateUserInfo();
+            ((MoreFragment) mViewList.get(4)).updateUserInfo();
             loginIM();
 //            updateNavigationInfo();
             if (CommonAppConfig.getInstance().getUserBean() != null) {
@@ -422,6 +427,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         }
     }
 
+    //fixme 游戏导航
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onToggleTabEvent(ToggleTabEvent event) {
         if (event == null) {
@@ -431,7 +437,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             if(event.position == 21){
                 mTabLayout.toggleBtn(2);
                 mViewPager.setCurrentItem(2);
-                ((CricketNewFragment) mViewList.get(2)).filtrateData(1);
+                ((CricketNewFragment) mViewList.get(3)).filtrateData(1);
             }else{
                 mTabLayout.toggleBtn(event.position);
                 mViewPager.setCurrentItem(event.position);

@@ -922,6 +922,11 @@
     <string name="not_provide_any_service">हम वर्तमान क्षेत्र में कोई सेवाएँ प्रदान नहीं करते हैं!</string>
     <string name="not_login_tip">एचडी वीडियो, चैटिंग रूम, मिनी-गेम और बहुत कुछ का अनुभव करें! इन रोमांचक सुविधाओं को अनलॉक करने के लिए अभी लॉग इन करें!</string>
 
+    <string name='main_tab_game'>गेम</string>
+    <string name='top_creators'>शीर्ष निर्माता</string>
+    <string name='all_anchors'>सभी एंकर</string>
+    <string name='my_anchors'>मेरे एंकर</string>
+
     <!--    无需翻译-->
     <string name="lan_en">English</string>
     <string name="lan_hd">हिंदी</string>

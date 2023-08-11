@@ -528,7 +528,7 @@
     <string name="upcoming">Upcoming</string>
     <string name="tournament">Tournament</string>
     <string name="streaming">Streaming</string>
-    <string name="see_more">See more</string>
+    <string name="see_more">See More</string>
     <string name="matches">Matches</string>
     <string name="matches2">MATCHES</string>
     <string name="stats">Stats</string>
@@ -923,6 +923,12 @@
 
     <string name="not_provide_any_service">We do not provide any services in the current area!</string>
     <string name="not_login_tip">Experience HD video, chatting room ,mini-games, and much more! Log in now to unlock these exciting features!</string>
+
+    <string name="main_tab_game">Game</string>
+    <string name="top_creators">Top Creators</string>
+    <string name="all_anchors">All anchors</string>
+    <string name="my_anchors">My anchors</string>
+
 <!--    无需翻译-->
     <string name="lan_en">English</string>
     <string name="lan_hd">हिंदी</string>

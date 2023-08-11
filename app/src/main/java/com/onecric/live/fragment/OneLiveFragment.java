@@ -197,7 +197,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
 
         iv_advert = findViewById(R.id.iv_advert);
         android.view.ViewGroup.LayoutParams pp4 = iv_advert.getLayoutParams();
-        pp4.height = (int) (UIUtil.getScreenWidth(getContext())/8);//8:1
+        pp4.height = (int) (UIUtil.getScreenWidth(getContext())/3);//3:1
         iv_advert.setLayoutParams(pp4);
         iv_advert.setOnClickListener(v -> {
             if(!TextUtils.isEmpty(advertUrl)){

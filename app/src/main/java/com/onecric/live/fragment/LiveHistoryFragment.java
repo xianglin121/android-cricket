@@ -78,12 +78,12 @@ public class LiveHistoryFragment extends MvpFragment<LiveMorePresenter> implemen
         smart_rl.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getHistoryList(false, mPage);
+                mvpPresenter.getHistoryList(false, mPage,1);
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getHistoryList(true, 1);
+                mvpPresenter.getHistoryList(true, 1,2);
             }
         });
 

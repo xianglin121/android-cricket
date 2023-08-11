@@ -101,6 +101,15 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("matchId", matchId);
         intent.putExtra("liveId", liveId);
+        intent.putExtra("type", 1);
+        context.startActivity(intent);
+    }
+
+    public static void forward(Context context, int anchorId,int liveId) {
+        Intent intent = new Intent(context, LiveNotStartDetailActivity.class);
+        intent.putExtra("anchorId", anchorId);
+        intent.putExtra("liveId", liveId);
+        intent.putExtra("type", 2);
         context.startActivity(intent);
     }
 
@@ -138,7 +147,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     private TextView tv_star,tv_tool_share;
     private ImageView iv_advert;
     private Drawable drawableHeartRed,drawableHeartWhite;
-
+    private int detailType;
     @Override
     protected LiveDetailPresenter createPresenter() {
         return new LiveDetailPresenter(this);
@@ -162,14 +171,17 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 String aId = uri.getQueryParameter("anchorId");
                 String mid = uri.getQueryParameter("matchId");
                 String lid = uri.getQueryParameter("liveId");
+                String t = uri.getQueryParameter("type");
                 mAnchorId = Integer.parseInt(aId);
                 mMatchId = Integer.parseInt(mid);
                 mLiveId = Integer.parseInt(lid);
+                detailType =  Integer.parseInt(t);
             }
         }else{
             mAnchorId = getIntent().getIntExtra("anchorId", 0);
             mMatchId = getIntent().getIntExtra("matchId", 0);
             mLiveId = getIntent().getIntExtra("liveId", 0);
+            detailType = getIntent().getIntExtra("type", 0);
         }
 
         mGroupId = String.valueOf(mLiveId);
@@ -211,7 +223,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         });*/
 
         //初始化fragment
-        liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId,mMatchId);
+        liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId,mMatchId,detailType);
         liveDetailMainFragment.isNotStart = true;
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_main, liveDetailMainFragment).commitAllowingStateLoss();
 
@@ -249,7 +261,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
 
         iv_advert = findViewById(R.id.iv_advert);
         android.view.ViewGroup.LayoutParams pp2 = iv_advert.getLayoutParams();
-        pp2.height = (int) (UIUtil.getScreenWidth(mActivity)/3);//3:1
+        pp2.height = (int) (UIUtil.getScreenWidth(mActivity)/8);//8:1
         iv_advert.setLayoutParams(pp2);
         iv_advert.setOnClickListener(v -> {
             if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_url_one)){

@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.R;
 import com.onecric.live.adapter.MyFollowAdapter;
+import com.onecric.live.model.AnchorBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.user.FollowInnerPresenter;
-import com.onecric.live.presenter.user.MyFollowInnerPresenter;
 import com.onecric.live.view.MvpFragment;
 import com.onecric.live.view.user.MyFollowInnerView;
 import com.scwang.smartrefresh.header.MaterialHeader;
@@ -134,6 +134,11 @@ public class FollowInnerFragment extends MvpFragment<FollowInnerPresenter> imple
                 smart_rl.finishLoadMoreWithNoMoreData();
             }
         }
+    }
+
+    @Override
+    public void getAnchorDataSuccess(boolean isRefresh, List<AnchorBean> list) {
+
     }
 
     @Override

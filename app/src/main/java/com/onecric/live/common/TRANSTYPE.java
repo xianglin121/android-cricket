@@ -12,5 +12,6 @@ public enum TRANSTYPE {
     THEME,
     LIVE,
     VIDEO,
-    USER
+    USER,
+    GAME
 }

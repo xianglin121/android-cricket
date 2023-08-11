@@ -135,7 +135,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
         Intent intent = new Intent(context, LiveDetailActivity2.class);
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("matchId", matchId);
-        intent.putExtra("isLive", true);
+        intent.putExtra("type", 1);
         intent.putExtra("mLiveId", mLiveId);
         context.startActivity(intent);
     }
@@ -144,7 +144,24 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
         Intent intent = new Intent(context, LiveDetailActivity2.class);
         intent.putExtra("anchorId", anchorId);
         intent.putExtra("matchId", matchId);
-        intent.putExtra("isLive", false);
+        intent.putExtra("type", 2);
+        intent.putExtra("url", url);
+        intent.putExtra("mLiveId", mLiveId);
+        context.startActivity(intent);
+    }
+
+    public static void forward(Context context, int anchorId, int mLiveId) {
+        Intent intent = new Intent(context, LiveDetailActivity2.class);
+        intent.putExtra("anchorId", anchorId);
+        intent.putExtra("type", 3);
+        intent.putExtra("mLiveId", mLiveId);
+        context.startActivity(intent);
+    }
+
+    public static void forward(Context context, int anchorId, String url, int mLiveId) {
+        Intent intent = new Intent(context, LiveDetailActivity2.class);
+        intent.putExtra("anchorId", anchorId);
+        intent.putExtra("type", 3);
         intent.putExtra("url", url);
         intent.putExtra("mLiveId", mLiveId);
         context.startActivity(intent);
@@ -199,6 +216,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
     private CountDownTimer mCountDownTimer;
     private SimpleDateFormat sfdate2;
     private ImageView iv_advert;
+    private int detailType;
 
     @Override
     protected LiveDetailPresenter createPresenter() {
@@ -251,21 +269,24 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
                 String aId = uri.getQueryParameter("anchorId");
                 String mid = uri.getQueryParameter("matchId");
                 String lid = uri.getQueryParameter("liveId");
-                String isLive = uri.getQueryParameter("isLive");
+                String t = uri.getQueryParameter("type");
                 mAnchorId = Integer.parseInt(aId);
                 mMatchId = Integer.parseInt(mid);
                 mLiveId = Integer.parseInt(lid);
-                if ("0".equals(isLive)) {
+                detailType =  Integer.parseInt(t);
+                if ("2".equals(t)) {
                     videoUrl = uri.getQueryParameter("videoUrl");
+                    isLive= false;
                 }
             }
         } else {
             mAnchorId = getIntent().getIntExtra("anchorId", 0);
             mMatchId = getIntent().getIntExtra("matchId", 0);
-            isLive = getIntent().getBooleanExtra("isLive", true);
+            detailType = getIntent().getIntExtra("type", 0);
             mLiveId = getIntent().getIntExtra("mLiveId", 0);
-            if (!isLive) {
+            if (detailType == 2) {
                 videoUrl = getIntent().getStringExtra("url");
+                isLive = false;
             }
         }
 
@@ -296,7 +317,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
             playerView.setLayoutParams(pp);
 
             android.view.ViewGroup.LayoutParams pp2 = iv_advert.getLayoutParams();
-            pp2.height = (int) (UIUtil.getScreenWidth(mActivity)/3);//3:1
+            pp2.height = (int) (UIUtil.getScreenWidth(mActivity)/8);//8:1
             iv_advert.setLayoutParams(pp2);
 
 
@@ -385,7 +406,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
         initWebView();
 
         //初始化fragment
-        liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId, mMatchId);
+        liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId, mMatchId,detailType);
         if (!isLive) {
             liveDetailMainFragment.isHistory = true;
         }

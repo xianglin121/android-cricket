@@ -112,7 +112,7 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
         }else
             if (mType == 1) {
             tv_title.setText(getString(R.string.today_live));
-        }else if (mType == 2) {
+        }else if (mType == 2 || mType == 3) {
             tv_title.setText(getString(R.string.history));
         }else {
             tv_title.setText(getString(R.string.free_live));
@@ -155,8 +155,8 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 if(!TextUtils.isEmpty(matchTitle) ){
                 }else
-                    if(mType == 2){
-                    mvpPresenter.getHistoryList(false, mPage);
+                    if(mType == 2 || mType == 3){
+                    mvpPresenter.getHistoryList(false, mPage,mType);
                 }else{
                     mvpPresenter.getList(false, mType, mPage);
                 }
@@ -167,8 +167,8 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                 if(!TextUtils.isEmpty(matchTitle) ){
                     mvpPresenter.getMatchVideoList(matchTitle);
                 }else
-                    if(mType == 2){
-                    mvpPresenter.getHistoryList(true, 1);
+                    if(mType == 2 || mType == 3){
+                    mvpPresenter.getHistoryList(true, 1,mType);
                 }else{
                     mvpPresenter.getList(true, mType, 1);
                 }
@@ -201,7 +201,7 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                     .load(R.layout.item_live_video_skeleton)
                     .show();
 
-        }else if(mType == 2){
+        }else if(mType == 2 || mType == 3){
                 smart_rl.setRefreshFooter(new ClassicsFooter(this));
 //                recyclerview.setLayoutManager(new GridLayoutManager(mActivity, 2));
 //                recyclerview.addItemDecoration(new GridDividerItemDecoration(this, 10, 2));
@@ -219,8 +219,13 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                         OneLogInActivity.forward(mActivity);
                     }else{
 //                        VideoSingleActivity.forward(mActivity, mHistoryAdapter.getItem(position).getMediaUrl(), null);
-                        LiveDetailActivity.forward(mActivity,Integer.parseInt(mHistoryAdapter.getItem(position).getUid()),mHistoryAdapter.getItem(position).getMatchId(),
-                                mHistoryAdapter.getItem(position).getMediaUrl(),mHistoryAdapter.getItem(position).getLive_id());
+                        if(mType == 3){
+                            LiveDetailActivity.forward(mActivity,Integer.parseInt(mHistoryAdapter.getItem(position).getUid()),
+                                    mHistoryAdapter.getItem(position).getMediaUrl(),mHistoryAdapter.getItem(position).getLive_id());
+                        }else{
+                            LiveDetailActivity.forward(mActivity,Integer.parseInt(mHistoryAdapter.getItem(position).getUid()),mHistoryAdapter.getItem(position).getMatchId(),
+                                    mHistoryAdapter.getItem(position).getMediaUrl(),mHistoryAdapter.getItem(position).getLive_id());
+                        }
                     }
                 }
             });

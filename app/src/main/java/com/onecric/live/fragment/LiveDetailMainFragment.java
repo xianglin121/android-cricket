@@ -45,14 +45,17 @@ import java.util.TimerTask;
  * 时间：2021/10/25
  */
 public class LiveDetailMainFragment extends Fragment {
+    private static final int LIVE_TYPE_GAME = 3;
     public boolean isNotStart = false;
     public boolean isHistory = false;
-    public static LiveDetailMainFragment newInstance(String groupId, int anchorId,int matchId) {
+    private int detailType;
+    public static LiveDetailMainFragment newInstance(String groupId, int anchorId,int matchId,int type) {
         LiveDetailMainFragment fragment = new LiveDetailMainFragment();
         Bundle bundle = new Bundle();
         bundle.putString("groupId", groupId);
         bundle.putInt("anchorId", anchorId);
         bundle.putInt("matchId", matchId);
+        bundle.putInt("detailType", type);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -191,12 +194,12 @@ public class LiveDetailMainFragment extends Fragment {
             }
             tv_attention_count.setText(String.valueOf(mUserBean.getAttention()));*/
 //            ((LiveAnchorFragment)mViewList.get(1)).updateFollowData();
-            ((LiveChatFragment)mViewList.get(1)).updateLoginData();
+            ((LiveChatFragment)mViewList.get((detailType == LIVE_TYPE_GAME)?0:1)).updateLoginData();
         }
     }
 
     public void updateData() {
-        ((LiveChatFragment)mViewList.get(1)).updateData();
+        ((LiveChatFragment)mViewList.get((detailType == LIVE_TYPE_GAME)?0:1)).updateData();
     }
 
     public void setNoticeDanmu(String notice){
@@ -314,7 +317,14 @@ public class LiveDetailMainFragment extends Fragment {
 
             }
         });
-        vp_live.setOffscreenPageLimit( (mMatchId!=0 && !isNotStart) ?6:2);
+
+        if(detailType == LIVE_TYPE_GAME){
+            tab_layout.setVisibility(View.GONE);
+            vp_live.setOffscreenPageLimit(1);
+        }else{
+            vp_live.setOffscreenPageLimit( (mMatchId!=0 && !isNotStart) ?6:2);
+        }
+
         vp_live.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
@@ -334,8 +344,10 @@ public class LiveDetailMainFragment extends Fragment {
 
     private void initTabViewPager(){
         mMatchId = getArguments().getInt("matchId");
-
-        tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.list)));
+        detailType = getArguments().getInt("detailType");
+        if(detailType != LIVE_TYPE_GAME){
+            tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.list)));
+        }
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.live_chat)));
         if(mMatchId != 0 && !isNotStart){
 //            tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.animation)));
@@ -347,12 +359,16 @@ public class LiveDetailMainFragment extends Fragment {
 
         LiveChatFragment chatFragment = LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId"));
         chatFragment.mainFragment = this;
-        if(isHistory){
-            LiveHistoryFragment historyFragment = LiveHistoryFragment.newInstance();
-            mViewList.add(historyFragment);
+        if(detailType != LIVE_TYPE_GAME){
+            if(isHistory){
+                LiveHistoryFragment historyFragment = LiveHistoryFragment.newInstance();
+                mViewList.add(historyFragment);
+            }else{
+                LiveMoreVideoFragment moreVideoFragment = LiveMoreVideoFragment.newInstance();
+                mViewList.add(moreVideoFragment);
+            }
         }else{
-            LiveMoreVideoFragment moreVideoFragment = LiveMoreVideoFragment.newInstance();
-            mViewList.add(moreVideoFragment);
+            tab_layout.setVisibility(View.GONE);
         }
 
         mViewList.add(chatFragment);
@@ -423,15 +439,20 @@ public class LiveDetailMainFragment extends Fragment {
             }
         });
 
-        vp_live.setCurrentItem(1);
+        if(detailType == LIVE_TYPE_GAME){
+            vp_live.setCurrentItem(0);
+        }else{
+            vp_live.setCurrentItem(1);
+        }
+
     }
 
     public void sendMessage(String nobleIcon, String expIcon, MessageInfo messageInfo) {
 //        ((LiveChatFragment)mViewList.get(0)).updateAdapter(nobleIcon, expIcon, messageInfo);
-        ((LiveChatFragment) mViewList.get(1)).updateAdapter(messageInfo);
+        ((LiveChatFragment) mViewList.get((detailType == LIVE_TYPE_GAME)?0:1)).updateAdapter(messageInfo);
     }
     public void sendMessage(MessageInfo messageInfo) {
-        ((LiveChatFragment)mViewList.get(1)).updateAdapter(messageInfo);
+        ((LiveChatFragment)mViewList.get((detailType == LIVE_TYPE_GAME)?0:1)).updateAdapter(messageInfo);
         //发送弹幕
         if(getActivity() instanceof LiveDetailActivity2){
             if(!TextUtils.isEmpty(messageInfo.getOfficeNotice())){
@@ -448,7 +469,7 @@ public class LiveDetailMainFragment extends Fragment {
     }
 
     public void showRedEnvelopeDialog() {
-        ((LiveChatFragment)mViewList.get(1)).showRedEnvelopeDialog();
+        ((LiveChatFragment)mViewList.get((detailType == LIVE_TYPE_GAME)?0:1)).showRedEnvelopeDialog();
     }
 
 
@@ -498,7 +519,7 @@ public class LiveDetailMainFragment extends Fragment {
 
     public void showOfficeNotice(String msg,int type) {
         if(type == 1){
-            ((LiveChatFragment)mViewList.get(1)).showOfficeNotice(msg);
+            ((LiveChatFragment)mViewList.get((detailType == LIVE_TYPE_GAME)?0:1)).showOfficeNotice(msg);
         }
         if(getActivity() instanceof LiveDetailActivity2){
             ((LiveDetailActivity2)getActivity()).addFullScrollDanmu(new DanmuBean(msg,type));
@@ -506,10 +527,10 @@ public class LiveDetailMainFragment extends Fragment {
     }
 
     public void setChatAdvertList(String img,String url){
-        ((LiveChatFragment)mViewList.get(1)).setChatAdvertList(img,url);
+        ((LiveChatFragment)mViewList.get((detailType == LIVE_TYPE_GAME)?0:1)).setChatAdvertList(img,url);
     }
 
     public void setChatAddHeart(){
-        ((LiveChatFragment)mViewList.get(1)).setChatAddHeart();
+        ((LiveChatFragment)mViewList.get((detailType == LIVE_TYPE_GAME)?0:1)).setChatAddHeart();
     }
 }

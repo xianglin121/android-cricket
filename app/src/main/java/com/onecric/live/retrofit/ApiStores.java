@@ -19,8 +19,9 @@ import retrofit2.http.Query;
 public interface ApiStores {
     //baseUrl
 //    String API_SERVER_URL = "http://banqiu.mhuan.shop/";//正式
-   String API_SERVER_URL = "https://api.onecric.tv/";//正式
+//   String API_SERVER_URL = "https://api.onecric.tv/";//正式
 //    String API_SERVER_URL = "https://demoapi.onecric.tv/";//测试
+    String API_SERVER_URL = "https://testapi.onecric.tv/";//测试2
 
     String API_SERVER_LUMEN_URL = "http://lumen.onecric.tv/";
 
@@ -988,4 +989,17 @@ public interface ApiStores {
 
     @GET("/ip")
     Observable<JsonObject> checkRuleOutIp(@Query("ip") String ip);
+
+    // 游戏历史
+    @GET("api/game/history")
+    Observable<JsonObject> getGameHistory(@Header("token") String token,@Query("page") int page,@Query("timezone") String timezone);
+
+    // 游戏主页
+    @GET("api/game/home")
+    Observable<JsonObject> getGameHome(@Query("timezone") String timezone);
+
+    // 游戏主播列表
+    @GET("api/game/users")
+    Observable<JsonObject> getGameAnchorList(@Header("token") String token);
+
 }

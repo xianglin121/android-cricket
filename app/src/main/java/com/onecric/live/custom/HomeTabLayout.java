@@ -18,8 +18,8 @@ import com.onecric.live.common.TRANSTYPE;
  */
 public class HomeTabLayout extends LinearLayout implements View.OnClickListener {
 
-    private ImageView iv_match, iv_theme, iv_live, iv_video;
-    private TextView tv_match, tv_theme, tv_live, tv_video;
+    private ImageView iv_match, iv_theme, iv_live, iv_video,iv_game;
+    private TextView tv_match, tv_theme, tv_live, tv_video,tv_game;
 
     private OnSwitchTabListener mOnSwitchTabListener;
 
@@ -52,11 +52,14 @@ public class HomeTabLayout extends LinearLayout implements View.OnClickListener 
         tv_theme = findViewById(R.id.tv_theme);
         tv_live = findViewById(R.id.tv_live);
         tv_video = findViewById(R.id.tv_video);
+        iv_game = findViewById(R.id.iv_game);
+        tv_game = findViewById(R.id.tv_game);
 
         findViewById(R.id.btn_match).setOnClickListener(this);
         findViewById(R.id.btn_theme).setOnClickListener(this);
         findViewById(R.id.btn_live).setOnClickListener(this);
         findViewById(R.id.btn_video).setOnClickListener(this);
+        findViewById(R.id.btn_game).setOnClickListener(this);
 
         iv_theme.setSelected(true);
     }
@@ -100,6 +103,15 @@ public class HomeTabLayout extends LinearLayout implements View.OnClickListener 
                     mOnSwitchTabListener.onSwitch(TRANSTYPE.VIDEO);
                 }
                 break;
+            case R.id.btn_game:
+                if (iv_game.isSelected()) {
+                    return;
+                }
+                toggleBtn(4);
+                if (mOnSwitchTabListener != null) {
+                    mOnSwitchTabListener.onSwitch(TRANSTYPE.GAME);
+                }
+                break;
         }
     }
 
@@ -132,6 +144,14 @@ public class HomeTabLayout extends LinearLayout implements View.OnClickListener 
             iv_video.setSelected(false);
             tv_video.setTextColor(getResources().getColor(R.color.c_4E4E4E));
         }
+        if (position == 4) {
+            iv_game.setSelected(true);
+            tv_game.setTextColor(getResources().getColor(R.color.c_1444F5));
+        }else {
+            iv_game.setSelected(false);
+            tv_game.setTextColor(getResources().getColor(R.color.c_4E4E4E));
+        }
+
     }
 
     public interface OnSwitchTabListener {

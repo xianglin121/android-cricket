@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.R;
+import com.onecric.live.adapter.MyFollow2Adapter;
 import com.onecric.live.adapter.MyFollowAdapter;
+import com.onecric.live.model.AnchorBean;
 import com.onecric.live.model.UserBean;
 import com.onecric.live.presenter.user.MyFollowInnerPresenter;
 import com.onecric.live.view.MvpFragment;
@@ -18,7 +20,6 @@ import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ public class MyFollowInnerFragment extends MvpFragment<MyFollowInnerPresenter> i
     public static final int TYPE_ANCHOR = 0;
     public static final int TYPE_AUTHOR = 1;
     public static final int TYPE_USER = 2;
+    public static final int TYPE_ALL_GAME_ANCHOR = 3;
+    public static final int TYPE_MY_GAME_ANCHOR = 4;
 
     public static MyFollowInnerFragment newInstance(int type) {
         MyFollowInnerFragment fragment = new MyFollowInnerFragment();
@@ -45,6 +48,7 @@ public class MyFollowInnerFragment extends MvpFragment<MyFollowInnerPresenter> i
     private SmartRefreshLayout smart_rl;
     private RecyclerView rv_follow;
     private MyFollowAdapter mAdapter;
+    private MyFollow2Adapter mGameAdapter;
 
     private int mPage = 1;
 
@@ -92,9 +96,18 @@ public class MyFollowInnerFragment extends MvpFragment<MyFollowInnerPresenter> i
                 }
             }
         });
-        rv_follow.setLayoutManager(new LinearLayoutManager(getContext()));
-        rv_follow.setAdapter(mAdapter);
 
+        mGameAdapter = new MyFollow2Adapter(R.layout.item_my_follow_inner, new ArrayList<>());
+        mGameAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.iv_follow) {
+                    mvpPresenter.doFollow(mGameAdapter.getItem(position).id);
+                }
+            }
+        });
+        rv_follow.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_follow.setAdapter(mType>2?mGameAdapter:mAdapter);
         smart_rl.autoRefresh();
     }
 
@@ -136,12 +149,48 @@ public class MyFollowInnerFragment extends MvpFragment<MyFollowInnerPresenter> i
     }
 
     @Override
-    public void doFollowSuccess(int id) {
-        for (int i = 0; i < mAdapter.getItemCount(); i++) {
-            if (mAdapter.getItem(i).getFollowed_id() == id) {
-                mAdapter.remove(i);
+    public void getAnchorDataSuccess(boolean isRefresh, List<AnchorBean> list) {
+        if (isRefresh) {
+            smart_rl.finishRefresh();
+            mPage = 2;
+            if (list != null) {
+                if (list.size() > 0) {
+                    hideEmptyView();
+                }else {
+                    showEmptyView();
+                }
+                mGameAdapter.setNewData(list);
+            }else {
+                mGameAdapter.setNewData(new ArrayList<>());
+                showEmptyView();
+            }
+        }else {
+            mPage++;
+            if (list != null && list.size() > 0) {
+                smart_rl.finishLoadMore();
+                mGameAdapter.addData(list);
+            }else {
+                smart_rl.finishLoadMoreWithNoMoreData();
             }
         }
+    }
+
+    @Override
+    public void doFollowSuccess(int id) {
+        if(mType>2){
+            for (int i = 0; i < mGameAdapter.getItemCount(); i++) {
+                if (mGameAdapter.getItem(i).id == id) {
+                    mGameAdapter.remove(i);
+                }
+            }
+        }else{
+            for (int i = 0; i < mAdapter.getItemCount(); i++) {
+                if (mAdapter.getItem(i).getFollowed_id() == id) {
+                    mAdapter.remove(i);
+                }
+            }
+        }
+
     }
 
     @Override
