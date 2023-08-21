@@ -276,7 +276,8 @@
             android:textSize="@dimen/sp_14"
             android:text="@string/new_user"
             android:gravity="center_horizontal"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:layout_marginRight="5dp"/>
 
         <TextView
             android:id="@+id/tv_sign_up"

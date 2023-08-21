@@ -226,7 +226,7 @@ public class VideoPagerPresenter extends BasePresenter<VideoPagerView> {
                 });
     }
 
-    //fixme 对接口：搜索video
+    //== 对接口：搜索video
     public void getKeywordList(String key) {
         ((VideoPagerActivity)mvpView).isRequesting = true;
         addSubscription(apiStores.getVideoList(CommonAppConfig.getInstance().getToken(), 1),

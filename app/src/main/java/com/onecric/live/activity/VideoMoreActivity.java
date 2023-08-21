@@ -21,6 +21,7 @@ import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.adapter.VideoAllAdapter;
 import com.onecric.live.event.UpdateLoginTokenEvent;
+import com.onecric.live.model.GameHistoryBean;
 import com.onecric.live.model.HistoryLiveBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
@@ -172,6 +173,11 @@ public class VideoMoreActivity extends MvpActivity<LiveMorePresenter> implements
 
     @Override
     public void getDataHistorySuccess(boolean isRefresh, List<HistoryLiveBean> list) {
+
+    }
+
+    @Override
+    public void getGameHistorySuccess(boolean isRefresh, List<GameHistoryBean> list) {
 
     }
 

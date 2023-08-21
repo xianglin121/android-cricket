@@ -141,7 +141,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
                 }
                 break;
             case R.id.tv_view_all_upcoming:
-                EventBus.getDefault().post(new ToggleTabEvent(2));
+                EventBus.getDefault().post(new ToggleTabEvent(1));
                 break;
             case R.id.tv_view_all_history:
                 //历史播放列表
@@ -197,8 +197,8 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
 
         iv_advert = findViewById(R.id.iv_advert);
         android.view.ViewGroup.LayoutParams pp4 = iv_advert.getLayoutParams();
-        pp4.height = (int) (UIUtil.getScreenWidth(getContext())/3);//3:1
-        iv_advert.setLayoutParams(pp4);
+        pp4.height = (int) (UIUtil.getScreenWidth(getContext())/4.09);//4.09:1
+//        iv_advert.setLayoutParams(pp4);
         iv_advert.setOnClickListener(v -> {
             if(!TextUtils.isEmpty(advertUrl)){
                 Intent intent = new Intent();
@@ -756,7 +756,14 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
     public void getAdvertSuccess(String img,String url){
         if(!TextUtils.isEmpty(img)){
             iv_advert.setVisibility(View.VISIBLE);
-            Glide.with(getActivity()).load(img).dontAnimate().into(iv_advert);
+            Glide.with(getActivity()).asGif().load(img).into(iv_advert);
+/*            RequestOptions mOptions = new RequestOptions()
+                    .fitCenter()
+                    .priority(Priority.HIGH)
+                    .skipMemoryCache(true)
+                    .override(Target.SIZE_ORIGINAL)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL);
+            Glide.with(getActivity()).asGif().load(img).apply(mOptions).into(iv_advert);*/
         }
         if(!TextUtils.isEmpty(url)){
             advertUrl = url;

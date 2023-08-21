@@ -18,8 +18,34 @@ public class MyFollowInnerPresenter extends BasePresenter<MyFollowInnerView> {
     }
 
     public void getList(boolean isRefresh, int type, int page) {
-        if(type >2 ){
+        if(type == 3){
             addSubscription(apiStores.getGameAnchorList(CommonAppConfig.getInstance().getToken()),
+                    new ApiCallback() {
+                        @Override
+                        public void onSuccess(String data, String msg) {
+                            if (!TextUtils.isEmpty(data)) {
+                                List<AnchorBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("data"), AnchorBean.class);
+                                mvpView.getAnchorDataSuccess(isRefresh, list);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(String msg) {
+                            mvpView.getDataFail(msg);
+                        }
+
+                        @Override
+                        public void onError(String msg) {
+                            mvpView.getDataFail(msg);
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+                    });
+        }else if(type == 4){
+            addSubscription(apiStores.getGameAnchorList(CommonAppConfig.getInstance().getToken(),2),
                     new ApiCallback() {
                         @Override
                         public void onSuccess(String data, String msg) {
@@ -71,12 +97,12 @@ public class MyFollowInnerPresenter extends BasePresenter<MyFollowInnerView> {
         }
     }
 
-    public void doFollow(int id) {
+    public void doFollow(int id,int index) {
         addSubscription(apiStores.doFollow(CommonAppConfig.getInstance().getToken(), id),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
-                        mvpView.doFollowSuccess(id);
+                        mvpView.doFollowSuccess(id,index);
                     }
 
                     @Override

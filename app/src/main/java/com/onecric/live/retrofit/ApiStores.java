@@ -20,6 +20,7 @@ public interface ApiStores {
     //baseUrl
 //    String API_SERVER_URL = "http://banqiu.mhuan.shop/";//正式
 //   String API_SERVER_URL = "https://api.onecric.tv/";//正式
+
 //    String API_SERVER_URL = "https://demoapi.onecric.tv/";//测试
     String API_SERVER_URL = "https://testapi.onecric.tv/";//测试2
 
@@ -865,7 +866,10 @@ public interface ApiStores {
     Observable<JsonObject> getHistoryLiveList(@Query("timezone") String timezone,@Header("token") String token,
                                               @Query("pageNumber") int pageNumber,
                                               @Query("pageSize") int pageSize);
-
+    @GET("api/LivePlayBack/list")
+    Observable<JsonObject> getHistoryLiveTypeList(@Query("timezone") String timezone,@Header("token") String token,
+                                              @Query("pageNumber") int pageNumber,
+                                              @Query("pageSize") int pageSize,@Query("type") int type);
 
     @GET("api/member/live_like")
     Observable<JsonObject> getLiveLike(@Query("timezone") String timezone,@Header("token") String token, @Query("id") int id,
@@ -999,6 +1003,8 @@ public interface ApiStores {
     Observable<JsonObject> getGameHome(@Query("timezone") String timezone);
 
     // 游戏主播列表
+    @GET("api/game/users")
+    Observable<JsonObject> getGameAnchorList(@Header("token") String token,@Query("type") int type);
     @GET("api/game/users")
     Observable<JsonObject> getGameAnchorList(@Header("token") String token);
 

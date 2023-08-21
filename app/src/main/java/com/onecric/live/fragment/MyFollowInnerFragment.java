@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.onecric.live.Constant;
 import com.onecric.live.R;
 import com.onecric.live.adapter.MyFollow2Adapter;
 import com.onecric.live.adapter.MyFollowAdapter;
@@ -92,7 +93,7 @@ public class MyFollowInnerFragment extends MvpFragment<MyFollowInnerPresenter> i
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.iv_follow) {
-                    mvpPresenter.doFollow(mAdapter.getItem(position).getFollowed_id());
+                    mvpPresenter.doFollow(mAdapter.getItem(position).getFollowed_id(),position);
                 }
             }
         });
@@ -102,7 +103,7 @@ public class MyFollowInnerFragment extends MvpFragment<MyFollowInnerPresenter> i
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.iv_follow) {
-                    mvpPresenter.doFollow(mGameAdapter.getItem(position).id);
+                    mvpPresenter.doFollow(mGameAdapter.getItem(position).id,position);
                 }
             }
         });
@@ -176,21 +177,27 @@ public class MyFollowInnerFragment extends MvpFragment<MyFollowInnerPresenter> i
     }
 
     @Override
-    public void doFollowSuccess(int id) {
-        if(mType>2){
-            for (int i = 0; i < mGameAdapter.getItemCount(); i++) {
-                if (mGameAdapter.getItem(i).id == id) {
-                    mGameAdapter.remove(i);
+    public void doFollowSuccess(int id, int index) {
+        switch (mType){
+            case 3:
+                if(mGameAdapter.getItem(index).isAttention == 0){
+                    mGameAdapter.getItem(index).isAttention = 1;
+                }else{
+                    mGameAdapter.getItem(index).isAttention = 0;
                 }
-            }
-        }else{
-            for (int i = 0; i < mAdapter.getItemCount(); i++) {
-                if (mAdapter.getItem(i).getFollowed_id() == id) {
-                    mAdapter.remove(i);
+                mGameAdapter.notifyItemChanged(index, Constant.PAYLOAD);
+                break;
+            case 4:
+                mGameAdapter.remove(index);
+                break;
+            default:
+                for (int i = 0; i < mAdapter.getItemCount(); i++) {
+                    if (mAdapter.getItem(i).getFollowed_id() == id) {
+                        mAdapter.remove(i);
+                    }
                 }
-            }
+                break;
         }
-
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.onecric.live.util;
 import android.content.Context;
 
 import com.onecric.live.R;
+import com.tencent.qcloud.tuicore.util.DateTimeUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -229,5 +230,67 @@ public class TimeUtil {
             e.printStackTrace();
         }
         return longTime;
+    }
+
+    /**
+
+     * 距离今天的绝对时间
+
+     *
+
+     * @param date
+
+     * @return
+     */
+    private static final long ONE_MINUTE = 60;
+    private static final long ONE_HOUR = 3600;
+    private static final long ONE_DAY = 86400;
+    private static final long ONE_MONTH = 2592000;
+    private static final long ONE_YEAR = 31104000;
+    public static Calendar calendar = Calendar.getInstance();
+
+    public static String toToday(String date) {
+        return toToday(DateTimeUtil.getStringToDate(date, "yyyy-MM-dd HH:mm:ss"));
+    }
+    public static String toToday(Date date) {
+        return toToday(date.getTime());
+    }
+    public static String toToday(long date) {
+        long time = date ;
+        long now = new Date().getTime()/ 1000;
+        long ago = now - time;
+        if (ago <= ONE_HOUR)
+            return (ago / ONE_MINUTE) + ((ago / ONE_MINUTE) < 2 ?" minute":" minutes") + " ago";
+        else if (ago <= ONE_DAY)
+//            return ago / ONE_HOUR + "小时" + (ago % ONE_HOUR / ONE_MINUTE) + "分钟";
+            return (ago / ONE_HOUR) + ((ago / ONE_HOUR) < 2 ?" hour":" hours") + " ago";
+        else if (ago <= ONE_DAY * 2)
+//            return "昨天" + (ago - ONE_DAY) / ONE_HOUR + "点" + (ago - ONE_DAY) % ONE_HOUR / ONE_MINUTE + "分";
+            return "1 day ago";
+        else if (ago <= ONE_DAY * 3) {
+//            long hour = ago - ONE_DAY * 2;
+//            return "前天" + hour / ONE_HOUR + "点" + hour % ONE_HOUR / ONE_MINUTE + "分";
+            return "2 days ago";
+        } else if (ago <= ONE_MONTH) {
+            long day = ago / ONE_DAY;
+//            long hour = ago % ONE_DAY / ONE_HOUR;
+//            long minute = ago % ONE_DAY % ONE_HOUR / ONE_MINUTE;
+//            return day + "天前" + hour + "点" + minute + "分";
+            return day+" days ago";
+        } else if (ago <= ONE_YEAR) {
+//            long month = ago / ONE_MONTH;
+//            long day = ago % ONE_MONTH / ONE_DAY;
+//            long hour = ago % ONE_MONTH % ONE_DAY / ONE_HOUR;
+//            long minute = ago % ONE_MONTH % ONE_DAY % ONE_HOUR / ONE_MINUTE;
+//            return month + "个月" + day + "天" + hour + "点" + minute + "分前";
+            return (ago / ONE_MONTH) + ((ago / ONE_MONTH) < 2 ?" month":" months") + " ago";
+        } else {
+//            long year = ago / ONE_YEAR;
+//            long month = ago % ONE_YEAR / ONE_MONTH;
+//            long day = ago % ONE_YEAR % ONE_MONTH / ONE_DAY;
+//            return year + "年前" + month + "月" + day + "天";
+            return (ago / ONE_YEAR) + ((ago / ONE_YEAR) < 2 ?" year":" years") + " ago";
+        }
+
     }
 }

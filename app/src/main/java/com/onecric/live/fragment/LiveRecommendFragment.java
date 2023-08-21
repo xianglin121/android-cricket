@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
@@ -324,7 +323,7 @@ public class LiveRecommendFragment extends MvpFragment<LiveRecommendPresenter> i
                 LiveMoreActivity.forward(getContext(), 2);
                 break;
             case R.id.tv_upcoming:
-                //fixme 加上动画
+                //== 加上动画
                 if(isOpenUpcoming){
                     tv_upcoming.setCompoundDrawables(null, null, drawableArrUp,null);
                     rv_match_upcoming.setVisibility(View.GONE);

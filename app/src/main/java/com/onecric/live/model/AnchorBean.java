@@ -39,4 +39,5 @@ public class AnchorBean {
     public String userPass;
     public int isLive;
     public String onlineTime;
+    public int isAttention;
 }

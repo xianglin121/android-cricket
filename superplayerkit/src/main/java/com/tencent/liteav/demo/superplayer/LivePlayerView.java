@@ -1187,4 +1187,10 @@ public class LivePlayerView extends RelativeLayout {
     }
 
 
+    public void removeWindowView(){
+        if(mWindowPlayer!=null){
+            removeView(mWindowPlayer);
+        }
+    }
+
 }

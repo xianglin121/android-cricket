@@ -14,7 +14,6 @@ import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.custom.ButtonFollowView;
 import com.onecric.live.model.AnchorBean;
 import com.onecric.live.util.GlideUtil;
-import com.onecric.live.view.MvpActivity;
 
 import java.util.List;
 
@@ -34,7 +33,6 @@ public class MyFollow2Adapter extends BaseQuickAdapter<AnchorBean, BaseViewHolde
         iv_avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!((MvpActivity) mContext).isFastDoubleClick())
                 PersonalHomepageActivity.forward(mContext, item.id + "");
             }
         });
@@ -63,7 +61,15 @@ public class MyFollow2Adapter extends BaseQuickAdapter<AnchorBean, BaseViewHolde
         GlideUtil.loadImageDefault(mContext, item.getExp_icon(), iv_level);*/
         helper.setText(R.id.tv_fans_count, mContext.getString(R.string.fans) + item.attention);
         ButtonFollowView buttonFollowView = helper.getView(R.id.iv_follow);
-        buttonFollowView.setFollow(true);
+        buttonFollowView.setFollow(item.isAttention==1?true:false);
         helper.addOnClickListener(R.id.iv_follow);
+    }
+
+    @Override
+    protected void convertPayloads(@NonNull BaseViewHolder helper, AnchorBean item, @NonNull List<Object> payloads) {
+        if (payloads != null && payloads.size() > 0) {
+            ButtonFollowView iv_follow = helper.getView(R.id.iv_follow);
+            iv_follow.setFollow(item.isAttention == 0?false:true);
+        }
     }
 }

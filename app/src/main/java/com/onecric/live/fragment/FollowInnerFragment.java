@@ -141,8 +141,9 @@ public class FollowInnerFragment extends MvpFragment<FollowInnerPresenter> imple
 
     }
 
+
     @Override
-    public void doFollowSuccess(int id) {
+    public void doFollowSuccess(int id, int index) {
         for (int i = 0; i < mAdapter.getItemCount(); i++) {
             if (mAdapter.getItem(i).getFollowed_id() == id) {
                 mAdapter.remove(i);

@@ -13,15 +13,15 @@ import com.youth.banner.adapter.BannerAdapter;
 
 import java.util.List;
 
-public abstract class BannerRoundLiveImageAdapter<T> extends BannerAdapter<T, BannerRoundLiveImageAdapter.BannerRoundLiveImageHolder> {
+public abstract class BannerRoundLiveImage2Adapter<T> extends BannerAdapter<T, BannerRoundLiveImage2Adapter.BannerRoundLiveImageHolder> {
 
-    public BannerRoundLiveImageAdapter(List<T> mData) {
+    public BannerRoundLiveImage2Adapter(List<T> mData) {
         super(mData);
     }
 
     @Override
-    public BannerRoundLiveImageAdapter.BannerRoundLiveImageHolder onCreateHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_banner_img, parent, false);
+    public BannerRoundLiveImage2Adapter.BannerRoundLiveImageHolder onCreateHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_banner_img2, parent, false);
 //        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_banner_live, parent, false);
 //        RoundedImageView imageView = new RoundedImageView(parent.getContext());
         //注意，必须设置为match_parent，这个是viewpager2强制要求的
@@ -31,7 +31,7 @@ public abstract class BannerRoundLiveImageAdapter<T> extends BannerAdapter<T, Ba
 //        imageView.setLayoutParams(params);
 //        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 //        imageView.setCornerRadius(DpUtil.dp2px(6));
-        return new BannerRoundLiveImageAdapter.BannerRoundLiveImageHolder(view);
+        return new BannerRoundLiveImage2Adapter.BannerRoundLiveImageHolder(view);
     }
 
     public class BannerRoundLiveImageHolder extends RecyclerView.ViewHolder {

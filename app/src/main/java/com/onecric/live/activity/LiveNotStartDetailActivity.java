@@ -344,7 +344,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     @Override
     public void getDataSuccess(LiveRoomBean bean) {
         if (bean != null) {
-            if(!TextUtils.isEmpty(bean.getInfo().prompt)){//FIXME
+            if(!TextUtils.isEmpty(bean.getInfo().prompt)){
                 liveDetailMainFragment.showOfficeNotice(bean.getInfo().prompt,1);
             }
             mLiveRoomBean = bean;

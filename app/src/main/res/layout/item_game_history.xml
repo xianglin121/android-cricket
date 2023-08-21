@@ -66,7 +66,7 @@
         android:scaleType="fitCenter"
         android:src="@mipmap/bg_football_match_head"/>
 
-    <ImageView
+<!--    <ImageView
         android:id="@+id/iv_live_status"
         android:layout_width="50dp"
         android:layout_height="22dp"
@@ -74,7 +74,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/iv_cover"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="15dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp" />-->
 
     <TextView
         android:id="@+id/tv_eyes_num"
@@ -91,7 +91,7 @@
         android:drawablePadding="4dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_cover"
-        app:layout_constraintLeft_toRightOf="@id/iv_live_status"
+        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="15dp"/>
     
     <LinearLayout

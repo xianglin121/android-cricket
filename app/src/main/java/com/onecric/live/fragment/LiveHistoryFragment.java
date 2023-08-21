@@ -17,6 +17,7 @@ import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.adapter.LiveRecommendHistoryAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
 import com.onecric.live.fragment.dialog.LoginDialog;
+import com.onecric.live.model.GameHistoryBean;
 import com.onecric.live.model.HistoryLiveBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
@@ -78,12 +79,12 @@ public class LiveHistoryFragment extends MvpFragment<LiveMorePresenter> implemen
         smart_rl.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getHistoryList(false, mPage,1);
+                mvpPresenter.getHistoryList(false, mPage);
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mvpPresenter.getHistoryList(true, 1,2);
+                mvpPresenter.getHistoryList(true, 1);
             }
         });
 
@@ -169,6 +170,11 @@ public class LiveHistoryFragment extends MvpFragment<LiveMorePresenter> implemen
                 smart_rl.finishLoadMoreWithNoMoreData();
             }
         }
+    }
+
+    @Override
+    public void getGameHistorySuccess(boolean isRefresh, List<GameHistoryBean> list) {
+
     }
 
     @Override

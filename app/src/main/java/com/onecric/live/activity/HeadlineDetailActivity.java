@@ -112,7 +112,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
     private WebSettings webSettings;
     private boolean isCancelLoginDialog;
 
-    //fixme 未登录用户倒计时三分钟跳转登录页（这里接入视频新闻后要改
+    //== 未登录用户倒计时三分钟跳转登录页（这里接入视频新闻后要改
     private CountDownTimer mCountDownTimer = new CountDownTimer(180000, 1000) {
         @Override
         public void onTick(long millisUntilFinished) {
@@ -440,7 +440,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                         " </style>";
                 String htmlPart2 = "</body></html>";
 
-/*                //fixme 1 等后端拿到真实数据
+/*                //== 1 等后端拿到真实数据
                 String replaceStr = model.getContent() ;
                 //替换一下加粗标签
                 if(replaceStr.indexOf("@B0$")!=-1){
@@ -528,7 +528,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 wv_content.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);
             }
 
-            /*//fixme 放个视频，默认静音
+            /*//== 放个视频，默认静音
             model.setVideo("https://vdse.bdstatic.com/9fe38fb1fa6e1204d028e1ab43fd0c85.mp4");
                 video_player.setVisibility(View.VISIBLE);
             if(!TextUtils.isEmpty(model.getVideo())){
@@ -554,7 +554,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 video_player.setUp(model.getVideo(), true, "");
                 //设置旋转
                 orientationUtils = new OrientationUtils(this, video_player);
-                //fixme 设置全屏按键功能,这是使用的是选择屏幕，而不是全屏
+                //== 设置全屏按键功能,这是使用的是选择屏幕，而不是全屏
                 video_player.getFullscreenButton().setOnClickListener(v -> {
                     video_player.startWindowFullscreen(mActivity, true, true);
                     orientationUtils.resolveByClick();
@@ -566,7 +566,7 @@ public class HeadlineDetailActivity extends MvpActivity<HeadlineDetailPresenter>
                 video_player.setAutoFullWithSize(true);
 
                 video_player.startPlayLogic();
-                //fixme 先判断符合播放要求->再显示播放组件，否则显示图片+播放icon 点击去登录 销毁当前页面 播放时开始计时，
+                //== 先判断符合播放要求->再显示播放组件，否则显示图片+播放icon 点击去登录 销毁当前页面 播放时开始计时，
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
                     mCountDownTimer.start();
                 }

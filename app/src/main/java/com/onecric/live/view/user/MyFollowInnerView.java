@@ -10,5 +10,5 @@ public interface MyFollowInnerView extends BaseView<List<UserBean>> {
     void getDataSuccess(boolean isRefresh, List<UserBean> list);
     void getAnchorDataSuccess(boolean isRefresh, List<AnchorBean> list);
 
-    void doFollowSuccess(int id);
+    void doFollowSuccess(int id,int index);
 }

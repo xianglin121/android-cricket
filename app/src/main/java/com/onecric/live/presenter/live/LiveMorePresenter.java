@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.onecric.live.CommonAppConfig;
+import com.onecric.live.model.GameHistoryBean;
 import com.onecric.live.model.HistoryLiveBean;
 import com.onecric.live.model.LiveBean;
 import com.onecric.live.model.LiveVideoBean;
@@ -52,8 +53,7 @@ public class LiveMorePresenter extends BasePresenter<LiveMoreView> {
                 });
     }
 
-    public void getHistoryList(boolean isRefresh, int page,int type) {
-        //fixme 历史直播区分游戏直播
+    public void getHistoryList(boolean isRefresh, int page) {
         addSubscription(apiStores.getHistoryLiveList(TimeZone.getDefault().getID(),CommonAppConfig.getInstance().getToken(), page,10),
                 new ApiCallback() {
                     @Override
@@ -63,6 +63,36 @@ public class LiveMorePresenter extends BasePresenter<LiveMoreView> {
                             mvpView.getDataHistorySuccess(isRefresh, list);
                         }else {
                             mvpView.getDataHistorySuccess(isRefresh, new ArrayList<>());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        mvpView.getDataFail(msg);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        mvpView.getDataFail(msg);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
+
+    public void getHistoryTypeList(boolean isRefresh, int page) {
+        addSubscription(apiStores.getGameHistory(CommonAppConfig.getInstance().getToken(),page,TimeZone.getDefault().getID()),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        if (!TextUtils.isEmpty(data)) {
+                            List<GameHistoryBean> list = JSONObject.parseArray(JSONObject.parseObject(data).getString("data"), GameHistoryBean.class);
+                            mvpView.getGameHistorySuccess(isRefresh,list);
+                        }else{
+                            mvpView.getGameHistorySuccess(isRefresh,new ArrayList<>());
                         }
                     }
 

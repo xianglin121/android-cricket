@@ -52,7 +52,6 @@ public class AnchorListActivity extends BaseActivity {
     protected void initData() {
         mTitles.add(getString(R.string.all_anchors));
         mTitles.add(getString(R.string.my_anchors));
-        //fixme 主播类型
         mViewList.add(MyFollowInnerFragment.newInstance(MyFollowInnerFragment.TYPE_ALL_GAME_ANCHOR));
         mViewList.add(MyFollowInnerFragment.newInstance(MyFollowInnerFragment.TYPE_MY_GAME_ANCHOR));
         initViewPager();

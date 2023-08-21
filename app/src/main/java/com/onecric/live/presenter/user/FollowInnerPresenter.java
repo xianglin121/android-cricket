@@ -46,7 +46,7 @@ public class FollowInnerPresenter extends BasePresenter<MyFollowInnerView> {
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
-                        mvpView.doFollowSuccess(id);
+                        mvpView.doFollowSuccess(id,0);
                     }
 
                     @Override

@@ -1,6 +1,7 @@
 package com.onecric.live.fragment;
 
 import static com.onecric.live.HttpConstant.SHARE_LIVE_URL;
+import static com.onecric.live.util.TimeUtil.toToday;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -23,18 +25,15 @@ import com.onecric.live.CommonAppConfig;
 import com.onecric.live.Constant;
 import com.onecric.live.R;
 import com.onecric.live.activity.AnchorListActivity;
-import com.onecric.live.activity.CricketDetailActivity;
-import com.onecric.live.activity.LiveDetailActivity;
+import com.onecric.live.activity.LiveDetailActivity2;
 import com.onecric.live.activity.LiveMoreActivity;
-import com.onecric.live.activity.LiveNotStartDetailActivity;
 import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.adapter.BannerGameLiveImageAdapter;
-import com.onecric.live.adapter.BannerRoundLiveImageAdapter;
+import com.onecric.live.adapter.BannerRoundLiveImage2Adapter;
 import com.onecric.live.adapter.LiveAuthorAdapter;
 import com.onecric.live.adapter.LiveGameHistoryAdapter;
 import com.onecric.live.model.BannerBean;
-import com.onecric.live.model.CommunityBean;
 import com.onecric.live.model.GameBannerBean;
 import com.onecric.live.model.GameHistoryBean;
 import com.onecric.live.model.JsonBean;
@@ -51,8 +50,9 @@ import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.tencent.liteav.demo.superplayer.LivePlayerView;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
@@ -69,14 +69,16 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
     private TextView tv_see_all;
     private RecyclerView rv_author_live,rv_history;
     private SmartRefreshLayout smart_rl;
-    private TextView tv_view_all_history;
-    private BannerRoundLiveImageAdapter bannerAdapter;
+    private BannerRoundLiveImage2Adapter bannerAdapter;
     private BannerGameLiveImageAdapter bannerRoundLiveImageAdapter;
     private LiveAuthorAdapter mAnchorAdapter;
     private LiveGameHistoryAdapter mHistoryAdapter;
     private Timer mTimer;
     private int mPage = 1;
     public LivePlayerView showPlayerView;
+    public StandardGSYVideoPlayer history_video_view;
+    public boolean bannerCheckedIsLive;
+    private List<GameBannerBean> bannerList;
 
     @Override
     public void onClick(View v) {
@@ -103,9 +105,7 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
         rv_history = findViewById(R.id.rv_history);
         rv_author_live = findViewById(R.id.rv_author_live);
         smart_rl = findViewById(R.id.smart_rl);
-        tv_view_all_history = findViewById(R.id.tv_view_all_history);
-
-        tv_view_all_history.setOnClickListener(this);
+        findViewById(R.id.tv_view_all_history).setOnClickListener(this);
         findViewById(R.id.tv_author_see_more).setOnClickListener(this);
 
         int width = UIUtil.getScreenWidth(getContext());
@@ -115,8 +115,8 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
         mBanner.setLayoutParams(pp);
 
         android.view.ViewGroup.LayoutParams pp4 = mBannerAdvert.getLayoutParams();
-        pp4.height = (int) (UIUtil.getScreenWidth(getContext())/3);//3:1
-        mBannerAdvert.setLayoutParams(pp4);
+        pp4.height = (int) (UIUtil.getScreenWidth(getContext())/4.09);//4.09:1
+//        mBannerAdvert.setLayoutParams(pp4);
 
         //rv
         MaterialHeader materialHeader = new MaterialHeader(getContext());
@@ -131,6 +131,15 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                if (!bannerCheckedIsLive && history_video_view!=null) {
+                    GSYVideoManager.releaseAllVideos();
+                    GSYVideoManager.instance().clearAllDefaultCache(getContext());
+                    history_video_view = null;
+                }
+                if (bannerCheckedIsLive && showPlayerView!=null) {
+                    showPlayerView.resetPlayer();
+                    showPlayerView = null;
+                }
                 mvpPresenter.getAllData();
                 mvpPresenter.getHistoryList(true,1);
             }
@@ -145,14 +154,15 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
         mAnchorAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                PersonalHomepageActivity.forward(getContext(), ((LiveAuthorBean)(adapter.getItem(position))).uid + "");
+                PersonalHomepageActivity.forward(getContext(), ((LiveAuthorBean)(adapter.getItem(position))).id + "");
             }
         });
         rv_author_live.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         rv_author_live.setAdapter(mAnchorAdapter);
 
+
         mHistoryAdapter = new LiveGameHistoryAdapter(R.layout.item_game_history,new ArrayList<>());
-        View inflate3 = LayoutInflater.from(getContext()).inflate(R.layout.item_empty_history, null, false);
+        View inflate3 = LayoutInflater.from(getContext()).inflate(R.layout.item_empty_error3, null, false);
         mHistoryAdapter.setEmptyView(inflate3);
         mHistoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -160,8 +170,8 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
                 GameHistoryBean bean = mHistoryAdapter.getItem(position);
                 if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
                     OneLogInActivity.forward(getContext());
-                } else{
-                    LiveDetailActivity.forward(getContext(), bean.uid,bean.liveId);
+                } else if(!TextUtils.isEmpty(bean.video)){
+                    LiveDetailActivity2.forward(getContext(), bean.uid,bean.video,bean.liveId);
                 }
             }
         });
@@ -179,7 +189,7 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
                             item.like-=1;
                         }
                         mHistoryAdapter.notifyItemChanged(position, Constant.PAYLOAD);
-                        mvpPresenter.doLike(item.uid, item.isLikes);
+                        mvpPresenter.doLike(item.id, item.isLikes);
                         break;
                     case R.id.iv_follow:
                         if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {
@@ -187,7 +197,7 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
                             OneLogInActivity.forward(getActivity());
                             return;
                         }
-                        mvpPresenter.doFollow(item.uid,item.isLikes == 0?true:false);
+                        mvpPresenter.doFollow(item.uid,item.isAttention == 0?true:false);
                         mHistoryAdapter.forFollowedStatus(item.uid,item.isAttention==0?1:0);
                         mHistoryAdapter.notifyItemChanged(position, Constant.PAYLOAD);
                         break;
@@ -230,61 +240,74 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
             mBanner.setVisibility(View.VISIBLE);
             mBanner.isAutoLoop(false);
             //添加画廊效果
-            mBanner.setBannerGalleryMZ(20, 0);
-            bannerRoundLiveImageAdapter = new BannerGameLiveImageAdapter(list) {
+            mBanner.setBannerGalleryMZ(10, 0);
+
+            bannerList = new ArrayList<>();
+            bannerList.addAll(list);
+            bannerRoundLiveImageAdapter = new BannerGameLiveImageAdapter(getActivity(),bannerList) {
                 @Override
                 public void onBindView(Object holder, Object data, int position, int size) {
-                    //fixme 调整为直播banner
                     GameBannerBean bannerBean = (GameBannerBean) data;
-//                    Glide.with(getContext()).load(bannerBean.thumb).priority(Priority.HIGH).into(((BannerRoundLiveImageHolder) holder).imageView);
+                    Glide.with(getContext()).load(bannerBean.thumb).priority(Priority.HIGH).into(((BannerRoundLiveImageHolder) holder).imageView);
                     GlideUtil.loadUserImageDefault(getContext(),bannerBean.thumb,((BannerRoundLiveImageHolder) holder).iv_avatar);
                     ((BannerRoundLiveImageHolder) holder).iv_live_status.setVisibility(View.VISIBLE);
                     int eyeNum = bannerBean.viewers;
                     ((BannerRoundLiveImageHolder) holder).tv_eyes_num.setText(eyeNum > 1000 ? String.format("%.1f", (float) eyeNum / 1000) + "K" : eyeNum + "");
                     ((BannerRoundLiveImageHolder) holder).tv_title.setText(bannerBean.title);
-                    ((BannerRoundLiveImageHolder) holder).tv_bottom.setText(bannerBean.userName+"・"+bannerBean.time);
+                    ((BannerRoundLiveImageHolder) holder).tv_bottom.setText(bannerBean.userNickname+"・"+(bannerBean.addtime==0?"":toToday(bannerBean.addtime)));
 
-//                    fixme 封面三秒后开启直播
-                    showPlayerView = ((BannerRoundLiveImageHolder) holder).playerView;
-                    showPlayerView.setInitId(bannerBean.uid, 2, 0);
-                    if (!TextUtils.isEmpty(bannerBean.pull)) {
-                        //静音
-                        showPlayerView.setMute(false);
-                        showPlayerView.play(bannerBean.pull);
-                    }
-
+                    ((BannerRoundLiveImageHolder) holder).imageView.setVisibility(View.VISIBLE);
+                    ((BannerRoundLiveImageHolder) holder).playerView.setVisibility(View.GONE);
+                    ((BannerRoundLiveImageHolder) holder).videoView.setVisibility(View.GONE);
                 }
-
             };
 
+            mBanner.getViewPager2().registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                @Override
+                public void onPageSelected(int position) {
+                    super.onPageSelected(position);
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            bannerRoundLiveImageAdapter.setmHolder(position);
+                            if(bannerList == null || position>bannerList.size()-1){
+                                return;
+                            }
+                            int index = position <= 0?bannerList.size()-1:position-1;
+                            GameBannerBean bannerBean = bannerList.get(index);
+                            bannerCheckedIsLive = bannerBean.islive==1?true:false;
+                            if(bannerCheckedIsLive){
+                                if (!TextUtils.isEmpty(bannerBean.pull)) {
+                                    showPlayerView = bannerRoundLiveImageAdapter.getPlayerView(index,bannerBean.pull);
+                                }else{
+                                    showPlayerView = null;
+                                }
+                            }else{
+                                if (!TextUtils.isEmpty(bannerBean.videoUrl)) {
+                                    history_video_view = bannerRoundLiveImageAdapter.getVideoView(getContext(),index,bannerBean.videoUrl);
+                                }else{
+                                    history_video_view = null;
+                                }
+                            }
+                        }}, 1000);
+                }
+
+            });
             bannerRoundLiveImageAdapter.setOnBannerListener(new OnBannerListener() {
                 @Override
                 public void OnBannerClick(Object data, int position) {
-                    BannerBean bannerBean = (BannerBean) data;
-                    if("live".equals(bannerBean.match_status) && bannerBean.getAnchor_id() != 0 && !TextUtils.isEmpty(bannerBean.match) && bannerBean.getLive_id() != 0){
-                        if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
-                            OneLogInActivity.forward(getContext());
-                        }else{
-                            LiveDetailActivity.forward(getContext(), bannerBean.getAnchor_id(), Integer.parseInt(bannerBean.match), bannerBean.getLive_id());
-                        }
-                    }else if(!TextUtils.isEmpty(bannerBean.match) && Integer.parseInt(bannerBean.match)!=0){
-                        CricketDetailActivity.forward(getActivity(), Integer.parseInt(bannerBean.match));
-                    }else if(!TextUtils.isEmpty(bannerBean.getUrl())){
-                        Intent intent = new Intent();
-                        intent.setAction("android.intent.action.VIEW");
-                        Uri content_url = Uri.parse(bannerBean.getUrl());
-                        intent.setData(content_url);
-                        startActivity(intent);
+                    GameBannerBean bannerBean = (GameBannerBean) data;
+                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
+                        OneLogInActivity.forward(getContext());
+                    } else if(bannerBean.islive == 1){
+                        LiveDetailActivity2.forward(getContext(), bannerBean.uid,bannerBean.id);
+                    }else{
+                        LiveDetailActivity2.forward(getContext(), bannerBean.uid,bannerBean.videoUrl,bannerBean.id);
                     }
 
                 }
             });
-            if (mBanner.getAdapter() == null) {
-                mBanner.setAdapter(bannerRoundLiveImageAdapter);
-                mBanner.addBannerLifecycleObserver(this);
-            } else {
-                mBanner.getAdapter().notifyDataSetChanged();
-            }
+            mBanner.setAdapter(bannerRoundLiveImageAdapter);
+            mBanner.addBannerLifecycleObserver(this);
         }else{
             mBanner.setVisibility(View.GONE);
         }
@@ -403,11 +426,11 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
         if (list != null && list.size() > 0) {
             mBannerAdvert.setVisibility(View.VISIBLE);
 //            mBannerAdvert.setIndicator(new RectangleIndicator(getContext()));
-            bannerAdapter = new BannerRoundLiveImageAdapter(list) {
+            bannerAdapter = new BannerRoundLiveImage2Adapter(list) {
                 @Override
                 public void onBindView(Object holder, Object data, int position, int size) {
                     BannerBean bannerBean = (BannerBean) data;
-                    Glide.with(getContext()).load(bannerBean.getImg()).into(((BannerRoundLiveImageHolder) holder).imageView);
+                    Glide.with(getActivity()).asGif().load(bannerBean.getImg()).into(((BannerRoundLiveImageHolder) holder).imageView);
                 }
             };
             bannerAdapter.setOnBannerListener(new OnBannerListener() {
@@ -439,8 +462,47 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
 
     @Override
     public void doFollowSuccess(int id,boolean isFollow) {
-        //fixme 便利adapter相同作者id的关注状态
-//        mHistoryAdapter.forFollowedStatus(item.getId(),item.getIs_attention()==0?1:0);
+        //fixme 测试：便利adapter相同作者id的关注状态
+        mHistoryAdapter.forFollowedStatus(id,isFollow?1:0);
 //        mHistoryAdapter.notifyItemChanged(position, Constant.PAYLOAD);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (!bannerCheckedIsLive && history_video_view!=null) {
+            history_video_view.onVideoPause();
+        }
+        if (bannerCheckedIsLive && showPlayerView!=null) {
+            showPlayerView.onPause();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (!bannerCheckedIsLive && history_video_view!=null) {
+            GSYVideoManager.releaseAllVideos();
+            GSYVideoManager.instance().clearAllDefaultCache(getContext());
+            history_video_view = null;
+        }
+        if (bannerCheckedIsLive && showPlayerView!=null) {
+            showPlayerView.resetPlayer();
+            showPlayerView = null;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!bannerCheckedIsLive && history_video_view!=null) {
+            GSYVideoManager.instance().setNeedMute(true);
+            history_video_view.onVideoResume();
+        }
+        if (bannerCheckedIsLive && showPlayerView!=null) {
+            showPlayerView.setMute(true);
+            showPlayerView.onResume();
+        }
+    }
+
 }

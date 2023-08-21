@@ -677,7 +677,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                     @Override
                     public void onSuccess(V2TIMMessage v2TIMMessage) {
                         if (CommonAppConfig.getInstance().getBlockFunctionInfo() != null) {
-                            //fixme 屏蔽入场信息为true？
+                            //== 屏蔽入场信息为true？
 //                            if (!CommonAppConfig.getInstance().getBlockFunctionInfo().isBlockEnter()) {
 //                                updateAdapter(nobelMsgBean.getGuard_icon(), nobelMsgBean.getExp_icon(), messageInfo);
                                 updateAdapter(messageInfo);

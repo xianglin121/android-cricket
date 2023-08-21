@@ -20,11 +20,13 @@ import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
 import com.ethanhua.skeleton.Skeleton;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
+import com.onecric.live.adapter.LiveGameHistoryAdapter;
 import com.onecric.live.adapter.LiveRecommendAdapter;
 import com.onecric.live.adapter.LiveRecommendHistoryAdapter;
 import com.onecric.live.adapter.LiveVideoAllAdapter;
 import com.onecric.live.adapter.decoration.GridDividerItemDecoration;
 import com.onecric.live.event.UpdateLoginTokenEvent;
+import com.onecric.live.model.GameHistoryBean;
 import com.onecric.live.model.HistoryLiveBean;
 import com.onecric.live.model.JsonBean;
 import com.onecric.live.model.LiveBean;
@@ -78,7 +80,7 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
 
     private int mPage = 1;
     private RecyclerViewSkeletonScreen skeletonScreen;
-
+    private LiveGameHistoryAdapter mGameHistoryAdapter;
 //    private LoginDialog loginDialog;
 //    private WebView webview;
 //    private WebSettings webSettings;
@@ -154,9 +156,10 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 if(!TextUtils.isEmpty(matchTitle) ){
-                }else
-                    if(mType == 2 || mType == 3){
-                    mvpPresenter.getHistoryList(false, mPage,mType);
+                }else if(mType == 3){
+                        mvpPresenter.getHistoryTypeList(false, mPage);
+                }else if(mType == 2){
+                        mvpPresenter.getHistoryList(false, mPage);
                 }else{
                     mvpPresenter.getList(false, mType, mPage);
                 }
@@ -166,9 +169,10 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 if(!TextUtils.isEmpty(matchTitle) ){
                     mvpPresenter.getMatchVideoList(matchTitle);
-                }else
-                    if(mType == 2 || mType == 3){
-                    mvpPresenter.getHistoryList(true, 1,mType);
+                }else if(mType == 3){
+                    mvpPresenter.getHistoryTypeList(true, 1);
+                }else if(mType == 2){
+                    mvpPresenter.getHistoryList(true, 1);
                 }else{
                     mvpPresenter.getList(true, mType, 1);
                 }
@@ -201,7 +205,7 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                     .load(R.layout.item_live_video_skeleton)
                     .show();
 
-        }else if(mType == 2 || mType == 3){
+        }else if(mType == 2){
                 smart_rl.setRefreshFooter(new ClassicsFooter(this));
 //                recyclerview.setLayoutManager(new GridLayoutManager(mActivity, 2));
 //                recyclerview.addItemDecoration(new GridDividerItemDecoration(this, 10, 2));
@@ -219,13 +223,8 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                         OneLogInActivity.forward(mActivity);
                     }else{
 //                        VideoSingleActivity.forward(mActivity, mHistoryAdapter.getItem(position).getMediaUrl(), null);
-                        if(mType == 3){
-                            LiveDetailActivity.forward(mActivity,Integer.parseInt(mHistoryAdapter.getItem(position).getUid()),
-                                    mHistoryAdapter.getItem(position).getMediaUrl(),mHistoryAdapter.getItem(position).getLive_id());
-                        }else{
-                            LiveDetailActivity.forward(mActivity,Integer.parseInt(mHistoryAdapter.getItem(position).getUid()),mHistoryAdapter.getItem(position).getMatchId(),
-                                    mHistoryAdapter.getItem(position).getMediaUrl(),mHistoryAdapter.getItem(position).getLive_id());
-                        }
+                        LiveDetailActivity.forward(mActivity,Integer.parseInt(mHistoryAdapter.getItem(position).getUid()),mHistoryAdapter.getItem(position).getMatchId(),
+                                mHistoryAdapter.getItem(position).getMediaUrl(),mHistoryAdapter.getItem(position).getLive_id());
                     }
                 }
             });
@@ -236,6 +235,32 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
                     .shimmer(false)
                     .count(10)
                     .load(R.layout.item_live_video_skeleton)
+                    .show();
+        }else if( mType == 3){
+            smart_rl.setRefreshFooter(new ClassicsFooter(this));
+            recyclerview.setLayoutManager(new LinearLayoutManager(mActivity));
+            mGameHistoryAdapter = new LiveGameHistoryAdapter(R.layout.item_game_history, new ArrayList<>());
+            mGameHistoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    String url = mHistoryAdapter.getItem(position).getMediaUrl();
+                    if (TextUtils.isEmpty(url)) {
+                        return;
+                    }
+                    if (TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) && SpUtil.getInstance().getBooleanValue(SpUtil.VIDEO_OVERTIME) && SpUtil.getInstance().getIntValue(SpUtil.LOGIN_REMIND) != 0){
+                        OneLogInActivity.forward(mActivity);
+                    }else{
+                        LiveDetailActivity.forward(mActivity,Integer.parseInt(mHistoryAdapter.getItem(position).getUid()), mHistoryAdapter.getItem(position).getMediaUrl(),mHistoryAdapter.getItem(position).getLive_id());
+                    }
+                }
+            });
+            mGameHistoryAdapter.setEmptyView(inflate2);
+            recyclerview.setAdapter(mGameHistoryAdapter);
+            skeletonScreen = Skeleton.bind(recyclerview)
+                    .adapter(mGameHistoryAdapter)
+                    .shimmer(false)
+                    .count(10)
+                    .load(R.layout.item_game_history_skeleton)
                     .show();
         }else{
                 smart_rl.setRefreshFooter(new ClassicsFooter(this));
@@ -299,7 +324,29 @@ public class LiveMoreActivity extends MvpActivity<LiveMorePresenter> implements 
             if (list != null && list.size() > 0) {
                 smart_rl.finishLoadMore();
                 mHistoryAdapter.addData(list);
+            }else {
+                smart_rl.finishLoadMoreWithNoMoreData();
+            }
+            skeletonScreen.hide();
+        }
+    }
 
+    @Override
+    public void getGameHistorySuccess(boolean isRefresh, List<GameHistoryBean> list) {
+        if (isRefresh) {
+            smart_rl.finishRefresh();
+            mPage = 2;
+            if (list != null && list.size() > 0) {
+                mGameHistoryAdapter.setNewData(list);
+            }else {
+                mGameHistoryAdapter.setNewData(new ArrayList<>());
+            }
+            skeletonScreen.hide();
+        }else {
+            mPage++;
+            if (list != null && list.size() > 0) {
+                smart_rl.finishLoadMore();
+                mGameHistoryAdapter.addData(list);
             }else {
                 smart_rl.finishLoadMoreWithNoMoreData();
             }

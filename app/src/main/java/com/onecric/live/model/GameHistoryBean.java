@@ -10,6 +10,10 @@ public class GameHistoryBean {
     public int id;
     public String video;
     public String title;
-
-
+    public int isLikes;
+    public int isAttention;
+    public String avatar;
+    public int comment;
+    public int liveId;
 }
+

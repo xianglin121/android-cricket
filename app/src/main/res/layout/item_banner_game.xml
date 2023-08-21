@@ -3,29 +3,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp">
-
-    <com.tencent.liteav.demo.superplayer.LivePlayerView
-        android:id="@+id/playerView"
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp">
+    <FrameLayout
+        android:id="@+id/fl_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/ball_live_bg"
-        android:visibility="gone"/>
+        android:background="@drawable/bg_tran_10"
+        android:outlineProvider="background">
 
-    <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
-        android:id="@+id/history_video_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@mipmap/ball_live_bg"/>
+        <com.tencent.liteav.demo.superplayer.LivePlayerView
+            android:id="@+id/playerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/ball_live_bg"
+            android:visibility="gone"
+            />
+
+        <com.onecric.live.view.NotProgressVideoPlayer
+            android:id="@+id/history_video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@mipmap/ball_live_bg"
+            android:visibility="gone"/>
+    </FrameLayout>
+
+
+
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/iv_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@mipmap/bg_football_match_head"
         android:foreground="@drawable/shape_gradient_black"
         app:riv_corner_radius="10dp"/>
 
@@ -33,7 +44,7 @@
         android:id="@+id/iv_avatar"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignBottom="@id/playerView"
+        android:layout_alignParentBottom="true"
         android:src="@mipmap/bg_avatar_default"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"

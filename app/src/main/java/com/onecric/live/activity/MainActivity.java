@@ -427,7 +427,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         }
     }
 
-    //fixme 游戏导航
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onToggleTabEvent(ToggleTabEvent event) {
         if (event == null) {
@@ -438,9 +437,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 mTabLayout.toggleBtn(2);
                 mViewPager.setCurrentItem(2);
                 ((CricketNewFragment) mViewList.get(3)).filtrateData(1);
-            }else{
-                mTabLayout.toggleBtn(event.position);
-                mViewPager.setCurrentItem(event.position);
+            }else if(event.position == 1){
+                mTabLayout.toggleBtn(1);
+                mViewPager.setCurrentItem(4);
             }
         }
     }
