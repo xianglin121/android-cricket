@@ -36,7 +36,7 @@ public class LiveMatchAdapter extends BaseQuickAdapter<LiveMatchListBean.MatchIt
             ImageView ivFooter = helper.getView(R.id.iv_footer);
             ivFooter.setVisibility(View.VISIBLE);
             ivFooter.setOnClickListener(v -> {
-                EventBus.getDefault().post(new ToggleTabEvent(2));
+                EventBus.getDefault().post(new ToggleTabEvent(1));
             });
             return;
         }

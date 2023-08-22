@@ -415,6 +415,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     public void onUpdateLoginTokenEvent(UpdateLoginTokenEvent event) {
         if (event != null) {
             ((MoreFragment) mViewList.get(4)).updateUserInfo();
+            ((OneGameFragment) mViewList.get(1)).updateUserInfo();
             loginIM();
 //            updateNavigationInfo();
             if (CommonAppConfig.getInstance().getUserBean() != null) {
@@ -438,8 +439,12 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 mViewPager.setCurrentItem(2);
                 ((CricketNewFragment) mViewList.get(3)).filtrateData(1);
             }else if(event.position == 1){
-                mTabLayout.toggleBtn(1);
-                mViewPager.setCurrentItem(4);
+                // match
+                mTabLayout.toggleBtn(2);
+                mViewPager.setCurrentItem(3);
+            }else {
+                mTabLayout.toggleBtn(event.position);
+                mViewPager.setCurrentItem(event.position);
             }
         }
     }

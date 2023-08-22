@@ -198,7 +198,7 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
                             return;
                         }
                         mvpPresenter.doFollow(item.uid,item.isAttention == 0?true:false);
-                        mHistoryAdapter.forFollowedStatus(item.uid,item.isAttention==0?1:0);
+//                        mHistoryAdapter.forFollowedStatus(item.uid,item.isAttention==0?1:0);
                         mHistoryAdapter.notifyItemChanged(position, Constant.PAYLOAD);
                         break;
                     case R.id.ll_share:
@@ -430,7 +430,7 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
                 @Override
                 public void onBindView(Object holder, Object data, int position, int size) {
                     BannerBean bannerBean = (BannerBean) data;
-                    Glide.with(getActivity()).asGif().load(bannerBean.getImg()).into(((BannerRoundLiveImageHolder) holder).imageView);
+                    Glide.with(getActivity()).asGif().priority(Priority.HIGH).load(bannerBean.getImg()).into(((BannerRoundLiveImageHolder) holder).imageView);
                 }
             };
             bannerAdapter.setOnBannerListener(new OnBannerListener() {
@@ -503,6 +503,11 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
             showPlayerView.setMute(true);
             showPlayerView.onResume();
         }
+    }
+
+    public void updateUserInfo() {
+        mPage = 1;
+        mvpPresenter.getHistoryList(true,mPage);
     }
 
 }

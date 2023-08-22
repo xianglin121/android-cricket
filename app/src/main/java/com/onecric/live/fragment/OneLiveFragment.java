@@ -756,7 +756,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
     public void getAdvertSuccess(String img,String url){
         if(!TextUtils.isEmpty(img)){
             iv_advert.setVisibility(View.VISIBLE);
-            Glide.with(getActivity()).asGif().load(img).into(iv_advert);
+            Glide.with(getActivity()).asGif().priority(Priority.HIGH).load(img).into(iv_advert);
 /*            RequestOptions mOptions = new RequestOptions()
                     .fitCenter()
                     .priority(Priority.HIGH)
