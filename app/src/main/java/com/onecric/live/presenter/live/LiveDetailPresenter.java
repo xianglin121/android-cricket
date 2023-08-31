@@ -401,4 +401,28 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
 
     }
 
+    public void clickAdvert(int id,String url,int type){
+        addSubscription(apiStores.getClickAdv(id,url,type),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
 }

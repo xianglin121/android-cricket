@@ -107,16 +107,20 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements LiveChatView, View.OnClickListener {
-    public static LiveChatFragment newInstance(String groupId, int anchorId) {
+    public static LiveChatFragment newInstance(String groupId, int anchorId,int liveId,int matchId) {
         LiveChatFragment fragment = new LiveChatFragment();
         Bundle bundle = new Bundle();
         bundle.putString("groupId", groupId);
         bundle.putInt("anchorId", anchorId);
+        bundle.putInt("liveId", liveId);
+        bundle.putInt("matchId", matchId);
         fragment.setArguments(bundle);
         return fragment;
     }
 
     private String mGroupId;
+    private int mLiveId;
+    private int mMatchId;
     private int mAnchorId;
     private TextView tv_notice;
     private TextView tv_input;
@@ -186,6 +190,8 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         mBackpackList = new ArrayList<>();
 
         mGroupId = getArguments().getString("groupId");
+        mLiveId = getArguments().getInt("liveId");
+        mMatchId = getArguments().getInt("matchId");
 //        mGroupId = 1008+"";
         mAnchorId = getArguments().getInt("anchorId");
         tv_notice = findViewById(R.id.tv_notice);
@@ -232,6 +238,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         iv_advert.setOnClickListener(v -> {
             if(!TextUtils.isEmpty(advertUrl)){
 //                WebViewActivity.forward(getActivity(),  advertUrl);
+                mvpPresenter.clickAdvert(mMatchId==0?7:4,mLiveId,advertUrl);
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
                 Uri content_url = Uri.parse(advertUrl);

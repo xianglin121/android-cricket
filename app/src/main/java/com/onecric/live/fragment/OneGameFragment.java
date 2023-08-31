@@ -242,8 +242,7 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
             //添加画廊效果
             mBanner.setBannerGalleryMZ(10, 0);
 
-            bannerList = new ArrayList<>();
-            bannerList.addAll(list);
+            bannerList = list;
             bannerRoundLiveImageAdapter = new BannerGameLiveImageAdapter(getActivity(),bannerList) {
                 @Override
                 public void onBindView(Object holder, Object data, int position, int size) {
@@ -438,6 +437,7 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
                 public void OnBannerClick(Object data, int position) {
                     BannerBean bannerBean = (BannerBean) data;
                     if(!TextUtils.isEmpty(bannerBean.getUrl())){
+                        mvpPresenter.clickAdvert(8,bannerBean.getId(),bannerBean.getUrl());
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.VIEW");
                         Uri content_url = Uri.parse(bannerBean.getUrl());

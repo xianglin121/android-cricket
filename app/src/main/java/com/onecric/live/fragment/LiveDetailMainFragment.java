@@ -49,13 +49,14 @@ public class LiveDetailMainFragment extends Fragment {
     public boolean isNotStart = false;
     public boolean isHistory = false;
     private int detailType;
-    public static LiveDetailMainFragment newInstance(String groupId, int anchorId,int matchId,int type) {
+    public static LiveDetailMainFragment newInstance(String groupId, int anchorId,int matchId,int type,int liveId) {
         LiveDetailMainFragment fragment = new LiveDetailMainFragment();
         Bundle bundle = new Bundle();
         bundle.putString("groupId", groupId);
         bundle.putInt("anchorId", anchorId);
         bundle.putInt("matchId", matchId);
         bundle.putInt("detailType", type);
+        bundle.putInt("liveId", liveId);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -218,7 +219,7 @@ public class LiveDetailMainFragment extends Fragment {
 //        mTitles.add(getActivity().getString(R.string.live_anchor));
 //        mTitles.add(getActivity().getString(R.string.live_ranking));
 
-        LiveChatFragment chatFragment = LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId"));
+        LiveChatFragment chatFragment = LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId"),getArguments().getInt("liveId"),mMatchId);
         chatFragment.mainFragment = this;
         LiveMoreVideoFragment moreVideoFragment = LiveMoreVideoFragment.newInstance();
         mViewList.add(moreVideoFragment);
@@ -357,7 +358,7 @@ public class LiveDetailMainFragment extends Fragment {
             tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.squad)));
         }
 
-        LiveChatFragment chatFragment = LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId"));
+        LiveChatFragment chatFragment = LiveChatFragment.newInstance(getArguments().getString("groupId"), getArguments().getInt("anchorId"),getArguments().getInt("liveId"),mMatchId);
         chatFragment.mainFragment = this;
         if(detailType != LIVE_TYPE_GAME){
             if(isHistory){

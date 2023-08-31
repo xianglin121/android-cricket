@@ -33,7 +33,7 @@ public class OneLivePresenter extends BasePresenter<OneLiveView> {
                             if(type == 1){
                                 mvpView.getBannerSuccess(list);
                             }else if(list != null && list.size()>0){
-                                mvpView.getAdvertSuccess(list.get(0).getImg(),list.get(0).getUrl());
+                                mvpView.getAdvertSuccess(list.get(0).getImg(),list.get(0).getUrl(),list.get(0).getId());
                             }
                         }
                     }
@@ -157,6 +157,31 @@ public class OneLivePresenter extends BasePresenter<OneLiveView> {
                         }else {
                             mvpView.getDataHistorySuccess(new ArrayList<>());
                         }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
+
+    public void clickAdvert(int type,int id,String url){
+        addSubscription(apiStores.getClickAdv(id,url,type),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+
                     }
 
                     @Override

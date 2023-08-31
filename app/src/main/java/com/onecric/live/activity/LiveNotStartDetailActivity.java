@@ -223,7 +223,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         });*/
 
         //初始化fragment
-        liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId,mMatchId,detailType);
+        liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId,mMatchId,detailType,mLiveId);
         liveDetailMainFragment.isNotStart = true;
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_main, liveDetailMainFragment).commitAllowingStateLoss();
 
@@ -266,6 +266,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         iv_advert.setOnClickListener(v -> {
             if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_url_one)){
 //                WebViewActivity.forward(mActivity,  mLiveRoomBean.getInfo().adver_url_one);
+                mvpPresenter.clickAdvert(mLiveRoomBean.getInfo().getId(),mLiveRoomBean.getInfo().adver_url_one,mMatchId==0?6:3);
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
                 Uri content_url = Uri.parse(mLiveRoomBean.getInfo().adver_url_one);

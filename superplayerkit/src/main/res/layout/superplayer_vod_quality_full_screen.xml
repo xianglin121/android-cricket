@@ -59,8 +59,7 @@
                 android:gravity="center"
                 android:text="@string/SD"
                 android:textSize="12dp"
-                android:textColor="@color/white"
-                android:background="@drawable/selector_vod_quality"/>
+                android:textColor="@color/white"/>
         </LinearLayout>
 
         <LinearLayout

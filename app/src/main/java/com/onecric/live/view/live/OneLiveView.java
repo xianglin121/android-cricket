@@ -21,5 +21,5 @@ public interface OneLiveView extends BaseView<JsonBean> {
     void getMatchSuccess(List<PlayCardsBean> today);
     void getUpcomingSuccess(List<LiveMatchListBean.MatchItemBean> upcoming);
     void getDataHistorySuccess(List<OneHistoryLiveBean> list);
-    void getAdvertSuccess(String img,String url);
+    void getAdvertSuccess(String img,String url,int id);
 }

@@ -107,6 +107,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
     private CountDownTimer timer;
     private ImageView iv_advert;
     private String advertUrl;
+    private int advertId;
 
     @Override
     public void onClick(View v) {
@@ -201,6 +202,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
 //        iv_advert.setLayoutParams(pp4);
         iv_advert.setOnClickListener(v -> {
             if(!TextUtils.isEmpty(advertUrl)){
+                mvpPresenter.clickAdvert(2,advertId,advertUrl);
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
                 Uri content_url = Uri.parse(advertUrl);
@@ -576,6 +578,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
                     }else if(!TextUtils.isEmpty(bannerBean.match) && Integer.parseInt(bannerBean.match)!=0){
                         CricketDetailActivity.forward(getActivity(), Integer.parseInt(bannerBean.match));
                     }else if(!TextUtils.isEmpty(bannerBean.getUrl())){
+                        mvpPresenter.clickAdvert(1,bannerBean.getId(),bannerBean.getUrl());
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.VIEW");
                         Uri content_url = Uri.parse(bannerBean.getUrl());
@@ -753,7 +756,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
         mTimer.schedule(doAsynchronousTask, 500, 10000);
     }
 
-    public void getAdvertSuccess(String img,String url){
+    public void getAdvertSuccess(String img,String url,int id){
         if(!TextUtils.isEmpty(img)){
             iv_advert.setVisibility(View.VISIBLE);
             Glide.with(getActivity()).asGif().priority(Priority.HIGH).load(img).into(iv_advert);
@@ -767,6 +770,7 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
         }
         if(!TextUtils.isEmpty(url)){
             advertUrl = url;
+            advertId = id;
         }
     }
     private void checkIp(){

@@ -449,4 +449,29 @@ public class LiveChatPresenter extends BasePresenter<LiveChatView> {
                     }
                 });
     }
+
+    public void clickAdvert(int type,int id,String url){
+        addSubscription(apiStores.getClickAdv(id,url,type),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
 }

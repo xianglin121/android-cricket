@@ -434,7 +434,7 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
 //        });
 
         //初始化fragment
-        liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId, mMatchId,detailType);
+        liveDetailMainFragment = LiveDetailMainFragment.newInstance(mGroupId, mAnchorId, mMatchId,detailType,mLiveId);
         if (!isLive) {
             liveDetailMainFragment.isHistory = true;
         }

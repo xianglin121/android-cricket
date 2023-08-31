@@ -19,11 +19,11 @@ import retrofit2.http.Query;
 public interface ApiStores {
     //baseUrl
 //    String API_SERVER_URL = "http://banqiu.mhuan.shop/";//正式
-//   String API_SERVER_URL = "https://api.onecric.tv/";//正式、
+   String API_SERVER_URL = "https://api.onecric.tv/";//正式、
 
 
 //    String API_SERVER_URL = "https://demoapi.onecric.tv/";//测试
-    String API_SERVER_URL = "https://testapi.onecric.tv/";//测试2
+//    String API_SERVER_URL = "https://testapi.onecric.tv/";//测试2
 
     String API_SERVER_LUMEN_URL = "http://lumen.onecric.tv/";
 
@@ -1008,5 +1008,9 @@ public interface ApiStores {
     Observable<JsonObject> getGameAnchorList(@Header("token") String token,@Query("type") int type);
     @GET("api/game/users")
     Observable<JsonObject> getGameAnchorList(@Header("token") String token);
+
+    //首页点广告
+    @GET("api/live_streaming/click_adv")
+    Observable<JsonObject> getClickAdv(@Query("id") int id,@Query("url") String url,@Query("type") int type);
 
 }
