@@ -3,10 +3,10 @@ package com.onecric.live.model;
 public class GameBannerBean {
     public Integer uid;
     public String thumb;
-    public Integer viewers;
-    public Integer islive;
+    public int viewers;
+    public int islive;
     public String userNickname;
-    public Integer id;
+    public int id;
     public String title;
     public Integer addtime;
     public String pull;

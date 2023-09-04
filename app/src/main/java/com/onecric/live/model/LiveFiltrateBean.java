@@ -1,7 +1,5 @@
 package com.onecric.live.model;
 
-import java.io.Serializable;
-
 public class LiveFiltrateBean {
     private Integer heat;
     private String awayName;
@@ -31,7 +29,7 @@ public class LiveFiltrateBean {
     private String push;
     private Integer hotvotes;
     private String pull;
-    private Integer viewers;
+    private int viewers;
     private Integer liveId;
     private String votestotalIcon;
     private ClarityBean clarity;

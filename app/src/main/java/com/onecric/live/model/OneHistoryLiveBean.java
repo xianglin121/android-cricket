@@ -33,7 +33,7 @@ public class OneHistoryLiveBean {
     public String matchStatus;
     public Double awayWinProbabilities;
     public int liveId;
-    public Integer viewers;
+    public int viewers;
     public String homeLogo;
     public Integer matchDays;
     public int liveUid;

@@ -33,10 +33,10 @@ public class LiveVideoBean {
         public String avatar;
         public Integer startLike;
         public String push;
-        public Integer hotvotes;
+        public int hotvotes;
         public String pull;
-        public Integer viewers;
-        public Integer liveId;
+        public int viewers;
+        public int liveId;
         public String votestotalIcon;
         public ClarityDTO clarity;
         public String liveDuration;

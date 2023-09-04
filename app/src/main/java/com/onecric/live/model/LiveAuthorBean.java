@@ -32,7 +32,7 @@ public class LiveAuthorBean {
     public String push;
     public Integer hotvotes;
     public String pull;
-    public Integer viewers;
+    public int viewers;
     public int liveId;
     public String votestotalIcon;
     public ClarityDTO clarity;

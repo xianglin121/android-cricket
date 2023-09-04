@@ -45,7 +45,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:background="?attr/selectableItemBackgroundBorderless">
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:visibility="gone">
             <ImageView
                 android:id="@+id/iv_game"
                 android:layout_width="18dp"
