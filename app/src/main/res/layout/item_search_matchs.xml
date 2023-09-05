@@ -11,6 +11,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:scaleType="centerCrop"
         android:src="@mipmap/icon_cric1"/>
 
@@ -20,13 +21,10 @@
         android:textColor="@color/c_333333"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/iv_right"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/iv_right"
         android:layout_toLeftOf="@id/tv_status"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:singleLine="true"
         android:fontFamily="@font/noto_sans_display_regular"/>
 
     <TextView
@@ -38,9 +36,6 @@
         android:textColor="@color/c_999999"
         android:layout_marginTop="2dp"
         android:layout_alignLeft="@id/tv_left"
-        android:singleLine="true"
-        android:maxLines="1"
-        android:ellipsize="end"
         android:layout_toLeftOf="@id/tv_status"/>
     
     <TextView
@@ -54,7 +49,7 @@
         android:background="@drawable/shape_f6f7f9_6dp_rec"
         android:layout_alignParentRight="true"
         android:gravity="center_horizontal"
-        android:layout_alignBottom="@id/tv_bottom"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"/>
 
     <View

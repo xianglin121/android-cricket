@@ -552,6 +552,10 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             if(type == 0){
                 todayPosition = todayPosition+bean.getItem().size();
                 mAdapter.addData(0,bean.getItem());
+                //今天之前的 滑动定位到最后一条
+                if(mAdapter.getData().size()>1){
+                    recyclerView.scrollToPosition(1);
+                }
             }else if(type == 1){
                 todayPosition = 0;
                 setDayInfo(getDayInfo(bean.getItem().get(0).getDay(),getContext()));

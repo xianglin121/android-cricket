@@ -34,7 +34,6 @@ import com.onecric.live.fragment.CricketInfoFragment;
 import com.onecric.live.fragment.CricketLiveFragment;
 import com.onecric.live.fragment.CricketScorecardFragment2;
 import com.onecric.live.fragment.CricketSquadFragment;
-import com.onecric.live.fragment.CricketUpdatesFragment;
 import com.onecric.live.fragment.dialog.LoginDialog;
 import com.onecric.live.model.CricketMatchBean;
 import com.onecric.live.model.SubscribeTypeBean;
@@ -219,26 +218,33 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
 
     @Override
     protected void initData() {
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.fantasy)));
+        /*tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.fantasy)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.info)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.live)));
+        //判断是否未开赛
+        if(mModel.getStatus() == 0){
+            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.live)));
+        }
+
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.scorecard)));
 //        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.highlights)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.updates)));
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.updates)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.squad)));
 
         mViewList = new ArrayList<>();
         mViewList.add(CricketFantasyFragment.newInstance());
         mViewList.add(CricketInfoFragment.newInstance(mMatchId));
-        mViewList.add(CricketLiveFragment.newInstance(mMatchId));
+        if(mModel.getStatus() == 0){
+            mViewList.add(CricketLiveFragment.newInstance(mMatchId));
+        }
         mViewList.add(CricketScorecardFragment2.newInstance());
 //        mViewList.add(CricketFantasyFragment.newInstance());
-        mViewList.add(CricketUpdatesFragment.newInstance());
+//        mViewList.add(CricketUpdatesFragment.newInstance());
         mViewList.add(CricketSquadFragment.newInstance());
 
         initViewPager();
+        mvpPresenter.getDetail(mMatchId);*/
+//        mvpPresenter.getUpdatesDetail(mMatchId);
         mvpPresenter.getDetail(mMatchId);
-        mvpPresenter.getUpdatesDetail(mMatchId);
     }
 
     private void initViewPager() {
@@ -291,14 +297,42 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
         if(actionType == 2){
             tabLayout.getTabAt(2).select();
         }else if(!TextUtils.isEmpty(tab) && tab.equals("score")){
-            tabLayout.getTabAt(3).select();
+            tabLayout.getTabAt(mModel.getStatus() != 0?3:2).select();
         }
+
     }
 
     @Override
     public void getDataSuccess(CricketMatchBean model) {
         if (model != null) {
             mModel = model;
+
+            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.fantasy)));
+            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.info)));
+            //未开赛无live
+            if(mModel.getStatus() != 0){
+                tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.live)));
+            }
+
+            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.scorecard)));
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.highlights)));
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.updates)));
+            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.squad)));
+
+            mViewList = new ArrayList<>();
+            mViewList.add(CricketFantasyFragment.newInstance());
+            mViewList.add(CricketInfoFragment.newInstance(mMatchId));
+            if(mModel.getStatus() != 0){
+                mViewList.add(CricketLiveFragment.newInstance(mMatchId));
+            }
+            mViewList.add(CricketScorecardFragment2.newInstance());
+//        mViewList.add(CricketFantasyFragment.newInstance());
+//        mViewList.add(CricketUpdatesFragment.newInstance());
+            mViewList.add(CricketSquadFragment.newInstance());
+
+            initViewPager();
+
+
             if(!TextUtils.isEmpty(model.tournamentName)){
                 tv_title.setText(model.tournamentName);
             }
@@ -316,8 +350,11 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
             if (!TextUtils.isEmpty(model.getTournament_id())) {
                 ((CricketInfoFragment) mViewList.get(1)).getList(model.getHome_id(), model.getAway_id(), Integer.valueOf(model.getTournament_id()));
             }
-            ((CricketSquadFragment) mViewList.get(5)).getList(model);
-            ((CricketLiveFragment) mViewList.get(2)).getData(model.getMatch_id());
+
+            ((CricketSquadFragment) mViewList.get(mModel.getStatus() != 0?4:3)).getList(model);
+            if(mModel.getStatus() != 0){
+                ((CricketLiveFragment) mViewList.get(2)).getData(model.getMatch_id());
+            }
             if (model.getStatus() == 0) {
                 cl_one.setVisibility(View.GONE);
                 cl_two.setVisibility(View.VISIBLE);
@@ -405,7 +442,7 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
             //初始化视频直播地址
             initWebViewTwo(mModel.getLive_url());
             //请求记分卡数据
-            ((CricketScorecardFragment2) mViewList.get(3)).getData(mModel);
+            ((CricketScorecardFragment2) mViewList.get(model.getStatus() != 0?3:2)).getData(mModel);
 
             if(mModel.getStatus() != 2){
                 refreshTodayData();
@@ -478,7 +515,7 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
 
     @Override
     public void getUpdatesDataSuccess(List<UpdatesBean> list) {
-        ((CricketUpdatesFragment) mViewList.get(4)).setData(list);
+//        ((CricketUpdatesFragment) mViewList.get(4)).setData(list);
     }
 
     private void initWebViewOne(String url) {
@@ -646,19 +683,21 @@ public class CricketDetailActivity extends MvpActivity<CricketDetailPresenter> i
      * 每10s刷新
      */
     private void refreshTodayData(){
-        mTimer = new Timer();
-        mTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                //Live页面，刷新最新数据(未息屏、在前台
-                if(tabLayout.getSelectedTabPosition() == 2 &&
-                        mModel!=null &&
-                        ((PowerManager)getSystemService(Context.POWER_SERVICE)).isScreenOn() &&
-                        getWindow().getDecorView().getVisibility() == View.VISIBLE ){
-                    ((CricketLiveFragment) mViewList.get(2)).getData(mModel.getMatch_id());
+        if(mModel.getStatus() != 0){
+            mTimer = new Timer();
+            mTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    //Live页面，刷新最新数据(未息屏、在前台
+                    if(tabLayout.getSelectedTabPosition() == 2 &&
+                            mModel!=null &&
+                            ((PowerManager)getSystemService(Context.POWER_SERVICE)).isScreenOn() &&
+                            getWindow().getDecorView().getVisibility() == View.VISIBLE ){
+                        ((CricketLiveFragment) mViewList.get(2)).getData(mModel.getMatch_id());
+                    }
                 }
-            }
-        }, 10000, 5000);
+            }, 10000, 5000);
+        }
     }
 
 }

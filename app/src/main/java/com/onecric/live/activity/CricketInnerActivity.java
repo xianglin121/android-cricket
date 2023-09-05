@@ -18,7 +18,6 @@ import com.onecric.live.fragment.CricketMatchesFragment;
 import com.onecric.live.fragment.CricketPointsFragment;
 import com.onecric.live.fragment.CricketStatsFragment;
 import com.onecric.live.fragment.CricketTeamsFragment;
-import com.onecric.live.fragment.CricketUpdatesFragment;
 import com.onecric.live.model.CricketPointsBean;
 import com.onecric.live.model.CricketStatsBean;
 import com.onecric.live.model.CricketTeamBean;
@@ -107,19 +106,19 @@ public class CricketInnerActivity extends MvpActivity<CricketInnerPresenter> imp
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.stats)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.teams)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.points_table)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.updates)));
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.updates)));
 
         mViewList = new ArrayList<>();
         mViewList.add(CricketMatchesFragment.newInstance(mId));
         mViewList.add(CricketStatsFragment.newInstance());
         mViewList.add(CricketTeamsFragment.newInstance());
         mViewList.add(CricketPointsFragment.newInstance());
-        mViewList.add(CricketUpdatesFragment.newInstance());
+//        mViewList.add(CricketUpdatesFragment.newInstance());
 
         initViewPager();
         mvpPresenter.getTeamList(mId);
         mvpPresenter.getPointsList(mId);
-        mvpPresenter.getUpdatesDetail(mId);
+//        mvpPresenter.getUpdatesDetail(mId);
         mvpPresenter.getStats(mId);
     }
 
@@ -183,7 +182,7 @@ public class CricketInnerActivity extends MvpActivity<CricketInnerPresenter> imp
 
     @Override
     public void getUpdatesDataSuccess(List<UpdatesBean> list) {
-        ((CricketUpdatesFragment)mViewList.get(4)).setData(list);
+//        ((CricketUpdatesFragment)mViewList.get(4)).setData(list);
     }
 
     @Override

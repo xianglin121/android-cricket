@@ -11,6 +11,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:scaleType="centerCrop"
         android:src="@mipmap/icon_cric2"/>
 
@@ -20,11 +21,9 @@
         android:textColor="@color/c_666666"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/iv_right"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/iv_right"
-        android:ellipsize="end"
-        android:maxLines="2"
         android:textAllCaps="true"
         android:letterSpacing="0.1"
         android:fontFamily="@font/noto_sans_display_regular" />
@@ -38,9 +37,6 @@
         android:textColor="@color/c_111111"
         android:layout_marginTop="2dp"
         android:layout_alignLeft="@id/tv_left"
-        android:singleLine="true"
-        android:maxLines="1"
-        android:ellipsize="end"
         android:fontFamily="@font/noto_sans_display_semibold"/>
 
 

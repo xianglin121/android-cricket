@@ -14,8 +14,6 @@ import com.onecric.live.R;
 import com.onecric.live.activity.CricketDetailActivity;
 import com.onecric.live.activity.CricketInnerActivity;
 import com.onecric.live.activity.CricketTeamsActivity;
-import com.onecric.live.activity.LiveDetailActivity;
-import com.onecric.live.activity.LiveNotStartDetailActivity;
 import com.onecric.live.adapter.CricketPointsAdapter;
 import com.onecric.live.custom.ItemDecoration;
 import com.onecric.live.model.CricketInfoBean;
@@ -222,6 +220,7 @@ public class CricketInfoFragment extends MvpFragment<CricketInfoPresenter> imple
             if (!TextUtils.isEmpty(model.getAway_member())) {
                 tv_away_member.setText(model.getAway_member());
             }
+            //FIXME 加字段toss
         }
     }
 
