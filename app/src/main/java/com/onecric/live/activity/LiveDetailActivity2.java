@@ -450,7 +450,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
         iv_advert.setOnClickListener(v -> {
             if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_url_one)){
 //                WebViewActivity.forward(mActivity,  mLiveRoomBean.getInfo().adver_url_one);
-                mvpPresenter.clickAdvert(mLiveRoomBean.getInfo().getLive_id(),mLiveRoomBean.getInfo().adver_url_one,mMatchId==0?6:3);
+                mvpPresenter.clickAdvert(mLiveRoomBean.getInfo().getId(),mLiveRoomBean.getInfo().adver_url_one,mMatchId==0?6:3);
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
                 Uri content_url = Uri.parse(mLiveRoomBean.getInfo().adver_url_one);
