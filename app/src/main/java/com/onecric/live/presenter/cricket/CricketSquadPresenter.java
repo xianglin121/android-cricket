@@ -20,7 +20,6 @@ public class CricketSquadPresenter extends BasePresenter<CricketSquadView> {
     public void getList(int matchId,int tournament_id,int home_id,int away_id) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("match_id", matchId);
-
         jsonObject.put("tournament_id", tournament_id);
         jsonObject.put("home_id", home_id);
         jsonObject.put("away_id", away_id);
@@ -28,20 +27,59 @@ public class CricketSquadPresenter extends BasePresenter<CricketSquadView> {
         addSubscription(apiStores.getCricketDetailSquadNew(getRequestBody(jsonObject)), new ApiCallback() {
             @Override
             public void onSuccess(String data, String msg) {
-                List<CricketSquadBean> list = JSONObject.parseArray(data, CricketSquadBean.class);
+                List<CricketSquadBean> benchList = JSONObject.parseArray(data, CricketSquadBean.class);
                 //判空
-                if(list != null){
-                    List<CricketSquadBean> mList = new ArrayList<>();
-                    mList.addAll(list);
-                    for(CricketSquadBean bean : list){
+                List<CricketSquadBean> mBList = new ArrayList<>();
+                if(benchList != null){
+                    mBList.addAll(benchList);
+                    for(CricketSquadBean bean : benchList){
                         if(TextUtils.isEmpty(bean.getHome_player_name()) || TextUtils.isEmpty(bean.getAway_player_name())){
-                            mList.remove(bean);
+                            mBList.remove(bean);
                         }
                     }
-                    mvpView.getDataSuccess(mList);
-                }else{
-                    mvpView.getDataSuccess(list);
                 }
+                mvpView.getDataSuccess(mBList,1);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                mvpView.getDataFail(msg);
+            }
+
+            @Override
+            public void onError(String msg) {
+                mvpView.getDataFail(msg);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
+
+    public void getBenchList(int matchId,int tournament_id,int home_id,int away_id) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("match_id", matchId);
+        jsonObject.put("tournament_id", tournament_id);
+        jsonObject.put("home_id", home_id);
+        jsonObject.put("away_id", away_id);
+        jsonObject.put("timezone", TimeZone.getDefault().getID());
+        addSubscription(apiStores.getCricketDetailSquadBench(getRequestBody(jsonObject)), new ApiCallback() {
+            @Override
+            public void onSuccess(String data, String msg) {
+                List<CricketSquadBean> benchList = JSONObject.parseArray(data, CricketSquadBean.class);
+                //判空
+                List<CricketSquadBean> mBList = new ArrayList<>();
+                if(benchList != null){
+                    mBList.addAll(benchList);
+                    for(CricketSquadBean bean : benchList){
+                        if(TextUtils.isEmpty(bean.getHome_player_name()) || TextUtils.isEmpty(bean.getAway_player_name())){
+                            mBList.remove(bean);
+                        }
+                    }
+                }
+                mvpView.getDataSuccess(mBList,2);
             }
 
             @Override

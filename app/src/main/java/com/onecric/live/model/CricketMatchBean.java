@@ -49,13 +49,15 @@ public class CricketMatchBean implements Serializable {
         private List<ScorecardWicketBean> wicketList;
         private String extras;
         private String noBattingName;
+        public String total;
 
-        public ListDataBean(List<ScorecardBatterBean> batterList, List<ScorecardBowlerBean> bowlerList, List<ScorecardWicketBean> wicketList, String extras, String noBattingName) {
+        public ListDataBean(List<ScorecardBatterBean> batterList, List<ScorecardBowlerBean> bowlerList, List<ScorecardWicketBean> wicketList, String extras, String noBattingName,String mTotal) {
             this.batterList = batterList;
             this.bowlerList = bowlerList;
             this.wicketList = wicketList;
             this.extras = extras;
             this.noBattingName = noBattingName;
+            this.total = mTotal;
         }
 
         public List<ScorecardBatterBean> getBatterList() {

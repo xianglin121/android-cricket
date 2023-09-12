@@ -926,6 +926,10 @@
     <string name='top_creators'>शीर्ष निर्माता</string>
     <string name='all_anchors'>सभी एंकर</string>
     <string name='my_anchors'>मेरे एंकर</string>
+    <string name="toss">टॉस</string>
+    <string name="total">कुल</string>
+    <string name="starters">स्टार्टर्स</string>
+    <string name='bench'>बेंच</string>
 
     <!--    无需翻译-->
     <string name="lan_en">English</string>

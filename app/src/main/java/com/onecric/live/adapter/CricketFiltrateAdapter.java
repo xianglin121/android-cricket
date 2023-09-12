@@ -1,7 +1,6 @@
 package com.onecric.live.adapter;
 
 import android.text.TextUtils;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,12 +8,7 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.onecric.live.R;
-import com.onecric.live.model.ActivityBean;
 import com.onecric.live.model.CricketFiltrateBean;
-import com.onecric.live.util.DpUtil;
-import com.onecric.live.util.GlideUtil;
-
-import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 import java.util.List;
 
@@ -35,4 +29,5 @@ public class CricketFiltrateAdapter extends BaseQuickAdapter<CricketFiltrateBean
         }
         helper.addOnClickListener(R.id.tv_name);
     }
+
 }

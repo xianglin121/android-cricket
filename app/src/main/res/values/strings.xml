@@ -928,6 +928,10 @@
     <string name="top_creators">Top Creators</string>
     <string name="all_anchors">All anchors</string>
     <string name="my_anchors">My anchors</string>
+    <string name="toss">Toss</string>
+    <string name="total">TOTAL</string>
+    <string name="starters">Starters</string>
+    <string name="bench">Bench</string>
 
 <!--    无需翻译-->
     <string name="lan_en">English</string>

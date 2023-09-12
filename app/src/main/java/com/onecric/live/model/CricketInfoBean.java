@@ -13,6 +13,7 @@ public class CricketInfoBean {
     private String away_member;
     private String venue_name;
     private String type;
+    public String toss;
 
     public String getHome_name() {
         return home_name;

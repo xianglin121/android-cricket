@@ -10,4 +10,5 @@ import java.util.List;
  * 时间：2022/8/26
  */
 public interface CricketSquadView extends BaseView<List<CricketSquadBean>> {
+    void getDataSuccess(List<CricketSquadBean> bList,int type);
 }

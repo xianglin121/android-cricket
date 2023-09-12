@@ -98,7 +98,7 @@ public class CricketScorecardAdapter extends BaseQuickAdapter<CricketMatchBean.C
                             List<ScorecardBatterBean> battingList = JSONObject.parseArray(JSONObject.parseObject(data).getString("batting_info"), ScorecardBatterBean.class);
                             List<ScorecardBowlerBean> bowlList = JSONObject.parseArray(JSONObject.parseObject(data).getString("bowling_info"), ScorecardBowlerBean.class);
                             List<ScorecardWicketBean> wicketList = JSONObject.parseArray(JSONObject.parseObject(data).getString("partnerships"), ScorecardWicketBean.class);
-                            item.bean = new CricketMatchBean.ListDataBean(battingList, bowlList, wicketList, JSONObject.parseObject(data).getString("extras"), JSONObject.parseObject(data).getString("no_batting_name"));
+                            item.bean = new CricketMatchBean.ListDataBean(battingList, bowlList, wicketList, JSONObject.parseObject(data).getString("extras"), JSONObject.parseObject(data).getString("no_batting_name"),JSONObject.parseObject(data).getString("total"));
 
                             ScorecardBatterAdapter mHomeBatterAdapter;
                             ScorecardBowlerAdapter mHomeBowlerAdapter;
@@ -110,6 +110,9 @@ public class CricketScorecardAdapter extends BaseQuickAdapter<CricketMatchBean.C
                             }
                             if (!TextUtils.isEmpty(item.bean.getExtras())) {
                                 helper.setText(R.id.tv_home_extras,item.bean.getExtras());
+                            }
+                            if (!TextUtils.isEmpty(item.bean.total)) {
+                                helper.setText(R.id.tv_total,item.bean.total);
                             }
                             if (!TextUtils.isEmpty(item.bean.getNoBattingName())) {
                                 helper.setText(R.id.tv_home_no_bat,item.bean.getNoBattingName());

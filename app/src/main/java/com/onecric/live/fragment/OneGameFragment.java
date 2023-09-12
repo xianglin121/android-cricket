@@ -221,7 +221,7 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
 
     @Override
     protected void initData() {
-        refreshTodayData();
+//        refreshTodayData();
     }
 
     @Override

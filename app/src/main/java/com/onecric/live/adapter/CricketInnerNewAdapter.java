@@ -146,11 +146,11 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
                 helper.setText(R.id.tv_home_score, "");
                 helper.setText(R.id.tv_home_score2, mContext.getString(R.string.yet_to_bat));
             }else{
-                //                String scoreStr = "11/11&22/22 (33)";
+                //                String scoreStr = "11/11&22/22 (33)";    181/7 & 16/1 (20)
                 String scoreStr = item.getHomeDisplayScore();
-                if (scoreStr.contains(" ")){
-                    String[] split = scoreStr.split(" ");
-                    helper.setText(R.id.tv_home_score2, split[1]);
+                if (scoreStr.contains("(")){
+                    String[] split = scoreStr.split("\\(");
+                    helper.setText(R.id.tv_home_score2, "("+split[1]);
                     scoreStr = split[0];
                 }
                 if(scoreStr.contains("&")){
@@ -172,9 +172,9 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
                 helper.setText(R.id.tv_away_score2, mContext.getString(R.string.yet_to_bat));
             }else {
                 String scoreStr = item.getAwayDisplayScore();
-                if (scoreStr.contains(" ")){
-                    String[] split = scoreStr.split(" ");
-                    helper.setText(R.id.tv_away_score2, split[1]);
+                if (scoreStr.contains("(")){
+                    String[] split = scoreStr.split("\\(");
+                    helper.setText(R.id.tv_away_score2, "("+split[1]);
                     scoreStr = split[0];
                 }
                 if(scoreStr.contains("&")){

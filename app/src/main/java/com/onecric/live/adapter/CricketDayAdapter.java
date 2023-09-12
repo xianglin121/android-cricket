@@ -26,6 +26,9 @@ public class CricketDayAdapter extends RecyclerView.Adapter<CricketDayAdapter.Vi
     CricketNewFragment fragment;
     Context context;
     List<CricketAllBean.CricketDayBean> bean;
+    public RecyclerView todayRecyclerView;
+    //最近的位置
+    public int todayBeginIndex;
 
     public CricketDayAdapter(CricketNewFragment fragment,Context context, List<CricketAllBean.CricketDayBean> mList) {
         this.context = context;
@@ -47,8 +50,32 @@ public class CricketDayAdapter extends RecyclerView.Adapter<CricketDayAdapter.Vi
         helper.tv_date.setText(dates[0]);
         helper.tv_month.setText(dates[1]);
         helper.tv_day.setText(dates[2]);
-        if(dates[0].equals(context.getString(R.string.today))){
+        if(dates[2].equals(context.getString(R.string.today))){
             fragment.todayPosition = helper.getLayoutPosition();
+
+            //Fixme 滚动到今天最早正在比赛的赛事>距离现在最近的未开赛
+/*            todayRecyclerView = helper.rv_cricket;
+            todayLately:{
+                int todayLatelyIndex = 0;
+                long minTime = 0;
+                long nowTime = new Date().getTime();
+                for(int i=0 ; i<bean.get(position).getList().size() ; i++){
+                    List<CricketNewBean.CricketMatchNewBean> cList = bean.get(position).getList().get(i).getCricketMatch();
+                    for(int j=0 ; j<cList.size() ; j++){
+                        if(cList.get(j).getStatus() == 1){
+                            todayBeginIndex = i;
+                            break todayLately;
+                        }else if(cList.get(j).getStatus() == 0){
+                            long countTime = DateTimeUtil.getStringToDate(cList.get(j).getScheduled(), "yyyy-MM-dd HH:mm:ss") - nowTime;
+                            if(countTime>0 &&(minTime == 0 || countTime<minTime)){
+                                minTime = countTime;
+                                todayLatelyIndex = i;
+                            }
+                        }
+                    }
+                }
+                todayBeginIndex = todayLatelyIndex;
+            }*/
         }
 
         CricketNewAdapter mAdapter = new CricketNewAdapter(R.layout.item_cricket_new, bean.get(position).getList());

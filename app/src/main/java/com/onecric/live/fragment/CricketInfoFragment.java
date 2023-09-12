@@ -53,6 +53,7 @@ public class CricketInfoFragment extends MvpFragment<CricketInfoPresenter> imple
     private TextView tv_home_member;
     private TextView tv_playing_away_name;
     private TextView tv_away_member;
+    private TextView tv_official;
 
     private RecyclerView rv_points;
     private CricketPointsAdapter mAdapter;
@@ -87,6 +88,7 @@ public class CricketInfoFragment extends MvpFragment<CricketInfoPresenter> imple
         tv_match = findViewById(R.id.tv_match);
         tv_start_time = findViewById(R.id.tv_start_time);
         tv_venue = findViewById(R.id.tv_venue);
+        tv_official = findViewById(R.id.tv_official);
         tv_playing_home_name = findViewById(R.id.tv_playing_home_name);
         tv_home_member = findViewById(R.id.tv_home_member);
         tv_playing_away_name = findViewById(R.id.tv_playing_away_name);
@@ -220,7 +222,10 @@ public class CricketInfoFragment extends MvpFragment<CricketInfoPresenter> imple
             if (!TextUtils.isEmpty(model.getAway_member())) {
                 tv_away_member.setText(model.getAway_member());
             }
-            //FIXME 加字段toss
+            if (!TextUtils.isEmpty(model.toss)) {
+                tv_official.setText(model.toss);
+            }
+
         }
     }
 

@@ -2,7 +2,6 @@ package com.onecric.live.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,13 +41,14 @@ public class CricketSquadFragment extends MvpFragment<CricketSquadPresenter> imp
     }
 
     private SmartRefreshLayout smart_rl;
-    private RecyclerView recyclerView;
-    private CricketSquadAdapter mAdapter;
+    private RecyclerView recyclerView,sRecyclerView;
+    private CricketSquadAdapter mAdapter,mSAdapter;
 
     private ImageView iv_home_logo;
     private TextView tv_home_name;
     private ImageView iv_away_logo;
-    private TextView tv_away_name;
+    private TextView tv_away_name,tv_start_title,tv_bench_title;
+
     private CricketMatchBean mModel;
 
     @Override
@@ -65,6 +65,13 @@ public class CricketSquadFragment extends MvpFragment<CricketSquadPresenter> imp
     protected void initUI() {
         smart_rl = findViewById(R.id.smart_rl);
         recyclerView = findViewById(R.id.recyclerView);
+        sRecyclerView = findViewById(R.id.recyclerView_start);
+        tv_bench_title = findViewById(R.id.tv_bench_title);
+        tv_start_title = findViewById(R.id.tv_start_title);
+        iv_home_logo = findViewById(R.id.iv_home_logo);
+        tv_home_name = findViewById(R.id.tv_home_name);
+        iv_away_logo = findViewById(R.id.iv_away_logo);
+        tv_away_name = findViewById(R.id.tv_away_name);
     }
 
     @Override
@@ -96,17 +103,27 @@ public class CricketSquadFragment extends MvpFragment<CricketSquadPresenter> imp
                 }
             }
         });
-        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_cricket_squad_header, null);
-        iv_home_logo = inflate.findViewById(R.id.iv_home_logo);
-        tv_home_name = inflate.findViewById(R.id.tv_home_name);
-        iv_away_logo = inflate.findViewById(R.id.iv_away_logo);
-        tv_away_name = inflate.findViewById(R.id.tv_away_name);
-        mAdapter.addHeaderView(inflate);
-        View inflate2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
-        inflate2.findViewById(R.id.ll_empty).setVisibility(View.VISIBLE);
-        mAdapter.setEmptyView(inflate2);
+//        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_cricket_squad_header, null);
+//        mAdapter.addHeaderView(inflate);
+//        View inflate2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_common_empty, null, false);
+//        inflate2.findViewById(R.id.ll_empty).setVisibility(View.VISIBLE);
+//        mAdapter.setEmptyView(inflate2);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAdapter);
+
+        mSAdapter = new CricketSquadAdapter(R.layout.item_cricket_squad, new ArrayList<>());
+        mSAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.iv_home_logo) {
+                    PlayerProfileActivity.forward(getContext(), mAdapter.getItem(position).getHome_player_id());
+                }else if (view.getId() == R.id.iv_away_logo) {
+                    PlayerProfileActivity.forward(getContext(), mAdapter.getItem(position).getAway_player_id());
+                }
+            }
+        });
+        sRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        sRecyclerView.setAdapter(mSAdapter);
     }
 
     public void getList(CricketMatchBean model) {
@@ -122,6 +139,7 @@ public class CricketSquadFragment extends MvpFragment<CricketSquadPresenter> imp
         }
         GlideUtil.loadTeamImageDefault(getContext(), model.getHome_logo(), iv_home_logo);
         GlideUtil.loadTeamImageDefault(getContext(), model.getAway_logo(), iv_away_logo);
+
         mvpPresenter.getList(model.getMatch_id(),Integer.parseInt(mModel.getTournament_id()),mModel.getHome_id(),mModel.getAway_id());
     }
 
@@ -139,17 +157,45 @@ public class CricketSquadFragment extends MvpFragment<CricketSquadPresenter> imp
 
     @Override
     public void getDataSuccess(List<CricketSquadBean> list) {
-        smart_rl.finishRefresh();
-        if (list != null) {
-            mAdapter.setNewData(list);
-            mAdapter.notifyDataSetChanged();
-        }else{
-            mAdapter.setNewData(null);
-        }
+
     }
 
     @Override
     public void getDataFail(String msg) {
         smart_rl.finishRefresh();
+    }
+
+    @Override
+    public void getDataSuccess(List<CricketSquadBean> bList, int type) {
+        smart_rl.finishRefresh();
+        findViewById(R.id.ll_empty).setVisibility(View.GONE);
+        if(type == 1){
+            if (bList.size()>0) {
+                sRecyclerView.setVisibility(View.VISIBLE);
+                tv_start_title.setVisibility(View.VISIBLE);
+                mSAdapter.setNewData(bList);
+                mSAdapter.notifyDataSetChanged();
+            }else{
+                sRecyclerView.setVisibility(View.GONE);
+                tv_start_title.setVisibility(View.GONE);
+                mSAdapter.setNewData(null);
+            }
+            mvpPresenter.getBenchList(mModel.getMatch_id(),Integer.parseInt(mModel.getTournament_id()),mModel.getHome_id(),mModel.getAway_id());
+        }else if(type == 2){
+            if (bList.size()>0) {
+                recyclerView.setVisibility(View.VISIBLE);
+                tv_bench_title.setVisibility(View.VISIBLE);
+                mAdapter.setNewData(bList);
+                mAdapter.notifyDataSetChanged();
+            }else{
+                recyclerView.setVisibility(View.GONE);
+                tv_bench_title.setVisibility(View.GONE);
+                mAdapter.setNewData(null);
+                if(mSAdapter.getData().size()<=0){
+                    findViewById(R.id.ll_empty).setVisibility(View.VISIBLE);
+                }
+            }
+        }
+
     }
 }

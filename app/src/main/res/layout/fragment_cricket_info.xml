@@ -245,10 +245,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginLeft="14dp"
-            android:text="@string/match_officials"
+            android:text="@string/toss"
             android:textSize="12sp"
-            android:textColor="@color/c_999999"
-            android:visibility="gone"/>
+            android:textColor="@color/c_999999"/>
 
         <TextView
             android:id="@+id/tv_official"
@@ -257,8 +256,7 @@
             android:layout_marginTop="3dp"
             android:layout_marginLeft="14dp"
             android:textSize="14dp"
-            android:textColor="@color/c_333333"
-            android:visibility="gone"/>
+            android:textColor="@color/c_333333"/>
 
         <View
             android:layout_width="match_parent"
