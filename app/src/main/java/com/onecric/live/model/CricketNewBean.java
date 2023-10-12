@@ -70,6 +70,7 @@ public class CricketNewBean {
         private int channel;
         private int matchLive;
         private int winId;
+        public String match_num;
 
         public String getAwayName() {
             return awayName;

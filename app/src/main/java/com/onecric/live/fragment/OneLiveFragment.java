@@ -439,7 +439,9 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
                 String scoreStr = selectLiveBean.homeDisplayOvers;
                 if (scoreStr.contains(" ")){
                     String[] split = scoreStr.split(" ");
-                    tv_home_score2.setText(split[1]);
+//                    if(split.length>1){
+                        tv_home_score2.setText(split[1]);
+//                    }
                     scoreStr = split[0];
                 }
                 if(scoreStr.contains("&")){
@@ -465,7 +467,9 @@ public class OneLiveFragment extends MvpFragment<OneLivePresenter> implements On
                 String scoreStr = selectLiveBean.awayDisplayOvers;
                 if (scoreStr.contains(" ")){
                     String[] split = scoreStr.split(" ");
-                    tv_away_score2.setText(split[1]);
+//                    if(split.length>1){
+                        tv_away_score2.setText(split[1]);
+//                    }
                     scoreStr = split[0];
                 }
                 if(scoreStr.contains("&")){

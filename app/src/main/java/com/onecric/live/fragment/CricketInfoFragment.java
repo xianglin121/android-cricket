@@ -209,6 +209,8 @@ public class CricketInfoFragment extends MvpFragment<CricketInfoPresenter> imple
             }
             if (!TextUtils.isEmpty(model.getVenue_name())) {
                 tv_venue.setText(model.getVenue_name());
+            }else{
+                tv_venue.setText("-");
             }
             if (!TextUtils.isEmpty(model.getHome_name())) {
                 tv_playing_home_name.setText(model.getHome_name());
@@ -224,6 +226,8 @@ public class CricketInfoFragment extends MvpFragment<CricketInfoPresenter> imple
             }
             if (!TextUtils.isEmpty(model.toss)) {
                 tv_official.setText(model.toss);
+            }else{
+                tv_official.setText("-");
             }
 
         }

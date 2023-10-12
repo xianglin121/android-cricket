@@ -25,30 +25,35 @@ public class CricketSquadAdapter extends BaseQuickAdapter<CricketSquadBean, Base
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, CricketSquadBean item) {
-        ImageView iv_home_logo = helper.getView(R.id.iv_home_logo);
-        GlideUtil.loadUserImageDefault(mContext, item.getHome_player_logo(), iv_home_logo);
-        if (!TextUtils.isEmpty(item.getHome_player_name())) {
+        if (TextUtils.isEmpty(item.getHome_player_name())) {
+            helper.setVisible(R.id.cl_home,false);
+        }else{
+            helper.setVisible(R.id.cl_home,true);
+            ImageView iv_home_logo = helper.getView(R.id.iv_home_logo);
+            GlideUtil.loadUserImageDefault(mContext, item.getHome_player_logo(), iv_home_logo);
             helper.setText(R.id.tv_home_name, item.getHome_player_name());
-        }else {
-            helper.setText(R.id.tv_home_name, "");
+            if (!TextUtils.isEmpty(item.getHome_type())) {
+                helper.setText(R.id.tv_home_position, item.getHome_type());
+            }else {
+                helper.setText(R.id.tv_home_position, "");
+            }
         }
-        if (!TextUtils.isEmpty(item.getHome_type())) {
-            helper.setText(R.id.tv_home_position, item.getHome_type());
-        }else {
-            helper.setText(R.id.tv_home_position, "");
-        }
-        ImageView iv_away_logo = helper.getView(R.id.iv_away_logo);
-        GlideUtil.loadUserImageDefault(mContext, item.getAway_player_logo(), iv_away_logo);
-        if (!TextUtils.isEmpty(item.getAway_player_name())) {
+
+
+        if (TextUtils.isEmpty(item.getAway_player_name())) {
+            helper.setVisible(R.id.cl_away,false);
+        }else{
+            helper.setVisible(R.id.cl_away,true);
+            ImageView iv_away_logo = helper.getView(R.id.iv_away_logo);
+            GlideUtil.loadUserImageDefault(mContext, item.getAway_player_logo(), iv_away_logo);
             helper.setText(R.id.tv_away_name, item.getAway_player_name());
-        }else {
-            helper.setText(R.id.tv_away_name, "");
+            if (!TextUtils.isEmpty(item.getAway_type())) {
+                helper.setText(R.id.tv_away_position, item.getAway_type());
+            }else {
+                helper.setText(R.id.tv_away_position, "");
+            }
         }
-        if (!TextUtils.isEmpty(item.getAway_type())) {
-            helper.setText(R.id.tv_away_position, item.getAway_type());
-        }else {
-            helper.setText(R.id.tv_away_position, "");
-        }
+
         helper.addOnClickListener(R.id.iv_home_logo, R.id.iv_away_logo);
     }
 }

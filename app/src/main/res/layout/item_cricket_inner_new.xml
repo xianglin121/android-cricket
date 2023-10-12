@@ -14,9 +14,18 @@
         android:layout_toLeftOf="@id/fl_status"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:paddingTop="14dp"
+        android:paddingTop="12dp"
         android:paddingLeft="15dp"
         android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/tv_desc_match_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:textColor="@color/c_999999"
+            android:textSize="11sp"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:id="@+id/ll_one"
@@ -205,6 +214,6 @@
         android:background="@color/c_80DCDBE0"
         android:layout_below="@id/tv_result"
         android:layout_marginTop="7dp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="6dp"/>
 
 </RelativeLayout>

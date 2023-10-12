@@ -18,7 +18,10 @@ import com.onecric.live.R;
 import com.onecric.live.activity.CricketInnerActivity;
 import com.onecric.live.fragment.CricketNewFragment;
 import com.onecric.live.model.CricketAllBean;
+import com.onecric.live.model.CricketNewBean;
+import com.tencent.qcloud.tuicore.util.DateTimeUtil;
 
+import java.util.Date;
 import java.util.List;
 
 //public class CricketDayAdapter extends BaseQuickAdapter<CricketAllBean.CricketDayBean, BaseViewHolder> {
@@ -30,7 +33,7 @@ public class CricketDayAdapter extends RecyclerView.Adapter<CricketDayAdapter.Vi
     //最近的位置
     public int todayBeginIndex;
 
-    public CricketDayAdapter(CricketNewFragment fragment,Context context, List<CricketAllBean.CricketDayBean> mList) {
+    public CricketDayAdapter(CricketNewFragment fragment, Context context, List<CricketAllBean.CricketDayBean> mList) {
         this.context = context;
         this.fragment = fragment;
         this.bean = mList;
@@ -43,8 +46,20 @@ public class CricketDayAdapter extends RecyclerView.Adapter<CricketDayAdapter.Vi
         return new CricketDayAdapter.ViewHolder(itemView);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull CricketDayAdapter.ViewHolder helper, int position) {
+        // 设置选中item中的内部recyclerView的LayoutManager和标记
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        //不回收子view
+        layoutManager.setItemPrefetchEnabled(false);
+        layoutManager.setRecycleChildrenOnDetach(true);
+
+
+        helper.rv_cricket.setLayoutManager(layoutManager);
+        helper.rv_cricket.setTag(layoutManager);
+        helper.rv_cricket.setNestedScrollingEnabled(false);
+
         String dates[] = getDayInfo(bean.get(position).getDay(),context);
 //        fragment.setDayInfo(dates,new Date().getTime());
         helper.tv_date.setText(dates[0]);
@@ -52,9 +67,9 @@ public class CricketDayAdapter extends RecyclerView.Adapter<CricketDayAdapter.Vi
         helper.tv_day.setText(dates[2]);
         if(dates[2].equals(context.getString(R.string.today))){
             fragment.todayPosition = helper.getLayoutPosition();
-
+            helper.isToday = true;
             //Fixme 滚动到今天最早正在比赛的赛事>距离现在最近的未开赛
-/*            todayRecyclerView = helper.rv_cricket;
+            todayRecyclerView = helper.rv_cricket;
             todayLately:{
                 int todayLatelyIndex = 0;
                 long minTime = 0;
@@ -75,7 +90,7 @@ public class CricketDayAdapter extends RecyclerView.Adapter<CricketDayAdapter.Vi
                     }
                 }
                 todayBeginIndex = todayLatelyIndex;
-            }*/
+            }
         }
 
         CricketNewAdapter mAdapter = new CricketNewAdapter(R.layout.item_cricket_new, bean.get(position).getList());
@@ -136,6 +151,7 @@ public class CricketDayAdapter extends RecyclerView.Adapter<CricketDayAdapter.Vi
         public TextView tv_month;
         public View line;
         public RecyclerView rv_cricket;
+        public boolean isToday;
 
         ViewHolder(View itemView) {
             super(itemView);

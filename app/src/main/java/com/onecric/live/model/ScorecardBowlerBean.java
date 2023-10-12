@@ -8,7 +8,8 @@ public class ScorecardBowlerBean {
     private int maidens;
     private int runs_conceded;
     private int wides;
-    private int economy_rate;
+    private float economy_rate;
+    public int wickets;
 
     public String getId() {
         return id;
@@ -58,11 +59,11 @@ public class ScorecardBowlerBean {
         this.wides = wides;
     }
 
-    public int getEconomy_rate() {
+    public float getEconomy_rate() {
         return economy_rate;
     }
 
-    public void setEconomy_rate(int economy_rate) {
+    public void setEconomy_rate(float economy_rate) {
         this.economy_rate = economy_rate;
     }
 }

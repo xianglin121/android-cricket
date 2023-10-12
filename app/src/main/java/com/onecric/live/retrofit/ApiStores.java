@@ -19,11 +19,11 @@ import retrofit2.http.Query;
 public interface ApiStores {
     //baseUrl
 //    String API_SERVER_URL = "http://banqiu.mhuan.shop/";//正式
-//   String API_SERVER_URL = "https://api.onecric.tv/";//正式、
+   String API_SERVER_URL = "https://api.onecric.tv/";//正式、
 
 
 //    String API_SERVER_URL = "https://demoapi.onecric.tv/";//测试
-    String API_SERVER_URL = "https://testapi.onecric.tv/";//测试2
+//    String API_SERVER_URL = "https://testapi.onecric.tv/";//测试2
 
     String API_SERVER_LUMEN_URL = "http://lumen.onecric.tv/";
 

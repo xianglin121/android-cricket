@@ -31,7 +31,7 @@ public class ScorecardBowlerAdapter extends BaseQuickAdapter<ScorecardBowlerBean
         }
         helper.setText(R.id.tv_o, String.valueOf(item.getOvers_bowled()));
         helper.setText(R.id.tv_r, String.valueOf(item.getRuns_conceded()));
-        helper.setText(R.id.tv_w, String.valueOf(item.getWides()));
+        helper.setText(R.id.tv_w, String.valueOf(item.wickets));
         helper.setText(R.id.tv_m, String.valueOf(item.getMaidens()));
         helper.setText(R.id.tv_er, String.valueOf(item.getEconomy_rate()));
         if (helper.getLayoutPosition() == (getItemCount()-1)) {

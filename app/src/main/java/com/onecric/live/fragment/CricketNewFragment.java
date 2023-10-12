@@ -3,6 +3,7 @@ package com.onecric.live.fragment;
 
 import static com.onecric.live.util.AnimUtils.transAnim;
 import static com.onecric.live.util.TimeUtil.getDayInfo;
+import static com.onecric.live.util.TimeUtil.toTodayIntDay;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -104,6 +105,10 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
     private LinearLayout skeletonLoadLayout;
     private Timer mTimer;
     private TournamentDialog tournamentDialog;
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+    private LinearLayoutManager linearLayoutManager;
+    private int todayPostion;
 
     @Override
     protected int getLayoutId() {
@@ -268,8 +273,11 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
 //        recyclerView.getRecycledViewPool().setMaxRecycledViews(0, 20);
 //        recyclerView.setItemViewCacheSize(20);
 //        mAdapter = new CricketDayAdapter(this,R.layout.item_cricket_day, new ArrayList<>());
-        mAdapter = new CricketDayAdapter(this,getActivity(), new ArrayList<>());
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        mAdapter = new CricketDayAdapter(this, getActivity(), new ArrayList<>());
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        //不回收子view
+        linearLayoutManager.setItemPrefetchEnabled(false);
+        linearLayoutManager.setRecycleChildrenOnDetach(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(mAdapter);
         //避免新holder的生成，从而避免item闪烁
@@ -281,7 +289,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     int lastVisibleItem = manager.findLastVisibleItemPosition();
                     int totalItemCount = manager.getItemCount();
-                    if (lastVisibleItem == (totalItemCount - 1)) {
+                    if (lastVisibleItem == (totalItemCount - 1) && !isLiveNow) {
                         requestList(2);
                     }
                 }else if(newState == RecyclerView.SCROLL_STATE_DRAGGING){
@@ -289,9 +297,28 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                         int currentPosition = ((RecyclerView.LayoutParams) recyclerView.getChildAt(0).getLayoutParams()).getViewAdapterPosition();
                         if(currentPosition != -1 && !TextUtils.isEmpty(mAdapter.getData().get(currentPosition).getDay())){
                             setDayInfo(getDayInfo(mAdapter.getData().get(currentPosition).getDay(),getContext()));
+                            try{
+                                picker.setSelectedDate(sdf.parse(mAdapter.getData().get(currentPosition).getDay()).getTime());
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
+
+                // 遍历可见的item
+/*                for (int i = 0; i < recyclerView.getChildCount(); i++) {
+                    View view = recyclerView.getChildAt(i);
+                    CricketDayAdapter.ViewHolder viewHolder = (CricketDayAdapter.ViewHolder) recyclerView.getChildViewHolder(view);
+                    // 检查是否有内部recyclerView
+                    if (viewHolder.rv_cricket.getVisibility() == View.VISIBLE && viewHolder.isToday) {
+                        LinearLayoutManager layoutManager = (LinearLayoutManager) viewHolder.rv_cricket.getTag();
+                        // 滑动到指定位置
+                        layoutManager.scrollToPosition(mAdapter.todayBeginIndex);
+                        // 或者使用平滑滚动
+                        // layoutManager.smoothScrollToPosition(recyclerView, null, yourDesiredPosition);
+                    }
+                }*/
 
             }
         });
@@ -358,6 +385,19 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 tv_live_now.setSelected(!tv_live_now.isSelected());
                 isLiveNow = tv_live_now.isSelected();
                 if(isLiveNow){
+                    //清空Streaming
+                    if(streamType!=0){
+                        streamType = 0;
+                        if(iv_all != null){
+                            iv_all.setSelected(true);
+                            iv_all_match.setSelected(false);
+                            iv_all_author.setSelected(false);
+                        }
+                        ll_streaming.setSelected(false);
+                        iv_streaming.setSelected(false);
+                        tv_streaming.setSelected(false);
+                    }
+
                     smart_rl.setEnableRefresh(false);
                 }else{
                     smart_rl.setEnableRefresh(true);
@@ -395,6 +435,13 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 }
                 break;
             case R.id.ll_match_live:
+                //清空LiveNow
+                if(isLiveNow){
+                    tv_live_now.setSelected(false);
+                    isLiveNow = false;
+                    smart_rl.setEnableRefresh(true);
+                }
+
                 if(streamType!=1){
                     streamType = 1;
                     if(iv_all != null){
@@ -412,6 +459,12 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 }
                 break;
             case R.id.ll_author_live:
+                if(isLiveNow){
+                    tv_live_now.setSelected(false);
+                    isLiveNow = false;
+                    smart_rl.setEnableRefresh(true);
+                }
+
                 if(streamType!=2){
                     streamType = 2;
                     if(iv_all != null){
@@ -427,6 +480,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                 if(mStreamDialog != null){
                     mStreamDialog.dismiss();
                 }
+                break;
             case R.id.tv_to_today:
                 //有筛选条件 -> 回到今日 筛选失效
                 if(tv_calendar.isSelected() || streamType !=0 || isLiveNow || !TextUtils.isEmpty(tag)){
@@ -434,26 +488,37 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
                     requestList(1);
                 }else if(todayPosition<mAdapter.getData().size()){
                     //Fixme 滚动到今天最早正在比赛的赛事>距离现在最近的未开赛
-                    recyclerView.smoothScrollToPosition(todayPosition);
-
-/*                    recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//                    recyclerView.smoothScrollToPosition(todayPosition);
+                    linearLayoutManager.scrollToPosition(todayPosition);
+                    /*recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @Override
                         public void onGlobalLayout() {
                             recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-*//*                            if(mAdapter.todayRecyclerView != null){
-                                mAdapter.todayRecyclerView.getLayoutManager().scrollToPosition(mAdapter.todayBeginIndex);
-                            }*//*
-                            try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
                             try{
-                                //没有被回收的显示在屏幕上的
-                                ((RecyclerView)recyclerView.getChildAt(todayPosition).findViewById(R.id.rv_cricket)).scrollToPosition(mAdapter.todayBeginIndex);
+                                //1.没有被回收的显示在屏幕上的
+//                                ((RecyclerView)recyclerView.getChildAt(todayPosition).findViewById(R.id.rv_cricket)).scrollToPosition(mAdapter.todayBeginIndex);
+
+
+                                //2.getChildAt 在不可见时可能为null
+//                                View view = recyclerView.getChildAt(todayPosition);
+//                                CricketDayAdapter.ViewHolder viewHolder = (CricketDayAdapter.ViewHolder) recyclerView.getChildViewHolder(view);
+//                                LinearLayoutManager layoutManager = (LinearLayoutManager) viewHolder.rv_cricket.getTag();
+                                // 滑动到指定位置
+//                                layoutManager.scrollToPosition(mAdapter.todayBeginIndex);
+                                // 或者使用平滑滚动
+//                                 layoutManager.smoothScrollToPosition(recyclerView, null, mAdapter.todayBeginIndex);
+
+                                //3.
+                                CricketDayAdapter.ViewHolder viewHolder = (CricketDayAdapter.ViewHolder) recyclerView.findViewHolderForAdapterPosition(todayPosition);
+                                LinearLayoutManager layoutManager = (LinearLayoutManager) viewHolder.rv_cricket.getTag();
+                                layoutManager.scrollToPosition(mAdapter.todayBeginIndex);
+
                             }catch (Exception e){
 
                             }
+
+                            //算出高度 算不出，只有可见才能算出高度
+//                            recyclerView.scrollBy(0, (int) (recyclerView.getY() + UIUtil.dip2px(getActivity(),todayPostion)));
                         }
                     });*/
 
@@ -492,9 +557,8 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             tv_streaming.setSelected(false);
         }
 
+        //清空已选的标签状态
         tag = "";
-
-        //fixme 已选的标签状态没清空
         mvpPresenter.getFiltrateList();
     }
 
@@ -519,7 +583,7 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
     }
 
     public void requestList(int type){
-        if(type == 4 || (tv_calendar.isSelected() && type == 2)){
+        if(type == 4 || (tv_calendar.isSelected() && type == 2) || (tv_calendar.isSelected() && type == 0)){
 
         }else{
             //非日期筛选
@@ -528,35 +592,79 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             picker.setSelectedDate(singleTimeInMillis);
         }
 
-        if(type == 0){
-            if(mFiltrateAdapter.getItemCount() <=1){
-                mvpPresenter.getFiltrateList();
-            }
-            if(mAdapter.getItemCount() <= 0 && isNotNetWork){
-                requestList(1);
-            }else if(mAdapter.getItemCount() <= 0 && !TextUtils.isEmpty(lastDay2)){
-                mvpPresenter.getCricketMatchList(type,lastDay2,TextUtils.isEmpty(tag)?"":tag,streamType,isLiveNow);//前一天
-            }else if(!TextUtils.isEmpty(lastDay)){
-                mvpPresenter.getCricketMatchList(type,lastDay,TextUtils.isEmpty(tag)?"":tag,streamType,isLiveNow);//前一天
-            }else{
-                smart_rl.finishRefresh();
-            }
-        }else if(type == 1 || type == 4){
-            lastDay = "";
-            endDay = "";
-            skeletonLoadLayout.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-            mvpPresenter.getCricketMatchList(type,new SimpleDateFormat("yyyy-MM-dd").format(singleTimeInMillis),TextUtils.isEmpty(tag)?"":tag,streamType,isLiveNow);//选中日
-        }else if(type == 2){
-            if(!TextUtils.isEmpty(tag)){
-                return;
-            }
-            if(mAdapter.getItemCount() <= 0 && !TextUtils.isEmpty(endDay2)){
-                mvpPresenter.getCricketMatchList(type,endDay2,TextUtils.isEmpty(tag)?"":tag,streamType,isLiveNow);//后一天
-            }else if(!TextUtils.isEmpty(endDay)){
-                mvpPresenter.getCricketMatchList(type,endDay,TextUtils.isEmpty(tag)?"":tag,streamType,isLiveNow);//后一天
-            }
+        switch (type){
+            case 1:
+            case 4:
+                lastDay = "";
+                endDay = "";
+                skeletonLoadLayout.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                mvpPresenter.getCricketMatchList(type,sdf.format(singleTimeInMillis),TextUtils.isEmpty(tag)?"":tag,streamType,isLiveNow);//选中日
+                break;
+            case 2:
+                if(!TextUtils.isEmpty(tag)){
+                    return;
+                }
+                //不超过15天
+                if(mAdapter.getItemCount() <= 0 && !TextUtils.isEmpty(endDay2)){
+                    try{
+                        if(toTodayIntDay(sdf.parse(endDay2))<15){
+                            mvpPresenter.getCricketMatchList(type,endDay2,TextUtils.isEmpty(tag)?"":tag,streamType,isLiveNow);//后一天
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }else if(!TextUtils.isEmpty(endDay)){
+                    try{
+                        if(toTodayIntDay(sdf.parse(endDay))<15){
+                            mvpPresenter.getCricketMatchList(type,endDay,TextUtils.isEmpty(tag)?"":tag,streamType,isLiveNow);//后一天
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case 0:
+                if(mFiltrateAdapter.getItemCount() <=1){
+                    mvpPresenter.getFiltrateList();
+                }
+
+                if(mAdapter.getItemCount() <= 0 && isNotNetWork){
+                    requestList(1);
+                }else if(mAdapter.getItemCount() <= 0 && !TextUtils.isEmpty(lastDay2)){
+                    //不超过15天
+                    try{
+                        if(toTodayIntDay(sdf.parse(lastDay2))<=15){
+                            mvpPresenter.getCricketMatchList(type,lastDay2,TextUtils.isEmpty(tag)?"":tag,streamType,isLiveNow);//前一天
+                        }else{
+                            smart_rl.finishRefresh();
+                        }
+                    }catch (Exception e){
+                        smart_rl.finishRefresh();
+                        e.printStackTrace();
+                    }
+                }else if(!TextUtils.isEmpty(lastDay)){
+                    try{
+                        if(toTodayIntDay(sdf.parse(lastDay))<=15){
+                            mvpPresenter.getCricketMatchList(type,lastDay,TextUtils.isEmpty(tag)?"":tag,streamType,isLiveNow);//前一天
+                        }else{
+                            smart_rl.finishRefresh();
+                        }
+                    }catch (Exception e){
+                        smart_rl.finishRefresh();
+                        e.printStackTrace();
+                    }
+                }else{
+                    smart_rl.finishRefresh();
+                }
+                break;
+            default:
+                break;
         }
+
+
+
+
     }
 
     @Override
@@ -579,23 +687,24 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
         }
         skeletonLoadLayout.setVisibility(View.GONE);
 
-        if(type == 1){
+        if(type == 1 || type == 4){
             //没数据也显示日期
             setDayInfo(getDayInfo(singleTimeInMillis,getContext()));
         }
 
         if (bean != null && bean.getItem() != null && bean.getItem().size() > 0) {
             hideEmptyView();
-            if(type == 0 || type == 1){
+            if(type == 0 || type == 1 || type == 4){
                 this.lastDay = bean.getFrontDay();
             }
-            if(type == 2 || type == 1){
+            if(type == 2 || type == 1 || type == 4){
                 this.endDay = bean.getEndDay();
             }
             recyclerView.setVisibility(View.VISIBLE);
             tv_to_today.setVisibility(View.VISIBLE);
             if(type == 0){
-                todayPosition = todayPosition+bean.getItem().size();
+                todayPosition = todayPosition + bean.getItem().size();
+                setDayInfo(getDayInfo(bean.getItem().get(0).getDay(),getContext()));
                 mAdapter.addData(0,bean.getItem());
                 //今天之前的 滑动定位到最后一条
                 if(mAdapter.getData().size()>1){
@@ -626,13 +735,28 @@ public class CricketNewFragment extends MvpFragment<CricketNewPresenter> impleme
             }else{
                 mAdapter.addData(bean.getItem());
             }
-        } else if(mAdapter.getItemCount() == 0 || type == 1 || type == 4){
+        } else {
+//        } else if(mAdapter.getItemCount() == 0 || type == 1 || type == 4){
             if(bean != null){
                 if(type == 0 || type == 1){
                     this.lastDay2 = bean.getFrontDay();
                 }
                 if(type == 2 || type == 1){
                     this.endDay2 = bean.getFrontDay();
+                }
+
+                if(type == 0){
+                    if(mAdapter.getItemCount() <= 0 && !TextUtils.isEmpty(lastDay2)){
+                        setDayInfo(getDayInfo(lastDay2,getContext()));
+                    }else if(!TextUtils.isEmpty(lastDay)){
+                        setDayInfo(getDayInfo(lastDay,getContext()));
+                    }
+                }else if(type == 2){
+                    if(mAdapter.getItemCount() <= 0 && !TextUtils.isEmpty(endDay2)){
+                        setDayInfo(getDayInfo(endDay2,getContext()));
+                    }else if(!TextUtils.isEmpty(endDay)){
+                        setDayInfo(getDayInfo(endDay,getContext()));
+                    }
                 }
             }
             recyclerView.setVisibility(View.GONE);

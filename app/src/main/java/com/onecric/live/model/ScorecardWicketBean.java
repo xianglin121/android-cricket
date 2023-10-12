@@ -6,6 +6,7 @@ public class ScorecardWicketBean {
     private String name;
     private double over;
     private int score;
+    public int order;
 
     public String getId() {
         return id;

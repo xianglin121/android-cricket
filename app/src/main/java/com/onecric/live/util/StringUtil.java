@@ -3,6 +3,7 @@ package com.onecric.live.util;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Random;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -138,5 +139,22 @@ public class StringUtil {
         }else{
             return false;
         }
+    }
+
+    /**
+     * 判断字符串中是否有超链接，若有，则返回超链接。
+     * @param str
+     * @return
+     */
+    public static String[] judgeString(String str){
+        Matcher m = Pattern.compile("(((https|http)?://)?([a-z0-9]+[.])|(www.))"
+                + "\\w+[.|\\/]([a-z0-9]{0,})?[[.]([a-z0-9]{0,})]+((/[\\S&&[^,;\u4E00-\u9FA5]]+)+)?([.][a-z0-9]{0,}+|/?)").matcher(str);
+        String[] url = new String[str.length()/5];
+        int count = 0;
+        while(m.find()){
+            count++;
+            url[count] = m.group();
+        }
+        return url;
     }
 }

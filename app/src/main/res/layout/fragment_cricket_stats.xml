@@ -569,7 +569,8 @@
             android:layout_width="match_parent"
             android:layout_height="12dp"
             android:layout_marginTop="8dp"
-            android:background="@color/c_E5E5E5"/>
+            android:background="@color/c_E5E5E5"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -577,7 +578,8 @@
             android:gravity="center_vertical"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="14dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
             <View
                 android:layout_width="3dp"
                 android:layout_height="20dp"
@@ -600,7 +602,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:orientation="vertical"
-            android:background="@mipmap/bg_shadow">
+            android:background="@mipmap/bg_shadow"
+            android:visibility="gone">
             <LinearLayout
                 android:id="@+id/ll_most_catches"
                 android:layout_width="match_parent"

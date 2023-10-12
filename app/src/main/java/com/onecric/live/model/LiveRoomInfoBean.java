@@ -78,6 +78,8 @@ public class LiveRoomInfoBean {
     public String adver_img_two;
     public int praise_num;
 
+    public String qr_img;
+    public String qr_url;
 
     public int getLive_id() {
         return live_id;

@@ -154,9 +154,9 @@ public class CricketStatsActivity extends MvpActivity<CricketStatsPresenter> imp
         list.add(getString(R.string.most_wickets));
         list.add(getString(R.string.best_bowling_average));
         list.add(getString(R.string.best_bowling_economy));
-        list.add(getString(R.string.most_catches));
+/*        list.add(getString(R.string.most_catches));
         list.add(getString(R.string.most_run_outs));
-        list.add(getString(R.string.most_stumpings));
+        list.add(getString(R.string.most_stumpings));*/
 
         for (int i = 0; i < list.size(); i++) {
             TextView textView = (TextView) View.inflate(this, R.layout. item_cricket_stats_head, null);
@@ -201,6 +201,7 @@ public class CricketStatsActivity extends MvpActivity<CricketStatsPresenter> imp
         if (list == null) {
             list = new ArrayList<>();
         }
+
         if (mPosition == 0) {
             ll_one.setVisibility(View.VISIBLE);
             mOneAdapter.setNewData(list);
@@ -264,6 +265,54 @@ public class CricketStatsActivity extends MvpActivity<CricketStatsPresenter> imp
         }else {
             ll_night.setVisibility(View.GONE);
         }
+
+        if (list == null || list.size()<=0) {
+            showEmptyView();
+            switch (mPosition){
+                case 0:
+                    mOneAdapter.removeAllFooterView();
+                    ll_one.setVisibility(View.GONE);
+                    break;
+                case 1:
+                    mTwoAdapter.removeAllFooterView();
+                    ll_two.setVisibility(View.GONE);
+                    break;
+                case 2:
+                    mThreeAdapter.removeAllFooterView();
+                    ll_three.setVisibility(View.GONE);
+                    break;
+                case 3:
+                    mFourAdapter.removeAllFooterView();
+                    ll_four.setVisibility(View.GONE);
+                    break;
+                case 4:
+                    mFiveAdapter.removeAllFooterView();
+                    ll_five.setVisibility(View.GONE);
+                    break;
+                case 5:
+                    mSixAdapter.removeAllFooterView();
+                    ll_six.setVisibility(View.GONE);
+                    break;
+                case 6:
+                    mSevenAdapter.removeAllFooterView();
+                    ll_seven.setVisibility(View.GONE);
+                    break;
+                case 7:
+                    mEightAdapter.removeAllFooterView();
+                    ll_eight.setVisibility(View.GONE);
+                    break;
+                case 8:
+                case 9:
+                case 10:
+                    mNightAdapter.removeAllFooterView();
+                    ll_night.setVisibility(View.GONE);
+                    break;
+                default:break;
+            }
+        }else{
+            hideEmptyView();
+        }
+
     }
 
     @Override

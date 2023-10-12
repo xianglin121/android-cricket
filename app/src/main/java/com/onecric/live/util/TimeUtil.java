@@ -293,4 +293,18 @@ public class TimeUtil {
         }
 
     }
+
+    //距离几天
+    public static int toTodayIntDay(Date date) {
+        long time = date.getTime()/1000;
+        long now = new Date().getTime()/1000 ;
+        long ago = Math.abs(now - time);
+        if (ago <= ONE_MONTH) {
+            return (int) (ago / ONE_DAY);
+        } else {
+            return 1000;
+        }
+    }
+
+
 }

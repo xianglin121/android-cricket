@@ -26,7 +26,7 @@
             android:id="@+id/tv_score"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:textSize="11dp"
             android:textStyle="bold"
             android:textColor="@color/white"/>
@@ -35,7 +35,7 @@
             android:id="@+id/tv_over"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:textSize="11dp"
             android:textStyle="bold"
             android:textColor="@color/white"/>

@@ -101,12 +101,12 @@ public class CricketNewPresenter extends BasePresenter<CricketNewView> {
         });
     }
 
-    public void getCricketMatchList(int type,String data,String tagIds,int streamType,boolean isLiveNow) {
-        if(TextUtils.isEmpty(data)){
+    public void getCricketMatchList(int type,String date,String tagIds,int streamType,boolean isLiveNow) {
+        if(TextUtils.isEmpty(date)){
             return;
         }
 
-        addSubscription(apiStores.getCricketDayMatchList(CommonAppConfig.getInstance().getToken(), TimeZone.getDefault().getID(),data,tagIds,streamType,isLiveNow?1:0), new ApiCallback() {
+        addSubscription(apiStores.getCricketDayMatchList(CommonAppConfig.getInstance().getToken(), TimeZone.getDefault().getID(),date,tagIds,streamType,isLiveNow?1:0), new ApiCallback() {
             @Override
             public void onSuccess(String data, String msg) {
                 CricketAllBean bean;

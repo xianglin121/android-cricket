@@ -93,14 +93,14 @@ public class PlayerCareerFragment extends BaseFragment implements View.OnClickLi
         mBattingList.add(new PerformanceBean(getString(R.string.matches2), String.valueOf(batting.getMatches())));
         mBattingList.add(new PerformanceBean(getString(R.string.innings), String.valueOf(batting.getInnings())));
         mBattingList.add(new PerformanceBean(getString(R.string.runs), String.valueOf(batting.getRuns())));
-        mBattingList.add(new PerformanceBean(getString(R.string.balls_faced), String.valueOf(batting.getBalls_faced())));
+        mBattingList.add(new PerformanceBean(getString(R.string.balls_faced), String.valueOf(batting.balls)));
         mBattingList.add(new PerformanceBean(getString(R.string.average), String.valueOf(batting.getAverage())));
-        mBattingList.add(new PerformanceBean(getString(R.string.strike_rate2), String.valueOf(batting.getStrike_rate())));
-        mBattingList.add(new PerformanceBean(getString(R.string.not_outs), String.valueOf(batting.getNot_outs())));
-        mBattingList.add(new PerformanceBean("100S", String.valueOf(batting.getHundreds())));
-        mBattingList.add(new PerformanceBean("50S", String.valueOf(batting.getFifties())));
-        mBattingList.add(new PerformanceBean("6S", String.valueOf(batting.getSixes())));
-        mBattingList.add(new PerformanceBean("4S", String.valueOf(batting.getFours())));
+        mBattingList.add(new PerformanceBean(getString(R.string.strike_rate2), String.valueOf(batting.strike)));
+        mBattingList.add(new PerformanceBean(getString(R.string.not_outs), String.valueOf(batting.notout)));
+        mBattingList.add(new PerformanceBean("100S", String.valueOf(batting.run100)));
+        mBattingList.add(new PerformanceBean("50S", String.valueOf(batting.run50)));
+        mBattingList.add(new PerformanceBean("6S", String.valueOf(batting.run6)));
+        mBattingList.add(new PerformanceBean("4S", String.valueOf(batting.run4)));
 
         mBowlingList.clear();
         if (bowling == null) {

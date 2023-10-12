@@ -169,7 +169,9 @@ public class LiveViewNowAdapter extends BaseMultiItemQuickAdapter<PlayCardsBean,
                 String scoreStr = item.homeDisplayScore;
                 if (scoreStr.contains(" ")){
                     String[] split = scoreStr.split(" ");
-                    helper.setText(R.id.tv_home_score2, split[1]);
+//                    if(split.length>1){
+                        helper.setText(R.id.tv_home_score2, split[1]);
+//                    }
                     scoreStr = split[0];
                 }
                 if(scoreStr.contains("&")){
@@ -193,7 +195,9 @@ public class LiveViewNowAdapter extends BaseMultiItemQuickAdapter<PlayCardsBean,
                 String scoreStr = item.awayDisplayScore;
                 if (scoreStr.contains(" ")){
                     String[] split = scoreStr.split(" ");
-                    helper.setText(R.id.tv_away_score2, split[1]);
+//                    if(split.length>1){
+                        helper.setText(R.id.tv_away_score2, split[1]);
+//                    }
                     scoreStr = split[0];
                 }
                 if(scoreStr.contains("&")){

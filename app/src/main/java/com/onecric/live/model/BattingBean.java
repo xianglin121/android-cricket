@@ -2,6 +2,28 @@ package com.onecric.live.model;
 
 public class BattingBean {
 
+    /**
+      {
+              "average":"45.35",
+              "balls":26562,
+              "fastest100balls":0,
+              "match_id":0,
+              "strike":"46.95",
+              "catches":175,
+              "inning_id":0,
+              "matches":161,
+              "run100":33,
+              "stumpings":0,
+              "highest":294,
+              "innings":291,
+              "fastest50balls":0,
+              "run50":57,
+              "notout":16,
+              "run4":1442,
+              "runs":12472,
+              "run6":11
+          }
+     */
     private int matches;
     private int innings;
     private int balls_faced;
@@ -13,6 +35,14 @@ public class BattingBean {
     private int fifties;
     private int fours;
     private int sixes;
+
+    public int balls;
+    public double strike;
+    public int notout;
+    public int run100;
+    public int run50;
+    public int run4;
+    public int run6;
 
     public int getMatches() {
         return matches;

@@ -29,7 +29,7 @@ public class ScorecardWicketAdapter extends BaseQuickAdapter<ScorecardWicketBean
         }else {
             helper.setText(R.id.tv_name, "");
         }
-        helper.setText(R.id.tv_score, String.valueOf(item.getScore()));
+        helper.setText(R.id.tv_score, item.getScore()+"-"+item.order);
         helper.setText(R.id.tv_over, String.valueOf(item.getOver()));
         if (helper.getLayoutPosition() == (getItemCount()-1)) {
             helper.getView(R.id.line).setVisibility(View.INVISIBLE);

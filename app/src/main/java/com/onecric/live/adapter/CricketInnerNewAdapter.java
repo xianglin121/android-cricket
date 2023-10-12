@@ -46,6 +46,13 @@ public class CricketInnerNewAdapter extends BaseQuickAdapter<CricketNewBean.Cric
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, CricketNewBean.CricketMatchNewBean item) {
+        if(TextUtils.isEmpty(item.match_num)){
+            helper.setGone(R.id.tv_desc_match_num,false);
+        }else{
+            helper.setGone(R.id.tv_desc_match_num,true);
+            helper.setText(R.id.tv_desc_match_num,item.match_num);
+        }
+
         helper.getView(R.id.tv_state_time).setVisibility(View.GONE);
         helper.getView(R.id.tv_state_live).setVisibility(View.GONE);
         helper.getView(R.id.tv_state_watch_live).setVisibility(View.GONE);

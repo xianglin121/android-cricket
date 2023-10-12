@@ -145,7 +145,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     private SimpleDateFormat sfdate1 = new SimpleDateFormat("hh:mm a,dd MMM", Locale.ENGLISH);
     private LinearLayout ll_main;
     private TextView tv_star,tv_tool_share;
-    private ImageView iv_advert;
+    private ImageView iv_advert,iv_advert_qrcode;
     private Drawable drawableHeartRed,drawableHeartWhite;
     private int detailType;
     @Override
@@ -260,9 +260,16 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
         tv_tool_heart.setOnClickListener(this);
 
         iv_advert = findViewById(R.id.iv_advert);
+        iv_advert_qrcode = findViewById(R.id.iv_advert_qrcode);
         android.view.ViewGroup.LayoutParams pp2 = iv_advert.getLayoutParams();
         pp2.height = (int) (UIUtil.getScreenWidth(mActivity)/8);//8:1
         iv_advert.setLayoutParams(pp2);
+
+        android.view.ViewGroup.LayoutParams pp3 = iv_advert_qrcode.getLayoutParams();
+        pp3.height = (int) (UIUtil.getScreenWidth(mActivity)/8);//8:1
+        pp3.width = pp3.height;
+        iv_advert_qrcode.setLayoutParams(pp3);
+
         iv_advert.setOnClickListener(v -> {
             if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_url_one)){
 //                WebViewActivity.forward(mActivity,  mLiveRoomBean.getInfo().adver_url_one);
@@ -270,6 +277,17 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
                 Uri content_url = Uri.parse(mLiveRoomBean.getInfo().adver_url_one);
+                intent.setData(content_url);
+                startActivity(intent);
+            }
+        });
+
+        iv_advert_qrcode.setOnClickListener(v -> {
+            if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().qr_url)){
+                mvpPresenter.clickAdvert(mLiveRoomBean.getInfo().getId(),mLiveRoomBean.getInfo().qr_url,9);
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse(mLiveRoomBean.getInfo().qr_url);
                 intent.setData(content_url);
                 startActivity(intent);
             }
@@ -361,6 +379,10 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_img_one)){
                 iv_advert.setVisibility(View.VISIBLE);
                 Glide.with(mActivity).load(mLiveRoomBean.getInfo().adver_img_one).dontAnimate().into(iv_advert);
+            }
+            if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().qr_img)){
+                iv_advert_qrcode.setVisibility(View.VISIBLE);
+                Glide.with(mActivity).load(mLiveRoomBean.getInfo().qr_img).dontAnimate().into(iv_advert_qrcode);
             }
             if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_img_two)){
                 liveDetailMainFragment.setChatAdvertList(mLiveRoomBean.getInfo().adver_img_two,mLiveRoomBean.getInfo().adver_url_two);

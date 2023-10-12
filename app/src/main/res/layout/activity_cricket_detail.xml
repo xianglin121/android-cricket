@@ -2,6 +2,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -75,16 +76,33 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/tv_home_name"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="4dp"
-                            android:textColor="@color/white"
-                            android:textSize="16dp"
+                            android:orientation="horizontal"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:layout_marginRight="@dimen/dp_10"
                             app:layout_constraintBottom_toTopOf="@id/iv_home_logo"
-                            app:layout_constraintLeft_toLeftOf="@id/iv_home_logo"
-                            app:layout_constraintRight_toRightOf="@id/iv_home_logo" />
+                            android:paddingBottom="4dp">
+                            <TextView
+                                android:id="@+id/tv_home_name"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_marginRight="@dimen/dp_10"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="16dp"/>
+
+                            <TextView
+                                android:id="@+id/tv_away_name"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:gravity="right"
+                                android:textSize="16dp"/>
+
+                        </LinearLayout>
 
                         <ImageView
                             android:id="@+id/iv_home_logo"
@@ -94,6 +112,7 @@
                             android:scaleType="fitCenter"
                             android:src="@mipmap/img_team_logo_default"
                             app:layout_constraintBottom_toBottomOf="@id/iv_center"
+                            app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toLeftOf="@id/tv_home_score"
                             app:layout_constraintTop_toTopOf="@id/iv_center" />
 
@@ -160,18 +179,8 @@
                             android:src="@mipmap/img_team_logo_default"
                             app:layout_constraintBottom_toBottomOf="@id/iv_center"
                             app:layout_constraintLeft_toRightOf="@id/tv_away_score"
-                            app:layout_constraintTop_toTopOf="@id/iv_center" />
-
-                        <TextView
-                            android:id="@+id/tv_away_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="4dp"
-                            android:textColor="@color/white"
-                            android:textSize="16dp"
-                            app:layout_constraintBottom_toTopOf="@id/iv_away_logo"
-                            app:layout_constraintLeft_toLeftOf="@id/iv_away_logo"
-                            app:layout_constraintRight_toRightOf="@id/iv_away_logo" />
+                            app:layout_constraintTop_toTopOf="@id/iv_center"
+                            app:layout_constraintRight_toRightOf="parent"/>
 
                         <TextView
                             android:id="@+id/tv_desc"
@@ -196,15 +205,36 @@
                         android:layout_height="wrap_content"
                         android:visibility="gone">
 
-                        <TextView
-                            android:id="@+id/tv_home_name_two"
-                            android:layout_width="wrap_content"
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:textSize="16dp"
+                            android:orientation="horizontal"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:layout_marginRight="@dimen/dp_10"
                             app:layout_constraintBottom_toTopOf="@id/iv_home_logo_two"
-                            app:layout_constraintLeft_toLeftOf="@id/iv_home_logo_two"
-                            app:layout_constraintRight_toRightOf="@id/iv_home_logo_two" />
+                            android:paddingBottom="4dp">
+                            <TextView
+                                android:id="@+id/tv_home_name_two"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_marginRight="@dimen/dp_10"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="16dp"/>
+
+                            <TextView
+                                android:id="@+id/tv_away_name_two"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:gravity="right"
+                                android:textSize="16dp"/>
+
+                        </LinearLayout>
 
                         <ImageView
                             android:id="@+id/iv_home_logo_two"
@@ -239,16 +269,6 @@
                             app:layout_constraintBottom_toBottomOf="@id/tv_center"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="@id/tv_center" />
-
-                        <TextView
-                            android:id="@+id/tv_away_name_two"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:textSize="16dp"
-                            app:layout_constraintBottom_toTopOf="@id/iv_away_logo_two"
-                            app:layout_constraintLeft_toLeftOf="@id/iv_away_logo_two"
-                            app:layout_constraintRight_toRightOf="@id/iv_away_logo_two" />
 
                         <TextView
                             android:id="@+id/tv_desc_two"

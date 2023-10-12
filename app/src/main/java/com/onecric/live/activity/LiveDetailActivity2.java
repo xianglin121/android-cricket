@@ -215,7 +215,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
 
     private CountDownTimer mCountDownTimer;
     private SimpleDateFormat sfdate2;
-    private ImageView iv_advert;
+    private ImageView iv_advert,iv_advert_qrcode;
     private int detailType;
 
     @Override
@@ -316,10 +316,14 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
             pp.height = (int) (width * 0.5625);
             playerView.setLayoutParams(pp);
 
+            android.view.ViewGroup.LayoutParams pp3 = iv_advert_qrcode.getLayoutParams();
+            pp3.height = (int) (UIUtil.getScreenWidth(mActivity)/8);//8:1
+            pp3.width = pp3.height;
+            iv_advert_qrcode.setLayoutParams(pp3);
+
             android.view.ViewGroup.LayoutParams pp2 = iv_advert.getLayoutParams();
             pp2.height = (int) (UIUtil.getScreenWidth(mActivity)/8);//8:1
             iv_advert.setLayoutParams(pp2);
-
 
             //初始化悬浮窗跳转回界面所需参数
             playerView.setInitId(mAnchorId, mType, mMatchId);
@@ -443,6 +447,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
         tv_tool_eyes = findViewById(R.id.tv_tool_eyes);
         ll_main = findViewById(R.id.ll_main);
         iv_advert = findViewById(R.id.iv_advert);
+        iv_advert_qrcode = findViewById(R.id.iv_advert_qrcode);
         iv_data.setOnClickListener(this);
         iv_back.setOnClickListener(this);
         iv_video_mute.setOnClickListener(this);
@@ -458,6 +463,17 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
                 startActivity(intent);
             }
         });
+        iv_advert_qrcode.setOnClickListener(v -> {
+            if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().qr_url)){
+                mvpPresenter.clickAdvert(mLiveRoomBean.getInfo().getId(),mLiveRoomBean.getInfo().qr_url,9);
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse(mLiveRoomBean.getInfo().qr_url);
+                intent.setData(content_url);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
@@ -758,6 +774,10 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
                 if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_img_one)){
                     iv_advert.setVisibility(View.VISIBLE);
                     Glide.with(mActivity).load(mLiveRoomBean.getInfo().adver_img_one).dontAnimate().into(iv_advert);
+                }
+                if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().qr_img)){
+                    iv_advert_qrcode.setVisibility(View.VISIBLE);
+                    Glide.with(mActivity).load(mLiveRoomBean.getInfo().qr_img).dontAnimate().into(iv_advert_qrcode);
                 }
                 if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_img_two)){
                     liveDetailMainFragment.setChatAdvertList(mLiveRoomBean.getInfo().adver_img_two,mLiveRoomBean.getInfo().adver_url_two);

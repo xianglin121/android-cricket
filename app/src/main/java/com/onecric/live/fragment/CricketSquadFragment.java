@@ -116,9 +116,9 @@ public class CricketSquadFragment extends MvpFragment<CricketSquadPresenter> imp
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.iv_home_logo) {
-                    PlayerProfileActivity.forward(getContext(), mAdapter.getItem(position).getHome_player_id());
+                    PlayerProfileActivity.forward(getContext(), mSAdapter.getItem(position).getHome_player_id());
                 }else if (view.getId() == R.id.iv_away_logo) {
-                    PlayerProfileActivity.forward(getContext(), mAdapter.getItem(position).getAway_player_id());
+                    PlayerProfileActivity.forward(getContext(), mSAdapter.getItem(position).getAway_player_id());
                 }
             }
         });

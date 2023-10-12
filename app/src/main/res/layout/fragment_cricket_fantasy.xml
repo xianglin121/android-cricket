@@ -868,38 +868,43 @@
                         android:background="@color/c_E5E5E5"
                         app:layout_constraintTop_toBottomOf="@id/iv_four" />
 
-                    <TextView
-                        android:id="@+id/tv_home_name"
-                        android:layout_width="100dp"
+                    <LinearLayout
+                        android:id="@+id/ll_name"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:layout_marginTop="19dp"
-                        android:textColor="@color/c_4B4C53"
-                        android:textSize="12dp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/iv_home_logo"
-                        app:layout_constraintTop_toBottomOf="@id/line_seven" />
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:gravity="center_vertical"
+                        app:layout_constraintTop_toBottomOf="@id/line_seven">
 
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@mipmap/icon_cricket_vs"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_home_name"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_home_name" />
+                        <TextView
+                            android:id="@+id/tv_home_name"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/c_4B4C53"
+                            android:textSize="12sp"/>
 
-                    <TextView
-                        android:id="@+id/tv_away_name"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:textColor="@color/c_4B4C53"
-                        android:textSize="12dp"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_home_name"
-                        app:layout_constraintEnd_toEndOf="@+id/iv_away_logo"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_home_name" />
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@mipmap/icon_cricket_vs" />
+
+                        <TextView
+                            android:id="@+id/tv_away_name"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:textColor="@color/c_4B4C53"
+                            android:textSize="12dp"/>
+
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/iv_home_logo"
@@ -910,7 +915,7 @@
                         android:scaleType="fitCenter"
                         android:src="@mipmap/img_team_logo_default"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_home_name" />
+                        app:layout_constraintTop_toBottomOf="@id/ll_name" />
 
                     <ImageView
                         android:id="@+id/iv_away_logo"
@@ -921,7 +926,7 @@
                         android:scaleType="fitCenter"
                         android:src="@mipmap/img_team_logo_default"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_away_name" />
+                        app:layout_constraintTop_toBottomOf="@id/ll_name" />
 
                     <TextView
                         android:id="@+id/tv_winning"
@@ -932,7 +937,7 @@
                         android:textColor="@color/c_333333"
                         android:textSize="12dp"
                         android:fontFamily="@font/noto_sans_display_semibold"
-                        app:layout_constraintLeft_toLeftOf="@id/tv_home_name"
+                        app:layout_constraintLeft_toLeftOf="@id/ll_name"
                         app:layout_constraintTop_toBottomOf="@id/iv_home_logo" />
 
                     <TextView

@@ -33,7 +33,7 @@ public class CricketSquadPresenter extends BasePresenter<CricketSquadView> {
                 if(benchList != null){
                     mBList.addAll(benchList);
                     for(CricketSquadBean bean : benchList){
-                        if(TextUtils.isEmpty(bean.getHome_player_name()) || TextUtils.isEmpty(bean.getAway_player_name())){
+                        if(TextUtils.isEmpty(bean.getHome_player_name()) && TextUtils.isEmpty(bean.getAway_player_name())){
                             mBList.remove(bean);
                         }
                     }
@@ -70,11 +70,11 @@ public class CricketSquadPresenter extends BasePresenter<CricketSquadView> {
             public void onSuccess(String data, String msg) {
                 List<CricketSquadBean> benchList = JSONObject.parseArray(data, CricketSquadBean.class);
                 //判空
-                List<CricketSquadBean> mBList = new ArrayList<>();
-                if(benchList != null){
+                 List<CricketSquadBean> mBList = new ArrayList<>();
+               if(benchList != null){
                     mBList.addAll(benchList);
                     for(CricketSquadBean bean : benchList){
-                        if(TextUtils.isEmpty(bean.getHome_player_name()) || TextUtils.isEmpty(bean.getAway_player_name())){
+                        if(TextUtils.isEmpty(bean.getHome_player_name()) && TextUtils.isEmpty(bean.getAway_player_name())){
                             mBList.remove(bean);
                         }
                     }

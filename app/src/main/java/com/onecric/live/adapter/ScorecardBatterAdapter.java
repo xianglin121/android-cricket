@@ -35,9 +35,15 @@ public class ScorecardBatterAdapter extends BaseQuickAdapter<ScorecardBatterBean
         helper.setText(R.id.tv_6s, String.valueOf(item.getSixes()));
         helper.setText(R.id.tv_sr, String.valueOf(item.getStrike_rate()));
         if (!TextUtils.isEmpty(item.getType())) {
+            if("batting".equalsIgnoreCase(item.getType())){
+                helper.setTextColor(R.id.tv_type,mContext.getResources().getColor(R.color.c_ff5000));
+            }else{
+                helper.setTextColor(R.id.tv_type,mContext.getResources().getColor(R.color.c_CCCCCC));
+            }
             helper.setText(R.id.tv_type, item.getType());
             helper.getView(R.id.tv_type).setVisibility(View.VISIBLE);
         }else {
+            helper.setTextColor(R.id.tv_type,mContext.getResources().getColor(R.color.c_CCCCCC));
             helper.setText(R.id.tv_type, "");
             helper.getView(R.id.tv_type).setVisibility(View.GONE);
         }

@@ -216,7 +216,7 @@ public class CricketStatsFragment extends BaseFragment implements View.OnClickLi
             case R.id.ll_best_bowling_economy:
                 CricketStatsActivity.forward(getContext(), 7, mId, ((CricketInnerActivity)getActivity()).mType);
                 break;
-            case R.id.ll_most_catches:
+/*            case R.id.ll_most_catches:
                 CricketStatsActivity.forward(getContext(), 8, mId, ((CricketInnerActivity)getActivity()).mType);
                 break;
             case R.id.ll_most_run_outs:
@@ -224,7 +224,7 @@ public class CricketStatsFragment extends BaseFragment implements View.OnClickLi
                 break;
             case R.id.ll_most_stumpings:
                 CricketStatsActivity.forward(getContext(), 10, mId, ((CricketInnerActivity)getActivity()).mType);
-                break;
+                break;*/
         }
     }
 }
