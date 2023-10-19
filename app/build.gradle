@@ -27,8 +27,8 @@ android {
         applicationId "com.onecric.live"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 69
-        versionName "1.7.5"
+        versionCode 71
+        versionName "1.7.7"
         multiDexEnabled true// dex突破65535的限制
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
@@ -286,4 +286,9 @@ dependencies {
     implementation "com.github.getActivity:MultiLanguages:6.6"
     implementation 'com.airbnb.android:lottie:3.4.0'
     implementation 'com.github.kaisengao:KsgLikeView:1.2.2'
+//    appsflyer 分析
+    implementation 'com.appsflyer:af-android-sdk:6.12.3'
+
+
+
 }

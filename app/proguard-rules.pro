@@ -277,3 +277,5 @@
 -keep class com.vivo.** {*;}
 -dontwarn com.vivo.**
 
+#appsflyer
+-keep class com.appsflyer.** { *; }

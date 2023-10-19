@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AFInAppEventType;
+import com.appsflyer.AppsFlyerLib;
 import com.engagelab.privates.core.api.MTCorePrivatesApi;
 import com.example.gjylibrary.GjySerialnumberLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -211,13 +213,16 @@ public class OneVerificationActivity extends MvpActivity<VerificationPresenter> 
             case FROM_SET_PASSWORD:
 //                OneSetPwdActivity.forward(this,account);
                 ToastUtil.show(getResources().getString(R.string.success));
+                AppsFlyerLib.getInstance().logEvent(getApplicationContext(), AFInAppEventType.COMPLETE_REGISTRATION, null,null);
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.METHOD, "sign_up");
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
+
                 LoginAccessActivity.forward(this);
                 finish();
                 break;
             case FROM_LOGIN_IN:
+                AppsFlyerLib.getInstance().logEvent(getApplicationContext(), AFInAppEventType.LOGIN, null,null);
                 EventBus.getDefault().post(new UpdateLoginTokenEvent());
                 Bundle bundle2 = new Bundle();
                 bundle2.putString(FirebaseAnalytics.Param.METHOD, "login");

@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 
 import androidx.multidex.MultiDexApplication;
 
+import com.appsflyer.AppsFlyerLib;
 import com.engagelab.privates.common.global.MTGlobal;
 import com.engagelab.privates.core.api.MTCorePrivatesApi;
 import com.engagelab.privates.push.api.MTPushPrivatesApi;
@@ -53,6 +54,14 @@ public class AppManager extends MultiDexApplication {
 //        setLan();
         // 初始化语种切换框架
         MultiLanguages.init(this);
+
+        //fixme 调试模式，生产环境注释！
+//        AppsFlyerLib.getInstance().setDebugLog(true);
+//        AppsFlyerLib.getInstance().setMinTimeBetweenSessions(0);
+
+        // 初始化AppsFlyer分析 (，转化数据，)
+        AppsFlyerLib.getInstance().init("wcDvrMBc3NTb7S64gfWTUF", null, this);
+        AppsFlyerLib.getInstance().waitForCustomerUserId(true);
 
         initTX();
         /**

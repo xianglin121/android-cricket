@@ -20,6 +20,7 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -29,6 +30,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.appsflyer.AFInAppEventType;
+import com.appsflyer.AppsFlyerLib;
+import com.appsflyer.attribution.AppsFlyerRequestListener;
 import com.engagelab.privates.core.api.MTCorePrivatesApi;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -57,7 +61,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 
 public class OneLogInActivity extends MvpActivity<LoginPresenter> implements LoginView, View.OnClickListener{
-
+    public static final String LOG_TAG = "OneLogInActivity";
     public static void forward(Context context) {
         Intent intent = new Intent(context, OneLogInActivity.class);
         context.startActivity(intent);
@@ -344,6 +348,25 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
         tv_login.setEnabled(true);
         dismissLoadingDialog();
         if(isSuccess){
+            //Appsflyer事件：登录成功
+//            Map<String, Object> eventValues = new HashMap<String, Object>();
+//            eventValues.put(AFInAppEventParameterName.CONTENT_ID, <ITEM_SKU>);
+            AppsFlyerLib.getInstance().logEvent(getApplicationContext(), AFInAppEventType.LOGIN,
+                    null,
+                    new AppsFlyerRequestListener() {
+                        @Override
+                        public void onSuccess() {
+                            Log.d(LOG_TAG, "Event sent successfully");
+                        }
+                        @Override
+                        public void onError(int i, @NonNull String s) {
+                            Log.d(LOG_TAG, "Event failed to be sent:\n" +
+                                    "Error code: " + i + "\n"
+                                    + "Error description: " + s);
+                        }
+                    });
+
+
             EventBus.getDefault().post(new UpdateLoginTokenEvent());
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.METHOD, "login");

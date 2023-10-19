@@ -48,6 +48,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 
 import com.alibaba.fastjson.JSONObject;
+import com.appsflyer.AppsFlyerLib;
 import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.SeekParameters;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -113,8 +114,10 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -771,6 +774,11 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
             mMatchId = bean.getInfo().getMatch_id();
 
             if(isLive){
+                Map<String, Object> eventParameters2 = new HashMap<String, Object>();
+                eventParameters2.put("live_id", String.valueOf(mLiveRoomBean.getInfo().getLive_id()));
+                eventParameters2.put("live_title", mLiveRoomBean.getInfo().getTitle());
+                eventParameters2.put("anchor_id", mLiveRoomBean.getUserData().getUid());
+                AppsFlyerLib.getInstance().logEvent(getApplicationContext(), "live_room_enter", eventParameters2);
                 if(!TextUtils.isEmpty(mLiveRoomBean.getInfo().adver_img_one)){
                     iv_advert.setVisibility(View.VISIBLE);
                     Glide.with(mActivity).load(mLiveRoomBean.getInfo().adver_img_one).dontAnimate().into(iv_advert);
@@ -1007,6 +1015,10 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
 
     @Override
     public void getShareSuccess() {
+        Map<String, Object> eventParameters3 = new HashMap<String, Object>();
+        eventParameters3.put("live_id", String.valueOf(mLiveRoomBean.getInfo().getLive_id()));
+        eventParameters3.put("live_title", mLiveRoomBean.getInfo().getTitle());
+        AppsFlyerLib.getInstance().logEvent(getApplicationContext(), "live_room_share", eventParameters3);
         playerView.addShareSuccess();
     }
 

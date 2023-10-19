@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
+import com.appsflyer.AppsFlyerLib;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
 import com.onecric.live.model.ConfigurationBean;
@@ -129,6 +130,27 @@ public class SplashActivity extends BaseActivity {
             myUuid = new BigInteger(uuidSplit[uuidSplit.length-1],16).toString();
             SpUtil.getInstance().setStringValue(SpUtil.MY_UUID,myUuid);
         }
+
+        //启动AppsFlyer 1
+        AppsFlyerLib.getInstance().start(this);
+        //启动AppsFlyer 2 设置响应监听器
+/*        AppsFlyerLib.getInstance().start(getApplicationContext(), "wcDvrMBc3NTb7S64gfWTUF", new AppsFlyerRequestListener() {
+            @Override
+            public void onSuccess() {
+                Log.i("LTT","确认AppsFlyer成功");
+            }
+
+            @Override
+            public void onError(int i, @NonNull String s) {
+                Log.i("LTT", "Launch failed to be sent:\n" +
+                        "Error code: " + i + "\n"
+                        + "Error description: " + s);
+            }
+        });*/
+
+        //设置用户id
+//        AppsFlyerLib.getInstance().setCustomerUserId(myUuid);
+        AppsFlyerLib.getInstance().setCustomerIdAndLogSession(myUuid, this);
 
         ApiClient.retrofit().create(ApiStores.class)
                 .setLanguage(lan,myUuid)

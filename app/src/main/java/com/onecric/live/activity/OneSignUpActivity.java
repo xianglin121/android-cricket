@@ -25,6 +25,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.appsflyer.AFInAppEventType;
+import com.appsflyer.AppsFlyerLib;
 import com.engagelab.privates.core.api.MTCorePrivatesApi;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -282,6 +284,7 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
         dismissLoadingDialog();
         if(isSuccess){
             EventBus.getDefault().post(new UpdateLoginTokenEvent());
+            AppsFlyerLib.getInstance().logEvent(getApplicationContext(), AFInAppEventType.LOGIN, null,null);
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.METHOD, "login");
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);

@@ -36,6 +36,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 
 import com.alibaba.fastjson.JSONObject;
+import com.appsflyer.AppsFlyerLib;
 import com.bumptech.glide.Glide;
 import com.onecric.live.CommonAppConfig;
 import com.onecric.live.R;
@@ -86,8 +87,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -367,8 +370,14 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 liveDetailMainFragment.showOfficeNotice(bean.getInfo().prompt,1);
             }
             mLiveRoomBean = bean;
+            Map<String, Object> eventParameters2 = new HashMap<String, Object>();
+            eventParameters2.put("live_id", String.valueOf(mLiveRoomBean.getInfo().getLive_id()));
+            eventParameters2.put("live_title", mLiveRoomBean.getInfo().getTitle());
+            eventParameters2.put("anchor_id", mLiveRoomBean.getUserData().getUid());
+            AppsFlyerLib.getInstance().logEvent(getApplicationContext(), "live_room_enter", eventParameters2);
             if (bean.getInfo().getIs_like() == 1) {
-                tv_tool_heart.setCompoundDrawables(null, drawableHeartRed, null,null);
+                tv_tool_heart.setCompoundDrawables(
+                        null, drawableHeartRed, null,null);
             } else {
                 tv_tool_heart.setCompoundDrawables(null, drawableHeartWhite, null,null);
             }
@@ -600,6 +609,10 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
 
     @Override
     public void getShareSuccess() {
+        Map<String, Object> eventParameters3 = new HashMap<String, Object>();
+        eventParameters3.put("live_id", String.valueOf(mLiveRoomBean.getInfo().getLive_id()));
+        eventParameters3.put("live_title", mLiveRoomBean.getInfo().getTitle());
+        AppsFlyerLib.getInstance().logEvent(getApplicationContext(), "live_room_share", eventParameters3);
         mLiveRoomBean.getInfo().share_num += 1;
         tv_tool_share.setText(mLiveRoomBean.getInfo().share_num > 1000 ? String.format("%.1f", (float) mLiveRoomBean.getInfo().share_num / 1000) + "K" : mLiveRoomBean.getInfo().share_num + "");
     }
