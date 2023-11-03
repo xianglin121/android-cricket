@@ -429,7 +429,12 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
                 @Override
                 public void onBindView(Object holder, Object data, int position, int size) {
                     BannerBean bannerBean = (BannerBean) data;
-                    Glide.with(getActivity()).asGif().priority(Priority.HIGH).load(bannerBean.getImg()).into(((BannerRoundLiveImageHolder) holder).imageView);
+                    if(bannerBean.getImg().indexOf(".gif")!=-1){
+                        Glide.with(getActivity()).asGif().priority(Priority.HIGH).load(bannerBean.getImg()).into(((BannerRoundLiveImageHolder) holder).imageView);
+                    }else{
+                        Glide.with(getActivity()).load(bannerBean.getImg()).priority(Priority.HIGH).into(((BannerRoundLiveImageHolder) holder).imageView);
+                    }
+
                 }
             };
             bannerAdapter.setOnBannerListener(new OnBannerListener() {

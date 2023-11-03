@@ -130,17 +130,29 @@
 -keep class com.onecric.live.model**{*;} # 自定义数据模型的bean目录
 
 # Glide
+#-dontwarn com.bumptech.glide.**
+#-keep class com.bumptech.glide.**{*;}
+#-keep public class * implements com.bumptech.glide.module.GlideModule
+#-keep class * extends com.bumptech.glide.module.AppGlideModule {
+# <init>(...);
+#}
+#-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+#  **[] $VALUES;
+#  public *;
+#}
+#-keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
+#  *** rewind();
+#}
+
+#-dontwarn com.bumptech.glide.**
+#-keep class com.bumptech.glide.**{*;}
 -keep public class * implements com.bumptech.glide.module.GlideModule
--keep class * extends com.bumptech.glide.module.AppGlideModule {
- <init>(...);
-}
--keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+-keep class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
   **[] $VALUES;
   public *;
 }
--keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
-  *** rewind();
-}
+
 
 # eventbus
 -keepattributes *Annotation*
@@ -161,7 +173,7 @@
 # SuperTextView
 -keep class com.coorchice.library.gifdecoder.JNI { *; }
 
--dontwarn com.bumptech.glide.**
+
 
 # 高德地图
 -keep   class com.amap.api.maps.**{*;}
