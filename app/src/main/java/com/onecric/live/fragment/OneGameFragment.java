@@ -27,6 +27,7 @@ import com.onecric.live.R;
 import com.onecric.live.activity.AnchorListActivity;
 import com.onecric.live.activity.LiveDetailActivity2;
 import com.onecric.live.activity.LiveMoreActivity;
+import com.onecric.live.activity.LiveNotStartDetailActivity;
 import com.onecric.live.activity.OneLogInActivity;
 import com.onecric.live.activity.PersonalHomepageActivity;
 import com.onecric.live.adapter.BannerGameLiveImageAdapter;
@@ -172,6 +173,9 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
                     OneLogInActivity.forward(getContext());
                 } else if(!TextUtils.isEmpty(bean.video)){
                     LiveDetailActivity2.forward(getContext(), bean.uid,bean.video,bean.liveId);
+                }else{
+                    //fixme 待开播怎么区分？
+                    LiveNotStartDetailActivity.forward(getContext(), bean.uid,0,bean.id);
                 }
             }
         });
@@ -299,6 +303,8 @@ public class OneGameFragment extends MvpFragment<OneGamePresenter> implements On
                         OneLogInActivity.forward(getContext());
                     } else if(bannerBean.islive == 1){
                         LiveDetailActivity2.forward(getContext(), bannerBean.uid,bannerBean.id);
+                    }else if(bannerBean.videoUrl == null || TextUtils.isEmpty(bannerBean.videoUrl)){
+                        LiveNotStartDetailActivity.forward(getContext(), bannerBean.uid,0,bannerBean.id);
                     }else{
                         LiveDetailActivity2.forward(getContext(), bannerBean.uid,bannerBean.videoUrl,bannerBean.id);
                     }
