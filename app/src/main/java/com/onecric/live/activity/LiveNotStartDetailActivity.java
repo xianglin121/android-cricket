@@ -406,7 +406,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
             if (countTime > 0) {
                 new CountDownTimer(countTime, 1000) {
                     public void onTick(long millisUntilFinished) {
-                        tv_countdown.setText(TimeUtil.timeConversion2(countTime/1000));
+                        tv_countdown.setText(TimeUtil.timeConversion3(countTime/1000));
                     }
 
                     public void onFinish() {
@@ -424,7 +424,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                     cal.set(Calendar.MINUTE, date.getMinutes());
                     new CountDownTimer((cal.getTimeInMillis() - new Date().getTime()), 1000) {
                         public void onTick(long millisUntilFinished) {
-                            tv_countdown.setText(TimeUtil.timeConversion2(millisUntilFinished/1000));
+                            tv_countdown.setText(TimeUtil.timeConversion3(millisUntilFinished/1000));
                         }
 
                         public void onFinish() {

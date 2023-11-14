@@ -123,6 +123,52 @@ public class TimeUtil {
         return hour !=0 ? ((hour + " hrs ")+(minutes != 0 ? (": "+minutes + " min") : "")) : ((minutes != 0 ? (minutes + " min : ") : "")+(sencond + " sec"));
     }
 
+    /**
+     * 数个小时
+     * @param time
+     * @return
+     */
+    public static String timeConversion3(long time) {
+        long hour = 0;
+        long minutes = 0;
+        long sencond = 0;
+        long hourTimp = time % 3600;
+
+        if (time >= 86400) {
+            hour = time / 3600;
+            if (hourTimp != 0) {
+                if (hourTimp >= 60) {
+                    minutes = hourTimp / 60;
+                    if (hourTimp % 60 != 0) {
+                        sencond = hourTimp % 60;
+                    }
+                } else if (hourTimp < 60) {
+                    sencond = hourTimp;
+                }
+            }
+        } else if (time >= 3600 && time < 86400) {
+            hour = time / 3600;
+            if (hourTimp != 0) {
+                if (hourTimp >= 60) {
+                    minutes = hourTimp / 60;
+                    if (hourTimp % 60 != 0) {
+                        sencond = hourTimp % 60;
+                    }
+                } else if (hourTimp < 60) {
+                    sencond = hourTimp;
+                }
+            }
+        } else if (time < 3600) {
+            minutes = time / 60;
+            if (time % 60 != 0) {
+                sencond = time % 60;
+            }
+        }
+//        return ((hour != 0 ? ((hour + "h ")): "")) + (minutes < 10 ? ("0" + minutes) : minutes) + "m " + (sencond < 10 ? ("0" + sencond) : sencond) + "s";
+//        return (hour != 0 ? ((hour + "h ")) : "") + (minutes != 0 ? (minutes + "m ") : "") + (sencond + "s");
+
+        return hour !=0 ? ((hour + " hrs ")+(minutes != 0 ? (": "+minutes + " min") : "")) : ((minutes != 0 ? (minutes + " min : ") : "")+(sencond + " sec"));
+    }
     //将时间字符串转为时间戳字符串
     public static Long getStringTimestamp(String time) {
         Long longTime = null;
