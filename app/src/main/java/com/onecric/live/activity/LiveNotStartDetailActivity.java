@@ -399,14 +399,14 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
 
             //转时间戳 得到倒计时毫秒数
             long time = bean.getInfo().timezone_starttime*1000;
-            long countTime = time - new Date().getTime();
             tv_countdown.setVisibility(View.VISIBLE);
             iv_countdown.setVisibility(View.VISIBLE);
             tv_countdown_info.setVisibility(View.VISIBLE);
+            long countTime = time - new Date().getTime();
             if (countTime > 0) {
                 new CountDownTimer(countTime, 1000) {
                     public void onTick(long millisUntilFinished) {
-                        tv_countdown.setText(TimeUtil.timeConversion3(countTime/1000));
+                        tv_countdown.setText(TimeUtil.timeConversion3((time - new Date().getTime())/1000));
                     }
 
                     public void onFinish() {
