@@ -68,12 +68,15 @@ import com.onecric.live.util.ToastUtil;
 import com.onecric.live.view.BlurTransformation;
 import com.onecric.live.view.MvpActivity;
 import com.onecric.live.view.live.LiveDetailView;
+import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMManager;
 import com.tencent.imsdk.v2.V2TIMMessage;
 import com.tencent.imsdk.v2.V2TIMSendCallback;
+import com.tencent.imsdk.v2.V2TIMUserFullInfo;
 import com.tencent.liteav.demo.superplayer.model.SquadDataBean;
 import com.tencent.liteav.demo.superplayer.model.event.OpenNobleSuccessEvent;
 import com.tencent.liteav.demo.superplayer.model.event.SendDanmuEvent;
+import com.tencent.qcloud.tim.uikit.TUIKit;
 import com.tencent.qcloud.tuikit.tuichat.bean.MessageInfo;
 import com.tencent.qcloud.tuikit.tuichat.util.ChatMessageInfoUtil;
 
@@ -618,6 +621,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     }
 
 
+
     @Override
     public void getDataFail(String msg) {}
 
@@ -682,7 +686,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
     public void onSendDanmuEvent(SendDanmuEvent event) {
         if (event != null) {
             if (!TextUtils.isEmpty(event.text)) {
-                sendMessage(event.text);
+                sendFirstLoginIM(event.text);
             }
         }
     }
@@ -785,6 +789,75 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                         Log.d("发送弹幕","onError i="+i+"----- s="+s);
                     }
                 });
+    }
+
+    public void sendFirstLoginIM(String content) {
+        if(TUIKit.isUserLogined()){
+            sendMessage(content);
+            return;
+        }
+
+        if (CommonAppConfig.getInstance().getUserBean() != null && !TextUtils.isEmpty(CommonAppConfig.getInstance().getUserSign())) {
+            TUIKit.login(CommonAppConfig.getInstance().getUid(), CommonAppConfig.getInstance().getUserSign(), new V2TIMCallback() {
+                @Override
+                public void onSuccess() {
+                    //更新个人信息
+                    V2TIMUserFullInfo v2TIMUserFullInfo = new V2TIMUserFullInfo();
+                    v2TIMUserFullInfo.setNickname(CommonAppConfig.getInstance().getUserBean().getUser_nickname());
+                    if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getUserBean().getAvatar())) {
+                        v2TIMUserFullInfo.setFaceUrl(CommonAppConfig.getInstance().getUserBean().getAvatar());
+                    }
+
+                    V2TIMManager.getInstance().setSelfInfo(v2TIMUserFullInfo, new V2TIMCallback() {
+                        @Override
+                        public void onSuccess() {
+                            sendMessage(content);
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(int code, String error) {
+                }
+            });
+        } else {
+            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getVisitorUserId()) && !TextUtils.isEmpty(CommonAppConfig.getInstance().getVisitorUserSign())) {
+                TUIKit.login(CommonAppConfig.getInstance().getVisitorUserId(), CommonAppConfig.getInstance().getVisitorUserSign(), new V2TIMCallback() {
+                    @Override
+                    public void onSuccess() {
+                        sendMessage(content);
+                    }
+
+                    @Override
+                    public void onError(int code, String error) {
+                    }
+                });
+            } else {
+                mvpPresenter.getVisitorUserSig(content);
+            }
+        }
+    }
+    @Override
+    public void getVisitorUserSigSuccess(String userId, String userSig,String content) {
+        if (!TextUtils.isEmpty(userId) && !TextUtils.isEmpty(userSig)) {
+            TUIKit.login(userId, userSig, new V2TIMCallback() {
+                @Override
+                public void onSuccess() {
+                    CommonAppConfig.getInstance().setVisitorUserId(userId);
+                    CommonAppConfig.getInstance().setVisitorUserSign(userSig);
+                    sendMessage(content);
+                }
+
+                @Override
+                public void onError(int code, String error) {
+                }
+            });
+        }
     }
 
     //发送彩色弹幕消息

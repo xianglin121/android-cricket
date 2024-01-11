@@ -35,4 +35,6 @@ public interface LiveDetailView extends BaseView<LiveRoomBean> {
     void getSquadData(List<SquadDataBean> beanList);
 
     void getShareSuccess();
+
+    void getVisitorUserSigSuccess(String userId, String userSig,String content);
 }

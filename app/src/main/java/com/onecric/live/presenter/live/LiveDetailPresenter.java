@@ -425,4 +425,31 @@ public class LiveDetailPresenter extends BasePresenter<LiveDetailView> {
                     }
                 });
     }
+
+    public void getVisitorUserSig(String content) {
+        addSubscription(apiStores.getVisitorUserSig(),
+                new ApiCallback() {
+                    @Override
+                    public void onSuccess(String data, String msg) {
+                        mvpView.getVisitorUserSigSuccess(JSONObject.parseObject(data).getString("id"), JSONObject.parseObject(data).getString("sig"),content);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+    }
+
+
 }

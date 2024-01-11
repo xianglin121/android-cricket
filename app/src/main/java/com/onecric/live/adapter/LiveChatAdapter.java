@@ -1,18 +1,15 @@
 package com.onecric.live.adapter;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.text.style.DynamicDrawableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
+import android.text.util.Linkify;
 import android.view.View;
 import android.widget.TextView;
 
@@ -56,8 +53,12 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
             tv_system_notice.setVisibility(View.VISIBLE);
             tv_system_notice.setText(item.getSystemNotice());
         }else if(!TextUtils.isEmpty(item.getOfficeNotice())){
+            tv_office_notice.setAutoLinkMask(Linkify.WEB_URLS);
+            tv_office_notice.setLinkTextColor(Color.BLUE);
+            tv_office_notice.setText(item.getOfficeNotice());
+
             //文案+链接
-            String notice = item.getOfficeNotice();
+/*            String notice = item.getOfficeNotice();
             int aUrlStart = notice.indexOf("http");
             if(aUrlStart == -1){
                 tv_office_notice.setText(notice);
@@ -65,21 +66,8 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
                 CharSequence charSequence;
                 int aUrlEnd = (notice.indexOf(" ",aUrlStart) == -1)?notice.length():notice.indexOf(" ",aUrlStart);
                 String url = notice.substring(aUrlStart,aUrlEnd);
-
                 //拼接
-/*                String str = "<font color='#0099cc'> <a href=\""+url+"\">"+url+"</a></font>";
-                notice = notice.replace(url,str);
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                    charSequence = Html.fromHtml(notice,Html.FROM_HTML_MODE_LEGACY);
-                } else {
-                    charSequence = Html.fromHtml(notice);
-                }
-                tv_office_notice.setText(charSequence);
-                tv_office_notice.setMovementMethod(LinkMovementMethod.getInstance());//设置可点击状态*/
-
                 SpannableString spanStr = new SpannableString(notice);
-//                tv_office_notice.setMovementMethod(LinkMovementMethod.getInstance());//设置可点击状态
-//                spanStr.setSpan(new ForegroundColorSpan(Color.parseColor("#0099cc")), aUrlStart, aUrlEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 spanStr.setSpan(new ClickableSpan() {
                     @Override
                     public void onClick(View view) {
@@ -92,7 +80,7 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
                 spanStr.setSpan(new ForegroundColorSpan(Color.BLUE), aUrlStart, aUrlEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                 tv_office_notice.setMovementMethod(LinkMovementMethod.getInstance());//设置可点击状态
                 tv_office_notice.setText(spanStr);
-            }
+            }*/
 
             //官方发言 走马灯
 //            tv_office_notice.setText(item.getOfficeNotice());
@@ -212,6 +200,11 @@ public class LiveChatAdapter extends BaseQuickAdapter<MessageInfo, BaseViewHolde
                     helper.setGone(R.id.rl_default,true);
                     helper.setText(R.id.tv_user_name,(!TextUtils.isEmpty(item.getNickName()))?item.getNickName():item.getFromUser());
                     GlideUtil.loadUserImageDefault(mContext, item.getFaceUrl(),helper.getView(R.id.iv_avatar));
+
+                    tv_user_content.setAutoLinkMask(Linkify.WEB_URLS);
+                    tv_user_content.setLinkTextColor(Color.BLUE);
+                    tv_user_content.setMovementMethod(LinkMovementMethod.getInstance());
+
                     tv_user_content.setText(msg);
                 }
 

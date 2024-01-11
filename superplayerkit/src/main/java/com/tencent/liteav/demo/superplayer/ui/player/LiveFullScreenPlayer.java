@@ -799,13 +799,13 @@ public class LiveFullScreenPlayer extends AbsPlayer implements View.OnClickListe
         } else if (i == R.id.superplayer_large_tv_vtt_text) {   //关键帧打点信息按钮
             seekToKeyFramePos();
         } else if (i == R.id.tv_danmu_input) {
-            if (mControllerCallback != null && mControllerCallback.goLogin()) {
+//            if (mControllerCallback != null && mControllerCallback.goLogin()) {
                 showInputTextMsgDialog(InputDanmuDialogFragment.STATE_SOFT_INPUT);
-            }
+//            }
         } else if (i == R.id.iv_danmu_emoji) {
-            if (mControllerCallback != null && mControllerCallback.goLogin()) {
+//            if (mControllerCallback != null && mControllerCallback.goLogin()) {
                 showInputTextMsgDialog(InputDanmuDialogFragment.STATE_FACE_INPUT);
-            }
+//            }
         } else if (i == R.id.iv_refresh) {
             if (mControllerCallback != null) {
                 mControllerCallback.onRefreshLive();

@@ -1031,6 +1031,11 @@ public class LiveDetailActivity extends MvpActivity<LiveDetailPresenter> impleme
     }
 
     @Override
+    public void getVisitorUserSigSuccess(String userId, String userSig, String content) {
+
+    }
+
+    @Override
     public void getDataFail(String msg) {
     }
 

@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import com.tencent.imsdk.common.IMLog;
 import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMConversation;
 import com.tencent.imsdk.v2.V2TIMSDKConfig;
@@ -14,9 +13,6 @@ import com.tencent.qcloud.tuicore.TUIConstants;
 import com.tencent.qcloud.tuicore.TUICore;
 import com.tencent.qcloud.tuicore.TUILogin;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,6 +55,8 @@ public class TUIKit {
      * @param userid   用户名
      * @param usersig  从业务服务器获取的usersig
      * @param callback 登录是否成功的回调
+     *
+     *
      */
     public static void login(final String userid, final String usersig, final V2TIMCallback callback) {
         TUILogin.login(userid, usersig, new V2TIMCallback() {

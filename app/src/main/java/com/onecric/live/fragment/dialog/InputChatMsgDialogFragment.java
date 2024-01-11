@@ -394,10 +394,10 @@ public class InputChatMsgDialogFragment extends DialogFragment implements View.O
                 }
                 if (mDanmuType == 0 || mDanmuType == 3) {//普通弹幕
                     if (getActivity() instanceof LiveDetailActivity2) {
-                        ((LiveDetailActivity2)getActivity()).sendMessage(et_input.getText().toString());
+                        ((LiveDetailActivity2)getActivity()).sendFirstLoginIM(et_input.getText().toString());
                         et_input.setText("");
                     }else if(getActivity() instanceof LiveNotStartDetailActivity){
-                        ((LiveNotStartDetailActivity)getActivity()).sendMessage(et_input.getText().toString());
+                        ((LiveNotStartDetailActivity)getActivity()).sendFirstLoginIM(et_input.getText().toString());
                         et_input.setText("");
                     }
                 }else if (mDanmuType == 1) {//彩色弹幕

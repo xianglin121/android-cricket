@@ -18,7 +18,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +78,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
-import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMManager;
 import com.tencent.imsdk.v2.V2TIMMessage;
 import com.tencent.imsdk.v2.V2TIMMessageListGetOption;
@@ -524,12 +522,12 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         switch (v.getId()) {
             case R.id.tv_input:
             case R.id.iv_emoji:
-                if(TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())){
+/*                if(TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())){
                     DialogUtil.showSimpleTransDialog(getActivity(),getString(R.string.not_login_tip),false,true);
 //                    OneLogInActivity.forward(getActivity());
-                }else if (mNobelBean != null) {
+                }else if (mNobelBean != null) {*/
                     showInputTextMsgDialog(InputChatMsgDialogFragment.STATE_SOFT_INPUT);
-                }
+//                }
                 break;
 /*            case R.id.iv_emoji:
                 if (mNobelBean != null) {
@@ -726,7 +724,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
         if (nobelBean != null) {
             mNobelBean = nobelBean;
             if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) || !TextUtils.isEmpty(CommonAppConfig.getInstance().getVisitorUserSign())) {
-                V2TIMManager.getInstance().joinGroup(mGroupId, "", new V2TIMCallback() {
+/*                V2TIMManager.getInstance().joinGroup(mGroupId, "", new V2TIMCallback() {
                     @Override
                     public void onSuccess() {
                         mvpPresenter.initListener();
@@ -741,7 +739,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                         mvpPresenter.initListener();
 //                        loadHistoryMsg(true);
                     }
-                });
+                });*/
             }
         }
     }

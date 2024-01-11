@@ -177,7 +177,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             }
         });
         //登录IM
-        loginIM();
+//        loginIM();
 //        //获取默认配置
 //        mvpPresenter.getConfiguration(ToolUtil.getCurrentVersionCode(this));
 //        //检查是否有版本更新
@@ -421,7 +421,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 //            ((MoreFragment) mViewList.get(3)).updateUserInfo();
             ((MoreFragment) mViewList.get(4)).updateUserInfo();
             ((OneGameFragment) mViewList.get(1)).updateUserInfo();
-            loginIM();
+//            loginIM();
 //            updateNavigationInfo();
             if (CommonAppConfig.getInstance().getUserBean() != null) {
                 GlideUtil.loadUserImageDefault(this, CommonAppConfig.getInstance().getUserBean().getAvatar(), iv_avatar_nav);
