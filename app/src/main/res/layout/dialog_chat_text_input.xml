@@ -162,7 +162,7 @@
                 android:id="@+id/tv_send"
                 android:layout_width="28dp"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/icon_live_share"
+                android:src="@mipmap/icon_live_share2"
                 android:scaleType="centerCrop"
                 android:layout_marginRight="12dp"/>
         </LinearLayout>

@@ -241,7 +241,7 @@ public class RegisterOldActivity extends MvpActivity<RegisterPresenter> implemen
                 }
                 if (!isFastDoubleClick()) {
                     tv_get_code.setEnabled(false);
-                    mvpPresenter.getCode(prefix + "-" + phone);
+                    mvpPresenter.getCode(prefix + "-" + phone,"");
                 }
                 break;
             case R.id.btn_register:

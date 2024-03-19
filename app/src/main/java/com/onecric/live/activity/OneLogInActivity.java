@@ -67,6 +67,14 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
         context.startActivity(intent);
     }
 
+    //区分从直播间注册
+    private String liveId;
+    public static void forward(Context context,String liveId) {
+        Intent intent = new Intent(context, OneLogInActivity.class);
+        intent.putExtra("liveId", liveId);
+        context.startActivity(intent);
+    }
+
 //    private EditText et_account;
     private EditText et_password;
     private EditText etArea;
@@ -155,6 +163,7 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
 
     @Override
     protected void initView() {
+        liveId = getIntent().getStringExtra("liveId");
         etArea = findViewById(R.id.et_area);
         etPhone = findViewById(R.id.et_phone);
         et_password = findViewById(R.id.et_password);
@@ -395,7 +404,7 @@ public class OneLogInActivity extends MvpActivity<LoginPresenter> implements Log
             Task<GoogleSignInAccount> completedTask = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-                mvpPresenter.oneLoginGmail(account.getId(),account.getDisplayName(),account.getPhotoUrl().toString(),account.getIdToken(),account.getEmail());
+                mvpPresenter.oneLoginGmail(account.getId(),account.getDisplayName(),account.getPhotoUrl().toString(),account.getIdToken(),account.getEmail(),liveId);
             } catch (ApiException e) {
                 dismissLoadingDialog();
                 tv_login.setEnabled(true);

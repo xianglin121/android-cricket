@@ -841,6 +841,7 @@ public class LiveNotStartDetailActivity extends MvpActivity<LiveDetailPresenter>
                 mvpPresenter.getVisitorUserSig(content);
             }
         }
+        liveDetailMainFragment.joinGroup();
     }
     @Override
     public void getVisitorUserSigSuccess(String userId, String userSig,String content) {

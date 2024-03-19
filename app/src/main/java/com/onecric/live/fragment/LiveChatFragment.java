@@ -18,6 +18,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +79,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+import com.tencent.imsdk.v2.V2TIMCallback;
 import com.tencent.imsdk.v2.V2TIMManager;
 import com.tencent.imsdk.v2.V2TIMMessage;
 import com.tencent.imsdk.v2.V2TIMMessageListGetOption;
@@ -326,6 +328,8 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
 
         //获取贵族信息
 //        mvpPresenter.getNobelData();
+        joinGroup();
+
         smart_rl.autoRefresh();
         //初始化屏蔽特效弹窗
         initPopup();
@@ -723,8 +727,9 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
     public void getNobelDataSuccess(NobelBean nobelBean) {
         if (nobelBean != null) {
             mNobelBean = nobelBean;
-            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) || !TextUtils.isEmpty(CommonAppConfig.getInstance().getVisitorUserSign())) {
-/*                V2TIMManager.getInstance().joinGroup(mGroupId, "", new V2TIMCallback() {
+/*            if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) || !TextUtils.isEmpty(CommonAppConfig.getInstance().getVisitorUserSign())) {
+                //发送消息才去加入群聊，但是只有加入群聊才能看到最新消息
+                V2TIMManager.getInstance().joinGroup(mGroupId, "", new V2TIMCallback() {
                     @Override
                     public void onSuccess() {
                         mvpPresenter.initListener();
@@ -739,8 +744,8 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                         mvpPresenter.initListener();
 //                        loadHistoryMsg(true);
                     }
-                });*/
-            }
+                });
+            }*/
         }
     }
 
@@ -1530,6 +1535,7 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
                                             mChatAdapter.addData(messageInfo);
                                             rv_chat.smoothScrollToPosition(mChatAdapter.getItemCount() - 1);
                                         }else {
+
                                             if (mChatLayoutManager.findLastVisibleItemPosition() != (mChatAdapter.getData().size() - 1)) {//如果最后一项item不可见，那添加消息不会滑动到底部
                                                 mChatAdapter.addData(messageInfo);
                                             } else {
@@ -1710,5 +1716,27 @@ public class LiveChatFragment extends MvpFragment<LiveChatPresenter> implements 
 
     public void setChatAddHeart(){
         live_view_heart.addFavor();
+    }
+
+    public void joinGroup(){
+        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken()) || !TextUtils.isEmpty(CommonAppConfig.getInstance().getVisitorUserSign())) {
+            //发送消息才去加入群聊，但是只有加入群聊才能看到最新消息
+            V2TIMManager.getInstance().joinGroup(mGroupId, "", new V2TIMCallback() {
+                @Override
+                public void onSuccess() {
+                    mvpPresenter.initListener();
+//                        if (!TextUtils.isEmpty(CommonAppConfig.getInstance().getToken())) {}
+//                        ((LiveDetailActivity) getActivity()).setPeopleCount();
+//                        loadHistoryMsg(true);
+                }
+
+                @Override
+                public void onError(int i, String s) {
+                    Log.e("Chat","code:"+i+" info:"+s);
+                    mvpPresenter.initListener();
+//                        loadHistoryMsg(true);
+                }
+            });
+        }
     }
 }

@@ -60,6 +60,14 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
         context.startActivity(intent);
     }
 
+    //区分从直播间注册
+    private String liveId;
+    public static void forward(Context context,String liveId) {
+        Intent intent = new Intent(context, OneSignUpActivity.class);
+        intent.putExtra("liveId", liveId);
+        context.startActivity(intent);
+    }
+
     private final int FROM_SIGN_UP = 2202;
     private TextView tvAgreement;
     private TextView tv_sign_in;
@@ -74,6 +82,9 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_GOOGLE_SIGN_IN = 1102;
     private FirebaseAnalytics mFirebaseAnalytics;
+
+
+
 
     @Override
     public void onClick(View v) {
@@ -99,7 +110,7 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
 
                 //发验证码
                 showLoadingDialog();
-                mvpPresenter.getCode(area + "-" + phone);
+                mvpPresenter.getCode(area + "-" + phone,liveId);
                 break;
             case R.id.tv_sign_facebook:
 
@@ -120,6 +131,7 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
 
     @Override
     protected void initView() {
+        liveId = getIntent().getStringExtra("liveId");
         tvAgreement = findViewById(R.id.tv_agreement);
         cbAgreement = findViewById(R.id.cb_agreement);
         ccp = findViewById(R.id.ccp);
@@ -302,7 +314,7 @@ public class OneSignUpActivity extends MvpActivity<RegisterPresenter> implements
             Task<GoogleSignInAccount> completedTask = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-                mvpPresenter.oneLoginGmail(account.getId(),account.getDisplayName(),account.getPhotoUrl().toString(),account.getIdToken(),account.getEmail());
+                mvpPresenter.oneLoginGmail(account.getId(),account.getDisplayName(),account.getPhotoUrl().toString(),account.getIdToken(),account.getEmail(),liveId);
             } catch (ApiException e) {
                 dismissLoadingDialog();
                 if(e.getStatusCode() == 12500){

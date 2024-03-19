@@ -966,6 +966,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
 
                     @Override
                     public void onError(int i, String s) {
+                        Log.d("发送弹幕", "onError i=" + i + "----- s=" + s);
                     }
                 });
     }
@@ -1379,13 +1380,14 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
 
                         @Override
                         public void onError(int i, String s) {
-
+                            Log.d("发送弹幕", "setSelfInfo i=" + i + "----- s=" + s);
                         }
                     });
                 }
 
                 @Override
                 public void onError(int code, String error) {
+                    Log.d("发送弹幕", "login code=" + code + "----- s=" + error);
                 }
             });
         } else {
@@ -1398,12 +1400,14 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
 
                     @Override
                     public void onError(int code, String error) {
+                        Log.d("发送弹幕", "login code=" + code + "----- s=" + error);
                     }
                 });
             } else {
                 mvpPresenter.getVisitorUserSig(content);
             }
         }
+        liveDetailMainFragment.joinGroup();
     }
     @Override
     public void getVisitorUserSigSuccess(String userId, String userSig,String content) {
@@ -1467,7 +1471,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
 
                     @Override
                     public void onError(int i, String s) {
-
+                        Log.d("发送弹幕", "onError i=" + i + "----- s=" + s);
                     }
                 });
     }
@@ -1513,7 +1517,7 @@ public class LiveDetailActivity2 extends MvpActivity<LiveDetailPresenter> implem
 
                     @Override
                     public void onError(int i, String s) {
-
+                        Log.d("发送弹幕", "onError i=" + i + "----- s=" + s);
                     }
                 });
     }

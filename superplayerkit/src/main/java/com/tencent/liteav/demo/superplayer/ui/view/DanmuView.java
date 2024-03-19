@@ -6,15 +6,18 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.tencent.liteav.basic.log.TXCLog;
 import com.tencent.liteav.demo.superplayer.R;
+import com.tencent.qcloud.tuikit.tuichat.component.face.FaceManager;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -72,7 +75,7 @@ public class DanmuView extends DanmakuView {
 
 
     private void init(Context context) {
-        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 5); // 滚动弹幕最大显示5行
+        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 2); // 滚动弹幕最大显示2行
         mContext = context;
         enableDanmakuDrawingCache(true);
         setCallback(new DrawHandler.Callback() {
@@ -113,7 +116,7 @@ public class DanmuView extends DanmakuView {
         @Override
         public void onBindViewHolder(int viewType, MyViewHolder viewHolder, BaseDanmaku danmaku, AndroidDisplayer.DisplayerConfig displayerConfig, TextPaint paint) {
             //滚动的弹幕
-/*            SpannableStringBuilder msg = FaceManager.handlerEmojiText(danmaku.text.toString());
+            SpannableStringBuilder msg = FaceManager.handlerEmojiText(danmaku.text.toString());
             viewHolder.mText.setText(msg);
             viewHolder.mText.setTextColor(danmaku.textColor);
             viewHolder.mText.setTextSize(TypedValue.COMPLEX_UNIT_PX, danmaku.textSize);
@@ -134,7 +137,7 @@ public class DanmuView extends DanmakuView {
                 }
             }else {
                 viewHolder.mBgDanmu.setVisibility(View.GONE);
-            }*/
+            }
         }
     };
 

@@ -534,4 +534,8 @@ public class LiveDetailMainFragment extends Fragment {
     public void setChatAddHeart(){
         ((LiveChatFragment)mViewList.get((detailType == LIVE_TYPE_GAME)?0:1)).setChatAddHeart();
     }
+
+    public void joinGroup(){
+        ((LiveChatFragment)mViewList.get((detailType == LIVE_TYPE_GAME)?0:1)).joinGroup();
+    }
 }

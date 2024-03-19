@@ -174,7 +174,7 @@ public class RegisterActivity extends MvpActivity<RegisterPresenter> implements 
                                 String phone = etPhone.getText().toString().trim();
                                 tvAuthCode.setEnabled(false);
                                 if (!TextUtils.isEmpty(area) && !TextUtils.isEmpty(area)) {
-                                    mvpPresenter.getCode(area + "-" + phone);
+                                    mvpPresenter.getCode(area + "-" + phone,"");
                                 }
                             }
                         });

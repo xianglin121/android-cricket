@@ -2,8 +2,6 @@ package com.onecric.live.presenter.login;
 
 import static com.onecric.live.AppManager.mContext;
 import static com.onecric.live.fragment.dialog.LoginDialog.getFlavor;
-import static com.onecric.live.util.SpUtil.GMAIL_ACCOUNT;
-import static com.onecric.live.util.SpUtil.GMAIL_INFO;
 import static com.onecric.live.util.SpUtil.REGISTRATION_TOKEN;
 
 import android.text.TextUtils;
@@ -209,7 +207,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 });
     }
 
-    public void oneLoginGmail(String id, String name, String photo,String gToken,String email) {
+    public void oneLoginGmail(String id, String name, String photo,String gToken,String email,String liveId) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", id);
         jsonObject.put("name", name);
@@ -217,7 +215,9 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         jsonObject.put("device_type", "android");
         jsonObject.put("code", getFlavor(mContext));
         jsonObject.put("email", email);
-        addSubscription(apiStores.oneLoginGmail(getRequestBody(jsonObject)),
+        //区分从直播间注册
+        jsonObject.put("liveId", liveId);
+        /*addSubscription(apiStores.oneLoginGmail(getRequestBody(jsonObject)),
                 new ApiCallback() {
                     @Override
                     public void onSuccess(String data, String msg) {
@@ -247,6 +247,6 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                     public void onFinish() {
 
                     }
-                });
+                });*/
     }
 }
